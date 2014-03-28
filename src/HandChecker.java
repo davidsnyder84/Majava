@@ -21,6 +21,8 @@ data:
 	mCanChiL, mCanChiM, mCanChiH, mCanPon, mCanKan, mCanRon - flags, set to true if a call can be made on mCallCandidate
 	mPartnerIndicesChiL, etc - hold the hand indices of meld partners for mCallCandidate, if it can be called
 	
+	mTenpaiWaits - if the hand is in tenpai, this holds a list of the hand's waits 
+
 methods:
 	
 	constructors:
@@ -29,6 +31,8 @@ methods:
  	accessors:
 	getClosedStatus - returns true if the hand is fully concealed, false if an open meld has been made
 	getTenpaiStatus - returns true if the hand is in tenpai
+	getTenpaiWaits - returns the list of tenpai waits
+	
 	findAllHotTiles - returns a list of hot tile IDs for ALL tiles in the hand
 	findAllCallableTiles - returns a list of callable tile IDs for ALL tiles in the hand
 	ableToChiL, ableToChiM, ableToChiH, ableToPon, ableToKan, ableToRon - return true if a call can be made on mCallCandidate
@@ -115,7 +119,6 @@ public class HandChecker {
 	private ArrayList<Meld> mFinishingMelds;
 	
 	private TileList mTenpaiWaits;
-	private Tile mChiitoitsuWait;
 	
 	
 	
@@ -131,8 +134,6 @@ public class HandChecker {
 		//reset callable flags
 		__resetCallableFlags();
 		mCallCandidate = null;
-		
-//		mListMTSL = new MeldTypeStackList(Hand.MAX_HAND_SIZE);
 	}
 	//copy constructor, makes another checker for the hand
 	//creates a COPY OF the other checker tiles/melds lists
@@ -161,8 +162,6 @@ public class HandChecker {
 		
 		mTenpaiStatus = other.mTenpaiStatus;
 		mClosed = other.mClosed;
-		
-//		mListMTSL
 	}
 	/*
 	//creates a COPY of the hand's tiles/melds to check (don't use this unless you NEED a copy)
@@ -700,8 +699,7 @@ public class HandChecker {
 		
 		//add the missing tile to the wait list (it will be the only wait)
 		mTenpaiWaits = new TileList(1);
-		mTenpaiWaits.add(missingTile);
-		mChiitoitsuWait = missingTile;
+		if (missingTile != null) mTenpaiWaits.add(missingTile);
 		return true;
 	}
 	
@@ -717,8 +715,6 @@ public class HandChecker {
 		TileList oddTiles = mHandTiles.getMultiple(1,3,5,7,9,11,13);
 		return evenTiles.equals(oddTiles);
 	}
-	
-	public Tile chiitoitsuWait(){return mChiitoitsuWait;}
 	
 	public boolean DEMOchiitoitsuInTenpai(){return chiitoitsuInTenpai(mHandTiles);}
 	
@@ -1071,6 +1067,10 @@ public class HandChecker {
 	}
 	
 	
+
+	
+	//returns the list of tenpai waits
+	public TileList getTenpaiWaits(){return mTenpaiWaits;}
 	
 	
 	//***************************************************************************************************
@@ -1147,6 +1147,7 @@ public class HandChecker {
 	
 	//returns true if the hand is in tenpai
 	public boolean getTenpaiStatus(){return mTenpaiStatus;}
+	
 	
 	//returns true if the hand is fully concealed, false if an open meld has been made
 	public boolean getClosedStatus(){return mClosed;}

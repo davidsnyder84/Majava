@@ -94,22 +94,74 @@ public class MajaPlay {
 		
 	}
 	
+	
 	public static void chiitoiTenpaiTest(){
 		
 		Hand h = new Hand(ownerSeat);
-		Tile wait = null;
+		TileList waits = new TileList();
 		
 		TileList handTiles = new TileList(2,2,5,5,7,7,10,10,20,20,21,21,30,30);
 		handTiles.remove(13);
 		for (Tile t: handTiles) h.addTile(t);
 		
-
+		
 		System.out.println(h.toString());
 		
 
 		System.out.println("\nIn tenpai for chiitoi?: " + h.mChecker.DEMOchiitoitsuInTenpai());
-		wait = h.mChecker.chiitoitsuWait();
-		if (wait != null) System.out.print("Wait: " + wait.toString());
+		waits = h.mChecker.getTenpaiWaits();
+		if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.getFirst().toString());
+		System.out.println("\n\n\n");
+		
+
+		//chiitoi tenpai hands (should show true)
+		System.out.println("\n\nGOOD TENPAIS=====================\n");
+		ArrayList<TileList> tlists = new ArrayList<TileList>(8);
+		tlists.add(new TileList(1,1,3,3,5,5,7,7,9,9,11,11,13));
+		tlists.add(new TileList(1,1,3,3,5,5,7,7,9,9,11,13,13));
+		tlists.add(new TileList(1,1,3,3,5,5,7,7,9,11,11,13,13));
+		tlists.add(new TileList(1,1,3,3,5,5,7,9,9,11,11,13,13));
+		tlists.add(new TileList(1,1,3,3,5,7,7,9,9,11,11,13,13));
+		tlists.add(new TileList(1,1,3,5,5,7,7,9,9,11,11,13,13));
+		tlists.add(new TileList(1,3,3,5,5,7,7,9,9,11,11,13,13));
+		
+		for (TileList tl: tlists){
+			h = new Hand(ownerSeat);
+			for (Tile t: tl) h.addTile(t);
+
+			System.out.println(h.toString());
+
+			System.out.println("\nIn tenpai for chiitoi?: " + h.mChecker.DEMOchiitoitsuInTenpai());
+			waits = h.mChecker.getTenpaiWaits();
+			if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.getFirst().toString());
+			System.out.println("\n\n\n");
+		}
+		
+		
+		
+		//NOT chiitoi tenpai hands (should show false)
+		System.out.println("\n\nBAD TENPAIS=====================\n");
+		ArrayList<TileList> badtlists = new ArrayList<TileList>(8);
+		badtlists.add(new TileList(1,1,1,1,5,5,7,7,9,9,11,11,13));
+		badtlists.add(new TileList(1,1,1,1,5,6,7,7,9,9,11,11,13,13));
+		badtlists.add(new TileList(1,1,5,5,7,7,9,9,11,11,13));
+		badtlists.add(new TileList(1,1,5));
+		badtlists.add(new TileList(new Tile(1)));
+		badtlists.add(new TileList(1,1,3,3,5,5,7,7,9,9,11,11,13,13));	//is actually chiitoi complete
+		
+		for (TileList tl: badtlists){
+			h = new Hand(ownerSeat);
+			for (Tile t: tl) h.addTile(t);
+
+			System.out.println(h.toString());
+
+			System.out.println("\nIn tenpai for chiitoi?: " + h.mChecker.DEMOchiitoitsuInTenpai());
+			waits = h.mChecker.getTenpaiWaits();
+			if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.getFirst().toString());
+			System.out.println("\n\n\n");
+		}
+		
+		
 		
 //		System.out.println("\n\nChiitoi complete?: " + h.mChecker.chiitoitsuIsComplete());
 		

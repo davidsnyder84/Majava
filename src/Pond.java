@@ -1,5 +1,23 @@
+/*
+Class: Pond
+represents a player's pond of discarded tiles
 
-
+data:
+	mTiles - list of tiles in the pond
+	
+methods:
+	
+	constructors:
+	
+	
+	mutators:
+ 	
+ 	
+ 	accessors:
+	
+	
+	other:
+*/
 public class Pond {
 	
 	

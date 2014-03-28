@@ -107,7 +107,7 @@ public class MajaPlay {
 		System.out.println(h.toString());
 		
 
-		System.out.println("\nIn tenpai for chiitoi?: " + h.mChecker.chiitoitsuInTenpai());
+		System.out.println("\nIn tenpai for chiitoi?: " + h.mChecker.DEMOchiitoitsuInTenpai());
 		wait = h.mChecker.chiitoitsuWait();
 		if (wait != null) System.out.print("Wait: " + wait.toString());
 		

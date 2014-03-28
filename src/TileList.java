@@ -45,7 +45,10 @@ methods:
 	getFirst - returns the fist tile in the list, returns null if the list is empty
 	getLast - returns the last tile in the list, returns null if the list is empty
 	subList - returns a sublist, as a MahList from fromIndex (inclusive) to toIndex (exclusive)
+	
 	findAllIndicesOf - searches the list for all occurences of Tile t, returns a MahList of integer indices of where that tile occurred
+	makeCopy - 
+	makeCopyNoDuplicates - 
 	
 	
 	other:

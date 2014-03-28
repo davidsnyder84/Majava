@@ -563,7 +563,7 @@ public class HandChecker {
 			
 			//check for chiitoitsu tenpai, wait is also found here (only check if no kokushi tenpai and no normal tenpai)
 			if (!isNormalTenpai)
-				isChiitoitsuTenpai = chiitoitsuInTenpai();			
+				isChiitoitsuTenpai = chiitoitsuInTenpai(mHandTiles);			
 		}		
 		
 		mTenpaiStatus = (isKokushiTenpai || isChiitoitsuTenpai || isNormalTenpai);
@@ -663,30 +663,41 @@ public class HandChecker {
 	
 	
 	//TODO FIX THIS CHIITOI SHIT
-	//returns true if the hand is in tenpai for chiitoitsu
-	public boolean chiitoitsuInTenpai(){
+	/*
+	method: chiitoitsuInTenpai
+	checks if the hand is in tenpai for chiitoitsu, and modifies the list of waits if so 
+	
+	input: handTiles is the list of Tiles to check for chiitoi tenpai
+	
+	returns true if the hand is in tenpai for chiitoitsu 
+	return false if either of them are missing
+	*/
+	public boolean chiitoitsuInTenpai(TileList handTiles){
+		
+		Tile missingTile = null;
+		//conditions:
+		//hand must be 13 tiles (no melds made)
+		//hand must have exactly 7 different types of tiles
+		//hand must have no more than 2 of each tile
 		
 		//if any melds have been made, chiitoitsu is impossible, return false
 		if (mHand.getNumMeldsMade() > 0) return false;
 		
-		//if chiitoitsu tenpai, the hand should have exactly 7 different types of tiles (4 of a kind != 2 pairs)
-		if (mHandTiles.makeCopyNoDuplicates().size() != 7) return false;
-		
-		
-		//at this point, we know that the hand is in chiitoitsu tenpai
-		//find the tile that's missing its pair partner
-		Tile missingTile = null;
-		int i = 0;
-		while (missingTile == null && i < Hand.MAX_HAND_SIZE){
-			if (i < Hand.MAX_HAND_SIZE - 1 && !mHandTiles.get(i).equals(mHandTiles.get(i+1)))
-				missingTile = mHandTiles.get(i);
-			i += 2;
+		//the hand should have exactly 7 different types of tiles (4 of a kind != 2 pairs)
+		if (handTiles.makeCopyNoDuplicates().size() != 7) return false;
+
+		//the hand must have no more than 2 of each tile
+		for(Tile t: handTiles){
+			switch(handTiles.findHowManyOf(t)){
+			case 1: missingTile = t; break;
+			case 2: ;break;//intentionally blank
+			default: return false;
+			}
 		}
 		
-		if (missingTile == null) missingTile = mHandTiles.get(i);
+		//at this point, we know that the hand is in chiitoitsu tenpai
 		
-//		if (missingTile != null) mTenpaiWaits.add(missingTile); 
-//			mChiitoitsuWait = missingTile;
+		
 		//add the missing tile to the wait list (it will be the only wait)
 		mTenpaiWaits = new TileList(1);
 		mTenpaiWaits.add(missingTile);
@@ -708,6 +719,8 @@ public class HandChecker {
 	}
 	
 	public Tile chiitoitsuWait(){return mChiitoitsuWait;}
+	
+	public boolean DEMOchiitoitsuInTenpai(){return chiitoitsuInTenpai(mHandTiles);}
 	
 	
 	
@@ -770,7 +783,6 @@ public class HandChecker {
 	private boolean __canClosedPon(Tile candidate, TileList handTiles){return __canClosedMultiType(candidate, handTiles, NUM_PARTNERS_NEEDED_TO_PON + 1);}
 	@SuppressWarnings("unused")
 	private boolean __canClosedKan(Tile candidate, TileList handTiles){return __canClosedMultiType(candidate, handTiles, NUM_PARTNERS_NEEDED_TO_KAN + 1);}
-	
 	
 	
 		
@@ -1061,7 +1073,6 @@ public class HandChecker {
 	
 	
 	
-
 	//***************************************************************************************************
 	//***************************************************************************************************
 	//****END TENPAI CHECKERS

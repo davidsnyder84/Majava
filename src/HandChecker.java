@@ -661,7 +661,6 @@ public class HandChecker {
 	
 	
 	
-	//TODO FIX THIS CHIITOI SHIT
 	/*
 	method: chiitoitsuInTenpai
 	checks if the hand is in tenpai for chiitoitsu, and modifies the list of waits if so 
@@ -848,7 +847,7 @@ public class HandChecker {
 	
 	
 	public TileList findTenpaiWaits(){
-		//TODO find tenpai waits
+		//TODO this is find tenpai waits
 		
 		TileList waits = new TileList();
 		

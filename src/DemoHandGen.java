@@ -101,7 +101,6 @@ public class DemoHandGen {
 
 			System.out.println(currentHand.toString() + "\n");
 			
-			
 			waits = currentHand.mChecker.findTenpaiWaits();
 			
 			

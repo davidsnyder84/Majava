@@ -433,6 +433,13 @@ public class HandChecker {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
 	//---------------------------------------------------------------------------------------------------
 	//----BEGIN FINDERS
 	//---------------------------------------------------------------------------------------------------
@@ -493,9 +500,6 @@ public class HandChecker {
 	
 	
 	
-	
-	
-	
 	//---------------------------------------------------------------------------------------------------
 	//----END FINDERS
 	//---------------------------------------------------------------------------------------------------
@@ -538,37 +542,31 @@ public class HandChecker {
 	
 	
 	
-
-	
-	
-	
-	
-	
 	
 	
 	//checks if the hand is in tenpai
 	//sets mTenpaiStaus flag if it is, and returns true
 	private boolean __checkIfTenpai(){
 		
-		boolean isTenpai = false;
 		boolean isKokushiTenpai = false, isChiitoitsuTenpai = false, isNormalTenpai = false;
 		
 		mTenpaiWaits = new TileList();
 		
 		//check for kokushi musou tenpai, waits are also found here
 		isKokushiTenpai = kokushiMusouInTenpai();
-
-		//check if the hand is in normal tenpai, waits are also found here (don't check if in already kokushi tenpai)
-		if (!isKokushiTenpai)
+		if (isKokushiTenpai)
+				mTenpaiWaits = kokushiMusouWaits();
+		else{
+			
+			//check if the hand is in normal tenpai, waits are also found here (don't check if in already kokushi tenpai)
 			isNormalTenpai = (!findTenpaiWaits().isEmpty());
+			
+			//check for chiitoitsu tenpai, wait is also found here (only check if no kokushi tenpai and no normal tenpai)
+			if (!isNormalTenpai)
+				isChiitoitsuTenpai = chiitoitsuInTenpai();			
+		}		
 		
-		//check for chiitoitsu tenpai, wait is also found here (only check if no kokushi tenpai and no normal tenpai)
-		if (!isKokushiTenpai && !isNormalTenpai)
-			isChiitoitsuTenpai = chiitoitsuInTenpai();
-		
-		
-		isTenpai = (isKokushiTenpai || isChiitoitsuTenpai || isNormalTenpai);
-		mTenpaiStatus = isTenpai;
+		mTenpaiStatus = (isKokushiTenpai || isChiitoitsuTenpai || isNormalTenpai);
 		return mTenpaiStatus;
 	}
 	public boolean updateTenpaiStatus(){return __checkIfTenpai();}
@@ -671,7 +669,7 @@ public class HandChecker {
 		//if any melds have been made, chiitoitsu is impossible, return false
 		if (mHand.getNumMeldsMade() > 0) return false;
 		
-		//if chiitoitsu tenpai, the hand should have exactly 7 different types of tiles (By my rules, 4 of a kind != 2 pairs)
+		//if chiitoitsu tenpai, the hand should have exactly 7 different types of tiles (4 of a kind != 2 pairs)
 		if (mHandTiles.makeCopyNoDuplicates().size() != 7) return false;
 		
 		

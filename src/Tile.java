@@ -48,6 +48,8 @@ methods:
 	equals - returns true if both tiles have the same ID, false otherwise
 	toString - returns string representation of a tile's suit/face
 	toStringAllInfo - returns all info about a tile as a string (debug use)
+	getImageFilename - returns the filename of the image that represents the tile
+	
 	
 	static:
 	stringReprOfId - takes an ID, returns the string representation of the suit/face of that ID
@@ -319,7 +321,14 @@ public class Tile implements Comparable<Tile> {
 	
 	
 	
-	
+	public String getImageFilename(){
+		
+		String filename = "img\\tiles\\" + mID;
+		if (mRedDora) filename += "r";
+		filename += ".gif";
+		
+		return filename;
+	}
 	
 	
 	

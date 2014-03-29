@@ -8,11 +8,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
-import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
+@SuppressWarnings("serial")
 public class WorldViewer extends JFrame {
 
 	private JPanel contentPane;
@@ -38,6 +38,7 @@ public class WorldViewer extends JFrame {
 	 * Create the frame.
 	 */
 	public WorldViewer() {
+		this.setTitle("Majava WorldViewer");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1150, 850);
 		contentPane = new JPanel();
@@ -53,9 +54,9 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-		ArrayList<JLabel> lblListH1Tiles = new ArrayList<JLabel>();
-		ArrayList<JLabel> labelList = new ArrayList<JLabel>();
-		JLabel[] labelArray = new JLabel[14];
+//		ArrayList<JLabel> lblListH1Tiles = new ArrayList<JLabel>();
+//		ArrayList<JLabel> labelList = new ArrayList<JLabel>();
+//		JLabel[] labelArray = new JLabel[14];
 		
 		
 		
@@ -265,7 +266,7 @@ public class WorldViewer extends JFrame {
 		ImageIcon wImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\tileback.gif");
 		
 		JPanel panelW1 = new JPanel();
-		panelW1.setBounds(150, 379, 459, 70);
+		panelW1.setBounds(313, 405, 459, 70);
 		contentPane.add(panelW1);
 		panelW1.setLayout(new GridLayout(2, 17, 0, 0));
 		
@@ -423,9 +424,10 @@ public class WorldViewer extends JFrame {
 		ImageIcon meldImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\12.gif");
 		
 		
+		
+		
 		JPanel panelH1M1 = new JPanel();
-		panelH1M1.setBounds(468, 650, 108, 35);
-		contentPane.add(panelH1M1);
+		panelH1M1.setBounds(0, 0, 114, 35);
 		panelH1M1.setLayout(new GridLayout(1, 4, 0, 0));
 		
 		
@@ -448,9 +450,37 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+		JPanel panelH1M4 = new JPanel();
+		panelH1M4.setBounds(360, 0, 114, 35);
+		panelH1M4.setLayout(new GridLayout(1, 4, 0, 0));
+		
+		JLabel lblH1M4T1 = new JLabel("");
+		panelH1M4.add(lblH1M4T1);
+		lblH1M4T1.setIcon(meldImg);
+		
+		JLabel lblH1M4T2 = new JLabel("");
+		panelH1M4.add(lblH1M4T2);
+		lblH1M4T2.setIcon(meldImg);
+		
+		JLabel lblH1M4T3 = new JLabel("");
+		panelH1M4.add(lblH1M4T3);
+		lblH1M4T3.setIcon(meldImg);
+		
+		JLabel lblH1M4T4 = new JLabel("");
+		panelH1M4.add(lblH1M4T4);
+		lblH1M4T4.setIcon(meldImg);
+		
+		
+		
+		
+		
+		
+		
+
+		
+		
 		JPanel panelH1M2 = new JPanel();
-		panelH1M2.setBounds(703, 650, 108, 35);
-		contentPane.add(panelH1M2);
+		panelH1M2.setBounds(120, 0, 114, 35);
 		panelH1M2.setLayout(new GridLayout(1, 4, 0, 0));
 		
 		JLabel lblH1M2T1 = new JLabel("");
@@ -472,9 +502,27 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+		
+		
+		
+		
+		
+		
+
+
+		JPanel panelH1Ms = new JPanel();
+		panelH1Ms.setBounds(570, 613, 474, 35);
+		contentPane.add(panelH1Ms);
+		panelH1Ms.setLayout(null);
+		panelH1Ms.add(panelH1M1);
+		panelH1Ms.add(panelH1M2);
+		
+		
+		
+		
 		JPanel panelH1M3 = new JPanel();
-		panelH1M3.setBounds(886, 650, 108, 35);
-		contentPane.add(panelH1M3);
+		panelH1M3.setBounds(240, 0, 114, 35);
+		panelH1Ms.add(panelH1M3);
 		panelH1M3.setLayout(new GridLayout(1, 4, 0, 0));
 		
 		JLabel lblH1M3T1 = new JLabel("");
@@ -492,43 +540,7 @@ public class WorldViewer extends JFrame {
 		JLabel lblH1M3T4 = new JLabel("");
 		panelH1M3.add(lblH1M3T4);
 		lblH1M3T4.setIcon(meldImg);
-		
-		
-		
-		
-		JPanel panelH1M4 = new JPanel();
-		panelH1M4.setBounds(1004, 650, 108, 35);
-		contentPane.add(panelH1M4);
-		panelH1M4.setLayout(new GridLayout(1, 4, 0, 0));
-		
-		JLabel lblH1M4T1 = new JLabel("");
-		panelH1M4.add(lblH1M4T1);
-		lblH1M4T1.setIcon(meldImg);
-		
-		JLabel lblH1M4T2 = new JLabel("");
-		panelH1M4.add(lblH1M4T2);
-		lblH1M4T2.setIcon(meldImg);
-		
-		JLabel lblH1M4T3 = new JLabel("");
-		panelH1M4.add(lblH1M4T3);
-		lblH1M4T3.setIcon(meldImg);
-		
-		JLabel lblH1M4T4 = new JLabel("");
-		panelH1M4.add(lblH1M4T4);
-		lblH1M4T4.setIcon(meldImg);
-		
-		JPanel panelH1Ms = new JPanel();
-		panelH1Ms.setBounds(110, 32, 456, 35);
-		contentPane.add(panelH1Ms);
-		panelH1Ms.setLayout(new GridLayout(1, 4, 0, 0));
-		
-		
-		
-		
-		
-		
-		
-		
+		panelH1Ms.add(panelH1M4);
 		
 		
 		

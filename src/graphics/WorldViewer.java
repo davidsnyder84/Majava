@@ -448,6 +448,86 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+		JPanel panelH1M2 = new JPanel();
+		panelH1M2.setBounds(703, 650, 108, 35);
+		contentPane.add(panelH1M2);
+		panelH1M2.setLayout(new GridLayout(1, 4, 0, 0));
+		
+		JLabel lblH1M2T1 = new JLabel("");
+		panelH1M2.add(lblH1M2T1);
+		lblH1M2T1.setIcon(meldImg);
+		
+		JLabel lblH1M2T2 = new JLabel("");
+		panelH1M2.add(lblH1M2T2);
+		lblH1M2T2.setIcon(meldImg);
+		
+		JLabel lblH1M2T3 = new JLabel("");
+		panelH1M2.add(lblH1M2T3);
+		lblH1M2T3.setIcon(meldImg);
+		
+		JLabel lblH1M2T4 = new JLabel("");
+		panelH1M2.add(lblH1M2T4);
+		lblH1M2T4.setIcon(meldImg);
+		
+		
+		
+		
+		JPanel panelH1M3 = new JPanel();
+		panelH1M3.setBounds(886, 650, 108, 35);
+		contentPane.add(panelH1M3);
+		panelH1M3.setLayout(new GridLayout(1, 4, 0, 0));
+		
+		JLabel lblH1M3T1 = new JLabel("");
+		panelH1M3.add(lblH1M3T1);
+		lblH1M3T1.setIcon(meldImg);
+		
+		JLabel lblH1M3T2 = new JLabel("");
+		panelH1M3.add(lblH1M3T2);
+		lblH1M3T2.setIcon(meldImg);
+		
+		JLabel lblH1M3T3 = new JLabel("");
+		panelH1M3.add(lblH1M3T3);
+		lblH1M3T3.setIcon(meldImg);
+		
+		JLabel lblH1M3T4 = new JLabel("");
+		panelH1M3.add(lblH1M3T4);
+		lblH1M3T4.setIcon(meldImg);
+		
+		
+		
+		
+		JPanel panelH1M4 = new JPanel();
+		panelH1M4.setBounds(1004, 650, 108, 35);
+		contentPane.add(panelH1M4);
+		panelH1M4.setLayout(new GridLayout(1, 4, 0, 0));
+		
+		JLabel lblH1M4T1 = new JLabel("");
+		panelH1M4.add(lblH1M4T1);
+		lblH1M4T1.setIcon(meldImg);
+		
+		JLabel lblH1M4T2 = new JLabel("");
+		panelH1M4.add(lblH1M4T2);
+		lblH1M4T2.setIcon(meldImg);
+		
+		JLabel lblH1M4T3 = new JLabel("");
+		panelH1M4.add(lblH1M4T3);
+		lblH1M4T3.setIcon(meldImg);
+		
+		JLabel lblH1M4T4 = new JLabel("");
+		panelH1M4.add(lblH1M4T4);
+		lblH1M4T4.setIcon(meldImg);
+		
+		JPanel panelH1Ms = new JPanel();
+		panelH1Ms.setBounds(110, 32, 456, 35);
+		contentPane.add(panelH1Ms);
+		panelH1Ms.setLayout(new GridLayout(1, 4, 0, 0));
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		

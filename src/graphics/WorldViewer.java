@@ -555,6 +555,269 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+		ImageIcon h2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\1.gif");
+		
+		JPanel panelH2 = new JPanel();
+		panelH2.setBounds(851, 54, 48, 506);
+		contentPane.add(panelH2);
+		panelH2.setLayout(null);
+		
+		
+		JLabel lblH2T1 = new JLabel("");
+		lblH2T1.setBounds(0, 468, 46, 36);
+		lblH2T1.setIcon(h2Img);
+		panelH2.add(lblH2T1);
+		
+		JLabel lblH2T2 = new JLabel("");
+		lblH2T2.setBounds(0, 432, 46, 36);
+		lblH2T2.setIcon(h2Img);
+		panelH2.add(lblH2T2);
+		
+		JLabel lblH2T3 = new JLabel("");
+		lblH2T3.setBounds(0, 396, 46, 36);
+		lblH2T3.setIcon(h2Img);
+		panelH2.add(lblH2T3);
+		
+		JLabel lblH2T4 = new JLabel("");
+		lblH2T4.setBounds(0, 360, 46, 36);
+		lblH2T4.setIcon(h2Img);
+		panelH2.add(lblH2T4);
+		
+		JLabel lblH2T5 = new JLabel("");
+		lblH2T5.setBounds(0, 324, 46, 36);
+		lblH2T5.setIcon(h2Img);
+		panelH2.add(lblH2T5);
+		
+		JLabel lblH2T6 = new JLabel("");
+		lblH2T6.setBounds(0, 288, 46, 36);
+		lblH2T6.setIcon(h2Img);
+		panelH2.add(lblH2T6);
+		
+		JLabel lblH2T7 = new JLabel("");
+		lblH2T7.setBounds(0, 252, 46, 36);
+		lblH2T7.setIcon(h2Img);
+		panelH2.add(lblH2T7);
+		
+		JLabel lblH2T8 = new JLabel("");
+		lblH2T8.setBounds(0, 216, 46, 36);
+		lblH2T8.setIcon(h2Img);
+		panelH2.add(lblH2T8);
+		
+		JLabel lblH2T9 = new JLabel("");
+		lblH2T9.setBounds(0, 180, 46, 36);
+		lblH2T9.setIcon(h2Img);
+		panelH2.add(lblH2T9);
+		
+		JLabel lblH2T10 = new JLabel("");
+		lblH2T10.setBounds(0, 144, 46, 36);
+		lblH2T10.setIcon(h2Img);
+		panelH2.add(lblH2T10);
+		
+		JLabel lblH2T11 = new JLabel("");
+		lblH2T11.setBounds(0, 108, 46, 36);
+		lblH2T11.setIcon(h2Img);
+		panelH2.add(lblH2T11);
+		
+		JLabel lblH2T12 = new JLabel("");
+		lblH2T12.setBounds(0, 72, 46, 36);
+		lblH2T12.setIcon(h2Img);
+		panelH2.add(lblH2T12);
+		
+		JLabel lblH2T13 = new JLabel("");
+		lblH2T13.setBounds(0, 36, 46, 36);
+		lblH2T13.setIcon(h2Img);
+		panelH2.add(lblH2T13);
+		
+		JLabel lblH2T14 = new JLabel("");
+		lblH2T14.setBounds(0, 0, 46, 36);
+		lblH2T14.setIcon(h2Img);
+		panelH2.add(lblH2T14);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		ImageIcon h3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\1.gif");
+		
+		JPanel panelH3 = new JPanel();
+		panelH3.setBounds(305, 67, 506, 48);
+		contentPane.add(panelH3);
+		panelH3.setLayout(null);
+		
+		JLabel lblH3T1 = new JLabel("");
+		lblH3T1.setBounds(468, 0, 36, 46);
+		lblH3T1.setIcon(h3Img);
+		panelH3.add(lblH3T1);
+		
+		JLabel lblH3T2 = new JLabel("");
+		lblH3T2.setBounds(432, 0, 36, 46);
+		lblH3T2.setIcon(h3Img);
+		panelH3.add(lblH3T2);
+		
+		JLabel lblH3T3 = new JLabel("");
+		lblH3T3.setBounds(396, 0, 36, 46);
+		lblH3T3.setIcon(h3Img);
+		panelH3.add(lblH3T3);
+		
+		JLabel lblH3T4 = new JLabel("");
+		lblH3T4.setBounds(360, 0, 36, 46);
+		lblH3T4.setIcon(h3Img);
+		panelH3.add(lblH3T4);
+		
+		JLabel lblH3T5 = new JLabel("");
+		lblH3T5.setBounds(324, 0, 36, 46);
+		lblH3T5.setIcon(h3Img);
+		panelH3.add(lblH3T5);
+		
+		JLabel lblH3T6 = new JLabel("");
+		lblH3T6.setBounds(288, 0, 36, 46);
+		lblH3T6.setIcon(h3Img);
+		panelH3.add(lblH3T6);
+		
+		JLabel lblH3T7 = new JLabel("");
+		lblH3T7.setBounds(252, 0, 36, 46);
+		lblH3T7.setIcon(h3Img);
+		panelH3.add(lblH3T7);
+		
+		JLabel lblH3T8 = new JLabel("");
+		lblH3T8.setBounds(216, 0, 36, 46);
+		lblH3T8.setIcon(h3Img);
+		panelH3.add(lblH3T8);
+		
+		JLabel lblH3T9 = new JLabel("");
+		lblH3T9.setBounds(180, 0, 36, 46);
+		lblH3T9.setIcon(h3Img);
+		panelH3.add(lblH3T9);
+		
+		JLabel lblH3T10 = new JLabel("");
+		lblH3T10.setBounds(144, 0, 36, 46);
+		lblH3T10.setIcon(h3Img);
+		panelH3.add(lblH3T10);
+		
+		JLabel lblH3T11 = new JLabel("");
+		lblH3T11.setBounds(108, 0, 36, 46);
+		lblH3T11.setIcon(h3Img);
+		panelH3.add(lblH3T11);
+		
+		JLabel lblH3T12 = new JLabel("");
+		lblH3T12.setBounds(72, 0, 36, 46);
+		lblH3T12.setIcon(h3Img);
+		panelH3.add(lblH3T12);
+		
+		JLabel lblH3T13 = new JLabel("");
+		lblH3T13.setBounds(36, 0, 36, 46);
+		lblH3T13.setIcon(h3Img);
+		panelH3.add(lblH3T13);
+		
+		JLabel lblH3T14 = new JLabel("");
+		lblH3T14.setBounds(0, 0, 36, 46);
+		lblH3T14.setIcon(h3Img);
+		panelH3.add(lblH3T14);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+		ImageIcon h4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\1.gif");
+		
+		
+		JPanel panelH4 = new JPanel();
+		panelH4.setBounds(91, 62, 48, 506);
+		contentPane.add(panelH4);
+		panelH4.setLayout(null);
+		
+		JLabel lblH4T1 = new JLabel("");
+		lblH4T1.setBounds(0, 0, 46, 36);
+		lblH4T1.setIcon(h4Img);
+		panelH4.add(lblH4T1);
+		
+		JLabel lblH4T2 = new JLabel("");
+		lblH4T2.setBounds(0, 36, 46, 36);
+		lblH4T2.setIcon(h4Img);
+		panelH4.add(lblH4T2);
+		
+		JLabel lblH4T3 = new JLabel("");
+		lblH4T3.setBounds(0, 72, 46, 36);
+		lblH4T3.setIcon(h4Img);
+		panelH4.add(lblH4T3);
+		
+		JLabel lblH4T4 = new JLabel("");
+		lblH4T4.setBounds(0, 108, 46, 36);
+		lblH4T4.setIcon(h4Img);
+		panelH4.add(lblH4T4);
+		
+		JLabel lblH4T5 = new JLabel("");
+		lblH4T5.setBounds(0, 144, 46, 36);
+		lblH4T5.setIcon(h4Img);
+		panelH4.add(lblH4T5);
+		
+		JLabel lblH4T6 = new JLabel("");
+		lblH4T6.setBounds(0, 180, 46, 36);
+		lblH4T6.setIcon(h4Img);
+		panelH4.add(lblH4T6);
+		
+		JLabel lblH4T7 = new JLabel("");
+		lblH4T7.setBounds(0, 216, 46, 36);
+		lblH4T7.setIcon(h4Img);
+		panelH4.add(lblH4T7);
+		
+		JLabel lblH4T8 = new JLabel("");
+		lblH4T8.setBounds(0, 252, 46, 36);
+		lblH4T8.setIcon(h4Img);
+		panelH4.add(lblH4T8);
+		
+		JLabel lblH4T9 = new JLabel("");
+		lblH4T9.setBounds(0, 288, 46, 36);
+		lblH4T9.setIcon(h4Img);
+		panelH4.add(lblH4T9);
+		
+		JLabel lblH4T10 = new JLabel("");
+		lblH4T10.setBounds(0, 324, 46, 36);
+		lblH4T10.setIcon(h4Img);
+		panelH4.add(lblH4T10);
+		
+		JLabel lblH4T11 = new JLabel("");
+		lblH4T11.setBounds(0, 360, 46, 36);
+		lblH4T11.setIcon(h4Img);
+		panelH4.add(lblH4T11);
+		
+		JLabel lblH4T12 = new JLabel("");
+		lblH4T12.setBounds(0, 396, 46, 36);
+		lblH4T12.setIcon(h4Img);
+		panelH4.add(lblH4T12);
+		
+		JLabel lblH4T13 = new JLabel("");
+		lblH4T13.setBounds(0, 432, 46, 36);
+		lblH4T13.setIcon(h4Img);
+		panelH4.add(lblH4T13);
+		
+		JLabel lblH4T14 = new JLabel("");
+		lblH4T14.setBounds(0, 468, 46, 36);
+		lblH4T14.setIcon(h4Img);
+		panelH4.add(lblH4T14);
+		
+		
+		
+		
 		
 		
 		

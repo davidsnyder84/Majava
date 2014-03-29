@@ -413,6 +413,45 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+		
+		
+		
+		
+		
+		
+
+		ImageIcon meldImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\12.gif");
+		
+		
+		JPanel panelH1M1 = new JPanel();
+		panelH1M1.setBounds(468, 650, 108, 35);
+		contentPane.add(panelH1M1);
+		panelH1M1.setLayout(new GridLayout(1, 4, 0, 0));
+		
+		
+		JLabel lblH1M1T1 = new JLabel("");
+		panelH1M1.add(lblH1M1T1);
+		lblH1M1T1.setIcon(meldImg);
+		
+		JLabel lblH1M1T2 = new JLabel("");
+		panelH1M1.add(lblH1M1T2);
+		lblH1M1T2.setIcon(meldImg);
+		
+		JLabel lblH1M1T3 = new JLabel("");
+		panelH1M1.add(lblH1M1T3);
+		lblH1M1T3.setIcon(meldImg);
+		
+		JLabel lblH1M1T4 = new JLabel("");
+		panelH1M1.add(lblH1M1T4);
+		lblH1M1T4.setIcon(meldImg);
+		
+		
+		
+		
+		
+		
+		
+		
 		///////////
 		
 		

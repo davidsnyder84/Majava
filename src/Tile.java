@@ -322,11 +322,11 @@ public class Tile implements Comparable<Tile> {
 	
 	
 	public String getImageFilename(){
-		
+//		if (mRedDora) return "img\\tiles\\" + mID + "r.gif";
+//		return "img\\tiles\\" + mID + ".gif";
 		String filename = "img\\tiles\\" + mID;
 		if (mRedDora) filename += "r";
 		filename += ".gif";
-		
 		return filename;
 	}
 	

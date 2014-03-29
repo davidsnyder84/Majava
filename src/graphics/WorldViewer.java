@@ -139,5 +139,157 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		JPanel panelP1 = new JPanel();
+		panelP1.setBounds(454, 222, 162, 140);
+		contentPane.add(panelP1);
+		panelP1.setLayout(new GridLayout(4, 6, 0, 0));
+		
+		JLabel lblP1T1 = new JLabel("");
+		panelP1.add(lblP1T1);
+		lblP1T1.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T2 = new JLabel("");
+		panelP1.add(lblP1T2);
+		lblP1T2.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T3 = new JLabel("");
+		panelP1.add(lblP1T3);
+		lblP1T3.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T4 = new JLabel("");
+		panelP1.add(lblP1T4);
+		lblP1T4.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T5 = new JLabel("");
+		panelP1.add(lblP1T5);
+		lblP1T5.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T6 = new JLabel("");
+		panelP1.add(lblP1T6);
+		lblP1T6.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T7 = new JLabel("");
+		panelP1.add(lblP1T7);
+		lblP1T7.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T8 = new JLabel("");
+		panelP1.add(lblP1T8);
+		lblP1T8.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T9 = new JLabel("");
+		panelP1.add(lblP1T9);
+		lblP1T9.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T10 = new JLabel("");
+		panelP1.add(lblP1T10);
+		lblP1T10.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T11 = new JLabel("");
+		panelP1.add(lblP1T11);
+		lblP1T11.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T12 = new JLabel("");
+		panelP1.add(lblP1T12);
+		lblP1T12.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T13 = new JLabel("");
+		panelP1.add(lblP1T13);
+		lblP1T13.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T14 = new JLabel("");
+		panelP1.add(lblP1T14);
+		lblP1T14.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T15 = new JLabel("");
+		panelP1.add(lblP1T15);
+		lblP1T15.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T16 = new JLabel("");
+		panelP1.add(lblP1T16);
+		lblP1T16.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T17 = new JLabel("");
+		panelP1.add(lblP1T17);
+		lblP1T17.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T18 = new JLabel("");
+		panelP1.add(lblP1T18);
+		lblP1T18.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T19 = new JLabel("");
+		panelP1.add(lblP1T19);
+		lblP1T19.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T20 = new JLabel("");
+		panelP1.add(lblP1T20);
+		lblP1T20.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T21 = new JLabel("");
+		panelP1.add(lblP1T21);
+		lblP1T21.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T22 = new JLabel("");
+		panelP1.add(lblP1T22);
+		lblP1T22.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T23 = new JLabel("");
+		panelP1.add(lblP1T23);
+		lblP1T23.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		JLabel lblP1T24 = new JLabel("");
+		panelP1.add(lblP1T24);
+		lblP1T24.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\normal\\small\\2.gif"));
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(150, 379, 924, 123);
+		contentPane.add(panel_1);
+		
+		
+		
+		
+		
+		
+		
+		
+		///////////
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 }

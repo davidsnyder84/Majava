@@ -18,6 +18,11 @@ import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class WorldViewer extends JFrame {
@@ -37,8 +42,14 @@ public class WorldViewer extends JFrame {
 	
 	
 	
-
+	private ArrayList<JLabel> Tilelabels = new ArrayList<JLabel>();
+	private JPanel panelTable; 
+	
 	private JPanel contentPane;
+	private WorldViewer thisguy;
+	
+	private boolean toggle = true;
+	
 
 	/**
 	 * Launch the application.
@@ -63,6 +74,7 @@ public class WorldViewer extends JFrame {
 	 */
 	public WorldViewer() throws IOException {
 		
+		thisguy = this;
 		
 		final int WINDOW_BOUND_WIDTH = WINDOW_WIDTH + 2*WINDOW_SIDE_BORDER_SIZE;
 		final int WINDOW_BOUND_HEIGHT = WINDOW_HEIGHT + WINDOW_TOP_BORDER_SIZE + WINDOW_BOTTOM_BORDER_SIZE;
@@ -98,7 +110,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-		JPanel panelTable = new JPanel();
+		panelTable = new JPanel();
 		panelTable.setBounds(0, 0, 874, 850);
 		panelTable.setBackground(COLOR_TABLE);
 		contentPane.add(panelTable);
@@ -151,7 +163,8 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-		
+
+//		ImageIcon pImg = null;
 		ImageIcon pImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\22.png");
 		ImageIcon p2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\22.png");
 		ImageIcon p3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\25.png");
@@ -175,10 +188,10 @@ public class WorldViewer extends JFrame {
 		
 
 		ImageIcon windRImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transE.png");
-		ImageIcon wind1Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transEs.gif");
-		ImageIcon wind2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transSs.gif");
-		ImageIcon wind3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transWs.gif");
-		ImageIcon wind4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transNs.gif");
+		ImageIcon wind1Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transEs.png");
+		ImageIcon wind2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transSs.png");
+		ImageIcon wind3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transWs.png");
+		ImageIcon wind4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transNs.png");
 		
 		ImageIcon riichiImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\riichiStick.png");
 		
@@ -2333,12 +2346,123 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+//		Tilelabels.add(lblH1T1);
+//		Tilelabels.add(lblH1T2);
+//		Tilelabels.add(lblH1T3);
+//		Tilelabels.add(lblH1T4);
+//		Tilelabels.add(lblH1T5);
+//		Tilelabels.add(lblH1T6);
+//		Tilelabels.add(lblH1T7);
+//		Tilelabels.add(lblH1T8);
+//		Tilelabels.add(lblH1T9);
+//		Tilelabels.add(lblH1T10);
+//		Tilelabels.add(lblH1T11);
+//		Tilelabels.add(lblH1T12);
+//		Tilelabels.add(lblH1T13);
+//		Tilelabels.add(lblH1T14);
 		
 		
 		
+		Tilelabels.add(lblP1T1);
+		Tilelabels.add(lblP1T2);
+		Tilelabels.add(lblP1T3);
+		Tilelabels.add(lblP1T4);
+		Tilelabels.add(lblP1T5);
+		Tilelabels.add(lblP1T6);
+		Tilelabels.add(lblP1T7);
+		Tilelabels.add(lblP1T8);
+		Tilelabels.add(lblP1T9);
+		Tilelabels.add(lblP1T10);
+		Tilelabels.add(lblP1T11);
+		Tilelabels.add(lblP1T12);
+		Tilelabels.add(lblP1T13);
+		Tilelabels.add(lblP1T14);
+		Tilelabels.add(lblP1T15);
+		Tilelabels.add(lblP1T16);
+		Tilelabels.add(lblP1T17);
+		Tilelabels.add(lblP1T18);
+		Tilelabels.add(lblP1T19);
+		Tilelabels.add(lblP1T20);
+		Tilelabels.add(lblP1T21);
+		Tilelabels.add(lblP1T22);
+		Tilelabels.add(lblP1T23);
+		Tilelabels.add(lblP1T24);
+		
+		Tilelabels.add(lblP3T1);
+		Tilelabels.add(lblP3T2);
+		Tilelabels.add(lblP3T3);
+		Tilelabels.add(lblP3T4);
+		Tilelabels.add(lblP3T5);
+		Tilelabels.add(lblP3T6);
+		Tilelabels.add(lblP3T7);
+		Tilelabels.add(lblP3T8);
+		Tilelabels.add(lblP3T9);
+		Tilelabels.add(lblP3T10);
+		Tilelabels.add(lblP3T11);
+		Tilelabels.add(lblP3T12);
+		Tilelabels.add(lblP3T13);
+		Tilelabels.add(lblP3T14);
+		Tilelabels.add(lblP3T15);
+		Tilelabels.add(lblP3T16);
+		Tilelabels.add(lblP3T17);
+		Tilelabels.add(lblP3T18);
+		Tilelabels.add(lblP3T19);
+		Tilelabels.add(lblP3T20);
+		Tilelabels.add(lblP3T21);
+		Tilelabels.add(lblP3T22);
+		Tilelabels.add(lblP3T23);
+		Tilelabels.add(lblP3T24);
 		
 		
+		Tilelabels.add(lblP2T1);
+		Tilelabels.add(lblP2T2);
+		Tilelabels.add(lblP2T3);
+		Tilelabels.add(lblP2T4);
+		Tilelabels.add(lblP2T5);
+		Tilelabels.add(lblP2T6);
+		Tilelabels.add(lblP2T7);
+		Tilelabels.add(lblP2T8);
+		Tilelabels.add(lblP2T9);
+		Tilelabels.add(lblP2T10);
+		Tilelabels.add(lblP2T11);
+		Tilelabels.add(lblP2T12);
+		Tilelabels.add(lblP2T13);
+		Tilelabels.add(lblP2T14);
+		Tilelabels.add(lblP2T15);
+		Tilelabels.add(lblP2T16);
+		Tilelabels.add(lblP2T17);
+		Tilelabels.add(lblP2T18);
+		Tilelabels.add(lblP2T19);
+		Tilelabels.add(lblP2T20);
+		Tilelabels.add(lblP2T21);
+		Tilelabels.add(lblP2T22);
+		Tilelabels.add(lblP2T23);
+		Tilelabels.add(lblP2T24);
 		
+		Tilelabels.add(lblP4T1);
+		Tilelabels.add(lblP4T2);
+		Tilelabels.add(lblP4T3);
+		Tilelabels.add(lblP4T4);
+		Tilelabels.add(lblP4T5);
+		Tilelabels.add(lblP4T6);
+		Tilelabels.add(lblP4T7);
+		Tilelabels.add(lblP4T8);
+		Tilelabels.add(lblP4T9);
+		Tilelabels.add(lblP4T10);
+		Tilelabels.add(lblP4T11);
+		Tilelabels.add(lblP4T12);
+		Tilelabels.add(lblP4T13);
+		Tilelabels.add(lblP4T14);
+		Tilelabels.add(lblP4T15);
+		Tilelabels.add(lblP4T16);
+		Tilelabels.add(lblP4T17);
+		Tilelabels.add(lblP4T18);
+		Tilelabels.add(lblP4T19);
+		Tilelabels.add(lblP4T20);
+		Tilelabels.add(lblP4T21);
+		Tilelabels.add(lblP4T22);
+		Tilelabels.add(lblP4T23);
+		Tilelabels.add(lblP4T24);
 		
 		
 		
@@ -2355,6 +2479,26 @@ public class WorldViewer extends JFrame {
 		labelWeHaveFun.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\sheepy2trans.png"));
 		labelWeHaveFun.setBounds(4, 5, 270, 345);
 		panelSidebar.add(labelWeHaveFun);
+		
+		
+		
+		
+		
+		
+		JButton btnToggleOnOff = new JButton("Toggle OnOff");
+		btnToggleOnOff.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ImageIcon toggleIcon = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\5.gif");
+				toggle = !toggle;
+				for (JLabel l: Tilelabels){
+					if (toggle) l.setIcon(toggleIcon);
+					else l.setIcon(null);
+					thisguy.repaint();
+				}
+			}
+		});
+		btnToggleOnOff.setBounds(27, 559, 215, 35);
+		panelSidebar.add(btnToggleOnOff);
 		
 		
 		

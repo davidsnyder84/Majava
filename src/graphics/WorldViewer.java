@@ -19,10 +19,11 @@ import java.awt.Font;
 public class WorldViewer extends JFrame {
 	
 	
-	public static final int WINDOW_BAR_SIZE = 30;
 	public static final int WINDOW_WIDTH = 1150;
 	public static final int WINDOW_HEIGHT = 850;
 	
+	public static final int WINDOW_BAR_SIZE = 30;
+	public static final int SIDE_BAR_SIZE = 8;
 	
 	
 	
@@ -53,7 +54,8 @@ public class WorldViewer extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transE.gif"));
 		setTitle("Majava WorldViewer");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, WINDOW_WIDTH, WINDOW_HEIGHT + WINDOW_BAR_SIZE);
+		setBounds(100, 100, WINDOW_WIDTH + 2*SIDE_BAR_SIZE, WINDOW_HEIGHT + WINDOW_BAR_SIZE);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -62,6 +64,20 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		JPanel panelTable = new JPanel();
+		panelTable.setBounds(0, 0, 1150, 850);
+		contentPane.add(panelTable);
+		panelTable.setLayout(null);
 		
 		
 		
@@ -87,20 +103,6 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		JPanel panelMidTable = new JPanel();
-		panelMidTable.setBounds(165, 123, 600, 600);
-		contentPane.add(panelMidTable);
-		panelMidTable.setLayout(null);
-		
-		
 		ImageIcon pImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\22.gif");
 		ImageIcon p2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\22.gif");
 		ImageIcon p3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\25.gif");
@@ -111,6 +113,37 @@ public class WorldViewer extends JFrame {
 		ImageIcon w2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\tileback.gif");
 		ImageIcon w3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\tileback.gif");
 		ImageIcon w4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\tileback.gif");
+		
+		
+		
+		ImageIcon hImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.gif");
+		ImageIcon h2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\1.gif");
+		ImageIcon h3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\1.gif");
+		ImageIcon h4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\1.gif");
+		
+		
+
+		ImageIcon meldImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\34.gif");
+		ImageIcon meld2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\34.gif");
+		ImageIcon meld3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\34.gif");
+		ImageIcon meld4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\34.gif");
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		JPanel panelMidTable = new JPanel();
+		panelMidTable.setBounds(165, 123, 600, 600);
+		panelTable.add(panelMidTable);
+		panelMidTable.setLayout(null);
 		
 		
 		
@@ -1152,6 +1185,11 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+		
+		
+		
+		
+		
 		JPanel panelRInd = new JPanel();
 		panelRInd.setBounds(54, 54, 58, 49);
 		panelRoundInfo.add(panelRInd);
@@ -1291,43 +1329,9 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-		
-		
-		
-		
-		
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		ImageIcon hImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.gif");
-		ImageIcon h2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\1.gif");
-		ImageIcon h3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\1.gif");
-		ImageIcon h4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\1.gif");
-		
-		
-
-		ImageIcon meldImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\34.gif");
-		ImageIcon meld2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\34.gif");
-		ImageIcon meld3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\34.gif");
-		ImageIcon meld4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\34.gif");
-		
-		
-		
-		
 		JPanel panelPlayer1 = new JPanel();
 		panelPlayer1.setBounds(237, 752, 667, 82);
-		contentPane.add(panelPlayer1);
+		panelTable.add(panelPlayer1);
 		panelPlayer1.setLayout(null);
 		
 		JPanel panelH1 = new JPanel();
@@ -1533,7 +1537,7 @@ public class WorldViewer extends JFrame {
 		
 		JPanel panelPlayer2 = new JPanel();
 		panelPlayer2.setBounds(894, 24, 82, 667);
-		contentPane.add(panelPlayer2);
+		panelTable.add(panelPlayer2);
 		panelPlayer2.setLayout(null);
 		
 		JPanel panelH2 = new JPanel();
@@ -1721,7 +1725,7 @@ public class WorldViewer extends JFrame {
 		
 		JPanel panelPlayer3 = new JPanel();
 		panelPlayer3.setBounds(64, 15, 667, 82);
-		contentPane.add(panelPlayer3);
+		panelTable.add(panelPlayer3);
 		panelPlayer3.setLayout(null);
 		
 		
@@ -1915,7 +1919,7 @@ public class WorldViewer extends JFrame {
 		
 		JPanel panelPlayer4 = new JPanel();
 		panelPlayer4.setBounds(16, 160, 82, 667);
-		contentPane.add(panelPlayer4);
+		panelTable.add(panelPlayer4);
 		panelPlayer4.setLayout(null);
 		
 		
@@ -2100,9 +2104,6 @@ public class WorldViewer extends JFrame {
 		JLabel lblH4M4T4 = new JLabel("");
 		panelH4M4.add(lblH4M4T4);
 		lblH4M4T4.setIcon(meld4Img);
-		
-		
-		
 		
 		
 		

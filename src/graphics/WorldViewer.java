@@ -66,9 +66,15 @@ public class WorldViewer extends JFrame {
 		
 		final int WINDOW_BOUND_WIDTH = WINDOW_WIDTH + 2*WINDOW_SIDE_BORDER_SIZE;
 		final int WINDOW_BOUND_HEIGHT = WINDOW_HEIGHT + WINDOW_TOP_BORDER_SIZE + WINDOW_BOTTOM_BORDER_SIZE;
+
 		
 		
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transE.gif"));
+		String windowIconImgPath = "C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transE.png";
+		ImageIcon windowIconImg = new ImageIcon(windowIconImgPath);
+		windowIconImg.equals(windowIconImg);
+		
+		setIconImage(Toolkit.getDefaultToolkit().getImage(windowIconImgPath));
+//		setIconImage(windowIconImg.getImage());
 		setTitle("The Beaver");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, WINDOW_BOUND_WIDTH, WINDOW_BOUND_HEIGHT);
@@ -122,30 +128,62 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-		ImageIcon pImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\22.gif");
-		ImageIcon p2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\22.gif");
-		ImageIcon p3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\25.gif");
-		ImageIcon p4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\21.gif");
+//		ImageIcon pImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\22.gif");
+//		ImageIcon p2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\22.gif");
+//		ImageIcon p3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\25.gif");
+//		ImageIcon p4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\21.gif");
+//		
+//		ImageIcon wImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\tileback.gif");
+//		ImageIcon w2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\tileback.gif");
+//		ImageIcon w3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\tileback.gif");
+//		ImageIcon w4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\tileback.gif");
+//		
+//		ImageIcon hImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.gif");
+//		ImageIcon h2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\1.gif");
+//		ImageIcon h3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\1.gif");
+//		ImageIcon h4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\1.gif");
+//
+//		ImageIcon meldImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\34.gif");
+//		ImageIcon meld2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\34.gif");
+//		ImageIcon meld3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\34.gif");
+//		ImageIcon meld4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\34.gif");
+//		
 		
 		
-		ImageIcon wImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\tileback.gif");
-		ImageIcon w2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\tileback.gif");
-		ImageIcon w3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\tileback.gif");
-		ImageIcon w4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\tileback.gif");
 		
 		
+		ImageIcon pImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\22.png");
+		ImageIcon p2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\22.png");
+		ImageIcon p3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\25.png");
+		ImageIcon p4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\21.png");
 		
-		ImageIcon hImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.gif");
-		ImageIcon h2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\1.gif");
-		ImageIcon h3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\1.gif");
-		ImageIcon h4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\1.gif");
+		ImageIcon wImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\tileback.png");
+		ImageIcon w2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\tileback.png");
+		ImageIcon w3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\tileback.png");
+		ImageIcon w4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\tileback.png");
+		
+		ImageIcon hImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png");
+		ImageIcon h2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\1.png");
+		ImageIcon h3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\1.png");
+		ImageIcon h4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\1.png");
+
+		ImageIcon meldImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\34.png");
+		ImageIcon meld2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\34.png");
+		ImageIcon meld3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\34.png");
+		ImageIcon meld4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\34.png");
 		
 		
 
-		ImageIcon meldImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\34.gif");
-		ImageIcon meld2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\34.gif");
-		ImageIcon meld3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\34.gif");
-		ImageIcon meld4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\34.gif");
+		ImageIcon windRImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transE.png");
+		ImageIcon wind1Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transEs.gif");
+		ImageIcon wind2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transSs.gif");
+		ImageIcon wind3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transWs.gif");
+		ImageIcon wind4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transNs.gif");
+		
+		ImageIcon riichiImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\riichiStick.png");
+		
+		
+		
 		
 		
 		
@@ -1332,12 +1370,6 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-		
-		
-		
-		
-		
-		
 		JPanel panelRInd = new JPanel();
 		panelRInd.setBounds(54, 54, 58, 49);
 		panelRoundInfo.add(panelRInd);
@@ -1348,7 +1380,7 @@ public class WorldViewer extends JFrame {
 		JLabel lblRIndWind = new JLabel("");
 		lblRIndWind.setBounds(3, 9, 31, 31);
 		panelRInd.add(lblRIndWind);
-		lblRIndWind.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transE.gif"));
+		lblRIndWind.setIcon(windRImg);
 		
 		JLabel lblRIndNum = new JLabel("4");
 		lblRIndNum.setFont(new Font("Tahoma", Font.PLAIN, 30));
@@ -1372,7 +1404,7 @@ public class WorldViewer extends JFrame {
 		JLabel lblInfoP1Wind = new JLabel("");
 		lblInfoP1Wind.setBounds(16, 2, 23, 23);
 		lblInfoP1Wind.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInfoP1Wind.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transEs.gif"));
+		lblInfoP1Wind.setIcon(wind1Img);
 		panelInfoP1.add(lblInfoP1Wind);
 		
 		JLabel lblInfoP1Points = new JLabel("128,000");
@@ -1384,7 +1416,7 @@ public class WorldViewer extends JFrame {
 		JLabel lblInfoP1Riichi = new JLabel("");
 		lblInfoP1Riichi.setBounds(2, 40, 50, 8);
 		lblInfoP1Riichi.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInfoP1Riichi.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\riichiStick.gif"));
+		lblInfoP1Riichi.setIcon(riichiImg);
 		panelInfoP1.add(lblInfoP1Riichi);
 		
 		
@@ -1401,7 +1433,7 @@ public class WorldViewer extends JFrame {
 		JLabel lblInfoP2Wind = new JLabel("");
 		lblInfoP2Wind.setBounds(16, 2, 23, 23);
 		lblInfoP2Wind.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInfoP2Wind.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transSs.gif"));
+		lblInfoP2Wind.setIcon(wind2Img);
 		panelInfoP2.add(lblInfoP2Wind);
 		
 		JLabel lblInfoP2Points = new JLabel("128,000");
@@ -1413,7 +1445,7 @@ public class WorldViewer extends JFrame {
 		JLabel lblInfoP2Riichi = new JLabel("");
 		lblInfoP2Riichi.setBounds(2, 40, 50, 8);
 		lblInfoP2Riichi.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInfoP2Riichi.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\riichiStick.gif"));
+		lblInfoP2Riichi.setIcon(riichiImg);
 		panelInfoP2.add(lblInfoP2Riichi);
 		
 		
@@ -1430,7 +1462,7 @@ public class WorldViewer extends JFrame {
 		JLabel lblInfoP3Wind = new JLabel("");
 		lblInfoP3Wind.setBounds(16, 2, 23, 23);
 		lblInfoP3Wind.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInfoP3Wind.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transWs.gif"));
+		lblInfoP3Wind.setIcon(wind3Img);
 		panelInfoP3.add(lblInfoP3Wind);
 		
 		JLabel lblInfoP3Points = new JLabel("128,000");
@@ -1442,7 +1474,7 @@ public class WorldViewer extends JFrame {
 		JLabel lblInfoP3Riichi = new JLabel("");
 		lblInfoP3Riichi.setBounds(2, 40, 50, 8);
 		lblInfoP3Riichi.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInfoP3Riichi.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\riichiStick.gif"));
+		lblInfoP3Riichi.setIcon(riichiImg);
 		panelInfoP3.add(lblInfoP3Riichi);
 		
 		
@@ -1459,7 +1491,7 @@ public class WorldViewer extends JFrame {
 		JLabel lblInfoP4Wind = new JLabel("");
 		lblInfoP4Wind.setBounds(16, 2, 23, 23);
 		lblInfoP4Wind.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInfoP4Wind.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transNs.gif"));
+		lblInfoP4Wind.setIcon(wind4Img);
 		panelInfoP4.add(lblInfoP4Wind);
 		
 		JLabel lblInfoP4Points = new JLabel("128,000");
@@ -1471,7 +1503,7 @@ public class WorldViewer extends JFrame {
 		JLabel lblInfoP4Riichi = new JLabel("");
 		lblInfoP4Riichi.setBounds(2, 40, 50, 8);
 		lblInfoP4Riichi.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInfoP4Riichi.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\riichiStick.gif"));
+		lblInfoP4Riichi.setIcon(riichiImg);
 		panelInfoP4.add(lblInfoP4Riichi);
 		
 		//exists only to color the background behind the round info

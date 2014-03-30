@@ -2484,11 +2484,10 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-		
 		JButton btnToggleOnOff = new JButton("Toggle OnOff");
 		btnToggleOnOff.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ImageIcon toggleIcon = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\5.gif");
+				ImageIcon toggleIcon = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\5.png");
 				toggle = !toggle;
 				for (JLabel l: Tilelabels){
 					if (toggle) l.setIcon(toggleIcon);
@@ -2499,6 +2498,21 @@ public class WorldViewer extends JFrame {
 		});
 		btnToggleOnOff.setBounds(27, 559, 215, 35);
 		panelSidebar.add(btnToggleOnOff);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
+		lblNewLabel.setBounds(52, 403, 30, 41);
+		panelSidebar.add(lblNewLabel);
+		
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
+		label.setBounds(82, 403, 30, 41);
+		panelSidebar.add(label);
+		
+		JLabel label_1 = new JLabel("");
+		label_1.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
+		label_1.setBounds(112, 403, 30, 41);
+		panelSidebar.add(label_1);
 		
 		
 		

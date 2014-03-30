@@ -74,788 +74,6 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-		ImageIcon hImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.gif");
-		
-		JPanel panelH1 = new JPanel();
-		panelH1.setBounds(306, 753, 506, 46);
-		contentPane.add(panelH1);
-		panelH1.setLayout(null);
-		
-		JLabel lblH1T1 = new JLabel("");
-		lblH1T1.setBounds(0, 0, 36, 46);
-		lblH1T1.setIcon(hImg);
-		panelH1.add(lblH1T1);
-		
-		JLabel lblH1T2 = new JLabel("");
-		lblH1T2.setBounds(36, 0, 36, 46);
-		lblH1T2.setIcon(hImg);
-		panelH1.add(lblH1T2);
-		
-		JLabel lblH1T3 = new JLabel("");
-		lblH1T3.setBounds(72, 0, 36, 46);
-		lblH1T3.setIcon(hImg);
-		panelH1.add(lblH1T3);
-		
-		JLabel lblH1T4 = new JLabel("");
-		lblH1T4.setBounds(108, 0, 36, 46);
-		lblH1T4.setIcon(hImg);
-		panelH1.add(lblH1T4);
-		
-		JLabel lblH1T5 = new JLabel("");
-		lblH1T5.setBounds(144, 0, 36, 46);
-		lblH1T5.setIcon(hImg);
-		panelH1.add(lblH1T5);
-		
-		JLabel lblH1T6 = new JLabel("");
-		lblH1T6.setBounds(180, 0, 36, 46);
-		lblH1T6.setIcon(hImg);
-		panelH1.add(lblH1T6);
-		
-		JLabel lblH1T7 = new JLabel("");
-		lblH1T7.setBounds(216, 0, 36, 46);
-		lblH1T7.setIcon(hImg);
-		panelH1.add(lblH1T7);
-		
-		JLabel lblH1T8 = new JLabel("");
-		lblH1T8.setBounds(252, 0, 36, 46);
-		lblH1T8.setIcon(hImg);
-		panelH1.add(lblH1T8);
-		
-		JLabel lblH1T9 = new JLabel("");
-		lblH1T9.setBounds(288, 0, 36, 46);
-		lblH1T9.setIcon(hImg);
-		panelH1.add(lblH1T9);
-		
-		JLabel lblH1T10 = new JLabel("");
-		lblH1T10.setBounds(324, 0, 36, 46);
-		lblH1T10.setIcon(hImg);
-		panelH1.add(lblH1T10);
-		
-		JLabel lblH1T11 = new JLabel("");
-		lblH1T11.setBounds(360, 0, 36, 46);
-		lblH1T11.setIcon(hImg);
-		panelH1.add(lblH1T11);
-		
-		JLabel lblH1T12 = new JLabel("");
-		lblH1T12.setBounds(396, 0, 36, 46);
-		lblH1T12.setIcon(hImg);
-		panelH1.add(lblH1T12);
-		
-		JLabel lblH1T13 = new JLabel("");
-		lblH1T13.setBounds(432, 0, 36, 46);
-		lblH1T13.setIcon(hImg);
-		panelH1.add(lblH1T13);
-		
-		JLabel lblH1T14 = new JLabel("");
-		lblH1T14.setBounds(468, 0, 36, 46);
-		lblH1T14.setIcon(hImg);
-		panelH1.add(lblH1T14);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		ImageIcon h2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\1.gif");
-		ImageIcon h3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\1.gif");
-		ImageIcon h4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\1.gif");
-		
-		JPanel panelH2 = new JPanel();
-		panelH2.setBounds(927, 180, 46, 506);
-		contentPane.add(panelH2);
-		panelH2.setLayout(null);
-		
-		
-		JLabel lblH2T1 = new JLabel("");
-		lblH2T1.setBounds(0, 468, 46, 36);
-		lblH2T1.setIcon(h2Img);
-		panelH2.add(lblH2T1);
-		
-		JLabel lblH2T2 = new JLabel("");
-		lblH2T2.setBounds(0, 432, 46, 36);
-		lblH2T2.setIcon(h2Img);
-		panelH2.add(lblH2T2);
-		
-		JLabel lblH2T3 = new JLabel("");
-		lblH2T3.setBounds(0, 396, 46, 36);
-		lblH2T3.setIcon(h2Img);
-		panelH2.add(lblH2T3);
-		
-		JLabel lblH2T4 = new JLabel("");
-		lblH2T4.setBounds(0, 360, 46, 36);
-		lblH2T4.setIcon(h2Img);
-		panelH2.add(lblH2T4);
-		
-		JLabel lblH2T5 = new JLabel("");
-		lblH2T5.setBounds(0, 324, 46, 36);
-		lblH2T5.setIcon(h2Img);
-		panelH2.add(lblH2T5);
-		
-		JLabel lblH2T6 = new JLabel("");
-		lblH2T6.setBounds(0, 288, 46, 36);
-		lblH2T6.setIcon(h2Img);
-		panelH2.add(lblH2T6);
-		
-		JLabel lblH2T7 = new JLabel("");
-		lblH2T7.setBounds(0, 252, 46, 36);
-		lblH2T7.setIcon(h2Img);
-		panelH2.add(lblH2T7);
-		
-		JLabel lblH2T8 = new JLabel("");
-		lblH2T8.setBounds(0, 216, 46, 36);
-		lblH2T8.setIcon(h2Img);
-		panelH2.add(lblH2T8);
-		
-		JLabel lblH2T9 = new JLabel("");
-		lblH2T9.setBounds(0, 180, 46, 36);
-		lblH2T9.setIcon(h2Img);
-		panelH2.add(lblH2T9);
-		
-		JLabel lblH2T10 = new JLabel("");
-		lblH2T10.setBounds(0, 144, 46, 36);
-		lblH2T10.setIcon(h2Img);
-		panelH2.add(lblH2T10);
-		
-		JLabel lblH2T11 = new JLabel("");
-		lblH2T11.setBounds(0, 108, 46, 36);
-		lblH2T11.setIcon(h2Img);
-		panelH2.add(lblH2T11);
-		
-		JLabel lblH2T12 = new JLabel("");
-		lblH2T12.setBounds(0, 72, 46, 36);
-		lblH2T12.setIcon(h2Img);
-		panelH2.add(lblH2T12);
-		
-		JLabel lblH2T13 = new JLabel("");
-		lblH2T13.setBounds(0, 36, 46, 36);
-		lblH2T13.setIcon(h2Img);
-		panelH2.add(lblH2T13);
-		
-		JLabel lblH2T14 = new JLabel("");
-		lblH2T14.setBounds(0, 0, 46, 36);
-		lblH2T14.setIcon(h2Img);
-		panelH2.add(lblH2T14);
-		
-		
-		
-		
-		
-		JPanel panelH3 = new JPanel();
-		panelH3.setBounds(306, 48, 506, 46);
-		contentPane.add(panelH3);
-		panelH3.setLayout(null);
-		
-		JLabel lblH3T1 = new JLabel("");
-		lblH3T1.setBounds(468, 0, 36, 46);
-		lblH3T1.setIcon(h3Img);
-		panelH3.add(lblH3T1);
-		
-		JLabel lblH3T2 = new JLabel("");
-		lblH3T2.setBounds(432, 0, 36, 46);
-		lblH3T2.setIcon(h3Img);
-		panelH3.add(lblH3T2);
-		
-		JLabel lblH3T3 = new JLabel("");
-		lblH3T3.setBounds(396, 0, 36, 46);
-		lblH3T3.setIcon(h3Img);
-		panelH3.add(lblH3T3);
-		
-		JLabel lblH3T4 = new JLabel("");
-		lblH3T4.setBounds(360, 0, 36, 46);
-		lblH3T4.setIcon(h3Img);
-		panelH3.add(lblH3T4);
-		
-		JLabel lblH3T5 = new JLabel("");
-		lblH3T5.setBounds(324, 0, 36, 46);
-		lblH3T5.setIcon(h3Img);
-		panelH3.add(lblH3T5);
-		
-		JLabel lblH3T6 = new JLabel("");
-		lblH3T6.setBounds(288, 0, 36, 46);
-		lblH3T6.setIcon(h3Img);
-		panelH3.add(lblH3T6);
-		
-		JLabel lblH3T7 = new JLabel("");
-		lblH3T7.setBounds(252, 0, 36, 46);
-		lblH3T7.setIcon(h3Img);
-		panelH3.add(lblH3T7);
-		
-		JLabel lblH3T8 = new JLabel("");
-		lblH3T8.setBounds(216, 0, 36, 46);
-		lblH3T8.setIcon(h3Img);
-		panelH3.add(lblH3T8);
-		
-		JLabel lblH3T9 = new JLabel("");
-		lblH3T9.setBounds(180, 0, 36, 46);
-		lblH3T9.setIcon(h3Img);
-		panelH3.add(lblH3T9);
-		
-		JLabel lblH3T10 = new JLabel("");
-		lblH3T10.setBounds(144, 0, 36, 46);
-		lblH3T10.setIcon(h3Img);
-		panelH3.add(lblH3T10);
-		
-		JLabel lblH3T11 = new JLabel("");
-		lblH3T11.setBounds(108, 0, 36, 46);
-		lblH3T11.setIcon(h3Img);
-		panelH3.add(lblH3T11);
-		
-		JLabel lblH3T12 = new JLabel("");
-		lblH3T12.setBounds(72, 0, 36, 46);
-		lblH3T12.setIcon(h3Img);
-		panelH3.add(lblH3T12);
-		
-		JLabel lblH3T13 = new JLabel("");
-		lblH3T13.setBounds(36, 0, 36, 46);
-		lblH3T13.setIcon(h3Img);
-		panelH3.add(lblH3T13);
-		
-		JLabel lblH3T14 = new JLabel("");
-		lblH3T14.setBounds(0, 0, 36, 46);
-		lblH3T14.setIcon(h3Img);
-		panelH3.add(lblH3T14);
-		
-		
-		
-		
-		
-		
-		
-		JPanel panelH4 = new JPanel();
-		panelH4.setBounds(51, 126, 46, 506);
-		contentPane.add(panelH4);
-		panelH4.setLayout(null);
-		
-		JLabel lblH4T1 = new JLabel("");
-		lblH4T1.setBounds(0, 0, 46, 36);
-		lblH4T1.setIcon(h4Img);
-		panelH4.add(lblH4T1);
-		
-		JLabel lblH4T2 = new JLabel("");
-		lblH4T2.setBounds(0, 36, 46, 36);
-		lblH4T2.setIcon(h4Img);
-		panelH4.add(lblH4T2);
-		
-		JLabel lblH4T3 = new JLabel("");
-		lblH4T3.setBounds(0, 72, 46, 36);
-		lblH4T3.setIcon(h4Img);
-		panelH4.add(lblH4T3);
-		
-		JLabel lblH4T4 = new JLabel("");
-		lblH4T4.setBounds(0, 108, 46, 36);
-		lblH4T4.setIcon(h4Img);
-		panelH4.add(lblH4T4);
-		
-		JLabel lblH4T5 = new JLabel("");
-		lblH4T5.setBounds(0, 144, 46, 36);
-		lblH4T5.setIcon(h4Img);
-		panelH4.add(lblH4T5);
-		
-		JLabel lblH4T6 = new JLabel("");
-		lblH4T6.setBounds(0, 180, 46, 36);
-		lblH4T6.setIcon(h4Img);
-		panelH4.add(lblH4T6);
-		
-		JLabel lblH4T7 = new JLabel("");
-		lblH4T7.setBounds(0, 216, 46, 36);
-		lblH4T7.setIcon(h4Img);
-		panelH4.add(lblH4T7);
-		
-		JLabel lblH4T8 = new JLabel("");
-		lblH4T8.setBounds(0, 252, 46, 36);
-		lblH4T8.setIcon(h4Img);
-		panelH4.add(lblH4T8);
-		
-		JLabel lblH4T9 = new JLabel("");
-		lblH4T9.setBounds(0, 288, 46, 36);
-		lblH4T9.setIcon(h4Img);
-		panelH4.add(lblH4T9);
-		
-		JLabel lblH4T10 = new JLabel("");
-		lblH4T10.setBounds(0, 324, 46, 36);
-		lblH4T10.setIcon(h4Img);
-		panelH4.add(lblH4T10);
-		
-		JLabel lblH4T11 = new JLabel("");
-		lblH4T11.setBounds(0, 360, 46, 36);
-		lblH4T11.setIcon(h4Img);
-		panelH4.add(lblH4T11);
-		
-		JLabel lblH4T12 = new JLabel("");
-		lblH4T12.setBounds(0, 396, 46, 36);
-		lblH4T12.setIcon(h4Img);
-		panelH4.add(lblH4T12);
-		
-		JLabel lblH4T13 = new JLabel("");
-		lblH4T13.setBounds(0, 432, 46, 36);
-		lblH4T13.setIcon(h4Img);
-		panelH4.add(lblH4T13);
-		
-		JLabel lblH4T14 = new JLabel("");
-		lblH4T14.setBounds(0, 468, 46, 36);
-		lblH4T14.setIcon(h4Img);
-		panelH4.add(lblH4T14);
-		
-		
-		
-		
-		
-		
-		
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
-		ImageIcon meldImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\34.gif");
-		
-		
-		JPanel panelH1Ms = new JPanel();
-		panelH1Ms.setBounds(498, 800, 474, 35);
-		contentPane.add(panelH1Ms);
-		panelH1Ms.setLayout(null);
-		
-		
-		
-		
-		JPanel panelH1M4 = new JPanel();
-		panelH1M4.setBounds(0, 0, 114, 35);
-		panelH1M4.setLayout(new GridLayout(1, 4, 0, 0));
-		
-		JLabel lblH1M4T1 = new JLabel("");
-		panelH1M4.add(lblH1M4T1);
-		lblH1M4T1.setIcon(meldImg);
-		
-		JLabel lblH1M4T2 = new JLabel("");
-		panelH1M4.add(lblH1M4T2);
-		lblH1M4T2.setIcon(meldImg);
-		
-		JLabel lblH1M4T3 = new JLabel("");
-		panelH1M4.add(lblH1M4T3);
-		lblH1M4T3.setIcon(meldImg);
-		
-		JLabel lblH1M4T4 = new JLabel("");
-		panelH1M4.add(lblH1M4T4);
-		lblH1M4T4.setIcon(meldImg);
-		panelH1Ms.add(panelH1M4);
-		
-		
-		
-		JPanel panelH1M3 = new JPanel();
-		panelH1M3.setBounds(120, 0, 114, 35);
-		panelH1Ms.add(panelH1M3);
-		panelH1M3.setLayout(new GridLayout(1, 4, 0, 0));
-		
-		JLabel lblH1M3T1 = new JLabel("");
-		panelH1M3.add(lblH1M3T1);
-		lblH1M3T1.setIcon(meldImg);
-		
-		JLabel lblH1M3T2 = new JLabel("");
-		panelH1M3.add(lblH1M3T2);
-		lblH1M3T2.setIcon(meldImg);
-		
-		JLabel lblH1M3T3 = new JLabel("");
-		panelH1M3.add(lblH1M3T3);
-		lblH1M3T3.setIcon(meldImg);
-		
-		JLabel lblH1M3T4 = new JLabel("");
-		panelH1M3.add(lblH1M3T4);
-		lblH1M3T4.setIcon(meldImg);
-		
-		
-		
-		JPanel panelH1M2 = new JPanel();
-		panelH1M2.setBounds(240, 0, 114, 35);
-		panelH1Ms.add(panelH1M2);
-		panelH1M2.setLayout(new GridLayout(1, 4, 0, 0));
-		
-		JLabel lblH1M2T1 = new JLabel("");
-		panelH1M2.add(lblH1M2T1);
-		lblH1M2T1.setIcon(meldImg);
-		
-		JLabel lblH1M2T2 = new JLabel("");
-		panelH1M2.add(lblH1M2T2);
-		lblH1M2T2.setIcon(meldImg);
-		
-		JLabel lblH1M2T3 = new JLabel("");
-		panelH1M2.add(lblH1M2T3);
-		lblH1M2T3.setIcon(meldImg);
-		
-		JLabel lblH1M2T4 = new JLabel("");
-		panelH1M2.add(lblH1M2T4);
-		lblH1M2T4.setIcon(meldImg);
-		
-		
-		JPanel panelH1M1 = new JPanel();
-		panelH1M1.setBounds(360, 0, 114, 35);
-		panelH1Ms.add(panelH1M1);
-		panelH1M1.setLayout(new GridLayout(1, 4, 0, 0));
-		
-		
-		JLabel lblH1M1T1 = new JLabel("");
-		panelH1M1.add(lblH1M1T1);
-		lblH1M1T1.setIcon(meldImg);
-		
-		JLabel lblH1M1T2 = new JLabel("");
-		panelH1M1.add(lblH1M1T2);
-		lblH1M1T2.setIcon(meldImg);
-		
-		JLabel lblH1M1T3 = new JLabel("");
-		panelH1M1.add(lblH1M1T3);
-		lblH1M1T3.setIcon(meldImg);
-		
-		JLabel lblH1M1T4 = new JLabel("");
-		panelH1M1.add(lblH1M1T4);
-		lblH1M1T4.setIcon(meldImg);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		ImageIcon meld2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\34.gif");
-		
-		
-		JPanel panelH2Ms = new JPanel();
-		panelH2Ms.setBounds(973, 19, 35, 474);
-		contentPane.add(panelH2Ms);
-		panelH2Ms.setLayout(null);
-		
-		
-		JPanel panelH2M1 = new JPanel();
-		panelH2M1.setBounds(0, 0, 35, 114);
-		panelH2Ms.add(panelH2M1);
-		panelH2M1.setLayout(new GridLayout(4, 1, 0, 0));
-		
-		JLabel lblH2M1T4 = new JLabel("");
-		panelH2M1.add(lblH2M1T4);
-		lblH2M1T4.setIcon(meld2Img);
-		
-		JLabel lblH2M1T3 = new JLabel("");
-		panelH2M1.add(lblH2M1T3);
-		lblH2M1T3.setIcon(meld2Img);
-		
-		JLabel lblH2M1T2 = new JLabel("");
-		panelH2M1.add(lblH2M1T2);
-		lblH2M1T2.setIcon(meld2Img);
-		
-		
-		JLabel lblH2M1T1 = new JLabel("");
-		panelH2M1.add(lblH2M1T1);
-		lblH2M1T1.setIcon(meld2Img);
-		
-		
-		
-		
-		JPanel panelH2M4 = new JPanel();
-		panelH2M4.setBounds(0, 360, 35, 114);
-		panelH2M4.setLayout(new GridLayout(4, 1, 0, 0));
-		
-		JLabel lblH2M4T4 = new JLabel("");
-		panelH2M4.add(lblH2M4T4);
-		lblH2M4T4.setIcon(meld2Img);
-		
-		JLabel lblH2M4T3 = new JLabel("");
-		panelH2M4.add(lblH2M4T3);
-		lblH2M4T3.setIcon(meld2Img);
-		
-		JLabel lblH2M4T2 = new JLabel("");
-		panelH2M4.add(lblH2M4T2);
-		lblH2M4T2.setIcon(meld2Img);
-		
-		
-		
-		JPanel panelH2M2 = new JPanel();
-		panelH2M2.setBounds(0, 120, 35, 114);
-		panelH2Ms.add(panelH2M2);
-		panelH2M2.setLayout(new GridLayout(4, 1, 0, 0));
-		
-		JLabel lblH2M2T4 = new JLabel("");
-		panelH2M2.add(lblH2M2T4);
-		lblH2M2T4.setIcon(meld2Img);
-		
-		JLabel lblH2M2T3 = new JLabel("");
-		panelH2M2.add(lblH2M2T3);
-		lblH2M2T3.setIcon(meld2Img);
-		
-		JLabel lblH2M2T2 = new JLabel("");
-		panelH2M2.add(lblH2M2T2);
-		lblH2M2T2.setIcon(meld2Img);
-		
-		JLabel lblH2M2T1 = new JLabel("");
-		panelH2M2.add(lblH2M2T1);
-		lblH2M2T1.setIcon(meld2Img);
-		
-		
-		
-		
-		JPanel panelH2M3 = new JPanel();
-		panelH2M3.setBounds(0, 240, 35, 114);
-		panelH2Ms.add(panelH2M3);
-		panelH2M3.setLayout(new GridLayout(4, 1, 0, 0));
-		
-		JLabel lblH2M3T4 = new JLabel("");
-		panelH2M3.add(lblH2M3T4);
-		lblH2M3T4.setIcon(meld2Img);
-		
-		JLabel lblH2M3T3 = new JLabel("");
-		panelH2M3.add(lblH2M3T3);
-		lblH2M3T3.setIcon(meld2Img);
-		
-		JLabel lblH2M3T2 = new JLabel("");
-		panelH2M3.add(lblH2M3T2);
-		lblH2M3T2.setIcon(meld2Img);
-		
-		JLabel lblH2M3T1 = new JLabel("");
-		panelH2M3.add(lblH2M3T1);
-		lblH2M3T1.setIcon(meld2Img);
-		panelH2Ms.add(panelH2M4);
-		
-		JLabel lblH2M4T1 = new JLabel("");
-		panelH2M4.add(lblH2M4T1);
-		lblH2M4T1.setIcon(meld2Img);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		ImageIcon meld3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\34.gif");
-		
-		
-		JPanel panelH3Ms = new JPanel();
-		panelH3Ms.setBounds(144, 12, 474, 35);
-		contentPane.add(panelH3Ms);
-		panelH3Ms.setLayout(null);
-		
-		
-		JPanel panelH3M1 = new JPanel();
-		panelH3M1.setBounds(0, 0, 114, 35);
-		panelH3Ms.add(panelH3M1);
-		panelH3M1.setLayout(new GridLayout(1, 4, 0, 0));
-		
-		JLabel lblH3M1T4 = new JLabel("");
-		panelH3M1.add(lblH3M1T4);
-		lblH3M1T4.setIcon(meld3Img);
-		
-		JLabel lblH3M1T3 = new JLabel("");
-		panelH3M1.add(lblH3M1T3);
-		lblH3M1T3.setIcon(meld3Img);
-		
-		JLabel lblH3M1T2 = new JLabel("");
-		panelH3M1.add(lblH3M1T2);
-		lblH3M1T2.setIcon(meld3Img);
-		
-		
-		JLabel lblH3M1T1 = new JLabel("");
-		panelH3M1.add(lblH3M1T1);
-		lblH3M1T1.setIcon(meld3Img);
-		
-		
-		
-		
-		JPanel panelH3M4 = new JPanel();
-		panelH3M4.setBounds(360, 0, 114, 35);
-		panelH3M4.setLayout(new GridLayout(1, 4, 0, 0));
-		
-		JLabel lblH3M4T4 = new JLabel("");
-		panelH3M4.add(lblH3M4T4);
-		lblH3M4T4.setIcon(meld3Img);
-		
-		JLabel lblH3M4T3 = new JLabel("");
-		panelH3M4.add(lblH3M4T3);
-		lblH3M4T3.setIcon(meld3Img);
-		
-		JLabel lblH3M4T2 = new JLabel("");
-		panelH3M4.add(lblH3M4T2);
-		lblH3M4T2.setIcon(meld3Img);
-		
-		
-		
-		JPanel panelH3M2 = new JPanel();
-		panelH3M2.setBounds(120, 0, 114, 35);
-		panelH3Ms.add(panelH3M2);
-		panelH3M2.setLayout(new GridLayout(1, 4, 0, 0));
-		
-		JLabel lblH3M2T4 = new JLabel("");
-		panelH3M2.add(lblH3M2T4);
-		lblH3M2T4.setIcon(meld3Img);
-		
-		JLabel lblH3M2T3 = new JLabel("");
-		panelH3M2.add(lblH3M2T3);
-		lblH3M2T3.setIcon(meld3Img);
-		
-		JLabel lblH3M2T2 = new JLabel("");
-		panelH3M2.add(lblH3M2T2);
-		lblH3M2T2.setIcon(meld3Img);
-		
-		JLabel lblH3M2T1 = new JLabel("");
-		panelH3M2.add(lblH3M2T1);
-		lblH3M2T1.setIcon(meld3Img);
-		
-		
-		
-		
-		JPanel panelH3M3 = new JPanel();
-		panelH3M3.setBounds(240, 0, 114, 35);
-		panelH3Ms.add(panelH3M3);
-		panelH3M3.setLayout(new GridLayout(1, 4, 0, 0));
-		
-		JLabel lblH3M3T4 = new JLabel("");
-		panelH3M3.add(lblH3M3T4);
-		lblH3M3T4.setIcon(meld3Img);
-		
-		JLabel lblH3M3T3 = new JLabel("");
-		panelH3M3.add(lblH3M3T3);
-		lblH3M3T3.setIcon(meld3Img);
-		
-		JLabel lblH3M3T2 = new JLabel("");
-		panelH3M3.add(lblH3M3T2);
-		lblH3M3T2.setIcon(meld3Img);
-		
-		JLabel lblH3M3T1 = new JLabel("");
-		panelH3M3.add(lblH3M3T1);
-		lblH3M3T1.setIcon(meld3Img);
-		panelH3Ms.add(panelH3M4);
-		
-		JLabel lblH3M4T1 = new JLabel("");
-		panelH3M4.add(lblH3M4T1);
-		lblH3M4T1.setIcon(meld3Img);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		ImageIcon meld4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\34.gif");
-		
-		
-		JPanel panelH4Ms = new JPanel();
-		panelH4Ms.setBounds(15, 318, 35, 474);
-		contentPane.add(panelH4Ms);
-		panelH4Ms.setLayout(null);
-		
-		
-		JPanel panelH4M1 = new JPanel();
-		panelH4M1.setBounds(0, 360, 35, 114);
-		panelH4Ms.add(panelH4M1);
-		panelH4M1.setLayout(new GridLayout(4, 1, 0, 0));
-		
-		
-		JLabel lblH4M1T1 = new JLabel("");
-		panelH4M1.add(lblH4M1T1);
-		lblH4M1T1.setIcon(meld4Img);
-		
-		JLabel lblH4M1T2 = new JLabel("");
-		panelH4M1.add(lblH4M1T2);
-		lblH4M1T2.setIcon(meld4Img);
-		
-		JLabel lblH4M1T3 = new JLabel("");
-		panelH4M1.add(lblH4M1T3);
-		lblH4M1T3.setIcon(meld4Img);
-		
-		JLabel lblH4M1T4 = new JLabel("");
-		panelH4M1.add(lblH4M1T4);
-		lblH4M1T4.setIcon(meld4Img);
-		
-		
-		
-		
-		JPanel panelH4M4 = new JPanel();
-		panelH4M4.setBounds(0, 0, 35, 114);
-		panelH4M4.setLayout(new GridLayout(4, 1, 0, 0));
-		
-		
-		
-		JPanel panelH4M2 = new JPanel();
-		panelH4M2.setBounds(0, 240, 35, 114);
-		panelH4Ms.add(panelH4M2);
-		panelH4M2.setLayout(new GridLayout(4, 1, 0, 0));
-		
-		JLabel lblH4M2T1 = new JLabel("");
-		panelH4M2.add(lblH4M2T1);
-		lblH4M2T1.setIcon(meld4Img);
-		
-		JLabel lblH4M2T2 = new JLabel("");
-		panelH4M2.add(lblH4M2T2);
-		lblH4M2T2.setIcon(meld4Img);
-		
-		JLabel lblH4M2T3 = new JLabel("");
-		panelH4M2.add(lblH4M2T3);
-		lblH4M2T3.setIcon(meld4Img);
-		
-		JLabel lblH4M2T4 = new JLabel("");
-		panelH4M2.add(lblH4M2T4);
-		lblH4M2T4.setIcon(meld4Img);
-		
-		
-		
-		
-		JPanel panelH4M3 = new JPanel();
-		panelH4M3.setBounds(0, 120, 35, 114);
-		panelH4Ms.add(panelH4M3);
-		panelH4M3.setLayout(new GridLayout(4, 1, 0, 0));
-		
-		JLabel lblH4M3T1 = new JLabel("");
-		panelH4M3.add(lblH4M3T1);
-		lblH4M3T1.setIcon(meld4Img);
-		
-		JLabel lblH4M3T2 = new JLabel("");
-		panelH4M3.add(lblH4M3T2);
-		lblH4M3T2.setIcon(meld4Img);
-		
-		JLabel lblH4M3T3 = new JLabel("");
-		panelH4M3.add(lblH4M3T3);
-		lblH4M3T3.setIcon(meld4Img);
-		
-		JLabel lblH4M3T4 = new JLabel("");
-		panelH4M3.add(lblH4M3T4);
-		lblH4M3T4.setIcon(meld4Img);
-		panelH4Ms.add(panelH4M4);
-		
-		JLabel lblH4M4T1 = new JLabel("");
-		panelH4M4.add(lblH4M4T1);
-		lblH4M4T1.setIcon(meld4Img);
-		
-		JLabel lblH4M4T2 = new JLabel("");
-		panelH4M4.add(lblH4M4T2);
-		lblH4M4T2.setIcon(meld4Img);
-		
-		JLabel lblH4M4T3 = new JLabel("");
-		panelH4M4.add(lblH4M4T3);
-		lblH4M4T3.setIcon(meld4Img);
-		
-		JLabel lblH4M4T4 = new JLabel("");
-		panelH4M4.add(lblH4M4T4);
-		lblH4M4T4.setIcon(meld4Img);
 		
 		
 		
@@ -2077,6 +1295,811 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		ImageIcon hImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.gif");
+		ImageIcon h2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\1.gif");
+		ImageIcon h3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\1.gif");
+		ImageIcon h4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\1.gif");
+		
+		
+
+		ImageIcon meldImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\34.gif");
+		ImageIcon meld2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\34.gif");
+		ImageIcon meld3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\34.gif");
+		ImageIcon meld4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\34.gif");
+		
+		
+		
+		
+		JPanel panelPlayer1 = new JPanel();
+		panelPlayer1.setBounds(237, 752, 667, 82);
+		contentPane.add(panelPlayer1);
+		panelPlayer1.setLayout(null);
+		
+		JPanel panelH1 = new JPanel();
+		panelH1.setBounds(0, 0, 506, 46);
+		panelPlayer1.add(panelH1);
+		panelH1.setLayout(null);
+		
+		JLabel lblH1T1 = new JLabel("");
+		lblH1T1.setBounds(0, 0, 36, 46);
+		lblH1T1.setIcon(hImg);
+		panelH1.add(lblH1T1);
+		
+		JLabel lblH1T2 = new JLabel("");
+		lblH1T2.setBounds(36, 0, 36, 46);
+		lblH1T2.setIcon(hImg);
+		panelH1.add(lblH1T2);
+		
+		JLabel lblH1T3 = new JLabel("");
+		lblH1T3.setBounds(72, 0, 36, 46);
+		lblH1T3.setIcon(hImg);
+		panelH1.add(lblH1T3);
+		
+		JLabel lblH1T4 = new JLabel("");
+		lblH1T4.setBounds(108, 0, 36, 46);
+		lblH1T4.setIcon(hImg);
+		panelH1.add(lblH1T4);
+		
+		JLabel lblH1T5 = new JLabel("");
+		lblH1T5.setBounds(144, 0, 36, 46);
+		lblH1T5.setIcon(hImg);
+		panelH1.add(lblH1T5);
+		
+		JLabel lblH1T6 = new JLabel("");
+		lblH1T6.setBounds(180, 0, 36, 46);
+		lblH1T6.setIcon(hImg);
+		panelH1.add(lblH1T6);
+		
+		JLabel lblH1T7 = new JLabel("");
+		lblH1T7.setBounds(216, 0, 36, 46);
+		lblH1T7.setIcon(hImg);
+		panelH1.add(lblH1T7);
+		
+		JLabel lblH1T8 = new JLabel("");
+		lblH1T8.setBounds(252, 0, 36, 46);
+		lblH1T8.setIcon(hImg);
+		panelH1.add(lblH1T8);
+		
+		JLabel lblH1T9 = new JLabel("");
+		lblH1T9.setBounds(288, 0, 36, 46);
+		lblH1T9.setIcon(hImg);
+		panelH1.add(lblH1T9);
+		
+		JLabel lblH1T10 = new JLabel("");
+		lblH1T10.setBounds(324, 0, 36, 46);
+		lblH1T10.setIcon(hImg);
+		panelH1.add(lblH1T10);
+		
+		JLabel lblH1T11 = new JLabel("");
+		lblH1T11.setBounds(360, 0, 36, 46);
+		lblH1T11.setIcon(hImg);
+		panelH1.add(lblH1T11);
+		
+		JLabel lblH1T12 = new JLabel("");
+		lblH1T12.setBounds(396, 0, 36, 46);
+		lblH1T12.setIcon(hImg);
+		panelH1.add(lblH1T12);
+		
+		JLabel lblH1T13 = new JLabel("");
+		lblH1T13.setBounds(432, 0, 36, 46);
+		lblH1T13.setIcon(hImg);
+		panelH1.add(lblH1T13);
+		
+		JLabel lblH1T14 = new JLabel("");
+		lblH1T14.setBounds(468, 0, 36, 46);
+		lblH1T14.setIcon(hImg);
+		panelH1.add(lblH1T14);
+		
+		
+		
+		
+		
+		
+		JPanel panelH1Ms = new JPanel();
+		panelH1Ms.setBounds(192, 47, 474, 35);
+		panelPlayer1.add(panelH1Ms);
+		panelH1Ms.setLayout(null);
+		
+		
+		
+		
+		JPanel panelH1M4 = new JPanel();
+		panelH1M4.setBounds(0, 0, 114, 35);
+		panelH1M4.setLayout(new GridLayout(1, 4, 0, 0));
+		
+		JLabel lblH1M4T1 = new JLabel("");
+		panelH1M4.add(lblH1M4T1);
+		lblH1M4T1.setIcon(meldImg);
+		
+		JLabel lblH1M4T2 = new JLabel("");
+		panelH1M4.add(lblH1M4T2);
+		lblH1M4T2.setIcon(meldImg);
+		
+		JLabel lblH1M4T3 = new JLabel("");
+		panelH1M4.add(lblH1M4T3);
+		lblH1M4T3.setIcon(meldImg);
+		
+		JLabel lblH1M4T4 = new JLabel("");
+		panelH1M4.add(lblH1M4T4);
+		lblH1M4T4.setIcon(meldImg);
+		panelH1Ms.add(panelH1M4);
+		
+		
+		
+		JPanel panelH1M3 = new JPanel();
+		panelH1M3.setBounds(120, 0, 114, 35);
+		panelH1Ms.add(panelH1M3);
+		panelH1M3.setLayout(new GridLayout(1, 4, 0, 0));
+		
+		JLabel lblH1M3T1 = new JLabel("");
+		panelH1M3.add(lblH1M3T1);
+		lblH1M3T1.setIcon(meldImg);
+		
+		JLabel lblH1M3T2 = new JLabel("");
+		panelH1M3.add(lblH1M3T2);
+		lblH1M3T2.setIcon(meldImg);
+		
+		JLabel lblH1M3T3 = new JLabel("");
+		panelH1M3.add(lblH1M3T3);
+		lblH1M3T3.setIcon(meldImg);
+		
+		JLabel lblH1M3T4 = new JLabel("");
+		panelH1M3.add(lblH1M3T4);
+		lblH1M3T4.setIcon(meldImg);
+		
+		
+		
+		JPanel panelH1M2 = new JPanel();
+		panelH1M2.setBounds(240, 0, 114, 35);
+		panelH1Ms.add(panelH1M2);
+		panelH1M2.setLayout(new GridLayout(1, 4, 0, 0));
+		
+		JLabel lblH1M2T1 = new JLabel("");
+		panelH1M2.add(lblH1M2T1);
+		lblH1M2T1.setIcon(meldImg);
+		
+		JLabel lblH1M2T2 = new JLabel("");
+		panelH1M2.add(lblH1M2T2);
+		lblH1M2T2.setIcon(meldImg);
+		
+		JLabel lblH1M2T3 = new JLabel("");
+		panelH1M2.add(lblH1M2T3);
+		lblH1M2T3.setIcon(meldImg);
+		
+		JLabel lblH1M2T4 = new JLabel("");
+		panelH1M2.add(lblH1M2T4);
+		lblH1M2T4.setIcon(meldImg);
+		
+		
+		JPanel panelH1M1 = new JPanel();
+		panelH1M1.setBounds(360, 0, 114, 35);
+		panelH1Ms.add(panelH1M1);
+		panelH1M1.setLayout(new GridLayout(1, 4, 0, 0));
+		
+		
+		JLabel lblH1M1T1 = new JLabel("");
+		panelH1M1.add(lblH1M1T1);
+		lblH1M1T1.setIcon(meldImg);
+		
+		JLabel lblH1M1T2 = new JLabel("");
+		panelH1M1.add(lblH1M1T2);
+		lblH1M1T2.setIcon(meldImg);
+		
+		JLabel lblH1M1T3 = new JLabel("");
+		panelH1M1.add(lblH1M1T3);
+		lblH1M1T3.setIcon(meldImg);
+		
+		JLabel lblH1M1T4 = new JLabel("");
+		panelH1M1.add(lblH1M1T4);
+		lblH1M1T4.setIcon(meldImg);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		JPanel panelPlayer2 = new JPanel();
+		panelPlayer2.setBounds(894, 24, 82, 667);
+		contentPane.add(panelPlayer2);
+		panelPlayer2.setLayout(null);
+		
+		JPanel panelH2 = new JPanel();
+		panelH2.setBounds(0, 161, 46, 506);
+		panelPlayer2.add(panelH2);
+		panelH2.setLayout(null);
+		
+		
+		JLabel lblH2T1 = new JLabel("");
+		lblH2T1.setBounds(0, 468, 46, 36);
+		lblH2T1.setIcon(h2Img);
+		panelH2.add(lblH2T1);
+		
+		JLabel lblH2T2 = new JLabel("");
+		lblH2T2.setBounds(0, 432, 46, 36);
+		lblH2T2.setIcon(h2Img);
+		panelH2.add(lblH2T2);
+		
+		JLabel lblH2T3 = new JLabel("");
+		lblH2T3.setBounds(0, 396, 46, 36);
+		lblH2T3.setIcon(h2Img);
+		panelH2.add(lblH2T3);
+		
+		JLabel lblH2T4 = new JLabel("");
+		lblH2T4.setBounds(0, 360, 46, 36);
+		lblH2T4.setIcon(h2Img);
+		panelH2.add(lblH2T4);
+		
+		JLabel lblH2T5 = new JLabel("");
+		lblH2T5.setBounds(0, 324, 46, 36);
+		lblH2T5.setIcon(h2Img);
+		panelH2.add(lblH2T5);
+		
+		JLabel lblH2T6 = new JLabel("");
+		lblH2T6.setBounds(0, 288, 46, 36);
+		lblH2T6.setIcon(h2Img);
+		panelH2.add(lblH2T6);
+		
+		JLabel lblH2T7 = new JLabel("");
+		lblH2T7.setBounds(0, 252, 46, 36);
+		lblH2T7.setIcon(h2Img);
+		panelH2.add(lblH2T7);
+		
+		JLabel lblH2T8 = new JLabel("");
+		lblH2T8.setBounds(0, 216, 46, 36);
+		lblH2T8.setIcon(h2Img);
+		panelH2.add(lblH2T8);
+		
+		JLabel lblH2T9 = new JLabel("");
+		lblH2T9.setBounds(0, 180, 46, 36);
+		lblH2T9.setIcon(h2Img);
+		panelH2.add(lblH2T9);
+		
+		JLabel lblH2T10 = new JLabel("");
+		lblH2T10.setBounds(0, 144, 46, 36);
+		lblH2T10.setIcon(h2Img);
+		panelH2.add(lblH2T10);
+		
+		JLabel lblH2T11 = new JLabel("");
+		lblH2T11.setBounds(0, 108, 46, 36);
+		lblH2T11.setIcon(h2Img);
+		panelH2.add(lblH2T11);
+		
+		JLabel lblH2T12 = new JLabel("");
+		lblH2T12.setBounds(0, 72, 46, 36);
+		lblH2T12.setIcon(h2Img);
+		panelH2.add(lblH2T12);
+		
+		JLabel lblH2T13 = new JLabel("");
+		lblH2T13.setBounds(0, 36, 46, 36);
+		lblH2T13.setIcon(h2Img);
+		panelH2.add(lblH2T13);
+		
+		JLabel lblH2T14 = new JLabel("");
+		lblH2T14.setBounds(0, 0, 46, 36);
+		lblH2T14.setIcon(h2Img);
+		panelH2.add(lblH2T14);
+		
+		
+		JPanel panelH2Ms = new JPanel();
+		panelH2Ms.setBounds(46, 0, 35, 474);
+		panelPlayer2.add(panelH2Ms);
+		panelH2Ms.setLayout(null);
+		
+		
+		JPanel panelH2M1 = new JPanel();
+		panelH2M1.setBounds(0, 0, 35, 114);
+		panelH2Ms.add(panelH2M1);
+		panelH2M1.setLayout(new GridLayout(4, 1, 0, 0));
+		
+		JLabel lblH2M1T4 = new JLabel("");
+		panelH2M1.add(lblH2M1T4);
+		lblH2M1T4.setIcon(meld2Img);
+		
+		JLabel lblH2M1T3 = new JLabel("");
+		panelH2M1.add(lblH2M1T3);
+		lblH2M1T3.setIcon(meld2Img);
+		
+		JLabel lblH2M1T2 = new JLabel("");
+		panelH2M1.add(lblH2M1T2);
+		lblH2M1T2.setIcon(meld2Img);
+		
+		
+		JLabel lblH2M1T1 = new JLabel("");
+		panelH2M1.add(lblH2M1T1);
+		lblH2M1T1.setIcon(meld2Img);
+		
+		
+		
+		
+		JPanel panelH2M4 = new JPanel();
+		panelH2M4.setBounds(0, 360, 35, 114);
+		panelH2M4.setLayout(new GridLayout(4, 1, 0, 0));
+		
+		JLabel lblH2M4T4 = new JLabel("");
+		panelH2M4.add(lblH2M4T4);
+		lblH2M4T4.setIcon(meld2Img);
+		
+		JLabel lblH2M4T3 = new JLabel("");
+		panelH2M4.add(lblH2M4T3);
+		lblH2M4T3.setIcon(meld2Img);
+		
+		JLabel lblH2M4T2 = new JLabel("");
+		panelH2M4.add(lblH2M4T2);
+		lblH2M4T2.setIcon(meld2Img);
+		
+		
+		
+		JPanel panelH2M2 = new JPanel();
+		panelH2M2.setBounds(0, 120, 35, 114);
+		panelH2Ms.add(panelH2M2);
+		panelH2M2.setLayout(new GridLayout(4, 1, 0, 0));
+		
+		JLabel lblH2M2T4 = new JLabel("");
+		panelH2M2.add(lblH2M2T4);
+		lblH2M2T4.setIcon(meld2Img);
+		
+		JLabel lblH2M2T3 = new JLabel("");
+		panelH2M2.add(lblH2M2T3);
+		lblH2M2T3.setIcon(meld2Img);
+		
+		JLabel lblH2M2T2 = new JLabel("");
+		panelH2M2.add(lblH2M2T2);
+		lblH2M2T2.setIcon(meld2Img);
+		
+		JLabel lblH2M2T1 = new JLabel("");
+		panelH2M2.add(lblH2M2T1);
+		lblH2M2T1.setIcon(meld2Img);
+		
+		
+		
+		
+		JPanel panelH2M3 = new JPanel();
+		panelH2M3.setBounds(0, 240, 35, 114);
+		panelH2Ms.add(panelH2M3);
+		panelH2M3.setLayout(new GridLayout(4, 1, 0, 0));
+		
+		JLabel lblH2M3T4 = new JLabel("");
+		panelH2M3.add(lblH2M3T4);
+		lblH2M3T4.setIcon(meld2Img);
+		
+		JLabel lblH2M3T3 = new JLabel("");
+		panelH2M3.add(lblH2M3T3);
+		lblH2M3T3.setIcon(meld2Img);
+		
+		JLabel lblH2M3T2 = new JLabel("");
+		panelH2M3.add(lblH2M3T2);
+		lblH2M3T2.setIcon(meld2Img);
+		
+		JLabel lblH2M3T1 = new JLabel("");
+		panelH2M3.add(lblH2M3T1);
+		lblH2M3T1.setIcon(meld2Img);
+		panelH2Ms.add(panelH2M4);
+		
+		JLabel lblH2M4T1 = new JLabel("");
+		panelH2M4.add(lblH2M4T1);
+		lblH2M4T1.setIcon(meld2Img);
+		
+		
+		
+		
+		
+		
+		
+		
+		JPanel panelPlayer3 = new JPanel();
+		panelPlayer3.setBounds(64, 15, 667, 82);
+		contentPane.add(panelPlayer3);
+		panelPlayer3.setLayout(null);
+		
+		
+		
+		
+		
+		JPanel panelH3 = new JPanel();
+		panelH3.setBounds(161, 36, 506, 46);
+		panelPlayer3.add(panelH3);
+		panelH3.setLayout(null);
+		
+		JLabel lblH3T1 = new JLabel("");
+		lblH3T1.setBounds(468, 0, 36, 46);
+		lblH3T1.setIcon(h3Img);
+		panelH3.add(lblH3T1);
+		
+		JLabel lblH3T2 = new JLabel("");
+		lblH3T2.setBounds(432, 0, 36, 46);
+		lblH3T2.setIcon(h3Img);
+		panelH3.add(lblH3T2);
+		
+		JLabel lblH3T3 = new JLabel("");
+		lblH3T3.setBounds(396, 0, 36, 46);
+		lblH3T3.setIcon(h3Img);
+		panelH3.add(lblH3T3);
+		
+		JLabel lblH3T4 = new JLabel("");
+		lblH3T4.setBounds(360, 0, 36, 46);
+		lblH3T4.setIcon(h3Img);
+		panelH3.add(lblH3T4);
+		
+		JLabel lblH3T5 = new JLabel("");
+		lblH3T5.setBounds(324, 0, 36, 46);
+		lblH3T5.setIcon(h3Img);
+		panelH3.add(lblH3T5);
+		
+		JLabel lblH3T6 = new JLabel("");
+		lblH3T6.setBounds(288, 0, 36, 46);
+		lblH3T6.setIcon(h3Img);
+		panelH3.add(lblH3T6);
+		
+		JLabel lblH3T7 = new JLabel("");
+		lblH3T7.setBounds(252, 0, 36, 46);
+		lblH3T7.setIcon(h3Img);
+		panelH3.add(lblH3T7);
+		
+		JLabel lblH3T8 = new JLabel("");
+		lblH3T8.setBounds(216, 0, 36, 46);
+		lblH3T8.setIcon(h3Img);
+		panelH3.add(lblH3T8);
+		
+		JLabel lblH3T9 = new JLabel("");
+		lblH3T9.setBounds(180, 0, 36, 46);
+		lblH3T9.setIcon(h3Img);
+		panelH3.add(lblH3T9);
+		
+		JLabel lblH3T10 = new JLabel("");
+		lblH3T10.setBounds(144, 0, 36, 46);
+		lblH3T10.setIcon(h3Img);
+		panelH3.add(lblH3T10);
+		
+		JLabel lblH3T11 = new JLabel("");
+		lblH3T11.setBounds(108, 0, 36, 46);
+		lblH3T11.setIcon(h3Img);
+		panelH3.add(lblH3T11);
+		
+		JLabel lblH3T12 = new JLabel("");
+		lblH3T12.setBounds(72, 0, 36, 46);
+		lblH3T12.setIcon(h3Img);
+		panelH3.add(lblH3T12);
+		
+		JLabel lblH3T13 = new JLabel("");
+		lblH3T13.setBounds(36, 0, 36, 46);
+		lblH3T13.setIcon(h3Img);
+		panelH3.add(lblH3T13);
+		
+		JLabel lblH3T14 = new JLabel("");
+		lblH3T14.setBounds(0, 0, 36, 46);
+		lblH3T14.setIcon(h3Img);
+		panelH3.add(lblH3T14);
+		
+		
+		JPanel panelH3Ms = new JPanel();
+		panelH3Ms.setBounds(0, 0, 474, 35);
+		panelPlayer3.add(panelH3Ms);
+		panelH3Ms.setLayout(null);
+		
+		
+		JPanel panelH3M1 = new JPanel();
+		panelH3M1.setBounds(0, 0, 114, 35);
+		panelH3Ms.add(panelH3M1);
+		panelH3M1.setLayout(new GridLayout(1, 4, 0, 0));
+		
+		JLabel lblH3M1T4 = new JLabel("");
+		panelH3M1.add(lblH3M1T4);
+		lblH3M1T4.setIcon(meld3Img);
+		
+		JLabel lblH3M1T3 = new JLabel("");
+		panelH3M1.add(lblH3M1T3);
+		lblH3M1T3.setIcon(meld3Img);
+		
+		JLabel lblH3M1T2 = new JLabel("");
+		panelH3M1.add(lblH3M1T2);
+		lblH3M1T2.setIcon(meld3Img);
+		
+		
+		JLabel lblH3M1T1 = new JLabel("");
+		panelH3M1.add(lblH3M1T1);
+		lblH3M1T1.setIcon(meld3Img);
+		
+		
+		
+		
+		JPanel panelH3M4 = new JPanel();
+		panelH3M4.setBounds(360, 0, 114, 35);
+		panelH3M4.setLayout(new GridLayout(1, 4, 0, 0));
+		
+		JLabel lblH3M4T4 = new JLabel("");
+		panelH3M4.add(lblH3M4T4);
+		lblH3M4T4.setIcon(meld3Img);
+		
+		JLabel lblH3M4T3 = new JLabel("");
+		panelH3M4.add(lblH3M4T3);
+		lblH3M4T3.setIcon(meld3Img);
+		
+		JLabel lblH3M4T2 = new JLabel("");
+		panelH3M4.add(lblH3M4T2);
+		lblH3M4T2.setIcon(meld3Img);
+		
+		
+		
+		JPanel panelH3M2 = new JPanel();
+		panelH3M2.setBounds(120, 0, 114, 35);
+		panelH3Ms.add(panelH3M2);
+		panelH3M2.setLayout(new GridLayout(1, 4, 0, 0));
+		
+		JLabel lblH3M2T4 = new JLabel("");
+		panelH3M2.add(lblH3M2T4);
+		lblH3M2T4.setIcon(meld3Img);
+		
+		JLabel lblH3M2T3 = new JLabel("");
+		panelH3M2.add(lblH3M2T3);
+		lblH3M2T3.setIcon(meld3Img);
+		
+		JLabel lblH3M2T2 = new JLabel("");
+		panelH3M2.add(lblH3M2T2);
+		lblH3M2T2.setIcon(meld3Img);
+		
+		JLabel lblH3M2T1 = new JLabel("");
+		panelH3M2.add(lblH3M2T1);
+		lblH3M2T1.setIcon(meld3Img);
+		
+		
+		
+		
+		JPanel panelH3M3 = new JPanel();
+		panelH3M3.setBounds(240, 0, 114, 35);
+		panelH3Ms.add(panelH3M3);
+		panelH3M3.setLayout(new GridLayout(1, 4, 0, 0));
+		
+		JLabel lblH3M3T4 = new JLabel("");
+		panelH3M3.add(lblH3M3T4);
+		lblH3M3T4.setIcon(meld3Img);
+		
+		JLabel lblH3M3T3 = new JLabel("");
+		panelH3M3.add(lblH3M3T3);
+		lblH3M3T3.setIcon(meld3Img);
+		
+		JLabel lblH3M3T2 = new JLabel("");
+		panelH3M3.add(lblH3M3T2);
+		lblH3M3T2.setIcon(meld3Img);
+		
+		JLabel lblH3M3T1 = new JLabel("");
+		panelH3M3.add(lblH3M3T1);
+		lblH3M3T1.setIcon(meld3Img);
+		panelH3Ms.add(panelH3M4);
+		
+		JLabel lblH3M4T1 = new JLabel("");
+		panelH3M4.add(lblH3M4T1);
+		lblH3M4T1.setIcon(meld3Img);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		JPanel panelPlayer4 = new JPanel();
+		panelPlayer4.setBounds(16, 160, 82, 667);
+		contentPane.add(panelPlayer4);
+		panelPlayer4.setLayout(null);
+		
+		
+		
+		
+		JPanel panelH4 = new JPanel();
+		panelH4.setBounds(36, 0, 46, 506);
+		panelPlayer4.add(panelH4);
+		panelH4.setLayout(null);
+		
+		JLabel lblH4T1 = new JLabel("");
+		lblH4T1.setBounds(0, 0, 46, 36);
+		lblH4T1.setIcon(h4Img);
+		panelH4.add(lblH4T1);
+		
+		JLabel lblH4T2 = new JLabel("");
+		lblH4T2.setBounds(0, 36, 46, 36);
+		lblH4T2.setIcon(h4Img);
+		panelH4.add(lblH4T2);
+		
+		JLabel lblH4T3 = new JLabel("");
+		lblH4T3.setBounds(0, 72, 46, 36);
+		lblH4T3.setIcon(h4Img);
+		panelH4.add(lblH4T3);
+		
+		JLabel lblH4T4 = new JLabel("");
+		lblH4T4.setBounds(0, 108, 46, 36);
+		lblH4T4.setIcon(h4Img);
+		panelH4.add(lblH4T4);
+		
+		JLabel lblH4T5 = new JLabel("");
+		lblH4T5.setBounds(0, 144, 46, 36);
+		lblH4T5.setIcon(h4Img);
+		panelH4.add(lblH4T5);
+		
+		JLabel lblH4T6 = new JLabel("");
+		lblH4T6.setBounds(0, 180, 46, 36);
+		lblH4T6.setIcon(h4Img);
+		panelH4.add(lblH4T6);
+		
+		JLabel lblH4T7 = new JLabel("");
+		lblH4T7.setBounds(0, 216, 46, 36);
+		lblH4T7.setIcon(h4Img);
+		panelH4.add(lblH4T7);
+		
+		JLabel lblH4T8 = new JLabel("");
+		lblH4T8.setBounds(0, 252, 46, 36);
+		lblH4T8.setIcon(h4Img);
+		panelH4.add(lblH4T8);
+		
+		JLabel lblH4T9 = new JLabel("");
+		lblH4T9.setBounds(0, 288, 46, 36);
+		lblH4T9.setIcon(h4Img);
+		panelH4.add(lblH4T9);
+		
+		JLabel lblH4T10 = new JLabel("");
+		lblH4T10.setBounds(0, 324, 46, 36);
+		lblH4T10.setIcon(h4Img);
+		panelH4.add(lblH4T10);
+		
+		JLabel lblH4T11 = new JLabel("");
+		lblH4T11.setBounds(0, 360, 46, 36);
+		lblH4T11.setIcon(h4Img);
+		panelH4.add(lblH4T11);
+		
+		JLabel lblH4T12 = new JLabel("");
+		lblH4T12.setBounds(0, 396, 46, 36);
+		lblH4T12.setIcon(h4Img);
+		panelH4.add(lblH4T12);
+		
+		JLabel lblH4T13 = new JLabel("");
+		lblH4T13.setBounds(0, 432, 46, 36);
+		lblH4T13.setIcon(h4Img);
+		panelH4.add(lblH4T13);
+		
+		JLabel lblH4T14 = new JLabel("");
+		lblH4T14.setBounds(0, 468, 46, 36);
+		lblH4T14.setIcon(h4Img);
+		panelH4.add(lblH4T14);
+		
+		
+		
+		
+		
+		JPanel panelH4Ms = new JPanel();
+		panelH4Ms.setBounds(0, 192, 35, 474);
+		panelPlayer4.add(panelH4Ms);
+		panelH4Ms.setLayout(null);
+		
+		
+		
+		
+		JPanel panelH4M1 = new JPanel();
+		panelH4M1.setBounds(0, 360, 35, 114);
+		panelH4Ms.add(panelH4M1);
+		panelH4M1.setLayout(new GridLayout(4, 1, 0, 0));
+		
+		
+		JLabel lblH4M1T1 = new JLabel("");
+		panelH4M1.add(lblH4M1T1);
+		lblH4M1T1.setIcon(meld4Img);
+		
+		JLabel lblH4M1T2 = new JLabel("");
+		panelH4M1.add(lblH4M1T2);
+		lblH4M1T2.setIcon(meld4Img);
+		
+		JLabel lblH4M1T3 = new JLabel("");
+		panelH4M1.add(lblH4M1T3);
+		lblH4M1T3.setIcon(meld4Img);
+		
+		JLabel lblH4M1T4 = new JLabel("");
+		panelH4M1.add(lblH4M1T4);
+		lblH4M1T4.setIcon(meld4Img);
+		
+		
+		
+		
+		JPanel panelH4M4 = new JPanel();
+		panelH4M4.setBounds(0, 0, 35, 114);
+		panelH4M4.setLayout(new GridLayout(4, 1, 0, 0));
+		
+		
+		
+		JPanel panelH4M2 = new JPanel();
+		panelH4M2.setBounds(0, 240, 35, 114);
+		panelH4Ms.add(panelH4M2);
+		panelH4M2.setLayout(new GridLayout(4, 1, 0, 0));
+		
+		JLabel lblH4M2T1 = new JLabel("");
+		panelH4M2.add(lblH4M2T1);
+		lblH4M2T1.setIcon(meld4Img);
+		
+		JLabel lblH4M2T2 = new JLabel("");
+		panelH4M2.add(lblH4M2T2);
+		lblH4M2T2.setIcon(meld4Img);
+		
+		JLabel lblH4M2T3 = new JLabel("");
+		panelH4M2.add(lblH4M2T3);
+		lblH4M2T3.setIcon(meld4Img);
+		
+		JLabel lblH4M2T4 = new JLabel("");
+		panelH4M2.add(lblH4M2T4);
+		lblH4M2T4.setIcon(meld4Img);
+		
+		
+		
+		
+		JPanel panelH4M3 = new JPanel();
+		panelH4M3.setBounds(0, 120, 35, 114);
+		panelH4Ms.add(panelH4M3);
+		panelH4M3.setLayout(new GridLayout(4, 1, 0, 0));
+		
+		JLabel lblH4M3T1 = new JLabel("");
+		panelH4M3.add(lblH4M3T1);
+		lblH4M3T1.setIcon(meld4Img);
+		
+		JLabel lblH4M3T2 = new JLabel("");
+		panelH4M3.add(lblH4M3T2);
+		lblH4M3T2.setIcon(meld4Img);
+		
+		JLabel lblH4M3T3 = new JLabel("");
+		panelH4M3.add(lblH4M3T3);
+		lblH4M3T3.setIcon(meld4Img);
+		
+		JLabel lblH4M3T4 = new JLabel("");
+		panelH4M3.add(lblH4M3T4);
+		lblH4M3T4.setIcon(meld4Img);
+		panelH4Ms.add(panelH4M4);
+		
+		JLabel lblH4M4T1 = new JLabel("");
+		panelH4M4.add(lblH4M4T1);
+		lblH4M4T1.setIcon(meld4Img);
+		
+		JLabel lblH4M4T2 = new JLabel("");
+		panelH4M4.add(lblH4M4T2);
+		lblH4M4T2.setIcon(meld4Img);
+		
+		JLabel lblH4M4T3 = new JLabel("");
+		panelH4M4.add(lblH4M4T3);
+		lblH4M4T3.setIcon(meld4Img);
+		
+		JLabel lblH4M4T4 = new JLabel("");
+		panelH4M4.add(lblH4M4T4);
+		lblH4M4T4.setIcon(meld4Img);
 		
 		
 		

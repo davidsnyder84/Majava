@@ -28,6 +28,9 @@ public class Pond {
 	
 	private TileList mTiles;
 	
+//	private Tile mRiichiTile;
+	private int mRiichiTileIndex;
+	
 	
 	
 	
@@ -47,6 +50,11 @@ public class Pond {
 	public boolean isNagashiMangan(){
 		return false;
 	}
+	
+	
+	
+	//returns which tile the player used for riichi
+	public Tile getRiichiTile(){return mTiles.get(mRiichiTileIndex);}
 	
 	
 	

@@ -1,6 +1,5 @@
 package graphics;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 
@@ -8,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
-import java.awt.FlowLayout;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -16,9 +14,6 @@ import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import java.awt.Font;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 
 @SuppressWarnings("serial")
 public class WorldViewer extends JFrame {
@@ -78,13 +73,11 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+		
 		ImageIcon hImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.gif");
 		
-		
-		
-		
 		JPanel panelH1 = new JPanel();
-		panelH1.setBounds(306, 727, 506, 46);
+		panelH1.setBounds(306, 753, 506, 46);
 		contentPane.add(panelH1);
 		panelH1.setLayout(null);
 		
@@ -332,7 +325,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelH4 = new JPanel();
-		panelH4.setBounds(46, 126, 46, 506);
+		panelH4.setBounds(51, 126, 46, 506);
 		contentPane.add(panelH4);
 		panelH4.setLayout(null);
 		
@@ -435,7 +428,7 @@ public class WorldViewer extends JFrame {
 		ImageIcon pImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\22.gif");
 		
 		JPanel panelP1 = new JPanel();
-		panelP1.setBounds(426, 473, 162, 140);
+		panelP1.setBounds(428, 475, 162, 140);
 		contentPane.add(panelP1);
 		panelP1.setLayout(new GridLayout(4, 6, 0, 0));
 		
@@ -546,7 +539,7 @@ public class WorldViewer extends JFrame {
 		ImageIcon p2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\22.gif");
 		
 		JPanel panelP2 = new JPanel();
-		panelP2.setBounds(590, 311, 140, 162);
+		panelP2.setBounds(592, 314, 140, 162);
 		contentPane.add(panelP2);
 		panelP2.setLayout(new GridLayout(6, 4, 0, 0));
 		
@@ -655,7 +648,7 @@ public class WorldViewer extends JFrame {
 		ImageIcon p3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\25.gif");
 		
 		JPanel panelP3 = new JPanel();
-		panelP3.setBounds(426, 172, 162, 140);
+		panelP3.setBounds(428, 175, 162, 140);
 		contentPane.add(panelP3);
 		panelP3.setLayout(new GridLayout(4, 6, 0, 0));
 		
@@ -765,7 +758,7 @@ public class WorldViewer extends JFrame {
 		ImageIcon p4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\21.gif");
 		
 		JPanel panelP4 = new JPanel();
-		panelP4.setBounds(283, 311, 140, 162);
+		panelP4.setBounds(284, 314, 140, 162);
 		contentPane.add(panelP4);
 		panelP4.setLayout(new GridLayout(6, 4, 0, 0));
 		
@@ -1200,7 +1193,7 @@ public class WorldViewer extends JFrame {
 		ImageIcon w3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\tileback.gif");
 		
 		JPanel panelW3 = new JPanel();
-		panelW3.setBounds(279, 96, 459, 70);
+		panelW3.setBounds(278, 96, 459, 70);
 		contentPane.add(panelW3);
 		panelW3.setLayout(new GridLayout(2, 17, 0, 0));
 		
@@ -1520,7 +1513,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelH1Ms = new JPanel();
-		panelH1Ms.setBounds(498, 774, 474, 35);
+		panelH1Ms.setBounds(498, 800, 474, 35);
 		contentPane.add(panelH1Ms);
 		panelH1Ms.setLayout(null);
 		
@@ -1857,7 +1850,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelH4Ms = new JPanel();
-		panelH4Ms.setBounds(10, 318, 35, 474);
+		panelH4Ms.setBounds(15, 318, 35, 474);
 		contentPane.add(panelH4Ms);
 		panelH4Ms.setLayout(null);
 		
@@ -1969,7 +1962,7 @@ public class WorldViewer extends JFrame {
 		
 		JPanel panelRoundInfo = new JPanel();
 		panelRoundInfo.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelRoundInfo.setBounds(423, 313, 166, 158);
+		panelRoundInfo.setBounds(425, 316, 166, 158);
 		panelRoundInfo.setBackground(new Color(0,255,255,35));
 		contentPane.add(panelRoundInfo);
 		panelRoundInfo.setLayout(null);

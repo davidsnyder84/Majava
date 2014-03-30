@@ -3,6 +3,7 @@ package graphics;
 import java.awt.Color;
 import java.awt.EventQueue;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -14,6 +15,9 @@ import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import java.awt.Font;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class WorldViewer extends JFrame {
@@ -55,8 +59,9 @@ public class WorldViewer extends JFrame {
 	//
 	/**
 	 * Create the frame.
+	 * @throws IOException 
 	 */
-	public WorldViewer() {
+	public WorldViewer() throws IOException {
 		
 		
 		final int WINDOW_BOUND_WIDTH = WINDOW_WIDTH + 2*WINDOW_SIDE_BORDER_SIZE;
@@ -64,7 +69,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transE.gif"));
-		setTitle("Majava WorldViewer");
+		setTitle("The Beaver");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, WINDOW_BOUND_WIDTH, WINDOW_BOUND_HEIGHT);
 		
@@ -144,6 +149,125 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+//		p2Img = p3Img = p4Img = null;
+//		pImg = p2Img = p3Img = p4Img = null;
+//		wImg = w2Img = w3Img = w4Img = null;
+//		h2Img = h3Img = h4Img = null;
+//		hImg = h2Img = h3Img = h4Img = null;
+//		meldImg = meld2Img = meld3Img = meld4Img = null;
+		
+		
+		
+		
+		
+//		BufferedImage picture = null;
+//		BufferedImage picture1 = ImageIO.read(new File("img\\tiles\\seat1\\1.gif"));
+//		BufferedImage picture2 = ImageIO.read(new File("img\\tiles\\seat2\\1.gif"));
+//		BufferedImage picture3 = ImageIO.read(new File("img\\tiles\\seat3\\1.gif"));
+//		BufferedImage picture4 = ImageIO.read(new File("img\\tiles\\seat4\\1.gif"));
+		
+		
+		
+//        hImg = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat1\\1.gif")));
+//        h2Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat2\\1.gif")));
+//        h3Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat3\\1.gif")));
+//        h4Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat4\\1.gif")));
+//        
+//        pImg = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat1\\small\\22.gif")));
+//		p2Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat2\\small\\22.gif")));
+//		p3Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat3\\small\\25.gif")));
+//		p4Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat4\\small\\21.gif")));
+//		
+//		wImg = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat1\\small\\tileback.gif")));
+//		w2Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat2\\small\\tileback.gif")));
+//		w3Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat3\\small\\tileback.gif")));
+//		w4Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat4\\small\\tileback.gif")));
+//		
+//		meldImg = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat1\\small\\34.gif")));
+//		meld2Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat2\\small\\34.gif")));
+//		meld3Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat3\\small\\34.gif")));
+//		meld4Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat4\\small\\34.gif")));
+		
+		
+		
+		
+//		hImg = new ImageIcon("img\\tiles\\seat1\\1.gif");
+//		h2Img = new ImageIcon("img\\tiles\\seat2\\1.gif");
+//		h3Img = new ImageIcon("img\\tiles\\seat3\\1.gif");
+//		h4Img = new ImageIcon("img\\tiles\\seat4\\1.gif");
+//			
+//		pImg = new ImageIcon("img\\tiles\\seat1\\small\\21.gif");
+//		p2Img = new ImageIcon("img\\tiles\\seat2\\small\\21.gif");
+//		p3Img = new ImageIcon("img\\tiles\\seat3\\small\\21.gif");
+//		p4Img = new ImageIcon("img\\tiles\\seat4\\small\\21.gif");
+//			
+//		wImg = new ImageIcon("img\\tiles\\seat1\\small\\tileback.gif");
+//		w2Img = new ImageIcon("img\\tiles\\seat2\\small\\tileback.gif");
+//		w3Img = new ImageIcon("img\\tiles\\seat3\\small\\tileback.gif");
+//		w4Img = new ImageIcon("img\\tiles\\seat4\\small\\tileback.gif");
+//			
+//		meldImg = new ImageIcon("img\\tiles\\seat1\\small\\34.gif");
+//		meld2Img = new ImageIcon("img\\tiles\\seat2\\small\\34.gif");
+//		meld3Img = new ImageIcon("img\\tiles\\seat3\\small\\34.gif");
+//		meld4Img = new ImageIcon("img\\tiles\\seat4\\small\\34.gif");
+		
+		
+		
+		
+		
+		
+//		hImg = new ImageIcon("img\\tiles\\seat1\\34.png");
+//		h2Img = new ImageIcon("img\\tiles\\seat2\\34.png");
+//		h3Img = new ImageIcon("img\\tiles\\seat3\\34.png");
+//		h4Img = new ImageIcon("img\\tiles\\seat4\\34.png");
+//			
+//		pImg = new ImageIcon("img\\tiles\\seat1\\small\\34.png");
+//		p2Img = new ImageIcon("img\\tiles\\seat2\\small\\34.png");
+//		p3Img = new ImageIcon("img\\tiles\\seat3\\small\\34.png");
+//		p4Img = new ImageIcon("img\\tiles\\seat4\\small\\34.png");
+//			
+//		wImg = new ImageIcon("img\\tiles\\seat1\\small\\34.png");
+//		w2Img = new ImageIcon("img\\tiles\\seat2\\small\\34.png");
+//		w3Img = new ImageIcon("img\\tiles\\seat3\\small\\34.png");
+//		w4Img = new ImageIcon("img\\tiles\\seat4\\small\\34.png");
+//			
+//		meldImg = new ImageIcon("img\\tiles\\seat1\\small\\34.png");
+//		meld2Img = new ImageIcon("img\\tiles\\seat2\\small\\34.png");
+//		meld3Img = new ImageIcon("img\\tiles\\seat3\\small\\34.png");
+//		meld4Img = new ImageIcon("img\\tiles\\seat4\\small\\34.png");
+		
+		
+//		hImg = new ImageIcon("img\\tiles\\seat1\\34.gif");
+//		h2Img = new ImageIcon("img\\tiles\\seat2\\34.gif");
+//		h3Img = new ImageIcon("img\\tiles\\seat3\\34.gif");
+//		h4Img = new ImageIcon("img\\tiles\\seat4\\34.gif");
+//			
+//		pImg = new ImageIcon("img\\tiles\\seat1\\small\\34.gif");
+//		p2Img = new ImageIcon("img\\tiles\\seat2\\small\\34.gif");
+//		p3Img = new ImageIcon("img\\tiles\\seat3\\small\\34.gif");
+//		p4Img = new ImageIcon("img\\tiles\\seat4\\small\\34.gif");
+//			
+//		wImg = new ImageIcon("img\\tiles\\seat1\\small\\34.gif");
+//		w2Img = new ImageIcon("img\\tiles\\seat2\\small\\34.gif");
+//		w3Img = new ImageIcon("img\\tiles\\seat3\\small\\34.gif");
+//		w4Img = new ImageIcon("img\\tiles\\seat4\\small\\34.gif");
+//			
+//		meldImg = new ImageIcon("img\\tiles\\seat1\\small\\34.gif");
+//		meld2Img = new ImageIcon("img\\tiles\\seat2\\small\\34.gif");
+//		meld3Img = new ImageIcon("img\\tiles\\seat3\\small\\34.gif");
+//		meld4Img = new ImageIcon("img\\tiles\\seat4\\small\\34.gif");
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -159,6 +283,7 @@ public class WorldViewer extends JFrame {
 		panelMidTable.setBackground(COLOR_TRANSPARENT);
 		panelTable.add(panelMidTable);
 		panelMidTable.setLayout(null);
+		
 		
 		
 		

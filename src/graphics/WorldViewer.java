@@ -58,7 +58,7 @@ public class WorldViewer extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transE.gif"));
 		setTitle("Majava WorldViewer");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, WINDOW_WIDTH+500, WINDOW_HEIGHT + WINDOW_BAR_SIZE);
+		setBounds(100, 100, WINDOW_WIDTH, WINDOW_HEIGHT + WINDOW_BAR_SIZE);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -1969,51 +1969,10 @@ public class WorldViewer extends JFrame {
 		
 		JPanel panelRoundInfo = new JPanel();
 		panelRoundInfo.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelRoundInfo.setBounds(1132, 236, 166, 158);
+		panelRoundInfo.setBounds(423, 313, 166, 158);
 		panelRoundInfo.setBackground(new Color(0,255,255,35));
 		contentPane.add(panelRoundInfo);
 		panelRoundInfo.setLayout(null);
-		
-		
-		JLabel lblNewLabel = new JLabel("128,000");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel.setBounds(4, 90, 46, 14);
-		panelRoundInfo.add(lblNewLabel);
-		
-		JLabel label = new JLabel("128,000");
-		label.setHorizontalAlignment(SwingConstants.RIGHT);
-		label.setBounds(62, 35, 46, 14);
-		panelRoundInfo.add(label);
-		
-		JLabel label_1 = new JLabel("128,000");
-		label_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		label_1.setBounds(4, 140, 46, 14);
-		panelRoundInfo.add(label_1);
-		
-		JLabel label_2 = new JLabel("128,000");
-		label_2.setHorizontalAlignment(SwingConstants.RIGHT);
-		label_2.setBounds(104, 89, 46, 14);
-		panelRoundInfo.add(label_2);
-		
-		JLabel label_3 = new JLabel("");
-		label_3.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transEs.gif"));
-		label_3.setBounds(15, 115, 23, 23);
-		panelRoundInfo.add(label_3);
-		
-		JLabel label_4 = new JLabel("");
-		label_4.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transSs.gif"));
-		label_4.setBounds(114, 69, 23, 23);
-		panelRoundInfo.add(label_4);
-		
-		JLabel label_5 = new JLabel("");
-		label_5.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transWs.gif"));
-		label_5.setBounds(72, 12, 23, 23);
-		panelRoundInfo.add(label_5);
-		
-		JLabel label_6 = new JLabel("");
-		label_6.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transNs.gif"));
-		label_6.setBounds(14, 68, 23, 23);
-		panelRoundInfo.add(label_6);
 		
 		
 		
@@ -2028,14 +1987,14 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelRInd = new JPanel();
-		panelRInd.setBounds(52, 60, 58, 43);
+		panelRInd.setBounds(54, 54, 58, 49);
 		panelRoundInfo.add(panelRInd);
 		panelRInd.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		panelRInd.setBackground(new Color(0,155,155,35));
 		panelRInd.setLayout(null);
 		
 		JLabel lblRIndWind = new JLabel("");
-		lblRIndWind.setBounds(3, 5, 31, 31);
+		lblRIndWind.setBounds(3, 9, 31, 31);
 		panelRInd.add(lblRIndWind);
 		lblRIndWind.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transE.gif"));
 		
@@ -2043,11 +2002,21 @@ public class WorldViewer extends JFrame {
 		lblRIndNum.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		lblRIndNum.setHorizontalAlignment(SwingConstants.LEFT);
 		lblRIndNum.setVerticalAlignment(SwingConstants.TOP);
-		lblRIndNum.setBounds(33, 2, 16, 37);
+		lblRIndNum.setBounds(33, 6, 16, 37);
 		panelRInd.add(lblRIndNum);
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		JPanel panelInfoP1 = new JPanel();
-		panelInfoP1.setBounds(54, 103, 54, 54);
+		panelInfoP1.setBounds(56, 103, 54, 54);
 		panelRoundInfo.add(panelInfoP1);
 		panelInfoP1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		panelInfoP1.setBackground(new Color(0, 255, 255, 35));
@@ -2072,6 +2041,91 @@ public class WorldViewer extends JFrame {
 		panelInfoP1.add(lblInfoP1Riichi);
 		
 		
+		
+		
+		
+		JPanel panelInfoP2 = new JPanel();
+		panelInfoP2.setBounds(112, 52, 54, 54);
+		panelRoundInfo.add(panelInfoP2);
+		panelInfoP2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		panelInfoP2.setBackground(new Color(0, 255, 255, 35));
+		panelInfoP2.setLayout(null);
+		
+		JLabel lblInfoP2Wind = new JLabel("");
+		lblInfoP2Wind.setBounds(16, 2, 23, 23);
+		lblInfoP2Wind.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInfoP2Wind.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transSs.gif"));
+		panelInfoP2.add(lblInfoP2Wind);
+		
+		JLabel lblInfoP2Points = new JLabel("128,000");
+		lblInfoP2Points.setBounds(4, 25, 46, 14);
+		lblInfoP2Points.setBackground(new Color(0,0,0,0));
+		lblInfoP2Points.setHorizontalAlignment(SwingConstants.CENTER);
+		panelInfoP2.add(lblInfoP2Points);
+		
+		JLabel lblInfoP2Riichi = new JLabel("");
+		lblInfoP2Riichi.setBounds(2, 40, 50, 8);
+		lblInfoP2Riichi.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInfoP2Riichi.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\riichiStick.gif"));
+		panelInfoP2.add(lblInfoP2Riichi);
+		
+		
+		
+		
+		
+		JPanel panelInfoP3 = new JPanel();
+		panelInfoP3.setBounds(56, 0, 54, 54);
+		panelRoundInfo.add(panelInfoP3);
+		panelInfoP3.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		panelInfoP3.setBackground(new Color(0, 255, 255, 35));
+		panelInfoP3.setLayout(null);
+		
+		JLabel lblInfoP3Wind = new JLabel("");
+		lblInfoP3Wind.setBounds(16, 2, 23, 23);
+		lblInfoP3Wind.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInfoP3Wind.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transWs.gif"));
+		panelInfoP3.add(lblInfoP3Wind);
+		
+		JLabel lblInfoP3Points = new JLabel("128,000");
+		lblInfoP3Points.setBounds(4, 25, 46, 14);
+		lblInfoP3Points.setBackground(new Color(0,0,0,0));
+		lblInfoP3Points.setHorizontalAlignment(SwingConstants.CENTER);
+		panelInfoP3.add(lblInfoP3Points);
+		
+		JLabel lblInfoP3Riichi = new JLabel("");
+		lblInfoP3Riichi.setBounds(2, 40, 50, 8);
+		lblInfoP3Riichi.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInfoP3Riichi.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\riichiStick.gif"));
+		panelInfoP3.add(lblInfoP3Riichi);
+		
+		
+		
+		
+		
+		JPanel panelInfoP4 = new JPanel();
+		panelInfoP4.setBounds(0, 52, 54, 54);
+		panelRoundInfo.add(panelInfoP4);
+		panelInfoP4.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		panelInfoP4.setBackground(new Color(0, 255, 255, 35));
+		panelInfoP4.setLayout(null);
+		
+		JLabel lblInfoP4Wind = new JLabel("");
+		lblInfoP4Wind.setBounds(16, 2, 23, 23);
+		lblInfoP4Wind.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInfoP4Wind.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transNs.gif"));
+		panelInfoP4.add(lblInfoP4Wind);
+		
+		JLabel lblInfoP4Points = new JLabel("128,000");
+		lblInfoP4Points.setBounds(4, 25, 46, 14);
+		lblInfoP4Points.setBackground(new Color(0,0,0,0));
+		lblInfoP4Points.setHorizontalAlignment(SwingConstants.CENTER);
+		panelInfoP4.add(lblInfoP4Points);
+		
+		JLabel lblInfoP4Riichi = new JLabel("");
+		lblInfoP4Riichi.setBounds(2, 40, 50, 8);
+		lblInfoP4Riichi.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInfoP4Riichi.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\riichiStick.gif"));
+		panelInfoP4.add(lblInfoP4Riichi);
 		
 		
 		

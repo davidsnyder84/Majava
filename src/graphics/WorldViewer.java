@@ -22,8 +22,13 @@ public class WorldViewer extends JFrame {
 	public static final int WINDOW_WIDTH = 1150;
 	public static final int WINDOW_HEIGHT = 850;
 	
-	public static final int WINDOW_BAR_SIZE = 30;
-	public static final int SIDE_BAR_SIZE = 8;
+	public static final int WINDOW_TOP_BORDER_SIZE = 30;
+	public static final int WINDOW_SIDE_BORDER_SIZE = 8;
+	public static final int WINDOW_BOTTOM_BORDER_SIZE = 8;
+	
+	
+	public static final Color TABLE_COLOR = new Color(0, 140, 0, 100);
+	public static final Color SIDEBAR_COLOR = new Color(0, 255, 0, 100);
 	
 	
 	
@@ -51,10 +56,16 @@ public class WorldViewer extends JFrame {
 	 * Create the frame.
 	 */
 	public WorldViewer() {
+		
+		
+		final int WINDOW_BOUND_WIDTH = WINDOW_WIDTH + 2*WINDOW_SIDE_BORDER_SIZE;
+		final int WINDOW_BOUND_HEIGHT = WINDOW_HEIGHT + WINDOW_TOP_BORDER_SIZE + WINDOW_BOTTOM_BORDER_SIZE;
+		
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transE.gif"));
 		setTitle("Majava WorldViewer");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, WINDOW_WIDTH + 2*SIDE_BAR_SIZE, WINDOW_HEIGHT + WINDOW_BAR_SIZE);
+		setBounds(100, 100, WINDOW_BOUND_WIDTH, WINDOW_BOUND_HEIGHT);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -74,8 +85,10 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+		
 		JPanel panelTable = new JPanel();
-		panelTable.setBounds(0, 0, 1150, 850);
+		panelTable.setBounds(0, 0, 874, 850);
+		panelTable.setBackground(TABLE_COLOR);
 		contentPane.add(panelTable);
 		panelTable.setLayout(null);
 		
@@ -141,7 +154,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelMidTable = new JPanel();
-		panelMidTable.setBounds(165, 123, 600, 600);
+		panelMidTable.setBounds(137, 125, 600, 600);
 		panelTable.add(panelMidTable);
 		panelMidTable.setLayout(null);
 		
@@ -1330,7 +1343,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelPlayer1 = new JPanel();
-		panelPlayer1.setBounds(237, 752, 667, 82);
+		panelPlayer1.setBounds(185, 753, 667, 82);
 		panelTable.add(panelPlayer1);
 		panelPlayer1.setLayout(null);
 		
@@ -1536,7 +1549,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelPlayer2 = new JPanel();
-		panelPlayer2.setBounds(894, 24, 82, 667);
+		panelPlayer2.setBounds(777, 9, 82, 667);
 		panelTable.add(panelPlayer2);
 		panelPlayer2.setLayout(null);
 		
@@ -1724,7 +1737,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelPlayer3 = new JPanel();
-		panelPlayer3.setBounds(64, 15, 667, 82);
+		panelPlayer3.setBounds(23, 15, 667, 82);
 		panelTable.add(panelPlayer3);
 		panelPlayer3.setLayout(null);
 		
@@ -1918,7 +1931,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelPlayer4 = new JPanel();
-		panelPlayer4.setBounds(16, 160, 82, 667);
+		panelPlayer4.setBounds(15, 171, 82, 667);
 		panelTable.add(panelPlayer4);
 		panelPlayer4.setLayout(null);
 		
@@ -2104,6 +2117,34 @@ public class WorldViewer extends JFrame {
 		JLabel lblH4M4T4 = new JLabel("");
 		panelH4M4.add(lblH4M4T4);
 		lblH4M4T4.setIcon(meld4Img);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		JPanel panelSidebar = new JPanel();
+		panelSidebar.setBounds(874, 0, 276, 850);
+		panelSidebar.setBackground(SIDEBAR_COLOR);
+		contentPane.add(panelSidebar);
+		panelSidebar.setLayout(null);
 		
 		
 		

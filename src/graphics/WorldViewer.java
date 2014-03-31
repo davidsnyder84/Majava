@@ -120,17 +120,6 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-//		ArrayList<JLabel> lblListH1Tiles = new ArrayList<JLabel>();
-//		ArrayList<JLabel> labelList = new ArrayList<JLabel>();
-//		JLabel[] labelArray = new JLabel[14];
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		
@@ -2463,6 +2452,7 @@ public class WorldViewer extends JFrame {
 		Tilelabels.add(lblP4T22);
 		Tilelabels.add(lblP4T23);
 		Tilelabels.add(lblP4T24);
+		
 		
 		
 		

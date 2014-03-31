@@ -19,6 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -49,6 +50,93 @@ public class WorldViewer extends JFrame {
 	private WorldViewer thisguy;
 	
 	private boolean toggle = true;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	private static final int SIZE_HAND = 14;
+	private static final int SIZE_MELDPANEL = 4;
+	private static final int SIZE_MELD = 4;
+	private static final int SIZE_WALL = 34;
+	private static final int SIZE_POND = 24;
+	private static final int SIZE_SEATWINDS = 4;
+	
+	
+	//////////////
+	JLabel[] larryH1 = new JLabel[SIZE_HAND];
+	JLabel[] larryH2 = new JLabel[SIZE_HAND];
+	JLabel[] larryH3 = new JLabel[SIZE_HAND];
+	JLabel[] larryH4 = new JLabel[SIZE_HAND];
+	
+	
+	//////////////
+	JLabel[] larryH1M1 = new JLabel[SIZE_MELD];
+	JLabel[] larryH1M2 = new JLabel[SIZE_MELD];
+	JLabel[] larryH1M3 = new JLabel[SIZE_MELD];
+	JLabel[] larryH1M4 = new JLabel[SIZE_MELD];
+	
+	JLabel[] larryH2M1 = new JLabel[SIZE_MELD];
+	JLabel[] larryH2M2 = new JLabel[SIZE_MELD];
+	JLabel[] larryH2M3 = new JLabel[SIZE_MELD];
+	JLabel[] larryH2M4 = new JLabel[SIZE_MELD];
+	
+	JLabel[] larryH3M1 = new JLabel[SIZE_MELD];
+	JLabel[] larryH3M2 = new JLabel[SIZE_MELD];
+	JLabel[] larryH3M3 = new JLabel[SIZE_MELD];
+	JLabel[] larryH3M4 = new JLabel[SIZE_MELD];
+	
+	JLabel[] larryH4M1 = new JLabel[SIZE_MELD];
+	JLabel[] larryH4M2 = new JLabel[SIZE_MELD];
+	JLabel[] larryH4M3 = new JLabel[SIZE_MELD];
+	JLabel[] larryH4M4 = new JLabel[SIZE_MELD];
+	
+	JLabel[][] larryH1Ms = {larryH1M1, larryH1M2, larryH1M3, larryH1M4};
+	JLabel[][] larryH2Ms = {larryH2M1, larryH2M2, larryH2M3, larryH2M4};
+	JLabel[][] larryH3Ms = {larryH3M1, larryH3M2, larryH3M3, larryH3M4};
+	JLabel[][] larryH4Ms = {larryH4M1, larryH4M2, larryH4M3, larryH4M4};
+	
+	
+	//////////////
+	JLabel[] larryW1 = new JLabel[SIZE_WALL];
+	JLabel[] larryW2 = new JLabel[SIZE_WALL];
+	JLabel[] larryW3 = new JLabel[SIZE_WALL];
+	JLabel[] larryW4 = new JLabel[SIZE_WALL];
+	
+	
+	//////////////
+	JLabel[] larryP1 = new JLabel[SIZE_POND];
+	JLabel[] larryP2 = new JLabel[SIZE_POND];
+	JLabel[] larryP3 = new JLabel[SIZE_POND];
+	JLabel[] larryP4 = new JLabel[SIZE_POND];
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 	/**
@@ -115,9 +203,6 @@ public class WorldViewer extends JFrame {
 		panelTable.setBackground(COLOR_TABLE);
 		contentPane.add(panelTable);
 		panelTable.setLayout(null);
-		
-		
-		
 		
 		
 		
@@ -2508,6 +2593,23 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+		JButton btnRandhand = new JButton("RandHand");
+		btnRandhand.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				Random randGen = new Random();
+				for (int i = 0; i < SIZE_HAND; i++){
+					larryH1[i].setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\" + (1+randGen.nextInt(34)) + ".png"));
+				}
+			}
+		});
+		btnRandhand.setBounds(49, 621, 172, 35);
+		panelSidebar.add(btnRandhand);
+		
+		
+		
+		
+		
 		
 		
 		
@@ -2516,12 +2618,54 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-		
-		
-		
-		
-		
 		////////////////////////////////////////////////////////////
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		larryH1[0] = lblH1T1;
+		larryH1[1] = lblH1T2;
+		larryH1[2] = lblH1T3;
+		larryH1[3] = lblH1T4;
+		larryH1[4] = lblH1T5;
+		larryH1[5] = lblH1T6;
+		larryH1[6] = lblH1T7;
+		larryH1[7] = lblH1T8;
+		larryH1[8] = lblH1T9;
+		larryH1[9] = lblH1T10;
+		larryH1[10] = lblH1T11;
+		larryH1[11] = lblH1T12;
+		larryH1[12] = lblH1T13;
+		larryH1[13] = lblH1T14;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		

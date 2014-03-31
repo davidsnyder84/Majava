@@ -43,8 +43,7 @@ public class WorldViewer extends JFrame {
 	
 	
 	
-	private ArrayList<JLabel> Tilelabels = new ArrayList<JLabel>();
-	private JPanel panelTable; 
+	private ArrayList<JLabel> Tilelabels = new ArrayList<JLabel>(); 
 	
 	private JPanel contentPane;
 	private WorldViewer thisguy;
@@ -122,8 +121,33 @@ public class WorldViewer extends JFrame {
 	
 	
 	
+	private static final int SIZE_GARRY_TILES = 38;
+	private static final int SIZE_NUM_SEATS = 4;
+	private static final int GARRYINDEX_TILE_BIG = 0;
+	private static final int GARRYINDEX_TILE_SMALL = 1;
+	private static final int GARRYINDEX_RED5M = 35;
+	private static final int GARRYINDEX_RED5P = 36;
+	private static final int GARRYINDEX_RED5S = 37;
 	
 	
+	ImageIcon[] garryTileS1big = new ImageIcon[SIZE_GARRY_TILES];
+	ImageIcon[] garryTileS1small = new ImageIcon[SIZE_GARRY_TILES];
+	ImageIcon[][] garryTileS1 = {garryTileS1big, garryTileS1small};
+	
+	ImageIcon[] garryTileS2big = new ImageIcon[SIZE_GARRY_TILES];
+	ImageIcon[] garryTileS2small = new ImageIcon[SIZE_GARRY_TILES];
+	ImageIcon[][] garryTileS2 = {garryTileS2big, garryTileS2small};
+	
+	ImageIcon[] garryTileS3big = new ImageIcon[SIZE_GARRY_TILES];
+	ImageIcon[] garryTileS3small = new ImageIcon[SIZE_GARRY_TILES];
+	ImageIcon[][] garryTileS3 = {garryTileS3big, garryTileS3small};
+	
+	ImageIcon[] garryTileS4big = new ImageIcon[SIZE_GARRY_TILES];
+	ImageIcon[] garryTileS4small = new ImageIcon[SIZE_GARRY_TILES];
+	ImageIcon[][] garryTileS4 = {garryTileS4big, garryTileS4small};
+	
+	//garryTiles[seat number][0=big,1=small][tile number]
+	ImageIcon[][][] garryTiles = {garryTileS1, garryTileS2, garryTileS3, garryTileS4};
 	
 	
 	
@@ -198,44 +222,6 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-		panelTable = new JPanel();
-		panelTable.setBounds(0, 0, 874, 850);
-		panelTable.setBackground(COLOR_TABLE);
-		contentPane.add(panelTable);
-		panelTable.setLayout(null);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-//		ImageIcon pImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\22.gif");
-//		ImageIcon p2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\22.gif");
-//		ImageIcon p3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\25.gif");
-//		ImageIcon p4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\21.gif");
-//		
-//		ImageIcon wImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\tileback.gif");
-//		ImageIcon w2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\tileback.gif");
-//		ImageIcon w3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\tileback.gif");
-//		ImageIcon w4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\tileback.gif");
-//		
-//		ImageIcon hImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.gif");
-//		ImageIcon h2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\1.gif");
-//		ImageIcon h3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\1.gif");
-//		ImageIcon h4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\1.gif");
-//
-//		ImageIcon meldImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\34.gif");
-//		ImageIcon meld2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\34.gif");
-//		ImageIcon meld3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\34.gif");
-//		ImageIcon meld4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\34.gif");
-//		
-		
-		
 		
 
 //		ImageIcon pImg = null;
@@ -244,10 +230,10 @@ public class WorldViewer extends JFrame {
 		ImageIcon p3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\25.png");
 		ImageIcon p4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\21.png");
 		
-		ImageIcon wImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\tileback.png");
-		ImageIcon w2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\tileback.png");
-		ImageIcon w3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\tileback.png");
-		ImageIcon w4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\tileback.png");
+		ImageIcon wImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\0.png");
+		ImageIcon w2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\0.png");
+		ImageIcon w3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\0.png");
+		ImageIcon w4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\0.png");
 		
 		ImageIcon hImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png");
 		ImageIcon h2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\1.png");
@@ -291,8 +277,6 @@ public class WorldViewer extends JFrame {
 //		BufferedImage picture3 = ImageIO.read(new File("img\\tiles\\seat3\\1.gif"));
 //		BufferedImage picture4 = ImageIO.read(new File("img\\tiles\\seat4\\1.gif"));
 		
-		
-		
 //        hImg = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat1\\1.gif")));
 //        h2Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat2\\1.gif")));
 //        h3Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat3\\1.gif")));
@@ -312,29 +296,6 @@ public class WorldViewer extends JFrame {
 //		meld2Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat2\\small\\34.gif")));
 //		meld3Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat3\\small\\34.gif")));
 //		meld4Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat4\\small\\34.gif")));
-		
-		
-		
-		
-//		hImg = new ImageIcon("img\\tiles\\seat1\\1.gif");
-//		h2Img = new ImageIcon("img\\tiles\\seat2\\1.gif");
-//		h3Img = new ImageIcon("img\\tiles\\seat3\\1.gif");
-//		h4Img = new ImageIcon("img\\tiles\\seat4\\1.gif");
-//			
-//		pImg = new ImageIcon("img\\tiles\\seat1\\small\\21.gif");
-//		p2Img = new ImageIcon("img\\tiles\\seat2\\small\\21.gif");
-//		p3Img = new ImageIcon("img\\tiles\\seat3\\small\\21.gif");
-//		p4Img = new ImageIcon("img\\tiles\\seat4\\small\\21.gif");
-//			
-//		wImg = new ImageIcon("img\\tiles\\seat1\\small\\tileback.gif");
-//		w2Img = new ImageIcon("img\\tiles\\seat2\\small\\tileback.gif");
-//		w3Img = new ImageIcon("img\\tiles\\seat3\\small\\tileback.gif");
-//		w4Img = new ImageIcon("img\\tiles\\seat4\\small\\tileback.gif");
-//			
-//		meldImg = new ImageIcon("img\\tiles\\seat1\\small\\34.gif");
-//		meld2Img = new ImageIcon("img\\tiles\\seat2\\small\\34.gif");
-//		meld3Img = new ImageIcon("img\\tiles\\seat3\\small\\34.gif");
-//		meld4Img = new ImageIcon("img\\tiles\\seat4\\small\\34.gif");
 		
 		
 		
@@ -362,25 +323,6 @@ public class WorldViewer extends JFrame {
 //		meld4Img = new ImageIcon("img\\tiles\\seat4\\small\\34.png");
 		
 		
-//		hImg = new ImageIcon("img\\tiles\\seat1\\34.gif");
-//		h2Img = new ImageIcon("img\\tiles\\seat2\\34.gif");
-//		h3Img = new ImageIcon("img\\tiles\\seat3\\34.gif");
-//		h4Img = new ImageIcon("img\\tiles\\seat4\\34.gif");
-//			
-//		pImg = new ImageIcon("img\\tiles\\seat1\\small\\34.gif");
-//		p2Img = new ImageIcon("img\\tiles\\seat2\\small\\34.gif");
-//		p3Img = new ImageIcon("img\\tiles\\seat3\\small\\34.gif");
-//		p4Img = new ImageIcon("img\\tiles\\seat4\\small\\34.gif");
-//			
-//		wImg = new ImageIcon("img\\tiles\\seat1\\small\\34.gif");
-//		w2Img = new ImageIcon("img\\tiles\\seat2\\small\\34.gif");
-//		w3Img = new ImageIcon("img\\tiles\\seat3\\small\\34.gif");
-//		w4Img = new ImageIcon("img\\tiles\\seat4\\small\\34.gif");
-//			
-//		meldImg = new ImageIcon("img\\tiles\\seat1\\small\\34.gif");
-//		meld2Img = new ImageIcon("img\\tiles\\seat2\\small\\34.gif");
-//		meld3Img = new ImageIcon("img\\tiles\\seat3\\small\\34.gif");
-//		meld4Img = new ImageIcon("img\\tiles\\seat4\\small\\34.gif");
 		
 		
 		
@@ -390,9 +332,14 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+
 		
 		
-		
+		JPanel panelTable = new JPanel();
+		panelTable.setBounds(0, 0, 874, 850);
+		panelTable.setBackground(COLOR_TABLE);
+		contentPane.add(panelTable);
+		panelTable.setLayout(null);
 		
 		
 		
@@ -2420,125 +2367,6 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-//		Tilelabels.add(lblH1T1);
-//		Tilelabels.add(lblH1T2);
-//		Tilelabels.add(lblH1T3);
-//		Tilelabels.add(lblH1T4);
-//		Tilelabels.add(lblH1T5);
-//		Tilelabels.add(lblH1T6);
-//		Tilelabels.add(lblH1T7);
-//		Tilelabels.add(lblH1T8);
-//		Tilelabels.add(lblH1T9);
-//		Tilelabels.add(lblH1T10);
-//		Tilelabels.add(lblH1T11);
-//		Tilelabels.add(lblH1T12);
-//		Tilelabels.add(lblH1T13);
-//		Tilelabels.add(lblH1T14);
-		
-		
-		
-		Tilelabels.add(lblP1T1);
-		Tilelabels.add(lblP1T2);
-		Tilelabels.add(lblP1T3);
-		Tilelabels.add(lblP1T4);
-		Tilelabels.add(lblP1T5);
-		Tilelabels.add(lblP1T6);
-		Tilelabels.add(lblP1T7);
-		Tilelabels.add(lblP1T8);
-		Tilelabels.add(lblP1T9);
-		Tilelabels.add(lblP1T10);
-		Tilelabels.add(lblP1T11);
-		Tilelabels.add(lblP1T12);
-		Tilelabels.add(lblP1T13);
-		Tilelabels.add(lblP1T14);
-		Tilelabels.add(lblP1T15);
-		Tilelabels.add(lblP1T16);
-		Tilelabels.add(lblP1T17);
-		Tilelabels.add(lblP1T18);
-		Tilelabels.add(lblP1T19);
-		Tilelabels.add(lblP1T20);
-		Tilelabels.add(lblP1T21);
-		Tilelabels.add(lblP1T22);
-		Tilelabels.add(lblP1T23);
-		Tilelabels.add(lblP1T24);
-		
-		Tilelabels.add(lblP3T1);
-		Tilelabels.add(lblP3T2);
-		Tilelabels.add(lblP3T3);
-		Tilelabels.add(lblP3T4);
-		Tilelabels.add(lblP3T5);
-		Tilelabels.add(lblP3T6);
-		Tilelabels.add(lblP3T7);
-		Tilelabels.add(lblP3T8);
-		Tilelabels.add(lblP3T9);
-		Tilelabels.add(lblP3T10);
-		Tilelabels.add(lblP3T11);
-		Tilelabels.add(lblP3T12);
-		Tilelabels.add(lblP3T13);
-		Tilelabels.add(lblP3T14);
-		Tilelabels.add(lblP3T15);
-		Tilelabels.add(lblP3T16);
-		Tilelabels.add(lblP3T17);
-		Tilelabels.add(lblP3T18);
-		Tilelabels.add(lblP3T19);
-		Tilelabels.add(lblP3T20);
-		Tilelabels.add(lblP3T21);
-		Tilelabels.add(lblP3T22);
-		Tilelabels.add(lblP3T23);
-		Tilelabels.add(lblP3T24);
-		
-		
-		Tilelabels.add(lblP2T1);
-		Tilelabels.add(lblP2T2);
-		Tilelabels.add(lblP2T3);
-		Tilelabels.add(lblP2T4);
-		Tilelabels.add(lblP2T5);
-		Tilelabels.add(lblP2T6);
-		Tilelabels.add(lblP2T7);
-		Tilelabels.add(lblP2T8);
-		Tilelabels.add(lblP2T9);
-		Tilelabels.add(lblP2T10);
-		Tilelabels.add(lblP2T11);
-		Tilelabels.add(lblP2T12);
-		Tilelabels.add(lblP2T13);
-		Tilelabels.add(lblP2T14);
-		Tilelabels.add(lblP2T15);
-		Tilelabels.add(lblP2T16);
-		Tilelabels.add(lblP2T17);
-		Tilelabels.add(lblP2T18);
-		Tilelabels.add(lblP2T19);
-		Tilelabels.add(lblP2T20);
-		Tilelabels.add(lblP2T21);
-		Tilelabels.add(lblP2T22);
-		Tilelabels.add(lblP2T23);
-		Tilelabels.add(lblP2T24);
-		
-		Tilelabels.add(lblP4T1);
-		Tilelabels.add(lblP4T2);
-		Tilelabels.add(lblP4T3);
-		Tilelabels.add(lblP4T4);
-		Tilelabels.add(lblP4T5);
-		Tilelabels.add(lblP4T6);
-		Tilelabels.add(lblP4T7);
-		Tilelabels.add(lblP4T8);
-		Tilelabels.add(lblP4T9);
-		Tilelabels.add(lblP4T10);
-		Tilelabels.add(lblP4T11);
-		Tilelabels.add(lblP4T12);
-		Tilelabels.add(lblP4T13);
-		Tilelabels.add(lblP4T14);
-		Tilelabels.add(lblP4T15);
-		Tilelabels.add(lblP4T16);
-		Tilelabels.add(lblP4T17);
-		Tilelabels.add(lblP4T18);
-		Tilelabels.add(lblP4T19);
-		Tilelabels.add(lblP4T20);
-		Tilelabels.add(lblP4T21);
-		Tilelabels.add(lblP4T22);
-		Tilelabels.add(lblP4T23);
-		Tilelabels.add(lblP4T24);
-		
-		
 		
 		
 		
@@ -2559,6 +2387,11 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+		//all pond tiles put in an arraylist, for a toggle test
+		Tilelabels.add(lblP1T1);Tilelabels.add(lblP1T2);Tilelabels.add(lblP1T3);Tilelabels.add(lblP1T4);Tilelabels.add(lblP1T5);Tilelabels.add(lblP1T6);Tilelabels.add(lblP1T7);Tilelabels.add(lblP1T8);Tilelabels.add(lblP1T9);Tilelabels.add(lblP1T10);Tilelabels.add(lblP1T11);Tilelabels.add(lblP1T12);Tilelabels.add(lblP1T13);Tilelabels.add(lblP1T14);Tilelabels.add(lblP1T15);Tilelabels.add(lblP1T16);Tilelabels.add(lblP1T17);Tilelabels.add(lblP1T18);Tilelabels.add(lblP1T19);Tilelabels.add(lblP1T20);Tilelabels.add(lblP1T21);Tilelabels.add(lblP1T22);Tilelabels.add(lblP1T23);Tilelabels.add(lblP1T24);
+		Tilelabels.add(lblP3T1);Tilelabels.add(lblP3T2);Tilelabels.add(lblP3T3);Tilelabels.add(lblP3T4);Tilelabels.add(lblP3T5);Tilelabels.add(lblP3T6);Tilelabels.add(lblP3T7);Tilelabels.add(lblP3T8);Tilelabels.add(lblP3T9);Tilelabels.add(lblP3T10);Tilelabels.add(lblP3T11);Tilelabels.add(lblP3T12);Tilelabels.add(lblP3T13);Tilelabels.add(lblP3T14);Tilelabels.add(lblP3T15);Tilelabels.add(lblP3T16);Tilelabels.add(lblP3T17);Tilelabels.add(lblP3T18);Tilelabels.add(lblP3T19);Tilelabels.add(lblP3T20);Tilelabels.add(lblP3T21);Tilelabels.add(lblP3T22);Tilelabels.add(lblP3T23);Tilelabels.add(lblP3T24);
+		Tilelabels.add(lblP2T1);Tilelabels.add(lblP2T2);Tilelabels.add(lblP2T3);Tilelabels.add(lblP2T4);Tilelabels.add(lblP2T5);Tilelabels.add(lblP2T6);Tilelabels.add(lblP2T7);Tilelabels.add(lblP2T8);Tilelabels.add(lblP2T9);Tilelabels.add(lblP2T10);Tilelabels.add(lblP2T11);Tilelabels.add(lblP2T12);Tilelabels.add(lblP2T13);Tilelabels.add(lblP2T14);Tilelabels.add(lblP2T15);Tilelabels.add(lblP2T16);Tilelabels.add(lblP2T17);Tilelabels.add(lblP2T18);Tilelabels.add(lblP2T19);Tilelabels.add(lblP2T20);Tilelabels.add(lblP2T21);Tilelabels.add(lblP2T22);Tilelabels.add(lblP2T23);Tilelabels.add(lblP2T24);
+		Tilelabels.add(lblP4T1);Tilelabels.add(lblP4T2);Tilelabels.add(lblP4T3);Tilelabels.add(lblP4T4);Tilelabels.add(lblP4T5);Tilelabels.add(lblP4T6);Tilelabels.add(lblP4T7);Tilelabels.add(lblP4T8);Tilelabels.add(lblP4T9);Tilelabels.add(lblP4T10);Tilelabels.add(lblP4T11);Tilelabels.add(lblP4T12);Tilelabels.add(lblP4T13);Tilelabels.add(lblP4T14);Tilelabels.add(lblP4T15);Tilelabels.add(lblP4T16);Tilelabels.add(lblP4T17);Tilelabels.add(lblP4T18);Tilelabels.add(lblP4T19);Tilelabels.add(lblP4T20);Tilelabels.add(lblP4T21);Tilelabels.add(lblP4T22);Tilelabels.add(lblP4T23);Tilelabels.add(lblP4T24);
 		JButton btnToggleOnOff = new JButton("Toggle OnOff");
 		btnToggleOnOff.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -2593,55 +2426,59 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+		
+		
 		JButton btnRandhand = new JButton("Rand All");
+		//TODO: Random button
 		btnRandhand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				Random randGen = new Random();
+				final int RANDLIMIT = 38;
 				
 				for (JLabel l: larryH1)
-					l.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\" + (1+randGen.nextInt(34)) + ".png"));
+					l.setIcon(garryTiles[0][0][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP1)
-					l.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\" + (1+randGen.nextInt(34)) + ".png"));
+					l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW1)
-					l.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\" + (1+randGen.nextInt(34)) + ".png"));
+					l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH1Ms)
 					for (JLabel l: lar)
-						l.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\" + (1+randGen.nextInt(34)) + ".png"));
+						l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				
 				
 				for (JLabel l: larryH2)
-					l.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\" + (1+randGen.nextInt(34)) + ".png"));
+					l.setIcon(garryTiles[1][0][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP2)
-					l.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\" + (1+randGen.nextInt(34)) + ".png"));
+					l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW2)
-					l.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\" + (1+randGen.nextInt(34)) + ".png"));
+					l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH2Ms)
 					for (JLabel l: lar)
-						l.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\" + (1+randGen.nextInt(34)) + ".png"));
+						l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
 				
 				
 				for (JLabel l: larryH3)
-					l.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\" + (1+randGen.nextInt(34)) + ".png"));
+					l.setIcon(garryTiles[2][0][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP3)
-					l.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\" + (1+randGen.nextInt(34)) + ".png"));
+					l.setIcon(garryTiles[2][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW3)
-					l.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\" + (1+randGen.nextInt(34)) + ".png"));
+					l.setIcon(garryTiles[2][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH3Ms)
 					for (JLabel l: lar)
-						l.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\" + (1+randGen.nextInt(34)) + ".png"));
+						l.setIcon(garryTiles[2][1][randGen.nextInt(RANDLIMIT)]);
 				
 				
 				for (JLabel l: larryH4)
-					l.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\" + (1+randGen.nextInt(34)) + ".png"));
+					l.setIcon(garryTiles[3][0][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP4)
-					l.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\" + (1+randGen.nextInt(34)) + ".png"));
+					l.setIcon(garryTiles[3][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW4)
-					l.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\" + (1+randGen.nextInt(34)) + ".png"));
+					l.setIcon(garryTiles[3][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH4Ms)
 					for (JLabel l: lar)
-						l.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\" + (1+randGen.nextInt(34)) + ".png"));
-				
+						l.setIcon(garryTiles[3][1][randGen.nextInt(RANDLIMIT)]);
+			
 			}
 		});
 		btnRandhand.setBounds(49, 621, 172, 35);
@@ -2669,306 +2506,50 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+		//put labels into arrays
+		larryH1[0] = lblH1T1;larryH1[1] = lblH1T2;larryH1[2] = lblH1T3;larryH1[3] = lblH1T4;larryH1[4] = lblH1T5;larryH1[5] = lblH1T6;larryH1[6] = lblH1T7;larryH1[7] = lblH1T8;larryH1[8] = lblH1T9;larryH1[9] = lblH1T10;larryH1[10] = lblH1T11;larryH1[11] = lblH1T12;larryH1[12] = lblH1T13;larryH1[13] = lblH1T14;
+		larryH1M1[0] = lblH1M1T1;larryH1M1[1] = lblH1M1T2;larryH1M1[2] = lblH1M1T3;larryH1M1[3] = lblH1M1T4;larryH1M2[0] = lblH1M2T1;larryH1M2[1] = lblH1M2T2;larryH1M2[2] = lblH1M2T3;larryH1M2[3] = lblH1M2T4;larryH1M3[0] = lblH1M3T1;larryH1M3[1] = lblH1M3T2;larryH1M3[2] = lblH1M3T3;larryH1M3[3] = lblH1M3T4;larryH1M4[0] = lblH1M4T1;larryH1M4[1] = lblH1M4T2;larryH1M4[2] = lblH1M4T3;larryH1M4[3] = lblH1M4T4;
+		larryP1[0] = lblP1T1;larryP1[1] = lblP1T2;larryP1[2] = lblP1T3;larryP1[3] = lblP1T4;larryP1[4] = lblP1T5;larryP1[5] = lblP1T6;larryP1[6] = lblP1T7;larryP1[7] = lblP1T8;larryP1[8] = lblP1T9;larryP1[9] = lblP1T10;larryP1[10] = lblP1T11;larryP1[11] = lblP1T12;larryP1[12] = lblP1T13;larryP1[13] = lblP1T14;larryP1[14] = lblP1T15;larryP1[15] = lblP1T16;larryP1[16] = lblP1T17;larryP1[17] = lblP1T18;larryP1[18] = lblP1T19;larryP1[19] = lblP1T20;larryP1[20] = lblP1T21;larryP1[21] = lblP1T22;larryP1[22] = lblP1T23;larryP1[23] = lblP1T24;
+		larryW1[0] = lblW1T1;larryW1[1] = lblW1T2;larryW1[2] = lblW1T3;larryW1[3] = lblW1T4;larryW1[4] = lblW1T5;larryW1[5] = lblW1T6;larryW1[6] = lblW1T7;larryW1[7] = lblW1T8;larryW1[8] = lblW1T9;larryW1[9] = lblW1T10;larryW1[10] = lblW1T11;larryW1[11] = lblW1T12;larryW1[12] = lblW1T13;larryW1[13] = lblW1T14;larryW1[14] = lblW1T15;larryW1[15] = lblW1T16;larryW1[16] = lblW1T17;larryW1[17] = lblW1T18;larryW1[18] = lblW1T19;larryW1[19] = lblW1T20;larryW1[20] = lblW1T21;larryW1[21] = lblW1T22;larryW1[22] = lblW1T23;larryW1[23] = lblW1T24;larryW1[24] = lblW1T25;larryW1[25] = lblW1T26;larryW1[26] = lblW1T27;larryW1[27] = lblW1T28;larryW1[28] = lblW1T29;larryW1[29] = lblW1T30;larryW1[30] = lblW1T31;larryW1[31] = lblW1T32;larryW1[32] = lblW1T33;larryW1[33] = lblW1T34;
 		
-		larryH1[0] = lblH1T1;
-		larryH1[1] = lblH1T2;
-		larryH1[2] = lblH1T3;
-		larryH1[3] = lblH1T4;
-		larryH1[4] = lblH1T5;
-		larryH1[5] = lblH1T6;
-		larryH1[6] = lblH1T7;
-		larryH1[7] = lblH1T8;
-		larryH1[8] = lblH1T9;
-		larryH1[9] = lblH1T10;
-		larryH1[10] = lblH1T11;
-		larryH1[11] = lblH1T12;
-		larryH1[12] = lblH1T13;
-		larryH1[13] = lblH1T14;
+		larryH2[0] = lblH2T1;larryH2[1] = lblH2T2;larryH2[2] = lblH2T3;larryH2[3] = lblH2T4;larryH2[4] = lblH2T5;larryH2[5] = lblH2T6;larryH2[6] = lblH2T7;larryH2[7] = lblH2T8;larryH2[8] = lblH2T9;larryH2[9] = lblH2T10;larryH2[10] = lblH2T11;larryH2[11] = lblH2T12;larryH2[12] = lblH2T13;larryH2[13] = lblH2T14;
+		larryH2M1[0] = lblH2M1T1;larryH2M1[1] = lblH2M1T2;larryH2M1[2] = lblH2M1T3;larryH2M1[3] = lblH2M1T4;larryH2M2[0] = lblH2M2T1;larryH2M2[1] = lblH2M2T2;larryH2M2[2] = lblH2M2T3;larryH2M2[3] = lblH2M2T4;larryH2M3[0] = lblH2M3T1;larryH2M3[1] = lblH2M3T2;larryH2M3[2] = lblH2M3T3;larryH2M3[3] = lblH2M3T4;larryH2M4[0] = lblH2M4T1;larryH2M4[1] = lblH2M4T2;larryH2M4[2] = lblH2M4T3;larryH2M4[3] = lblH2M4T4;
+		larryP2[0] = lblP2T1;larryP2[1] = lblP2T2;larryP2[2] = lblP2T3;larryP2[3] = lblP2T4;larryP2[4] = lblP2T5;larryP2[5] = lblP2T6;larryP2[6] = lblP2T7;larryP2[7] = lblP2T8;larryP2[8] = lblP2T9;larryP2[9] = lblP2T10;larryP2[10] = lblP2T11;larryP2[11] = lblP2T12;larryP2[12] = lblP2T13;larryP2[13] = lblP2T14;larryP2[14] = lblP2T15;larryP2[15] = lblP2T16;larryP2[16] = lblP2T17;larryP2[17] = lblP2T18;larryP2[18] = lblP2T19;larryP2[19] = lblP2T20;larryP2[20] = lblP2T21;larryP2[21] = lblP2T22;larryP2[22] = lblP2T23;larryP2[23] = lblP2T24;
+		larryW2[0] = lblW2T1;larryW2[1] = lblW2T2;larryW2[2] = lblW2T3;larryW2[3] = lblW2T4;larryW2[4] = lblW2T5;larryW2[5] = lblW2T6;larryW2[6] = lblW2T7;larryW2[7] = lblW2T8;larryW2[8] = lblW2T9;larryW2[9] = lblW2T10;larryW2[10] = lblW2T11;larryW2[11] = lblW2T12;larryW2[12] = lblW2T13;larryW2[13] = lblW2T14;larryW2[14] = lblW2T15;larryW2[15] = lblW2T16;larryW2[16] = lblW2T17;larryW2[17] = lblW2T18;larryW2[18] = lblW2T19;larryW2[19] = lblW2T20;larryW2[20] = lblW2T21;larryW2[21] = lblW2T22;larryW2[22] = lblW2T23;larryW2[23] = lblW2T24;larryW2[24] = lblW2T25;larryW2[25] = lblW2T26;larryW2[26] = lblW2T27;larryW2[27] = lblW2T28;larryW2[28] = lblW2T29;larryW2[29] = lblW2T30;larryW2[30] = lblW2T31;larryW2[31] = lblW2T32;larryW2[32] = lblW2T33;larryW2[33] = lblW2T34;
 		
-		larryH1M1[0] = lblH1M1T1;
-		larryH1M1[1] = lblH1M1T2;
-		larryH1M1[2] = lblH1M1T3;
-		larryH1M1[3] = lblH1M1T4;
-		larryH1M2[0] = lblH1M2T1;
-		larryH1M2[1] = lblH1M2T2;
-		larryH1M2[2] = lblH1M2T3;
-		larryH1M2[3] = lblH1M2T4;
-		larryH1M3[0] = lblH1M3T1;
-		larryH1M3[1] = lblH1M3T2;
-		larryH1M3[2] = lblH1M3T3;
-		larryH1M3[3] = lblH1M3T4;
-		larryH1M4[0] = lblH1M4T1;
-		larryH1M4[1] = lblH1M4T2;
-		larryH1M4[2] = lblH1M4T3;
-		larryH1M4[3] = lblH1M4T4;
+		larryH3[0] = lblH3T1;larryH3[1] = lblH3T2;larryH3[2] = lblH3T3;larryH3[3] = lblH3T4;larryH3[4] = lblH3T5;larryH3[5] = lblH3T6;larryH3[6] = lblH3T7;larryH3[7] = lblH3T8;larryH3[8] = lblH3T9;larryH3[9] = lblH3T10;larryH3[10] = lblH3T11;larryH3[11] = lblH3T12;larryH3[12] = lblH3T13;larryH3[13] = lblH3T14;
+		larryH3M1[0] = lblH3M1T1;larryH3M1[1] = lblH3M1T2;larryH3M1[2] = lblH3M1T3;larryH3M1[3] = lblH3M1T4;larryH3M2[0] = lblH3M2T1;larryH3M2[1] = lblH3M2T2;larryH3M2[2] = lblH3M2T3;larryH3M2[3] = lblH3M2T4;larryH3M3[0] = lblH3M3T1;larryH3M3[1] = lblH3M3T2;larryH3M3[2] = lblH3M3T3;larryH3M3[3] = lblH3M3T4;larryH3M4[0] = lblH3M4T1;larryH3M4[1] = lblH3M4T2;larryH3M4[2] = lblH3M4T3;larryH3M4[3] = lblH3M4T4;
+		larryP3[0] = lblP3T1;larryP3[1] = lblP3T2;larryP3[2] = lblP3T3;larryP3[3] = lblP3T4;larryP3[4] = lblP3T5;larryP3[5] = lblP3T6;larryP3[6] = lblP3T7;larryP3[7] = lblP3T8;larryP3[8] = lblP3T9;larryP3[9] = lblP3T10;larryP3[10] = lblP3T11;larryP3[11] = lblP3T12;larryP3[12] = lblP3T13;larryP3[13] = lblP3T14;larryP3[14] = lblP3T15;larryP3[15] = lblP3T16;larryP3[16] = lblP3T17;larryP3[17] = lblP3T18;larryP3[18] = lblP3T19;larryP3[19] = lblP3T20;larryP3[20] = lblP3T21;larryP3[21] = lblP3T22;larryP3[22] = lblP3T23;larryP3[23] = lblP3T24;
+		larryW3[0] = lblW3T1;larryW3[1] = lblW3T2;larryW3[2] = lblW3T3;larryW3[3] = lblW3T4;larryW3[4] = lblW3T5;larryW3[5] = lblW3T6;larryW3[6] = lblW3T7;larryW3[7] = lblW3T8;larryW3[8] = lblW3T9;larryW3[9] = lblW3T10;larryW3[10] = lblW3T11;larryW3[11] = lblW3T12;larryW3[12] = lblW3T13;larryW3[13] = lblW3T14;larryW3[14] = lblW3T15;larryW3[15] = lblW3T16;larryW3[16] = lblW3T17;larryW3[17] = lblW3T18;larryW3[18] = lblW3T19;larryW3[19] = lblW3T20;larryW3[20] = lblW3T21;larryW3[21] = lblW3T22;larryW3[22] = lblW3T23;larryW3[23] = lblW3T24;larryW3[24] = lblW3T25;larryW3[25] = lblW3T26;larryW3[26] = lblW3T27;larryW3[27] = lblW3T28;larryW3[28] = lblW3T29;larryW3[29] = lblW3T30;larryW3[30] = lblW3T31;larryW3[31] = lblW3T32;larryW3[32] = lblW3T33;larryW3[33] = lblW3T34;
 		
-		
-		larryP1[0] = lblP1T1;
-		larryP1[1] = lblP1T2;
-		larryP1[2] = lblP1T3;
-		larryP1[3] = lblP1T4;
-		larryP1[4] = lblP1T5;
-		larryP1[5] = lblP1T6;
-		larryP1[6] = lblP1T7;
-		larryP1[7] = lblP1T8;
-		larryP1[8] = lblP1T9;
-		larryP1[9] = lblP1T10;
-		larryP1[10] = lblP1T11;
-		larryP1[11] = lblP1T12;
-		larryP1[12] = lblP1T13;
-		larryP1[13] = lblP1T14;
-		larryP1[14] = lblP1T15;
-		larryP1[15] = lblP1T16;
-		larryP1[16] = lblP1T17;
-		larryP1[17] = lblP1T18;
-		larryP1[18] = lblP1T19;
-		larryP1[19] = lblP1T20;
-		larryP1[20] = lblP1T21;
-		larryP1[21] = lblP1T22;
-		larryP1[22] = lblP1T23;
-		larryP1[23] = lblP1T24;
-		
-		larryW1[0] = lblW1T1;
-		larryW1[1] = lblW1T2;
-		larryW1[2] = lblW1T3;
-		larryW1[3] = lblW1T4;
-		larryW1[4] = lblW1T5;
-		larryW1[5] = lblW1T6;
-		larryW1[6] = lblW1T7;
-		larryW1[7] = lblW1T8;
-		larryW1[8] = lblW1T9;
-		larryW1[9] = lblW1T10;
-		larryW1[10] = lblW1T11;
-		larryW1[11] = lblW1T12;
-		larryW1[12] = lblW1T13;
-		larryW1[13] = lblW1T14;
-		larryW1[14] = lblW1T15;
-		larryW1[15] = lblW1T16;
-		larryW1[16] = lblW1T17;
-		larryW1[17] = lblW1T18;
-		larryW1[18] = lblW1T19;
-		larryW1[19] = lblW1T20;
-		larryW1[20] = lblW1T21;
-		larryW1[21] = lblW1T22;
-		larryW1[22] = lblW1T23;
-		larryW1[23] = lblW1T24;
-		larryW1[24] = lblW1T25;
-		larryW1[25] = lblW1T26;
-		larryW1[26] = lblW1T27;
-		larryW1[27] = lblW1T28;
-		larryW1[28] = lblW1T29;
-		larryW1[29] = lblW1T30;
-		larryW1[30] = lblW1T31;
-		larryW1[31] = lblW1T32;
-		larryW1[32] = lblW1T33;
-		larryW1[33] = lblW1T34;
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		larryH2[0] = lblH2T1;
-		larryH2[1] = lblH2T2;
-		larryH2[2] = lblH2T3;
-		larryH2[3] = lblH2T4;
-		larryH2[4] = lblH2T5;
-		larryH2[5] = lblH2T6;
-		larryH2[6] = lblH2T7;
-		larryH2[7] = lblH2T8;
-		larryH2[8] = lblH2T9;
-		larryH2[9] = lblH2T10;
-		larryH2[10] = lblH2T11;
-		larryH2[11] = lblH2T12;
-		larryH2[12] = lblH2T13;
-		larryH2[13] = lblH2T14;
-		
-		larryH2M1[0] = lblH2M1T1;
-		larryH2M1[1] = lblH2M1T2;
-		larryH2M1[2] = lblH2M1T3;
-		larryH2M1[3] = lblH2M1T4;
-		larryH2M2[0] = lblH2M2T1;
-		larryH2M2[1] = lblH2M2T2;
-		larryH2M2[2] = lblH2M2T3;
-		larryH2M2[3] = lblH2M2T4;
-		larryH2M3[0] = lblH2M3T1;
-		larryH2M3[1] = lblH2M3T2;
-		larryH2M3[2] = lblH2M3T3;
-		larryH2M3[3] = lblH2M3T4;
-		larryH2M4[0] = lblH2M4T1;
-		larryH2M4[1] = lblH2M4T2;
-		larryH2M4[2] = lblH2M4T3;
-		larryH2M4[3] = lblH2M4T4;
-		
-		
-		larryP2[0] = lblP2T1;
-		larryP2[1] = lblP2T2;
-		larryP2[2] = lblP2T3;
-		larryP2[3] = lblP2T4;
-		larryP2[4] = lblP2T5;
-		larryP2[5] = lblP2T6;
-		larryP2[6] = lblP2T7;
-		larryP2[7] = lblP2T8;
-		larryP2[8] = lblP2T9;
-		larryP2[9] = lblP2T10;
-		larryP2[10] = lblP2T11;
-		larryP2[11] = lblP2T12;
-		larryP2[12] = lblP2T13;
-		larryP2[13] = lblP2T14;
-		larryP2[14] = lblP2T15;
-		larryP2[15] = lblP2T16;
-		larryP2[16] = lblP2T17;
-		larryP2[17] = lblP2T18;
-		larryP2[18] = lblP2T19;
-		larryP2[19] = lblP2T20;
-		larryP2[20] = lblP2T21;
-		larryP2[21] = lblP2T22;
-		larryP2[22] = lblP2T23;
-		larryP2[23] = lblP2T24;
-		
-		larryW2[0] = lblW2T1;
-		larryW2[1] = lblW2T2;
-		larryW2[2] = lblW2T3;
-		larryW2[3] = lblW2T4;
-		larryW2[4] = lblW2T5;
-		larryW2[5] = lblW2T6;
-		larryW2[6] = lblW2T7;
-		larryW2[7] = lblW2T8;
-		larryW2[8] = lblW2T9;
-		larryW2[9] = lblW2T10;
-		larryW2[10] = lblW2T11;
-		larryW2[11] = lblW2T12;
-		larryW2[12] = lblW2T13;
-		larryW2[13] = lblW2T14;
-		larryW2[14] = lblW2T15;
-		larryW2[15] = lblW2T16;
-		larryW2[16] = lblW2T17;
-		larryW2[17] = lblW2T18;
-		larryW2[18] = lblW2T19;
-		larryW2[19] = lblW2T20;
-		larryW2[20] = lblW2T21;
-		larryW2[21] = lblW2T22;
-		larryW2[22] = lblW2T23;
-		larryW2[23] = lblW2T24;
-		larryW2[24] = lblW2T25;
-		larryW2[25] = lblW2T26;
-		larryW2[26] = lblW2T27;
-		larryW2[27] = lblW2T28;
-		larryW2[28] = lblW2T29;
-		larryW2[29] = lblW2T30;
-		larryW2[30] = lblW2T31;
-		larryW2[31] = lblW2T32;
-		larryW2[32] = lblW2T33;
-		larryW2[33] = lblW2T34;
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		larryH4[0] = lblH4T1;larryH4[1] = lblH4T2;larryH4[2] = lblH4T3;larryH4[3] = lblH4T4;larryH4[4] = lblH4T5;larryH4[5] = lblH4T6;larryH4[6] = lblH4T7;larryH4[7] = lblH4T8;larryH4[8] = lblH4T9;larryH4[9] = lblH4T10;larryH4[10] = lblH4T11;larryH4[11] = lblH4T12;larryH4[12] = lblH4T13;larryH4[13] = lblH4T14;
+		larryH4M1[0] = lblH4M1T1;larryH4M1[1] = lblH4M1T2;larryH4M1[2] = lblH4M1T3;larryH4M1[3] = lblH4M1T4;larryH4M2[0] = lblH4M2T1;larryH4M2[1] = lblH4M2T2;larryH4M2[2] = lblH4M2T3;larryH4M2[3] = lblH4M2T4;larryH4M3[0] = lblH4M3T1;larryH4M3[1] = lblH4M3T2;larryH4M3[2] = lblH4M3T3;larryH4M3[3] = lblH4M3T4;larryH4M4[0] = lblH4M4T1;larryH4M4[1] = lblH4M4T2;larryH4M4[2] = lblH4M4T3;larryH4M4[3] = lblH4M4T4;
+		larryP4[0] = lblP4T1;larryP4[1] = lblP4T2;larryP4[2] = lblP4T3;larryP4[3] = lblP4T4;larryP4[4] = lblP4T5;larryP4[5] = lblP4T6;larryP4[6] = lblP4T7;larryP4[7] = lblP4T8;larryP4[8] = lblP4T9;larryP4[9] = lblP4T10;larryP4[10] = lblP4T11;larryP4[11] = lblP4T12;larryP4[12] = lblP4T13;larryP4[13] = lblP4T14;larryP4[14] = lblP4T15;larryP4[15] = lblP4T16;larryP4[16] = lblP4T17;larryP4[17] = lblP4T18;larryP4[18] = lblP4T19;larryP4[19] = lblP4T20;larryP4[20] = lblP4T21;larryP4[21] = lblP4T22;larryP4[22] = lblP4T23;larryP4[23] = lblP4T24;		
+		larryW4[0] = lblW4T1;larryW4[1] = lblW4T2;larryW4[2] = lblW4T3;larryW4[3] = lblW4T4;larryW4[4] = lblW4T5;larryW4[5] = lblW4T6;larryW4[6] = lblW4T7;larryW4[7] = lblW4T8;larryW4[8] = lblW4T9;larryW4[9] = lblW4T10;larryW4[10] = lblW4T11;larryW4[11] = lblW4T12;larryW4[12] = lblW4T13;larryW4[13] = lblW4T14;larryW4[14] = lblW4T15;larryW4[15] = lblW4T16;larryW4[16] = lblW4T17;larryW4[17] = lblW4T18;larryW4[18] = lblW4T19;larryW4[19] = lblW4T20;larryW4[20] = lblW4T21;larryW4[21] = lblW4T22;larryW4[22] = lblW4T23;larryW4[23] = lblW4T24;larryW4[24] = lblW4T25;larryW4[25] = lblW4T26;larryW4[26] = lblW4T27;larryW4[27] = lblW4T28;larryW4[28] = lblW4T29;larryW4[29] = lblW4T30;larryW4[30] = lblW4T31;larryW4[31] = lblW4T32;larryW4[32] = lblW4T33;larryW4[33] = lblW4T34;
 
-		larryH3[0] = lblH3T1;
-		larryH3[1] = lblH3T2;
-		larryH3[2] = lblH3T3;
-		larryH3[3] = lblH3T4;
-		larryH3[4] = lblH3T5;
-		larryH3[5] = lblH3T6;
-		larryH3[6] = lblH3T7;
-		larryH3[7] = lblH3T8;
-		larryH3[8] = lblH3T9;
-		larryH3[9] = lblH3T10;
-		larryH3[10] = lblH3T11;
-		larryH3[11] = lblH3T12;
-		larryH3[12] = lblH3T13;
-		larryH3[13] = lblH3T14;
-		
-		larryH3M1[0] = lblH3M1T1;
-		larryH3M1[1] = lblH3M1T2;
-		larryH3M1[2] = lblH3M1T3;
-		larryH3M1[3] = lblH3M1T4;
-		larryH3M2[0] = lblH3M2T1;
-		larryH3M2[1] = lblH3M2T2;
-		larryH3M2[2] = lblH3M2T3;
-		larryH3M2[3] = lblH3M2T4;
-		larryH3M3[0] = lblH3M3T1;
-		larryH3M3[1] = lblH3M3T2;
-		larryH3M3[2] = lblH3M3T3;
-		larryH3M3[3] = lblH3M3T4;
-		larryH3M4[0] = lblH3M4T1;
-		larryH3M4[1] = lblH3M4T2;
-		larryH3M4[2] = lblH3M4T3;
-		larryH3M4[3] = lblH3M4T4;
 		
 		
-		larryP3[0] = lblP3T1;
-		larryP3[1] = lblP3T2;
-		larryP3[2] = lblP3T3;
-		larryP3[3] = lblP3T4;
-		larryP3[4] = lblP3T5;
-		larryP3[5] = lblP3T6;
-		larryP3[6] = lblP3T7;
-		larryP3[7] = lblP3T8;
-		larryP3[8] = lblP3T9;
-		larryP3[9] = lblP3T10;
-		larryP3[10] = lblP3T11;
-		larryP3[11] = lblP3T12;
-		larryP3[12] = lblP3T13;
-		larryP3[13] = lblP3T14;
-		larryP3[14] = lblP3T15;
-		larryP3[15] = lblP3T16;
-		larryP3[16] = lblP3T17;
-		larryP3[17] = lblP3T18;
-		larryP3[18] = lblP3T19;
-		larryP3[19] = lblP3T20;
-		larryP3[20] = lblP3T21;
-		larryP3[21] = lblP3T22;
-		larryP3[22] = lblP3T23;
-		larryP3[23] = lblP3T24;
 		
-		larryW3[0] = lblW3T1;
-		larryW3[1] = lblW3T2;
-		larryW3[2] = lblW3T3;
-		larryW3[3] = lblW3T4;
-		larryW3[4] = lblW3T5;
-		larryW3[5] = lblW3T6;
-		larryW3[6] = lblW3T7;
-		larryW3[7] = lblW3T8;
-		larryW3[8] = lblW3T9;
-		larryW3[9] = lblW3T10;
-		larryW3[10] = lblW3T11;
-		larryW3[11] = lblW3T12;
-		larryW3[12] = lblW3T13;
-		larryW3[13] = lblW3T14;
-		larryW3[14] = lblW3T15;
-		larryW3[15] = lblW3T16;
-		larryW3[16] = lblW3T17;
-		larryW3[17] = lblW3T18;
-		larryW3[18] = lblW3T19;
-		larryW3[19] = lblW3T20;
-		larryW3[20] = lblW3T21;
-		larryW3[21] = lblW3T22;
-		larryW3[22] = lblW3T23;
-		larryW3[23] = lblW3T24;
-		larryW3[24] = lblW3T25;
-		larryW3[25] = lblW3T26;
-		larryW3[26] = lblW3T27;
-		larryW3[27] = lblW3T28;
-		larryW3[28] = lblW3T29;
-		larryW3[29] = lblW3T30;
-		larryW3[30] = lblW3T31;
-		larryW3[31] = lblW3T32;
-		larryW3[32] = lblW3T33;
-		larryW3[33] = lblW3T34;
+		
+		//put image icons into arrays
+		//garryTiles[seat number][0=big,1=small][tile number]
+		for(int seat = 0; seat < SIZE_NUM_SEATS; seat++){
+			//get tileback and each of the 34 tiles
+			for (int tile = 0; tile < SIZE_GARRY_TILES; tile++){
+				garryTiles[seat][GARRYINDEX_TILE_BIG][tile] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\" + tile + ".png");
+				garryTiles[seat][GARRYINDEX_TILE_SMALL][tile] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\small\\" + tile + ".png");
+			}
+			
+			//get red fives
+			garryTiles[seat][GARRYINDEX_TILE_BIG][GARRYINDEX_RED5M] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\5r.png");
+			garryTiles[seat][GARRYINDEX_TILE_SMALL][GARRYINDEX_RED5M] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\small\\5r.png");
+			
+			garryTiles[seat][GARRYINDEX_TILE_BIG][GARRYINDEX_RED5P] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\14r.png");
+			garryTiles[seat][GARRYINDEX_TILE_SMALL][GARRYINDEX_RED5P] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\small\\14r.png");
+
+			garryTiles[seat][GARRYINDEX_TILE_BIG][GARRYINDEX_RED5S] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\23r.png");
+			garryTiles[seat][GARRYINDEX_TILE_SMALL][GARRYINDEX_RED5S] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\small\\23r.png");
+		}
 		
 		
 		
@@ -2976,98 +2557,9 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-		larryH4[0] = lblH4T1;
-		larryH4[1] = lblH4T2;
-		larryH4[2] = lblH4T3;
-		larryH4[3] = lblH4T4;
-		larryH4[4] = lblH4T5;
-		larryH4[5] = lblH4T6;
-		larryH4[6] = lblH4T7;
-		larryH4[7] = lblH4T8;
-		larryH4[8] = lblH4T9;
-		larryH4[9] = lblH4T10;
-		larryH4[10] = lblH4T11;
-		larryH4[11] = lblH4T12;
-		larryH4[12] = lblH4T13;
-		larryH4[13] = lblH4T14;
-		
-		larryH4M1[0] = lblH4M1T1;
-		larryH4M1[1] = lblH4M1T2;
-		larryH4M1[2] = lblH4M1T3;
-		larryH4M1[3] = lblH4M1T4;
-		larryH4M2[0] = lblH4M2T1;
-		larryH4M2[1] = lblH4M2T2;
-		larryH4M2[2] = lblH4M2T3;
-		larryH4M2[3] = lblH4M2T4;
-		larryH4M3[0] = lblH4M3T1;
-		larryH4M3[1] = lblH4M3T2;
-		larryH4M3[2] = lblH4M3T3;
-		larryH4M3[3] = lblH4M3T4;
-		larryH4M4[0] = lblH4M4T1;
-		larryH4M4[1] = lblH4M4T2;
-		larryH4M4[2] = lblH4M4T3;
-		larryH4M4[3] = lblH4M4T4;
 		
 		
-		larryP4[0] = lblP4T1;
-		larryP4[1] = lblP4T2;
-		larryP4[2] = lblP4T3;
-		larryP4[3] = lblP4T4;
-		larryP4[4] = lblP4T5;
-		larryP4[5] = lblP4T6;
-		larryP4[6] = lblP4T7;
-		larryP4[7] = lblP4T8;
-		larryP4[8] = lblP4T9;
-		larryP4[9] = lblP4T10;
-		larryP4[10] = lblP4T11;
-		larryP4[11] = lblP4T12;
-		larryP4[12] = lblP4T13;
-		larryP4[13] = lblP4T14;
-		larryP4[14] = lblP4T15;
-		larryP4[15] = lblP4T16;
-		larryP4[16] = lblP4T17;
-		larryP4[17] = lblP4T18;
-		larryP4[18] = lblP4T19;
-		larryP4[19] = lblP4T20;
-		larryP4[20] = lblP4T21;
-		larryP4[21] = lblP4T22;
-		larryP4[22] = lblP4T23;
-		larryP4[23] = lblP4T24;
 		
-		larryW4[0] = lblW4T1;
-		larryW4[1] = lblW4T2;
-		larryW4[2] = lblW4T3;
-		larryW4[3] = lblW4T4;
-		larryW4[4] = lblW4T5;
-		larryW4[5] = lblW4T6;
-		larryW4[6] = lblW4T7;
-		larryW4[7] = lblW4T8;
-		larryW4[8] = lblW4T9;
-		larryW4[9] = lblW4T10;
-		larryW4[10] = lblW4T11;
-		larryW4[11] = lblW4T12;
-		larryW4[12] = lblW4T13;
-		larryW4[13] = lblW4T14;
-		larryW4[14] = lblW4T15;
-		larryW4[15] = lblW4T16;
-		larryW4[16] = lblW4T17;
-		larryW4[17] = lblW4T18;
-		larryW4[18] = lblW4T19;
-		larryW4[19] = lblW4T20;
-		larryW4[20] = lblW4T21;
-		larryW4[21] = lblW4T22;
-		larryW4[22] = lblW4T23;
-		larryW4[23] = lblW4T24;
-		larryW4[24] = lblW4T25;
-		larryW4[25] = lblW4T26;
-		larryW4[26] = lblW4T27;
-		larryW4[27] = lblW4T28;
-		larryW4[28] = lblW4T29;
-		larryW4[29] = lblW4T30;
-		larryW4[30] = lblW4T31;
-		larryW4[31] = lblW4T32;
-		larryW4[32] = lblW4T33;
-		larryW4[33] = lblW4T34;
 		
 		
 		

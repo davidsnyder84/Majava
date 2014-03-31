@@ -68,7 +68,10 @@ public class WorldViewer extends JFrame {
 	private static final int SIZE_MELD = 4;
 	private static final int SIZE_WALL = 34;
 	private static final int SIZE_POND = 24;
-	private static final int SIZE_SEATWINDS = 4;
+	private static final int SIZE_LARRY_INFOPLAYER = 3;
+	private static final int SIZE_LARRY_INFOROUND = 2;
+	
+	
 	
 	
 	//////////////
@@ -77,8 +80,6 @@ public class WorldViewer extends JFrame {
 	JLabel[] larryH3 = new JLabel[SIZE_HAND];
 	JLabel[] larryH4 = new JLabel[SIZE_HAND];
 	
-	
-	//////////////
 	JLabel[] larryH1M1 = new JLabel[SIZE_MELD];
 	JLabel[] larryH1M2 = new JLabel[SIZE_MELD];
 	JLabel[] larryH1M3 = new JLabel[SIZE_MELD];
@@ -104,15 +105,11 @@ public class WorldViewer extends JFrame {
 	JLabel[][] larryH3Ms = {larryH3M1, larryH3M2, larryH3M3, larryH3M4};
 	JLabel[][] larryH4Ms = {larryH4M1, larryH4M2, larryH4M3, larryH4M4};
 	
-	
-	//////////////
 	JLabel[] larryW1 = new JLabel[SIZE_WALL];
 	JLabel[] larryW2 = new JLabel[SIZE_WALL];
 	JLabel[] larryW3 = new JLabel[SIZE_WALL];
 	JLabel[] larryW4 = new JLabel[SIZE_WALL];
 	
-	
-	//////////////
 	JLabel[] larryP1 = new JLabel[SIZE_POND];
 	JLabel[] larryP2 = new JLabel[SIZE_POND];
 	JLabel[] larryP3 = new JLabel[SIZE_POND];
@@ -121,7 +118,29 @@ public class WorldViewer extends JFrame {
 	
 	
 	
+	JLabel[] larryInfoP1 = new JLabel[SIZE_LARRY_INFOPLAYER];
+	JLabel[] larryInfoP2 = new JLabel[SIZE_LARRY_INFOPLAYER];
+	JLabel[] larryInfoP3 = new JLabel[SIZE_LARRY_INFOPLAYER];
+	JLabel[] larryInfoP4 = new JLabel[SIZE_LARRY_INFOPLAYER];
+	
+	//larryInfoPlayers[player number][0 = seatwind, 1 = points, 2 = riichiStick]
+	JLabel[][] larryInfoPlayers = {larryInfoP1, larryInfoP2, larryInfoP3, larryInfoP4};
+	
+	//0 = roundWind, 1 = roundNumber
+	JLabel[] larryInfoRound = new JLabel[SIZE_LARRY_INFOROUND];
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	private static final int SIZE_GARRY_TILES = 38;
+	private static final int SIZE_GARRY_WINDS = 4;
+	private static final int SIZE_GARRY_OTHER = 2;
 	private static final int SIZE_NUM_SEATS = 4;
 	private static final int GARRYINDEX_TILE_BIG = 0;
 	private static final int GARRYINDEX_TILE_SMALL = 1;
@@ -151,6 +170,14 @@ public class WorldViewer extends JFrame {
 	
 	
 	
+	ImageIcon[] garryWindsBig = new ImageIcon[SIZE_GARRY_WINDS];
+	ImageIcon[] garryWindsSmall = new ImageIcon[SIZE_GARRY_WINDS];
+	//garryWinds[0=big,1=small]
+	ImageIcon[][] garryWinds = {garryWindsBig, garryWindsSmall}; 
+	
+	
+	//0 = riichi stick, 1 = sheepy2
+	ImageIcon[] garryOther = new ImageIcon[SIZE_GARRY_OTHER];
 	
 	
 	
@@ -2506,7 +2533,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-		//put labels into arrays
+		//load Tile labels into arrays
 		larryH1[0] = lblH1T1;larryH1[1] = lblH1T2;larryH1[2] = lblH1T3;larryH1[3] = lblH1T4;larryH1[4] = lblH1T5;larryH1[5] = lblH1T6;larryH1[6] = lblH1T7;larryH1[7] = lblH1T8;larryH1[8] = lblH1T9;larryH1[9] = lblH1T10;larryH1[10] = lblH1T11;larryH1[11] = lblH1T12;larryH1[12] = lblH1T13;larryH1[13] = lblH1T14;
 		larryH1M1[0] = lblH1M1T1;larryH1M1[1] = lblH1M1T2;larryH1M1[2] = lblH1M1T3;larryH1M1[3] = lblH1M1T4;larryH1M2[0] = lblH1M2T1;larryH1M2[1] = lblH1M2T2;larryH1M2[2] = lblH1M2T3;larryH1M2[3] = lblH1M2T4;larryH1M3[0] = lblH1M3T1;larryH1M3[1] = lblH1M3T2;larryH1M3[2] = lblH1M3T3;larryH1M3[3] = lblH1M3T4;larryH1M4[0] = lblH1M4T1;larryH1M4[1] = lblH1M4T2;larryH1M4[2] = lblH1M4T3;larryH1M4[3] = lblH1M4T4;
 		larryP1[0] = lblP1T1;larryP1[1] = lblP1T2;larryP1[2] = lblP1T3;larryP1[3] = lblP1T4;larryP1[4] = lblP1T5;larryP1[5] = lblP1T6;larryP1[6] = lblP1T7;larryP1[7] = lblP1T8;larryP1[8] = lblP1T9;larryP1[9] = lblP1T10;larryP1[10] = lblP1T11;larryP1[11] = lblP1T12;larryP1[12] = lblP1T13;larryP1[13] = lblP1T14;larryP1[14] = lblP1T15;larryP1[15] = lblP1T16;larryP1[16] = lblP1T17;larryP1[17] = lblP1T18;larryP1[18] = lblP1T19;larryP1[19] = lblP1T20;larryP1[20] = lblP1T21;larryP1[21] = lblP1T22;larryP1[22] = lblP1T23;larryP1[23] = lblP1T24;
@@ -2526,15 +2553,24 @@ public class WorldViewer extends JFrame {
 		larryH4M1[0] = lblH4M1T1;larryH4M1[1] = lblH4M1T2;larryH4M1[2] = lblH4M1T3;larryH4M1[3] = lblH4M1T4;larryH4M2[0] = lblH4M2T1;larryH4M2[1] = lblH4M2T2;larryH4M2[2] = lblH4M2T3;larryH4M2[3] = lblH4M2T4;larryH4M3[0] = lblH4M3T1;larryH4M3[1] = lblH4M3T2;larryH4M3[2] = lblH4M3T3;larryH4M3[3] = lblH4M3T4;larryH4M4[0] = lblH4M4T1;larryH4M4[1] = lblH4M4T2;larryH4M4[2] = lblH4M4T3;larryH4M4[3] = lblH4M4T4;
 		larryP4[0] = lblP4T1;larryP4[1] = lblP4T2;larryP4[2] = lblP4T3;larryP4[3] = lblP4T4;larryP4[4] = lblP4T5;larryP4[5] = lblP4T6;larryP4[6] = lblP4T7;larryP4[7] = lblP4T8;larryP4[8] = lblP4T9;larryP4[9] = lblP4T10;larryP4[10] = lblP4T11;larryP4[11] = lblP4T12;larryP4[12] = lblP4T13;larryP4[13] = lblP4T14;larryP4[14] = lblP4T15;larryP4[15] = lblP4T16;larryP4[16] = lblP4T17;larryP4[17] = lblP4T18;larryP4[18] = lblP4T19;larryP4[19] = lblP4T20;larryP4[20] = lblP4T21;larryP4[21] = lblP4T22;larryP4[22] = lblP4T23;larryP4[23] = lblP4T24;		
 		larryW4[0] = lblW4T1;larryW4[1] = lblW4T2;larryW4[2] = lblW4T3;larryW4[3] = lblW4T4;larryW4[4] = lblW4T5;larryW4[5] = lblW4T6;larryW4[6] = lblW4T7;larryW4[7] = lblW4T8;larryW4[8] = lblW4T9;larryW4[9] = lblW4T10;larryW4[10] = lblW4T11;larryW4[11] = lblW4T12;larryW4[12] = lblW4T13;larryW4[13] = lblW4T14;larryW4[14] = lblW4T15;larryW4[15] = lblW4T16;larryW4[16] = lblW4T17;larryW4[17] = lblW4T18;larryW4[18] = lblW4T19;larryW4[19] = lblW4T20;larryW4[20] = lblW4T21;larryW4[21] = lblW4T22;larryW4[22] = lblW4T23;larryW4[23] = lblW4T24;larryW4[24] = lblW4T25;larryW4[25] = lblW4T26;larryW4[26] = lblW4T27;larryW4[27] = lblW4T28;larryW4[28] = lblW4T29;larryW4[29] = lblW4T30;larryW4[30] = lblW4T31;larryW4[31] = lblW4T32;larryW4[32] = lblW4T33;larryW4[33] = lblW4T34;
-
+		
+		
+		
+		//load Round Info labels into arrays
+		larryInfoRound[0] = lblRIndWind;larryInfoRound[1] = lblRIndNum;
+		larryInfoP1[0] = lblInfoP1Wind;larryInfoP1[1] = lblInfoP1Points;larryInfoP1[2] = lblInfoP1Riichi;
+		larryInfoP2[0] = lblInfoP2Wind;larryInfoP2[1] = lblInfoP2Points;larryInfoP2[2] = lblInfoP2Riichi;
+		larryInfoP3[0] = lblInfoP3Wind;larryInfoP3[1] = lblInfoP3Points;larryInfoP3[2] = lblInfoP3Riichi;
+		larryInfoP4[0] = lblInfoP4Wind;larryInfoP4[1] = lblInfoP4Points;larryInfoP4[2] = lblInfoP4Riichi;
 		
 		
 		
 		
 		//put image icons into arrays
-		//garryTiles[seat number][0=big,1=small][tile number]
+		//load Tile images into array
 		for(int seat = 0; seat < SIZE_NUM_SEATS; seat++){
 			//get tileback and each of the 34 tiles
+			//garryTiles[seat number][0=big,1=small][tile number]
 			for (int tile = 0; tile < SIZE_GARRY_TILES; tile++){
 				garryTiles[seat][GARRYINDEX_TILE_BIG][tile] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\" + tile + ".png");
 				garryTiles[seat][GARRYINDEX_TILE_SMALL][tile] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\small\\" + tile + ".png");
@@ -2550,6 +2586,24 @@ public class WorldViewer extends JFrame {
 			garryTiles[seat][GARRYINDEX_TILE_BIG][GARRYINDEX_RED5S] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\23r.png");
 			garryTiles[seat][GARRYINDEX_TILE_SMALL][GARRYINDEX_RED5S] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\small\\23r.png");
 		}
+		
+		
+		//load Wind images into array
+		garryWinds[0][0] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transE.png");
+		garryWinds[0][1] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transS.png");
+		garryWinds[0][2] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transW.png");
+		garryWinds[0][3] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transN.png");
+		garryWinds[1][0] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transEs.png");
+		garryWinds[1][1] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transSs.png");
+		garryWinds[1][2] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transWs.png");
+		garryWinds[1][3] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transNs.png");
+		
+		
+		
+		
+		//load Other (riichi stick, sheepy2) into array
+		garryOther[0] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\riichiStick.png");
+		garryOther[1] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\sheepy2trans.png");
 		
 		
 		

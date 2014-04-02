@@ -2466,6 +2466,7 @@ public class WorldViewer extends JFrame {
 				Random randGen = new Random();
 				final int RANDLIMIT = 38;
 				
+				//randomize tiles
 				for (JLabel l: larryH1)
 					l.setIcon(garryTiles[0][0][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP1)
@@ -2508,6 +2509,22 @@ public class WorldViewer extends JFrame {
 				for (JLabel[] lar: larryH4Ms)
 					for (JLabel l: lar)
 						l.setIcon(garryTiles[3][1][randGen.nextInt(RANDLIMIT)]);
+				
+				
+				//randomize round info
+				larryInfoRound[0].setIcon(garryWindsBig[randGen.nextInt(SIZE_GARRY_WINDS)]);
+				larryInfoRound[1].setText(Integer.toString(1+randGen.nextInt(SIZE_GARRY_WINDS)));
+				
+				//ranodmize player info
+				for (JLabel[] player: larryInfoPlayers){
+					player[0].setIcon(garryWindsSmall[randGen.nextInt(SIZE_GARRY_WINDS)]);
+					player[1].setText(Integer.toString(100*randGen.nextInt(1280)));
+					if (randGen.nextInt(2) == 0) player[2].setIcon(null);
+					else player[2].setIcon(garryOther[0]);
+				}
+				
+				thisguy.repaint();
+				
 			
 			}
 		});

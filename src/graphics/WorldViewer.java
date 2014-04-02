@@ -2434,20 +2434,23 @@ public class WorldViewer extends JFrame {
 		btnToggleOnOff.setBounds(27, 559, 215, 35);
 		panelSidebar.add(btnToggleOnOff);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
-		lblNewLabel.setBounds(52, 403, 30, 41);
-		panelSidebar.add(lblNewLabel);
+		JLabel lblBigTileDemo1 = new JLabel("");
+		lblBigTileDemo1.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
+		lblBigTileDemo1.setBounds(52, 403, 30, 41);
+		panelSidebar.add(lblBigTileDemo1);
 		
-		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
-		label.setBounds(82, 403, 30, 41);
-		panelSidebar.add(label);
+		JLabel lblBigTileDemo2 = new JLabel("");
+		lblBigTileDemo2.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
+		lblBigTileDemo2.setBounds(82, 403, 30, 41);
+		panelSidebar.add(lblBigTileDemo2);
 		
-		JLabel label_1 = new JLabel("");
-		label_1.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
-		label_1.setBounds(112, 403, 30, 41);
-		panelSidebar.add(label_1);
+		JLabel lblBigTileDemo3 = new JLabel("");
+		lblBigTileDemo3.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
+		lblBigTileDemo3.setBounds(112, 403, 30, 41);
+		panelSidebar.add(lblBigTileDemo3);
+		
+		
+		
 		
 		
 		
@@ -2511,6 +2514,53 @@ public class WorldViewer extends JFrame {
 		btnRandhand.setBounds(49, 621, 172, 35);
 		panelSidebar.add(btnRandhand);
 		
+		JLabel lblSmallTileDemo1 = new JLabel("");
+		lblSmallTileDemo1.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
+		lblSmallTileDemo1.setBounds(49, 470, 23, 31);
+		panelSidebar.add(lblSmallTileDemo1);
+		
+		JLabel lblSmallTileDemo2 = new JLabel("");
+		lblSmallTileDemo2.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
+		lblSmallTileDemo2.setBounds(72, 470, 23, 31);
+		panelSidebar.add(lblSmallTileDemo2);
+		
+		JLabel lblSmallTileDemo3 = new JLabel("");
+		lblSmallTileDemo3.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
+		lblSmallTileDemo3.setBounds(95, 470, 23, 31);
+		panelSidebar.add(lblSmallTileDemo3);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -2524,12 +2574,6 @@ public class WorldViewer extends JFrame {
 		
 		
 		////////////////////////////////////////////////////////////
-		
-		
-		
-		
-		
-		
 		
 		
 		
@@ -2604,6 +2648,7 @@ public class WorldViewer extends JFrame {
 		//load Other (riichi stick, sheepy2) into array
 		garryOther[0] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\riichiStick.png");
 		garryOther[1] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\sheepy2trans.png");
+		
 		
 		
 		

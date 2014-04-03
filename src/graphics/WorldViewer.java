@@ -627,7 +627,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelP3 = new JPanel();
-		panelP3.setBounds(220, 79, POND_PANEL_WIDTH, POND_PANEL_HEIGHT);
+		panelP3.setBounds(220, 95, POND_PANEL_WIDTH, POND_PANEL_HEIGHT);
 		panelP3.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelP3);
 		panelP3.setLayout(new GridLayout(4, 6, 0, 0));
@@ -734,7 +734,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelP4 = new JPanel();
-		panelP4.setBounds(76, 218, POND_PANEL_HEIGHT, POND_PANEL_WIDTH);
+		panelP4.setBounds(92, 218, POND_PANEL_HEIGHT, POND_PANEL_WIDTH);
 		panelP4.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelP4);
 		panelP4.setLayout(new GridLayout(6, 4, 0, 0));
@@ -853,7 +853,7 @@ public class WorldViewer extends JFrame {
 		
 		JPanel panelW1 = new JPanel();
 //		panelW1.setBounds(71, 528, TILE_SMALL_WIDTH*(SIZE_WALL/2)+17, TILE_SMALL_HEIGHT*2+2);
-		panelW1.setBounds(105, 528, TILE_SMALL_WIDTH*(SIZE_WALL/2), TILE_SMALL_HEIGHT*2);
+		panelW1.setBounds(105, 509, TILE_SMALL_WIDTH*(SIZE_WALL/2), TILE_SMALL_HEIGHT*2);
 		panelW1.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelW1);
 		panelW1.setLayout(new GridLayout(2, 17, 0, 0));
@@ -999,7 +999,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelW2 = new JPanel();
-		panelW2.setBounds(529, 103, TILE_SMALL_HEIGHT*2, TILE_SMALL_WIDTH*(SIZE_WALL/2));
+		panelW2.setBounds(514, 103, TILE_SMALL_HEIGHT*2, TILE_SMALL_WIDTH*(SIZE_WALL/2));
 		panelW2.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelW2);
 		panelW2.setLayout(new GridLayout(17, 2, 0, 0));
@@ -1146,7 +1146,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelW3 = new JPanel();
-		panelW3.setBounds(105, 0, TILE_SMALL_WIDTH*(SIZE_WALL/2), TILE_SMALL_HEIGHT*2);
+		panelW3.setBounds(105, 27, TILE_SMALL_WIDTH*(SIZE_WALL/2), TILE_SMALL_HEIGHT*2);
 		panelW3.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelW3);
 		panelW3.setLayout(new GridLayout(2, 17, 0, 0));
@@ -1293,7 +1293,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelW4 = new JPanel();
-		panelW4.setBounds(0, 103, TILE_SMALL_HEIGHT*2, TILE_SMALL_WIDTH*(SIZE_WALL/2));
+		panelW4.setBounds(24, 103, TILE_SMALL_HEIGHT*2, TILE_SMALL_WIDTH*(SIZE_WALL/2));
 		panelW4.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelW4);
 		panelW4.setLayout(new GridLayout(17, 2, 0, 0));
@@ -1448,7 +1448,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelRoundInfo = new JPanel();
-		panelRoundInfo.setBounds(217, 219, 166, 158);
+		panelRoundInfo.setBounds(217, 220, 166, 158);
 		panelMidTable.add(panelRoundInfo);
 		panelRoundInfo.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		panelRoundInfo.setBackground(new Color(0,255,255,35));
@@ -1595,7 +1595,7 @@ public class WorldViewer extends JFrame {
 		
 		//exists only to color the background behind the round info
 		JPanel panelRndInfBackground = new JPanel();
-		panelRndInfBackground.setBounds(217, 219, 166, 158);
+		panelRndInfBackground.setBounds(217, 220, 166, 158);
 		panelMidTable.add(panelRndInfBackground);
 		panelRndInfBackground.setLayout(null);
 		
@@ -2476,6 +2476,7 @@ public class WorldViewer extends JFrame {
 				
 				Random randGen = new Random();
 				final int RANDLIMIT = 38;
+				final boolean HIDEWALL = true;
 				
 				//randomize tiles
 				for (JLabel l: larryH1)
@@ -2483,12 +2484,12 @@ public class WorldViewer extends JFrame {
 				for (JLabel l: larryP1)
 					l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW1)
-					l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
+					if (HIDEWALL) l.setIcon(garryTiles[0][1][0]); 
+					else l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH1Ms)
 					for (JLabel l: lar)
 						if (randGen.nextInt(4) == 1) l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
 						else l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
-//						l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				
 				
 				for (JLabel l: larryH2)
@@ -2497,7 +2498,8 @@ public class WorldViewer extends JFrame {
 					if (randGen.nextInt(34) != 1) l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
 					else l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW2)
-					l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
+					if (HIDEWALL) l.setIcon(garryTiles[1][1][0]); 
+					else l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH2Ms)
 					for (JLabel l: lar)
 						l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
@@ -2508,7 +2510,8 @@ public class WorldViewer extends JFrame {
 				for (JLabel l: larryP3)
 					l.setIcon(garryTiles[2][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW3)
-					l.setIcon(garryTiles[2][1][randGen.nextInt(RANDLIMIT)]);
+					if (HIDEWALL) l.setIcon(garryTiles[2][1][0]); 
+					else l.setIcon(garryTiles[2][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH3Ms)
 					for (JLabel l: lar)
 						l.setIcon(garryTiles[2][1][randGen.nextInt(RANDLIMIT)]);
@@ -2519,7 +2522,8 @@ public class WorldViewer extends JFrame {
 				for (JLabel l: larryP4)
 					l.setIcon(garryTiles[3][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW4)
-					l.setIcon(garryTiles[3][1][randGen.nextInt(RANDLIMIT)]);
+					if (HIDEWALL) l.setIcon(garryTiles[3][1][0]); 
+					else l.setIcon(garryTiles[3][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH4Ms)
 					for (JLabel l: lar)
 						l.setIcon(garryTiles[3][1][randGen.nextInt(RANDLIMIT)]);

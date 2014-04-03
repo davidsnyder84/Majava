@@ -37,12 +37,26 @@ public class WorldViewer extends JFrame {
 	public static final int WINDOW_SIDE_BORDER_SIZE = 8;
 	public static final int WINDOW_BOTTOM_BORDER_SIZE = 8;
 	
-	
+
 	
 	public static final int TILE_BIG_WIDTH = 30;
 	public static final int TILE_BIG_HEIGHT = 41;
 	public static final int TILE_SMALL_WIDTH = 23;
 	public static final int TILE_SMALL_HEIGHT = 31;
+	public static final int PONDPANEL_NEW_WIDTH = TILE_SMALL_WIDTH*6;
+	public static final int PONDPANEL_NEW_HEIGHT = TILE_SMALL_HEIGHT*4;
+	
+	
+	public static final int TILE_OLD_BIG_WIDTH = 36;
+	public static final int TILE_OLD_BIG_HEIGHT = 46;
+	public static final int TILE_OLD_SMALL_WIDTH = 27;
+	public static final int TILE_OLD_SMALL_HEIGHT = 35;
+	public static final int PONDPANEL_OLD_WIDTH = TILE_OLD_SMALL_WIDTH*6;
+	public static final int PONDPANEL_OLD_HEIGHT = TILE_OLD_SMALL_HEIGHT*4;
+	
+	public static final int POND_PANEL_WIDTH = PONDPANEL_OLD_WIDTH;
+	public static final int POND_PANEL_HEIGHT = PONDPANEL_NEW_HEIGHT;
+	
 	
 	
 	
@@ -397,7 +411,9 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelP1 = new JPanel();
-		panelP1.setBounds(220, 379, 162, 140);
+		panelP1.setBounds(220, 379, POND_PANEL_WIDTH, POND_PANEL_HEIGHT);
+//		panelP1.setBounds(220, 379, PONDPANEL_OLD_WIDTH, PONDPANEL_OLD_HEIGHT);
+//		panelP1.setBounds(220, 379, 6*TILE_SMALL_WIDTH, 4*TILE_SMALL_HEIGHT);
 		panelP1.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelP1);
 		panelP1.setLayout(new GridLayout(4, 6, 0, 0));
@@ -504,7 +520,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelP2 = new JPanel();
-		panelP2.setBounds(384, 218, 140, 162);
+		panelP2.setBounds(384, 218, POND_PANEL_HEIGHT, POND_PANEL_WIDTH);
 		panelP2.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelP2);
 		panelP2.setLayout(new GridLayout(6, 4, 0, 0));
@@ -611,7 +627,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelP3 = new JPanel();
-		panelP3.setBounds(220, 79, 162, 140);
+		panelP3.setBounds(220, 79, POND_PANEL_WIDTH, POND_PANEL_HEIGHT);
 		panelP3.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelP3);
 		panelP3.setLayout(new GridLayout(4, 6, 0, 0));
@@ -718,7 +734,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelP4 = new JPanel();
-		panelP4.setBounds(76, 218, 140, 162);
+		panelP4.setBounds(76, 218, POND_PANEL_HEIGHT, POND_PANEL_WIDTH);
 		panelP4.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelP4);
 		panelP4.setLayout(new GridLayout(6, 4, 0, 0));
@@ -836,7 +852,8 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelW1 = new JPanel();
-		panelW1.setBounds(71, 528, 459, 70);
+//		panelW1.setBounds(71, 528, TILE_SMALL_WIDTH*(SIZE_WALL/2)+17, TILE_SMALL_HEIGHT*2+2);
+		panelW1.setBounds(105, 528, TILE_SMALL_WIDTH*(SIZE_WALL/2), TILE_SMALL_HEIGHT*2);
 		panelW1.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelW1);
 		panelW1.setLayout(new GridLayout(2, 17, 0, 0));
@@ -982,7 +999,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelW2 = new JPanel();
-		panelW2.setBounds(529, 69, 70, 459);
+		panelW2.setBounds(529, 103, TILE_SMALL_HEIGHT*2, TILE_SMALL_WIDTH*(SIZE_WALL/2));
 		panelW2.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelW2);
 		panelW2.setLayout(new GridLayout(17, 2, 0, 0));
@@ -1129,7 +1146,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelW3 = new JPanel();
-		panelW3.setBounds(70, 0, 459, 70);
+		panelW3.setBounds(105, 0, TILE_SMALL_WIDTH*(SIZE_WALL/2), TILE_SMALL_HEIGHT*2);
 		panelW3.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelW3);
 		panelW3.setLayout(new GridLayout(2, 17, 0, 0));
@@ -1276,7 +1293,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelW4 = new JPanel();
-		panelW4.setBounds(0, 69, 70, 459);
+		panelW4.setBounds(0, 103, TILE_SMALL_HEIGHT*2, TILE_SMALL_WIDTH*(SIZE_WALL/2));
 		panelW4.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelW4);
 		panelW4.setLayout(new GridLayout(17, 2, 0, 0));
@@ -1595,7 +1612,7 @@ public class WorldViewer extends JFrame {
 		panelPlayer1.setLayout(null);
 		
 		JPanel panelH1 = new JPanel();
-		panelH1.setBounds(0, 0, TILE_BIG_WIDTH*SIZE_HAND, TILE_BIG_HEIGHT);
+		panelH1.setBounds(42, 0, TILE_BIG_WIDTH*SIZE_HAND, TILE_BIG_HEIGHT);
 		panelH1.setBackground(COLOR_TRANSPARENT);
 		panelPlayer1.add(panelH1);
 		panelH1.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -1662,7 +1679,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelH1Ms = new JPanel();
-		panelH1Ms.setBounds(192, 47, 474, 35);
+		panelH1Ms.setBounds(192, 47, 474, 31);
 		panelH1Ms.setBackground(COLOR_TRANSPARENT);
 		panelPlayer1.add(panelH1Ms);
 		panelH1Ms.setLayout(null);
@@ -1671,7 +1688,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelH1M4 = new JPanel();
-		panelH1M4.setBounds(0, 0, 114, 35);
+		panelH1M4.setBounds(0, 0, 108, 31);
 		panelH1M4.setBackground(COLOR_TRANSPARENT);
 		panelH1M4.setLayout(new GridLayout(1, 4, 0, 0));
 		
@@ -1695,7 +1712,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelH1M3 = new JPanel();
-		panelH1M3.setBounds(120, 0, 114, 35);
+		panelH1M3.setBounds(120, 0, 108, 31);
 		panelH1M3.setBackground(COLOR_TRANSPARENT);
 		panelH1Ms.add(panelH1M3);
 		panelH1M3.setLayout(new GridLayout(1, 4, 0, 0));
@@ -1719,7 +1736,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelH1M2 = new JPanel();
-		panelH1M2.setBounds(240, 0, 114, 35);
+		panelH1M2.setBounds(240, 0, 108, 31);
 		panelH1M2.setBackground(COLOR_TRANSPARENT);
 		panelH1Ms.add(panelH1M2);
 		panelH1M2.setLayout(new GridLayout(1, 4, 0, 0));
@@ -1742,7 +1759,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelH1M1 = new JPanel();
-		panelH1M1.setBounds(360, 0, 114, 35);
+		panelH1M1.setBounds(360, 0, 108, 31);
 		panelH1M1.setBackground(COLOR_TRANSPARENT);
 		panelH1Ms.add(panelH1M1);
 		panelH1M1.setLayout(new GridLayout(1, 4, 0, 0));
@@ -1794,7 +1811,7 @@ public class WorldViewer extends JFrame {
 		panelPlayer2.setLayout(null);
 		
 		JPanel panelH2 = new JPanel();
-		panelH2.setBounds(0, 161, TILE_BIG_HEIGHT, TILE_BIG_WIDTH*SIZE_HAND);
+		panelH2.setBounds(0, 203, TILE_BIG_HEIGHT, TILE_BIG_WIDTH*SIZE_HAND);
 		panelH2.setBackground(COLOR_TRANSPARENT);
 		panelPlayer2.add(panelH2);
 		panelH2.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -1991,7 +2008,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelH3 = new JPanel();
-		panelH3.setBounds(161, 36, TILE_BIG_WIDTH*SIZE_HAND, TILE_BIG_HEIGHT);
+		panelH3.setBounds(203, 36, TILE_BIG_WIDTH*SIZE_HAND, TILE_BIG_HEIGHT);
 		panelH3.setBackground(COLOR_TRANSPARENT);
 		panelPlayer3.add(panelH3);
 		panelH3.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -2193,7 +2210,7 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelH4 = new JPanel();
-		panelH4.setBounds(36, 0, TILE_BIG_HEIGHT, TILE_BIG_WIDTH*SIZE_HAND);
+		panelH4.setBounds(36, 78, TILE_BIG_HEIGHT, TILE_BIG_WIDTH*SIZE_HAND);
 		panelH4.setBackground(COLOR_TRANSPARENT);
 		panelPlayer4.add(panelH4);
 		panelH4.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
@@ -2469,13 +2486,16 @@ public class WorldViewer extends JFrame {
 					l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH1Ms)
 					for (JLabel l: lar)
-						l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
+						if (randGen.nextInt(4) == 1) l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
+						else l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
+//						l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				
 				
 				for (JLabel l: larryH2)
 					l.setIcon(garryTiles[1][0][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP2)
-					l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
+					if (randGen.nextInt(34) != 1) l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
+					else l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW2)
 					l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH2Ms)

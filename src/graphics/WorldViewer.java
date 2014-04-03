@@ -24,6 +24,7 @@ import java.util.Random;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.FlowLayout;
 
 @SuppressWarnings("serial")
 public class WorldViewer extends JFrame {
@@ -35,6 +36,14 @@ public class WorldViewer extends JFrame {
 	public static final int WINDOW_TOP_BORDER_SIZE = 30;
 	public static final int WINDOW_SIDE_BORDER_SIZE = 8;
 	public static final int WINDOW_BOTTOM_BORDER_SIZE = 8;
+	
+	
+	
+	public static final int TILE_BIG_WIDTH = 30;
+	public static final int TILE_BIG_HEIGHT = 41;
+	public static final int TILE_SMALL_WIDTH = 23;
+	public static final int TILE_SMALL_HEIGHT = 31;
+	
 	
 	
 	public static final Color COLOR_TABLE = new Color(0, 140, 0, 100);
@@ -1586,78 +1595,64 @@ public class WorldViewer extends JFrame {
 		panelPlayer1.setLayout(null);
 		
 		JPanel panelH1 = new JPanel();
-		panelH1.setBounds(0, 0, 506, 46);
+		panelH1.setBounds(0, 0, TILE_BIG_WIDTH*SIZE_HAND, TILE_BIG_HEIGHT);
 		panelH1.setBackground(COLOR_TRANSPARENT);
 		panelPlayer1.add(panelH1);
-		panelH1.setLayout(null);
+		panelH1.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		
 		JLabel lblH1T1 = new JLabel("");
-		lblH1T1.setBounds(0, 0, 36, 46);
 		lblH1T1.setIcon(hImg);
 		panelH1.add(lblH1T1);
 		
 		JLabel lblH1T2 = new JLabel("");
-		lblH1T2.setBounds(36, 0, 36, 46);
 		lblH1T2.setIcon(hImg);
 		panelH1.add(lblH1T2);
 		
 		JLabel lblH1T3 = new JLabel("");
-		lblH1T3.setBounds(72, 0, 36, 46);
 		lblH1T3.setIcon(hImg);
 		panelH1.add(lblH1T3);
 		
 		JLabel lblH1T4 = new JLabel("");
-		lblH1T4.setBounds(108, 0, 36, 46);
 		lblH1T4.setIcon(hImg);
 		panelH1.add(lblH1T4);
 		
 		JLabel lblH1T5 = new JLabel("");
-		lblH1T5.setBounds(144, 0, 36, 46);
 		lblH1T5.setIcon(hImg);
 		panelH1.add(lblH1T5);
 		
 		JLabel lblH1T6 = new JLabel("");
-		lblH1T6.setBounds(180, 0, 36, 46);
 		lblH1T6.setIcon(hImg);
 		panelH1.add(lblH1T6);
 		
 		JLabel lblH1T7 = new JLabel("");
-		lblH1T7.setBounds(216, 0, 36, 46);
 		lblH1T7.setIcon(hImg);
 		panelH1.add(lblH1T7);
 		
 		JLabel lblH1T8 = new JLabel("");
-		lblH1T8.setBounds(252, 0, 36, 46);
 		lblH1T8.setIcon(hImg);
 		panelH1.add(lblH1T8);
 		
 		JLabel lblH1T9 = new JLabel("");
-		lblH1T9.setBounds(288, 0, 36, 46);
 		lblH1T9.setIcon(hImg);
 		panelH1.add(lblH1T9);
 		
 		JLabel lblH1T10 = new JLabel("");
-		lblH1T10.setBounds(324, 0, 36, 46);
 		lblH1T10.setIcon(hImg);
 		panelH1.add(lblH1T10);
 		
 		JLabel lblH1T11 = new JLabel("");
-		lblH1T11.setBounds(360, 0, 36, 46);
 		lblH1T11.setIcon(hImg);
 		panelH1.add(lblH1T11);
 		
 		JLabel lblH1T12 = new JLabel("");
-		lblH1T12.setBounds(396, 0, 36, 46);
 		lblH1T12.setIcon(hImg);
 		panelH1.add(lblH1T12);
 		
 		JLabel lblH1T13 = new JLabel("");
-		lblH1T13.setBounds(432, 0, 36, 46);
 		lblH1T13.setIcon(hImg);
 		panelH1.add(lblH1T13);
 		
 		JLabel lblH1T14 = new JLabel("");
-		lblH1T14.setBounds(468, 0, 36, 46);
 		lblH1T14.setIcon(hImg);
 		panelH1.add(lblH1T14);
 		
@@ -1799,81 +1794,80 @@ public class WorldViewer extends JFrame {
 		panelPlayer2.setLayout(null);
 		
 		JPanel panelH2 = new JPanel();
-		panelH2.setBounds(0, 161, 46, 506);
+		panelH2.setBounds(0, 161, TILE_BIG_HEIGHT, TILE_BIG_WIDTH*SIZE_HAND);
 		panelH2.setBackground(COLOR_TRANSPARENT);
 		panelPlayer2.add(panelH2);
-		panelH2.setLayout(null);
+		panelH2.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		
+		JLabel lblH2T14 = new JLabel("");
+		lblH2T14.setIcon(h2Img);
+		panelH2.add(lblH2T14);
+		larryH2[13] = lblH2T14;
+		
+		JLabel lblH2T13 = new JLabel("");
+		lblH2T13.setIcon(h2Img);
+		panelH2.add(lblH2T13);
+		larryH2[12] = lblH2T13;
+		
+		JLabel lblH2T12 = new JLabel("");
+		lblH2T12.setIcon(h2Img);
+		panelH2.add(lblH2T12);
+		larryH2[11] = lblH2T12;
+		
+		JLabel lblH2T11 = new JLabel("");
+		lblH2T11.setIcon(h2Img);
+		panelH2.add(lblH2T11);
+		larryH2[10] = lblH2T11;
+		
+		JLabel lblH2T10 = new JLabel("");
+		lblH2T10.setIcon(h2Img);
+		panelH2.add(lblH2T10);
+		larryH2[9] = lblH2T10;
+		
+		JLabel lblH2T9 = new JLabel("");
+		lblH2T9.setIcon(h2Img);
+		panelH2.add(lblH2T9);
+		larryH2[8] = lblH2T9;
+		
+		JLabel lblH2T8 = new JLabel("");
+		lblH2T8.setIcon(h2Img);
+		panelH2.add(lblH2T8);
+		larryH2[7] = lblH2T8;
+		
+		JLabel lblH2T7 = new JLabel("");
+		lblH2T7.setIcon(h2Img);
+		panelH2.add(lblH2T7);
+		larryH2[6] = lblH2T7;
+		
+		JLabel lblH2T6 = new JLabel("");
+		lblH2T6.setIcon(h2Img);
+		panelH2.add(lblH2T6);
+		larryH2[5] = lblH2T6;
+		
+		JLabel lblH2T5 = new JLabel("");
+		lblH2T5.setIcon(h2Img);
+		panelH2.add(lblH2T5);
+		larryH2[4] = lblH2T5;
+		
+		JLabel lblH2T4 = new JLabel("");
+		lblH2T4.setIcon(h2Img);
+		panelH2.add(lblH2T4);
+		larryH2[3] = lblH2T4;
+		
+		JLabel lblH2T3 = new JLabel("");
+		lblH2T3.setIcon(h2Img);
+		panelH2.add(lblH2T3);
+		larryH2[2] = lblH2T3;
+		
+		JLabel lblH2T2 = new JLabel("");
+		lblH2T2.setIcon(h2Img);
+		panelH2.add(lblH2T2);
+		larryH2[1] = lblH2T2;
 		
 		
 		JLabel lblH2T1 = new JLabel("");
-		lblH2T1.setBounds(0, 468, 46, 36);
 		lblH2T1.setIcon(h2Img);
 		panelH2.add(lblH2T1);
-		
-		JLabel lblH2T2 = new JLabel("");
-		lblH2T2.setBounds(0, 432, 46, 36);
-		lblH2T2.setIcon(h2Img);
-		panelH2.add(lblH2T2);
-		
-		JLabel lblH2T3 = new JLabel("");
-		lblH2T3.setBounds(0, 396, 46, 36);
-		lblH2T3.setIcon(h2Img);
-		panelH2.add(lblH2T3);
-		
-		JLabel lblH2T4 = new JLabel("");
-		lblH2T4.setBounds(0, 360, 46, 36);
-		lblH2T4.setIcon(h2Img);
-		panelH2.add(lblH2T4);
-		
-		JLabel lblH2T5 = new JLabel("");
-		lblH2T5.setBounds(0, 324, 46, 36);
-		lblH2T5.setIcon(h2Img);
-		panelH2.add(lblH2T5);
-		
-		JLabel lblH2T6 = new JLabel("");
-		lblH2T6.setBounds(0, 288, 46, 36);
-		lblH2T6.setIcon(h2Img);
-		panelH2.add(lblH2T6);
-		
-		JLabel lblH2T7 = new JLabel("");
-		lblH2T7.setBounds(0, 252, 46, 36);
-		lblH2T7.setIcon(h2Img);
-		panelH2.add(lblH2T7);
-		
-		JLabel lblH2T8 = new JLabel("");
-		lblH2T8.setBounds(0, 216, 46, 36);
-		lblH2T8.setIcon(h2Img);
-		panelH2.add(lblH2T8);
-		
-		JLabel lblH2T9 = new JLabel("");
-		lblH2T9.setBounds(0, 180, 46, 36);
-		lblH2T9.setIcon(h2Img);
-		panelH2.add(lblH2T9);
-		
-		JLabel lblH2T10 = new JLabel("");
-		lblH2T10.setBounds(0, 144, 46, 36);
-		lblH2T10.setIcon(h2Img);
-		panelH2.add(lblH2T10);
-		
-		JLabel lblH2T11 = new JLabel("");
-		lblH2T11.setBounds(0, 108, 46, 36);
-		lblH2T11.setIcon(h2Img);
-		panelH2.add(lblH2T11);
-		
-		JLabel lblH2T12 = new JLabel("");
-		lblH2T12.setBounds(0, 72, 46, 36);
-		lblH2T12.setIcon(h2Img);
-		panelH2.add(lblH2T12);
-		
-		JLabel lblH2T13 = new JLabel("");
-		lblH2T13.setBounds(0, 36, 46, 36);
-		lblH2T13.setIcon(h2Img);
-		panelH2.add(lblH2T13);
-		
-		JLabel lblH2T14 = new JLabel("");
-		lblH2T14.setBounds(0, 0, 46, 36);
-		lblH2T14.setIcon(h2Img);
-		panelH2.add(lblH2T14);
 		
 		
 		JPanel panelH2Ms = new JPanel();
@@ -1997,78 +1991,78 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelH3 = new JPanel();
-		panelH3.setBounds(161, 36, 506, 46);
+		panelH3.setBounds(161, 36, TILE_BIG_WIDTH*SIZE_HAND, TILE_BIG_HEIGHT);
 		panelH3.setBackground(COLOR_TRANSPARENT);
 		panelPlayer3.add(panelH3);
-		panelH3.setLayout(null);
+		panelH3.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		
 		JLabel lblH3T1 = new JLabel("");
-		lblH3T1.setBounds(468, 0, 36, 46);
+		lblH3T1.setBounds(468, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T1.setIcon(h3Img);
 		panelH3.add(lblH3T1);
 		
 		JLabel lblH3T2 = new JLabel("");
-		lblH3T2.setBounds(432, 0, 36, 46);
+		lblH3T2.setBounds(432, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T2.setIcon(h3Img);
 		panelH3.add(lblH3T2);
 		
 		JLabel lblH3T3 = new JLabel("");
-		lblH3T3.setBounds(396, 0, 36, 46);
+		lblH3T3.setBounds(396, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T3.setIcon(h3Img);
 		panelH3.add(lblH3T3);
 		
 		JLabel lblH3T4 = new JLabel("");
-		lblH3T4.setBounds(360, 0, 36, 46);
+		lblH3T4.setBounds(360, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T4.setIcon(h3Img);
 		panelH3.add(lblH3T4);
 		
 		JLabel lblH3T5 = new JLabel("");
-		lblH3T5.setBounds(324, 0, 36, 46);
+		lblH3T5.setBounds(324, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T5.setIcon(h3Img);
 		panelH3.add(lblH3T5);
 		
 		JLabel lblH3T6 = new JLabel("");
-		lblH3T6.setBounds(288, 0, 36, 46);
+		lblH3T6.setBounds(288, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T6.setIcon(h3Img);
 		panelH3.add(lblH3T6);
 		
 		JLabel lblH3T7 = new JLabel("");
-		lblH3T7.setBounds(252, 0, 36, 46);
+		lblH3T7.setBounds(252, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T7.setIcon(h3Img);
 		panelH3.add(lblH3T7);
 		
 		JLabel lblH3T8 = new JLabel("");
-		lblH3T8.setBounds(216, 0, 36, 46);
+		lblH3T8.setBounds(216, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T8.setIcon(h3Img);
 		panelH3.add(lblH3T8);
 		
 		JLabel lblH3T9 = new JLabel("");
-		lblH3T9.setBounds(180, 0, 36, 46);
+		lblH3T9.setBounds(180, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T9.setIcon(h3Img);
 		panelH3.add(lblH3T9);
 		
 		JLabel lblH3T10 = new JLabel("");
-		lblH3T10.setBounds(144, 0, 36, 46);
+		lblH3T10.setBounds(144, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T10.setIcon(h3Img);
 		panelH3.add(lblH3T10);
 		
 		JLabel lblH3T11 = new JLabel("");
-		lblH3T11.setBounds(108, 0, 36, 46);
+		lblH3T11.setBounds(108, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T11.setIcon(h3Img);
 		panelH3.add(lblH3T11);
 		
 		JLabel lblH3T12 = new JLabel("");
-		lblH3T12.setBounds(72, 0, 36, 46);
+		lblH3T12.setBounds(72, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T12.setIcon(h3Img);
 		panelH3.add(lblH3T12);
 		
 		JLabel lblH3T13 = new JLabel("");
-		lblH3T13.setBounds(36, 0, 36, 46);
+		lblH3T13.setBounds(36, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T13.setIcon(h3Img);
 		panelH3.add(lblH3T13);
 		
 		JLabel lblH3T14 = new JLabel("");
-		lblH3T14.setBounds(0, 0, 36, 46);
+		lblH3T14.setBounds(0, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T14.setIcon(h3Img);
 		panelH3.add(lblH3T14);
 		
@@ -2199,78 +2193,78 @@ public class WorldViewer extends JFrame {
 		
 		
 		JPanel panelH4 = new JPanel();
-		panelH4.setBounds(36, 0, 46, 506);
+		panelH4.setBounds(36, 0, TILE_BIG_HEIGHT, TILE_BIG_WIDTH*SIZE_HAND);
 		panelH4.setBackground(COLOR_TRANSPARENT);
 		panelPlayer4.add(panelH4);
-		panelH4.setLayout(null);
+		panelH4.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		
 		JLabel lblH4T1 = new JLabel("");
-		lblH4T1.setBounds(0, 0, 46, 36);
+		lblH4T1.setBounds(0, 0, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T1.setIcon(h4Img);
 		panelH4.add(lblH4T1);
 		
 		JLabel lblH4T2 = new JLabel("");
-		lblH4T2.setBounds(0, 36, 46, 36);
+		lblH4T2.setBounds(0, 36, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T2.setIcon(h4Img);
 		panelH4.add(lblH4T2);
 		
 		JLabel lblH4T3 = new JLabel("");
-		lblH4T3.setBounds(0, 72, 46, 36);
+		lblH4T3.setBounds(0, 72, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T3.setIcon(h4Img);
 		panelH4.add(lblH4T3);
 		
 		JLabel lblH4T4 = new JLabel("");
-		lblH4T4.setBounds(0, 108, 46, 36);
+		lblH4T4.setBounds(0, 108, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T4.setIcon(h4Img);
 		panelH4.add(lblH4T4);
 		
 		JLabel lblH4T5 = new JLabel("");
-		lblH4T5.setBounds(0, 144, 46, 36);
+		lblH4T5.setBounds(0, 144, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T5.setIcon(h4Img);
 		panelH4.add(lblH4T5);
 		
 		JLabel lblH4T6 = new JLabel("");
-		lblH4T6.setBounds(0, 180, 46, 36);
+		lblH4T6.setBounds(0, 180, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T6.setIcon(h4Img);
 		panelH4.add(lblH4T6);
 		
 		JLabel lblH4T7 = new JLabel("");
-		lblH4T7.setBounds(0, 216, 46, 36);
+		lblH4T7.setBounds(0, 216, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T7.setIcon(h4Img);
 		panelH4.add(lblH4T7);
 		
 		JLabel lblH4T8 = new JLabel("");
-		lblH4T8.setBounds(0, 252, 46, 36);
+		lblH4T8.setBounds(0, 252, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T8.setIcon(h4Img);
 		panelH4.add(lblH4T8);
 		
 		JLabel lblH4T9 = new JLabel("");
-		lblH4T9.setBounds(0, 288, 46, 36);
+		lblH4T9.setBounds(0, 288, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T9.setIcon(h4Img);
 		panelH4.add(lblH4T9);
 		
 		JLabel lblH4T10 = new JLabel("");
-		lblH4T10.setBounds(0, 324, 46, 36);
+		lblH4T10.setBounds(0, 324, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T10.setIcon(h4Img);
 		panelH4.add(lblH4T10);
 		
 		JLabel lblH4T11 = new JLabel("");
-		lblH4T11.setBounds(0, 360, 46, 36);
+		lblH4T11.setBounds(0, 360, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T11.setIcon(h4Img);
 		panelH4.add(lblH4T11);
 		
 		JLabel lblH4T12 = new JLabel("");
-		lblH4T12.setBounds(0, 396, 46, 36);
+		lblH4T12.setBounds(0, 396, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T12.setIcon(h4Img);
 		panelH4.add(lblH4T12);
 		
 		JLabel lblH4T13 = new JLabel("");
-		lblH4T13.setBounds(0, 432, 46, 36);
+		lblH4T13.setBounds(0, 432, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T13.setIcon(h4Img);
 		panelH4.add(lblH4T13);
 		
 		JLabel lblH4T14 = new JLabel("");
-		lblH4T14.setBounds(0, 468, 46, 36);
+		lblH4T14.setBounds(0, 468, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T14.setIcon(h4Img);
 		panelH4.add(lblH4T14);
 		
@@ -2600,7 +2594,7 @@ public class WorldViewer extends JFrame {
 		larryP1[0] = lblP1T1;larryP1[1] = lblP1T2;larryP1[2] = lblP1T3;larryP1[3] = lblP1T4;larryP1[4] = lblP1T5;larryP1[5] = lblP1T6;larryP1[6] = lblP1T7;larryP1[7] = lblP1T8;larryP1[8] = lblP1T9;larryP1[9] = lblP1T10;larryP1[10] = lblP1T11;larryP1[11] = lblP1T12;larryP1[12] = lblP1T13;larryP1[13] = lblP1T14;larryP1[14] = lblP1T15;larryP1[15] = lblP1T16;larryP1[16] = lblP1T17;larryP1[17] = lblP1T18;larryP1[18] = lblP1T19;larryP1[19] = lblP1T20;larryP1[20] = lblP1T21;larryP1[21] = lblP1T22;larryP1[22] = lblP1T23;larryP1[23] = lblP1T24;
 		larryW1[0] = lblW1T1;larryW1[1] = lblW1T2;larryW1[2] = lblW1T3;larryW1[3] = lblW1T4;larryW1[4] = lblW1T5;larryW1[5] = lblW1T6;larryW1[6] = lblW1T7;larryW1[7] = lblW1T8;larryW1[8] = lblW1T9;larryW1[9] = lblW1T10;larryW1[10] = lblW1T11;larryW1[11] = lblW1T12;larryW1[12] = lblW1T13;larryW1[13] = lblW1T14;larryW1[14] = lblW1T15;larryW1[15] = lblW1T16;larryW1[16] = lblW1T17;larryW1[17] = lblW1T18;larryW1[18] = lblW1T19;larryW1[19] = lblW1T20;larryW1[20] = lblW1T21;larryW1[21] = lblW1T22;larryW1[22] = lblW1T23;larryW1[23] = lblW1T24;larryW1[24] = lblW1T25;larryW1[25] = lblW1T26;larryW1[26] = lblW1T27;larryW1[27] = lblW1T28;larryW1[28] = lblW1T29;larryW1[29] = lblW1T30;larryW1[30] = lblW1T31;larryW1[31] = lblW1T32;larryW1[32] = lblW1T33;larryW1[33] = lblW1T34;
 		
-		larryH2[0] = lblH2T1;larryH2[1] = lblH2T2;larryH2[2] = lblH2T3;larryH2[3] = lblH2T4;larryH2[4] = lblH2T5;larryH2[5] = lblH2T6;larryH2[6] = lblH2T7;larryH2[7] = lblH2T8;larryH2[8] = lblH2T9;larryH2[9] = lblH2T10;larryH2[10] = lblH2T11;larryH2[11] = lblH2T12;larryH2[12] = lblH2T13;larryH2[13] = lblH2T14;
+		larryH2[0] = lblH2T1;
 		larryH2M1[0] = lblH2M1T1;larryH2M1[1] = lblH2M1T2;larryH2M1[2] = lblH2M1T3;larryH2M1[3] = lblH2M1T4;larryH2M2[0] = lblH2M2T1;larryH2M2[1] = lblH2M2T2;larryH2M2[2] = lblH2M2T3;larryH2M2[3] = lblH2M2T4;larryH2M3[0] = lblH2M3T1;larryH2M3[1] = lblH2M3T2;larryH2M3[2] = lblH2M3T3;larryH2M3[3] = lblH2M3T4;larryH2M4[0] = lblH2M4T1;larryH2M4[1] = lblH2M4T2;larryH2M4[2] = lblH2M4T3;larryH2M4[3] = lblH2M4T4;
 		larryP2[0] = lblP2T1;larryP2[1] = lblP2T2;larryP2[2] = lblP2T3;larryP2[3] = lblP2T4;larryP2[4] = lblP2T5;larryP2[5] = lblP2T6;larryP2[6] = lblP2T7;larryP2[7] = lblP2T8;larryP2[8] = lblP2T9;larryP2[9] = lblP2T10;larryP2[10] = lblP2T11;larryP2[11] = lblP2T12;larryP2[12] = lblP2T13;larryP2[13] = lblP2T14;larryP2[14] = lblP2T15;larryP2[15] = lblP2T16;larryP2[16] = lblP2T17;larryP2[17] = lblP2T18;larryP2[18] = lblP2T19;larryP2[19] = lblP2T20;larryP2[20] = lblP2T21;larryP2[21] = lblP2T22;larryP2[22] = lblP2T23;larryP2[23] = lblP2T24;
 		larryW2[0] = lblW2T1;larryW2[1] = lblW2T2;larryW2[2] = lblW2T3;larryW2[3] = lblW2T4;larryW2[4] = lblW2T5;larryW2[5] = lblW2T6;larryW2[6] = lblW2T7;larryW2[7] = lblW2T8;larryW2[8] = lblW2T9;larryW2[9] = lblW2T10;larryW2[10] = lblW2T11;larryW2[11] = lblW2T12;larryW2[12] = lblW2T13;larryW2[13] = lblW2T14;larryW2[14] = lblW2T15;larryW2[15] = lblW2T16;larryW2[16] = lblW2T17;larryW2[17] = lblW2T18;larryW2[18] = lblW2T19;larryW2[19] = lblW2T20;larryW2[20] = lblW2T21;larryW2[21] = lblW2T22;larryW2[22] = lblW2T23;larryW2[23] = lblW2T24;larryW2[24] = lblW2T25;larryW2[25] = lblW2T26;larryW2[26] = lblW2T27;larryW2[27] = lblW2T28;larryW2[28] = lblW2T29;larryW2[29] = lblW2T30;larryW2[30] = lblW2T31;larryW2[31] = lblW2T32;larryW2[32] = lblW2T33;larryW2[33] = lblW2T34;

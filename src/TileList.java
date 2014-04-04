@@ -129,6 +129,18 @@ public class TileList implements Iterable<Tile>{
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//contains, overloaded to accept tileID
 	public boolean contains(int id){return contains(new Tile(id));}
 	

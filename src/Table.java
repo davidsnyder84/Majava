@@ -223,10 +223,8 @@ public class Table {
 			
 			
 			
-			
 			//handle reactions here
-			if (mReaction != NO_REACTION)
-			{
+			if (mReaction != NO_REACTION){
 				handleReaction(discardedTile);
 			}
 			

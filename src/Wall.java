@@ -5,8 +5,9 @@ Class: Wall
 represents the wall of tiles used in the game
 
 data:
-	mTiles - list of tiles in the wall
-	mDeadWall - the dead wall is separated and stored here
+	mTiles - list of tiles in the wall (includes dead wall)
+	mNumKansMade - the number of kans made (affects kan draws and dora indicators)
+	mStartOfDeadWall - marks the index of the first dead wall tile
 	
 	
 methods:
@@ -19,8 +20,11 @@ methods:
 	takeTileFromDeadWall - removes a tile from the end of the dead wall and returns it
  	
  	accessors:
-	isEmpty - returns true if the wall is empty (has no tiles left)
+	isEmpty - returns true if the main wall is empty (has no tiles left)
 	getNumTilesLeftInWall - returns the number of tiles left in the wall (not including dead wall)
+	
+	getNumTilesLeftInDeadWall - returns the number of tiles left in the dead wall
+ 	getNumKansMade - returns the number of kans made
 	getDoraIndicators - returns a list of dora indicators from the dead wall (as a list of tiles)
 	
 	other:
@@ -40,21 +44,61 @@ public class Wall {
 	
 	
 	
+	
+	
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN DEAD WALL CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	
+	private static final int OFFSET_DEAD_WALL = 122;
+	private static final int MAX_SIZE_DEAD_WALL = 14;
+	
+	//odd numbers are top row, even are bottom row
+	private static final int POS_KANDRAW_1 = 13;
+	private static final int POS_KANDRAW_2 = 12;
+	private static final int POS_KANDRAW_3 = 11;
+	private static final int POS_KANDRAW_4 = 10;
+	
+	//dora indicators
+	private static final int POS_DORA_1 = 9;
+	private static final int POS_URADORA_1 = 8;
+	
+	private static final int POS_DORA_2 = 7;
+	private static final int POS_URADORA_2 = 6;
+	
+	private static final int POS_DORA_3 = 5;
+	private static final int POS_URADORA_3 = 4;
+	
+	private static final int POS_DORA_4 = 3;
+	private static final int POS_URADORA_4 = 2;
+	
+	//these are only used if a player makes 4 kans (making 5 dora indicators)
+	private static final int POS_DORA_5 = 1;
+	private static final int POS_URADORA_5 = 0;
+
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~END DEAD WALL CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	
+	
+	
+	
+	
+	
+	
+	
 	private TileList mTiles;
-	private DeadWall mDeadWall;
+
+	private int mNumKansMade; 
+	private int mStartOfDeadWall;
 	
 	
 	
 	
 	public Wall(){
-		
-		mTiles = new TileList(MAX_SIZE_WALL);
-		
 		//fill and shuffle the wall
+		mTiles = new TileList(MAX_SIZE_WALL);
 		__initialize();
 		
-		//split off the dead wall
-		__makeDeadWall();
+		//mark the start of the dead wall
+		mStartOfDeadWall = OFFSET_DEAD_WALL;
+		mNumKansMade = 0;
 	}
 	
 	
@@ -69,8 +113,7 @@ public class Wall {
     East takes 4, South takes 4, West takes 4, North takes 4
     East takes 2, South takes 1, West takes 1, North takes 1
 	*/
-	public void dealHands(Player p1, Player p2, Player p3, Player p4)
-	{
+	public void dealHands(Player p1, Player p2, Player p3, Player p4){
 		TileList tilesE = new TileList(Hand.MAX_HAND_SIZE);
 		TileList tilesS = new TileList(Hand.MAX_HAND_SIZE - 1);
 		TileList tilesW = new TileList(Hand.MAX_HAND_SIZE - 1);
@@ -78,59 +121,33 @@ public class Wall {
 		
 		int i, j;
 		//each player takes 4, 3 times
-		for (i = 0; i < 3; i++)
-		{
+		for (i = 0; i < 3; i++){
 			//east takes 4
-			for (j = 0; j < 4; j++){
-				tilesE.add(mTiles.getFirst());
-				mTiles.removeFirst();
-			}
+			for (j = 0; j < 4; j++) tilesE.add(takeTile());
 			//south takes 4
-			for (j = 0; j < 4; j++){
-				tilesS.add(mTiles.getFirst());
-				mTiles.removeFirst();
-			}
+			for (j = 0; j < 4; j++) tilesS.add(takeTile());
 			//west takes 4
-			for (j = 0; j < 4; j++){
-				tilesW.add(mTiles.getFirst());
-				mTiles.removeFirst();
-			}
+			for (j = 0; j < 4; j++) tilesW.add(takeTile());
 			//north takes 4
-			for (j = 0; j < 4; j++){
-				tilesN.add(mTiles.getFirst());
-				mTiles.removeFirst();
-			}
+			for (j = 0; j < 4; j++) tilesN.add(takeTile());
 		}
 		
 		
 		//east takes 2
-		for (j = 0; j < 2; j++){
-			tilesE.add(mTiles.getFirst());
-			mTiles.removeFirst();
-		}
-		
+		for (j = 0; j < 2; j++) tilesE.add(takeTile());
 		//south takes 1
-		tilesS.add(mTiles.getFirst());
-		mTiles.removeFirst();
-		
+		tilesS.add(takeTile());
 		//west takes 1
-		tilesW.add(mTiles.getFirst());
-		mTiles.removeFirst();
-		
+		tilesW.add(takeTile());
 		//north takes 1
-		tilesN.add(mTiles.getFirst());
-		mTiles.removeFirst();
+		tilesN.add(takeTile());
 		
 		
 		//add the tiles to the hands
-		for(Tile t: tilesE)
-			p1.addTileToHand(t);
-		for(Tile t: tilesS)
-			p2.addTileToHand(t);
-		for(Tile t: tilesW)
-			p3.addTileToHand(t);
-		for(Tile t: tilesN)
-			p4.addTileToHand(t);
+		for(Tile t: tilesE) p1.addTileToHand(t);
+		for(Tile t: tilesS) p2.addTileToHand(t);
+		for(Tile t: tilesW) p3.addTileToHand(t);
+		for(Tile t: tilesN) p4.addTileToHand(t);
 	}
 	
 	
@@ -184,42 +201,59 @@ public class Wall {
 	
 	
 	
+	
+	
+	
+	
 	/*
-	private method: __makeDeadWall
-	removes the last 14 tiles from the wall, and creates the dead wall with them
+	 method: getDoraIndicators
+	 returns the dora indicators, as a list of Tiles
+	 
+	 input: if getUraDora is true, the list will also contain the ura dora indicators
+	 
+	 
+	 decide the exact size of the list
+	 
+	 add first dora indicator
+	 if kans have been made,  add more indicators to the list
+	 if (getUraDora)
+	 	add first ura dora indicator
+	 	if kans have been made,  add more ura indicators to the list
+	 
+	 return the list
 	*/
-	private void __makeDeadWall()
-	{
-		TileList deadWallTiles = new TileList(DeadWall.MAX_SIZE_DEAD_WALL);
-		int startingPos = MAX_SIZE_WALL - DeadWall.MAX_SIZE_DEAD_WALL;
+	public TileList getDoraIndicators(boolean getUraDora){
+		
+		int size = mNumKansMade + 1;
+		if (getUraDora) size *= 2;
+		TileList indicators = new TileList(size);
+		
+		//add the first dora indicator
+		indicators.add(mTiles.get(mStartOfDeadWall + POS_DORA_1));
+		
+		//add other indicators if kans have been made
+		if (mNumKansMade >= 1) indicators.add(mTiles.get(mStartOfDeadWall + POS_DORA_2));
+		if (mNumKansMade >= 2) indicators.add(mTiles.get(mStartOfDeadWall + POS_DORA_3));
+		if (mNumKansMade >= 3) indicators.add(mTiles.get(mStartOfDeadWall + POS_DORA_4));
+		if (mNumKansMade == 4) indicators.add(mTiles.get(mStartOfDeadWall + POS_DORA_5));
+		
+		
+		//add ura dora indicators, if specified
+		if (getUraDora){
+			//add the first ura dora indicator
+			indicators.add(mTiles.get(mStartOfDeadWall + POS_URADORA_1));
 
-		//remove the last 14 tiles in wall, create the dead wall with them
-		int i;
-		for (i = 0; i < DeadWall.MAX_SIZE_DEAD_WALL; i++){
-			//add a tile to the dead wall
-			deadWallTiles.add(mTiles.get(startingPos));
-			
-			//remove that tile from the wall
-			mTiles.remove(startingPos);
+			//add other ura indicators if kans have been made
+			if (mNumKansMade >= 1) indicators.add(mTiles.get(mStartOfDeadWall + POS_URADORA_2));
+			if (mNumKansMade >= 2) indicators.add(mTiles.get(mStartOfDeadWall + POS_URADORA_3));
+			if (mNumKansMade >= 3) indicators.add(mTiles.get(mStartOfDeadWall + POS_URADORA_4));
+			if (mNumKansMade == 4) indicators.add(mTiles.get(mStartOfDeadWall + POS_URADORA_5));
 		}
 		
-		//initialize the dead wall with the tiles
-		mDeadWall = new DeadWall(deadWallTiles);
-	}
-	
-	
-	
-	
-	
-	//returns the dora indicators, as a list of Tiles
-	//if getUraDora is true, will also return ura dora indicators
-	public TileList getDoraIndicators(boolean getUraDora){
-		return mDeadWall.getDoraIndicators(getUraDora);
+		return indicators;
 	}
 	//Overloaded with no args, gets just normal dora (no ura)
-	public TileList getDoraIndicators(){
-		return getDoraIndicators(false);
-	}
+	public TileList getDoraIndicators(){return getDoraIndicators(false);}
 	
 	
 	
@@ -230,29 +264,19 @@ public class Wall {
 	method: takeTile
 	removes a tile from the beginning of the wall and returns it
 	returns the tile, or returns null if the wall was empty
-	
-	draw the first tile from the wall
-	remove that tile from the wall
-	return the tile
+	returns the tile, or returns null if the wall was empty
 	*/
 	public Tile takeTile(){
-		
-		//return null if the wall is empty
-		if (isEmpty())
-			return null;
-		
-		//draw the first tile from the wall
-		Tile drawnTile = mTiles.get(FIRST_TILE_IN_WALL);
-		
-		//remove that tile from the wall
-		mTiles.remove(FIRST_TILE_IN_WALL);
-		
-		return drawnTile;
+		mStartOfDeadWall--;
+		return mTiles.removeFirst();
 	}
 	
-	//removes a tile from the end of the dead wall and returns it
+	
+	
+	//removes a tile from the end of the dead wall and returns it (for a rinshan draw)
 	public Tile takeTileFromDeadWall(){
-		return mDeadWall.takeTile();
+		mNumKansMade++;
+		return mTiles.removeLast();
 	}
 	
 	
@@ -272,14 +296,19 @@ public class Wall {
 	
 	
 	//returns true if the wall is empty (has no tiles left)
-	public boolean isEmpty(){
-		return (mTiles.size() == 0);
-	}
-	
+	public boolean isEmpty(){return (getNumTilesLeftInWall() == 0);}
 	//returns the number of tiles left in the wall (not including dead wall)
-	public int getNumTilesLeftInWall(){
-		return mTiles.size();
-	}
+	public int getNumTilesLeftInWall(){return mTiles.size() - getNumTilesLeftInDeadWall();}
+	//returns the number of tiles left in the dead wall
+	public int getNumTilesLeftInDeadWall(){return MAX_SIZE_DEAD_WALL - mNumKansMade;}
+	
+	
+	//returns the number of kans made
+	public int getNumKansMade(){return mNumKansMade;}
+	
+	
+	
+	
 	
 	
 	
@@ -395,31 +424,44 @@ public class Wall {
 	
 	
 	
-	
-	
 	//tostring
 	@Override
-	public String toString()
-	{
+	public String toString(){
 		
 		int i, j;
 		String wallString = "";
 		
-		final int TILES_PER_LINE = 16;
-		for (i = 0; i < (mTiles.size() / TILES_PER_LINE) + 1; i++)
-		{
-			for (j = 0; j < TILES_PER_LINE && (j + TILES_PER_LINE*i < mTiles.size()); j++)
-			{
+		final int TILES_PER_LINE = 17;
+		for (i = 0; i < getNumTilesLeftInWall() / TILES_PER_LINE + 1; i++){
+			for (j = 0; j < TILES_PER_LINE && (j + TILES_PER_LINE*i < getNumTilesLeftInWall()); j++){
 				wallString += mTiles.get(TILES_PER_LINE*i + j).toString() + " ";
 			}
-			if (TILES_PER_LINE*i < mTiles.size())
+			if (TILES_PER_LINE*i < getNumTilesLeftInWall())
 				wallString += "\n";
 		}
 		
 		
-		String dWallString = "DeadWall: " + mDeadWall.getSize() + "\n" + mDeadWall.toString();
+		String dWallString = "DeadWall: " + getNumTilesLeftInDeadWall() + "\n" + toStringDeadWall();
 		
 		return ("Wall: " + getNumTilesLeftInWall() + "\n" + wallString + "\n\n" + dWallString);
+	}
+	
+	//string representation of deadwall
+	public String toStringDeadWall(){
+		
+		int i, j;
+		String wallString = "";
+		
+		final int TILES_PER_LINE = 2;
+		for (i = 0; i < getNumTilesLeftInDeadWall() / TILES_PER_LINE + 1; i++){
+			for (j = 0; j < TILES_PER_LINE && (j + TILES_PER_LINE*i < getNumTilesLeftInDeadWall()); j++){
+				wallString += mTiles.get(this.mStartOfDeadWall + TILES_PER_LINE*i + j).toString() + " ";
+			}
+			if (TILES_PER_LINE*i < getNumTilesLeftInDeadWall())
+				wallString += "\n";
+		}
+		
+		return wallString;
 	}
 	
 	

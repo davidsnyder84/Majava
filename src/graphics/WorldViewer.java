@@ -30,6 +30,18 @@ import java.awt.FlowLayout;
 public class WorldViewer extends JFrame {
 	
 	
+	
+
+	
+	
+	
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+	
+	//Control constants
+	private static final boolean OPTION_HIDE_WALL = false;
+	private static final boolean OPTION_HIDE_HANDS = false;
+	
+	
 	private static final int WINDOW_WIDTH = 1150;
 	private static final int WINDOW_HEIGHT = 850;
 	
@@ -54,34 +66,17 @@ public class WorldViewer extends JFrame {
 	private static final int PONDPANEL_OLD_WIDTH = TILE_OLD_SMALL_WIDTH*6;
 	private static final int PONDPANEL_OLD_HEIGHT = TILE_OLD_SMALL_HEIGHT*4;
 	
-	public static final int POND_PANEL_WIDTH = PONDPANEL_OLD_WIDTH;
-	public static final int POND_PANEL_HEIGHT = PONDPANEL_NEW_HEIGHT;
+	private static final int POND_PANEL_WIDTH = PONDPANEL_OLD_WIDTH;
+	private static final int POND_PANEL_HEIGHT = PONDPANEL_NEW_HEIGHT;
 	
 	
 	
 	
+	private static final Color COLOR_TRANSPARENT = new Color(0, 0, 0, 0);
 	private static final Color COLOR_TABLE = new Color(0, 140, 0, 100);
 	private static final Color COLOR_SIDEBAR = new Color(0, 255, 0, 100);
-	private static final Color COLOR_TRANSPARENT = new Color(0, 0, 0, 0);
-	
-	
-	
-	private ArrayList<JLabel> Tilelabels = new ArrayList<JLabel>(); 
-	
-	private JPanel contentPane;
-	private WorldViewer thisguy;
-	
-	private boolean toggle = true;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	private static final Color COLOR_RINF_PANEL = new Color(0,255,255,35);
+	private static final Color COLOR_RIND = new Color(0,155,155,35);
 	
 	
 	
@@ -95,72 +90,6 @@ public class WorldViewer extends JFrame {
 	private static final int SIZE_LARRY_INFOROUND = 2;
 	
 	
-	
-	
-	//////////////
-	JLabel[] larryH1 = new JLabel[SIZE_HAND];
-	JLabel[] larryH2 = new JLabel[SIZE_HAND];
-	JLabel[] larryH3 = new JLabel[SIZE_HAND];
-	JLabel[] larryH4 = new JLabel[SIZE_HAND];
-	
-	JLabel[] larryH1M1 = new JLabel[SIZE_MELD];
-	JLabel[] larryH1M2 = new JLabel[SIZE_MELD];
-	JLabel[] larryH1M3 = new JLabel[SIZE_MELD];
-	JLabel[] larryH1M4 = new JLabel[SIZE_MELD];
-	
-	JLabel[] larryH2M1 = new JLabel[SIZE_MELD];
-	JLabel[] larryH2M2 = new JLabel[SIZE_MELD];
-	JLabel[] larryH2M3 = new JLabel[SIZE_MELD];
-	JLabel[] larryH2M4 = new JLabel[SIZE_MELD];
-	
-	JLabel[] larryH3M1 = new JLabel[SIZE_MELD];
-	JLabel[] larryH3M2 = new JLabel[SIZE_MELD];
-	JLabel[] larryH3M3 = new JLabel[SIZE_MELD];
-	JLabel[] larryH3M4 = new JLabel[SIZE_MELD];
-	
-	JLabel[] larryH4M1 = new JLabel[SIZE_MELD];
-	JLabel[] larryH4M2 = new JLabel[SIZE_MELD];
-	JLabel[] larryH4M3 = new JLabel[SIZE_MELD];
-	JLabel[] larryH4M4 = new JLabel[SIZE_MELD];
-	
-	JLabel[][] larryH1Ms = {larryH1M1, larryH1M2, larryH1M3, larryH1M4};
-	JLabel[][] larryH2Ms = {larryH2M1, larryH2M2, larryH2M3, larryH2M4};
-	JLabel[][] larryH3Ms = {larryH3M1, larryH3M2, larryH3M3, larryH3M4};
-	JLabel[][] larryH4Ms = {larryH4M1, larryH4M2, larryH4M3, larryH4M4};
-	
-	JLabel[] larryW1 = new JLabel[SIZE_WALL];
-	JLabel[] larryW2 = new JLabel[SIZE_WALL];
-	JLabel[] larryW3 = new JLabel[SIZE_WALL];
-	JLabel[] larryW4 = new JLabel[SIZE_WALL];
-	
-	JLabel[] larryP1 = new JLabel[SIZE_POND];
-	JLabel[] larryP2 = new JLabel[SIZE_POND];
-	JLabel[] larryP3 = new JLabel[SIZE_POND];
-	JLabel[] larryP4 = new JLabel[SIZE_POND];
-	
-	
-	
-	
-	JLabel[] larryInfoP1 = new JLabel[SIZE_LARRY_INFOPLAYER];
-	JLabel[] larryInfoP2 = new JLabel[SIZE_LARRY_INFOPLAYER];
-	JLabel[] larryInfoP3 = new JLabel[SIZE_LARRY_INFOPLAYER];
-	JLabel[] larryInfoP4 = new JLabel[SIZE_LARRY_INFOPLAYER];
-	
-	//larryInfoPlayers[player number][0 = seatwind, 1 = points, 2 = riichiStick]
-	JLabel[][] larryInfoPlayers = {larryInfoP1, larryInfoP2, larryInfoP3, larryInfoP4};
-	
-	//0 = roundWind, 1 = roundNumber
-	JLabel[] larryInfoRound = new JLabel[SIZE_LARRY_INFOROUND];
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	private static final int SIZE_GARRY_TILES = 38;
 	private static final int SIZE_GARRY_WINDS = 4;
 	private static final int SIZE_GARRY_OTHER = 2;
@@ -171,36 +100,108 @@ public class WorldViewer extends JFrame {
 	private static final int GARRYINDEX_RED5P = 36;
 	private static final int GARRYINDEX_RED5S = 37;
 	
+	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~END CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	
-	ImageIcon[] garryTileS1big = new ImageIcon[SIZE_GARRY_TILES];
-	ImageIcon[] garryTileS1small = new ImageIcon[SIZE_GARRY_TILES];
-	ImageIcon[][] garryTileS1 = {garryTileS1big, garryTileS1small};
 	
-	ImageIcon[] garryTileS2big = new ImageIcon[SIZE_GARRY_TILES];
-	ImageIcon[] garryTileS2small = new ImageIcon[SIZE_GARRY_TILES];
-	ImageIcon[][] garryTileS2 = {garryTileS2big, garryTileS2small};
 	
-	ImageIcon[] garryTileS3big = new ImageIcon[SIZE_GARRY_TILES];
-	ImageIcon[] garryTileS3small = new ImageIcon[SIZE_GARRY_TILES];
-	ImageIcon[][] garryTileS3 = {garryTileS3big, garryTileS3small};
 	
-	ImageIcon[] garryTileS4big = new ImageIcon[SIZE_GARRY_TILES];
-	ImageIcon[] garryTileS4small = new ImageIcon[SIZE_GARRY_TILES];
-	ImageIcon[][] garryTileS4 = {garryTileS4big, garryTileS4small};
+	
+	
+	
+	/*......................................BEGIN LABEL ARRAYS......................................*/
+	
+	private JLabel[] larryH1 = new JLabel[SIZE_HAND];
+	private JLabel[] larryH2 = new JLabel[SIZE_HAND];
+	private JLabel[] larryH3 = new JLabel[SIZE_HAND];
+	private JLabel[] larryH4 = new JLabel[SIZE_HAND];
+	
+	private JLabel[] larryH1M1 = new JLabel[SIZE_MELD];
+	private JLabel[] larryH1M2 = new JLabel[SIZE_MELD];
+	private JLabel[] larryH1M3 = new JLabel[SIZE_MELD];
+	private JLabel[] larryH1M4 = new JLabel[SIZE_MELD];
+	
+	private JLabel[] larryH2M1 = new JLabel[SIZE_MELD];
+	private JLabel[] larryH2M2 = new JLabel[SIZE_MELD];
+	private JLabel[] larryH2M3 = new JLabel[SIZE_MELD];
+	private JLabel[] larryH2M4 = new JLabel[SIZE_MELD];
+	
+	private JLabel[] larryH3M1 = new JLabel[SIZE_MELD];
+	private JLabel[] larryH3M2 = new JLabel[SIZE_MELD];
+	private JLabel[] larryH3M3 = new JLabel[SIZE_MELD];
+	private JLabel[] larryH3M4 = new JLabel[SIZE_MELD];
+	
+	private JLabel[] larryH4M1 = new JLabel[SIZE_MELD];
+	private JLabel[] larryH4M2 = new JLabel[SIZE_MELD];
+	private JLabel[] larryH4M3 = new JLabel[SIZE_MELD];
+	private JLabel[] larryH4M4 = new JLabel[SIZE_MELD];
+	
+	private JLabel[][] larryH1Ms = {larryH1M1, larryH1M2, larryH1M3, larryH1M4};
+	private JLabel[][] larryH2Ms = {larryH2M1, larryH2M2, larryH2M3, larryH2M4};
+	private JLabel[][] larryH3Ms = {larryH3M1, larryH3M2, larryH3M3, larryH3M4};
+	private JLabel[][] larryH4Ms = {larryH4M1, larryH4M2, larryH4M3, larryH4M4};
+		
+	private JLabel[] larryW1 = new JLabel[SIZE_WALL];
+	private JLabel[] larryW2 = new JLabel[SIZE_WALL];
+	private JLabel[] larryW3 = new JLabel[SIZE_WALL];
+	private JLabel[] larryW4 = new JLabel[SIZE_WALL];
+		
+	private JLabel[] larryP1 = new JLabel[SIZE_POND];
+	private JLabel[] larryP2 = new JLabel[SIZE_POND];
+	private JLabel[] larryP3 = new JLabel[SIZE_POND];
+	private JLabel[] larryP4 = new JLabel[SIZE_POND];
+	
+	
+	private JLabel[] larryInfoP1 = new JLabel[SIZE_LARRY_INFOPLAYER];
+	private JLabel[] larryInfoP2 = new JLabel[SIZE_LARRY_INFOPLAYER];
+	private JLabel[] larryInfoP3 = new JLabel[SIZE_LARRY_INFOPLAYER];
+	private JLabel[] larryInfoP4 = new JLabel[SIZE_LARRY_INFOPLAYER];
+	
+	//larryInfoPlayers[player number][0 = seatwind, 1 = points, 2 = riichiStick]
+	private JLabel[][] larryInfoPlayers = {larryInfoP1, larryInfoP2, larryInfoP3, larryInfoP4};
+	
+	//0 = roundWind, 1 = roundNumber
+	private JLabel[] larryInfoRound = new JLabel[SIZE_LARRY_INFOROUND];
+	
+	/*......................................END LABEL ARRAYS......................................*/
+	
+	
+	
+	
+	
+	
+	/*+++++++++++++++++++++++++++++++++++++++BEGIN IMAGE ARRAYS+++++++++++++++++++++++++++++++++++++++*/
+	
+	private ImageIcon[] garryTileS1big = new ImageIcon[SIZE_GARRY_TILES];
+	private ImageIcon[] garryTileS1small = new ImageIcon[SIZE_GARRY_TILES];
+	private ImageIcon[][] garryTileS1 = {garryTileS1big, garryTileS1small};
+	
+	private ImageIcon[] garryTileS2big = new ImageIcon[SIZE_GARRY_TILES];
+	private ImageIcon[] garryTileS2small = new ImageIcon[SIZE_GARRY_TILES];
+	private ImageIcon[][] garryTileS2 = {garryTileS2big, garryTileS2small};
+	
+	private ImageIcon[] garryTileS3big = new ImageIcon[SIZE_GARRY_TILES];
+	private ImageIcon[] garryTileS3small = new ImageIcon[SIZE_GARRY_TILES];
+	private ImageIcon[][] garryTileS3 = {garryTileS3big, garryTileS3small};
+	
+	private ImageIcon[] garryTileS4big = new ImageIcon[SIZE_GARRY_TILES];
+	private ImageIcon[] garryTileS4small = new ImageIcon[SIZE_GARRY_TILES];
+	private ImageIcon[][] garryTileS4 = {garryTileS4big, garryTileS4small};
 	
 	//garryTiles[seat number][0=big,1=small][tile number]
-	ImageIcon[][][] garryTiles = {garryTileS1, garryTileS2, garryTileS3, garryTileS4};
+	private ImageIcon[][][] garryTiles = {garryTileS1, garryTileS2, garryTileS3, garryTileS4};
 	
 	
 	
-	ImageIcon[] garryWindsBig = new ImageIcon[SIZE_GARRY_WINDS];
-	ImageIcon[] garryWindsSmall = new ImageIcon[SIZE_GARRY_WINDS];
+	private ImageIcon[] garryWindsBig = new ImageIcon[SIZE_GARRY_WINDS];
+	private ImageIcon[] garryWindsSmall = new ImageIcon[SIZE_GARRY_WINDS];
 	//garryWinds[0=big,1=small]
-	ImageIcon[][] garryWinds = {garryWindsBig, garryWindsSmall}; 
+	private ImageIcon[][] garryWinds = {garryWindsBig, garryWindsSmall}; 
 	
 	
 	//0 = riichi stick, 1 = sheepy2
-	ImageIcon[] garryOther = new ImageIcon[SIZE_GARRY_OTHER];
+	private ImageIcon[] garryOther = new ImageIcon[SIZE_GARRY_OTHER];
+	
+	/*+++++++++++++++++++++++++++++++++++++++END IMAGE ARRAYS+++++++++++++++++++++++++++++++++++++++*/
 	
 	
 	
@@ -209,7 +210,16 @@ public class WorldViewer extends JFrame {
 	
 	
 	
+	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^BEGIN MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+
+	private static boolean toggle = true;
+	private ArrayList<JLabel> Tilelabels = new ArrayList<JLabel>(); 
 	
+
+	private JPanel contentPane;
+	private WorldViewer thisguy;
+
+	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^END MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 	
 	
 	
@@ -219,22 +229,34 @@ public class WorldViewer extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					WorldViewer frame = new WorldViewer();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		
+		WorldViewer viewer = new WorldViewer();
+		viewer.setVisible(true);
+		
+//		Runnable j = new Runnable(){public void run(){;}};
+		
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					WorldViewer frame = new WorldViewer();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+		
+		
 	}
+	
+	
+	
+	
+	
 	
 	//
 	/**
 	 * Create the frame.
-	 * @throws IOException 
 	 */
 	public WorldViewer(){
 		
@@ -1500,14 +1522,11 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-		
-		
-		
 		panelRoundInfo = new JPanel();
 		panelRoundInfo.setBounds(193, 193, 166, 158);
 		panelMidTable.add(panelRoundInfo);
 		panelRoundInfo.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelRoundInfo.setBackground(new Color(0,255,255,35));
+		panelRoundInfo.setBackground(COLOR_RINF_PANEL);
 		panelRoundInfo.setLayout(null);
 		
 		
@@ -1517,7 +1536,7 @@ public class WorldViewer extends JFrame {
 		panelRInd.setBounds(54, 54, 58, 49);
 		panelRoundInfo.add(panelRInd);
 		panelRInd.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelRInd.setBackground(new Color(0,155,155,35));
+		panelRInd.setBackground(COLOR_RIND);
 		panelRInd.setLayout(null);
 		
 		lblRIndWind = new JLabel("");
@@ -1541,7 +1560,7 @@ public class WorldViewer extends JFrame {
 		panelInfoP1.setBounds(56, 103, 54, 54);
 		panelRoundInfo.add(panelInfoP1);
 		panelInfoP1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelInfoP1.setBackground(new Color(0, 255, 255, 35));
+		panelInfoP1.setBackground(COLOR_RINF_PANEL);
 		panelInfoP1.setLayout(null);
 		
 		lblInfoP1Wind = new JLabel("");
@@ -1552,7 +1571,7 @@ public class WorldViewer extends JFrame {
 		
 		lblInfoP1Points = new JLabel("128,000");
 		lblInfoP1Points.setBounds(4, 25, 46, 14);
-		lblInfoP1Points.setBackground(new Color(0,0,0,0));
+		lblInfoP1Points.setBackground(COLOR_TRANSPARENT);
 		lblInfoP1Points.setHorizontalAlignment(SwingConstants.CENTER);
 		panelInfoP1.add(lblInfoP1Points);
 		
@@ -1570,7 +1589,7 @@ public class WorldViewer extends JFrame {
 		panelInfoP2.setBounds(112, 52, 54, 54);
 		panelRoundInfo.add(panelInfoP2);
 		panelInfoP2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelInfoP2.setBackground(new Color(0, 255, 255, 35));
+		panelInfoP2.setBackground(COLOR_RINF_PANEL);
 		panelInfoP2.setLayout(null);
 		
 		lblInfoP2Wind = new JLabel("");
@@ -1599,7 +1618,7 @@ public class WorldViewer extends JFrame {
 		panelInfoP3.setBounds(56, 0, 54, 54);
 		panelRoundInfo.add(panelInfoP3);
 		panelInfoP3.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelInfoP3.setBackground(new Color(0, 255, 255, 35));
+		panelInfoP3.setBackground(COLOR_RINF_PANEL);
 		panelInfoP3.setLayout(null);
 		
 		lblInfoP3Wind = new JLabel("");
@@ -1628,7 +1647,7 @@ public class WorldViewer extends JFrame {
 		panelInfoP4.setBounds(0, 52, 54, 54);
 		panelRoundInfo.add(panelInfoP4);
 		panelInfoP4.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelInfoP4.setBackground(new Color(0, 255, 255, 35));
+		panelInfoP4.setBackground(COLOR_RINF_PANEL);
 		panelInfoP4.setLayout(null);
 		
 		lblInfoP4Wind = new JLabel("");
@@ -2479,6 +2498,42 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+		lblBigTileDemo1 = new JLabel("");
+		lblBigTileDemo1.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
+		lblBigTileDemo1.setBounds(52, 403, 30, 41);
+		panelSidebar.add(lblBigTileDemo1);
+		
+		lblBigTileDemo2 = new JLabel("");
+		lblBigTileDemo2.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
+		lblBigTileDemo2.setBounds(82, 403, 30, 41);
+		panelSidebar.add(lblBigTileDemo2);
+		
+		lblBigTileDemo3 = new JLabel("");
+		lblBigTileDemo3.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
+		lblBigTileDemo3.setBounds(112, 403, 30, 41);
+		panelSidebar.add(lblBigTileDemo3);
+		
+		lblSmallTileDemo1 = new JLabel("");
+		lblSmallTileDemo1.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
+		lblSmallTileDemo1.setBounds(49, 470, 23, 31);
+		panelSidebar.add(lblSmallTileDemo1);
+		
+		lblSmallTileDemo2 = new JLabel("");
+		lblSmallTileDemo2.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
+		lblSmallTileDemo2.setBounds(72, 470, 23, 31);
+		panelSidebar.add(lblSmallTileDemo2);
+		
+		lblSmallTileDemo3 = new JLabel("");
+		lblSmallTileDemo3.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
+		lblSmallTileDemo3.setBounds(95, 470, 23, 31);
+		panelSidebar.add(lblSmallTileDemo3);
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		//all pond tiles put in an arraylist, for a toggle test
@@ -2501,23 +2556,6 @@ public class WorldViewer extends JFrame {
 		btnToggleOnOff.setBounds(27, 559, 215, 35);
 		panelSidebar.add(btnToggleOnOff);
 		
-		lblBigTileDemo1 = new JLabel("");
-		lblBigTileDemo1.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
-		lblBigTileDemo1.setBounds(52, 403, 30, 41);
-		panelSidebar.add(lblBigTileDemo1);
-		
-		lblBigTileDemo2 = new JLabel("");
-		lblBigTileDemo2.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
-		lblBigTileDemo2.setBounds(82, 403, 30, 41);
-		panelSidebar.add(lblBigTileDemo2);
-		
-		lblBigTileDemo3 = new JLabel("");
-		lblBigTileDemo3.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
-		lblBigTileDemo3.setBounds(112, 403, 30, 41);
-		panelSidebar.add(lblBigTileDemo3);
-		
-		
-		
 		
 		
 		
@@ -2532,8 +2570,6 @@ public class WorldViewer extends JFrame {
 				
 				Random randGen = new Random();
 				final int RANDLIMIT = 38;
-				final boolean HIDEWALL = true;
-				final boolean HIDEHANDS = true;
 				
 				//randomize tiles
 				for (JLabel l: larryH1)
@@ -2541,22 +2577,22 @@ public class WorldViewer extends JFrame {
 				for (JLabel l: larryP1)
 					l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW1)
-					if (HIDEWALL) l.setIcon(garryTiles[0][1][0]); 
+					if (OPTION_HIDE_WALL) l.setIcon(garryTiles[0][1][0]); 
 					else l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH1Ms)
 					for (JLabel l: lar)
-						if (randGen.nextInt(4) == 1) l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
+						if (randGen.nextInt(8) == 1) l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
 						else l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				
 				
 				for (JLabel l: larryH2)
-					if (HIDEHANDS) l.setIcon(garryTiles[1][0][0]);
+					if (OPTION_HIDE_HANDS) l.setIcon(garryTiles[1][0][0]);
 					else l.setIcon(garryTiles[1][0][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP2)
 					if (randGen.nextInt(34) != 1) l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
 					else l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW2)
-					if (HIDEWALL) l.setIcon(garryTiles[1][1][0]); 
+					if (OPTION_HIDE_WALL) l.setIcon(garryTiles[1][1][0]); 
 					else l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH2Ms)
 					for (JLabel l: lar)
@@ -2564,12 +2600,12 @@ public class WorldViewer extends JFrame {
 				
 				
 				for (JLabel l: larryH3)
-					if (HIDEHANDS) l.setIcon(garryTiles[2][0][0]);
+					if (OPTION_HIDE_HANDS) l.setIcon(garryTiles[2][0][0]);
 					else l.setIcon(garryTiles[2][0][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP3)
 					l.setIcon(garryTiles[2][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW3)
-					if (HIDEWALL) l.setIcon(garryTiles[2][1][0]); 
+					if (OPTION_HIDE_WALL) l.setIcon(garryTiles[2][1][0]); 
 					else l.setIcon(garryTiles[2][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH3Ms)
 					for (JLabel l: lar)
@@ -2577,12 +2613,12 @@ public class WorldViewer extends JFrame {
 				
 				
 				for (JLabel l: larryH4)
-					if (HIDEHANDS) l.setIcon(garryTiles[3][0][0]);
+					if (OPTION_HIDE_HANDS) l.setIcon(garryTiles[3][0][0]);
 					else l.setIcon(garryTiles[3][0][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP4)
 					l.setIcon(garryTiles[3][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW4)
-					if (HIDEWALL) l.setIcon(garryTiles[3][1][0]); 
+					if (OPTION_HIDE_WALL) l.setIcon(garryTiles[3][1][0]); 
 					else l.setIcon(garryTiles[3][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH4Ms)
 					for (JLabel l: lar)
@@ -2597,32 +2633,16 @@ public class WorldViewer extends JFrame {
 				for (JLabel[] player: larryInfoPlayers){
 					player[0].setIcon(garryWindsSmall[randGen.nextInt(SIZE_GARRY_WINDS)]);
 					player[1].setText(Integer.toString(100*randGen.nextInt(1280)));
-					if (randGen.nextInt(2) == 0) player[2].setIcon(null);
+					if (randGen.nextBoolean()) player[2].setIcon(null);
 					else player[2].setIcon(garryOther[0]);
 				}
 				
 				thisguy.repaint();
 				
-			
 			}
 		});
 		btnRandhand.setBounds(49, 621, 172, 35);
 		panelSidebar.add(btnRandhand);
-		
-		lblSmallTileDemo1 = new JLabel("");
-		lblSmallTileDemo1.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
-		lblSmallTileDemo1.setBounds(49, 470, 23, 31);
-		panelSidebar.add(lblSmallTileDemo1);
-		
-		lblSmallTileDemo2 = new JLabel("");
-		lblSmallTileDemo2.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
-		lblSmallTileDemo2.setBounds(72, 470, 23, 31);
-		panelSidebar.add(lblSmallTileDemo2);
-		
-		lblSmallTileDemo3 = new JLabel("");
-		lblSmallTileDemo3.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
-		lblSmallTileDemo3.setBounds(95, 470, 23, 31);
-		panelSidebar.add(lblSmallTileDemo3);
 		
 		
 		

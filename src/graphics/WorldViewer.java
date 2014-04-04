@@ -30,29 +30,29 @@ import java.awt.FlowLayout;
 public class WorldViewer extends JFrame {
 	
 	
-	public static final int WINDOW_WIDTH = 1150;
-	public static final int WINDOW_HEIGHT = 850;
+	private static final int WINDOW_WIDTH = 1150;
+	private static final int WINDOW_HEIGHT = 850;
 	
-	public static final int WINDOW_TOP_BORDER_SIZE = 30;
-	public static final int WINDOW_SIDE_BORDER_SIZE = 8;
-	public static final int WINDOW_BOTTOM_BORDER_SIZE = 8;
+	private static final int WINDOW_TOP_BORDER_SIZE = 30;
+	private static final int WINDOW_SIDE_BORDER_SIZE = 8;
+	private static final int WINDOW_BOTTOM_BORDER_SIZE = 8;
 	
 
 	
-	public static final int TILE_BIG_WIDTH = 30;
-	public static final int TILE_BIG_HEIGHT = 41;
-	public static final int TILE_SMALL_WIDTH = 23;
-	public static final int TILE_SMALL_HEIGHT = 31;
-	public static final int PONDPANEL_NEW_WIDTH = TILE_SMALL_WIDTH*6;
-	public static final int PONDPANEL_NEW_HEIGHT = TILE_SMALL_HEIGHT*4;
+	private static final int TILE_BIG_WIDTH = 30;
+	private static final int TILE_BIG_HEIGHT = 41;
+	private static final int TILE_SMALL_WIDTH = 23;
+	private static final int TILE_SMALL_HEIGHT = 31;
+	private static final int PONDPANEL_NEW_WIDTH = TILE_SMALL_WIDTH*6;
+	private static final int PONDPANEL_NEW_HEIGHT = TILE_SMALL_HEIGHT*4;
 	
 	
-	public static final int TILE_OLD_BIG_WIDTH = 36;
-	public static final int TILE_OLD_BIG_HEIGHT = 46;
-	public static final int TILE_OLD_SMALL_WIDTH = 27;
-	public static final int TILE_OLD_SMALL_HEIGHT = 35;
-	public static final int PONDPANEL_OLD_WIDTH = TILE_OLD_SMALL_WIDTH*6;
-	public static final int PONDPANEL_OLD_HEIGHT = TILE_OLD_SMALL_HEIGHT*4;
+	private static final int TILE_OLD_BIG_WIDTH = 36;
+	private static final int TILE_OLD_BIG_HEIGHT = 46;
+	private static final int TILE_OLD_SMALL_WIDTH = 27;
+	private static final int TILE_OLD_SMALL_HEIGHT = 35;
+	private static final int PONDPANEL_OLD_WIDTH = TILE_OLD_SMALL_WIDTH*6;
+	private static final int PONDPANEL_OLD_HEIGHT = TILE_OLD_SMALL_HEIGHT*4;
 	
 	public static final int POND_PANEL_WIDTH = PONDPANEL_OLD_WIDTH;
 	public static final int POND_PANEL_HEIGHT = PONDPANEL_NEW_HEIGHT;
@@ -60,9 +60,9 @@ public class WorldViewer extends JFrame {
 	
 	
 	
-	public static final Color COLOR_TABLE = new Color(0, 140, 0, 100);
-	public static final Color COLOR_SIDEBAR = new Color(0, 255, 0, 100);
-	public static final Color COLOR_TRANSPARENT = new Color(0, 0, 0, 0);
+	private static final Color COLOR_TABLE = new Color(0, 140, 0, 100);
+	private static final Color COLOR_SIDEBAR = new Color(0, 255, 0, 100);
+	private static final Color COLOR_TRANSPARENT = new Color(0, 0, 0, 0);
 	
 	
 	
@@ -212,6 +212,8 @@ public class WorldViewer extends JFrame {
 	
 	
 	
+	
+	
 
 	/**
 	 * Launch the application.
@@ -234,7 +236,7 @@ public class WorldViewer extends JFrame {
 	 * Create the frame.
 	 * @throws IOException 
 	 */
-	public WorldViewer() throws IOException {
+	public WorldViewer(){
 		
 		thisguy = this;
 		
@@ -294,7 +296,6 @@ public class WorldViewer extends JFrame {
 		ImageIcon meld2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\34.png");
 		ImageIcon meld3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\34.png");
 		ImageIcon meld4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\34.png");
-		
 		
 
 		ImageIcon windRImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transE.png");
@@ -378,426 +379,52 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-		
+		//panel declarations
 		JPanel panelTable;
-		JPanel panelMidTable;
-		JPanel panelP1;
-		JPanel panelP2;
-		JPanel panelP3;
-		JPanel panelP4;
-		JPanel panelW1;
-		JPanel panelW2;
-		JPanel panelW3;
-		JPanel panelW4;
-		JPanel panelRoundInfo;
-		JPanel panelRInd;
-		JPanel panelInfoP1;
-		JPanel panelInfoP2;
-		JPanel panelInfoP3;
-		JPanel panelInfoP4;
-		JPanel panelRndInfBackground;
-		JPanel panelPlayer1;
-		JPanel panelH1;
-		JPanel panelH1Ms;
-		JPanel panelH1M4;
-		JPanel panelH1M3;
-		JPanel panelH1M2;
-		JPanel panelH1M1;
-		JPanel panelPlayer2;
-		JPanel panelH2;
-		JPanel panelH2Ms;
-		JPanel panelH2M1;
-		JPanel panelH2M4;
-		JPanel panelH2M2;
-		JPanel panelH2M3;
-		JPanel panelPlayer3;
-		JPanel panelH3;
-		JPanel panelH3Ms;
-		JPanel panelH3M1;
-		JPanel panelH3M4;
-		JPanel panelH3M2;
-		JPanel panelH3M3;
-		JPanel panelPlayer4;
-		JPanel panelH4;
-		JPanel panelH4Ms;
-		JPanel panelH4M1;
-		JPanel panelH4M4;
-		JPanel panelH4M2;
-		JPanel panelH4M3;
 		JPanel panelSidebar;
-		
-		
-	
-		
-		
-		
 
-		JLabel lblP1T1;
-		JLabel lblP1T2;
-		JLabel lblP1T3;
-		JLabel lblP1T4;
-		JLabel lblP1T5;
-		JLabel lblP1T6;
-		JLabel lblP1T7;
-		JLabel lblP1T8;
-		JLabel lblP1T9;
-		JLabel lblP1T10;
-		JLabel lblP1T11;
-		JLabel lblP1T12;
-		JLabel lblP1T13;
-		JLabel lblP1T14;
-		JLabel lblP1T15;
-		JLabel lblP1T16;
-		JLabel lblP1T17;
-		JLabel lblP1T18;
-		JLabel lblP1T19;
-		JLabel lblP1T20;
-		JLabel lblP1T21;
-		JLabel lblP1T22;
-		JLabel lblP1T23;
-		JLabel lblP1T24;
-		JLabel lblP2T6;
-		JLabel lblP2T12;
-		JLabel lblP2T18;
-		JLabel lblP2T24;
-		JLabel lblP2T5;
-		JLabel lblP2T11;
-		JLabel lblP2T17;
-		JLabel lblP2T23;
-		JLabel lblP2T4;
-		JLabel lblP2T10;
-		JLabel lblP2T16;
-		JLabel lblP2T22;
-		JLabel lblP2T3;
-		JLabel lblP2T9;
-		JLabel lblP2T15;
-		JLabel lblP2T21;
-		JLabel lblP2T2;
-		JLabel lblP2T8;
-		JLabel lblP2T14;
-		JLabel lblP2T20;
-		JLabel lblP2T1;
-		JLabel lblP2T7;
-		JLabel lblP2T13;
-		JLabel lblP2T19;
-		JLabel lblP3T24;
-		JLabel lblP3T23;
-		JLabel lblP3T22;
-		JLabel lblP3T21;
-		JLabel lblP3T20;
-		JLabel lblP3T19;
-		JLabel lblP3T18;
-		JLabel lblP3T17;
-		JLabel lblP3T16;
-		JLabel lblP3T15;
-		JLabel lblP3T14;
-		JLabel lblP3T13;
-		JLabel lblP3T12;
-		JLabel lblP3T11;
-		JLabel lblP3T10;
-		JLabel lblP3T9;
-		JLabel lblP3T8;
-		JLabel lblP3T7;
-		JLabel lblP3T6;
-		JLabel lblP3T5;
-		JLabel lblP3T4;
-		JLabel lblP3T3;
-		JLabel lblP3T2;
-		JLabel lblP3T1;
-		JLabel lblP4T19;
-		JLabel lblP4T13;
-		JLabel lblP4T7;
-		JLabel lblP4T1;
-		JLabel lblP4T20;
-		JLabel lblP4T14;
-		JLabel lblP4T8;
-		JLabel lblP4T2;
-		JLabel lblP4T21;
-		JLabel lblP4T15;
-		JLabel lblP4T9;
-		JLabel lblP4T3;
-		JLabel lblP4T22;
-		JLabel lblP4T16;
-		JLabel lblP4T10;
-		JLabel lblP4T4;
-		JLabel lblP4T23;
-		JLabel lblP4T17;
-		JLabel lblP4T11;
-		JLabel lblP4T5;
-		JLabel lblP4T24;
-		JLabel lblP4T18;
-		JLabel lblP4T12;
-		JLabel lblP4T6;
-		JLabel lblW1T33;
-		JLabel lblW1T31;
-		JLabel lblW1T29;
-		JLabel lblW1T27;
-		JLabel lblW1T25;
-		JLabel lblW1T23;
-		JLabel lblW1T21;
-		JLabel lblW1T19;
-		JLabel lblW1T17;
-		JLabel lblW1T15;
-		JLabel lblW1T13;
-		JLabel lblW1T11;
-		JLabel lblW1T9;
-		JLabel lblW1T7;
-		JLabel lblW1T5;
-		JLabel lblW1T3;
-		JLabel lblW1T1;
-		JLabel lblW1T34;
-		JLabel lblW1T32;
-		JLabel lblW1T30;
-		JLabel lblW1T28;
-		JLabel lblW1T26;
-		JLabel lblW1T24;
-		JLabel lblW1T22;
-		JLabel lblW1T20;
-		JLabel lblW1T18;
-		JLabel lblW1T16;
-		JLabel lblW1T14;
-		JLabel lblW1T12;
-		JLabel lblW1T10;
-		JLabel lblW1T8;
-		JLabel lblW1T6;
-		JLabel lblW1T4;
-		JLabel lblW1T2;
-		JLabel lblW2T1;
-		JLabel lblW2T2;
-		JLabel lblW2T3;
-		JLabel lblW2T4;
-		JLabel lblW2T5;
-		JLabel lblW2T6;
-		JLabel lblW2T7;
-		JLabel lblW2T8;
-		JLabel lblW2T9;
-		JLabel lblW2T10;
-		JLabel lblW2T11;
-		JLabel lblW2T12;
-		JLabel lblW2T13;
-		JLabel lblW2T14;
-		JLabel lblW2T15;
-		JLabel lblW2T16;
-		JLabel lblW2T17;
-		JLabel lblW2T18;
-		JLabel lblW2T19;
-		JLabel lblW2T20;
-		JLabel lblW2T21;
-		JLabel lblW2T22;
-		JLabel lblW2T23;
-		JLabel lblW2T24;
-		JLabel lblW2T25;
-		JLabel lblW2T26;
-		JLabel lblW2T27;
-		JLabel lblW2T28;
-		JLabel lblW2T29;
-		JLabel lblW2T30;
-		JLabel lblW2T31;
-		JLabel lblW2T32;
-		JLabel lblW2T33;
-		JLabel lblW2T34;
-		JLabel lblW3T2;
-		JLabel lblW3T4;
-		JLabel lblW3T6;
-		JLabel lblW3T8;
-		JLabel lblW3T10;
-		JLabel lblW3T12;
-		JLabel lblW3T14;
-		JLabel lblW3T16;
-		JLabel lblW3T18;
-		JLabel lblW3T20;
-		JLabel lblW3T22;
-		JLabel lblW3T24;
-		JLabel lblW3T26;
-		JLabel lblW3T28;
-		JLabel lblW3T30;
-		JLabel lblW3T32;
-		JLabel lblW3T34;
-		JLabel lblW3T1;
-		JLabel lblW3T3;
-		JLabel lblW3T5;
-		JLabel lblW3T7;
-		JLabel lblW3T9;
-		JLabel lblW3T11;
-		JLabel lblW3T13;
-		JLabel lblW3T15;
-		JLabel lblW3T17;
-		JLabel lblW3T19;
-		JLabel lblW3T21;
-		JLabel lblW3T23;
-		JLabel lblW3T25;
-		JLabel lblW3T27;
-		JLabel lblW3T29;
-		JLabel lblW3T31;
-		JLabel lblW3T33;
-		JLabel lblW4T34;
-		JLabel lblW4T33;
-		JLabel lblW4T32;
-		JLabel lblW4T31;
-		JLabel lblW4T30;
-		JLabel lblW4T29;
-		JLabel lblW4T28;
-		JLabel lblW4T27;
-		JLabel lblW4T26;
-		JLabel lblW4T25;
-		JLabel lblW4T24;
-		JLabel lblW4T23;
-		JLabel lblW4T22;
-		JLabel lblW4T21;
-		JLabel lblW4T20;
-		JLabel lblW4T19;
-		JLabel lblW4T18;
-		JLabel lblW4T17;
-		JLabel lblW4T16;
-		JLabel lblW4T15;
-		JLabel lblW4T14;
-		JLabel lblW4T13;
-		JLabel lblW4T12;
-		JLabel lblW4T11;
-		JLabel lblW4T10;
-		JLabel lblW4T9;
-		JLabel lblW4T8;
-		JLabel lblW4T7;
-		JLabel lblW4T6;
-		JLabel lblW4T5;
-		JLabel lblW4T4;
-		JLabel lblW4T3;
-		JLabel lblW4T2;
-		JLabel lblW4T1;
-		JLabel lblRIndWind;
-		JLabel lblRIndNum;
-		JLabel lblInfoP1Wind;
-		JLabel lblInfoP1Points;
-		JLabel lblInfoP1Riichi;
-		JLabel lblInfoP2Wind;
-		JLabel lblInfoP2Points;
-		JLabel lblInfoP2Riichi;
-		JLabel lblInfoP3Wind;
-		JLabel lblInfoP3Points;
-		JLabel lblInfoP3Riichi;
-		JLabel lblInfoP4Wind;
-		JLabel lblInfoP4Points;
-		JLabel lblInfoP4Riichi;
-		JLabel lblH1T1;
-		JLabel lblH1T2;
-		JLabel lblH1T3;
-		JLabel lblH1T4;
-		JLabel lblH1T5;
-		JLabel lblH1T6;
-		JLabel lblH1T7;
-		JLabel lblH1T8;
-		JLabel lblH1T9;
-		JLabel lblH1T10;
-		JLabel lblH1T11;
-		JLabel lblH1T12;
-		JLabel lblH1T13;
-		JLabel lblH1T14;
-		JLabel lblH1M4T1;
-		JLabel lblH1M4T2;
-		JLabel lblH1M4T3;
-		JLabel lblH1M4T4;
-		JLabel lblH1M3T1;
-		JLabel lblH1M3T2;
-		JLabel lblH1M3T3;
-		JLabel lblH1M3T4;
-		JLabel lblH1M2T1;
-		JLabel lblH1M2T2;
-		JLabel lblH1M2T3;
-		JLabel lblH1M2T4;
-		JLabel lblH1M1T1;
-		JLabel lblH1M1T2;
-		JLabel lblH1M1T3;
-		JLabel lblH1M1T4;
-		JLabel lblH2T14;
-		JLabel lblH2T13;
-		JLabel lblH2T12;
-		JLabel lblH2T11;
-		JLabel lblH2T10;
-		JLabel lblH2T9;
-		JLabel lblH2T8;
-		JLabel lblH2T7;
-		JLabel lblH2T6;
-		JLabel lblH2T5;
-		JLabel lblH2T4;
-		JLabel lblH2T3;
-		JLabel lblH2T2;
-		JLabel lblH2T1;
-		JLabel lblH2M1T4;
-		JLabel lblH2M1T3;
-		JLabel lblH2M1T2;
-		JLabel lblH2M1T1;
-		JLabel lblH2M4T4;
-		JLabel lblH2M4T3;
-		JLabel lblH2M4T2;
-		JLabel lblH2M2T4;
-		JLabel lblH2M2T3;
-		JLabel lblH2M2T2;
-		JLabel lblH2M2T1;
-		JLabel lblH2M3T4;
-		JLabel lblH2M3T3;
-		JLabel lblH2M3T2;
-		JLabel lblH2M3T1;
-		JLabel lblH2M4T1;
-		JLabel lblH3T1;
-		JLabel lblH3T2;
-		JLabel lblH3T3;
-		JLabel lblH3T4;
-		JLabel lblH3T5;
-		JLabel lblH3T6;
-		JLabel lblH3T7;
-		JLabel lblH3T8;
-		JLabel lblH3T9;
-		JLabel lblH3T10;
-		JLabel lblH3T11;
-		JLabel lblH3T12;
-		JLabel lblH3T13;
-		JLabel lblH3T14;
-		JLabel lblH3M1T4;
-		JLabel lblH3M1T3;
-		JLabel lblH3M1T2;
-		JLabel lblH3M1T1;
-		JLabel lblH3M4T4;
-		JLabel lblH3M4T3;
-		JLabel lblH3M4T2;
-		JLabel lblH3M2T4;
-		JLabel lblH3M2T3;
-		JLabel lblH3M2T2;
-		JLabel lblH3M2T1;
-		JLabel lblH3M3T4;
-		JLabel lblH3M3T3;
-		JLabel lblH3M3T2;
-		JLabel lblH3M3T1;
-		JLabel lblH3M4T1;
-		JLabel lblH4T1;
-		JLabel lblH4T2;
-		JLabel lblH4T3;
-		JLabel lblH4T4;
-		JLabel lblH4T5;
-		JLabel lblH4T6;
-		JLabel lblH4T7;
-		JLabel lblH4T8;
-		JLabel lblH4T9;
-		JLabel lblH4T10;
-		JLabel lblH4T11;
-		JLabel lblH4T12;
-		JLabel lblH4T13;
-		JLabel lblH4T14;
-		JLabel lblH4M1T1;
-		JLabel lblH4M1T2;
-		JLabel lblH4M1T3;
-		JLabel lblH4M1T4;
-		JLabel lblH4M4T1;
-		JLabel lblH4M4T2;
-		JLabel lblH4M4T3;
-		JLabel lblH4M4T4;
-		JLabel lblH4M2T1;
-		JLabel lblH4M2T2;
-		JLabel lblH4M2T3;
-		JLabel lblH4M2T4;
-		JLabel lblH4M3T1;
-		JLabel lblH4M3T2;
-		JLabel lblH4M3T3;
-		JLabel lblH4M3T4;
+		JPanel panelMidTable;
+		JPanel panelP1;JPanel panelP2;JPanel panelP3;JPanel panelP4;
+		JPanel panelW1;JPanel panelW2;JPanel panelW3;JPanel panelW4;
+		JPanel panelRoundInfo;JPanel panelRInd;JPanel panelInfoP1;JPanel panelInfoP2;JPanel panelInfoP3;JPanel panelInfoP4;JPanel panelRndInfBackground;
+		
+		JPanel panelPlayer1;JPanel panelH1;JPanel panelH1Ms;
+		JPanel panelH1M1;JPanel panelH1M2;JPanel panelH1M3;JPanel panelH1M4;
+		JPanel panelPlayer2;JPanel panelH2;JPanel panelH2Ms;
+		JPanel panelH2M1;JPanel panelH2M2;JPanel panelH2M3;JPanel panelH2M4;
+		JPanel panelPlayer3;JPanel panelH3;JPanel panelH3Ms;
+		JPanel panelH3M1;JPanel panelH3M2;JPanel panelH3M3;JPanel panelH3M4;
+		JPanel panelPlayer4;JPanel panelH4;JPanel panelH4Ms;
+		JPanel panelH4M1;JPanel panelH4M2;JPanel panelH4M3;JPanel panelH4M4;
+		
+		
+		
+		//label declarations
+		JLabel lblH1T1;JLabel lblH1T2;JLabel lblH1T3;JLabel lblH1T4;JLabel lblH1T5;JLabel lblH1T6;JLabel lblH1T7;JLabel lblH1T8;JLabel lblH1T9;JLabel lblH1T10;JLabel lblH1T11;JLabel lblH1T12;JLabel lblH1T13;JLabel lblH1T14;
+		JLabel lblH1M1T1;JLabel lblH1M1T2;JLabel lblH1M1T3;JLabel lblH1M1T4;JLabel lblH1M2T1;JLabel lblH1M2T2;JLabel lblH1M2T3;JLabel lblH1M2T4;JLabel lblH1M3T1;JLabel lblH1M3T2;JLabel lblH1M3T3;JLabel lblH1M3T4;JLabel lblH1M4T1;JLabel lblH1M4T2;JLabel lblH1M4T3;JLabel lblH1M4T4;
+		JLabel lblH2T1;JLabel lblH2T2;JLabel lblH2T3;JLabel lblH2T4;JLabel lblH2T5;JLabel lblH2T6;JLabel lblH2T7;JLabel lblH2T8;JLabel lblH2T9;JLabel lblH2T10;JLabel lblH2T11;JLabel lblH2T12;JLabel lblH2T13;JLabel lblH2T14;
+		JLabel lblH2M1T1;JLabel lblH2M1T2;JLabel lblH2M1T3;JLabel lblH2M1T4;JLabel lblH2M2T1;JLabel lblH2M2T2;JLabel lblH2M2T3;JLabel lblH2M2T4;JLabel lblH2M3T1;JLabel lblH2M3T2;JLabel lblH2M3T3;JLabel lblH2M3T4;JLabel lblH2M4T1;JLabel lblH2M4T2;JLabel lblH2M4T3;JLabel lblH2M4T4;
+		JLabel lblH3T1;JLabel lblH3T2;JLabel lblH3T3;JLabel lblH3T4;JLabel lblH3T5;JLabel lblH3T6;JLabel lblH3T7;JLabel lblH3T8;JLabel lblH3T9;JLabel lblH3T10;JLabel lblH3T11;JLabel lblH3T12;JLabel lblH3T13;JLabel lblH3T14;
+		JLabel lblH3M1T1;JLabel lblH3M1T2;JLabel lblH3M1T3;JLabel lblH3M1T4;JLabel lblH3M2T1;JLabel lblH3M2T2;JLabel lblH3M2T3;JLabel lblH3M2T4;JLabel lblH3M3T1;JLabel lblH3M3T2;JLabel lblH3M3T3;JLabel lblH3M3T4;JLabel lblH3M4T1;JLabel lblH3M4T2;JLabel lblH3M4T3;JLabel lblH3M4T4;
+		JLabel lblH4T1;JLabel lblH4T2;JLabel lblH4T3;JLabel lblH4T4;JLabel lblH4T5;JLabel lblH4T6;JLabel lblH4T7;JLabel lblH4T8;JLabel lblH4T9;JLabel lblH4T10;JLabel lblH4T11;JLabel lblH4T12;JLabel lblH4T13;JLabel lblH4T14;
+		JLabel lblH4M1T1;JLabel lblH4M1T2;JLabel lblH4M1T3;JLabel lblH4M1T4;JLabel lblH4M2T1;JLabel lblH4M2T2;JLabel lblH4M2T3;JLabel lblH4M2T4;JLabel lblH4M3T1;JLabel lblH4M3T2;JLabel lblH4M3T3;JLabel lblH4M3T4;JLabel lblH4M4T1;JLabel lblH4M4T2;JLabel lblH4M4T3;JLabel lblH4M4T4;
+		
+		JLabel lblRIndNum;JLabel lblRIndWind;
+		JLabel lblInfoP1Points;JLabel lblInfoP1Riichi;JLabel lblInfoP1Wind;
+		JLabel lblInfoP2Points;JLabel lblInfoP2Riichi;JLabel lblInfoP2Wind;
+		JLabel lblInfoP3Points;JLabel lblInfoP3Riichi;JLabel lblInfoP3Wind;
+		JLabel lblInfoP4Points;JLabel lblInfoP4Riichi;JLabel lblInfoP4Wind;
+		
+		JLabel lblP1T1;JLabel lblP1T2;JLabel lblP1T3;JLabel lblP1T4;JLabel lblP1T5;JLabel lblP1T6;JLabel lblP1T7;JLabel lblP1T8;JLabel lblP1T9;JLabel lblP1T10;JLabel lblP1T11;JLabel lblP1T12;JLabel lblP1T13;JLabel lblP1T14;JLabel lblP1T15;JLabel lblP1T16;JLabel lblP1T17;JLabel lblP1T18;JLabel lblP1T19;JLabel lblP1T20;JLabel lblP1T21;JLabel lblP1T22;JLabel lblP1T23;JLabel lblP1T24;
+		JLabel lblP2T1;JLabel lblP2T2;JLabel lblP2T3;JLabel lblP2T4;JLabel lblP2T5;JLabel lblP2T6;JLabel lblP2T7;JLabel lblP2T8;JLabel lblP2T9;JLabel lblP2T10;JLabel lblP2T11;JLabel lblP2T12;JLabel lblP2T13;JLabel lblP2T14;JLabel lblP2T15;JLabel lblP2T16;JLabel lblP2T17;JLabel lblP2T18;JLabel lblP2T19;JLabel lblP2T20;JLabel lblP2T21;JLabel lblP2T22;JLabel lblP2T23;JLabel lblP2T24;
+		JLabel lblP3T1;JLabel lblP3T2;JLabel lblP3T3;JLabel lblP3T4;JLabel lblP3T5;JLabel lblP3T6;JLabel lblP3T7;JLabel lblP3T8;JLabel lblP3T9;JLabel lblP3T10;JLabel lblP3T11;JLabel lblP3T12;JLabel lblP3T13;JLabel lblP3T14;JLabel lblP3T15;JLabel lblP3T16;JLabel lblP3T17;JLabel lblP3T18;JLabel lblP3T19;JLabel lblP3T20;JLabel lblP3T21;JLabel lblP3T22;JLabel lblP3T23;JLabel lblP3T24;
+		JLabel lblP4T1;JLabel lblP4T2;JLabel lblP4T3;JLabel lblP4T4;JLabel lblP4T5;JLabel lblP4T6;JLabel lblP4T7;JLabel lblP4T8;JLabel lblP4T9;JLabel lblP4T10;JLabel lblP4T11;JLabel lblP4T12;JLabel lblP4T13;JLabel lblP4T14;JLabel lblP4T15;JLabel lblP4T16;JLabel lblP4T17;JLabel lblP4T18;JLabel lblP4T19;JLabel lblP4T20;JLabel lblP4T21;JLabel lblP4T22;JLabel lblP4T23;JLabel lblP4T24;
+		
+		JLabel lblW1T1;JLabel lblW1T2;JLabel lblW1T3;JLabel lblW1T4;JLabel lblW1T5;JLabel lblW1T6;JLabel lblW1T7;JLabel lblW1T8;JLabel lblW1T9;JLabel lblW1T10;JLabel lblW1T11;JLabel lblW1T12;JLabel lblW1T13;JLabel lblW1T14;JLabel lblW1T15;JLabel lblW1T16;JLabel lblW1T17;JLabel lblW1T18;JLabel lblW1T19;JLabel lblW1T20;JLabel lblW1T21;JLabel lblW1T22;JLabel lblW1T23;JLabel lblW1T24;JLabel lblW1T25;JLabel lblW1T26;JLabel lblW1T27;JLabel lblW1T28;JLabel lblW1T29;JLabel lblW1T30;JLabel lblW1T31;JLabel lblW1T32;JLabel lblW1T33;JLabel lblW1T34;
+		JLabel lblW2T1;JLabel lblW2T2;JLabel lblW2T3;JLabel lblW2T4;JLabel lblW2T5;JLabel lblW2T6;JLabel lblW2T7;JLabel lblW2T8;JLabel lblW2T9;JLabel lblW2T10;JLabel lblW2T11;JLabel lblW2T12;JLabel lblW2T13;JLabel lblW2T14;JLabel lblW2T15;JLabel lblW2T16;JLabel lblW2T17;JLabel lblW2T18;JLabel lblW2T19;JLabel lblW2T20;JLabel lblW2T21;JLabel lblW2T22;JLabel lblW2T23;JLabel lblW2T24;JLabel lblW2T25;JLabel lblW2T26;JLabel lblW2T27;JLabel lblW2T28;JLabel lblW2T29;JLabel lblW2T30;JLabel lblW2T31;JLabel lblW2T32;JLabel lblW2T33;JLabel lblW2T34;
+		JLabel lblW3T1;JLabel lblW3T2;JLabel lblW3T3;JLabel lblW3T4;JLabel lblW3T5;JLabel lblW3T6;JLabel lblW3T7;JLabel lblW3T8;JLabel lblW3T9;JLabel lblW3T10;JLabel lblW3T11;JLabel lblW3T12;JLabel lblW3T13;JLabel lblW3T14;JLabel lblW3T15;JLabel lblW3T16;JLabel lblW3T17;JLabel lblW3T18;JLabel lblW3T19;JLabel lblW3T20;JLabel lblW3T21;JLabel lblW3T22;JLabel lblW3T23;JLabel lblW3T24;JLabel lblW3T25;JLabel lblW3T26;JLabel lblW3T27;JLabel lblW3T28;JLabel lblW3T29;JLabel lblW3T30;JLabel lblW3T31;JLabel lblW3T32;JLabel lblW3T33;JLabel lblW3T34;
+		JLabel lblW4T1;JLabel lblW4T2;JLabel lblW4T3;JLabel lblW4T4;JLabel lblW4T5;JLabel lblW4T6;JLabel lblW4T7;JLabel lblW4T8;JLabel lblW4T9;JLabel lblW4T10;JLabel lblW4T11;JLabel lblW4T12;JLabel lblW4T13;JLabel lblW4T14;JLabel lblW4T15;JLabel lblW4T16;JLabel lblW4T17;JLabel lblW4T18;JLabel lblW4T19;JLabel lblW4T20;JLabel lblW4T21;JLabel lblW4T22;JLabel lblW4T23;JLabel lblW4T24;JLabel lblW4T25;JLabel lblW4T26;JLabel lblW4T27;JLabel lblW4T28;JLabel lblW4T29;JLabel lblW4T30;JLabel lblW4T31;JLabel lblW4T32;JLabel lblW4T33;JLabel lblW4T34;
+		
 		JLabel labelWeHaveFun;
 		JLabel lblBigTileDemo1;
 		JLabel lblBigTileDemo2;
@@ -805,22 +432,6 @@ public class WorldViewer extends JFrame {
 		JLabel lblSmallTileDemo1;
 		JLabel lblSmallTileDemo2;
 		JLabel lblSmallTileDemo3;
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		
 		
@@ -841,10 +452,6 @@ public class WorldViewer extends JFrame {
 		panelTable.setBackground(COLOR_TABLE);
 		contentPane.add(panelTable);
 		panelTable.setLayout(null);
-		
-		
-		
-		
 		
 		
 		

@@ -46,7 +46,7 @@ methods:
 	getKamicha, getToimen, getShimocha - returns links to the player's neighbors
 	getPoints - returns how many points the player has
 	
-	checkRiichi - returns true if the player is in riichi status
+	getRiichiStatus - returns true if the player is in riichi status
 	checkFuriten - returns true if the player is in furiten status
 	checkRinshan - returns true if the player is holding a rinshan tile that they drew this turn
 	checkTenpai - returns true if the player is in tenpai
@@ -153,7 +153,7 @@ public class Player {
 	private Player linkKamicha;
 	
 	
-	private RoundInfo mRinf;
+	private RoundTracker mRoundTracker;
 	
 	
 	
@@ -162,32 +162,32 @@ public class Player {
 	
 	
 	
-	public Player(char seatwind, int seatnum, char controller, String pName, RoundInfo rinf){
-		
-		mSeatWind = seatwind;
-		mSeatNumber = seatnum;
-		
-		mController = controller;
-		mPlayerName = pName;
-		
-		mHand = new Hand(mSeatWind);
-		mPond = new Pond();
-		mPoints = POINTS_STARTING_AMOUNT;
-		
-		mCallStatus = CALLED_NONE;
-		mDrawNeeded = DRAW_NORMAL;
-		
-		mRiichiStatus = false;
-		mFuritenStatus = false;
-		mHoldingRinshanTile = false;
-		//mTenpaiStatus = false;
-		
-		//link round info
-		mRinf = rinf;
-		
-		
-		
-	}
+//	public Player(char seatwind, int seatnum, char controller, String pName, RoundTracker rinf){
+//		
+//		mSeatWind = seatwind;
+//		mSeatNumber = seatnum;
+//		
+//		mController = controller;
+//		mPlayerName = pName;
+//		
+//		mHand = new Hand(mSeatWind);
+//		mPond = new Pond();
+//		mPoints = POINTS_STARTING_AMOUNT;
+//		
+//		mCallStatus = CALLED_NONE;
+//		mDrawNeeded = DRAW_NORMAL;
+//		
+//		mRiichiStatus = false;
+//		mFuritenStatus = false;
+//		mHoldingRinshanTile = false;
+//		//mTenpaiStatus = false;
+//		
+//		//link round info
+//		mRTracker = rinf;
+//		
+//		
+//		
+//	}
 	public Player(char seat, char controller, String pName){
 		
 		mSeatWind = seat;
@@ -715,7 +715,7 @@ public class Player {
 	
 
 	
-	public boolean checkRiichi(){return mRiichiStatus;}
+	public boolean getRiichiStatus(){return mRiichiStatus;}
 	public boolean checkFuriten(){return mFuritenStatus;}
 	public boolean checkTenpai(){return mHand.getTenpaiStatus();}
 	//returns call status as an int value
@@ -870,6 +870,22 @@ public class Player {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//sync player's hand and pond with tracker
+	public void syncWithRoundTracker(RoundTracker tracker){
+		mRoundTracker = tracker;
+		mRoundTracker.syncPlayer(mHand, mPond);
+	}
 	
 	
 	

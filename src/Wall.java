@@ -25,14 +25,15 @@ methods:
 	
 	getNumTilesLeftInDeadWall - returns the number of tiles left in the dead wall
  	getNumKansMade - returns the number of kans made
-	getDoraIndicators - returns a list of dora indicators from the dead wall (as a list of tiles)
+	getDoraIndicators - returns a list of dora indicator tiles
+	getDoraIndicatorsWithUra - returns a list of dora indicator tiles, including ura dora
 	
 	other:
 	toString
 	
 	private:
 	__initialize - builds, initializes, and shuffles the wall
-	__makeDeadWall - make the dead wall out of the wall's last 14 tiles
+	__getDoraIndicators - returns a list of dora indicator tiles. can also return ura dora depending on the flag.
 */
 public class Wall {
 	
@@ -206,23 +207,20 @@ public class Wall {
 	
 	
 	/*
-	 method: getDoraIndicators
+	 private method: __getDoraIndicators
 	 returns the dora indicators, as a list of Tiles
-	 
 	 input: if getUraDora is true, the list will also contain the ura dora indicators
 	 
 	 
 	 decide the exact size of the list
-	 
 	 add first dora indicator
 	 if kans have been made,  add more indicators to the list
 	 if (getUraDora)
 	 	add first ura dora indicator
 	 	if kans have been made,  add more ura indicators to the list
-	 
 	 return the list
 	*/
-	public TileList getDoraIndicators(boolean getUraDora){
+	private TileList __getDoraIndicators(boolean getUraDora){
 		
 		int size = mNumKansMade + 1;
 		if (getUraDora) size *= 2;
@@ -252,8 +250,9 @@ public class Wall {
 		
 		return indicators;
 	}
-	//Overloaded with no args, gets just normal dora (no ura)
-	public TileList getDoraIndicators(){return getDoraIndicators(false);}
+	//methods to get a list of dora tiles, or a list of both dora and ura dora tiles 
+	public TileList getDoraIndicators(){return __getDoraIndicators(false);}
+	public TileList getDoraIndicatorsWithUra(){return __getDoraIndicators(true);}
 	
 	
 	
@@ -263,7 +262,6 @@ public class Wall {
 	/*
 	method: takeTile
 	removes a tile from the beginning of the wall and returns it
-	returns the tile, or returns null if the wall was empty
 	returns the tile, or returns null if the wall was empty
 	*/
 	public Tile takeTile(){
@@ -464,6 +462,14 @@ public class Wall {
 		return wallString;
 	}
 	
+	
+	
+	
+	private RoundTracker mRTracker;
+	public void syncWithTracker(RoundTracker tracker){
+		mRTracker = tracker; 
+		mRTracker.syncWall(mTiles);
+	}
 	
 	
 }

@@ -27,6 +27,7 @@ public class Pond {
 	
 	
 	private TileList mTiles;
+	private RoundTracker mRoundTracker;
 	
 //	private Tile mRiichiTile;
 	private int mRiichiTileIndex;
@@ -60,8 +61,7 @@ public class Pond {
 	
 	
 	@Override
-	public String toString()
-	{
+	public String toString(){
 		
 		int i, j;
 		String pondString = "";
@@ -80,6 +80,17 @@ public class Pond {
 		
 		return pondString;
 	}
+	
+	
+	
+	
+	
+	//sync pond tilelist with tracker
+	public void syncWithRoundTracker(RoundTracker tracker){
+		mRoundTracker = tracker;
+		mRoundTracker.syncPond(mTiles);
+	}
+	
 	
 	
 }

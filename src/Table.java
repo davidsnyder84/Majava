@@ -76,6 +76,9 @@ public class Table {
 	private Player p1, p2, p3, p4;
 	private Wall mWall;
 	
+	private RoundTracker mRTracker;
+	
+	
 	private char mRoundWind;
 	
 	private int mWhoseTurn;
@@ -121,6 +124,9 @@ public class Table {
 		else
 			mGameType = GAME_TYPE_DEFAULT;
 		
+		
+		//initialize Round Tracker
+		mRTracker = new RoundTracker(mRoundWind,1,0, mWall, p1,p2,p3,p4);
 	}
 	//no-arg constuctor, defaults to single round game
 	public Table(){

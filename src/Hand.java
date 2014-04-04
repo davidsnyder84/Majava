@@ -67,7 +67,7 @@ public class Hand implements Iterable<Tile>{
 	private char mOwnerSeatWind;
 	
 	
-	
+	private RoundTracker mRoundTracker;
 	
 	
 	
@@ -81,6 +81,7 @@ public class Hand implements Iterable<Tile>{
 		
 		//make a checker for the hand
 		mChecker = new HandChecker(this, mTiles, mMelds);
+		mRoundTracker = null;
 	}
 	public Hand(){
 		this(Player.SEAT_UNDECIDED);
@@ -383,5 +384,22 @@ public class Hand implements Iterable<Tile>{
 	//iterator, returns mTile's iterator
 	@Override
 	public Iterator<Tile> iterator() {return mTiles.iterator();}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//sync hand tilelist and meldlist with tracker
+	public void syncWithRoundTracker(RoundTracker tracker){
+		mRoundTracker = tracker;
+		mRoundTracker.syncHand(mTiles, mMelds);
+	}
+	
+	
 
 }

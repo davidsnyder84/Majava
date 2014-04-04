@@ -23,12 +23,57 @@ public class RoundInfo {
 	
 
 	private char mRoundWind;
+	private int mRoundNum;
+	private int mRoundBonusNum;
+	
 	private int mGameType;
 	
 	private TileList mDoraIndicators;
 	
 	private boolean mGameIsOver;
 	private int mGameResult;
+	
+	
+	
+	
+	
+	private Player mPlayer1, mPlayer2, mPlayer3, mPlayer4;
+	private Pond mPond1, mPond2, mPond3, mPond4;
+	private Hand mHand1, mHand2, mHand3, mHand4;
+	
+	private Wall mWall;
+	
+	
+	private TileList mH1Tiles;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public RoundInfo(char roundWind, int roundNum, int roundBonus, Player p1, Player p2, Player p3, Player p4, Wall wall){
+		
+		mRoundWind = roundWind;
+		mRoundNum = roundNum;
+		mRoundBonusNum = roundBonus;
+		
+		mPlayer1 = p1;
+		mPlayer2 = p2;
+		mPlayer3 = p3;
+		mPlayer4 = p4;
+		
+		//will get these later
+		mPond1 = mPond2 = mPond3 = mPond4 = null;
+		mHand1 = mHand2 = mHand3 = mHand4 = null;
+	}
+	
+	
+	
+	
+	
 	
 	
 	
@@ -51,6 +96,35 @@ public class RoundInfo {
 	public RoundInfo(int gameType, char roundWind, TileList doraIndicators){
 		this(gameType, roundWind, doraIndicators, Table.RESULT_UNDECIDED);
 	}
+	
+	
+	
+	
+	
+	
+	public void setPond(Pond p){
+		;
+	}
+	
+	public void setP1Pond(Pond p){
+		;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

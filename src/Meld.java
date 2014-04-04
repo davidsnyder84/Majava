@@ -48,6 +48,7 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 
 	public static final int AVG_NUM_TILES_PER_MELD = 3;
 	
+	private static final int FU_DEFAULT = 0;
 	
 	
 	
@@ -82,7 +83,7 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 		
 		__formMeld(handTiles, newTile, meldType);
 		
-		mFu = 0;
+		mFu = FU_DEFAULT;
 	}
 	//2-arg, takes list of tiles and meld type (used when making a meld only from hand tiles, so no "new" tile)
 	//passes (handtiles 0 to n-1, handtile n, and meld type)

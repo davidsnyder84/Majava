@@ -201,6 +201,7 @@ public class Table {
 		//------------------------------------------------DEBUG INFO
 		
 		
+		
 		mWhoseTurn = 1;
 		mReaction = NO_REACTION;
 		mGameIsOver = false;

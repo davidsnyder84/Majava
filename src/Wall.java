@@ -195,8 +195,7 @@ public class Wall {
 
 		//remove the last 14 tiles in wall, create the dead wall with them
 		int i;
-		for (i = 0; i < DeadWall.MAX_SIZE_DEAD_WALL; i++)
-		{
+		for (i = 0; i < DeadWall.MAX_SIZE_DEAD_WALL; i++){
 			//add a tile to the dead wall
 			deadWallTiles.add(mTiles.get(startingPos));
 			

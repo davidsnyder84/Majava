@@ -135,6 +135,7 @@ public class Player {
 	private int mPoints;
 	
 	private char mSeatWind;
+	private int mSeatNumber;
 	private char mController;
 	private String mPlayerName;
 	
@@ -152,6 +153,7 @@ public class Player {
 	private Player linkKamicha;
 	
 	
+	private RoundInfo mRinf;
 	
 	
 	
@@ -160,7 +162,32 @@ public class Player {
 	
 	
 	
-	
+	public Player(char seatwind, int seatnum, char controller, String pName, RoundInfo rinf){
+		
+		mSeatWind = seatwind;
+		mSeatNumber = seatnum;
+		
+		mController = controller;
+		mPlayerName = pName;
+		
+		mHand = new Hand(mSeatWind);
+		mPond = new Pond();
+		mPoints = POINTS_STARTING_AMOUNT;
+		
+		mCallStatus = CALLED_NONE;
+		mDrawNeeded = DRAW_NORMAL;
+		
+		mRiichiStatus = false;
+		mFuritenStatus = false;
+		mHoldingRinshanTile = false;
+		//mTenpaiStatus = false;
+		
+		//link round info
+		mRinf = rinf;
+		
+		
+		
+	}
 	public Player(char seat, char controller, String pName){
 		
 		mSeatWind = seat;
@@ -719,6 +746,7 @@ public class Player {
 	public boolean checkRinshan(){
 		return mHoldingRinshanTile;
 	}
+	
 	
 	
 	

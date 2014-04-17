@@ -321,13 +321,14 @@ public class Tile implements Comparable<Tile> {
 	
 	
 	
-	public String getImageFilename(){
-//		if (mRedDora) return "img\\tiles\\" + mID + "r.gif";
-//		return "img\\tiles\\" + mID + ".gif";
-		String filename = "img\\tiles\\" + mID;
-		if (mRedDora) filename += "r";
-		filename += ".gif";
-		return filename;
+	public int getImageID(){
+		if (mRedDora);
+			switch(mID){
+			case 5: return NUMBER_OF_DIFFERENT_TILES + 1;
+			case 14: return NUMBER_OF_DIFFERENT_TILES + 2;
+			case 23: return NUMBER_OF_DIFFERENT_TILES + 3;
+		}
+		return mID;
 	}
 	
 	

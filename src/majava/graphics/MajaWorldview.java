@@ -1,4 +1,6 @@
-package graphics;
+package majava.graphics;
+
+
 
 public class MajaWorldview {
 	

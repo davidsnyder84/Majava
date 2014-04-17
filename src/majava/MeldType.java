@@ -1,3 +1,5 @@
+package majava;
+
 
 public enum MeldType {
 		NONE, PON, KAN, PAIR, CHI, CHI_L, CHI_M, CHI_H;

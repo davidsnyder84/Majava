@@ -1,3 +1,5 @@
+package majava;
+
 /*
 Class: Pond
 represents a player's pond of discarded tiles

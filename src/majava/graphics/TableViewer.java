@@ -1,4 +1,10 @@
-package graphics;
+package majava.graphics;
+
+import majava.Hand;
+import majava.Meld;
+import majava.Player;
+import majava.Pond;
+import majava.TileList;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -27,7 +33,7 @@ import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 
 @SuppressWarnings("serial")
-public class WorldViewer extends JFrame {
+public class TableViewer extends JFrame {
 	
 	
 	
@@ -217,37 +223,56 @@ public class WorldViewer extends JFrame {
 	
 
 	private JPanel contentPane;
-	private WorldViewer thisguy;
+	private TableViewer thisguy;
+	
+	
+	
+	
+	
+	
+	
+	
+	private class PlayerTracker{
+		private Player player;
+		
+		//private char seatWind;
+		//private int points;
+		//private boolean riichiStatus;
+		//private String playerName;
+		
+		private TileList tilesH;
+		private TileList tilesP;
+		
+		//private ArrayList<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
+	}
+	
+	
+	
+	
 
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^END MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 	
 	
 	
 	
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		
-		WorldViewer viewer = new WorldViewer();
-		viewer.setVisible(true);
-		
-//		Runnable j = new Runnable(){public void run(){;}};
-		
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					WorldViewer frame = new WorldViewer();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void updateEverything(){
 		
 	}
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -258,7 +283,7 @@ public class WorldViewer extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public WorldViewer(){
+	public TableViewer(){
 		
 		thisguy = this;
 		
@@ -272,7 +297,6 @@ public class WorldViewer extends JFrame {
 		windowIconImg.equals(windowIconImg);
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(windowIconImgPath));
-//		setIconImage(windowIconImg.getImage());
 		setTitle("The Beaver");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, WINDOW_BOUND_WIDTH, WINDOW_BOUND_HEIGHT);
@@ -332,68 +356,6 @@ public class WorldViewer extends JFrame {
 		
 		
 		
-		
-//		p2Img = p3Img = p4Img = null;
-//		pImg = p2Img = p3Img = p4Img = null;
-//		wImg = w2Img = w3Img = w4Img = null;
-//		h2Img = h3Img = h4Img = null;
-//		hImg = h2Img = h3Img = h4Img = null;
-//		meldImg = meld2Img = meld3Img = meld4Img = null;
-		
-		
-		
-		
-		
-//		BufferedImage picture = null;
-//		BufferedImage picture1 = ImageIO.read(new File("img\\tiles\\seat1\\1.gif"));
-//		BufferedImage picture2 = ImageIO.read(new File("img\\tiles\\seat2\\1.gif"));
-//		BufferedImage picture3 = ImageIO.read(new File("img\\tiles\\seat3\\1.gif"));
-//		BufferedImage picture4 = ImageIO.read(new File("img\\tiles\\seat4\\1.gif"));
-		
-//        hImg = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat1\\1.gif")));
-//        h2Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat2\\1.gif")));
-//        h3Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat3\\1.gif")));
-//        h4Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat4\\1.gif")));
-//        
-//        pImg = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat1\\small\\22.gif")));
-//		p2Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat2\\small\\22.gif")));
-//		p3Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat3\\small\\25.gif")));
-//		p4Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat4\\small\\21.gif")));
-//		
-//		wImg = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat1\\small\\tileback.gif")));
-//		w2Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat2\\small\\tileback.gif")));
-//		w3Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat3\\small\\tileback.gif")));
-//		w4Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat4\\small\\tileback.gif")));
-//		
-//		meldImg = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat1\\small\\34.gif")));
-//		meld2Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat2\\small\\34.gif")));
-//		meld3Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat3\\small\\34.gif")));
-//		meld4Img = new ImageIcon(ImageIO.read(new File("img\\tiles\\seat4\\small\\34.gif")));
-		
-		
-		
-		
-		
-		
-//		hImg = new ImageIcon("img\\tiles\\seat1\\34.png");
-//		h2Img = new ImageIcon("img\\tiles\\seat2\\34.png");
-//		h3Img = new ImageIcon("img\\tiles\\seat3\\34.png");
-//		h4Img = new ImageIcon("img\\tiles\\seat4\\34.png");
-//			
-//		pImg = new ImageIcon("img\\tiles\\seat1\\small\\34.png");
-//		p2Img = new ImageIcon("img\\tiles\\seat2\\small\\34.png");
-//		p3Img = new ImageIcon("img\\tiles\\seat3\\small\\34.png");
-//		p4Img = new ImageIcon("img\\tiles\\seat4\\small\\34.png");
-//			
-//		wImg = new ImageIcon("img\\tiles\\seat1\\small\\34.png");
-//		w2Img = new ImageIcon("img\\tiles\\seat2\\small\\34.png");
-//		w3Img = new ImageIcon("img\\tiles\\seat3\\small\\34.png");
-//		w4Img = new ImageIcon("img\\tiles\\seat4\\small\\34.png");
-//			
-//		meldImg = new ImageIcon("img\\tiles\\seat1\\small\\34.png");
-//		meld2Img = new ImageIcon("img\\tiles\\seat2\\small\\34.png");
-//		meld3Img = new ImageIcon("img\\tiles\\seat3\\small\\34.png");
-//		meld4Img = new ImageIcon("img\\tiles\\seat4\\small\\34.png");
 		
 		
 		
@@ -2766,16 +2728,31 @@ public class WorldViewer extends JFrame {
 		
 		
 		
+	}
+	
+	
+	
+	
+	
+
+	
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		TableViewer viewer = new TableViewer();
+		viewer.setVisible(true);
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

@@ -238,8 +238,6 @@ public class Table {
 				discardedTile = doPlayerTurn(p4);
 			
 			
-			
-			
 			//handle reactions here
 			if (mReaction != NO_REACTION){
 				handleReaction(discardedTile);
@@ -394,6 +392,7 @@ public class Table {
 		{
 			//make the meld
 			priorityCaller.makeMeld(discardedTile);
+			mTviewer.updateEverything();
 			//meld has been made
 
 			//show who called the tile 

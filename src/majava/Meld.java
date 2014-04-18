@@ -153,7 +153,7 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 		//set meld type
 		mMeldType = meldType;
 		
-
+		
 		//add the hand tiles to the meld
 		mTiles = handTiles;
 		//add the new tile to the meld

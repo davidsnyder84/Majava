@@ -1,5 +1,6 @@
 package majava;
 
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -96,6 +97,16 @@ public class Hand implements Iterable<Tile>{
 		if (index > mTiles.size() || index < 0 ) return null;
 		return mTiles.get(index);
 	}
+	
+	//returns a list of the melds that have been made (copy of actual melds), returns an empty list if no melds made
+	public ArrayList<Meld> getMelds(){
+		ArrayList<Meld> meldList = new ArrayList<Meld>(0); 
+		for (int i = 0; i < mNumMeldsMade; i++)
+			meldList.add(new Meld(mMelds.get(i)));
+		
+		return meldList;
+	}
+	
 	
 	
 	//returns the number of tiles in the hand
@@ -231,7 +242,7 @@ public class Hand implements Iterable<Tile>{
 	remove the tiles from the hand
 	numMeldsMade++
 	update hand's closed status after making the meld
-	*/
+	*///TODO coupling
 	public void makeMeld(MeldType meldType){
 		
 		//~~~~gather the tiles from the hand that will be in the meld

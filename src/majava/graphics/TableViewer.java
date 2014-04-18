@@ -148,6 +148,7 @@ public class TableViewer extends JFrame {
 	private JLabel[][] larryH2Ms = {larryH2M1, larryH2M2, larryH2M3, larryH2M4};
 	private JLabel[][] larryH3Ms = {larryH3M1, larryH3M2, larryH3M3, larryH3M4};
 	private JLabel[][] larryH4Ms = {larryH4M1, larryH4M2, larryH4M3, larryH4M4};
+	private JLabel[][][] larryHandMelds = {larryH1Ms, larryH2Ms, larryH3Ms, larryH4Ms};
 		
 	private JLabel[] larryW1 = new JLabel[SIZE_WALL];
 	private JLabel[] larryW2 = new JLabel[SIZE_WALL];
@@ -287,15 +288,18 @@ public class TableViewer extends JFrame {
 	
 	private static final int NULL_TILE_IMAGE_ID = -1;
 	
-//	private ImageIcon getImageIcon(TileList tList, int index, SeatNumber seatNum, TileSize tileSize){
 	private ImageIcon __getImageIcon(TileList tList, int index, int seatNum, int tileSize){
-		if (tList.size() <= index)
-			return null;
+		if (tList.size() <= index) return null;
 		
-		return garryTiles[seatNum][tileSize][__getImageID(tList.get(index))];
+		int id =__getImageID(tList.get(index));
+		if (id == NULL_TILE_IMAGE_ID) return null;
+		
+		return garryTiles[seatNum][tileSize][id];
 	}
 	//gets icon for wall tile array
-	private ImageIcon __getImageIcon(Tile[] tList, int index, int seatNum, int tileSize){
+	private ImageIcon __getImageIconWall(Tile[] tList, int index, int seatNum, int tileSize){
+		if (seatNum == 1) seatNum = 3; else if (seatNum == 3) seatNum = 1;
+		
 		int id = __getImageID(tList[index]);
 		if (id == NULL_TILE_IMAGE_ID) return null;
 		
@@ -315,16 +319,11 @@ public class TableViewer extends JFrame {
 	}
 	
 	
+	
 	public void updateEverything(){
 		
-//		Random randGen = new Random();
-//		final int RANDLIMIT = 38;
-		
-		
-		int i, j, k;
-		
-		
 		int currentPlayer, currentTile;
+		int currentMeld;
 		
 		//update hands
 		for (currentPlayer = 0; currentPlayer < 4; currentPlayer++){
@@ -341,11 +340,24 @@ public class TableViewer extends JFrame {
 		
 		
 		//update wall(s)
-		i = 0;
 		for (currentPlayer = 0; currentPlayer < 4; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_WALL; currentTile++)
-				larryWalls[currentPlayer][currentTile].setIcon(__getImageIcon(tilesW, currentTile + currentPlayer*SIZE_WALL, currentPlayer, SMALL));
+				larryWalls[currentPlayer][currentTile].setIcon(__getImageIconWall(tilesW, currentTile + currentPlayer*SIZE_WALL, currentPlayer, SMALL));
 		}
+		
+		
+		//update melds
+		ArrayList<Meld> meldList = null;
+		TileList tList = null;
+		for (currentPlayer = 0; currentPlayer < 4; currentPlayer++){
+			meldList = mPTrackers[currentPlayer].player.getMelds();
+			for (currentMeld = 0; currentMeld < meldList.size(); currentMeld++){
+				tList = meldList.get(currentMeld).getAllTiles();
+				for (currentTile = 0; currentTile < SIZE_MELD; currentTile++)
+					larryHandMelds[currentPlayer][currentMeld][currentTile].setIcon(__getImageIcon(tList, currentTile, currentPlayer, SMALL));
+			}
+		}
+		
 		
 		
 		/*
@@ -372,6 +384,42 @@ public class TableViewer extends JFrame {
 	
 	
 	
+	//replaces all imageicons with null
+	public void blankEverything(){
+		
+		for (JLabel[] lar: larryHands)	//hands
+			for (JLabel l: lar) l.setIcon(null);
+		for (JLabel[] lar: larryPonds)	//ponds
+			for (JLabel l: lar) l.setIcon(null);
+		for (JLabel[] lar: larryWalls)	//walls
+			for (JLabel l: lar) l.setIcon(null);
+		
+		//melds
+		for (JLabel[][] larg: larryHandMelds)
+			for (JLabel[] lar: larg)
+				for (JLabel l: lar)
+					l.setIcon(null);
+		
+		//round info
+		larryInfoRound[0].setIcon(null);
+		larryInfoRound[1].setText(null);
+		
+		//player info
+		for (JLabel[] player: larryInfoPlayers){
+			player[0].setIcon(null);
+			player[1].setText("0");
+			player[2].setIcon(null);
+		}
+		
+		thisguy.repaint();
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	public TableViewer(RoundTracker rTracker){
@@ -379,6 +427,7 @@ public class TableViewer extends JFrame {
 		
 		mRoundTracker = rTracker;
 		rTracker.syncWithViewer(this);
+		blankEverything();
 	}
 	
 	public void syncWithRoundTracker(Player[] pPlayers, TileList[] pHandTiles, TileList[] pPondTiles, Tile[] trackerTilesW){
@@ -448,8 +497,6 @@ public class TableViewer extends JFrame {
 		
 		
 		
-
-//		ImageIcon pImg = null;
 		ImageIcon pImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\22.png");
 		ImageIcon p2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\22.png");
 		ImageIcon p3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\25.png");
@@ -2630,9 +2677,11 @@ public class TableViewer extends JFrame {
 		Tilelabels.add(lblP3T1);Tilelabels.add(lblP3T2);Tilelabels.add(lblP3T3);Tilelabels.add(lblP3T4);Tilelabels.add(lblP3T5);Tilelabels.add(lblP3T6);Tilelabels.add(lblP3T7);Tilelabels.add(lblP3T8);Tilelabels.add(lblP3T9);Tilelabels.add(lblP3T10);Tilelabels.add(lblP3T11);Tilelabels.add(lblP3T12);Tilelabels.add(lblP3T13);Tilelabels.add(lblP3T14);Tilelabels.add(lblP3T15);Tilelabels.add(lblP3T16);Tilelabels.add(lblP3T17);Tilelabels.add(lblP3T18);Tilelabels.add(lblP3T19);Tilelabels.add(lblP3T20);Tilelabels.add(lblP3T21);Tilelabels.add(lblP3T22);Tilelabels.add(lblP3T23);Tilelabels.add(lblP3T24);
 		Tilelabels.add(lblP2T1);Tilelabels.add(lblP2T2);Tilelabels.add(lblP2T3);Tilelabels.add(lblP2T4);Tilelabels.add(lblP2T5);Tilelabels.add(lblP2T6);Tilelabels.add(lblP2T7);Tilelabels.add(lblP2T8);Tilelabels.add(lblP2T9);Tilelabels.add(lblP2T10);Tilelabels.add(lblP2T11);Tilelabels.add(lblP2T12);Tilelabels.add(lblP2T13);Tilelabels.add(lblP2T14);Tilelabels.add(lblP2T15);Tilelabels.add(lblP2T16);Tilelabels.add(lblP2T17);Tilelabels.add(lblP2T18);Tilelabels.add(lblP2T19);Tilelabels.add(lblP2T20);Tilelabels.add(lblP2T21);Tilelabels.add(lblP2T22);Tilelabels.add(lblP2T23);Tilelabels.add(lblP2T24);
 		Tilelabels.add(lblP4T1);Tilelabels.add(lblP4T2);Tilelabels.add(lblP4T3);Tilelabels.add(lblP4T4);Tilelabels.add(lblP4T5);Tilelabels.add(lblP4T6);Tilelabels.add(lblP4T7);Tilelabels.add(lblP4T8);Tilelabels.add(lblP4T9);Tilelabels.add(lblP4T10);Tilelabels.add(lblP4T11);Tilelabels.add(lblP4T12);Tilelabels.add(lblP4T13);Tilelabels.add(lblP4T14);Tilelabels.add(lblP4T15);Tilelabels.add(lblP4T16);Tilelabels.add(lblP4T17);Tilelabels.add(lblP4T18);Tilelabels.add(lblP4T19);Tilelabels.add(lblP4T20);Tilelabels.add(lblP4T21);Tilelabels.add(lblP4T22);Tilelabels.add(lblP4T23);Tilelabels.add(lblP4T24);
-		JButton btnToggleOnOff = new JButton("Toggle OnOff");
-		btnToggleOnOff.addActionListener(new ActionListener() {
+		JButton btnBlankAll = new JButton("Blank all");
+		btnBlankAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				blankEverything();
+				/*
 				ImageIcon toggleIcon = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\5.png");
 				toggle = !toggle;
 				for (JLabel l: Tilelabels){
@@ -2640,10 +2689,11 @@ public class TableViewer extends JFrame {
 					else l.setIcon(null);
 					thisguy.repaint();
 				}
+				*/
 			}
 		});
-		btnToggleOnOff.setBounds(27, 559, 215, 35);
-		panelSidebar.add(btnToggleOnOff);
+		btnBlankAll.setBounds(27, 559, 215, 35);
+		panelSidebar.add(btnBlankAll);
 		
 		
 		

@@ -52,6 +52,7 @@ methods:
 	checkFuriten - returns true if the player is in furiten status
 	checkRinshan - returns true if the player is holding a rinshan tile that they drew this turn
 	checkTenpai - returns true if the player is in tenpai
+	getNumMeldsMade - returns the number of melds the player has made (open melds and ankans)
 	
 	called - returns true if the player has called a discarded tile
 	checkCallStatus - returns the specific type of call the player has made
@@ -749,8 +750,14 @@ public class Player {
 	public boolean checkRinshan(){
 		return mHoldingRinshanTile;
 	}
-	
-	
+
+	//returns the number of melds the player has made (open melds and ankans)
+	public int getNumMeldsMade(){return mHand.getNumMeldsMade();}
+
+	//returns a list of the melds that have been made (copy of actual melds), returns an empty list if no melds made
+	public ArrayList<Meld> getMelds(){
+		return mHand.getMelds();
+	}
 	
 	
 	
@@ -850,7 +857,6 @@ public class Player {
 		System.out.print("\n" + mSeatWind + " Player's hand (controller: " + getControllerAsString() + ", " + mPlayerName + "):");
 		if (mHand.getTenpaiStatus() == true) System.out.print("     $$$$!Tenpai!$$$$");
 		System.out.println("\n" + mHand.toString());
-		//mHand.showMelds();
 	}
 	//show player's melds
 	public void showMelds(){

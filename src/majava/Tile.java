@@ -324,7 +324,7 @@ public class Tile implements Comparable<Tile> {
 	
 	
 	public int getImageID(){
-		if (mRedDora);
+		if (mRedDora)
 			switch(mID){
 			case 5: return NUMBER_OF_DIFFERENT_TILES + 1;
 			case 14: return NUMBER_OF_DIFFERENT_TILES + 2;

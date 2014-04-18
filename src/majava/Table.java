@@ -3,6 +3,8 @@ package majava;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import majava.graphics.TableViewer;
+
 import utility.GenSort;
 
 
@@ -79,6 +81,7 @@ public class Table {
 	private Wall mWall;
 	
 	private RoundTracker mRTracker;
+	public static TableViewer mTviewer;	//will be private
 	
 	
 	private char mRoundWind;
@@ -129,6 +132,10 @@ public class Table {
 		
 		//initialize Round Tracker
 		mRTracker = new RoundTracker(mRoundWind,1,0, mWall, p1,p2,p3,p4);
+		
+		//initialize Table Viewer
+		mTviewer = new TableViewer(mRTracker);
+		mTviewer.setVisible(true);
 	}
 	//no-arg constuctor, defaults to single round game
 	public Table(){
@@ -194,6 +201,7 @@ public class Table {
 		//deal and sort hands
 		mWall.dealHands(p1, p2, p3, p4);
 		p1.sortHand(); p2.sortHand(); p3.sortHand(); p4.sortHand();
+		mTviewer.updateEverything();
 		
 
 		//------------------------------------------------DEBUG INFO
@@ -243,6 +251,103 @@ public class Table {
 		displayGameResult();
 		
 	}
+	
+	
+	
+	
+
+	
+	/*
+	method: doPlayerTurn
+	handles a player's turn, and the other players' reactions to the player's turn
+	
+	input: p is the player whose turn it is
+	
+	returns the tile that the player discarded
+	
+	
+	if (player needs to draw)
+		take tile from wall or dead wall depending on what player needs
+		if (there were no tiles left in the wall to take)
+			gameIsOver = true, result = washout
+			return null
+		else
+			add the tile to the player's hand
+		end if
+	end if
+	
+ 	discardedTile = player's chosen discard
+ 	display what the player discarded
+ 	get the other players' reactions to the discarded tile
+ 	(the players will "make a call", the call won't actually be handled yet)
+ 	
+	whoseTurn++
+	return discardedTile
+	*/
+	private Tile doPlayerTurn(Player p){
+
+		Tile discardedTile = null;
+		int drawNeeded = Player.DRAW_NONE;
+		Tile drawnTile = null;
+		
+		//~~~~~~handle drawing a tile
+		drawNeeded = p.checkDrawNeeded();
+		//if the player needs to draw a tile, draw a tile
+		if (drawNeeded != Player.DRAW_NONE)
+		{
+			//draw from wall or dead wall, depending on what player needs
+			if (drawNeeded == Player.DRAW_NORMAL)
+				drawnTile = mWall.takeTile();
+			else if (drawNeeded == Player.DRAW_KAN)
+				drawnTile = mWall.takeTileFromDeadWall();
+			
+			if (drawnTile == null)
+			{
+				System.out.println("-----End of wall reached. Cannot draw tile.");
+				mGameIsOver = true;
+				mGameResult = RESULT_DRAW_WASHOUT;
+				return null;
+			}
+			else
+			{
+				//add the tile to the player's hand
+				p.addTileToHand(drawnTile);
+				mTviewer.updateEverything();
+			}
+		}
+		
+		
+		//~~~~~~get player's discard (ankans, riichi, and such are handled inside here)
+		discardedTile = p.takeTurn();
+		
+		//show the human player their hand
+		showHandsOfHumanPlayers();
+		//show the discarded tile and the discarder's pond
+		System.out.println("\n\n\tTiles left: " + mWall.getNumTilesLeftInWall());
+		System.out.println("\t" + p.getSeatWind() + " Player's discard: ^^^^^" + discardedTile.toString() + "^^^^^");
+		p.showPond();
+		mTviewer.updateEverything();
+		
+		
+		//~~~~~~get reactions from the other players
+		mReaction += p.getShimocha().reactToDiscard(discardedTile);
+		mReaction += p.getToimen().reactToDiscard(discardedTile);
+		mReaction += p.getKamicha().reactToDiscard(discardedTile);
+		
+		//pause for dramatic effect
+		pauseWait();
+		if (mReaction == NO_REACTION) pauseWait();
+		
+		
+		//update turn indicator
+		mWhoseTurn++;
+		if (mWhoseTurn > NUM_PLAYERS) mWhoseTurn = 1;
+		
+		//return the tile that was discarded
+		return discardedTile;
+	}
+	
+	
 	
 	
 	
@@ -461,94 +566,6 @@ public class Table {
 	
 	
 	
-	
-	/*
-	method: doPlayerTurn
-	handles a player's turn, and the other players' reactions to the player's turn
-	
-	input: p is the player whose turn it is
-	
-	returns the tile that the player discarded
-	
-	
-	if (player needs to draw)
-		take tile from wall or dead wall depending on what player needs
-		if (there were no tiles left in the wall to take)
-			gameIsOver = true, result = washout
-			return null
-		else
-			add the tile to the player's hand
-		end if
-	end if
-	
- 	discardedTile = player's chosen discard
- 	display what the player discarded
- 	get the other players' reactions to the discarded tile
- 	(the players will "make a call", the call won't actually be handled yet)
- 	
-	whoseTurn++
-	return discardedTile
-	*/
-	private Tile doPlayerTurn(Player p){
-
-		Tile discardedTile = null;
-		int drawNeeded = Player.DRAW_NONE;
-		Tile drawnTile = null;
-		
-		//~~~~~~handle drawing a tile
-		drawNeeded = p.checkDrawNeeded();
-		//if the player needs to draw a tile, draw a tile
-		if (drawNeeded != Player.DRAW_NONE)
-		{
-			//draw from wall or dead wall, depending on what player needs
-			if (drawNeeded == Player.DRAW_NORMAL)
-				drawnTile = mWall.takeTile();
-			else if (drawNeeded == Player.DRAW_KAN)
-				drawnTile = mWall.takeTileFromDeadWall();
-			
-			if (drawnTile == null)
-			{
-				System.out.println("-----End of wall reached. Cannot draw tile.");
-				mGameIsOver = true;
-				mGameResult = RESULT_DRAW_WASHOUT;
-				return null;
-			}
-			else
-			{
-				//add the tile to the player's hand
-				p.addTileToHand(drawnTile);
-			}
-		}
-		
-		
-		//~~~~~~get player's discard (ankans, riichi, and such are handled inside here)
-		discardedTile = p.takeTurn();
-		
-		//show the human player their hand
-		showHandsOfHumanPlayers();
-		//show the discarded tile and the discarder's pond
-		System.out.println("\n\n\tTiles left: " + mWall.getNumTilesLeftInWall());
-		System.out.println("\t" + p.getSeatWind() + " Player's discard: ^^^^^" + discardedTile.toString() + "^^^^^");
-		p.showPond();
-		
-		
-		//~~~~~~get reactions from the other players
-		mReaction += p.getShimocha().reactToDiscard(discardedTile);
-		mReaction += p.getToimen().reactToDiscard(discardedTile);
-		mReaction += p.getKamicha().reactToDiscard(discardedTile);
-		
-		//pause for dramatic effect
-		pauseWait();
-		if (mReaction == NO_REACTION) pauseWait();
-		
-		
-		//update turn indicator
-		mWhoseTurn++;
-		if (mWhoseTurn > NUM_PLAYERS) mWhoseTurn = 1;
-		
-		//return the tile that was discarded
-		return discardedTile;
-	}
 	
 	
 	

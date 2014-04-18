@@ -4,6 +4,8 @@ import majava.Hand;
 import majava.Meld;
 import majava.Player;
 import majava.Pond;
+import majava.RoundTracker;
+import majava.Tile;
 import majava.TileList;
 
 import java.awt.Color;
@@ -120,6 +122,7 @@ public class TableViewer extends JFrame {
 	private JLabel[] larryH2 = new JLabel[SIZE_HAND];
 	private JLabel[] larryH3 = new JLabel[SIZE_HAND];
 	private JLabel[] larryH4 = new JLabel[SIZE_HAND];
+	private JLabel[][] larryHands = {larryH1, larryH2, larryH3, larryH4};
 	
 	private JLabel[] larryH1M1 = new JLabel[SIZE_MELD];
 	private JLabel[] larryH1M2 = new JLabel[SIZE_MELD];
@@ -150,11 +153,13 @@ public class TableViewer extends JFrame {
 	private JLabel[] larryW2 = new JLabel[SIZE_WALL];
 	private JLabel[] larryW3 = new JLabel[SIZE_WALL];
 	private JLabel[] larryW4 = new JLabel[SIZE_WALL];
+	private JLabel[][] larryWalls = {larryW1, larryW2, larryW3, larryW4};
 		
 	private JLabel[] larryP1 = new JLabel[SIZE_POND];
 	private JLabel[] larryP2 = new JLabel[SIZE_POND];
 	private JLabel[] larryP3 = new JLabel[SIZE_POND];
 	private JLabel[] larryP4 = new JLabel[SIZE_POND];
+	private JLabel[][] larryPonds = {larryP1, larryP2, larryP3, larryP4};
 	
 	
 	private JLabel[] larryInfoP1 = new JLabel[SIZE_LARRY_INFOPLAYER];
@@ -207,6 +212,17 @@ public class TableViewer extends JFrame {
 	//0 = riichi stick, 1 = sheepy2
 	private ImageIcon[] garryOther = new ImageIcon[SIZE_GARRY_OTHER];
 	
+	
+	
+	private static final int SEAT1 = 0;
+	private static final int SEAT2 = 1;
+	private static final int SEAT3 = 2;
+	private static final int SEAT4 = 3;
+	private static final int BIG = 0;
+	private static final int SMALL = 1;
+//	public enum SeatNumber {SEAT1, SEAT2, SEAT3, SEAT4;}
+//	public enum TileSize {BIG, SMALL;}
+	
 	/*+++++++++++++++++++++++++++++++++++++++END IMAGE ARRAYS+++++++++++++++++++++++++++++++++++++++*/
 	
 	
@@ -231,23 +247,35 @@ public class TableViewer extends JFrame {
 	
 	
 	
-	
+
+	private static final int NUM_PLAYERS_TO_TRACK = 4;
 	private class PlayerTracker{
 		private Player player;
 		
+		private TileList tilesH;
+		private TileList tilesP;
+
 		//private char seatWind;
 		//private int points;
 		//private boolean riichiStatus;
 		//private String playerName;
 		
-		private TileList tilesH;
-		private TileList tilesP;
-		
 		//private ArrayList<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
+		
+		public PlayerTracker(Player p, TileList tH, TileList tP){
+			player = p;
+			tilesH = tH;
+			tilesP = tP;
+		}
+		public PlayerTracker(){}
+		
 	}
+
+	private TileList tilesW;
 	
 	
-	
+	private PlayerTracker[] mPTrackers;
+	private RoundTracker mRoundTracker;
 	
 
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^END MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
@@ -260,11 +288,78 @@ public class TableViewer extends JFrame {
 	
 	
 	
+//	private ImageIcon getImageIcon(TileList tList, int index, SeatNumber seatNum, TileSize tileSize){
+	private ImageIcon __getImageIcon(TileList tList, int index, int seatNum, int tileSize){
+		if (tList.size() <= index)
+			return null;
+		
+		return garryTiles[seatNum][tileSize][__getImageID(tList.get(index))];
+	}
 	
-	
+	//returns the image ID number for the tile at the given index of tList
+	private int __getImageID(Tile t){
+		if (t.isRedDora())
+			switch(t.getId()){
+			case 5: return Tile.NUMBER_OF_DIFFERENT_TILES + 1;
+			case 14: return Tile.NUMBER_OF_DIFFERENT_TILES + 2;
+			case 23: return Tile.NUMBER_OF_DIFFERENT_TILES + 3;
+		}
+		return t.getId();
+	}
 	
 	
 	public void updateEverything(){
+		
+//		Random randGen = new Random();
+//		final int RANDLIMIT = 38;
+		
+		
+		int i, j, k;
+		
+		
+		int currentPlayer, currentTile;
+		
+		//update hands
+		for (currentPlayer = 0; currentPlayer < 4; currentPlayer++){
+			for (currentTile = 0; currentTile < SIZE_HAND; currentTile++)
+				larryHands[currentPlayer][currentTile].setIcon(__getImageIcon(mPTrackers[currentPlayer].tilesH, currentTile, currentPlayer, BIG));
+		}
+		
+		
+		//update ponds
+		for (currentPlayer = 0; currentPlayer < 4; currentPlayer++){
+			for (currentTile = 0; currentTile < SIZE_POND; currentTile++)
+				larryPonds[currentPlayer][currentTile].setIcon(__getImageIcon(mPTrackers[currentPlayer].tilesP, currentTile, currentPlayer, SMALL));
+		}
+		
+		
+		/*
+		//update wall(s)
+		for (currentPlayer = 0; currentPlayer < 4; currentPlayer++){
+			for (currentTile = 0; currentTile < SIZE_POND; currentTile++)
+				larryHands[currentPlayer][currentTile].setIcon(__getImageIcon(mPTrackers[currentPlayer].tilesP, currentTile, currentPlayer, SMALL));
+		}
+		*/
+		
+		
+		
+		/*
+		
+		//randomize round info
+		larryInfoRound[0].setIcon(garryWindsBig[randGen.nextInt(SIZE_GARRY_WINDS)]);
+		larryInfoRound[1].setText(Integer.toString(1+randGen.nextInt(SIZE_GARRY_WINDS)));
+		
+		//ranodmize player info
+		for (JLabel[] player: larryInfoPlayers){
+			player[0].setIcon(garryWindsSmall[randGen.nextInt(SIZE_GARRY_WINDS)]);
+			player[1].setText(Integer.toString(100*randGen.nextInt(1280)));
+			if (randGen.nextBoolean()) player[2].setIcon(null);
+			else player[2].setIcon(garryOther[0]);
+		}
+		*/
+		
+		thisguy.repaint();
+		
 		
 	}
 	
@@ -274,10 +369,37 @@ public class TableViewer extends JFrame {
 	
 	
 	
+	public TableViewer(RoundTracker rTracker){
+		this();
+		
+		mRoundTracker = rTracker;
+		rTracker.syncWithViewer(this);
+	}
+	
+	public void syncWithRoundTracker(Player[] pPlayers, TileList[] pHandTiles, TileList[] pPondTiles, TileList trackerTilesW){
+		mPTrackers = new PlayerTracker[NUM_PLAYERS_TO_TRACK];
+		for (int i = 0; i < NUM_PLAYERS_TO_TRACK; i++)
+			mPTrackers[i] = new PlayerTracker(pPlayers[i], pHandTiles[i], pPondTiles[i]);
+		
+		tilesW = trackerTilesW;
+	}
 	
 	
 	
 	
+	
+	
+	
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		
+		TableViewer viewer = new TableViewer();
+		viewer.setVisible(true);
+		
+	}
 	
 	//
 	/**
@@ -2735,17 +2857,6 @@ public class TableViewer extends JFrame {
 	
 	
 
-	
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		
-		TableViewer viewer = new TableViewer();
-		viewer.setVisible(true);
-		
-	}
 	
 	
 	

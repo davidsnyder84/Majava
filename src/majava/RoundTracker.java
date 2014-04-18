@@ -150,7 +150,9 @@ public class RoundTracker {
 	
 	
 	
-	
+
+	public char getRoundWind(){return mRoundWind;}
+	public int getRoundNum(){return mRoundNum;}
 	
 	
 	

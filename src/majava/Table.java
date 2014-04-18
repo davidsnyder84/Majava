@@ -81,7 +81,8 @@ public class Table {
 	private Wall mWall;
 	
 	private RoundTracker mRTracker;
-	public static TableViewer mTviewer;	//will be private
+//	public static TableViewer mTviewer;	//will be private
+	public TableViewer mTviewer;	//will be private
 	
 	
 	private char mRoundWind;

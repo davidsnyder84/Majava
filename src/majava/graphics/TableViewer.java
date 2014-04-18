@@ -108,6 +108,17 @@ public class TableViewer extends JFrame {
 	private static final int GARRYINDEX_RED5P = 36;
 	private static final int GARRYINDEX_RED5S = 37;
 	
+	
+
+	private static final int LARRY_INFOROUND_ROUNDWIND = 0;
+	private static final int LARRY_INFOROUND_ROUNDNUM = 1;
+	private static final int LARRY_INFOROUND_BONUSNUM = 2;
+	
+	private static final int LARRY_INFOPLAYER_SEATWIND = 0;
+	private static final int LARRY_INFOPLAYER_POINTS = 1;
+	private static final int LARRY_INFOPLAYER_RIICHI = 2;
+
+	private static final int GARRYINDEX_OTHER_RIICHI = 0;
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~END CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	
 	
@@ -318,6 +329,20 @@ public class TableViewer extends JFrame {
 		return t.getId();
 	}
 	
+	//gets icon for the given wind (char) of the given size
+	private ImageIcon __getImageIconWind(char wind, int windSize){
+		int windNum = -1;
+		switch(wind){
+		case 'E': windNum = 0; break;
+		case 'S': windNum = 1; break;
+		case 'W': windNum = 2; break;
+		case 'N': windNum = 3; break;
+		default: return null;
+		}
+		
+		return garryWinds[windSize][windNum];
+	}
+	
 	
 	
 	public void updateEverything(){
@@ -357,27 +382,24 @@ public class TableViewer extends JFrame {
 					larryHandMelds[currentPlayer][currentMeld][currentTile].setIcon(__getImageIcon(tList, currentTile, currentPlayer, SMALL));
 			}
 		}
+
 		
 		
-		
-		/*
-		
-		//randomize round info
-		larryInfoRound[0].setIcon(garryWindsBig[randGen.nextInt(SIZE_GARRY_WINDS)]);
-		larryInfoRound[1].setText(Integer.toString(1+randGen.nextInt(SIZE_GARRY_WINDS)));
-		
-		//ranodmize player info
-		for (JLabel[] player: larryInfoPlayers){
-			player[0].setIcon(garryWindsSmall[randGen.nextInt(SIZE_GARRY_WINDS)]);
-			player[1].setText(Integer.toString(100*randGen.nextInt(1280)));
-			if (randGen.nextBoolean()) player[2].setIcon(null);
-			else player[2].setIcon(garryOther[0]);
+		//update player info
+		for (currentPlayer = 0; currentPlayer < 4; currentPlayer++){
+			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_SEATWIND].setIcon(__getImageIconWind(mPTrackers[currentPlayer].player.getSeatWind(), SMALL));
+			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_POINTS].setText(Integer.toString(mPTrackers[currentPlayer].player.getPoints()));
+			if (mPTrackers[currentPlayer].player.getRiichiStatus())
+				larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_RIICHI].setIcon(garryOther[GARRYINDEX_OTHER_RIICHI]);
 		}
-		*/
+		
+		
+		//update round info
+		larryInfoRound[LARRY_INFOROUND_ROUNDWIND].setIcon(__getImageIconWind(mRoundTracker.getRoundWind(), BIG));
+		larryInfoRound[LARRY_INFOROUND_ROUNDNUM].setText(Integer.toString(mRoundTracker.getRoundNum()));
+		
 		
 		thisguy.repaint();
-		
-		
 	}
 	
 	
@@ -443,11 +465,7 @@ public class TableViewer extends JFrame {
 	
 	
 	
-	
-
-	/**
-	 * Launch the application.
-	 */
+	//launch the application
 	public static void main(String[] args) {
 		
 		TableViewer viewer = new TableViewer();
@@ -455,10 +473,7 @@ public class TableViewer extends JFrame {
 		
 	}
 	
-	//
-	/**
-	 * Create the frame.
-	 */
+	//TODO start of constructor
 	public TableViewer(){
 		
 		thisguy = this;
@@ -2702,7 +2717,6 @@ public class TableViewer extends JFrame {
 		
 		
 		JButton btnRandhand = new JButton("Rand All");
-		//TODO: Random button
 		btnRandhand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				

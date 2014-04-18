@@ -136,6 +136,7 @@ public class Table {
 		//initialize Table Viewer
 		mTviewer = new TableViewer(mRTracker);
 		mTviewer.setVisible(true);
+		mTviewer.updateEverything();
 	}
 	//no-arg constuctor, defaults to single round game
 	public Table(){

@@ -153,7 +153,7 @@ public class TableViewer extends JFrame {
 	private JLabel[] larryW2 = new JLabel[SIZE_WALL];
 	private JLabel[] larryW3 = new JLabel[SIZE_WALL];
 	private JLabel[] larryW4 = new JLabel[SIZE_WALL];
-	private JLabel[][] larryWalls = {larryW1, larryW2, larryW3, larryW4};
+	private JLabel[][] larryWalls = {larryW1, larryW4, larryW3, larryW2};
 	private JLabel[] larryWallAll = new JLabel[SIZE_WALL*4];
 		
 	private JLabel[] larryP1 = new JLabel[SIZE_POND];
@@ -285,7 +285,7 @@ public class TableViewer extends JFrame {
 	
 	
 	
-	
+	private static final int NULL_TILE_IMAGE_ID = -1;
 	
 //	private ImageIcon getImageIcon(TileList tList, int index, SeatNumber seatNum, TileSize tileSize){
 	private ImageIcon __getImageIcon(TileList tList, int index, int seatNum, int tileSize){
@@ -294,9 +294,17 @@ public class TableViewer extends JFrame {
 		
 		return garryTiles[seatNum][tileSize][__getImageID(tList.get(index))];
 	}
+	//gets icon for wall tile array
+	private ImageIcon __getImageIcon(Tile[] tList, int index, int seatNum, int tileSize){
+		int id = __getImageID(tList[index]);
+		if (id == NULL_TILE_IMAGE_ID) return null;
+		
+		return garryTiles[seatNum][tileSize][id];
+	}
 	
 	//returns the image ID number for the tile at the given index of tList
 	private int __getImageID(Tile t){
+		if (t == null) return NULL_TILE_IMAGE_ID;
 		if (t.isRedDora())
 			switch(t.getId()){
 			case 5: return Tile.NUMBER_OF_DIFFERENT_TILES + 1;
@@ -332,14 +340,12 @@ public class TableViewer extends JFrame {
 		}
 		
 		
-		/*
 		//update wall(s)
+		i = 0;
 		for (currentPlayer = 0; currentPlayer < 4; currentPlayer++){
-			for (currentTile = 0; currentTile < SIZE_POND; currentTile++)
-				larryHands[currentPlayer][currentTile].setIcon(__getImageIcon(mPTrackers[currentPlayer].tilesP, currentTile, currentPlayer, SMALL));
+			for (currentTile = 0; currentTile < SIZE_WALL; currentTile++)
+				larryWalls[currentPlayer][currentTile].setIcon(__getImageIcon(tilesW, currentTile + currentPlayer*SIZE_WALL, currentPlayer, SMALL));
 		}
-		*/
-		
 		
 		
 		/*
@@ -2796,10 +2802,11 @@ public class TableViewer extends JFrame {
 		larryP4[0] = lblP4T1;larryP4[1] = lblP4T2;larryP4[2] = lblP4T3;larryP4[3] = lblP4T4;larryP4[4] = lblP4T5;larryP4[5] = lblP4T6;larryP4[6] = lblP4T7;larryP4[7] = lblP4T8;larryP4[8] = lblP4T9;larryP4[9] = lblP4T10;larryP4[10] = lblP4T11;larryP4[11] = lblP4T12;larryP4[12] = lblP4T13;larryP4[13] = lblP4T14;larryP4[14] = lblP4T15;larryP4[15] = lblP4T16;larryP4[16] = lblP4T17;larryP4[17] = lblP4T18;larryP4[18] = lblP4T19;larryP4[19] = lblP4T20;larryP4[20] = lblP4T21;larryP4[21] = lblP4T22;larryP4[22] = lblP4T23;larryP4[23] = lblP4T24;		
 		larryW4[0] = lblW4T1;larryW4[1] = lblW4T2;larryW4[2] = lblW4T3;larryW4[3] = lblW4T4;larryW4[4] = lblW4T5;larryW4[5] = lblW4T6;larryW4[6] = lblW4T7;larryW4[7] = lblW4T8;larryW4[8] = lblW4T9;larryW4[9] = lblW4T10;larryW4[10] = lblW4T11;larryW4[11] = lblW4T12;larryW4[12] = lblW4T13;larryW4[13] = lblW4T14;larryW4[14] = lblW4T15;larryW4[15] = lblW4T16;larryW4[16] = lblW4T17;larryW4[17] = lblW4T18;larryW4[18] = lblW4T19;larryW4[19] = lblW4T20;larryW4[20] = lblW4T21;larryW4[21] = lblW4T22;larryW4[22] = lblW4T23;larryW4[23] = lblW4T24;larryW4[24] = lblW4T25;larryW4[25] = lblW4T26;larryW4[26] = lblW4T27;larryW4[27] = lblW4T28;larryW4[28] = lblW4T29;larryW4[29] = lblW4T30;larryW4[30] = lblW4T31;larryW4[31] = lblW4T32;larryW4[32] = lblW4T33;larryW4[33] = lblW4T34;
 		
+		//put wall labels in a single array of 136 tiles
+		int i = 0;
 		for (JLabel[] lar: larryWalls) 
 			for (JLabel l: lar)
-				;
-				//larryWallAll.
+				larryWallAll[i++] = l;
 		
 		
 		//load Round Info labels into arrays

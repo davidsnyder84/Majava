@@ -106,7 +106,8 @@ public class Player {
 	public static final int COM_BEHAVIOR_DISCARD_FIRST = 2;
 	public static final int COM_BEHAVIOR_DISCARD_RANDOM = 3;
 	public static final int COM_BEHAVIOR_DISCARD_DEFAULT = COM_BEHAVIOR_DISCARD_LAST;
-	public static final int TIME_TO_SLEEP = 2000;
+	public static final int TIME_TO_SLEEP = 500;
+//	public static final int TIME_TO_SLEEP = 2000;
 	
 	public static final int POINTS_STARTING_AMOUNT = 25000;
 
@@ -374,7 +375,7 @@ public class Player {
 		chosenDiscardIndex = mHand.getSize() - 1;
 		
 		//always choose the first tile in the hand
-		chosenDiscardIndex = 0;
+//		chosenDiscardIndex = 0;
 		
 		//wait, since computer is fast
 		//try {Thread.sleep(TIME_TO_SLEEP);} catch (InterruptedException e){}

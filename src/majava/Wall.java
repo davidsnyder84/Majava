@@ -280,7 +280,7 @@ public class Wall {
 	*/
 	public Tile takeTile(){
 		Tile takenTile = null;
-		if (mCurrentWallPosition < POS_LAST_NORMAL_WALL_TILE){
+		if (mCurrentWallPosition <= POS_LAST_NORMAL_WALL_TILE){
 			takenTile = mTiles[mCurrentWallPosition];
 			mTiles[mCurrentWallPosition] = null;
 			mCurrentWallPosition++;
@@ -439,7 +439,7 @@ public class Wall {
 		final int TILES_PER_LINE = 17;
 		for (i = 0; i < getNumTilesLeftInWall() / TILES_PER_LINE + 1; i++){
 			for (j = 0; j < TILES_PER_LINE && (j + TILES_PER_LINE*i < getNumTilesLeftInWall()); j++){
-				wallString += mTiles[TILES_PER_LINE*i + j].toString() + " ";
+				wallString += mTiles[mCurrentWallPosition + TILES_PER_LINE*i + j].toString() + " ";
 			}
 			if (TILES_PER_LINE*i < getNumTilesLeftInWall())
 				wallString += "\n";

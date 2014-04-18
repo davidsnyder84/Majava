@@ -445,13 +445,12 @@ public class Player {
 	end if
 	return call status
 	*/
-	public int reactToDiscard(Tile t)
-	{
+	public int reactToDiscard(Tile t){
 		mCallStatus = CALLED_NONE;
 		
 		//if able to call the tile, ask self for reaction
-		if (__ableToCallTile(t))
-		{
+		if (__ableToCallTile(t)){
+			
 			//ask self for reaction
 			//update call status
 			mCallStatus = __askSelfForReaction(t);
@@ -485,8 +484,7 @@ public class Player {
 	end if
 	return call
 	*/
-	private int __askSelfForReaction(Tile t)
-	{
+	private int __askSelfForReaction(Tile t){
 		int call = CALLED_NONE;
 		
 		if (mController == CONTROLLER_HUMAN) call = __askReactionHuman(t);
@@ -510,8 +508,7 @@ public class Player {
 	call = decide based on player's choice
 	return call
 	*/
-	private int __askReactionHuman(Tile t)
-	{
+	private int __askReactionHuman(Tile t){
 		int call = CALLED_NONE;
 
 		final int CHOICE_INVALID = -1;
@@ -527,7 +524,7 @@ public class Player {
 		ArrayList<Integer> validChoices = new ArrayList<Integer>(4);		
 		
 		//display which calls can be made
-		System.out.println("*****You can call this tile!");
+		System.out.println("*****You (" + mSeatWind + ") can call this tile!");
 		if (mHand.ableToChiL()){
 			System.out.println("\t" + CHOICE_CHI_L + ") Call Chi-L on this tile! (" + t.toString() + "-XX-XX)");
 			validChoices.add(CHOICE_CHI_L);
@@ -677,6 +674,9 @@ public class Player {
 				mDrawNeeded = DRAW_NONE;
 			if (mCallStatus == CALLED_KAN)
 				mDrawNeeded = DRAW_KAN;
+			
+			//clear call status
+			mCallStatus = CALLED_NONE;
 		}
 		else
 			System.out.println("-----Error: No meld to make (the player didn't make a call!!)");

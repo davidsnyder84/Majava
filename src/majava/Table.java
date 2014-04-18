@@ -222,8 +222,8 @@ public class Table {
 		mWhoseTurn = 1;
 		mReaction = NO_REACTION;
 		mGameIsOver = false;
-		while (mGameIsOver == false)
-		{
+		while (mGameIsOver == false){
+			
 			//handle player turns
 			if (mWhoseTurn == 1 && !mGameIsOver)
 				discardedTile = doPlayerTurn(p1);
@@ -292,23 +292,21 @@ public class Table {
 		//~~~~~~handle drawing a tile
 		drawNeeded = p.checkDrawNeeded();
 		//if the player needs to draw a tile, draw a tile
-		if (drawNeeded != Player.DRAW_NONE)
-		{
+		if (drawNeeded != Player.DRAW_NONE){
+			
 			//draw from wall or dead wall, depending on what player needs
 			if (drawNeeded == Player.DRAW_NORMAL)
 				drawnTile = mWall.takeTile();
 			else if (drawNeeded == Player.DRAW_KAN)
 				drawnTile = mWall.takeTileFromDeadWall();
 			
-			if (drawnTile == null)
-			{
+			if (drawnTile == null){
 				System.out.println("-----End of wall reached. Cannot draw tile.");
 				mGameIsOver = true;
 				mGameResult = RESULT_DRAW_WASHOUT;
 				return null;
 			}
-			else
-			{
+			else{
 				//add the tile to the player's hand
 				p.addTileToHand(drawnTile);
 				mTviewer.updateEverything();
@@ -326,6 +324,10 @@ public class Table {
 		System.out.println("\t" + p.getSeatWind() + " Player's discard: ^^^^^" + discardedTile.toString() + "^^^^^");
 		p.showPond();
 		mTviewer.updateEverything();
+		
+		
+		if (p.getSeatWind() == 'S')
+			p.getSeatWind();
 		
 		
 		//~~~~~~get reactions from the other players

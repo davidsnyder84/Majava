@@ -32,6 +32,8 @@ import java.util.Random;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.FlowLayout;
 
 @SuppressWarnings("serial")
@@ -288,6 +290,11 @@ public class TableViewer extends JFrame {
 	private PlayerTracker[] mPTrackers;
 	private RoundTracker mRoundTracker;
 	
+	
+	
+	
+	
+	int mChosenDiscard; 
 
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^END MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 	
@@ -444,6 +451,33 @@ public class TableViewer extends JFrame {
 	
 	
 	
+	
+	public int getClickDiscard(){
+		mChosenDiscard = 0;
+		while (mChosenDiscard == 0)
+			;//intentionally blank
+		return mChosenDiscard;
+	}
+	
+	public int getDiscardChoice(){return mChosenDiscard;}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public TableViewer(RoundTracker rTracker){
 		this();
 		
@@ -471,6 +505,8 @@ public class TableViewer extends JFrame {
 		TableViewer viewer = new TableViewer();
 		viewer.setVisible(true);
 		
+		while (true)
+			System.out.println(viewer.getClickDiscard());
 	}
 	
 	//TODO start of constructor
@@ -1898,6 +1934,71 @@ public class TableViewer extends JFrame {
 		lblH1T14 = new JLabel("");
 		lblH1T14.setIcon(hImg);
 		panelH1.add(lblH1T14);
+		
+		
+		
+		
+
+		lblH1T1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 1;}
+		});
+		lblH1T2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 2;}
+		});
+		lblH1T3.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 3;}
+		});
+		lblH1T4.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 4;}
+		});
+		lblH1T5.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 5;}
+		});
+		lblH1T6.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 6;}
+		});
+		lblH1T7.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 7;}
+		});
+		lblH1T8.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 8;}
+		});
+		lblH1T9.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 9;}
+		});
+		lblH1T10.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 10;}
+		});
+		lblH1T11.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 11;}
+		});
+		lblH1T12.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 12;}
+		});
+		lblH1T13.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 13;}
+		});
+		lblH1T14.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 14;}
+		});
+		
+		
+		
+		
 		
 		
 		

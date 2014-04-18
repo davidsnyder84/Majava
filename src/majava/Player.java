@@ -675,7 +675,7 @@ public class Player {
 			if (mCallStatus == CALLED_KAN)
 				mDrawNeeded = DRAW_KAN;
 			
-			//clear call status
+			//clear call status because the call has been completed
 			mCallStatus = CALLED_NONE;
 		}
 		else

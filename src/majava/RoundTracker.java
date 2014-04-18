@@ -56,7 +56,7 @@ public class RoundTracker {
 	private int mRoundBonusNum;
 	
 	private Wall mWall;
-	private TileList tilesW;
+	private Tile[] tilesW;
 	
 	private PlayerTracker[] mPTrackers;
 	private int numPlayersSynched;
@@ -97,7 +97,7 @@ public class RoundTracker {
 		mWall = wall;
 		mWall.syncWithTracker(this);
 	}
-	public void syncWall(TileList wallTiles){
+	public void syncWall(Tile[] wallTiles){
 		if (wallSynched) return;
 		tilesW = wallTiles;
 	}

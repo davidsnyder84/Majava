@@ -14,23 +14,35 @@ public class GenSort <T extends Comparable<T> > {
 	public static final int INVALID_LIST_LENGTH = -1;
 	
 	
-	private ArrayList<T> mListToSort;
+	private ArrayList<T> mListToSort = null;
+	private T[] mArrayToSort = null;
 	private int mListLength = INVALID_LIST_LENGTH;
 	
 	//1-arg constructor
 	//takes an arraylist
 	public GenSort(ArrayList<T> list){
 		
-		if (list != null)
-		{
+		if (list != null){
 			mListToSort = list;
 			checkListLength();
 		}
-		else
-		{
+		else{
 			mListToSort = null;
 			mListLength = INVALID_LIST_LENGTH;
 			System.out.println("-----Error: unsuitable list received by GenSort");
+		}
+	}
+	//array constructor
+	public GenSort(T[] list){
+		
+		if (list != null){
+			mArrayToSort = list;
+			mListLength = mArrayToSort.length;
+		}
+		else{
+			mListToSort = null;
+			mListLength = INVALID_LIST_LENGTH;
+			System.out.println("-----Error: unsuitable array received by GenSort");
 		}
 	}
 	
@@ -50,8 +62,7 @@ public class GenSort <T extends Comparable<T> > {
 		int current, walker, smallest;
 		T temp;
 		
-		for (current = 0; current < mListLength; current++)
-		{
+		for (current = 0; current < mListLength; current++){
 			smallest = current;
 			for (walker = current + 1; walker < mListLength; walker++)
 				if (mListToSort.get(walker).compareTo(mListToSort.get(smallest)) < 0)
@@ -74,8 +85,7 @@ public class GenSort <T extends Comparable<T> > {
 		int current, walker, biggest;
 		T temp;
 		
-		for (current = 0; current < mListLength; current++)
-		{
+		for (current = 0; current < mListLength; current++){
 			biggest = current;
 			for (walker = current + 1; walker < mListLength; walker++)
 				if (mListToSort.get(walker).compareTo(mListToSort.get(biggest)) >  0)
@@ -88,29 +98,6 @@ public class GenSort <T extends Comparable<T> > {
 		}
 		
 	}
-	/*
-	//sorts mListToSort with a shitty selection sort, descending order
-	public void sortDescending(){
-			
-		int current, walker, biggest;
-		T temp;
-		checkListLength();
-		
-		for (current = mListLength - 1; current >= 0; current--)
-		{
-			biggest = current;
-			for (walker = current - 1; walker >= 0; walker--)
-				if (mListToSort.get(walker).compareTo(mListToSort.get(biggest)) <  0)
-					biggest = walker;
-			
-			//swap the current element and the biggest element
-			temp = mListToSort.get(biggest);
-			mListToSort.set(biggest, mListToSort.get(current));
-			mListToSort.set(current, temp);
-		}
-		
-	}
-	*/
 	
 	
 	
@@ -123,8 +110,7 @@ public class GenSort <T extends Comparable<T> > {
 		T temp = null;
 		
 		int curIndex;
-		for (curIndex = 0; curIndex < mListLength; curIndex++)
-		{
+		for (curIndex = 0; curIndex < mListLength; curIndex++){
 			//decide the swap index randomly
 			swapIndex = random.nextInt(mListLength);
 			
@@ -133,7 +119,24 @@ public class GenSort <T extends Comparable<T> > {
 			mListToSort.set(curIndex, mListToSort.get(swapIndex));
 			mListToSort.set(swapIndex, temp);
 		}
+	}
+	public void shuffleArray(){
+		if (mArrayToSort == null) return;
 		
+		Random random = new Random();
+		int swapIndex = -1;
+		T temp = null;
+		
+		int curIndex;
+		for (curIndex = 0; curIndex < mListLength; curIndex++){
+			//decide the swap index randomly
+			swapIndex = random.nextInt(mListLength);
+			
+			//swap the items at the current index and the swap index
+			temp = mArrayToSort[curIndex];
+			mArrayToSort[curIndex] = mArrayToSort[swapIndex];
+			mArrayToSort[swapIndex] = temp;
+		}
 	}
 	
 	
@@ -159,9 +162,7 @@ public class GenSort <T extends Comparable<T> > {
 	
 	
 	//checks the list length (must be done before a sort)
-	public int checkListLength(){
-		return mListLength = mListToSort.size();
-	}
+	public int checkListLength(){return mListLength = mListToSort.size();}
 	
 	
 	

@@ -72,7 +72,7 @@ public class Table {
 	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = false;
 	public static final boolean DEBUG_SHUFFLE_SEATS = false;
 	public static final boolean DEBUG_WAIT_AFTER_COMPUTER = true;
-	public static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+	public static final boolean DEBUG_LOAD_DEBUG_WALL = true;
 	
 	
 	

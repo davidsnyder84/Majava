@@ -376,7 +376,7 @@ public class Player {
 		chosenDiscardIndex = mHand.getSize() - 1;
 		
 		//always choose the first tile in the hand
-//		chosenDiscardIndex = 0;
+		chosenDiscardIndex = 0;
 		
 		//wait, since computer is fast
 		//try {Thread.sleep(TIME_TO_SLEEP);} catch (InterruptedException e){}
@@ -410,6 +410,17 @@ public class Player {
 	public void addTileToHand(int tileID){
 		addTileToHand(new Tile(tileID));
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 

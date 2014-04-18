@@ -2224,75 +2224,75 @@ public class TableViewer extends JFrame {
 		panelPlayer3.add(panelH3);
 		panelH3.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		
-		lblH3T1 = new JLabel("");
-		lblH3T1.setBounds(468, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
-		lblH3T1.setIcon(h3Img);
-		panelH3.add(lblH3T1);
-		
-		lblH3T2 = new JLabel("");
-		lblH3T2.setBounds(432, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
-		lblH3T2.setIcon(h3Img);
-		panelH3.add(lblH3T2);
-		
-		lblH3T3 = new JLabel("");
-		lblH3T3.setBounds(396, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
-		lblH3T3.setIcon(h3Img);
-		panelH3.add(lblH3T3);
-		
-		lblH3T4 = new JLabel("");
-		lblH3T4.setBounds(360, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
-		lblH3T4.setIcon(h3Img);
-		panelH3.add(lblH3T4);
-		
-		lblH3T5 = new JLabel("");
-		lblH3T5.setBounds(324, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
-		lblH3T5.setIcon(h3Img);
-		panelH3.add(lblH3T5);
-		
-		lblH3T6 = new JLabel("");
-		lblH3T6.setBounds(288, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
-		lblH3T6.setIcon(h3Img);
-		panelH3.add(lblH3T6);
-		
-		lblH3T7 = new JLabel("");
-		lblH3T7.setBounds(252, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
-		lblH3T7.setIcon(h3Img);
-		panelH3.add(lblH3T7);
-		
-		lblH3T8 = new JLabel("");
-		lblH3T8.setBounds(216, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
-		lblH3T8.setIcon(h3Img);
-		panelH3.add(lblH3T8);
-		
-		lblH3T9 = new JLabel("");
-		lblH3T9.setBounds(180, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
-		lblH3T9.setIcon(h3Img);
-		panelH3.add(lblH3T9);
-		
-		lblH3T10 = new JLabel("");
-		lblH3T10.setBounds(144, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
-		lblH3T10.setIcon(h3Img);
-		panelH3.add(lblH3T10);
-		
-		lblH3T11 = new JLabel("");
-		lblH3T11.setBounds(108, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
-		lblH3T11.setIcon(h3Img);
-		panelH3.add(lblH3T11);
-		
-		lblH3T12 = new JLabel("");
-		lblH3T12.setBounds(72, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
-		lblH3T12.setIcon(h3Img);
-		panelH3.add(lblH3T12);
+		lblH3T14 = new JLabel("");
+		lblH3T14.setBounds(0, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
+		lblH3T14.setIcon(h3Img);
+		panelH3.add(lblH3T14);
 		
 		lblH3T13 = new JLabel("");
 		lblH3T13.setBounds(36, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T13.setIcon(h3Img);
 		panelH3.add(lblH3T13);
 		
-		lblH3T14 = new JLabel("");
-		lblH3T14.setBounds(0, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
-		lblH3T14.setIcon(h3Img);
-		panelH3.add(lblH3T14);
+		lblH3T12 = new JLabel("");
+		lblH3T12.setBounds(72, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
+		lblH3T12.setIcon(h3Img);
+		panelH3.add(lblH3T12);
+		
+		lblH3T11 = new JLabel("");
+		lblH3T11.setBounds(108, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
+		lblH3T11.setIcon(h3Img);
+		panelH3.add(lblH3T11);
+		
+		lblH3T10 = new JLabel("");
+		lblH3T10.setBounds(144, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
+		lblH3T10.setIcon(h3Img);
+		panelH3.add(lblH3T10);
+		
+		lblH3T9 = new JLabel("");
+		lblH3T9.setBounds(180, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
+		lblH3T9.setIcon(h3Img);
+		panelH3.add(lblH3T9);
+		
+		lblH3T8 = new JLabel("");
+		lblH3T8.setBounds(216, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
+		lblH3T8.setIcon(h3Img);
+		panelH3.add(lblH3T8);
+		
+		lblH3T7 = new JLabel("");
+		lblH3T7.setBounds(252, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
+		lblH3T7.setIcon(h3Img);
+		panelH3.add(lblH3T7);
+		
+		lblH3T6 = new JLabel("");
+		lblH3T6.setBounds(288, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
+		lblH3T6.setIcon(h3Img);
+		panelH3.add(lblH3T6);
+		
+		lblH3T5 = new JLabel("");
+		lblH3T5.setBounds(324, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
+		lblH3T5.setIcon(h3Img);
+		panelH3.add(lblH3T5);
+		
+		lblH3T4 = new JLabel("");
+		lblH3T4.setBounds(360, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
+		lblH3T4.setIcon(h3Img);
+		panelH3.add(lblH3T4);
+		
+		lblH3T3 = new JLabel("");
+		lblH3T3.setBounds(396, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
+		lblH3T3.setIcon(h3Img);
+		panelH3.add(lblH3T3);
+		
+		lblH3T2 = new JLabel("");
+		lblH3T2.setBounds(432, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
+		lblH3T2.setIcon(h3Img);
+		panelH3.add(lblH3T2);
+		
+		lblH3T1 = new JLabel("");
+		lblH3T1.setBounds(468, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
+		lblH3T1.setIcon(h3Img);
+		panelH3.add(lblH3T1);
 		
 		
 		
@@ -2321,7 +2321,6 @@ public class TableViewer extends JFrame {
 		lblH3M1T2 = new JLabel("");
 		panelH3M1.add(lblH3M1T2);
 		lblH3M1T2.setIcon(meld3Img);
-		
 		
 		lblH3M1T1 = new JLabel("");
 		panelH3M1.add(lblH3M1T1);

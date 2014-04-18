@@ -3,6 +3,8 @@ package majava;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import majava.graphics.TableViewer;
+
 /*
 Class: Player
 represents a single player in the game
@@ -233,12 +235,12 @@ public class Player {
 	put discardedTile in the pond
 	return discardedTile
 	*/
-	public Tile takeTurn(){
+	public Tile takeTurn(TableViewer tviewer){
 		
 		Tile discardedTile;
 		
 		//discard a tile
-		discardedTile = __discardTile();
+		discardedTile = __discardTile(tviewer);
 		
 		//set needed draw to normal, since we just discarded a tile
 		mDrawNeeded = DRAW_NORMAL;
@@ -272,13 +274,13 @@ public class Player {
 	assign player wind as discarder attribute on discarded tile
 	return discardedTile
 	*/
-	private Tile __discardTile(){
+	private Tile __discardTile(TableViewer tviewer){
 		
 		Tile discardedTile;
 		int chosenDiscardIndex;
 		
 		//ask player for which tile to discard
-		chosenDiscardIndex = __askSelfForDiscard();
+		chosenDiscardIndex = __askSelfForDiscard(tviewer);
 		
 		//remove tile from hand
 		discardedTile = mHand.getTile(chosenDiscardIndex);
@@ -308,12 +310,11 @@ public class Player {
 	end if
 	return chosenDiscard
 	*/
-	private int __askSelfForDiscard()
-	{
+	private int __askSelfForDiscard(TableViewer tviewer){
 		int chosenDiscardIndex;
 		
 		if (mController == CONTROLLER_HUMAN)
-			chosenDiscardIndex = __askDiscardHuman();
+			chosenDiscardIndex = __askDiscardHuman(tviewer);
 		else
 			chosenDiscardIndex = __askDiscardCom();
 		
@@ -331,9 +332,10 @@ public class Player {
 	
 	
 	chosenDiscard = ask user through keyboard
+	chosenDiscard = user clicks on tile through GUI
 	return chosenDiscard
 	*/
-	private int __askDiscardHuman(){
+	private int __askDiscardHuman(TableViewer tviewer){
 		
 		int chosenDiscardIndex = 0;
 		
@@ -341,16 +343,18 @@ public class Player {
 		showHand();
 
 		//ask user which tile they want to discard
-		@SuppressWarnings("resource")
-		Scanner keyboard = new Scanner(System.in);
+//		@SuppressWarnings("resource")
+//		Scanner keyboard = new Scanner(System.in);
 		//disallow numbers outside the range of the hand size
-		while (chosenDiscardIndex < 1 || chosenDiscardIndex > mHand.getSize())
-		{
-			System.out.print("\nWhich tile do you want to discard? (enter number): "); 
-			chosenDiscardIndex = keyboard.nextInt();
+		while (chosenDiscardIndex < 1 || chosenDiscardIndex > mHand.getSize()){
+			
+			chosenDiscardIndex = tviewer.getClickDiscard();
+			
+			//System.out.print("\nWhich tile do you want to discard? (enter number): "); 
+			//chosenDiscardIndex = keyboard.nextInt();
 			
 			//entering 0 means "choose the last tile in my hand"
-			if (chosenDiscardIndex == 0) chosenDiscardIndex = mHand.getSize();
+			//if (chosenDiscardIndex == 0) chosenDiscardIndex = mHand.getSize();
 		}
 		
 		return chosenDiscardIndex - 1;	//adjust for index

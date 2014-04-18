@@ -489,7 +489,8 @@ public class MajaPlay {
 			System.out.println("Player's call status: " + whatCalled + " (status: " + status + ")");
 			
 			
-			p.takeTurn();
+			//probably broke this when clickable discards were implemented
+//			p.takeTurn();
 			
 		}
 

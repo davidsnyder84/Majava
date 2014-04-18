@@ -72,7 +72,7 @@ public class Table {
 	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = false;
 	public static final boolean DEBUG_SHUFFLE_SEATS = false;
 	public static final boolean DEBUG_WAIT_AFTER_COMPUTER = true;
-	public static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+	public static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	
 	
 	
@@ -316,7 +316,7 @@ public class Table {
 		
 		
 		//~~~~~~get player's discard (ankans, riichi, and such are handled inside here)
-		discardedTile = p.takeTurn();
+		discardedTile = p.takeTurn(mTviewer);
 		
 		//show the human player their hand
 		showHandsOfHumanPlayers();
@@ -326,9 +326,6 @@ public class Table {
 		p.showPond();
 		mTviewer.updateEverything();
 		
-		
-		if (p.getSeatWind() == 'S')
-			p.getSeatWind();
 		
 		
 		//~~~~~~get reactions from the other players
@@ -348,6 +345,16 @@ public class Table {
 		//return the tile that was discarded
 		return discardedTile;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

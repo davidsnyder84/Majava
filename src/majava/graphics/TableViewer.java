@@ -352,6 +352,7 @@ public class TableViewer extends JFrame {
 	
 	
 	
+	
 	public void updateEverything(){
 		
 		int currentPlayer, currentTile;

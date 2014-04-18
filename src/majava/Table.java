@@ -69,10 +69,10 @@ public class Table {
 	public static final int RESULT_VICTORY_N = 8;
 	
 	//for debug use
-	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = false;
+	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = true;
 	public static final boolean DEBUG_SHUFFLE_SEATS = false;
 	public static final boolean DEBUG_WAIT_AFTER_COMPUTER = true;
-	public static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+	public static final boolean DEBUG_LOAD_DEBUG_WALL = true;
 	
 	
 	
@@ -310,7 +310,7 @@ public class Table {
 			else{
 				//add the tile to the player's hand
 				p.addTileToHand(drawnTile);
-				mTviewer.updateEverything();
+				if (p.getController() == Player.CONTROLLER_HUMAN) mTviewer.updateEverything();
 			}
 		}
 		
@@ -717,6 +717,11 @@ public class Table {
 			 resultStr += "North player wins!";
 		 
 		 System.out.println(resultStr);
+		 
+		 p1.showHand();
+		 p2.showHand();
+		 p3.showHand();
+		 p4.showHand();
 	}
 	
 	
@@ -727,7 +732,18 @@ public class Table {
 	
 	
 	
-	
+	public static void main(String[] args) {
+		
+		System.out.println("Welcome to Majava (Table)!");
+		boolean keepgoing = true;
+		
+		if (keepgoing){
+			System.out.println("\n\n\n\n");
+			
+			Table table = new Table();
+			table.play();
+		}
+	}
 	
 
 }

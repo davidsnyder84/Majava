@@ -109,7 +109,7 @@ public class Player {
 	public static final int COM_BEHAVIOR_DISCARD_FIRST = 2;
 	public static final int COM_BEHAVIOR_DISCARD_RANDOM = 3;
 	public static final int COM_BEHAVIOR_DISCARD_DEFAULT = COM_BEHAVIOR_DISCARD_LAST;
-	public static final int TIME_TO_SLEEP = 500;
+	public static final int TIME_TO_SLEEP = 250;
 //	public static final int TIME_TO_SLEEP = 2000;
 	
 	public static final int POINTS_STARTING_AMOUNT = 25000;
@@ -131,6 +131,9 @@ public class Player {
 	public static final int WANT_KAN_DRAW = 20;
 	
 	public static final String PLAYERNAME_DEFAULT = "Matsunaga";
+	
+	
+	public static final boolean DEBUG_SKIP_PLAYER_CALL = false;
 	
 	
 	
@@ -514,6 +517,7 @@ public class Player {
 	*/
 	private int __askReactionHuman(Tile t){
 		int call = CALLED_NONE;
+		if (DEBUG_SKIP_PLAYER_CALL) return call;
 
 		final int CHOICE_INVALID = -1;
 		final int CHOICE_NONE = 0;

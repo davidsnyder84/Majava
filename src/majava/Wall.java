@@ -60,27 +60,32 @@ public class Wall {
 	public static final int MAX_SIZE_DEAD_WALL = 14;
 	
 	//odd numbers are top row, even are bottom row
-	private static final int POS_KANDRAW_1 = 13;
-	private static final int POS_KANDRAW_2 = 12;
-	private static final int POS_KANDRAW_3 = 11;
-	private static final int POS_KANDRAW_4 = 10;
+//	private static final int POS_KANDRAW_1 = 13;
+//	private static final int POS_KANDRAW_2 = 12;
+//	private static final int POS_KANDRAW_3 = 11;
+//	private static final int POS_KANDRAW_4 = 10;
+	private static final int POS_KANDRAW_1 = 12;
+	private static final int POS_KANDRAW_2 = 13;
+	private static final int POS_KANDRAW_3 = 10;
+	private static final int POS_KANDRAW_4 = 11;
+	private static final Integer[] POS_KANDRAWS = {POS_KANDRAW_1, POS_KANDRAW_2, POS_KANDRAW_3, POS_KANDRAW_4};
 	
 	//dora indicators
-	private static final int POS_DORA_1 = 9;
-	private static final int POS_URADORA_1 = 8;
+	private static final int POS_DORA_1 = 8;
+	private static final int POS_URADORA_1 = 9;
 	
-	private static final int POS_DORA_2 = 7;
-	private static final int POS_URADORA_2 = 6;
+	private static final int POS_DORA_2 = 6;
+	private static final int POS_URADORA_2 = 7;
 	
-	private static final int POS_DORA_3 = 5;
-	private static final int POS_URADORA_3 = 4;
+	private static final int POS_DORA_3 = 4;
+	private static final int POS_URADORA_3 = 5;
 	
-	private static final int POS_DORA_4 = 3;
-	private static final int POS_URADORA_4 = 2;
+	private static final int POS_DORA_4 = 2;
+	private static final int POS_URADORA_4 = 3;
 	
 	//these are only used if a player makes 4 kans (making 5 dora indicators)
-	private static final int POS_DORA_5 = 1;
-	private static final int POS_URADORA_5 = 0;
+	private static final int POS_DORA_5 = 0;
+	private static final int POS_URADORA_5 = 1;
 
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~END DEAD WALL CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	
@@ -96,7 +101,6 @@ public class Wall {
 	
 	private int mCurrentWallPosition;
 	private int mNumKansMade;
-	private int mStartOfDeadWall;
 	
 	
 	
@@ -106,8 +110,6 @@ public class Wall {
 		mTiles = new Tile[MAX_SIZE_WALL];
 		__initialize();
 		
-		//mark the start of the dead wall
-		mStartOfDeadWall = OFFSET_DEAD_WALL;
 		mNumKansMade = 0;
 	}
 	
@@ -295,8 +297,8 @@ public class Wall {
 	public Tile takeTileFromDeadWall(){
 		Tile takenTile = null;
 
-		takenTile = mTiles[POS_LAST_DEAD_WALL_TILE - mNumKansMade];
-		mTiles[POS_LAST_DEAD_WALL_TILE - mNumKansMade] = null;
+		takenTile = mTiles[POS_START_OF_DEAD_WALL + POS_KANDRAWS[mNumKansMade]];
+		mTiles[POS_START_OF_DEAD_WALL + POS_KANDRAWS[mNumKansMade]] = null;
 		mNumKansMade++;
 		
 		return takenTile;
@@ -425,6 +427,10 @@ public class Wall {
 	
 	
 	
+	public void printDoraIndicators(){
+		TileList t = getDoraIndicators();
+		System.out.println("Dora Indicators: " + t.toString() + "\n\n");
+	}
 	
 	
 	

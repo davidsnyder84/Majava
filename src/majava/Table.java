@@ -190,7 +190,7 @@ public class Table {
 
 		//------------------------------------------------DEBUG INFO
 		if (DEBUG_LOAD_DEBUG_WALL) mWall.loadDebugWall();
-		System.out.println(mWall.toString() + "\n\n\n");
+		System.out.println(mWall.toString() + "\n\n\n");mWall.printDoraIndicators();
 		//------------------------------------------------DEBUG INFO
 		
 		
@@ -298,8 +298,10 @@ public class Table {
 			//draw from wall or dead wall, depending on what player needs
 			if (drawNeeded == Player.DRAW_NORMAL)
 				drawnTile = mWall.takeTile();
-			else if (drawNeeded == Player.DRAW_KAN)
+			else if (drawNeeded == Player.DRAW_KAN){
 				drawnTile = mWall.takeTileFromDeadWall();
+				mWall.printDoraIndicators();
+			}
 			
 			if (drawnTile == null){
 				System.out.println("-----End of wall reached. Cannot draw tile.");

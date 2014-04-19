@@ -442,6 +442,7 @@ public class Player {
 	shows a player a tile, and gets their reaction (call or no call) for it
 	
 	input: t is the tile that was just discarded, and the player has a chance to react to it
+		   tviewer is the TableViewer GUI the player will click on
 	
 	returns the type of call the player wants to make on the tile (none, chi, pon, kan, ron)
 	
@@ -452,7 +453,7 @@ public class Player {
 	end if
 	return call status
 	*/
-	public int reactToDiscard(Tile t, TableViewer mTviewer){
+	public int reactToDiscard(Tile t, TableViewer tviewer){
 		mCallStatus = CALLED_NONE;
 		
 		//if able to call the tile, ask self for reaction
@@ -460,7 +461,7 @@ public class Player {
 			
 			//ask self for reaction
 			//update call status
-			mCallStatus = __askSelfForReaction(t, mTviewer);
+			mCallStatus = __askSelfForReaction(t, tviewer);
 		}
 		
 		////////////////////WATCH THIS MOTHERFUCKER
@@ -480,6 +481,7 @@ public class Player {
 	asks the player how they want to react to the discarded tile
 	
 	input: t is the tile that was just discarded, and the player has a chance to react to it
+		   tviewer is the TableViewer GUI the player will click on
 	
 	returns the type of call the player wants to make on the tile (none, chi, pon, kan, ron)
 	

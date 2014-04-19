@@ -96,6 +96,7 @@ public class TableViewer extends JFrame{
 	private static final int SIZE_MELDPANEL = 4;
 	private static final int SIZE_MELD = 4;
 	private static final int SIZE_WALL = 34;
+	private static final int SIZE_DEADWALL = 34;
 	private static final int SIZE_POND = 24;
 	private static final int SIZE_LARRY_INFOPLAYER = 3;
 	private static final int SIZE_LARRY_INFOROUND = 2;
@@ -192,6 +193,7 @@ public class TableViewer extends JFrame{
 	
 	
 	private JButton[] barryCalls = new JButton[8];
+	private JLabel[] larryDW = new JLabel[SIZE_DEADWALL];
 	
 	/*......................................END LABEL ARRAYS......................................*/
 	
@@ -643,6 +645,8 @@ public class TableViewer extends JFrame{
 		ImageIcon w2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\0.png");
 		ImageIcon w3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\0.png");
 		ImageIcon w4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\0.png");
+
+		ImageIcon dwImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\0.png");
 		
 		ImageIcon hImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png");
 		ImageIcon h2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\1.png");
@@ -692,6 +696,9 @@ public class TableViewer extends JFrame{
 		JPanel panelPlayer4;JPanel panelH4;JPanel panelH4Ms;
 		JPanel panelH4M1;JPanel panelH4M2;JPanel panelH4M3;JPanel panelH4M4;
 		
+		JPanel panelDeadWall;
+		JPanel panelCalls;
+		
 		
 		
 		//label declarations
@@ -728,9 +735,15 @@ public class TableViewer extends JFrame{
 		JLabel lblSmallTileDemo2;
 		JLabel lblSmallTileDemo3;
 		
+		JLabel lblDW1;JLabel lblDW2;JLabel lblDW3;JLabel lblDW4;JLabel lblDW5;JLabel lblDW6;JLabel lblDW7;JLabel lblDW8;JLabel lblDW9;JLabel lblDW10;JLabel lblDW11;JLabel lblDW12;JLabel lblDW13;JLabel lblDW14;
 		
+
 		
-		
+		//button declarations
+		JButton btnCallNone;
+		JButton btnCallChiL;JButton btnCallChiM;JButton btnCallChiH;
+		JButton btnCallPon;JButton btnCallKan;JButton btnCallRon;
+		JButton btnCallChi;
 		
 		
 		
@@ -2877,7 +2890,7 @@ public class TableViewer extends JFrame{
 				blankEverything();
 			}
 		});
-		btnBlankAll.setBounds(27, 559, 215, 35);
+		btnBlankAll.setBounds(33, 584, 215, 35);
 		panelSidebar.add(btnBlankAll);
 		
 		
@@ -2972,51 +2985,49 @@ public class TableViewer extends JFrame{
 		
 		
 		
-		
-		
-		JPanel panelCalls = new JPanel();
+		panelCalls = new JPanel();
 		panelCalls.setBounds(27, 682, 204, 122);
 		panelCalls.setBackground(COLOR_CALL_PANEL);
 		panelSidebar.add(panelCalls);
 		panelCalls.setLayout(null);
 		
 		
-		JButton btnCallNone = new JButton("No call");
+		btnCallNone = new JButton("No call");
 		btnCallNone.setActionCommand("None");
 		btnCallNone.setBounds(0, 0, 89, 23);
 		panelCalls.add(btnCallNone);
 		
-		JButton btnCallChi = new JButton("Chi");
+		btnCallChi = new JButton("Chi");
 		btnCallChi.setActionCommand("Chi");
 		btnCallChi.setBounds(1, 24, 60, 23);
 		panelCalls.add(btnCallChi);
 		
-		JButton btnCallChiL = new JButton("Chi-L");
+		btnCallChiL = new JButton("Chi-L");
 		btnCallChiL.setActionCommand("Chi-L");
 		btnCallChiL.setBounds(0, 48, 67, 23);
 		panelCalls.add(btnCallChiL);
 		
-		JButton btnCallChiM = new JButton("Chi-M");
+		btnCallChiM = new JButton("Chi-M");
 		btnCallChiM.setActionCommand("Chi-M");
 		btnCallChiM.setBounds(67, 48, 67, 23);
 		panelCalls.add(btnCallChiM);
 		
-		JButton btnCallChiH = new JButton("Chi-H");
+		btnCallChiH = new JButton("Chi-H");
 		btnCallChiH.setActionCommand("Chi-H");
 		btnCallChiH.setBounds(135, 48, 67, 23);
 		panelCalls.add(btnCallChiH);
 		
-		JButton btnCallPon = new JButton("Pon");
+		btnCallPon = new JButton("Pon");
 		btnCallPon.setActionCommand("Pon");
 		btnCallPon.setBounds(1, 72, 64, 23);
 		panelCalls.add(btnCallPon);
 		
-		JButton btnCallKan = new JButton("Kan");
+		btnCallKan = new JButton("Kan");
 		btnCallKan.setActionCommand("Kan");
 		btnCallKan.setBounds(65, 72, 64, 23);
 		panelCalls.add(btnCallKan);
 		
-		JButton btnCallRon = new JButton("Ron");
+		btnCallRon = new JButton("Ron");
 		btnCallRon.setActionCommand("Ron");
 		btnCallRon.setBounds(2, 96, 103, 23);
 		panelCalls.add(btnCallRon);
@@ -3024,21 +3035,84 @@ public class TableViewer extends JFrame{
 		
 		
 		
-		CallListener callListener = new CallListener();
-		for (JButton b: barryCalls){
-			b.addActionListener(callListener);
-			
-	//		b.setBorderPainted(false);
-			b.setContentAreaFilled(false);
-			b.setRolloverEnabled(false);
-			b.setFocusPainted(false);
-//			b.setFocusPainted(false);
-			b.setOpaque(false);
-		}
 		
 		
 		
+		panelDeadWall = new JPanel();
+		panelDeadWall.setBounds(18, 507, 161, 62);
+		panelSidebar.add(panelDeadWall);
+		panelDeadWall.setLayout(new GridLayout(2, 7, 0, 0));
+
 		
+		lblDW1 = new JLabel("");
+		lblDW1.setIcon(dwImg);
+		lblDW1.setBounds(72, 470, 23, 31);
+		panelDeadWall.add(lblDW1);
+		
+		lblDW3 = new JLabel("");
+		lblDW3.setIcon(dwImg);
+		lblDW3.setBounds(72, 470, 23, 31);
+		panelDeadWall.add(lblDW3);
+		
+		lblDW5 = new JLabel("");
+		lblDW5.setIcon(dwImg);
+		lblDW5.setBounds(72, 470, 23, 31);
+		panelDeadWall.add(lblDW5);
+		
+		lblDW7 = new JLabel("");
+		lblDW7.setIcon(dwImg);
+		lblDW7.setBounds(72, 470, 23, 31);
+		panelDeadWall.add(lblDW7);
+		
+		lblDW9 = new JLabel("");
+		lblDW9.setIcon(dwImg);
+		lblDW9.setBounds(72, 470, 23, 31);
+		panelDeadWall.add(lblDW9);
+		
+		lblDW11 = new JLabel("");
+		lblDW11.setIcon(dwImg);
+		lblDW11.setBounds(72, 470, 23, 31);
+		panelDeadWall.add(lblDW11);
+		
+		lblDW13 = new JLabel("");
+		lblDW13.setIcon(dwImg);
+		lblDW13.setBounds(72, 470, 23, 31);
+		panelDeadWall.add(lblDW13);
+		
+		lblDW2 = new JLabel("");
+		lblDW2.setIcon(dwImg);
+		lblDW2.setBounds(72, 470, 23, 31);
+		panelDeadWall.add(lblDW2);
+		
+		lblDW4 = new JLabel("");
+		lblDW4.setIcon(dwImg);
+		lblDW4.setBounds(72, 470, 23, 31);
+		panelDeadWall.add(lblDW4);
+		
+		lblDW6 = new JLabel("");
+		lblDW6.setIcon(dwImg);
+		lblDW6.setBounds(72, 470, 23, 31);
+		panelDeadWall.add(lblDW6);
+		
+		lblDW8 = new JLabel("");
+		lblDW8.setIcon(dwImg);
+		lblDW8.setBounds(72, 470, 23, 31);
+		panelDeadWall.add(lblDW8);
+		
+		lblDW10 = new JLabel("");
+		lblDW10.setIcon(dwImg);
+		lblDW10.setBounds(72, 470, 23, 31);
+		panelDeadWall.add(lblDW10);
+		
+		lblDW12 = new JLabel("");
+		lblDW12.setIcon(dwImg);
+		lblDW12.setBounds(72, 470, 23, 31);
+		panelDeadWall.add(lblDW12);
+		
+		lblDW14 = new JLabel("");
+		lblDW14.setIcon(dwImg);
+		lblDW14.setBounds(72, 470, 23, 31);
+		panelDeadWall.add(lblDW14);
 		
 		
 		
@@ -3103,11 +3177,13 @@ public class TableViewer extends JFrame{
 		larryInfoP3[0] = lblInfoP3Wind;larryInfoP3[1] = lblInfoP3Points;larryInfoP3[2] = lblInfoP3Riichi;
 		larryInfoP4[0] = lblInfoP4Wind;larryInfoP4[1] = lblInfoP4Points;larryInfoP4[2] = lblInfoP4Riichi;
 		
+		//load deadwall labels into arrays
+		larryDW[0] = lblDW1;larryDW[1] = lblDW2;larryDW[2] = lblDW3;larryDW[3] = lblDW4;larryDW[4] = lblDW5;larryDW[5] = lblDW6;larryDW[6] = lblDW7;larryDW[7] = lblDW8;larryDW[8] = lblDW9;larryDW[9] = lblDW10;larryDW[10] = lblDW11;larryDW[11] = lblDW12;larryDW[12] = lblDW13;larryDW[13] = lblDW14;
+		
 		
 		//load call buttons into array
 		barryCalls[0] = btnCallNone;barryCalls[1] = btnCallChiL;barryCalls[2] = btnCallChiM;barryCalls[3] = btnCallChiH;barryCalls[4] = btnCallPon;barryCalls[5] = btnCallKan;barryCalls[6] = btnCallRon;
 		barryCalls[7] = btnCallChi;
-		
 		
 		
 		//put image icons into arrays
@@ -3142,12 +3218,28 @@ public class TableViewer extends JFrame{
 		garryWinds[1][2] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transWs.png");
 		garryWinds[1][3] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transNs.png");
 		
-		
-		
-		
 		//load Other (riichi stick, sheepy2) into array
 		garryOther[0] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\riichiStick.png");
 		garryOther[1] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\sheepy2trans.png");
 		
+		
+		
+		
+		
+		
+
+		
+		//set call button attributes
+		CallListener callListener = new CallListener();
+		for (JButton b: barryCalls){
+			b.addActionListener(callListener);
+			
+	//		b.setBorderPainted(false);
+			b.setContentAreaFilled(false);
+			b.setRolloverEnabled(false);
+			b.setFocusPainted(false);
+//			b.setFocusPainted(false);
+			b.setOpaque(false);
+		}
 	}
 }

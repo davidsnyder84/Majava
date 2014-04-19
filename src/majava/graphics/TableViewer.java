@@ -96,7 +96,8 @@ public class TableViewer extends JFrame{
 	private static final int SIZE_MELDPANEL = 4;
 	private static final int SIZE_MELD = 4;
 	private static final int SIZE_WALL = 34;
-	private static final int SIZE_DEADWALL = 34;
+	private static final int SIZE_DEAD_WALL = 14;
+	private static final int OFFSET_DEAD_WALL = SIZE_WALL * 4 - SIZE_DEAD_WALL;
 	private static final int SIZE_POND = 24;
 	private static final int SIZE_LARRY_INFOPLAYER = 3;
 	private static final int SIZE_LARRY_INFOROUND = 2;
@@ -193,7 +194,7 @@ public class TableViewer extends JFrame{
 	
 	
 	private JButton[] barryCalls = new JButton[8];
-	private JLabel[] larryDW = new JLabel[SIZE_DEADWALL];
+	private JLabel[] larryDW = new JLabel[SIZE_DEAD_WALL];
 	
 	/*......................................END LABEL ARRAYS......................................*/
 	
@@ -396,6 +397,11 @@ public class TableViewer extends JFrame{
 				larryWalls[currentPlayer][currentTile].setIcon(__getImageIconWall(tilesW, currentTile + currentPlayer*SIZE_WALL, currentPlayer, SMALL));
 		}
 		
+		//update dead wall
+		for (currentTile = 0; currentTile < SIZE_DEAD_WALL; currentTile++){
+			larryDW[currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT1, SMALL));
+		}
+		
 		
 		//update melds
 		ArrayList<Meld> meldList = null;
@@ -462,6 +468,10 @@ public class TableViewer extends JFrame{
 		//call buttons
 		for (JButton b: barryCalls)
 			b.setVisible(false);
+		
+		//dead wall
+		for (JLabel l: larryDW)
+			l.setIcon(null);
 		
 		thisguy.repaint();
 	}
@@ -2850,32 +2860,32 @@ public class TableViewer extends JFrame{
 		
 		lblBigTileDemo1 = new JLabel("");
 		lblBigTileDemo1.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
-		lblBigTileDemo1.setBounds(52, 403, 30, 41);
+		lblBigTileDemo1.setBounds(23, 365, 30, 41);
 		panelSidebar.add(lblBigTileDemo1);
 		
 		lblBigTileDemo2 = new JLabel("");
 		lblBigTileDemo2.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
-		lblBigTileDemo2.setBounds(82, 403, 30, 41);
+		lblBigTileDemo2.setBounds(53, 365, 30, 41);
 		panelSidebar.add(lblBigTileDemo2);
 		
 		lblBigTileDemo3 = new JLabel("");
 		lblBigTileDemo3.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
-		lblBigTileDemo3.setBounds(112, 403, 30, 41);
+		lblBigTileDemo3.setBounds(83, 365, 30, 41);
 		panelSidebar.add(lblBigTileDemo3);
 		
 		lblSmallTileDemo1 = new JLabel("");
 		lblSmallTileDemo1.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
-		lblSmallTileDemo1.setBounds(49, 470, 23, 31);
+		lblSmallTileDemo1.setBounds(35, 411, 23, 31);
 		panelSidebar.add(lblSmallTileDemo1);
 		
 		lblSmallTileDemo2 = new JLabel("");
 		lblSmallTileDemo2.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
-		lblSmallTileDemo2.setBounds(72, 470, 23, 31);
+		lblSmallTileDemo2.setBounds(58, 411, 23, 31);
 		panelSidebar.add(lblSmallTileDemo2);
 		
 		lblSmallTileDemo3 = new JLabel("");
 		lblSmallTileDemo3.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
-		lblSmallTileDemo3.setBounds(95, 470, 23, 31);
+		lblSmallTileDemo3.setBounds(81, 411, 23, 31);
 		panelSidebar.add(lblSmallTileDemo3);
 		
 		
@@ -3040,6 +3050,9 @@ public class TableViewer extends JFrame{
 		
 		panelDeadWall = new JPanel();
 		panelDeadWall.setBounds(18, 507, 161, 62);
+//		panelDeadWall.setBackground(COLOR_TRANSPARENT);
+		panelDeadWall.setBackground(COLOR_RINF_PANEL);
+//		panelDeadWall.setBorder(new LineBorder(new Color(0, 0, 0), 0, true));
 		panelSidebar.add(panelDeadWall);
 		panelDeadWall.setLayout(new GridLayout(2, 7, 0, 0));
 

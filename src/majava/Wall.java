@@ -59,11 +59,7 @@ public class Wall {
 	public static final int OFFSET_DEAD_WALL = 122;
 	public static final int MAX_SIZE_DEAD_WALL = 14;
 	
-	//odd numbers are top row, even are bottom row
-//	private static final int POS_KANDRAW_1 = 13;
-//	private static final int POS_KANDRAW_2 = 12;
-//	private static final int POS_KANDRAW_3 = 11;
-//	private static final int POS_KANDRAW_4 = 10;
+	//even numbers are top row, odd are bottom row
 	private static final int POS_KANDRAW_1 = 12;
 	private static final int POS_KANDRAW_2 = 13;
 	private static final int POS_KANDRAW_3 = 10;

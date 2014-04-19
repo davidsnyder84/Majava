@@ -57,17 +57,6 @@ public class Table {
 	public static final int GAME_TYPE_DEFAULT = GAME_TYPE_SINGLE;
 	
 	
-	public static final int RESULT_UNDECIDED = -1;
-	public static final int RESULT_DRAW_WASHOUT = 0;
-	public static final int RESULT_DRAW_KYUUSHU = 1;
-	public static final int RESULT_DRAW_4KAN = 2;
-	public static final int RESULT_DRAW_4RIICHI = 3;
-	public static final int RESULT_DRAW_4WIND = 4;
-	public static final int RESULT_VICTORY_E = 5;
-	public static final int RESULT_VICTORY_S = 6;
-	public static final int RESULT_VICTORY_W = 7;
-	public static final int RESULT_VICTORY_N = 8;
-	
 	//for debug use
 	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = true;
 	public static final boolean DEBUG_SHUFFLE_SEATS = false;
@@ -80,7 +69,7 @@ public class Table {
 	private Player p1, p2, p3, p4;
 	private Wall mWall;
 	
-	private RoundTracker mRTracker;
+	private RoundTracker mRoundTracker;
 //	public static TableViewer mTviewer;	//will be private
 	public TableViewer mTviewer;	//will be private
 	
@@ -123,7 +112,7 @@ public class Table {
 		mWhoseTurn = 1;
 		mReaction = NO_REACTION;
 		mGameIsOver = false;
-		mGameResult = RESULT_UNDECIDED;
+		mGameResult = RoundTracker.RESULT_UNDECIDED;
 		
 		if (gameType == GAME_TYPE_SINGLE || gameType == GAME_TYPE_TONPUUSEN || gameType == GAME_TYPE_HANCHAN)
 			mGameType = gameType;
@@ -132,10 +121,10 @@ public class Table {
 		
 		
 		//initialize Round Tracker
-		mRTracker = new RoundTracker(mRoundWind,1,0, mWall, p1,p2,p3,p4);
+		mRoundTracker = new RoundTracker(mRoundWind,1,0, mWall, p1,p2,p3,p4);
 		
 		//initialize Table Viewer
-		mTviewer = new TableViewer(mRTracker);
+		mTviewer = new TableViewer(mRoundTracker);
 		mTviewer.setVisible(true);
 		mTviewer.updateEverything();
 	}
@@ -248,6 +237,7 @@ public class Table {
 		
 		
 		//display endgame result
+		mRoundTracker.setRoundOver(mGameResult);
 		displayGameResult();
 		
 	}
@@ -306,7 +296,7 @@ public class Table {
 			if (drawnTile == null){
 				System.out.println("-----End of wall reached. Cannot draw tile.");
 				mGameIsOver = true;
-				mGameResult = RESULT_DRAW_WASHOUT;
+				mGameResult = RoundTracker.RESULT_DRAW_WASHOUT;
 				return null;
 			}
 			else{
@@ -695,27 +685,28 @@ public class Table {
 			 System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		 }
 		 String resultStr = "Result: ";
+		 int result = mRoundTracker.getRoundResult();
 		 
-		 if (mGameResult == RESULT_UNDECIDED)
+		 if (result == RoundTracker.RESULT_UNDECIDED)
 			 resultStr += "Undecided";
-		 if (mGameResult == RESULT_DRAW_WASHOUT)
+		 if (result == RoundTracker.RESULT_DRAW_WASHOUT)
 			 resultStr += "Washout";
-		 if (mGameResult == RESULT_DRAW_KYUUSHU)
+		 if (result == RoundTracker.RESULT_DRAW_KYUUSHU)
 			 resultStr += "9 terminals abortive draw";
-		 if (mGameResult == RESULT_DRAW_4KAN)
+		 if (result == RoundTracker.RESULT_DRAW_4KAN)
 			 resultStr += "4 kans made";
-		 if (mGameResult == RESULT_DRAW_4RIICHI)
+		 if (result == RoundTracker.RESULT_DRAW_4RIICHI)
 			 resultStr += "4 riichis";
-		 if (mGameResult == RESULT_DRAW_4WIND)
+		 if (result == RoundTracker.RESULT_DRAW_4WIND)
 			 resultStr += "4 of same wind tile discarded";
 		 
-		 if (mGameResult == RESULT_VICTORY_E)
+		 if (result == RoundTracker.RESULT_VICTORY_E)
 			 resultStr += "East player wins!";
-		 if (mGameResult == RESULT_VICTORY_S)
+		 if (result == RoundTracker.RESULT_VICTORY_S)
 			 resultStr += "South player wins!";
-		 if (mGameResult == RESULT_VICTORY_W)
+		 if (result == RoundTracker.RESULT_VICTORY_W)
 			 resultStr += "West player wins!";
-		 if (mGameResult == RESULT_VICTORY_N)
+		 if (result == RoundTracker.RESULT_VICTORY_N)
 			 resultStr += "North player wins!";
 		 
 		 System.out.println(resultStr);

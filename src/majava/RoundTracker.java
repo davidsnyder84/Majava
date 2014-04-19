@@ -47,6 +47,17 @@ public class RoundTracker {
 	
 	private static final int NUM_PLAYERS_TO_TRACK = 4;
 	private static final int NUM_MELDS_TO_TRACK = 5;
+
+	public static final int RESULT_UNDECIDED = -1;
+	public static final int RESULT_DRAW_WASHOUT = 0;
+	public static final int RESULT_DRAW_KYUUSHU = 1;
+	public static final int RESULT_DRAW_4KAN = 2;
+	public static final int RESULT_DRAW_4RIICHI = 3;
+	public static final int RESULT_DRAW_4WIND = 4;
+	public static final int RESULT_VICTORY_E = 5;
+	public static final int RESULT_VICTORY_S = 6;
+	public static final int RESULT_VICTORY_W = 7;
+	public static final int RESULT_VICTORY_N = 8;
 	
 	
 	
@@ -69,8 +80,8 @@ public class RoundTracker {
 //	
 //	private TileList mDoraIndicators;
 //	
-//	private boolean mGameIsOver;
-//	private int mGameResult;
+	private boolean mRoundIsOver;
+	private int mRoundResult;
 	
 	
 	
@@ -87,6 +98,9 @@ public class RoundTracker {
 		mRoundWind = roundWind;
 		mRoundNum = roundNum;
 		mRoundBonusNum = roundBonus;
+		
+		mRoundResult = RESULT_UNDECIDED;
+		mRoundIsOver = false;
 		
 		__syncWithWall(wall);
 		__setupPlayerTrackers(p1,p2,p3,p4);
@@ -150,11 +164,27 @@ public class RoundTracker {
 	
 	
 	
+	
+	
+	
+	public void setRoundOver(int result){
+		mRoundResult = result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 	public char getRoundWind(){return mRoundWind;}
 	public int getRoundNum(){return mRoundNum;}
 	
 	
+	public int getRoundResult(){return mRoundResult;}
+	public boolean roundIsOver(){return mRoundIsOver;}
 	
 	
 	
@@ -167,9 +197,6 @@ public class RoundTracker {
 	
 //	//accessors
 //	public int getGameType(){return mGameType;}
-//	public char getRoundWind(){return mRoundWind;}
-//	public int getGameResult(){return mGameResult;}
-//	public boolean gameIsOver(){return mGameIsOver;}
 //	public TileList getDoraIndicators(){return mDoraIndicators;}
 	
 	

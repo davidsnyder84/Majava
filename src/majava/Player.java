@@ -452,7 +452,7 @@ public class Player {
 	end if
 	return call status
 	*/
-	public int reactToDiscard(Tile t){
+	public int reactToDiscard(Tile t, TableViewer mTviewer){
 		mCallStatus = CALLED_NONE;
 		
 		//if able to call the tile, ask self for reaction
@@ -460,7 +460,7 @@ public class Player {
 			
 			//ask self for reaction
 			//update call status
-			mCallStatus = __askSelfForReaction(t);
+			mCallStatus = __askSelfForReaction(t, mTviewer);
 		}
 		
 		////////////////////WATCH THIS MOTHERFUCKER
@@ -491,10 +491,10 @@ public class Player {
 	end if
 	return call
 	*/
-	private int __askSelfForReaction(Tile t){
+	private int __askSelfForReaction(Tile t, TableViewer tviewer){
 		int call = CALLED_NONE;
 		
-		if (mController == CONTROLLER_HUMAN) call = __askReactionHuman(t);
+		if (mController == CONTROLLER_HUMAN) call = __askReactionHuman(t, tviewer);
 		else call = __askReactionCom(t);
 		
 		return call;
@@ -506,19 +506,19 @@ public class Player {
 	asks a human player how they want to react to the discarded tile
 	
 	input: t is the tile that was just discarded, and the player has a chance to react to it
-	
+		   tviewer is the TableViewer GUI the player will click on
 	returns the type of call the player wants to make on the tile (none, chi, pon, kan, ron)
 	
-	
-	show player which calls are possible
-	choice = player's choice (loop until valid)
+	figure out which calls are possible
+	choice = get player's choice through GUI
 	call = decide based on player's choice
 	return call
 	*/
-	private int __askReactionHuman(Tile t){
+	private int __askReactionHuman(Tile t, TableViewer tviewer){
 		int call = CALLED_NONE;
 		if (DEBUG_SKIP_PLAYER_CALL) return call;
-
+		
+		
 		final int CHOICE_INVALID = -1;
 		final int CHOICE_NONE = 0;
 		final int CHOICE_CHI_L = 1;
@@ -527,51 +527,25 @@ public class Player {
 		final int CHOICE_PON = 4;
 		final int CHOICE_KAN = 5;
 		final int CHOICE_RON = 6;
+		final int CHOICE_CHI = 7;
 		
 		int choice = CHOICE_INVALID;
-		ArrayList<Integer> validChoices = new ArrayList<Integer>(4);		
+		ArrayList<Integer> validChoices = new ArrayList<Integer>(4);	
 		
-		//display which calls can be made
-		System.out.println("*****You (" + mSeatWind + ") can call this tile!");
-		if (mHand.ableToChiL()){
-			System.out.println("\t" + CHOICE_CHI_L + ") Call Chi-L on this tile! (" + t.toString() + "-XX-XX)");
-			validChoices.add(CHOICE_CHI_L);
-		}
-		if (mHand.ableToChiM()){
-			System.out.println("\t" + CHOICE_CHI_M + ") Call Chi-M on this tile! (XX-" + t.toString() + "-XX)");
-			validChoices.add(CHOICE_CHI_M);
-		}
-		if (mHand.ableToChiH()){
-			System.out.println("\t" + CHOICE_CHI_H + ") Call Chi-H on this tile! (XX-XX-" + t.toString() + ")");
-			validChoices.add(CHOICE_CHI_H);
-		}
-		if (mHand.ableToPon()){
-			System.out.println("\t" + CHOICE_PON + ") Call Pon   on this tile! (" + t.toString() + "-" + t.toString() + "-" + t.toString() + ")");
-			validChoices.add(CHOICE_PON);
-		}
-		if (mHand.ableToKan()){
-			System.out.println("\t" + CHOICE_KAN + ") Call Kan   on this tile! (" + t.toString() + "-" + t.toString() + "-" + t.toString() + "-" + t.toString() + ")");
-			validChoices.add(CHOICE_KAN);
-		}
-		if (mHand.ableToRon()){
-			System.out.println("\t" + CHOICE_RON + ") Call RON   on this tile! (Win!)");
-			validChoices.add(CHOICE_RON);
-		}
-		System.out.println("\t" + CHOICE_NONE + ") Make no call");
+		
 		validChoices.add(CHOICE_NONE);
-		
-		//get user's choice
-		@SuppressWarnings("resource")
-		Scanner keyboard = new Scanner(System.in);
-		//loop until valid option is entered
-		while (choice == CHOICE_INVALID)
-		{
-			System.out.print("Enter your choice: "); 
-			choice = keyboard.nextInt();
-			//if (choice != CHOICE_CHI_L && choice != CHOICE_CHI_M && choice != CHOICE_CHI_H && choice != CHOICE_PON && choice != CHOICE_KAN && choice != CHOICE_RON && choice != CHOICE_RON)
-			if (validChoices.contains(choice) == false)
-				choice = CHOICE_INVALID;
+		if (mHand.ableToChiL()) validChoices.add(CHOICE_CHI_L);
+		if (mHand.ableToChiM()) validChoices.add(CHOICE_CHI_M);
+		if (mHand.ableToChiH()) validChoices.add(CHOICE_CHI_H);
+		if (mHand.ableToPon()){
+			validChoices.add(CHOICE_PON);
+			if (mHand.ableToKan()) validChoices.add(CHOICE_KAN);
 		}
+		if (mHand.ableToRon()) validChoices.add(CHOICE_RON);
+		
+		
+		//get user's choice through GUI
+		choice = tviewer.getClickCall(validChoices);
 		
 		//decide call based on player's choice
 		if (choice == CHOICE_CHI_L) call = Player.CALLED_CHI_L;

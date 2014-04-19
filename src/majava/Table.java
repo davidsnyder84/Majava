@@ -72,7 +72,7 @@ public class Table {
 	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = true;
 	public static final boolean DEBUG_SHUFFLE_SEATS = false;
 	public static final boolean DEBUG_WAIT_AFTER_COMPUTER = true;
-	public static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+	public static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	
 	
 	
@@ -329,9 +329,9 @@ public class Table {
 		
 		
 		//~~~~~~get reactions from the other players
-		mReaction += p.getShimocha().reactToDiscard(discardedTile);
-		mReaction += p.getToimen().reactToDiscard(discardedTile);
-		mReaction += p.getKamicha().reactToDiscard(discardedTile);
+		mReaction += p.getShimocha().reactToDiscard(discardedTile, mTviewer);
+		mReaction += p.getToimen().reactToDiscard(discardedTile, mTviewer);
+		mReaction += p.getKamicha().reactToDiscard(discardedTile, mTviewer);
 		
 		//pause for dramatic effect
 		pauseWait();

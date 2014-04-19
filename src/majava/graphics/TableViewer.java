@@ -37,7 +37,7 @@ import java.awt.event.MouseEvent;
 import java.awt.FlowLayout;
 
 @SuppressWarnings("serial")
-public class TableViewer extends JFrame {
+public class TableViewer extends JFrame{
 	
 	
 	
@@ -87,6 +87,7 @@ public class TableViewer extends JFrame {
 	private static final Color COLOR_SIDEBAR = new Color(0, 255, 0, 100);
 	private static final Color COLOR_RINF_PANEL = new Color(0,255,255,35);
 	private static final Color COLOR_RIND = new Color(0,155,155,35);
+	private static final Color COLOR_CALL_PANEL = new Color(210,0, 210, 30);
 	
 	
 	
@@ -188,6 +189,10 @@ public class TableViewer extends JFrame {
 	//0 = roundWind, 1 = roundNumber
 	private JLabel[] larryInfoRound = new JLabel[SIZE_LARRY_INFOROUND];
 	
+	
+	
+	private JButton[] barryCalls = new JButton[8];
+	
 	/*......................................END LABEL ARRAYS......................................*/
 	
 	
@@ -250,7 +255,6 @@ public class TableViewer extends JFrame {
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^BEGIN MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 
 	private static boolean toggle = true;
-	private ArrayList<JLabel> Tilelabels = new ArrayList<JLabel>(); 
 	
 
 	private JPanel contentPane;
@@ -297,6 +301,18 @@ public class TableViewer extends JFrame {
 	int mChosenDiscard; 
 
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^END MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -441,6 +457,10 @@ public class TableViewer extends JFrame {
 			player[2].setIcon(null);
 		}
 		
+		//call buttons
+		for (JButton b: barryCalls)
+			b.setVisible(false);
+		
 		thisguy.repaint();
 	}
 	
@@ -453,10 +473,65 @@ public class TableViewer extends JFrame {
 	
 	
 	
+	
+	
+	
+	
+	private int mChosenCall;
+
+	private static final int CALL_INVALID = -1;
+	private static final int CALL_NONE = 0;
+	private static final int CALL_CHI_L = 1;
+	private static final int CALL_CHI_M = 2;
+	private static final int CALL_CHI_H = 3;
+	private static final int CALL_PON = 4;
+	private static final int CALL_KAN = 5;
+	private static final int CALL_RON = 6;
+	private static final int CALL_CHI = 7;
+	
+	public int getClickCall(ArrayList<Integer> validChoices){
+		
+		mChosenCall = CALL_INVALID;
+		for (JButton b: barryCalls) b.setVisible(false);
+		
+		for (Integer i: validChoices) barryCalls[i].setVisible(true);
+		thisguy.repaint();
+		while (mChosenCall == CALL_INVALID);//intentionally blank
+		
+		for (JButton b: barryCalls) b.setVisible(false);
+		return mChosenCall;
+	}
+	public int getCallChoice(){return mChosenCall;}
+
+	
+	
+	private class CallListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String call = e.getActionCommand();
+			if (call == "Chi-L") mChosenCall = CALL_CHI_L;
+			else if (call.equals("Chi-M")) mChosenCall = CALL_CHI_M;
+			else if (call == "Chi-H") mChosenCall = CALL_CHI_H;
+			else if (call == "Pon") mChosenCall = CALL_PON;
+			else if (call == "Kan") mChosenCall = CALL_KAN;
+			else if (call == "Ron") mChosenCall = CALL_RON;
+			else if (call == "None") mChosenCall = CALL_NONE;
+		}		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public int getClickDiscard(){
 		mChosenDiscard = 0;
-		while (mChosenDiscard == 0)
-			;//intentionally blank
+		while (mChosenDiscard == 0);//intentionally blank
 		return mChosenDiscard;
 	}
 	
@@ -500,14 +575,24 @@ public class TableViewer extends JFrame {
 	
 	
 	
-	//launch the application
+	//launch the application TODO MAIN
 	public static void main(String[] args) {
 		
 		TableViewer viewer = new TableViewer();
 		viewer.setVisible(true);
 		
-		while (true)
-			System.out.println(viewer.getClickDiscard());
+		ArrayList<Integer> callz = new ArrayList<Integer>();
+		callz.add(TableViewer.CALL_NONE);
+		callz.add(TableViewer.CALL_CHI_L);
+		callz.add(TableViewer.CALL_CHI_M);
+		callz.add(TableViewer.CALL_CHI_H);
+		callz.add(TableViewer.CALL_PON);
+		callz.add(TableViewer.CALL_KAN);
+		callz.add(TableViewer.CALL_RON);
+		while (true){
+			System.out.println(viewer.getClickCall(callz));
+//			System.out.println(viewer.getClickDiscard());
+		}
 	}
 	
 	//TODO start of constructor
@@ -2785,27 +2870,11 @@ public class TableViewer extends JFrame {
 		
 		
 		
-		
-		
-		
-		//all pond tiles put in an arraylist, for a toggle test
-		Tilelabels.add(lblP1T1);Tilelabels.add(lblP1T2);Tilelabels.add(lblP1T3);Tilelabels.add(lblP1T4);Tilelabels.add(lblP1T5);Tilelabels.add(lblP1T6);Tilelabels.add(lblP1T7);Tilelabels.add(lblP1T8);Tilelabels.add(lblP1T9);Tilelabels.add(lblP1T10);Tilelabels.add(lblP1T11);Tilelabels.add(lblP1T12);Tilelabels.add(lblP1T13);Tilelabels.add(lblP1T14);Tilelabels.add(lblP1T15);Tilelabels.add(lblP1T16);Tilelabels.add(lblP1T17);Tilelabels.add(lblP1T18);Tilelabels.add(lblP1T19);Tilelabels.add(lblP1T20);Tilelabels.add(lblP1T21);Tilelabels.add(lblP1T22);Tilelabels.add(lblP1T23);Tilelabels.add(lblP1T24);
-		Tilelabels.add(lblP3T1);Tilelabels.add(lblP3T2);Tilelabels.add(lblP3T3);Tilelabels.add(lblP3T4);Tilelabels.add(lblP3T5);Tilelabels.add(lblP3T6);Tilelabels.add(lblP3T7);Tilelabels.add(lblP3T8);Tilelabels.add(lblP3T9);Tilelabels.add(lblP3T10);Tilelabels.add(lblP3T11);Tilelabels.add(lblP3T12);Tilelabels.add(lblP3T13);Tilelabels.add(lblP3T14);Tilelabels.add(lblP3T15);Tilelabels.add(lblP3T16);Tilelabels.add(lblP3T17);Tilelabels.add(lblP3T18);Tilelabels.add(lblP3T19);Tilelabels.add(lblP3T20);Tilelabels.add(lblP3T21);Tilelabels.add(lblP3T22);Tilelabels.add(lblP3T23);Tilelabels.add(lblP3T24);
-		Tilelabels.add(lblP2T1);Tilelabels.add(lblP2T2);Tilelabels.add(lblP2T3);Tilelabels.add(lblP2T4);Tilelabels.add(lblP2T5);Tilelabels.add(lblP2T6);Tilelabels.add(lblP2T7);Tilelabels.add(lblP2T8);Tilelabels.add(lblP2T9);Tilelabels.add(lblP2T10);Tilelabels.add(lblP2T11);Tilelabels.add(lblP2T12);Tilelabels.add(lblP2T13);Tilelabels.add(lblP2T14);Tilelabels.add(lblP2T15);Tilelabels.add(lblP2T16);Tilelabels.add(lblP2T17);Tilelabels.add(lblP2T18);Tilelabels.add(lblP2T19);Tilelabels.add(lblP2T20);Tilelabels.add(lblP2T21);Tilelabels.add(lblP2T22);Tilelabels.add(lblP2T23);Tilelabels.add(lblP2T24);
-		Tilelabels.add(lblP4T1);Tilelabels.add(lblP4T2);Tilelabels.add(lblP4T3);Tilelabels.add(lblP4T4);Tilelabels.add(lblP4T5);Tilelabels.add(lblP4T6);Tilelabels.add(lblP4T7);Tilelabels.add(lblP4T8);Tilelabels.add(lblP4T9);Tilelabels.add(lblP4T10);Tilelabels.add(lblP4T11);Tilelabels.add(lblP4T12);Tilelabels.add(lblP4T13);Tilelabels.add(lblP4T14);Tilelabels.add(lblP4T15);Tilelabels.add(lblP4T16);Tilelabels.add(lblP4T17);Tilelabels.add(lblP4T18);Tilelabels.add(lblP4T19);Tilelabels.add(lblP4T20);Tilelabels.add(lblP4T21);Tilelabels.add(lblP4T22);Tilelabels.add(lblP4T23);Tilelabels.add(lblP4T24);
+
 		JButton btnBlankAll = new JButton("Blank all");
 		btnBlankAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				blankEverything();
-				/*
-				ImageIcon toggleIcon = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\5.png");
-				toggle = !toggle;
-				for (JLabel l: Tilelabels){
-					if (toggle) l.setIcon(toggleIcon);
-					else l.setIcon(null);
-					thisguy.repaint();
-				}
-				*/
 			}
 		});
 		btnBlankAll.setBounds(27, 559, 215, 35);
@@ -2905,14 +2974,67 @@ public class TableViewer extends JFrame {
 		
 		
 		
+		JPanel panelCalls = new JPanel();
+		panelCalls.setBounds(27, 682, 204, 122);
+		panelCalls.setBackground(COLOR_CALL_PANEL);
+		panelSidebar.add(panelCalls);
+		panelCalls.setLayout(null);
+		
+		
+		JButton btnCallNone = new JButton("No call");
+		btnCallNone.setActionCommand("None");
+		btnCallNone.setBounds(0, 0, 89, 23);
+		panelCalls.add(btnCallNone);
+		
+		JButton btnCallChi = new JButton("Chi");
+		btnCallChi.setActionCommand("Chi");
+		btnCallChi.setBounds(1, 24, 60, 23);
+		panelCalls.add(btnCallChi);
+		
+		JButton btnCallChiL = new JButton("Chi-L");
+		btnCallChiL.setActionCommand("Chi-L");
+		btnCallChiL.setBounds(0, 48, 67, 23);
+		panelCalls.add(btnCallChiL);
+		
+		JButton btnCallChiM = new JButton("Chi-M");
+		btnCallChiM.setActionCommand("Chi-M");
+		btnCallChiM.setBounds(67, 48, 67, 23);
+		panelCalls.add(btnCallChiM);
+		
+		JButton btnCallChiH = new JButton("Chi-H");
+		btnCallChiH.setActionCommand("Chi-H");
+		btnCallChiH.setBounds(135, 48, 67, 23);
+		panelCalls.add(btnCallChiH);
+		
+		JButton btnCallPon = new JButton("Pon");
+		btnCallPon.setActionCommand("Pon");
+		btnCallPon.setBounds(1, 72, 64, 23);
+		panelCalls.add(btnCallPon);
+		
+		JButton btnCallKan = new JButton("Kan");
+		btnCallKan.setActionCommand("Kan");
+		btnCallKan.setBounds(65, 72, 64, 23);
+		panelCalls.add(btnCallKan);
+		
+		JButton btnCallRon = new JButton("Ron");
+		btnCallRon.setActionCommand("Ron");
+		btnCallRon.setBounds(2, 96, 103, 23);
+		panelCalls.add(btnCallRon);
 		
 		
 		
 		
-		
-		
-		
-		
+		CallListener callListener = new CallListener();
+		for (JButton b: barryCalls){
+			b.addActionListener(callListener);
+			
+	//		b.setBorderPainted(false);
+			b.setContentAreaFilled(false);
+			b.setRolloverEnabled(false);
+			b.setFocusPainted(false);
+//			b.setFocusPainted(false);
+			b.setOpaque(false);
+		}
 		
 		
 		
@@ -2982,6 +3104,10 @@ public class TableViewer extends JFrame {
 		larryInfoP4[0] = lblInfoP4Wind;larryInfoP4[1] = lblInfoP4Points;larryInfoP4[2] = lblInfoP4Riichi;
 		
 		
+		//load call buttons into array
+		barryCalls[0] = btnCallNone;barryCalls[1] = btnCallChiL;barryCalls[2] = btnCallChiM;barryCalls[3] = btnCallChiH;barryCalls[4] = btnCallPon;barryCalls[5] = btnCallKan;barryCalls[6] = btnCallRon;
+		barryCalls[7] = btnCallChi;
+		
 		
 		
 		//put image icons into arrays
@@ -3023,22 +3149,5 @@ public class TableViewer extends JFrame {
 		garryOther[0] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\riichiStick.png");
 		garryOther[1] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\sheepy2trans.png");
 		
-		
-		
 	}
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

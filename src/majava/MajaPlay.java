@@ -420,7 +420,8 @@ public class MajaPlay {
 	
 	
 	
-
+	
+	//probably broke this when clickable discards were implemented
 	public static void testMeldMaking(){
 		
 		Player p = new Player(Player.SEAT_EAST);
@@ -465,8 +466,9 @@ public class MajaPlay {
 			p.showMelds();
 			System.out.println("\nDiscarded tile: " + q.toString() + "\n");
 			
-			
-			p.reactToDiscard(q);
+
+			//probably broke this when clickable discards were implemented
+//			p.reactToDiscard(q);
 			p.makeMeld(q);
 			
 			
@@ -525,7 +527,9 @@ public class MajaPlay {
 		p.showHand();
 		System.out.println("\nDiscarded tile: " + q.toString() + "\n");
 		
-		p.reactToDiscard(q);
+
+		//probably broke this when clickable discards were implemented
+//		p.reactToDiscard(q);
 		
 		String whatCalled = "nooooo";
 		int status = p.checkCallStatus();

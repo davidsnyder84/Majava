@@ -167,12 +167,19 @@ public class RoundTracker {
 	
 	
 	
-	public void setRoundOver(int result){
-		mRoundResult = result;
+	
+	private void __setRoundOver(int result){
+		mRoundResult = result; mRoundIsOver = true;
 	}
-	
-	
-	
+	public void setResultWashout(){__setRoundOver(RESULT_DRAW_WASHOUT);}
+	public void setResultKyuushu(){__setRoundOver(RESULT_DRAW_KYUUSHU);}
+	public void setResult4Kan(){__setRoundOver(RESULT_DRAW_4KAN);}
+	public void setResult4Riichi(){__setRoundOver(RESULT_DRAW_4RIICHI);}
+	public void setResult4Wind(){__setRoundOver(RESULT_DRAW_4WIND);}
+	public void setResultVictoryE(){__setRoundOver(RESULT_VICTORY_E);}
+	public void setResultVictoryS(){__setRoundOver(RESULT_VICTORY_S);}
+	public void setResultVictoryW(){__setRoundOver(RESULT_VICTORY_W);}
+	public void setResultVictoryN(){__setRoundOver(RESULT_VICTORY_N);}
 	
 	
 	

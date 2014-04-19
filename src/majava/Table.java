@@ -58,7 +58,7 @@ public class Table {
 	
 	
 	//for debug use
-	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = true;
+	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = false;
 	public static final boolean DEBUG_SHUFFLE_SEATS = false;
 	public static final boolean DEBUG_WAIT_AFTER_COMPUTER = true;
 	public static final boolean DEBUG_LOAD_DEBUG_WALL = true;
@@ -80,8 +80,8 @@ public class Table {
 	private int mReaction;
 	
 	private int mGameType;
-	private boolean mGameIsOver;
-	private int mGameResult;
+//	private boolean mGameIsOver;
+//	private int mGameResult;
 	
 	
 	
@@ -111,8 +111,7 @@ public class Table {
 		mRoundWind = DEFAULT_ROUND_WIND;
 		mWhoseTurn = 1;
 		mReaction = NO_REACTION;
-		mGameIsOver = false;
-		mGameResult = RoundTracker.RESULT_UNDECIDED;
+//		mGameIsOver = false;
 		
 		if (gameType == GAME_TYPE_SINGLE || gameType == GAME_TYPE_TONPUUSEN || gameType == GAME_TYPE_HANCHAN)
 			mGameType = gameType;
@@ -211,20 +210,22 @@ public class Table {
 		
 		mWhoseTurn = 1;
 		mReaction = NO_REACTION;
-		mGameIsOver = false;
-		while (mGameIsOver == false){
+//		mGameIsOver = false;
+		
+		//do one round
+		while (mRoundTracker.roundIsOver() == false){
 			
 			//handle player turns
-			if (mWhoseTurn == 1 && !mGameIsOver)
+			if (mWhoseTurn == 1 && !mRoundTracker.roundIsOver())
 				discardedTile = doPlayerTurn(p1);
 			
-			if (mReaction == NO_REACTION && mWhoseTurn == 2 && !mGameIsOver)
+			if (mReaction == NO_REACTION && mWhoseTurn == 2 && !mRoundTracker.roundIsOver())
 				discardedTile = doPlayerTurn(p2);
 			
-			if (mReaction == NO_REACTION && mWhoseTurn == 3 && !mGameIsOver)
+			if (mReaction == NO_REACTION && mWhoseTurn == 3 && !mRoundTracker.roundIsOver())
 				discardedTile = doPlayerTurn(p3);
 			
-			if (mReaction == NO_REACTION && mWhoseTurn == 4 && !mGameIsOver)
+			if (mReaction == NO_REACTION && mWhoseTurn == 4 && !mRoundTracker.roundIsOver())
 				discardedTile = doPlayerTurn(p4);
 			
 			
@@ -235,10 +236,8 @@ public class Table {
 			
 		}
 		
-		
-		//display endgame result
-		mRoundTracker.setRoundOver(mGameResult);
-		displayGameResult();
+		//display end of round result
+		displayRoundResult();
 		
 	}
 	
@@ -295,8 +294,7 @@ public class Table {
 			
 			if (drawnTile == null){
 				System.out.println("-----End of wall reached. Cannot draw tile.");
-				mGameIsOver = true;
-				mGameResult = RoundTracker.RESULT_DRAW_WASHOUT;
+				mRoundTracker.setResultWashout();
 				return null;
 			}
 			else{
@@ -659,8 +657,9 @@ public class Table {
 	//accessors
 	public int getGameType(){return mGameType;}
 	public char getRoundWind(){return mRoundWind;}
-	public int getGameResult(){return mGameResult;}
-	public boolean gameIsOver(){return mGameIsOver;}
+	public int getGameResult(){return mRoundTracker.getRoundResult();}
+	public boolean roundIsOver(){return mRoundTracker.roundIsOver();}
+//	public boolean gameIsOver(){return mGameIsOver;}
 	
 	
 	//pauses for dramatic effect (like after a computer's turn)
@@ -677,9 +676,9 @@ public class Table {
 	method: displayGameResult
 	displays the end game result
 	*/
-	public void displayGameResult(){
+	public void displayRoundResult(){
 
-		 if (mGameIsOver){
+		 if (mRoundTracker.roundIsOver()){
 			 System.out.println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			 System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~Game over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			 System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");

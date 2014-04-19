@@ -185,6 +185,39 @@ public class RoundTracker {
 	
 	
 	
+	public void printRoundResult(){
+		if (roundIsOver()){
+			 System.out.println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+			 System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+			 System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		 }
+		 String resultStr = "Result: ";
+		 
+		 if (mRoundResult == RESULT_UNDECIDED)
+			 resultStr += "Undecided";
+		 if (mRoundResult == RESULT_DRAW_WASHOUT)
+			 resultStr += "Washout";
+		 if (mRoundResult == RESULT_DRAW_KYUUSHU)
+			 resultStr += "9 terminals abortive draw";
+		 if (mRoundResult == RESULT_DRAW_4KAN)
+			 resultStr += "4 kans made";
+		 if (mRoundResult == RESULT_DRAW_4RIICHI)
+			 resultStr += "4 riichis";
+		 if (mRoundResult == RESULT_DRAW_4WIND)
+			 resultStr += "4 of same wind tile discarded";
+		 
+		 if (mRoundResult == RESULT_VICTORY_E)
+			 resultStr += "East player wins!";
+		 if (mRoundResult == RESULT_VICTORY_S)
+			 resultStr += "South player wins!";
+		 if (mRoundResult == RESULT_VICTORY_W)
+			 resultStr += "West player wins!";
+		 if (mRoundResult == RESULT_VICTORY_N)
+			 resultStr += "North player wins!";
+		 
+		 System.out.println(resultStr);
+	}
+	
 
 	public char getRoundWind(){return mRoundWind;}
 	public int getRoundNum(){return mRoundNum;}

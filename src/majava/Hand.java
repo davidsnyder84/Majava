@@ -54,6 +54,7 @@ public class Hand implements Iterable<Tile>{
 
 	public static final int MAX_HAND_SIZE = 14;
 	public static final int MAX_NUM_MELDS = 5;
+	public static final int AVG_NUM_TILES_PER_MELD = 3;
 
 	//for debug use
 	public static final boolean DEBUG_SHOW_MELDS_ALONG_WITH_HAND = false;
@@ -128,7 +129,7 @@ public class Hand implements Iterable<Tile>{
 	
 	//adds a tile to the hand (cannot add more than max hand size)
 	public boolean addTile(Tile t){
-		if (mTiles.size() < MAX_HAND_SIZE - Meld.AVG_NUM_TILES_PER_MELD*mNumMeldsMade){
+		if (mTiles.size() < MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*mNumMeldsMade){
 			t.setOwner(mOwnerSeatWind);	//TODO for debug use, should remove when done
 			return(mTiles.add(t));
 		}
@@ -243,7 +244,7 @@ public class Hand implements Iterable<Tile>{
 	numMeldsMade++
 	update hand's closed status after making the meld
 	*///TODO coupling
-	public void makeMeld(MeldType meldType){
+	private void __makeMeld(MeldType meldType){
 		
 		//~~~~gather the tiles from the hand that will be in the meld
 		//get the list of partner indices, based on the the meld type
@@ -271,6 +272,11 @@ public class Hand implements Iterable<Tile>{
 		mChecker.updateClosedStatus();
 		
 	}
+	public void makeMeldChiL(){__makeMeld(MeldType.CHI_L);}
+	public void makeMeldChiM(){__makeMeld(MeldType.CHI_M);}
+	public void makeMeldChiH(){__makeMeld(MeldType.CHI_H);}
+	public void makeMeldPon(){__makeMeld(MeldType.PON);}
+	public void makeMeldKan(){__makeMeld(MeldType.KAN);}
 	
 	
 	

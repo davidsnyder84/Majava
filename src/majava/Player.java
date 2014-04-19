@@ -125,7 +125,7 @@ public class Player {
 	
 	public static final int DRAW_NONE = 0;
 	public static final int DRAW_NORMAL = 1;
-	public static final int DRAW_KAN = 3;
+	public static final int DRAW_RINSHAN = 3;
 
 	public static final Tile WANT_SOMETHING = null;
 	public static final int WANT_KAN_DRAW = 20;
@@ -639,25 +639,21 @@ public class Player {
 	*/
 	public void makeMeld(Tile t){
 		
-		if (mCallStatus != CALLED_NONE)
-		{
-			//determine type of meld, based on call status
-			MeldType meldType = MeldType.NONE;
-			if (mCallStatus == CALLED_CHI_L) meldType = MeldType.CHI_L;
-			else if (mCallStatus == CALLED_CHI_M) meldType = MeldType.CHI_M;
-			else if (mCallStatus == CALLED_CHI_H) meldType = MeldType.CHI_H;
-			else if (mCallStatus == CALLED_PON) meldType = MeldType.PON;
-			else if (mCallStatus == CALLED_KAN) meldType = MeldType.KAN;
+		if (mCallStatus != CALLED_NONE){
 			
-			//make the meld
-			mHand.makeMeld(meldType);
+			//make the right type of meld, based on call status
+			if (mCallStatus == CALLED_CHI_L) mHand.makeMeldChiL();
+			else if (mCallStatus == CALLED_CHI_M) mHand.makeMeldChiM();
+			else if (mCallStatus == CALLED_CHI_H) mHand.makeMeldChiH();
+			else if (mCallStatus == CALLED_PON) mHand.makeMeldPon();
+			else if (mCallStatus == CALLED_KAN) mHand.makeMeldKan();
 			
-			//update what the player will need to draw next turn
-			//draw nothing if called chi/pon, do a kan draw if called kan
+			
+			//update what the player will need to draw next turn (draw nothing if called chi/pon, rinshan draw if called kan)
 			if (mCallStatus == CALLED_CHI_L || mCallStatus == CALLED_CHI_M || mCallStatus == CALLED_CHI_H || mCallStatus == CALLED_PON)
 				mDrawNeeded = DRAW_NONE;
 			if (mCallStatus == CALLED_KAN)
-				mDrawNeeded = DRAW_KAN;
+				mDrawNeeded = DRAW_RINSHAN;
 			
 			//clear call status because the call has been completed
 			mCallStatus = CALLED_NONE;
@@ -705,11 +701,6 @@ public class Player {
 		else return 0;
 	}
 	public String getPlayerName(){return mPlayerName;}
-	public char getController(){return mController;}
-	public String getControllerAsString(){
-		if (mController == CONTROLLER_HUMAN) return "Human";
-		else return "Computer";
-	}
 	
 	
 
@@ -717,35 +708,46 @@ public class Player {
 	public boolean getRiichiStatus(){return mRiichiStatus;}
 	public boolean checkFuriten(){return mFuritenStatus;}
 	public boolean checkTenpai(){return mHand.getTenpaiStatus();}
-	//returns call status as an int value
-	public int checkCallStatus(){
-		return mCallStatus;
-	}
-	//returns call status as a string
-	public String checkCallStatusString(){
-		String callString = "None";
-		if (mCallStatus == CALLED_CHI_L) callString = "Chi";
-		else if (mCallStatus == CALLED_CHI_M) callString = "Chi";
-		else if (mCallStatus == CALLED_CHI_H) callString = "Chi";
-		else if (mCallStatus == CALLED_PON) callString = "Pon";
-		else if (mCallStatus == CALLED_KAN) callString = "Kan";
-		
-		return callString;
-	}
 	
+	
+	
+	//returns call status as a string
+	public String getCallStatusString(){
+		switch (mCallStatus){
+		case CALLED_CHI_L: case CALLED_CHI_M: case CALLED_CHI_H: return "Chi";
+		case CALLED_PON: return "Pon";
+		case CALLED_KAN: return "Kan";
+		case CALLED_RON: return "Ron";
+		default: return "None";
+		}
+	}
 	
 	//returns true if the player called a tile
-	public boolean called(){
-		return (mCallStatus != CALLED_NONE);
-	}
+	public boolean called(){return (mCallStatus != CALLED_NONE);}
+	//individual call statuses
+	public boolean calledChi(){return (calledChiL() || calledChiM() || calledChiH());}
+	public boolean calledChiL(){return (mCallStatus != CALLED_CHI_L);}
+	public boolean calledChiM(){return (mCallStatus != CALLED_CHI_M);}
+	public boolean calledChiH(){return (mCallStatus != CALLED_CHI_H);}
+	public boolean calledPon(){return (mCallStatus != CALLED_PON);}
+	public boolean calledKan(){return (mCallStatus != CALLED_KAN);}
+	public boolean calledRon(){return (mCallStatus != CALLED_RON);}
 	
-	public int checkDrawNeeded(){
-		return mDrawNeeded;
-	}
-	public boolean checkRinshan(){
-		return mHoldingRinshanTile;
-	}
-
+	
+	//check if the players needs to draw a tile, and what type of draw (normal vs rinshan)
+	public boolean needsDraw(){return (needsDrawNormal() || needsDrawRinshan());}
+	public boolean needsDrawNormal(){return (mDrawNeeded == DRAW_NORMAL);}
+	public boolean needsDrawRinshan(){return (mDrawNeeded == DRAW_RINSHAN);}
+	
+	
+	
+	
+	
+	
+	
+	public boolean holdingRinshan(){return mHoldingRinshanTile;}
+	
+	
 	//returns the number of melds the player has made (open melds and ankans)
 	public int getNumMeldsMade(){return mHand.getNumMeldsMade();}
 
@@ -763,17 +765,14 @@ public class Player {
 	public Player getToimen(){return linkToimen;}
 	public Player getShimocha(){return linkShimocha;}
 	//mutators for other player links
-	/*
-	shimocha - player to your right
-	toimen - player directly across 
-	kamicha - player to your left
-	*/
+	
+	//shimocha - player to your right
+	//toimen - player directly across 
+	//kamicha - player to your left
 	public void setShimocha(Player p){linkShimocha = p;}
 	public void setToimen(Player p){linkToimen = p;}
 	public void setKamicha(Player p){linkKamicha = p;}
-	public void setNeighbors(Player shimo, Player toi, Player kami){
-		linkShimocha = shimo;linkToimen = toi;linkKamicha = kami;
-	}
+	public void setNeighbors(Player shimo, Player toi, Player kami){linkShimocha = shimo;linkToimen = toi;linkKamicha = kami;}
 	
 	
 	
@@ -792,8 +791,7 @@ public class Player {
 	//used to set the controller of the player after its creation
 	public boolean setController(char newController){
 		if (mController == CONTROLLER_UNDECIDED)
-			if (newController == CONTROLLER_HUMAN || newController == CONTROLLER_COM)
-			{
+			if (newController == CONTROLLER_HUMAN || newController == CONTROLLER_COM){
 				mController = newController;
 				return true;
 			}
@@ -804,6 +802,20 @@ public class Player {
 		
 		return false;
 	}
+	public boolean setControllerHuman(){return setController(CONTROLLER_HUMAN);}
+	public boolean setControllerComputer(){return setController(CONTROLLER_COM);}
+	
+	
+	public String getControllerAsString(){
+		if (mController == CONTROLLER_HUMAN) return "Human";
+		else return "Computer";
+	}
+	
+	public boolean controllerIsHuman(){return mController == CONTROLLER_HUMAN;}
+	public boolean controllerIsComputer(){return mController == CONTROLLER_COM;}
+	
+	
+	
 	public void setPlayerName(String newName){
 		if (newName != null) mPlayerName = newName;
 	}
@@ -826,7 +838,7 @@ public class Player {
 	
 
 	////////////////////////////////////////////////////////////////////////////////////
-	//////END DEMO METHODS
+	//////BEGIN DEMO METHODS
 	////////////////////////////////////////////////////////////////////////////////////
 	//fill hand with demo values
 	public void fillHand(){
@@ -854,9 +866,7 @@ public class Player {
 		System.out.println("\n" + mHand.toString());
 	}
 	//show player's melds
-	public void showMelds(){
-		mHand.showMelds();
-	}
+	public void showMelds(){mHand.showMelds();}
 	
 	//show pond
 	public void showPond(){

@@ -472,23 +472,24 @@ public class MajaPlay {
 			p.makeMeld(q);
 			
 			
-			String whatCalled = "nooooo";
-			int status = p.checkCallStatus();
-			if (status == Player.CALLED_NONE)
-				whatCalled = "None";
-			if (status == Player.CALLED_CHI_L)
-				whatCalled = "Chi-L";
-			else if (status == Player.CALLED_CHI_M)
-				whatCalled = "Chi-M";
-			else if (status == Player.CALLED_CHI_H)
-				whatCalled = "Chi-H";
-			else if (status == Player.CALLED_PON)
-				whatCalled = "Pon";
-			else if (status == Player.CALLED_KAN)
-				whatCalled = "Kan";
-			else if (status == Player.CALLED_RON)
-				whatCalled = "Ron";
-			System.out.println("Player's call status: " + whatCalled + " (status: " + status + ")");
+			//broke this when reduced coupling in Player
+//			String whatCalled = "nooooo";
+//			int status = p.checkCallStatus();
+//			if (status == Player.CALLED_NONE)
+//				whatCalled = "None";
+//			if (status == Player.CALLED_CHI_L)
+//				whatCalled = "Chi-L";
+//			else if (status == Player.CALLED_CHI_M)
+//				whatCalled = "Chi-M";
+//			else if (status == Player.CALLED_CHI_H)
+//				whatCalled = "Chi-H";
+//			else if (status == Player.CALLED_PON)
+//				whatCalled = "Pon";
+//			else if (status == Player.CALLED_KAN)
+//				whatCalled = "Kan";
+//			else if (status == Player.CALLED_RON)
+//				whatCalled = "Ron";
+//			System.out.println("Player's call status: " + whatCalled + " (status: " + status + ")");
 			
 			
 			//probably broke this when clickable discards were implemented
@@ -531,25 +532,26 @@ public class MajaPlay {
 		//probably broke this when clickable discards were implemented
 //		p.reactToDiscard(q);
 		
-		String whatCalled = "nooooo";
-		int status = p.checkCallStatus();
-
-		if (status == Player.CALLED_NONE)
-			whatCalled = "None";
-		if (status == Player.CALLED_CHI_L)
-			whatCalled = "Chi-L";
-		else if (status == Player.CALLED_CHI_M)
-			whatCalled = "Chi-M";
-		else if (status == Player.CALLED_CHI_H)
-			whatCalled = "Chi-H";
-		else if (status == Player.CALLED_PON)
-			whatCalled = "Pon";
-		else if (status == Player.CALLED_KAN)
-			whatCalled = "Kan";
-		else if (status == Player.CALLED_RON)
-			whatCalled = "Ron";
-		
-		System.out.println("Player's call status: " + whatCalled + " (status: " + status + ")");
+		//broke this when reduced coupling in Player
+//		String whatCalled = "nooooo";
+//		int status = p.checkCallStatus();
+//
+//		if (status == Player.CALLED_NONE)
+//			whatCalled = "None";
+//		if (status == Player.CALLED_CHI_L)
+//			whatCalled = "Chi-L";
+//		else if (status == Player.CALLED_CHI_M)
+//			whatCalled = "Chi-M";
+//		else if (status == Player.CALLED_CHI_H)
+//			whatCalled = "Chi-H";
+//		else if (status == Player.CALLED_PON)
+//			whatCalled = "Pon";
+//		else if (status == Player.CALLED_KAN)
+//			whatCalled = "Kan";
+//		else if (status == Player.CALLED_RON)
+//			whatCalled = "Ron";
+//		
+//		System.out.println("Player's call status: " + whatCalled + " (status: " + status + ")");
 		
 	}
 	

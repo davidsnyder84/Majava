@@ -27,22 +27,10 @@ data:
 	
 methods:
 	mutators:
- 	setCardName
-	setCardEffect
-	setLegality
-	setSerial
-	setDesiredSort - set the desired sort attribute before sorting
  	
  	accessors:
- 	getCardName
-	getCardEffect
-	getLegality
-	getSerial
-	getCardType - returns the card's type (ie, Villain) as a string
 	
 	other:
-	compareTo - compares a specified attribute of one card to another (ie: name, serial, type)
-	clone - clone
 */
 public class Table {
 	
@@ -58,7 +46,7 @@ public class Table {
 	
 	
 	//for debug use
-	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = false;
+	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = true;
 	public static final boolean DEBUG_SHUFFLE_SEATS = false;
 	public static final boolean DEBUG_WAIT_AFTER_COMPUTER = true;
 	public static final boolean DEBUG_LOAD_DEBUG_WALL = true;
@@ -67,6 +55,8 @@ public class Table {
 	
 	
 	private Player p1, p2, p3, p4;
+	private Player[] mPlayerArray = {p1, p2, p3, p4};
+	
 	private Wall mWall;
 	
 	private RoundTracker mRoundTracker;
@@ -75,6 +65,8 @@ public class Table {
 	
 	
 	private char mRoundWind;
+	private int mRoundNum;
+	private int mRoundBonusNum;
 	
 	private int mWhoseTurn;
 	private int mReaction;
@@ -109,6 +101,9 @@ public class Table {
 		
 		//initializes round info
 		mRoundWind = DEFAULT_ROUND_WIND;
+		mRoundNum = 1;
+		mRoundBonusNum = 0;
+		
 		mWhoseTurn = 1;
 		mReaction = NO_REACTION;
 //		mGameIsOver = false;
@@ -120,7 +115,7 @@ public class Table {
 		
 		
 		//initialize Round Tracker
-		mRoundTracker = new RoundTracker(mRoundWind,1,0, mWall, p1,p2,p3,p4);
+		mRoundTracker = new RoundTracker(mRoundWind,mRoundNum,mRoundBonusNum,  mWall,  p1,p2,p3,p4);
 		
 		//initialize Table Viewer
 		mTviewer = new TableViewer(mRoundTracker);
@@ -276,20 +271,18 @@ public class Table {
 	private Tile doPlayerTurn(Player p){
 
 		Tile discardedTile = null;
-		int drawNeeded = Player.DRAW_NONE;
 		Tile drawnTile = null;
 		
 		//~~~~~~handle drawing a tile
-		drawNeeded = p.checkDrawNeeded();
 		//if the player needs to draw a tile, draw a tile
-		if (drawNeeded != Player.DRAW_NONE){
+		if (p.needsDraw()){
 			
 			//draw from wall or dead wall, depending on what player needs
-			if (drawNeeded == Player.DRAW_NORMAL)
+			if (p.needsDrawNormal())
 				drawnTile = mWall.takeTile();
-			else if (drawNeeded == Player.DRAW_KAN){
+			else if (p.needsDrawRinshan()){
 				drawnTile = mWall.takeTileFromDeadWall();
-				mWall.printDoraIndicators();
+				mWall.printDoraIndicators();	//debug
 			}
 			
 			if (drawnTile == null){
@@ -300,7 +293,7 @@ public class Table {
 			else{
 				//add the tile to the player's hand
 				p.addTileToHand(drawnTile);
-				if (p.getController() == Player.CONTROLLER_HUMAN) mTviewer.updateEverything();
+				if (p.controllerIsHuman()) mTviewer.updateEverything();
 			}
 		}
 		
@@ -384,12 +377,11 @@ public class Table {
 		
 		//give the caller the discarded tile so they can make their meld
 		//if the caller called Ron, handle that instead
-		if (priorityCaller.checkCallStatus() == Player.CALLED_RON)
-		{
+		if (priorityCaller.calledRon()){
 			System.out.println("\n*****RON! RON RON! RON! RON! ROOOOOOOOOOOOOOOOOOOOOON!");
+			//handle here
 		}
-		else
-		{
+		else{
 			//make the meld
 			priorityCaller.makeMeld(discardedTile);
 			mTviewer.updateEverything();
@@ -397,23 +389,23 @@ public class Table {
 
 			//show who called the tile 
 			System.out.println("\n*********************************************************");
-			System.out.println("**********" + priorityCaller.getSeatWind() + " Player called the tile (" + discardedTile.toString() + ")! " + priorityCaller.checkCallStatusString() + "!!!**********");
+			System.out.println("**********" + priorityCaller.getSeatWind() + " Player called the tile (" + discardedTile.toString() + ")! " + priorityCaller.getCallStatusString() + "!!!**********");
 			System.out.println("*********************************************************");
 		}
 		
 		
 		//if multiple players called, show if someone got bumped by priority 
 		if (p1.called() && p1 != priorityCaller){
-			System.out.println("~~~~~~~~~~" + p1.getSeatWind() + " Player tried to call " + p1.checkCallStatusString() + ", but got bumped by " + priorityCaller.getSeatWind() + "!");
+			System.out.println("~~~~~~~~~~" + p1.getSeatWind() + " Player tried to call " + p1.getCallStatusString() + ", but got bumped by " + priorityCaller.getSeatWind() + "!");
 		}
 		if (p2.called() && p2 != priorityCaller){
-			System.out.println("~~~~~~~~~~" + p2.getSeatWind() + " Player tried to call " + p2.checkCallStatusString() + ", but got bumped by " + priorityCaller.getSeatWind() + "!");
+			System.out.println("~~~~~~~~~~" + p2.getSeatWind() + " Player tried to call " + p2.getCallStatusString() + ", but got bumped by " + priorityCaller.getSeatWind() + "!");
 		}
 		if (p3.called() && p3 != priorityCaller){
-			System.out.println("~~~~~~~~~~" + p3.getSeatWind() + " Player tried to call " + p3.checkCallStatusString() + ", but got bumped by " + priorityCaller.getSeatWind() + "!");
+			System.out.println("~~~~~~~~~~" + p3.getSeatWind() + " Player tried to call " + p3.getCallStatusString() + ", but got bumped by " + priorityCaller.getSeatWind() + "!");
 		}
 		if (p4.called() && p4 != priorityCaller){
-			System.out.println("~~~~~~~~~~" + p4.getSeatWind() + " Player tried to call " + p4.checkCallStatusString() + ", but got bumped by " + priorityCaller.getSeatWind() + "!");
+			System.out.println("~~~~~~~~~~" + p4.getSeatWind() + " Player tried to call " + p4.getCallStatusString() + ", but got bumped by " + priorityCaller.getSeatWind() + "!");
 		}
 		System.out.println();
 		
@@ -524,8 +516,8 @@ public class Table {
 			Player callerPon = null, callerRon = null;
 			
 			//if p1 called something other than a chi...
-			if (p1.called() && p1.checkCallStatus() != Player.CALLED_CHI)
-				if (p1.checkCallStatus() == Player.CALLED_PON || p1.checkCallStatus() == Player.CALLED_KAN)
+			if (p1.called() && !p1.calledChi())
+				if (p1.calledPon() || p1.calledKan())
 					//if he called pon/kan, he is the pon caller (there can't be 2 pon callers, not enough tiles in the game)
 					callerPon = p1;
 				else if (callerRon == null)
@@ -533,22 +525,22 @@ public class Table {
 					callerRon = p1;
 			
 			//check p2
-			if (p2.called() && p2.checkCallStatus() != Player.CALLED_CHI)
-				if (p2.checkCallStatus() == Player.CALLED_PON || p2.checkCallStatus() == Player.CALLED_KAN)
+			if (p2.called() && !p2.calledChi())
+				if (p2.calledPon() || p2.calledKan())
 					callerPon = p2;
 				else if (callerRon == null)
 					callerRon = p2;
 
 			//check p3
-			if (p3.called() && p3.checkCallStatus() != Player.CALLED_CHI)
-				if (p3.checkCallStatus() == Player.CALLED_PON || p3.checkCallStatus() == Player.CALLED_KAN)
+			if (p3.called() && !p3.calledChi())
+				if (p3.calledPon() || p3.calledKan())
 					callerPon = p3;
 				else if (callerRon == null)
 					callerRon = p3;
 
 			//check p4
-			if (p4.called() && p4.checkCallStatus() != Player.CALLED_CHI)
-				if (p4.checkCallStatus() == Player.CALLED_PON || p4.checkCallStatus() == Player.CALLED_KAN)
+			if (p4.called() && !p4.calledChi())
+				if (p4.calledPon() || p4.calledKan())
 					callerPon = p4;
 				else if (callerRon == null)
 					callerRon = p4;
@@ -594,7 +586,7 @@ public class Table {
 		if (DEBUG_DO_SINGLE_PLAYER_GAME)
 			numHumans = 1;
 		else{
-			@SuppressWarnings("resource")
+//			@SuppressWarnings("resource")
 			Scanner keyboard = new Scanner(System.in);
 			System.out.println("How many humans will be playing? (Enter 1-4): ");
 			numHumans = keyboard.nextInt();
@@ -623,10 +615,10 @@ public class Table {
 		p4.setController(controllers.get(3));
 		
 		//set my human player name
-		if (p1.getController() == Player.CONTROLLER_HUMAN) p1.setPlayerName("Word");
-		if (p2.getController() == Player.CONTROLLER_HUMAN) p2.setPlayerName("Word");
-		if (p3.getController() == Player.CONTROLLER_HUMAN) p3.setPlayerName("Word");
-		if (p4.getController() == Player.CONTROLLER_HUMAN) p4.setPlayerName("Word");
+		if (p1.controllerIsHuman()) p1.setPlayerName("Suwado");
+		if (p2.controllerIsHuman()) p2.setPlayerName("Albert");
+		if (p3.controllerIsHuman()) p3.setPlayerName("Brenda");
+		if (p4.controllerIsHuman()) p4.setPlayerName("Carl");
 		
 		//assign neighbor links
 		p1.setNeighbors(p2, p3, p4);
@@ -636,20 +628,12 @@ public class Table {
 	}
 	
 	
+	
 	/*
 	method: showHandsOfHumanPlayers
 	shows the hands of all human players in the game
-	
-	
-	for each player
-		if (player is human): show their hand
 	*/
-	public void showHandsOfHumanPlayers(){
-		if (p1.getController() == Player.CONTROLLER_HUMAN) p1.showHand();
-		if (p2.getController() == Player.CONTROLLER_HUMAN) p2.showHand();
-		if (p3.getController() == Player.CONTROLLER_HUMAN) p3.showHand();
-		if (p4.getController() == Player.CONTROLLER_HUMAN) p4.showHand();
-	}
+	public void showHandsOfHumanPlayers(){for (Player p: mPlayerArray) p.showHand();}
 	
 	
 	
@@ -673,47 +657,14 @@ public class Table {
 	
 	
 	/*
-	method: displayGameResult
-	displays the end game result
+	method: displayRoundResult
+	displays the result of the current round
 	*/
 	public void displayRoundResult(){
-
-		 if (mRoundTracker.roundIsOver()){
-			 System.out.println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-			 System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~Game over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-			 System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		 }
-		 String resultStr = "Result: ";
-		 int result = mRoundTracker.getRoundResult();
-		 
-		 if (result == RoundTracker.RESULT_UNDECIDED)
-			 resultStr += "Undecided";
-		 if (result == RoundTracker.RESULT_DRAW_WASHOUT)
-			 resultStr += "Washout";
-		 if (result == RoundTracker.RESULT_DRAW_KYUUSHU)
-			 resultStr += "9 terminals abortive draw";
-		 if (result == RoundTracker.RESULT_DRAW_4KAN)
-			 resultStr += "4 kans made";
-		 if (result == RoundTracker.RESULT_DRAW_4RIICHI)
-			 resultStr += "4 riichis";
-		 if (result == RoundTracker.RESULT_DRAW_4WIND)
-			 resultStr += "4 of same wind tile discarded";
-		 
-		 if (result == RoundTracker.RESULT_VICTORY_E)
-			 resultStr += "East player wins!";
-		 if (result == RoundTracker.RESULT_VICTORY_S)
-			 resultStr += "South player wins!";
-		 if (result == RoundTracker.RESULT_VICTORY_W)
-			 resultStr += "West player wins!";
-		 if (result == RoundTracker.RESULT_VICTORY_N)
-			 resultStr += "North player wins!";
-		 
-		 System.out.println(resultStr);
-		 
-		 p1.showHand();
-		 p2.showHand();
-		 p3.showHand();
-		 p4.showHand();
+		
+		mRoundTracker.printRoundResult();
+		
+		for (Player p: mPlayerArray) p.showHand();
 	}
 	
 	

@@ -378,21 +378,21 @@ public class TableViewer extends JFrame{
 		int currentMeld;
 		
 		//update hands
-		for (currentPlayer = 0; currentPlayer < 4; currentPlayer++){
+		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_HAND; currentTile++)
 				larryHands[currentPlayer][currentTile].setIcon(__getImageIcon(mPTrackers[currentPlayer].tilesH, currentTile, currentPlayer, BIG));
 		}
 		
 		
 		//update ponds
-		for (currentPlayer = 0; currentPlayer < 4; currentPlayer++){
+		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_POND; currentTile++)
 				larryPonds[currentPlayer][currentTile].setIcon(__getImageIcon(mPTrackers[currentPlayer].tilesP, currentTile, currentPlayer, SMALL));
 		}
 		
 		
 		//update wall(s)
-		for (currentPlayer = 0; currentPlayer < 4; currentPlayer++){
+		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_WALL; currentTile++)
 				larryWalls[currentPlayer][currentTile].setIcon(__getImageIconWall(tilesW, currentTile + currentPlayer*SIZE_WALL, currentPlayer, SMALL));
 		}
@@ -406,7 +406,7 @@ public class TableViewer extends JFrame{
 		//update melds
 		ArrayList<Meld> meldList = null;
 		TileList tList = null;
-		for (currentPlayer = 0; currentPlayer < 4; currentPlayer++){
+		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
 			meldList = mPTrackers[currentPlayer].player.getMelds();
 			for (currentMeld = 0; currentMeld < meldList.size(); currentMeld++){
 				tList = meldList.get(currentMeld).getAllTiles();
@@ -414,11 +414,10 @@ public class TableViewer extends JFrame{
 					larryHandMelds[currentPlayer][currentMeld][currentTile].setIcon(__getImageIcon(tList, currentTile, currentPlayer, SMALL));
 			}
 		}
-
 		
 		
 		//update player info
-		for (currentPlayer = 0; currentPlayer < 4; currentPlayer++){
+		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
 			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_SEATWIND].setIcon(__getImageIconWind(mPTrackers[currentPlayer].player.getSeatWind(), SMALL));
 			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_POINTS].setText(Integer.toString(mPTrackers[currentPlayer].player.getPoints()));
 			if (mPTrackers[currentPlayer].player.getRiichiStatus())
@@ -429,6 +428,11 @@ public class TableViewer extends JFrame{
 		//update round info
 		larryInfoRound[LARRY_INFOROUND_ROUNDWIND].setIcon(__getImageIconWind(mRoundTracker.getRoundWind(), BIG));
 		larryInfoRound[LARRY_INFOROUND_ROUNDNUM].setText(Integer.toString(mRoundTracker.getRoundNum()));
+		
+		//update turn indicators
+		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
+			parryTurnInds[currentPlayer].setVisible(mRoundTracker.whoseTurn() == currentPlayer+1);
+		}
 		
 		
 		thisguy.repaint();

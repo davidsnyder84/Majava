@@ -344,6 +344,7 @@ public class Player {
 		
 		//show hand
 		showHand();
+		tviewer.updateEverything();
 
 		//ask user which tile they want to discard
 //		@SuppressWarnings("resource")
@@ -726,12 +727,12 @@ public class Player {
 	public boolean called(){return (mCallStatus != CALLED_NONE);}
 	//individual call statuses
 	public boolean calledChi(){return (calledChiL() || calledChiM() || calledChiH());}
-	public boolean calledChiL(){return (mCallStatus != CALLED_CHI_L);}
-	public boolean calledChiM(){return (mCallStatus != CALLED_CHI_M);}
-	public boolean calledChiH(){return (mCallStatus != CALLED_CHI_H);}
-	public boolean calledPon(){return (mCallStatus != CALLED_PON);}
-	public boolean calledKan(){return (mCallStatus != CALLED_KAN);}
-	public boolean calledRon(){return (mCallStatus != CALLED_RON);}
+	public boolean calledChiL(){return (mCallStatus == CALLED_CHI_L);}
+	public boolean calledChiM(){return (mCallStatus == CALLED_CHI_M);}
+	public boolean calledChiH(){return (mCallStatus == CALLED_CHI_H);}
+	public boolean calledPon(){return (mCallStatus == CALLED_PON);}
+	public boolean calledKan(){return (mCallStatus == CALLED_KAN);}
+	public boolean calledRon(){return (mCallStatus == CALLED_RON);}
 	
 	
 	//check if the players needs to draw a tile, and what type of draw (normal vs rinshan)

@@ -49,26 +49,26 @@ public class Table {
 	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = true;
 	public static final boolean DEBUG_SHUFFLE_SEATS = false;
 	public static final boolean DEBUG_WAIT_AFTER_COMPUTER = true;
-	public static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+	public static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	
 	
 	
 	
 	private Player p1, p2, p3, p4;
-	private Player[] mPlayerArray = {p1, p2, p3, p4};
+	private Player[] mPlayerArray;
 	
 	private Wall mWall;
 	
 	private RoundTracker mRoundTracker;
 //	public static TableViewer mTviewer;	//will be private
-	public TableViewer mTviewer;	//will be private
+	private TableViewer mTviewer;
 	
 	
 	private char mRoundWind;
 	private int mRoundNum;
 	private int mRoundBonusNum;
 	
-	private int mWhoseTurn;
+//	private int mWhoseTurn;
 	private int mReaction;
 	
 	private int mGameType;
@@ -95,6 +95,8 @@ public class Table {
 		p2 = new Player(Player.SEAT_SOUTH);
 		p3 = new Player(Player.SEAT_WEST);
 		p4 = new Player(Player.SEAT_NORTH);
+//		mPlayerArray[0] = p1;mPlayerArray[1] = p2;mPlayerArray[2] = p3;mPlayerArray[3] = p4;
+		mPlayerArray = new Player[]{p1, p2, p3, p4};
 		
 		//creates the wall
 		mWall = new Wall();
@@ -104,7 +106,6 @@ public class Table {
 		mRoundNum = 1;
 		mRoundBonusNum = 0;
 		
-		mWhoseTurn = 1;
 		mReaction = NO_REACTION;
 //		mGameIsOver = false;
 		
@@ -203,7 +204,6 @@ public class Table {
 		
 		
 		
-		mWhoseTurn = 1;
 		mReaction = NO_REACTION;
 //		mGameIsOver = false;
 		
@@ -211,16 +211,16 @@ public class Table {
 		while (mRoundTracker.roundIsOver() == false){
 			
 			//handle player turns
-			if (mWhoseTurn == 1 && !mRoundTracker.roundIsOver())
+			if (mRoundTracker.whoseTurn() == 1 && !mRoundTracker.roundIsOver())
 				discardedTile = doPlayerTurn(p1);
 			
-			if (mReaction == NO_REACTION && mWhoseTurn == 2 && !mRoundTracker.roundIsOver())
+			if (mReaction == NO_REACTION && mRoundTracker.whoseTurn() == 2 && !mRoundTracker.roundIsOver())
 				discardedTile = doPlayerTurn(p2);
 			
-			if (mReaction == NO_REACTION && mWhoseTurn == 3 && !mRoundTracker.roundIsOver())
+			if (mReaction == NO_REACTION && mRoundTracker.whoseTurn() == 3 && !mRoundTracker.roundIsOver())
 				discardedTile = doPlayerTurn(p3);
 			
-			if (mReaction == NO_REACTION && mWhoseTurn == 4 && !mRoundTracker.roundIsOver())
+			if (mReaction == NO_REACTION && mRoundTracker.whoseTurn() == 4 && !mRoundTracker.roundIsOver())
 				discardedTile = doPlayerTurn(p4);
 			
 			
@@ -318,12 +318,12 @@ public class Table {
 		
 		//pause for dramatic effect
 		pauseWait();
-		if (mReaction == NO_REACTION) pauseWait();
-		
-		
-		//update turn indicator
-		mWhoseTurn++;
-		if (mWhoseTurn > NUM_PLAYERS) mWhoseTurn = 1;
+		if (mReaction == NO_REACTION){
+			pauseWait();
+			
+			//update turn indicator
+			mRoundTracker.nextTurn();
+		}
 		
 		//return the tile that was discarded
 		return discardedTile;
@@ -410,7 +410,7 @@ public class Table {
 		System.out.println();
 		
 		//it is now the calling player's turn
-		mWhoseTurn = priorityCaller.getPlayerNumber();
+		mRoundTracker.setTurn(priorityCaller.getPlayerNumber());
 		
 		//pause for dramatic effect
 		pauseWait();

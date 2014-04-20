@@ -45,7 +45,8 @@ public class RoundTracker {
 		private ArrayList<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
 	}
 	
-	private static final int NUM_PLAYERS_TO_TRACK = 4;
+	private static final int NUM_PLAYERS = 4;
+	private static final int NUM_PLAYERS_TO_TRACK = NUM_PLAYERS;
 	private static final int NUM_MELDS_TO_TRACK = 5;
 
 	public static final int RESULT_UNDECIDED = -1;
@@ -65,6 +66,8 @@ public class RoundTracker {
 	private char mRoundWind;
 	private int mRoundNum;
 	private int mRoundBonusNum;
+	
+	private int mWhoseTurn;
 	
 	private Wall mWall;
 	private Tile[] tilesW;
@@ -98,6 +101,8 @@ public class RoundTracker {
 		mRoundWind = roundWind;
 		mRoundNum = roundNum;
 		mRoundBonusNum = roundBonus;
+		
+		mWhoseTurn = 1;
 		
 		mRoundResult = RESULT_UNDECIDED;
 		mRoundIsOver = false;
@@ -168,6 +173,15 @@ public class RoundTracker {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	private void __setRoundOver(int result){
 		mRoundResult = result; mRoundIsOver = true;
 	}
@@ -180,9 +194,6 @@ public class RoundTracker {
 	public void setResultVictoryS(){__setRoundOver(RESULT_VICTORY_S);}
 	public void setResultVictoryW(){__setRoundOver(RESULT_VICTORY_W);}
 	public void setResultVictoryN(){__setRoundOver(RESULT_VICTORY_N);}
-	
-	
-	
 	
 	
 	public void printRoundResult(){
@@ -217,14 +228,40 @@ public class RoundTracker {
 		 
 		 System.out.println(resultStr);
 	}
-	
 
+	public int getRoundResult(){return mRoundResult;}
+	public boolean roundIsOver(){return mRoundIsOver;}
+	
+	
+	
+	
+	
+	
+	
+	
+	public void nextTurn(){
+		mWhoseTurn++;
+		if (mWhoseTurn > NUM_PLAYERS) mWhoseTurn = 1;
+	}
+	public void setTurn(int turn){if (turn <= NUM_PLAYERS) mWhoseTurn = turn;}
+	public int whoseTurn(){return mWhoseTurn;}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public char getRoundWind(){return mRoundWind;}
 	public int getRoundNum(){return mRoundNum;}
 	
 	
-	public int getRoundResult(){return mRoundResult;}
-	public boolean roundIsOver(){return mRoundIsOver;}
 	
 	
 	
@@ -238,10 +275,6 @@ public class RoundTracker {
 //	//accessors
 //	public int getGameType(){return mGameType;}
 //	public TileList getDoraIndicators(){return mDoraIndicators;}
-	
-	
-	
-	
 	
 	
 	

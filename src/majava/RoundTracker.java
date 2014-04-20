@@ -194,6 +194,15 @@ public class RoundTracker {
 	public void setResultVictoryS(){__setRoundOver(RESULT_VICTORY_S);}
 	public void setResultVictoryW(){__setRoundOver(RESULT_VICTORY_W);}
 	public void setResultVictoryN(){__setRoundOver(RESULT_VICTORY_N);}
+	public void setResultVictory(char winningSeat){
+		switch(winningSeat){
+		case 'E': __setRoundOver(RESULT_VICTORY_E); break;
+		case 'S': __setRoundOver(RESULT_VICTORY_S); break;
+		case 'W': __setRoundOver(RESULT_VICTORY_W); break;
+		case 'N': __setRoundOver(RESULT_VICTORY_N); break;
+		default: break;
+		}
+	}
 	
 	
 	public void printRoundResult(){

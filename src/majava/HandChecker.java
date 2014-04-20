@@ -117,6 +117,11 @@ public class HandChecker {
 	private ArrayList<Integer> mPartnerIndicesPair;
 	private Tile mCallCandidate;
 	
+	private boolean mCanAnkan;
+	private boolean mCanMinkan;
+	private boolean mCanTsumo;
+	
+	
 	private boolean pairHasBeenChosen = false;
 	private ArrayList<Meld> mFinishingMelds;
 	
@@ -161,6 +166,10 @@ public class HandChecker {
 		for (Integer i: other.mPartnerIndicesPon) mPartnerIndicesPon.add(i);
 		for (Integer i: other.mPartnerIndicesKan) mPartnerIndicesKan.add(i);
 		for (Integer i: other.mPartnerIndicesPair) mPartnerIndicesPair.add(i);
+		
+		mCanAnkan = other.mCanAnkan;
+		mCanMinkan = other.mCanMinkan;
+		mCanTsumo = other.mCanTsumo;
 		
 		mTenpaiStatus = other.mTenpaiStatus;
 		mClosed = other.mClosed;
@@ -327,6 +336,9 @@ public class HandChecker {
 	//returns true if the player can call ron on the candidate tile
 	public boolean __canRon(){
 		
+		
+		
+		
 		return false;
 	}
 	
@@ -389,6 +401,7 @@ public class HandChecker {
 	//resets call flags to false, creates new empty partner index lists
 	private void __resetCallableFlags(){
 		mCanChiL = mCanChiM = mCanChiH = mCanPon = mCanKan = mCanRon = mCanPair = false;
+		mCanAnkan = mCanMinkan = mCanTsumo = false;
 		mPartnerIndicesChiL = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
 		mPartnerIndicesChiM = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
 		mPartnerIndicesChiH = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
@@ -407,6 +420,14 @@ public class HandChecker {
 		if (mCanPon) count++;
 		if (mCanKan) count++;
 		if (mCanRon) count++;
+		return count;
+	}
+	
+	public int numberOfPlayerTurnCallsPossible(){
+		int count = 0;
+		if (mCanAnkan) count++;
+		if (mCanMinkan) count++;
+		if (mCanTsumo) count++;
 		return count;
 	}
 	
@@ -1144,6 +1165,12 @@ public class HandChecker {
 	public boolean ableToKan(){return mCanKan;}
 	public boolean ableToRon(){return mCanRon;}
 	public boolean ableToPair(){return mCanPair;}
+	
+	
+	//player turn calls
+	public boolean ableToAnkan(){return mCanAnkan;}
+	public boolean ableToMinkan(){return mCanMinkan;}
+	public boolean ableToTsumo(){return mCanTsumo;}
 	
 	
 	//returns true if the hand is in tenpai

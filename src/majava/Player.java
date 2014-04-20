@@ -105,30 +105,37 @@ public class Player {
 	public static final char CONTROLLER_COM = 'c';
 	public static final char CONTROLLER_DEFAULT = CONTROLLER_UNDECIDED;
 
-	public static final int COM_BEHAVIOR_DISCARD_LAST = 1;
-	public static final int COM_BEHAVIOR_DISCARD_FIRST = 2;
-	public static final int COM_BEHAVIOR_DISCARD_RANDOM = 3;
-	public static final int COM_BEHAVIOR_DISCARD_DEFAULT = COM_BEHAVIOR_DISCARD_LAST;
+	private static final int COM_BEHAVIOR_DISCARD_LAST = 1;
+	private static final int COM_BEHAVIOR_DISCARD_FIRST = 2;
+	private static final int COM_BEHAVIOR_DISCARD_RANDOM = 3;
+	private static final int COM_BEHAVIOR_DISCARD_DEFAULT = COM_BEHAVIOR_DISCARD_LAST;
 	public static final int TIME_TO_SLEEP = 250;
 //	public static final int TIME_TO_SLEEP = 2000;
 	
 	public static final int POINTS_STARTING_AMOUNT = 25000;
 
-	public static final int CALLED_NONE = 0;
-	public static final int CALLED_CHI = 123;
-	public static final int CALLED_CHI_L = 1;
-	public static final int CALLED_CHI_M = 2;
-	public static final int CALLED_CHI_H = 3;
-	public static final int CALLED_PON = 4;
-	public static final int CALLED_KAN = 5;
-	public static final int CALLED_RON = 6;
+	private static final int CALLED_NONE = 0;
+	private static final int CALLED_CHI = 123;
+	private static final int CALLED_CHI_L = 1;
+	private static final int CALLED_CHI_M = 2;
+	private static final int CALLED_CHI_H = 3;
+	private static final int CALLED_PON = 4;
+	private static final int CALLED_KAN = 5;
+	private static final int CALLED_RON = 6;
 	
-	public static final int DRAW_NONE = 0;
-	public static final int DRAW_NORMAL = 1;
-	public static final int DRAW_RINSHAN = 3;
+	private static final int DRAW_NONE = 0;
+	private static final int DRAW_NORMAL = 1;
+	private static final int DRAW_RINSHAN = 3;
 
-	public static final Tile WANT_SOMETHING = null;
-	public static final int WANT_KAN_DRAW = 20;
+//	public static final Tile WANT_SOMETHING = null;
+//	public static final int WANT_KAN_DRAW = 20;
+	
+	public static final int TURN_ACTION_DISCARD = -10;
+	public static final int TURN_ACTION_ANKAN = -20;
+	public static final int TURN_ACTION_MINKAN = -30;
+	public static final int TURN_ACTION_RIICHI = -40;
+	public static final int TURN_ACTION_TSUMO = -50;
+	
 	
 	public static final String PLAYERNAME_DEFAULT = "Matsunaga";
 	
@@ -150,6 +157,10 @@ public class Player {
 	
 	private int mCallStatus;
 	private int mDrawNeeded;
+	private int mChosenDiscardIndex;
+	private int mTurnAction;
+	
+	private Tile mLastDiscard;
 	
 	private boolean mHoldingRinshanTile;
 	private boolean mRiichiStatus;
@@ -214,6 +225,8 @@ public class Player {
 		mFuritenStatus = false;
 		mHoldingRinshanTile = false;
 		//mTenpaiStatus = false;
+		
+		mLastDiscard = null;
 	}
 	public Player(char seat, char controller){
 		this(seat, controller, PLAYERNAME_DEFAULT);
@@ -228,32 +241,76 @@ public class Player {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/*
 	method: takeTurn
 	walks the player through their discard turn
-	returns their discarded tile
+	
+	returns the discarded tile if they chose a discard
+	returns null if the player did not discard (they made a kan or tsumo)
 	
 	discardedTile = discard a tile
-	set drawNeeded = normal draw for next turn
-	put discardedTile in the pond
-	return discardedTile
+	
+	if (discard was chosen)
+		set drawNeeded = normal draw for next turn
+		put discardedTile in the pond
+		return discardedTile
+	else
+		return null (no discard chosen)
+	end if
 	*/
 	public Tile takeTurn(TableViewer tviewer){
 		
-		Tile discardedTile;
+//		Tile discardedTile;
+		mLastDiscard = null;
+		mChosenDiscardIndex = -1;
 		
 		//discard a tile
-		discardedTile = __discardTile(tviewer);
+//		discardedTile = 
+		__chooseTurnAction(tviewer);
 		
-		//set needed draw to normal, since we just discarded a tile
-		mDrawNeeded = DRAW_NORMAL;
 		
-		//put the tile in the pond
-		__putTileInPond(discardedTile);
 		
-		//return the discarded tile
-		return discardedTile;
+//		if (discardedTile != null){
+		if (turnActionChoseDiscard()){
+			
+			//discard and return the chosen tile
+			mLastDiscard = __discardChosenTile();
+			return mLastDiscard;
+		}
+		else{
+			
+			if (mTurnAction == TURN_ACTION_ANKAN) System.out.println("\n\n!!!!!OOOOOHBOY ANKAN\n!!!!");
+			if (mTurnAction == TURN_ACTION_MINKAN) System.out.println("\n\n!!!!!OOOOOHBOY MINKAN\n!!!!");
+			if (mTurnAction == TURN_ACTION_RIICHI) System.out.println("\n\n!!!!!OOOOOHBOY RIICHI\n!!!!");
+			if (mTurnAction == TURN_ACTION_TSUMO) System.out.println("\n\n!!!!!OOOOOHBOY TSUMO\n!!!!");
+			
+			//ankan
+			
+			//minkan
+			
+			//tsumo
+			
+			
+			
+			
+			return null;
+		}
 	}
+	
 	
 	
 	//adds a tile to the pond
@@ -264,64 +321,64 @@ public class Player {
 	
 	
 	
-	/*
-	private method: __discardTile
-	gets a player's discard choice, discards it, and returns the tile
-	
-	returns the player's discarded tile
-	
-	
-	chosenDiscard = ask self which tile to discard
-	discardedTile = remove the chosen tile from the hand
-	
-	assign player wind as discarder attribute on discarded tile
-	return discardedTile
-	*/
-	private Tile __discardTile(TableViewer tviewer){
+	private Tile __discardChosenTile(){
 		
-		Tile discardedTile;
-		int chosenDiscardIndex;
+		Tile discardedTile = null;
 		
-		//ask player for which tile to discard
-		chosenDiscardIndex = __askSelfForDiscard(tviewer);
+		//remove the chosen discard tile from hand
+		discardedTile = mHand.getTile(mChosenDiscardIndex);
+		mHand.removeTile(mChosenDiscardIndex);
 		
-		//remove tile from hand
-		discardedTile = mHand.getTile(chosenDiscardIndex);
-		mHand.removeTile(chosenDiscardIndex);
+		//put the tile in the pond
+		__putTileInPond(discardedTile);
 		
-		//set discarder attribute on discarded tile
-		//discardedTile.setDiscarder(mSeatWind);
-		
+		//set needed draw to normal, since we just discarded a tile
+		mDrawNeeded = DRAW_NORMAL;
+
 		//return the discarded tile
 		return discardedTile;
+	}
+	
+	
+	
+	
+	/*
+	private method: __turnAction
+	gets the player's desired action for their turn (discard, kan, tsumo)
+	
+	returns the index of the player's chosen discard
+	returns a negative value if the player did something other than discard
+	
+	
+	chosenDiscardIndex = ask self which tile to discard
+	return chosenDiscardIndex
+	*/
+	private int __chooseTurnAction(TableViewer tviewer){
+		
+		//ask player for which tile to discard
+		int chosenAction = __askSelfForTurnAction(tviewer);
+		
+		//return the chosen tile index
+		return chosenAction;
 		
 	}
 	
 	
 	
 	/*
-	private method: __askSelfForDiscard
-	asks a player which tile they want to discard, returns their choice
+	private method: __askSelfForTurnAction
+	asks a player what they want to do on their turn
+	(only asks and gets their choice, doesn't carry out the action)
 	
-	returns the index of the tile the player wants to discard
+	returns the index of the tile to discard, if the player chose a discard
+	returns something negative otherwise
 	
-	
-	if (controller == human)
-		chosenDiscard = ask human
-	else if (controller == computer)
-		chosenDiscard = ask computer
-	end if
-	return chosenDiscard
+	if (controller is human) ask human and return choice
+	else (controller is computer) ask computer and return choice
 	*/
-	private int __askSelfForDiscard(TableViewer tviewer){
-		int chosenDiscardIndex;
-		
-		if (mController == CONTROLLER_HUMAN)
-			chosenDiscardIndex = __askDiscardHuman(tviewer);
-		else
-			chosenDiscardIndex = __askDiscardCom();
-		
-		return chosenDiscardIndex;
+	private int __askSelfForTurnAction(TableViewer tviewer){
+		if (controllerIsHuman()) return __askTurnActionHuman(tviewer);
+		else return __askTurnActionCom();
 	}
 	
 	
@@ -338,34 +395,27 @@ public class Player {
 	chosenDiscard = user clicks on tile through GUI
 	return chosenDiscard
 	*/
-	private int __askDiscardHuman(TableViewer tviewer){
+	private int __askTurnActionHuman(TableViewer tviewer){
 		
-		int chosenDiscardIndex = 0;
+		int chosenAction = 0;
 		
 		//show hand
 		showHand();
 		tviewer.updateEverything();
 
 		//ask user which tile they want to discard
-//		@SuppressWarnings("resource")
-//		Scanner keyboard = new Scanner(System.in);
-		//disallow numbers outside the range of the hand size
-		while (chosenDiscardIndex < 1 || chosenDiscardIndex > mHand.getSize()){
-			
-			
-//			if (this.checkTenpai() == true) System.out.println("\n\n\n\n~~~~~~~~~~~~TENPAI BUDDY~~~~~~~~~~~~~\n\n\n");
-			
-			
-			chosenDiscardIndex = tviewer.getClickDiscard();
-			
-			//System.out.print("\nWhich tile do you want to discard? (enter number): "); 
-			//chosenDiscardIndex = keyboard.nextInt();
-			
-//			entering 0 means "choose the last tile in my hand"
-			if (chosenDiscardIndex == 0) chosenDiscardIndex = mHand.getSize();
-		}
+		chosenAction = tviewer.getClickTurnAction();
 		
-		return chosenDiscardIndex - 1;	//adjust for index
+		//if the user chose a tile to discard, return its index
+		if (chosenAction > 0){
+			mTurnAction = TURN_ACTION_DISCARD;
+			mChosenDiscardIndex = chosenAction - 1;	//adjust for index
+			return mChosenDiscardIndex;
+		}
+		else{
+			mTurnAction = chosenAction;
+			return mTurnAction;
+		}	
 	}
 	
 	
@@ -380,7 +430,7 @@ public class Player {
 	chosenDiscard = the last tile in the player's hand
 	return chosenDiscard
 	*/
-	private int __askDiscardCom(){
+	private int __askTurnActionCom(){
 		
 		int chosenDiscardIndex;
 
@@ -390,11 +440,40 @@ public class Player {
 		//always choose the first tile in the hand
 		chosenDiscardIndex = 0;
 		
-		//wait, since computer is fast
-		//try {Thread.sleep(TIME_TO_SLEEP);} catch (InterruptedException e){}
 		
-		return chosenDiscardIndex;
+		mTurnAction = TURN_ACTION_DISCARD;
+		mChosenDiscardIndex = chosenDiscardIndex;
+		
+		return mChosenDiscardIndex;
 	}
+	
+	
+	public Tile getLastDiscard(){return mLastDiscard;}
+	
+	
+	public boolean turnActionMadeKan(){return (mTurnAction == TURN_ACTION_ANKAN || mTurnAction == TURN_ACTION_MINKAN);}
+	public boolean turnActionCalledTsumo(){return (mTurnAction == TURN_ACTION_TSUMO);}
+	public boolean turnActionChoseDiscard(){return (mTurnAction == TURN_ACTION_DISCARD);}
+//	public boolean turnActionChoseDiscard(){return (mTurnAction == TURN_ACTION_DISCARD || mTurnAction == TURN_ACTION_RIICHI);}
+	public boolean turnActionRiichi(){return (mTurnAction == TURN_ACTION_DISCARD || mTurnAction == TURN_ACTION_RIICHI);}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -419,9 +498,7 @@ public class Player {
 		mDrawNeeded = DRAW_NONE;
 	}
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand (for debug use)
-	public void addTileToHand(int tileID){
-		addTileToHand(new Tile(tileID));
-	}
+	public void addTileToHand(int tileID){addTileToHand(new Tile(tileID));}
 	
 	
 	

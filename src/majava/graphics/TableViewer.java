@@ -311,7 +311,7 @@ public class TableViewer extends JFrame{
 	
 	
 	
-	int mChosenDiscard; 
+	int mChosenTurnAction; 
 
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^END MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 	
@@ -496,8 +496,9 @@ public class TableViewer extends JFrame{
 		for (JButton b: barryCalls)
 			b.setVisible(false);
 		
-		for (JButton b: barryPCalls)
-			b.setVisible(false);
+		//turn action buttons
+//		for (JButton b: barryPCalls)
+//			b.setVisible(false);
 		
 		//dead wall
 		for (JLabel l: larryDW)
@@ -532,11 +533,6 @@ public class TableViewer extends JFrame{
 	private static final int CALL_CHI = 7;
 	
 	
-	private static final int PCALL_RIICHI = -10;
-	private static final int PCALL_ANKAN = -40;
-	private static final int PCALL_MINKAN = -30;
-	private static final int PCALL_TSUMO = -50;
-	
 	
 	private static final int NO_DISCARD_CHOSEN = -1;
 	
@@ -562,13 +558,24 @@ public class TableViewer extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String call = e.getActionCommand();
-			if (call == "Chi-L") mChosenCall = CALL_CHI_L;
+			if (call.equals("Chi-L")) mChosenCall = CALL_CHI_L;
 			else if (call.equals("Chi-M")) mChosenCall = CALL_CHI_M;
-			else if (call == "Chi-H") mChosenCall = CALL_CHI_H;
-			else if (call == "Pon") mChosenCall = CALL_PON;
-			else if (call == "Kan") mChosenCall = CALL_KAN;
-			else if (call == "Ron") mChosenCall = CALL_RON;
-			else if (call == "None") mChosenCall = CALL_NONE;
+			else if (call.equals("Chi-H")) mChosenCall = CALL_CHI_H;
+			else if (call.equals("Pon")) mChosenCall = CALL_PON;
+			else if (call.equals("Kan")) mChosenCall = CALL_KAN;
+			else if (call.equals("Ron")) mChosenCall = CALL_RON;
+			else if (call.equals("None")) mChosenCall = CALL_NONE;
+		}		
+	}
+	
+	private class TurnActionListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String call = e.getActionCommand();
+			if (call.equals("Ankan")) mChosenTurnAction = Player.TURN_ACTION_ANKAN;
+			else if (call.equals("Minkan")) mChosenTurnAction = Player.TURN_ACTION_MINKAN;
+			else if (call.equals("Riichi")) mChosenTurnAction = Player.TURN_ACTION_RIICHI;
+			else if (call.equals("Tsumo")) mChosenTurnAction = Player.TURN_ACTION_TSUMO;
 		}		
 	}
 	
@@ -580,9 +587,7 @@ public class TableViewer extends JFrame{
 	
 	
 	
-	
-	
-	public int getClickDiscard(){
+	public int getClickTurnAction(){
 		
 		//add appropriate player call buttons
 		Player currentPlayer = mPTrackers[mRoundTracker.whoseTurn()-1].player;
@@ -591,17 +596,20 @@ public class TableViewer extends JFrame{
 		if (currentPlayer.checkTenpai() && currentPlayer.controllerIsHuman())
 			barryPCalls[BARRY_PCALLS_RIICHI].setVisible(true);
 		
+//		for (JButton b: barryPCalls) b.setVisible(true);
 		
+		mChosenTurnAction = NO_DISCARD_CHOSEN;
+		while (mChosenTurnAction == NO_DISCARD_CHOSEN){
+			if (mChosenTurnAction > currentPlayer.getHandSize())
+				mChosenTurnAction = NO_DISCARD_CHOSEN;
+		}
+		if (mChosenTurnAction == 0) mChosenTurnAction = currentPlayer.getHandSize();
 		
-		mChosenDiscard = NO_DISCARD_CHOSEN;
-		while (mChosenDiscard == NO_DISCARD_CHOSEN);//intentionally blank
-		
-		
-		for (JButton b: barryPCalls) b.setVisible(false);
-		return mChosenDiscard;
+//		for (JButton b: barryPCalls) b.setVisible(false);
+		return mChosenTurnAction;
 	}
 	
-	public int getDiscardChoice(){return mChosenDiscard;}
+	public int getTurnActionChoice(){return mChosenTurnAction;}
 	
 	
 	
@@ -656,8 +664,10 @@ public class TableViewer extends JFrame{
 		callz.add(TableViewer.CALL_KAN);
 		callz.add(TableViewer.CALL_RON);
 		while (true){
-			System.out.println(viewer.getClickCall(callz));
-//			System.out.println(viewer.getClickDiscard());
+//			System.out.println(viewer.getClickCall(callz));
+//			System.out.println(viewer.getClickCall(callz));
+			System.out.println(viewer.getClickTurnAction());
+			viewer.repaint();
 		}
 	}
 	
@@ -831,7 +841,7 @@ public class TableViewer extends JFrame{
 			public void mouseClicked(MouseEvent arg0) {
 				if (arg0.getClickCount() == 2){
 					mChosenCall = CALL_NONE;
-					mChosenDiscard = 0;
+					mChosenTurnAction = 0;
 				}
 			}
 		});
@@ -2119,59 +2129,59 @@ public class TableViewer extends JFrame{
 
 		lblH1T1.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 1;}
+			public void mouseClicked(MouseEvent arg0) {mChosenTurnAction = 1;}
 		});
 		lblH1T2.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 2;}
+			public void mouseClicked(MouseEvent arg0) {mChosenTurnAction = 2;}
 		});
 		lblH1T3.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 3;}
+			public void mouseClicked(MouseEvent arg0) {mChosenTurnAction = 3;}
 		});
 		lblH1T4.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 4;}
+			public void mouseClicked(MouseEvent arg0) {mChosenTurnAction = 4;}
 		});
 		lblH1T5.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 5;}
+			public void mouseClicked(MouseEvent arg0) {mChosenTurnAction = 5;}
 		});
 		lblH1T6.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 6;}
+			public void mouseClicked(MouseEvent arg0) {mChosenTurnAction = 6;}
 		});
 		lblH1T7.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 7;}
+			public void mouseClicked(MouseEvent arg0) {mChosenTurnAction = 7;}
 		});
 		lblH1T8.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 8;}
+			public void mouseClicked(MouseEvent arg0) {mChosenTurnAction = 8;}
 		});
 		lblH1T9.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 9;}
+			public void mouseClicked(MouseEvent arg0) {mChosenTurnAction = 9;}
 		});
 		lblH1T10.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 10;}
+			public void mouseClicked(MouseEvent arg0) {mChosenTurnAction = 10;}
 		});
 		lblH1T11.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 11;}
+			public void mouseClicked(MouseEvent arg0) {mChosenTurnAction = 11;}
 		});
 		lblH1T12.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 12;}
+			public void mouseClicked(MouseEvent arg0) {mChosenTurnAction = 12;}
 		});
 		lblH1T13.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 13;}
+			public void mouseClicked(MouseEvent arg0) {mChosenTurnAction = 13;}
 		});
 		lblH1T14.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {mChosenDiscard = 14;}
+			public void mouseClicked(MouseEvent arg0) {mChosenTurnAction = 14;}
 		});
 		
 		
@@ -3478,8 +3488,9 @@ public class TableViewer extends JFrame{
 //			b.setFocusPainted(false);
 			b.setOpaque(false);
 		}
+		TurnActionListener taListener = new TurnActionListener();
 		for (JButton b: barryPCalls){
-			b.addActionListener(callListener);
+			b.addActionListener(taListener);
 			
 	//		b.setBorderPainted(false);
 			b.setContentAreaFilled(false);

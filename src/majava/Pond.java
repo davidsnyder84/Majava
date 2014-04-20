@@ -59,6 +59,14 @@ public class Pond {
 	//returns which tile the player used for riichi
 	public Tile getRiichiTile(){return mTiles.get(mRiichiTileIndex);}
 	
+	//returns the most recently discarded tile in the pond
+	public Tile getMostRecentTile(){return mTiles.getLast();}
+	
+	
+	
+	
+	
+	
 	
 	
 	

@@ -215,6 +215,11 @@ public class Hand implements Iterable<Tile>{
 	public boolean ableToRon(){return mChecker.ableToRon();}
 	public boolean ableToPair(){return mChecker.ableToPair();}
 	
+	//player turn calls
+	public boolean ableToAnkan(){return mChecker.ableToAnkan();}
+	public boolean ableToMinkan(){return mChecker.ableToMinkan();}
+	public boolean ableToTsumo(){return mChecker.ableToTsumo();}
+	
 	//returns the number of different calls possible for callCandidate
 	public int numberOfCallsPossible(){return mChecker.numberOfCallsPossible();}
 	

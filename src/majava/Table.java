@@ -49,7 +49,7 @@ public class Table {
 	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = true;
 	public static final boolean DEBUG_SHUFFLE_SEATS = false;
 	public static final boolean DEBUG_WAIT_AFTER_COMPUTER = true;
-	public static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+	public static final boolean DEBUG_LOAD_DEBUG_WALL = true;
 	
 	
 	
@@ -301,8 +301,37 @@ public class Table {
 		}
 		
 		
+		
+		
 		//~~~~~~get player's discard (ankans, riichi, and such are handled inside here)
-		discardedTile = p.takeTurn(mTviewer);
+		//loop until the player has chosen a discard
+		//loop until the player stops making kans
+		do{
+			discardedTile = p.takeTurn(mTviewer);
+			
+			//if the player made an ankan or minkan, they need a rinshan draw
+			if (p.needsDrawRinshan()){
+				//take rinshan draw and give it to player
+				drawnTile = mWall.takeTileFromDeadWall();
+				if (drawnTile == null){
+					//handle 4kan here
+					System.out.println("-----End of wall reached. Cannot draw tile.");
+					mRoundTracker.setResultWashout();
+					return null;
+				}
+				p.addTileToHand(drawnTile);
+				if (p.controllerIsHuman()) mTviewer.updateEverything();
+			}
+		}
+		while (p.turnActionChoseDiscard() == false);
+//		while (p.turnActionMadeKan());
+		
+		
+//		if (p.turnActionCalledTsumo()){
+//			mRoundTracker.setResultVictory(p.getSeatWind());
+//			return null;
+//		}
+		
 		
 		//show the human player their hand
 		showHandsOfHumanPlayers();

@@ -49,7 +49,7 @@ public class Table {
 	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = true;
 	public static final boolean DEBUG_SHUFFLE_SEATS = false;
 	public static final boolean DEBUG_WAIT_AFTER_COMPUTER = true;
-	public static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+	public static final boolean DEBUG_LOAD_DEBUG_WALL = true;
 	
 	
 	
@@ -95,7 +95,6 @@ public class Table {
 		p2 = new Player(Player.SEAT_SOUTH);
 		p3 = new Player(Player.SEAT_WEST);
 		p4 = new Player(Player.SEAT_NORTH);
-//		mPlayerArray[0] = p1;mPlayerArray[1] = p2;mPlayerArray[2] = p3;mPlayerArray[3] = p4;
 		mPlayerArray = new Player[]{p1, p2, p3, p4};
 		
 		//creates the wall

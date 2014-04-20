@@ -509,6 +509,8 @@ public class TableViewer extends JFrame{
 	private static final int CALL_RON = 6;
 	private static final int CALL_CHI = 7;
 	
+	private static final int NO_DISCARD_CHOSEN = -1;
+	
 	public int getClickCall(ArrayList<Integer> validChoices){
 		
 		mChosenCall = CALL_INVALID;
@@ -550,8 +552,8 @@ public class TableViewer extends JFrame{
 	
 	
 	public int getClickDiscard(){
-		mChosenDiscard = 0;
-		while (mChosenDiscard == 0);//intentionally blank
+		mChosenDiscard = NO_DISCARD_CHOSEN;
+		while (mChosenDiscard == NO_DISCARD_CHOSEN);//intentionally blank
 		return mChosenDiscard;
 	}
 	
@@ -777,6 +779,14 @@ public class TableViewer extends JFrame{
 		
 		
 		panelTable = new JPanel();
+		panelTable.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (arg0.getClickCount() == 2)
+					mChosenCall = CALL_NONE;
+					mChosenDiscard = 0;
+			}
+		});
 		panelTable.setBounds(0, 0, 874, 850);
 		panelTable.setBackground(COLOR_TABLE);
 		contentPane.add(panelTable);

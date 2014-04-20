@@ -357,8 +357,8 @@ public class Player {
 			//System.out.print("\nWhich tile do you want to discard? (enter number): "); 
 			//chosenDiscardIndex = keyboard.nextInt();
 			
-			//entering 0 means "choose the last tile in my hand"
-			//if (chosenDiscardIndex == 0) chosenDiscardIndex = mHand.getSize();
+//			entering 0 means "choose the last tile in my hand"
+			if (chosenDiscardIndex == 0) chosenDiscardIndex = mHand.getSize();
 		}
 		
 		return chosenDiscardIndex - 1;	//adjust for index

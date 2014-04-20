@@ -195,8 +195,9 @@ public class TableViewer extends JFrame{
 	private JPanel[] parryTurnInds = new JPanel[NUM_PLAYERS];
 	
 	
-	
+
 	private JButton[] barryCalls = new JButton[8];
+	private JButton[] barryPCalls = new JButton[4];
 	private JLabel[] larryDW = new JLabel[SIZE_DEAD_WALL];
 	
 	/*......................................END LABEL ARRAYS......................................*/
@@ -477,6 +478,9 @@ public class TableViewer extends JFrame{
 		for (JButton b: barryCalls)
 			b.setVisible(false);
 		
+		for (JButton b: barryPCalls)
+			b.setVisible(false);
+		
 		//dead wall
 		for (JLabel l: larryDW)
 			l.setIcon(null);
@@ -509,7 +513,16 @@ public class TableViewer extends JFrame{
 	private static final int CALL_RON = 6;
 	private static final int CALL_CHI = 7;
 	
+	
+	private static final int PCALL_RIICHI = -10;
+	private static final int PCALL_ANKAN = -40;
+	private static final int PCALL_MINKAN = -30;
+	private static final int PCALL_TSUMO = -50;
+	
+	
 	private static final int NO_DISCARD_CHOSEN = -1;
+	
+	
 	
 	public int getClickCall(ArrayList<Integer> validChoices){
 		
@@ -720,6 +733,7 @@ public class TableViewer extends JFrame{
 		
 		JPanel panelDeadWall;
 		JPanel panelCalls;
+		JPanel panelPCalls;
 		
 		
 		
@@ -768,14 +782,13 @@ public class TableViewer extends JFrame{
 		JButton btnCallPon;JButton btnCallKan;JButton btnCallRon;
 		JButton btnCallChi;
 		
+		JButton buttonRiichi;JButton buttonAnkan;JButton buttonMinkan;JButton buttonTsumo;
 		
 		
 		
 		
 		
 		
-		
-
 		
 		
 		panelTable = new JPanel();
@@ -3018,7 +3031,7 @@ public class TableViewer extends JFrame{
 		
 		
 		panelCalls = new JPanel();
-		panelCalls.setBounds(27, 682, 204, 122);
+		panelCalls.setBounds(27, 682, 204, 147);
 		panelCalls.setBackground(COLOR_CALL_PANEL);
 		panelSidebar.add(panelCalls);
 		panelCalls.setLayout(null);
@@ -3059,10 +3072,49 @@ public class TableViewer extends JFrame{
 		btnCallKan.setBounds(65, 72, 64, 23);
 		panelCalls.add(btnCallKan);
 		
-		btnCallRon = new JButton("Ron");
+		btnCallRon = new JButton("Ron!!!");
 		btnCallRon.setActionCommand("Ron");
-		btnCallRon.setBounds(2, 96, 103, 23);
+		btnCallRon.setBounds(2, 96, 103, 51);
 		panelCalls.add(btnCallRon);
+		
+		
+		
+		
+		
+		
+		
+		
+		panelPCalls = new JPanel();
+		panelPCalls.setBounds(104, 0, 100, 147);
+		panelPCalls.setOpaque(false);
+		panelCalls.add(panelPCalls);
+		panelPCalls.setLayout(null);
+
+		
+		buttonRiichi = new JButton("Riichi?");
+		buttonRiichi.setBounds(11, 0, 89, 23);
+		panelPCalls.add(buttonRiichi);
+		buttonRiichi.setActionCommand("Riichi");
+		
+		buttonAnkan = new JButton("Ankan?");
+		buttonAnkan.setBounds(11, 24, 89, 23);
+		panelPCalls.add(buttonAnkan);
+		buttonAnkan.setActionCommand("Ankan");
+		
+		buttonMinkan = new JButton("Minkan?");
+		buttonMinkan.setBounds(11, 48, 89, 23);
+		panelPCalls.add(buttonMinkan);
+		buttonMinkan.setActionCommand("Minkan");
+		
+		buttonTsumo = new JButton("Tsumo!!!");
+		buttonTsumo.setBounds(0, 96, 100, 51);
+		panelPCalls.add(buttonTsumo);
+		buttonTsumo.setActionCommand("Tsumo");
+		
+		
+		
+		
+		
 		
 		
 		
@@ -3309,6 +3361,9 @@ public class TableViewer extends JFrame{
 		barryCalls[0] = btnCallNone;barryCalls[1] = btnCallChiL;barryCalls[2] = btnCallChiM;barryCalls[3] = btnCallChiH;barryCalls[4] = btnCallPon;barryCalls[5] = btnCallKan;barryCalls[6] = btnCallRon;
 		barryCalls[7] = btnCallChi;
 		
+		barryPCalls[0] = buttonRiichi;barryPCalls[1] = buttonAnkan;barryPCalls[2] = buttonMinkan;barryPCalls[3] = buttonTsumo;
+		
+		
 		
 		//put image icons into arrays
 		//load Tile images into array
@@ -3356,6 +3411,16 @@ public class TableViewer extends JFrame{
 		//set call button attributes
 		CallListener callListener = new CallListener();
 		for (JButton b: barryCalls){
+			b.addActionListener(callListener);
+			
+	//		b.setBorderPainted(false);
+			b.setContentAreaFilled(false);
+			b.setRolloverEnabled(false);
+			b.setFocusPainted(false);
+//			b.setFocusPainted(false);
+			b.setOpaque(false);
+		}
+		for (JButton b: barryPCalls){
 			b.addActionListener(callListener);
 			
 	//		b.setBorderPainted(false);

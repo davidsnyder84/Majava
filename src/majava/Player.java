@@ -352,6 +352,10 @@ public class Player {
 		//disallow numbers outside the range of the hand size
 		while (chosenDiscardIndex < 1 || chosenDiscardIndex > mHand.getSize()){
 			
+			
+//			if (this.checkTenpai() == true) System.out.println("\n\n\n\n~~~~~~~~~~~~TENPAI BUDDY~~~~~~~~~~~~~\n\n\n");
+			
+			
 			chosenDiscardIndex = tviewer.getClickDiscard();
 			
 			//System.out.print("\nWhich tile do you want to discard? (enter number): "); 
@@ -749,13 +753,13 @@ public class Player {
 	public boolean holdingRinshan(){return mHoldingRinshanTile;}
 	
 	
+	public boolean handIsFullyConcealed(){return mHand.isClosed();}
+	
 	//returns the number of melds the player has made (open melds and ankans)
 	public int getNumMeldsMade(){return mHand.getNumMeldsMade();}
-
+	
 	//returns a list of the melds that have been made (copy of actual melds), returns an empty list if no melds made
-	public ArrayList<Meld> getMelds(){
-		return mHand.getMelds();
-	}
+	public ArrayList<Meld> getMelds(){return mHand.getMelds();}
 	
 	
 	
@@ -834,6 +838,21 @@ public class Player {
 	public void pointsDecrease(int amount){
 		mPoints -= amount;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

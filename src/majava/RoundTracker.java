@@ -197,39 +197,32 @@ public class RoundTracker {
 	
 	
 	public void printRoundResult(){
-		if (roundIsOver()){
-			 System.out.println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-			 System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-			 System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		 }
-		 String resultStr = "Result: ";
-		 
-		 if (mRoundResult == RESULT_UNDECIDED)
-			 resultStr += "Undecided";
-		 if (mRoundResult == RESULT_DRAW_WASHOUT)
-			 resultStr += "Washout";
-		 if (mRoundResult == RESULT_DRAW_KYUUSHU)
-			 resultStr += "9 terminals abortive draw";
-		 if (mRoundResult == RESULT_DRAW_4KAN)
-			 resultStr += "4 kans made";
-		 if (mRoundResult == RESULT_DRAW_4RIICHI)
-			 resultStr += "4 riichis";
-		 if (mRoundResult == RESULT_DRAW_4WIND)
-			 resultStr += "4 of same wind tile discarded";
-		 
-		 if (mRoundResult == RESULT_VICTORY_E)
-			 resultStr += "East player wins!";
-		 if (mRoundResult == RESULT_VICTORY_S)
-			 resultStr += "South player wins!";
-		 if (mRoundResult == RESULT_VICTORY_W)
-			 resultStr += "West player wins!";
-		 if (mRoundResult == RESULT_VICTORY_N)
-			 resultStr += "North player wins!";
-		 
+		if (roundIsOver())
+			 System.out.println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
+			 					"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
+					 			"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		
+		 String resultStr = "Result: " + getRoundResultString();
 		 System.out.println(resultStr);
 	}
-
-	public int getRoundResult(){return mRoundResult;}
+	
+	//returns the round result as a string
+	public String getRoundResultString(){
+		 switch (mRoundResult){
+		 case RESULT_DRAW_WASHOUT: return "Draw (Washout)";
+		 case RESULT_DRAW_KYUUSHU: return "Draw (Kyuushu)";
+		 case RESULT_DRAW_4KAN: return "Draw (4 kans)";
+		 case RESULT_DRAW_4RIICHI: return "Draw (4 riichi)";
+		 case RESULT_DRAW_4WIND: return "Draw (4 wind)";
+		 
+		 case RESULT_VICTORY_E: return "E player wins!";
+		 case RESULT_VICTORY_S: return "S player wins!";
+		 case RESULT_VICTORY_W: return "W player wins!";
+		 case RESULT_VICTORY_N: return "N player wins!";
+		 default: return "??Undecided??";
+		 }
+	}
+	
 	public boolean roundIsOver(){return mRoundIsOver;}
 	
 	

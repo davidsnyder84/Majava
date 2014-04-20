@@ -35,6 +35,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.FlowLayout;
+import javax.swing.JTextArea;
 
 @SuppressWarnings("serial")
 public class TableViewer extends JFrame{
@@ -123,6 +124,11 @@ public class TableViewer extends JFrame{
 	private static final int LARRY_INFOPLAYER_SEATWIND = 0;
 	private static final int LARRY_INFOPLAYER_POINTS = 1;
 	private static final int LARRY_INFOPLAYER_RIICHI = 2;
+	
+	private static final int BARRY_PCALLS_RIICHI = 0; 
+	private static final int BARRY_PCALLS_ANKAN = 1; 
+	private static final int BARRY_PCALLS_MINKAN = 2; 
+	private static final int BARRY_PCALLS_TSUMO = 3; 
 
 	private static final int GARRYINDEX_OTHER_RIICHI = 0;
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~END CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -199,6 +205,9 @@ public class TableViewer extends JFrame{
 	private JButton[] barryCalls = new JButton[8];
 	private JButton[] barryPCalls = new JButton[4];
 	private JLabel[] larryDW = new JLabel[SIZE_DEAD_WALL];
+	
+	private JPanel panelResult;
+	private JLabel lblResult;
 	
 	/*......................................END LABEL ARRAYS......................................*/
 	
@@ -436,6 +445,12 @@ public class TableViewer extends JFrame{
 		}
 		
 		
+		if (mRoundTracker.roundIsOver()){
+			lblResult.setText(mRoundTracker.getRoundResultString());
+			panelResult.setVisible(true);
+		}
+		
+		
 		thisguy.repaint();
 	}
 	
@@ -466,6 +481,9 @@ public class TableViewer extends JFrame{
 		//turn indicators
 		for (JPanel p: parryTurnInds)
 			p.setVisible(false);
+		
+		//round result
+		panelResult.setVisible(false);
 		
 		//player info
 		for (JLabel[] player: larryInfoPlayers){
@@ -565,8 +583,21 @@ public class TableViewer extends JFrame{
 	
 	
 	public int getClickDiscard(){
+		
+		//add appropriate player call buttons
+		Player currentPlayer = mPTrackers[mRoundTracker.whoseTurn()-1].player;
+		
+		//show riichi if player is in tenpai
+		if (currentPlayer.checkTenpai() && currentPlayer.controllerIsHuman())
+			barryPCalls[BARRY_PCALLS_RIICHI].setVisible(true);
+		
+		
+		
 		mChosenDiscard = NO_DISCARD_CHOSEN;
 		while (mChosenDiscard == NO_DISCARD_CHOSEN);//intentionally blank
+		
+		
+		for (JButton b: barryPCalls) b.setVisible(false);
 		return mChosenDiscard;
 	}
 	
@@ -734,6 +765,7 @@ public class TableViewer extends JFrame{
 		JPanel panelDeadWall;
 		JPanel panelCalls;
 		JPanel panelPCalls;
+		JPanel panelRoundResult;
 		
 		
 		
@@ -774,6 +806,8 @@ public class TableViewer extends JFrame{
 		JLabel lblSmallTileDemo3;
 		
 		JLabel lblDW1;JLabel lblDW2;JLabel lblDW3;JLabel lblDW4;JLabel lblDW5;JLabel lblDW6;JLabel lblDW7;JLabel lblDW8;JLabel lblDW9;JLabel lblDW10;JLabel lblDW11;JLabel lblDW12;JLabel lblDW13;JLabel lblDW14;
+		
+		JLabel lblRoundOver;JLabel lblRoundResult;
 		
 		
 		//button declarations
@@ -2910,17 +2944,17 @@ public class TableViewer extends JFrame{
 		
 		lblSmallTileDemo1 = new JLabel("");
 		lblSmallTileDemo1.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
-		lblSmallTileDemo1.setBounds(35, 411, 23, 31);
+		lblSmallTileDemo1.setBounds(126, 372, 23, 31);
 		panelSidebar.add(lblSmallTileDemo1);
 		
 		lblSmallTileDemo2 = new JLabel("");
 		lblSmallTileDemo2.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
-		lblSmallTileDemo2.setBounds(58, 411, 23, 31);
+		lblSmallTileDemo2.setBounds(149, 372, 23, 31);
 		panelSidebar.add(lblSmallTileDemo2);
 		
 		lblSmallTileDemo3 = new JLabel("");
 		lblSmallTileDemo3.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
-		lblSmallTileDemo3.setBounds(81, 411, 23, 31);
+		lblSmallTileDemo3.setBounds(172, 372, 23, 31);
 		panelSidebar.add(lblSmallTileDemo3);
 		
 		
@@ -3291,8 +3325,29 @@ public class TableViewer extends JFrame{
 		
 		
 		
+
 		
 		
+		
+		
+		panelRoundResult = new JPanel();
+		panelRoundResult.setBounds(16, 424, 212, 66);
+		panelSidebar.add(panelRoundResult);
+		panelRoundResult.setLayout(null);
+		panelRoundResult.setBackground(COLOR_CALL_PANEL);
+		panelRoundResult.setBorder(new LineBorder(new Color(0, 200, 0), 3, true));
+		
+		lblRoundOver = new JLabel("===ROUND OVER===");
+		lblRoundOver.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblRoundOver.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRoundOver.setBounds(0, 0, 212, 33);
+		panelRoundResult.add(lblRoundOver);
+		
+		lblRoundResult = new JLabel("KATAOKA-SAN WINS");
+		lblRoundResult.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRoundResult.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblRoundResult.setBounds(0, 33, 212, 33);
+		panelRoundResult.add(lblRoundResult);
 		
 		
 		
@@ -3352,6 +3407,9 @@ public class TableViewer extends JFrame{
 		
 		//load turn indicator panels into arrays
 		parryTurnInds[0] = panelTurnInd1;parryTurnInds[1] = panelTurnInd2;parryTurnInds[2] = panelTurnInd3;parryTurnInds[3] = panelTurnInd4;
+		
+		//round results
+		panelResult = panelRoundResult; lblResult = lblRoundResult;
 		
 		//load deadwall labels into arrays
 		larryDW[0] = lblDW1;larryDW[1] = lblDW2;larryDW[2] = lblDW3;larryDW[3] = lblDW4;larryDW[4] = lblDW5;larryDW[5] = lblDW6;larryDW[6] = lblDW7;larryDW[7] = lblDW8;larryDW[8] = lblDW9;larryDW[9] = lblDW10;larryDW[10] = lblDW11;larryDW[11] = lblDW12;larryDW[12] = lblDW13;larryDW[13] = lblDW14;

@@ -49,7 +49,7 @@ public class Table {
 	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = true;
 	public static final boolean DEBUG_SHUFFLE_SEATS = false;
 	public static final boolean DEBUG_WAIT_AFTER_COMPUTER = true;
-	public static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+	public static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	
 	
 	
@@ -644,7 +644,7 @@ public class Table {
 	//accessors
 	public int getGameType(){return mGameType;}
 	public char getRoundWind(){return mRoundWind;}
-	public int getGameResult(){return mRoundTracker.getRoundResult();}
+//	public int getGameResult(){return mRoundTracker.getRoundResult();}
 	public boolean roundIsOver(){return mRoundTracker.roundIsOver();}
 //	public boolean gameIsOver(){return mGameIsOver;}
 	
@@ -666,6 +666,8 @@ public class Table {
 	public void displayRoundResult(){
 		
 		mRoundTracker.printRoundResult();
+		
+		mTviewer.updateEverything();
 		
 		for (Player p: mPlayerArray) p.showHand();
 	}

@@ -92,6 +92,7 @@ public class TableViewer extends JFrame{
 	
 	
 	
+	private static final int NUM_PLAYERS = 4;
 	private static final int SIZE_HAND = 14;
 	private static final int SIZE_MELDPANEL = 4;
 	private static final int SIZE_MELD = 4;
@@ -191,6 +192,8 @@ public class TableViewer extends JFrame{
 	//0 = roundWind, 1 = roundNumber
 	private JLabel[] larryInfoRound = new JLabel[SIZE_LARRY_INFOROUND];
 	
+	private JPanel[] parryTurnInds = new JPanel[NUM_PLAYERS];
+	
 	
 	
 	private JButton[] barryCalls = new JButton[8];
@@ -256,10 +259,7 @@ public class TableViewer extends JFrame{
 	
 	
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^BEGIN MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
-
-	private static boolean toggle = true;
 	
-
 	private JPanel contentPane;
 	private TableViewer thisguy;
 	
@@ -457,6 +457,10 @@ public class TableViewer extends JFrame{
 		//round info
 		larryInfoRound[0].setIcon(null);
 		larryInfoRound[1].setText(null);
+		
+		//turn indicators
+		for (JPanel p: parryTurnInds)
+			p.setVisible(false);
 		
 		//player info
 		for (JLabel[] player: larryInfoPlayers){
@@ -696,6 +700,8 @@ public class TableViewer extends JFrame{
 		JPanel panelP1;JPanel panelP2;JPanel panelP3;JPanel panelP4;
 		JPanel panelW1;JPanel panelW2;JPanel panelW3;JPanel panelW4;
 		JPanel panelRoundInfo;JPanel panelRInd;JPanel panelInfoP1;JPanel panelInfoP2;JPanel panelInfoP3;JPanel panelInfoP4;JPanel panelRndInfBackground;
+		JPanel panelTurnInds;
+		JPanel panelTurnInd1; JPanel panelTurnInd2; JPanel panelTurnInd3; JPanel panelTurnInd4;
 		
 		JPanel panelPlayer1;JPanel panelH1;JPanel panelH1Ms;
 		JPanel panelH1M1;JPanel panelH1M2;JPanel panelH1M3;JPanel panelH1M4;
@@ -727,6 +733,8 @@ public class TableViewer extends JFrame{
 		JLabel lblInfoP3Points;JLabel lblInfoP3Riichi;JLabel lblInfoP3Wind;
 		JLabel lblInfoP4Points;JLabel lblInfoP4Riichi;JLabel lblInfoP4Wind;
 		
+		JLabel lblTurnInd11; JLabel lblTurnInd12; JLabel lblTurnInd21; JLabel lblTurnInd22; JLabel lblTurnInd31; JLabel lblTurnInd32; JLabel lblTurnInd41; JLabel lblTurnInd42;
+		
 		JLabel lblP1T1;JLabel lblP1T2;JLabel lblP1T3;JLabel lblP1T4;JLabel lblP1T5;JLabel lblP1T6;JLabel lblP1T7;JLabel lblP1T8;JLabel lblP1T9;JLabel lblP1T10;JLabel lblP1T11;JLabel lblP1T12;JLabel lblP1T13;JLabel lblP1T14;JLabel lblP1T15;JLabel lblP1T16;JLabel lblP1T17;JLabel lblP1T18;JLabel lblP1T19;JLabel lblP1T20;JLabel lblP1T21;JLabel lblP1T22;JLabel lblP1T23;JLabel lblP1T24;
 		JLabel lblP2T1;JLabel lblP2T2;JLabel lblP2T3;JLabel lblP2T4;JLabel lblP2T5;JLabel lblP2T6;JLabel lblP2T7;JLabel lblP2T8;JLabel lblP2T9;JLabel lblP2T10;JLabel lblP2T11;JLabel lblP2T12;JLabel lblP2T13;JLabel lblP2T14;JLabel lblP2T15;JLabel lblP2T16;JLabel lblP2T17;JLabel lblP2T18;JLabel lblP2T19;JLabel lblP2T20;JLabel lblP2T21;JLabel lblP2T22;JLabel lblP2T23;JLabel lblP2T24;
 		JLabel lblP3T1;JLabel lblP3T2;JLabel lblP3T3;JLabel lblP3T4;JLabel lblP3T5;JLabel lblP3T6;JLabel lblP3T7;JLabel lblP3T8;JLabel lblP3T9;JLabel lblP3T10;JLabel lblP3T11;JLabel lblP3T12;JLabel lblP3T13;JLabel lblP3T14;JLabel lblP3T15;JLabel lblP3T16;JLabel lblP3T17;JLabel lblP3T18;JLabel lblP3T19;JLabel lblP3T20;JLabel lblP3T21;JLabel lblP3T22;JLabel lblP3T23;JLabel lblP3T24;
@@ -747,7 +755,6 @@ public class TableViewer extends JFrame{
 		
 		JLabel lblDW1;JLabel lblDW2;JLabel lblDW3;JLabel lblDW4;JLabel lblDW5;JLabel lblDW6;JLabel lblDW7;JLabel lblDW8;JLabel lblDW9;JLabel lblDW10;JLabel lblDW11;JLabel lblDW12;JLabel lblDW13;JLabel lblDW14;
 		
-
 		
 		//button declarations
 		JButton btnCallNone;
@@ -3051,7 +3058,7 @@ public class TableViewer extends JFrame{
 		panelDeadWall = new JPanel();
 		panelDeadWall.setBounds(18, 507, 161, 62);
 //		panelDeadWall.setBackground(COLOR_TRANSPARENT);
-		panelDeadWall.setBackground(COLOR_RINF_PANEL);
+		panelDeadWall.setBackground(COLOR_CALL_PANEL);
 //		panelDeadWall.setBorder(new LineBorder(new Color(0, 0, 0), 0, true));
 		panelSidebar.add(panelDeadWall);
 		panelDeadWall.setLayout(new GridLayout(2, 7, 0, 0));
@@ -3131,6 +3138,92 @@ public class TableViewer extends JFrame{
 		
 		
 		
+		panelTurnInds = new JPanel();
+		panelTurnInds.setBounds(0, 0, 166, 158);
+		panelRoundInfo.add(panelTurnInds);
+		panelTurnInds.setLayout(null);
+		panelTurnInds.setOpaque(false);
+		
+		panelTurnInd1 = new JPanel();
+		panelTurnInd1.setBounds(0, 144, 166, 13);
+		panelTurnInds.add(panelTurnInd1);
+		panelTurnInd1.setOpaque(false);
+		panelTurnInd1.setLayout(null);
+		
+		lblTurnInd11 = new JLabel("");
+		lblTurnInd11.setBounds(1, 0, 55, 13);
+		panelTurnInd1.add(lblTurnInd11);
+		lblTurnInd11.setOpaque(true);
+		lblTurnInd11.setBackground(Color.YELLOW);
+		
+		lblTurnInd12 = new JLabel("");
+		lblTurnInd12.setBounds(110, 0, 55, 13);
+		panelTurnInd1.add(lblTurnInd12);
+		lblTurnInd12.setOpaque(true);
+		lblTurnInd12.setBackground(Color.YELLOW);
+		
+		
+
+		panelTurnInd2 = new JPanel();
+		panelTurnInd2.setBounds(152, 0, 13, 158);
+		panelTurnInds.add(panelTurnInd2);
+		panelTurnInd2.setOpaque(false);
+		panelTurnInd2.setLayout(null);
+		
+		lblTurnInd21 = new JLabel("");
+		lblTurnInd21.setBounds(1, 1, 13, 52);
+		panelTurnInd2.add(lblTurnInd21);
+		lblTurnInd21.setOpaque(true);
+		lblTurnInd21.setBackground(Color.YELLOW);
+		
+		lblTurnInd22 = new JLabel("");
+		lblTurnInd22.setBounds(0, 105, 13, 52);
+		panelTurnInd2.add(lblTurnInd22);
+		lblTurnInd22.setOpaque(true);
+		lblTurnInd22.setBackground(Color.YELLOW);
+		
+		
+		panelTurnInd3 = new JPanel();
+		panelTurnInd3.setBounds(0, 1, 166, 13);
+		panelTurnInds.add(panelTurnInd3);
+		panelTurnInd3.setOpaque(false);
+		panelTurnInd3.setLayout(null);
+		
+		lblTurnInd31 = new JLabel("");
+		lblTurnInd31.setBounds(1, 0, 55, 13);
+		panelTurnInd3.add(lblTurnInd31);
+		lblTurnInd31.setOpaque(true);
+		lblTurnInd31.setBackground(Color.YELLOW);
+		
+		lblTurnInd32 = new JLabel("");
+		lblTurnInd32.setBounds(110, 0, 55, 13);
+		panelTurnInd3.add(lblTurnInd32);
+		lblTurnInd32.setOpaque(true);
+		lblTurnInd32.setBackground(Color.YELLOW);
+		
+		
+		panelTurnInd4 = new JPanel();
+		panelTurnInd4.setBounds(1, 1, 13, 158);
+		panelTurnInds.add(panelTurnInd4);
+		panelTurnInd4.setOpaque(false);
+		panelTurnInd4.setLayout(null);
+		
+		lblTurnInd41 = new JLabel("");
+		lblTurnInd41.setBounds(1, 1, 13, 51);
+		panelTurnInd4.add(lblTurnInd41);
+		lblTurnInd41.setOpaque(true);
+		lblTurnInd41.setBackground(Color.YELLOW);
+		
+		lblTurnInd42 = new JLabel("");
+		lblTurnInd42.setBounds(0, 105, 13, 51);
+		panelTurnInd4.add(lblTurnInd42);
+		lblTurnInd42.setOpaque(true);
+		lblTurnInd42.setBackground(Color.YELLOW);
+		
+		
+		
+		
+		
 		
 		
 		
@@ -3189,6 +3282,9 @@ public class TableViewer extends JFrame{
 		larryInfoP2[0] = lblInfoP2Wind;larryInfoP2[1] = lblInfoP2Points;larryInfoP2[2] = lblInfoP2Riichi;
 		larryInfoP3[0] = lblInfoP3Wind;larryInfoP3[1] = lblInfoP3Points;larryInfoP3[2] = lblInfoP3Riichi;
 		larryInfoP4[0] = lblInfoP4Wind;larryInfoP4[1] = lblInfoP4Points;larryInfoP4[2] = lblInfoP4Riichi;
+		
+		//load turn indicator panels into arrays
+		parryTurnInds[0] = panelTurnInd1;parryTurnInds[1] = panelTurnInd2;parryTurnInds[2] = panelTurnInd3;parryTurnInds[3] = panelTurnInd4;
 		
 		//load deadwall labels into arrays
 		larryDW[0] = lblDW1;larryDW[1] = lblDW2;larryDW[2] = lblDW3;larryDW[3] = lblDW4;larryDW[4] = lblDW5;larryDW[5] = lblDW6;larryDW[6] = lblDW7;larryDW[7] = lblDW8;larryDW[8] = lblDW9;larryDW[9] = lblDW10;larryDW[10] = lblDW11;larryDW[11] = lblDW12;larryDW[12] = lblDW13;larryDW[13] = lblDW14;

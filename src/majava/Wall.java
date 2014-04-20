@@ -1,5 +1,7 @@
 package majava;
 
+import java.util.Scanner;
+
 import utility.GenSort;
 
 
@@ -429,7 +431,9 @@ public class Wall {
 	}
 	
 	
-	
+
+	public void printWall(){System.out.println(toString());}
+	public void printDeadWall(){System.out.println(toStringDeadWall());}
 	
 	//tostring
 	@Override
@@ -447,29 +451,33 @@ public class Wall {
 				wallString += "\n";
 		}
 		
-		
-		String dWallString = "DeadWall: " + getNumTilesLeftInDeadWall() + "\n" + toStringDeadWall();
-		
+		String dWallString = toStringDeadWall();
 		return ("Wall: " + getNumTilesLeftInWall() + "\n" + wallString + "\n\n" + dWallString);
 	}
 	
 	//string representation of deadwall
 	public String toStringDeadWall(){
+
+		String dwString = "";
+		String topRow = "";
+		String bottomRow = "";
 		
-		int i, j;
-		String wallString = "";
-		
-		final int TILES_PER_LINE = 2;
-		for (i = 0; i < getNumTilesLeftInDeadWall() / TILES_PER_LINE + 1; i++){
-			for (j = 0; j < TILES_PER_LINE && (j + TILES_PER_LINE*i < getNumTilesLeftInDeadWall()); j++){
-				wallString += mTiles[POS_START_OF_DEAD_WALL + TILES_PER_LINE*i + j].toString() + " ";
-			}
-			if (TILES_PER_LINE*i < getNumTilesLeftInDeadWall())
-				wallString += "\n";
+		int tile;
+		for (tile = 0; tile < MAX_SIZE_DEAD_WALL / 2; tile++){
+			topRow += __deadWallTileToString(2*tile) + " ";
+			bottomRow += __deadWallTileToString(2*tile + 1) + " ";
 		}
 		
-		return wallString;
+		dwString = "DeadWall: " + getNumTilesLeftInDeadWall() + "\n" + topRow + "\n" + bottomRow;
+		return dwString;
 	}
+	
+	
+	private String __wallTileToString(int index){
+		if (mTiles[index] == null) return "  ";
+		else return mTiles[index].toString();
+	}
+	private String __deadWallTileToString(int index){return __wallTileToString(POS_START_OF_DEAD_WALL + index);}
 	
 	
 	

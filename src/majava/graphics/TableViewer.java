@@ -782,9 +782,10 @@ public class TableViewer extends JFrame{
 		panelTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if (arg0.getClickCount() == 2)
+				if (arg0.getClickCount() == 2){
 					mChosenCall = CALL_NONE;
 					mChosenDiscard = 0;
+				}
 			}
 		});
 		panelTable.setBounds(0, 0, 874, 850);

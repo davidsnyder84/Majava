@@ -190,12 +190,14 @@ public class Table {
 		
 
 		//------------------------------------------------DEBUG INFO
-		System.out.println(mWall.toString());
-		indicators = mWall.getDoraIndicators();
-
-		System.out.println("\nDora indicators:");
-		for (Tile t: indicators)
-			System.out.println(t.toString());
+		mWall.printWall();
+		mWall.printDoraIndicators();
+//		System.out.println(mWall.toString());
+//		indicators = mWall.getDoraIndicators();
+//		
+//		System.out.println("\nDora indicators:");
+//		for (Tile t: indicators)
+//			System.out.println(t.toString());
 		
 		p1.showHand();p2.showHand();p3.showHand();p4.showHand();
 		System.out.println("\n\n\n");
@@ -281,6 +283,8 @@ public class Table {
 				drawnTile = mWall.takeTile();
 			else if (p.needsDrawRinshan()){
 				drawnTile = mWall.takeTileFromDeadWall();
+				
+				mWall.printDeadWall();
 				mWall.printDoraIndicators();	//debug
 			}
 			

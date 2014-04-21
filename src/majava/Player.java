@@ -298,9 +298,23 @@ public class Player {
 			if (mTurnAction == TURN_ACTION_RIICHI) System.out.println("\n\n!!!!!OOOOOHBOY RIICHI\n!!!!");
 			if (mTurnAction == TURN_ACTION_TSUMO) System.out.println("\n\n!!!!!OOOOOHBOY TSUMO\n!!!!");
 			
-			//ankan
 			
+			
+			
+			//ankan
 			//minkan
+			if (turnActionMadeKan()){
+				
+				//make the meld
+				
+				mDrawNeeded = DRAW_RINSHAN;
+			}
+			
+			
+			
+			//riichi
+			
+			
 			
 			//tsumo
 			
@@ -457,6 +471,12 @@ public class Player {
 //	public boolean turnActionChoseDiscard(){return (mTurnAction == TURN_ACTION_DISCARD || mTurnAction == TURN_ACTION_RIICHI);}
 	public boolean turnActionRiichi(){return (mTurnAction == TURN_ACTION_DISCARD || mTurnAction == TURN_ACTION_RIICHI);}
 	
+	
+	//turn actions
+	public boolean ableToAnkan(){return mHand.ableToAnkan();}
+	public boolean ableToMinkan(){return mHand.ableToMinkan();}
+	public boolean ableToRiichi(){return mHand.ableToRiichi();}
+	public boolean ableToTsumo(){return mHand.ableToTsumo();}
 	
 	
 	
@@ -822,7 +842,7 @@ public class Player {
 	public boolean needsDrawRinshan(){return (mDrawNeeded == DRAW_RINSHAN);}
 	
 	
-	
+
 	
 	
 	

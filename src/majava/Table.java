@@ -313,6 +313,8 @@ public class Table {
 			if (p.needsDrawRinshan()){
 				//take rinshan draw and give it to player
 				drawnTile = mWall.takeTileFromDeadWall();
+				mWall.printDeadWall();
+				mWall.printDoraIndicators();	//debug
 				if (drawnTile == null){
 					//handle 4kan here
 					System.out.println("-----End of wall reached. Cannot draw tile.");
@@ -360,7 +362,6 @@ public class Table {
 		//return the tile that was discarded
 		return discardedTile;
 	}
-	
 	
 	
 	

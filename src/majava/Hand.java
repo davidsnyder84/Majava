@@ -131,7 +131,11 @@ public class Hand implements Iterable<Tile>{
 	public boolean addTile(Tile t){
 		if (mTiles.size() < MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*mNumMeldsMade){
 			t.setOwner(mOwnerSeatWind);	//TODO for debug use, should remove when done
-			return(mTiles.add(t));
+			
+			mTiles.add(t);
+			//new tile added to the hand, update what turn actions are possible
+			mChecker.updateTurnActions();
+			return true;
 		}
 		return false;
 	}
@@ -215,9 +219,10 @@ public class Hand implements Iterable<Tile>{
 	public boolean ableToRon(){return mChecker.ableToRon();}
 	public boolean ableToPair(){return mChecker.ableToPair();}
 	
-	//player turn calls
+	//turn actions
 	public boolean ableToAnkan(){return mChecker.ableToAnkan();}
 	public boolean ableToMinkan(){return mChecker.ableToMinkan();}
+	public boolean ableToRiichi(){return mChecker.ableToRiichi();}
 	public boolean ableToTsumo(){return mChecker.ableToTsumo();}
 	
 	//returns the number of different calls possible for callCandidate
@@ -276,6 +281,9 @@ public class Hand implements Iterable<Tile>{
 		//update the hand's closed status after making the meld
 		mChecker.updateClosedStatus();
 		
+		//update what turn actions are possible after making the meld
+		mChecker.updateTurnActions();
+		
 	}
 	public void makeMeldChiL(){__makeMeld(MeldType.CHI_L);}
 	public void makeMeldChiM(){__makeMeld(MeldType.CHI_M);}
@@ -284,6 +292,9 @@ public class Hand implements Iterable<Tile>{
 	public void makeMeldKan(){__makeMeld(MeldType.KAN);}
 	
 	
+	
+	public void makeMeldTurnAnkan(){};
+	public void makeMeldTurnMinkan(){};
 	
 
 	

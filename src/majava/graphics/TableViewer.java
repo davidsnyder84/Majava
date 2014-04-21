@@ -496,9 +496,9 @@ public class TableViewer extends JFrame{
 		for (JButton b: barryCalls)
 			b.setVisible(false);
 		
-		//turn action buttons
-//		for (JButton b: barryPCalls)
-//			b.setVisible(false);
+//		turn action buttons
+		for (JButton b: barryPCalls)
+			b.setVisible(false);
 		
 		//dead wall
 		for (JLabel l: larryDW)
@@ -596,6 +596,19 @@ public class TableViewer extends JFrame{
 		if (currentPlayer.checkTenpai() && currentPlayer.controllerIsHuman())
 			barryPCalls[BARRY_PCALLS_RIICHI].setVisible(true);
 		
+		if (currentPlayer.ableToAnkan())
+			barryPCalls[BARRY_PCALLS_ANKAN].setVisible(true);
+		
+		if (currentPlayer.ableToMinkan())
+			barryPCalls[BARRY_PCALLS_MINKAN].setVisible(true);
+		
+		if (currentPlayer.ableToTsumo())
+			barryPCalls[BARRY_PCALLS_TSUMO].setVisible(true);
+			
+		
+		
+		
+		
 //		for (JButton b: barryPCalls) b.setVisible(true);
 		
 		mChosenTurnAction = NO_DISCARD_CHOSEN;
@@ -605,7 +618,7 @@ public class TableViewer extends JFrame{
 		}
 		if (mChosenTurnAction == 0) mChosenTurnAction = currentPlayer.getHandSize();
 		
-//		for (JButton b: barryPCalls) b.setVisible(false);
+		for (JButton b: barryPCalls) b.setVisible(false);
 		return mChosenTurnAction;
 	}
 	

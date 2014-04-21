@@ -119,7 +119,10 @@ public class HandChecker {
 	
 	private boolean mCanAnkan;
 	private boolean mCanMinkan;
+	private boolean mCanRiichi;
 	private boolean mCanTsumo;
+	private Tile mTurnAnkanCandidate;
+	private Tile mTurnMinkanCandidate;
 	
 	
 	private boolean pairHasBeenChosen = false;
@@ -170,6 +173,7 @@ public class HandChecker {
 		mCanAnkan = other.mCanAnkan;
 		mCanMinkan = other.mCanMinkan;
 		mCanTsumo = other.mCanTsumo;
+		mCanRiichi = other.mCanRiichi;
 		
 		mTenpaiStatus = other.mTenpaiStatus;
 		mClosed = other.mClosed;
@@ -401,7 +405,7 @@ public class HandChecker {
 	//resets call flags to false, creates new empty partner index lists
 	private void __resetCallableFlags(){
 		mCanChiL = mCanChiM = mCanChiH = mCanPon = mCanKan = mCanRon = mCanPair = false;
-		mCanAnkan = mCanMinkan = mCanTsumo = false;
+		mCanAnkan = mCanMinkan = mCanRiichi = mCanTsumo = false;
 		mPartnerIndicesChiL = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
 		mPartnerIndicesChiM = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
 		mPartnerIndicesChiH = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
@@ -423,13 +427,52 @@ public class HandChecker {
 		return count;
 	}
 	
-	public int numberOfPlayerTurnCallsPossible(){
+	public int numberOfTurnActionsPossible(){
 		int count = 0;
 		if (mCanAnkan) count++;
 		if (mCanMinkan) count++;
 		if (mCanTsumo) count++;
 		return count;
 	}
+	
+	
+	
+	public void updateTurnActions(){
+		
+		__resetCallableFlags();
+		
+		for (Tile t: mHandTiles){
+			
+			if (__canClosedKan(t, mHandTiles)){
+				mTurnAnkanCandidate = t;
+				mCanAnkan = true;
+			}
+			
+			if (__canMinkan(t)){
+				mTurnMinkanCandidate = t;
+				mCanMinkan = true;
+			}
+			
+		}
+	}
+	
+	
+	public boolean __canMinkan(Tile candidate){
+		for (Meld m: mHandMelds){
+			if (m.isPon() && m.getFirstTile().equals(candidate))
+				return true;
+		}
+		return false;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//~~~~END MELD CHEKCERS
@@ -799,7 +842,6 @@ public class HandChecker {
 	}
 	private boolean __canClosedPair(Tile candidate, TileList handTiles){return __canClosedMultiType(candidate, handTiles, NUM_PARTNERS_NEEDED_TO_PAIR + 1);}
 	private boolean __canClosedPon(Tile candidate, TileList handTiles){return __canClosedMultiType(candidate, handTiles, NUM_PARTNERS_NEEDED_TO_PON + 1);}
-	@SuppressWarnings("unused")
 	private boolean __canClosedKan(Tile candidate, TileList handTiles){return __canClosedMultiType(candidate, handTiles, NUM_PARTNERS_NEEDED_TO_KAN + 1);}
 	
 	
@@ -1167,9 +1209,10 @@ public class HandChecker {
 	public boolean ableToPair(){return mCanPair;}
 	
 	
-	//player turn calls
+	//turn actions
 	public boolean ableToAnkan(){return mCanAnkan;}
 	public boolean ableToMinkan(){return mCanMinkan;}
+	public boolean ableToRiichi(){return mCanRiichi;}
 	public boolean ableToTsumo(){return mCanTsumo;}
 	
 	

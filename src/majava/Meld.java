@@ -180,7 +180,6 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	
 	
 	//accessors
-	public MeldType getMeldType(){return mMeldType;}
 	public boolean isClosed(){return mClosed;}
 	public char getOwnerSeatWind(){return mOwnerSeatWind;}
 	public char getResponsible(){return mPlayerResponsible;}
@@ -199,9 +198,21 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	public TileList getAllTiles(){return mTiles;}
 	
 	
-	
 	//returns how many tiles are in the meld
 	public int getSize(){return mTiles.size();}
+	
+	
+	
+	
+	
+	
+	
+	public boolean isChi(){return mMeldType.isChi();}
+	public boolean isPon(){return mMeldType.isPon();}
+	public boolean isKan(){return mMeldType.isKan();}
+//	public MeldType getMeldType(){return mMeldType;}
+	
+	
 	
 	
 	

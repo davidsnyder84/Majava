@@ -254,6 +254,28 @@ public class RoundTracker {
 	
 	
 	
+	public int getNumKansMade(){return mWall.getNumKansMade();}
+	
+	//returns true if multiple players have made kans, returns false if only one player or no players have made kans
+	public boolean multiplePlayersHaveMadeKans(){
+		//count the number of players who have made kans
+		int count = 0;
+		for (PlayerTracker pt: mPTrackers) if (pt.player.hasMadeAKan()) count++;
+		
+		return (count > 1);
+	}
+	
+	
+	//returns true if a round-ending number of kans have been made
+	//returns true if 5 kans have been made, or if 4 kans have been made by multiple players
+	public boolean tooManyKans(){
+		final int KAN_LIMIT = 4;
+		if (getNumKansMade() > KAN_LIMIT) return true;
+		if (getNumKansMade() == KAN_LIMIT && multiplePlayersHaveMadeKans()) return true;
+		
+		return false;
+	}
+	
 	
 	
 	

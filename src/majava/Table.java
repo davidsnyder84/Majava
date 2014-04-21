@@ -366,6 +366,46 @@ public class Table {
 	
 	
 	
+	//gives a player a tile from the wall or dead wall
+	public Tile givePlayerTile(Player p){
+		
+		Tile drawnTile = null;
+		
+		//draw from wall or dead wall, depending on what player needs
+		if (p.needsDrawNormal()){
+			drawnTile = mWall.takeTile();
+		}
+		else if (p.needsDrawRinshan()){
+			
+//			if (mRoundTracker.getNumKansMade() >= 4 && mRoundTracker.multiplePlayersHaveMadeKans())
+			if (mRoundTracker.tooManyKans() == false){
+				drawnTile = mWall.takeTileFromDeadWall();
+				
+				mWall.printDeadWall();
+				mWall.printDoraIndicators();	//debug
+			}
+			else{
+				;
+			}
+			
+		}
+		
+		
+		
+		//if tile was successfully taken from the wall
+		if (drawnTile == null){
+			System.out.println("-----End of wall reached. Cannot draw tile.");
+			mRoundTracker.setResultWashout();
+			return null;
+		}
+		else{
+			//add the tile to the player's hand
+			p.addTileToHand(drawnTile);
+			if (p.controllerIsHuman()) mTviewer.updateEverything();
+		}
+		
+		return drawnTile;
+	}
 	
 	
 	

@@ -859,6 +859,13 @@ public class Player {
 	public ArrayList<Meld> getMelds(){return mHand.getMelds();}
 	
 	
+	public int getNumKansMade(){return mHand.getNumKansMade();}
+	public boolean hasMadeAKan(){return (getNumKansMade() == 0);}
+	
+	
+	
+	
+	
 	
 	
 	//accessors for other players

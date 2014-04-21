@@ -116,6 +116,14 @@ public class Hand implements Iterable<Tile>{
 	public boolean isClosed(){return mChecker.getClosedStatus();}
 	//returns the number of melds made
 	public int getNumMeldsMade(){return mNumMeldsMade;}
+	
+	//returns the number of kans the player has made
+	public int getNumKansMade(){
+		int count = 0;
+		for (Meld m: mMelds) if (m.isKan()) count++;
+		return count;
+	}
+	
 	//returns the hand owner's seat wind
 	public char getOwnerSeatWind(){return mOwnerSeatWind;}
 	//returns true if the hand is in tenpai

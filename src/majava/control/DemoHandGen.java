@@ -1,7 +1,13 @@
-package majava;
+package majava.control;
 
 
 import java.util.Random;
+
+import majava.Hand;
+import majava.MeldType;
+import majava.Player;
+import majava.Tile;
+import majava.TileList;
 
 import utility.MahList;
 

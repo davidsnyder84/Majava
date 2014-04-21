@@ -1,4 +1,6 @@
-package majava;
+package majava.control;
+
+import majava.Table;
 
 
 

@@ -1238,7 +1238,7 @@ public class HandChecker {
 	
 	public static void main(String[] args){
 		
-		Hand h = new Hand(MajaPlay.ownerSeat);
+		Hand h = new Hand(majava.control.MajaPlay.ownerSeat);
 		
 		/*
 		h.addTile(new Tile(1));
@@ -1280,7 +1280,7 @@ public class HandChecker {
 		}
 		
 		
-		DemoHandGen.main(null);
+		majava.control.DemoHandGen.main(null);
 	}
 
 	//satisfy compiler whining

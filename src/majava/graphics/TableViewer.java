@@ -2078,7 +2078,7 @@ public class TableViewer extends JFrame{
 		panelH1.setBounds(42, 0, TILE_BIG_WIDTH*SIZE_HAND, TILE_BIG_HEIGHT);
 		panelH1.setBackground(COLOR_TRANSPARENT);
 		panelPlayer1.add(panelH1);
-		panelH1.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		panelH1.setLayout(new GridLayout(1, 14, 0, 0));
 		
 		lblH1T1 = new JLabel("");
 		lblH1T1.setIcon(hImg);
@@ -2342,7 +2342,7 @@ public class TableViewer extends JFrame{
 		panelH2.setBounds(0, 203, TILE_BIG_HEIGHT, TILE_BIG_WIDTH*SIZE_HAND);
 		panelH2.setBackground(COLOR_TRANSPARENT);
 		panelPlayer2.add(panelH2);
-		panelH2.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		panelH2.setLayout(new GridLayout(14, 1, 0, 0));
 		
 		lblH2T14 = new JLabel("");
 		lblH2T14.setIcon(h2Img);
@@ -2539,7 +2539,7 @@ public class TableViewer extends JFrame{
 		panelH3.setBounds(203, 36, TILE_BIG_WIDTH*SIZE_HAND, TILE_BIG_HEIGHT);
 		panelH3.setBackground(COLOR_TRANSPARENT);
 		panelPlayer3.add(panelH3);
-		panelH3.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		panelH3.setLayout(new GridLayout(1, 14, 0, 0));
 		
 		lblH3T14 = new JLabel("");
 		lblH3T14.setBounds(0, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
@@ -2740,7 +2740,7 @@ public class TableViewer extends JFrame{
 		panelH4.setBounds(36, 42, TILE_BIG_HEIGHT, TILE_BIG_WIDTH*SIZE_HAND);
 		panelH4.setBackground(COLOR_TRANSPARENT);
 		panelPlayer4.add(panelH4);
-		panelH4.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		panelH4.setLayout(new GridLayout(14, 1, 0, 0));
 		
 		lblH4T1 = new JLabel("");
 		lblH4T1.setBounds(0, 0, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);

@@ -68,9 +68,12 @@ public class RoundTracker {
 	private int mRoundBonusNum;
 	
 	private int mWhoseTurn;
+	private int mNumKansMade;
 	
 	private Wall mWall;
 	private Tile[] tilesW;
+	
+	
 	
 	private PlayerTracker[] mPTrackers;
 	private int numPlayersSynched;
@@ -103,6 +106,7 @@ public class RoundTracker {
 		mRoundBonusNum = roundBonus;
 		
 		mWhoseTurn = 1;
+		mNumKansMade = 0;
 		
 		mRoundResult = RESULT_UNDECIDED;
 		mRoundIsOver = false;
@@ -183,7 +187,8 @@ public class RoundTracker {
 	
 	
 	private void __setRoundOver(int result){
-		mRoundResult = result; mRoundIsOver = true;
+		mRoundResult = result;
+		mRoundIsOver = true;
 	}
 	public void setResultWashout(){__setRoundOver(RESULT_DRAW_WASHOUT);}
 	public void setResultKyuushu(){__setRoundOver(RESULT_DRAW_KYUUSHU);}
@@ -254,27 +259,71 @@ public class RoundTracker {
 	
 	
 	
-	public int getNumKansMade(){return mWall.getNumKansMade();}
+//	public int getNumKansMade(){return mNumKansMade;}
 	
 	//returns true if multiple players have made kans, returns false if only one player or no players have made kans
 	public boolean multiplePlayersHaveMadeKans(){
 		//count the number of players who have made kans
 		int count = 0;
-		for (PlayerTracker pt: mPTrackers) if (pt.player.hasMadeAKan()) count++;
-		
+		for (PlayerTracker pt: mPTrackers){
+			if (pt.player.hasMadeAKan())
+				count++;
+		}
 		return (count > 1);
 	}
-	
 	
 	//returns true if a round-ending number of kans have been made
 	//returns true if 5 kans have been made, or if 4 kans have been made by multiple players
 	public boolean tooManyKans(){
-		final int KAN_LIMIT = 4;
-		if (getNumKansMade() > KAN_LIMIT) return true;
-		if (getNumKansMade() == KAN_LIMIT && multiplePlayersHaveMadeKans()) return true;
 		
+		final int KAN_LIMIT = 4;
+		if (getNumKansMade() < KAN_LIMIT) return false;
+		if (getNumKansMade() == KAN_LIMIT && !multiplePlayersHaveMadeKans()) return false;
+		
+		return true;
+	}
+	
+	public int getNumKansMade(){
+		int count = 0;
+		for (PlayerTracker pt: mPTrackers)
+			count += pt.player.getNumKansMade();
+		
+		return count;
+	}
+	
+	
+	public boolean checkIfTooManyKans(){
+		if (tooManyKans()){
+			setResult4Kan();
+			return true;
+		}
 		return false;
 	}
+	
+	
+	
+	
+	
+	
+	public boolean checkIfWallIsEmpty(){
+		if (mWall.isEmpty()){
+			setResultWashout();
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

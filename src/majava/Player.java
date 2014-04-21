@@ -455,6 +455,9 @@ public class Player {
 		chosenDiscardIndex = 0;
 		
 		
+		if (mSeatWind == 'S')chosenDiscardIndex = mHand.getSize() - 1; 
+		
+		
 		mTurnAction = TURN_ACTION_DISCARD;
 		mChosenDiscardIndex = chosenDiscardIndex;
 		
@@ -687,6 +690,12 @@ public class Player {
 		
 		
 		int call = CALLED_NONE;
+		
+		
+		
+		if (mHand.ableToKan())
+			call = Player.CALLED_KAN;
+		
 		return call;
 	}
 	
@@ -725,6 +734,8 @@ public class Player {
 		//return true if t is callable, false if not
 		return ableToCall;
 	}
+	
+	
 	
 	
 	
@@ -860,7 +871,7 @@ public class Player {
 	
 	
 	public int getNumKansMade(){return mHand.getNumKansMade();}
-	public boolean hasMadeAKan(){return (getNumKansMade() == 0);}
+	public boolean hasMadeAKan(){return (getNumKansMade() != 0);}
 	
 	
 	

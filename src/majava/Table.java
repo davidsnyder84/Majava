@@ -277,27 +277,7 @@ public class Table {
 		//~~~~~~handle drawing a tile
 		//if the player needs to draw a tile, draw a tile
 		if (p.needsDraw()){
-			
-			//draw from wall or dead wall, depending on what player needs
-			if (p.needsDrawNormal())
-				drawnTile = mWall.takeTile();
-			else if (p.needsDrawRinshan()){
-				drawnTile = mWall.takeTileFromDeadWall();
-				
-				mWall.printDeadWall();
-				mWall.printDoraIndicators();	//debug
-			}
-			
-			if (drawnTile == null){
-				System.out.println("-----End of wall reached. Cannot draw tile.");
-				mRoundTracker.setResultWashout();
-				return null;
-			}
-			else{
-				//add the tile to the player's hand
-				p.addTileToHand(drawnTile);
-				if (p.controllerIsHuman()) mTviewer.updateEverything();
-			}
+			givePlayerTile(p);
 		}
 		
 		
@@ -311,21 +291,26 @@ public class Table {
 			
 			//if the player made an ankan or minkan, they need a rinshan draw
 			if (p.needsDrawRinshan()){
+				
+				
+				givePlayerTile(p);
+				
+				
 				//take rinshan draw and give it to player
-				drawnTile = mWall.takeTileFromDeadWall();
-				mWall.printDeadWall();
-				mWall.printDoraIndicators();	//debug
-				if (drawnTile == null){
-					//handle 4kan here
-					System.out.println("-----End of wall reached. Cannot draw tile.");
-					mRoundTracker.setResultWashout();
-					return null;
-				}
-				p.addTileToHand(drawnTile);
-				if (p.controllerIsHuman()) mTviewer.updateEverything();
+//				drawnTile = mWall.takeTileFromDeadWall();
+//				mWall.printDeadWall();
+//				mWall.printDoraIndicators();	//debug
+//				if (drawnTile == null){
+//					//handle 4kan here
+//					System.out.println("-----End of wall reached. Cannot draw tile.");
+//					mRoundTracker.setResultWashout();
+//					return null;
+//				}
+//				p.addTileToHand(drawnTile);
+//				if (p.controllerIsHuman()) mTviewer.updateEverything();
 			}
 		}
-		while (p.turnActionChoseDiscard() == false);
+		while (p.turnActionChoseDiscard() == false && mRoundTracker.roundIsOver() == false);
 //		while (p.turnActionMadeKan());
 		
 		
@@ -333,6 +318,13 @@ public class Table {
 //			mRoundTracker.setResultVictory(p.getSeatWind());
 //			return null;
 //		}
+		
+		
+		//return early if the round is over (tsumo or 4kan or 4riichi or kyuushu)
+		if (mRoundTracker.roundIsOver())
+			return null;
+		
+		
 		
 		
 		//show the human player their hand
@@ -370,39 +362,38 @@ public class Table {
 	public Tile givePlayerTile(Player p){
 		
 		Tile drawnTile = null;
+		if (p.needsDraw() == false) return null;
 		
 		//draw from wall or dead wall, depending on what player needs
 		if (p.needsDrawNormal()){
-			drawnTile = mWall.takeTile();
+			
+			if (mRoundTracker.checkIfWallIsEmpty()){
+				//no tiles left in wall, round over
+				return null;
+			}
+			else{
+				drawnTile = mWall.takeTile();
+			}
 		}
 		else if (p.needsDrawRinshan()){
 			
-//			if (mRoundTracker.getNumKansMade() >= 4 && mRoundTracker.multiplePlayersHaveMadeKans())
-			if (mRoundTracker.tooManyKans() == false){
-				drawnTile = mWall.takeTileFromDeadWall();
-				
-				mWall.printDeadWall();
-				mWall.printDoraIndicators();	//debug
+			//check if too many kans have been made before making a rinshan draw
+			
+			if (mRoundTracker.checkIfTooManyKans()){
+				//too many kans, round over
+				return null;
 			}
 			else{
-				;
-			}
-			
+				drawnTile = mWall.takeTileFromDeadWall();
+				mWall.printDeadWall();
+				mWall.printDoraIndicators();	//debug
+			}			
 		}
 		
 		
-		
-		//if tile was successfully taken from the wall
-		if (drawnTile == null){
-			System.out.println("-----End of wall reached. Cannot draw tile.");
-			mRoundTracker.setResultWashout();
-			return null;
-		}
-		else{
-			//add the tile to the player's hand
-			p.addTileToHand(drawnTile);
-			if (p.controllerIsHuman()) mTviewer.updateEverything();
-		}
+		//add the tile to the player's hand
+		p.addTileToHand(drawnTile);
+		if (p.controllerIsHuman()) mTviewer.updateEverything();
 		
 		return drawnTile;
 	}

@@ -98,7 +98,9 @@ public class Wall {
 	private Tile[] mTiles;
 	
 	private int mCurrentWallPosition;
-	private int mNumKansMade;
+//	private int mNumKansMade;
+	
+	private RoundTracker mRoundTracker;
 	
 	
 	
@@ -107,8 +109,6 @@ public class Wall {
 		//fill and shuffle the wall
 		mTiles = new Tile[MAX_SIZE_WALL];
 		__initialize();
-		
-		mNumKansMade = 0;
 	}
 	
 	
@@ -236,18 +236,19 @@ public class Wall {
 	*/
 	private TileList __getDoraIndicators(boolean getUraDora){
 		
-		int size = mNumKansMade + 1;
+		int numKansMade = mRoundTracker.getNumKansMade();
+		int size = numKansMade + 1;
 		if (getUraDora) size *= 2;
 		TileList indicators = new TileList(size);
 		
 		//add the first dora indicator
 		indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_DORA_1]);
 		
-		//add other indicators if kans have been made
-		if (mNumKansMade >= 1) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_DORA_2]);
-		if (mNumKansMade >= 2) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_DORA_3]);
-		if (mNumKansMade >= 3) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_DORA_4]);
-		if (mNumKansMade == 4) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_DORA_5]);
+		//add additional indicators if kans have been made
+		if (numKansMade >= 1) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_DORA_2]);
+		if (numKansMade >= 2) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_DORA_3]);
+		if (numKansMade >= 3) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_DORA_4]);
+		if (numKansMade == 4) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_DORA_5]);
 		
 		
 		//add ura dora indicators, if specified
@@ -255,11 +256,11 @@ public class Wall {
 			//add the first ura dora indicator
 			indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_URADORA_1]);
 
-			//add other ura indicators if kans have been made
-			if (mNumKansMade >= 1) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_URADORA_2]);
-			if (mNumKansMade >= 2) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_URADORA_3]);
-			if (mNumKansMade >= 3) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_URADORA_4]);
-			if (mNumKansMade == 4) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_URADORA_5]);
+			//add additional ura indicators if kans have been made
+			if (numKansMade >= 1) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_URADORA_2]);
+			if (numKansMade >= 2) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_URADORA_3]);
+			if (numKansMade >= 3) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_URADORA_4]);
+			if (numKansMade == 4) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_URADORA_5]);
 		}
 		
 		return indicators;
@@ -295,9 +296,8 @@ public class Wall {
 	public Tile takeTileFromDeadWall(){
 		Tile takenTile = null;
 
-		takenTile = mTiles[POS_START_OF_DEAD_WALL + POS_KANDRAWS[mNumKansMade]];
-		mTiles[POS_START_OF_DEAD_WALL + POS_KANDRAWS[mNumKansMade]] = null;
-		mNumKansMade++;
+		takenTile = mTiles[POS_START_OF_DEAD_WALL + POS_KANDRAWS[mRoundTracker.getNumKansMade() - 1]];
+		mTiles[POS_START_OF_DEAD_WALL + POS_KANDRAWS[mRoundTracker.getNumKansMade() - 1]] = null;
 		
 		return takenTile;
 	}
@@ -323,11 +323,11 @@ public class Wall {
 	//returns the number of tiles left in the wall (not including dead wall)
 	public int getNumTilesLeftInWall(){return MAX_SIZE_WALL - mCurrentWallPosition - MAX_SIZE_DEAD_WALL;}
 	//returns the number of tiles left in the dead wall
-	public int getNumTilesLeftInDeadWall(){return MAX_SIZE_DEAD_WALL - mNumKansMade;}
+	public int getNumTilesLeftInDeadWall(){return MAX_SIZE_DEAD_WALL - mRoundTracker.getNumKansMade();}
 	
 	
 	//returns the number of kans made
-	public int getNumKansMade(){return mNumKansMade;}
+	public int getNumKansMade(){return mRoundTracker.getNumKansMade();}
 	
 	
 	
@@ -481,11 +481,9 @@ public class Wall {
 	
 	
 	
-	
-	private RoundTracker mRTracker;
 	public void syncWithTracker(RoundTracker tracker){
-		mRTracker = tracker; 
-		mRTracker.syncWall(mTiles);
+		mRoundTracker = tracker; 
+		mRoundTracker.syncWall(mTiles);
 	}
 	
 	

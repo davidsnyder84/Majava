@@ -166,7 +166,6 @@ public class Table {
 	public void play()
 	{
 		Tile discardedTile = null;
-		TileList indicators = null;
 		
 		
 		
@@ -192,12 +191,6 @@ public class Table {
 		//------------------------------------------------DEBUG INFO
 		mWall.printWall();
 		mWall.printDoraIndicators();
-//		System.out.println(mWall.toString());
-//		indicators = mWall.getDoraIndicators();
-//		
-//		System.out.println("\nDora indicators:");
-//		for (Tile t: indicators)
-//			System.out.println(t.toString());
 		
 		p1.showHand();p2.showHand();p3.showHand();p4.showHand();
 		System.out.println("\n\n\n");
@@ -272,7 +265,6 @@ public class Table {
 	private Tile doPlayerTurn(Player p){
 
 		Tile discardedTile = null;
-		Tile drawnTile = null;
 		
 		//~~~~~~handle drawing a tile
 		//if the player needs to draw a tile, draw a tile
@@ -344,17 +336,17 @@ public class Table {
 	
 	
 	//gives a player a tile from the wall or dead wall
-	public Tile givePlayerTile(Player p){
+	public void givePlayerTile(Player p){
 		
 		Tile drawnTile = null;
-		if (p.needsDraw() == false) return null;
+		if (p.needsDraw() == false) return;
 		
 		//draw from wall or dead wall, depending on what player needs
 		if (p.needsDrawNormal()){
 			
 			if (mRoundTracker.checkIfWallIsEmpty()){
 				//no tiles left in wall, round over
-				return null;
+				return;
 			}
 			else{
 				drawnTile = mWall.takeTile();
@@ -363,10 +355,9 @@ public class Table {
 		else if (p.needsDrawRinshan()){
 			
 			//check if too many kans have been made before making a rinshan draw
-			
 			if (mRoundTracker.checkIfTooManyKans()){
 				//too many kans, round over
-				return null;
+				return;
 			}
 			else{
 				drawnTile = mWall.takeTileFromDeadWall();
@@ -379,8 +370,6 @@ public class Table {
 		//add the tile to the player's hand
 		p.addTileToHand(drawnTile);
 		if (p.controllerIsHuman()) mTviewer.updateEverything();
-		
-		return drawnTile;
 	}
 	
 	

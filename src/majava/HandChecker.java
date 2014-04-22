@@ -475,9 +475,9 @@ public class HandChecker {
 	
 	
 	public Tile getCandidateMinkan(){return mTurnMinkanCandidate;}
-	public Tile getCandidateAnnkan(){return mTurnAnkanCandidate;}
+	public Tile getCandidateAnkan(){return mTurnAnkanCandidate;}
 	public int getCandidateMinkanIndex(){return mTurnMinkanCandidateIndex;}
-	public int getCandidateAnnkanIndex(){return mTurnAnkanCandidateIndex;}
+	public int getCandidateAnkanIndex(){return mTurnAnkanCandidateIndex;}
 	
 	
 	

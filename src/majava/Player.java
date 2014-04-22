@@ -689,8 +689,7 @@ public class Player {
 	call = NONE
 	return call
 	*/
-	private int __askReactionCom(Tile t)
-	{
+	private int __askReactionCom(Tile t){
 		/*
 		I'm a computer. What do I want to call?
 		Ron > Kan = pon > Chi-L = Chi-M = Chi-H > none

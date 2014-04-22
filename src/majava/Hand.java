@@ -4,6 +4,8 @@ package majava;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import utility.MahList;
+
 
 /*
 Class: Hand
@@ -301,9 +303,67 @@ public class Hand implements Iterable<Tile>{
 	
 	
 	
-	public void makeMeldTurnAnkan(){
+	
+	
+	
+	
+	
+	
+	private void __makeClosedMeld(MeldType meldType){
+		
+		TileList handTiles = new TileList();
+		Tile candidate;
+		int candidateIndex;
+		MahList<Integer> partnerIndices;
+		
+		if (meldType.isKan()){
+
+			candidateIndex = mChecker.getCandidateMinkanIndex();
+			candidate = mTiles.get(candidateIndex);
+			
+			partnerIndices = mTiles.findAllIndicesOf(candidate);
+			while(partnerIndices.size() > HandChecker.NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.removeLast();
+			
+			handTiles = mTiles.getMultiple(partnerIndices);
+			
+			mMelds.add(new Meld(handTiles, candidate, meldType));
+			
+			//remove the tiles from the hand
+			partnerIndices.add(candidateIndex);
+			partnerIndices.sortDescending();
+			for (Integer i: partnerIndices) removeTile(i);
+			
+
+			mNumMeldsMade++;
+			//update what turn actions are possible after making the meld
+			mChecker.updateTurnActions();
+		}
+			
+		
+		
 		
 	}
+	public void makeClosedMeldKan(){__makeClosedMeld(MeldType.KAN);}
+	public void makeClosedMeldPon(){__makeClosedMeld(MeldType.PON);}
+	public void makeClosedMeldChiL(){__makeClosedMeld(MeldType.CHI_L);}
+	public void makeClosedMeldChiM(){__makeClosedMeld(MeldType.CHI_M);}
+	public void makeClosedMeldChiH(){__makeClosedMeld(MeldType.CHI_H);}
+	
+	
+	
+	
+	
+	
+	
+	public void makeMeldTurnAnkan(){
+//		Tile candidate = mChecker.getCandidateAnkan();
+//		
+//		int candidateIndex = mChecker.getCandidateAnkanIndex();
+//		candidate = mTiles.get(candidateIndex);
+		
+		makeClosedMeldKan();
+	}
+	
 	
 	
 	public void makeMeldTurnMinkan(){

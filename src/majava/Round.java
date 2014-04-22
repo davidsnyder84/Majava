@@ -16,7 +16,7 @@ data:
 	
 	mRoundWind - the prevailing wind of the current round ('E' or 'S')
 	mWhoseTurn - whose turn it is (1,2,3,4 corresponds to E,S,W,N)
-	mReaction - will be NO_REACTION if no calls were made during a turn, will be something else otherwise
+	mReaction - will be true if no calls were made during a turn, will be false if a call was made
 	mGameIsOver - will be true if the game is over, false if not
 	mGameResult - the specific result of the game (reason for a draw game, or who won), is UNDECIDED if game is not over
 	
@@ -59,7 +59,7 @@ public class Round {
 	private int mRoundNum;
 	private int mRoundBonusNum;
 	
-	private int mReaction;
+	private boolean mReaction;
 	
 	
 	
@@ -84,7 +84,7 @@ public class Round {
 		mRoundNum = roundNum;
 		mRoundBonusNum = roundBonusNum;
 		
-		mReaction = NO_REACTION;
+		mReaction = false;
 		
 		
 		mTviewer = tviewer;
@@ -129,9 +129,6 @@ public class Round {
 	*/
 	public void play(){
 		
-		Tile discardedTile = null;
-		
-
 		//------------------------------------------------DEBUG INFO
 		if (DEBUG_LOAD_DEBUG_WALL) mWall.loadDebugWall();
 		System.out.println(mWall.toString() + "\n\n\n");mWall.printDoraIndicators();
@@ -156,7 +153,7 @@ public class Round {
 		
 		
 		
-		mReaction = NO_REACTION;
+		mReaction = false;
 		
 		
 		//loop until the round is over
@@ -164,21 +161,21 @@ public class Round {
 			
 			//handle player turns
 			if (mRoundTracker.whoseTurn() == 1 && !mRoundTracker.roundIsOver())
-				discardedTile = doPlayerTurn(p1);
+				doPlayerTurn(p1);
 			
-			if (mReaction == NO_REACTION && mRoundTracker.whoseTurn() == 2 && !mRoundTracker.roundIsOver())
-				discardedTile = doPlayerTurn(p2);
+			if (!mReaction && mRoundTracker.whoseTurn() == 2 && !mRoundTracker.roundIsOver())
+				doPlayerTurn(p2);
 			
-			if (mReaction == NO_REACTION && mRoundTracker.whoseTurn() == 3 && !mRoundTracker.roundIsOver())
-				discardedTile = doPlayerTurn(p3);
+			if (!mReaction && mRoundTracker.whoseTurn() == 3 && !mRoundTracker.roundIsOver())
+				doPlayerTurn(p3);
 			
-			if (mReaction == NO_REACTION && mRoundTracker.whoseTurn() == 4 && !mRoundTracker.roundIsOver())
-				discardedTile = doPlayerTurn(p4);
+			if (!mReaction && mRoundTracker.whoseTurn() == 4 && !mRoundTracker.roundIsOver())
+				doPlayerTurn(p4);
 			
 			
 			//handle reactions here
-			if (mReaction != NO_REACTION){
-				handleReaction(discardedTile);
+			if (mReaction){
+				handleReaction();
 			}
 			
 		}
@@ -219,9 +216,9 @@ public class Round {
 	whoseTurn++
 	return discardedTile
 	*/
-	private Tile doPlayerTurn(Player p){
+	private void doPlayerTurn(Player p){
 
-		Tile discardedTile = null;
+		Tile adiscardedTile = null;
 		
 		//~~~~~~handle drawing a tile
 		//if the player needs to draw a tile, draw a tile
@@ -236,7 +233,8 @@ public class Round {
 		//loop until the player has chosen a discard
 		//loop until the player stops making kans
 		do{
-			discardedTile = p.takeTurn(mTviewer);
+			adiscardedTile = p.takeTurn(mTviewer);
+			mRoundTracker.setMostRecentDiscard(adiscardedTile);
 			
 			//if the player made an ankan or minkan, they need a rinshan draw
 			if (p.needsDrawRinshan()){
@@ -256,44 +254,54 @@ public class Round {
 		
 		//return early if the round is over (tsumo or 4kan or 4riichi or kyuushu)
 		if (mRoundTracker.roundIsOver())
-			return null;
+			return;
 		
 		
 		
 		
 		//show the human player their hand
 		showHandsOfHumanPlayers();
+		
 		//show the discarded tile and the discarder's pond
 		System.out.println("\n\n\tTiles left: " + mWall.getNumTilesLeftInWall());
-		System.out.println("\t" + p.getSeatWind() + " Player's discard: ^^^^^" + discardedTile.toString() + "^^^^^");
+		System.out.println("\t" + p.getSeatWind() + " Player's discard: ^^^^^" + mRoundTracker.getMostRecentDiscard().toString() + "^^^^^");
 		p.showPond();
 		mTviewer.updateEverything();
 		
 		
-		
 		//~~~~~~get reactions from the other players
-		mReaction += p.getShimocha().reactToDiscard(discardedTile, mTviewer);
-		mReaction += p.getToimen().reactToDiscard(discardedTile, mTviewer);
-		mReaction += p.getKamicha().reactToDiscard(discardedTile, mTviewer);
+		mRoundTracker.neighborShimochaOf(p).reactToDiscard(mRoundTracker.getMostRecentDiscard(), mTviewer);
+		mRoundTracker.neighborToimenOf(p).reactToDiscard(mRoundTracker.getMostRecentDiscard(), mTviewer);
+		mRoundTracker.neighborKamichaOf(p).reactToDiscard(mRoundTracker.getMostRecentDiscard(), mTviewer);
+		
+		
+		
+		
+		mReaction = mRoundTracker.callWasMadeOnDiscard();
+		
+		
+		
 		
 		//pause for dramatic effect
 		pauseWait();
-		if (mReaction == NO_REACTION){
+		if (mReaction == false){
 			pauseWait();
 			
 			//update turn indicator
 			mRoundTracker.nextTurn();
 		}
-		
-		//return the tile that was discarded
-		return discardedTile;
 	}
 	
 	
 	
 	
+	
+	
+	
+	
+	
 	//gives a player a tile from the wall or dead wall
-	public void givePlayerTile(Player p){
+	private void givePlayerTile(Player p){
 		
 		Tile drawnTile = null;
 		if (p.needsDraw() == false) return;
@@ -365,44 +373,47 @@ public class Round {
 	whoseTurn = priorityCaller's turn
 	reaction = NO_REACTION
 	*/
-	private void handleReaction(Tile discardedTile){
+	private void handleReaction(){
+		
+		Tile discardedTile = mRoundTracker.getMostRecentDiscard();
+		
 		
 		//figure out who called the tile, and if multiple players called, who gets priority
 		Player priorityCaller = whoCalled();
 		
+		
 		//give the caller the discarded tile so they can make their meld
 		//if the caller called Ron, handle that instead
 		if (priorityCaller.calledRon()){
+			
 			System.out.println("\n*****RON! RON RON! RON! RON! ROOOOOOOOOOOOOOOOOOOOOON!");
 			//handle here
+			
+			mRoundTracker.setResultVictory(priorityCaller.getSeatWind());
+			
+			
 		}
 		else{
 			//make the meld
 			priorityCaller.makeMeld(discardedTile);
 			mTviewer.updateEverything();
 			//meld has been made
+			
 
 			//show who called the tile 
-			System.out.println("\n*********************************************************");
-			System.out.println("**********" + priorityCaller.getSeatWind() + " Player called the tile (" + discardedTile.toString() + ")! " + priorityCaller.getCallStatusString() + "!!!**********");
-			System.out.println("*********************************************************");
+			System.out.println("\n*********************************************************" + 
+								"\n**********" + priorityCaller.getSeatWind() + " Player called the tile (" + discardedTile.toString() + ")! " + priorityCaller.getCallStatusString() + "!!!**********" + 
+								"\n*********************************************************");
 		}
 		
 		
+
 		//if multiple players called, show if someone got bumped by priority 
-		if (p1.called() && p1 != priorityCaller){
-			System.out.println("~~~~~~~~~~" + p1.getSeatWind() + " Player tried to call " + p1.getCallStatusString() + ", but got bumped by " + priorityCaller.getSeatWind() + "!");
-		}
-		if (p2.called() && p2 != priorityCaller){
-			System.out.println("~~~~~~~~~~" + p2.getSeatWind() + " Player tried to call " + p2.getCallStatusString() + ", but got bumped by " + priorityCaller.getSeatWind() + "!");
-		}
-		if (p3.called() && p3 != priorityCaller){
-			System.out.println("~~~~~~~~~~" + p3.getSeatWind() + " Player tried to call " + p3.getCallStatusString() + ", but got bumped by " + priorityCaller.getSeatWind() + "!");
-		}
-		if (p4.called() && p4 != priorityCaller){
-			System.out.println("~~~~~~~~~~" + p4.getSeatWind() + " Player tried to call " + p4.getCallStatusString() + ", but got bumped by " + priorityCaller.getSeatWind() + "!");
-		}
+		for (Player p: mPlayerArray)
+			if (p.called() && p != priorityCaller)
+				System.out.println("~~~~~~~~~~" + p.getSeatWind() + " Player tried to call " + p.getCallStatusString() + ", but got bumped by " + priorityCaller.getSeatWind() + "!");
 		System.out.println();
+		
 		
 		//it is now the calling player's turn
 		mRoundTracker.setTurn(priorityCaller.getPlayerNumber());
@@ -411,8 +422,9 @@ public class Round {
 		pauseWait();
 		
 		//reset reaction to none (since reaction has been handled)
-		mReaction = NO_REACTION;
+		mReaction = false;
 	}
+	
 	
 	
 	
@@ -437,7 +449,7 @@ public class Round {
 	whoseTurn = the player who made the call's turn
 	reaction = NO_REACTION
 	*/
-	public Player whoCalled(){
+	private Player whoCalled(){
 		
 		Player callingPlayer = null;
 		
@@ -558,7 +570,7 @@ public class Round {
 	method: showHandsOfHumanPlayers
 	shows the hands of all human players in the game
 	*/
-	public void showHandsOfHumanPlayers(){for (Player p: mPlayerArray) p.showHand();}
+	private void showHandsOfHumanPlayers(){for (Player p: mPlayerArray) p.showHand();}
 	
 	
 	

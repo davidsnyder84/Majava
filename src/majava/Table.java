@@ -183,12 +183,6 @@ public class Table {
 		if (p2.controllerIsHuman()) p2.setPlayerName("Albert");
 		if (p3.controllerIsHuman()) p3.setPlayerName("Brenda");
 		if (p4.controllerIsHuman()) p4.setPlayerName("Carl");
-		
-		//assign neighbor links
-		p1.setNeighbors(p2, p3, p4);
-		p2.setNeighbors(p3, p4, p1);
-		p3.setNeighbors(p4, p1, p2);
-		p4.setNeighbors(p1, p2, p3);
 	}
 	
 	

@@ -566,7 +566,7 @@ public class Player {
 	end if
 	return call status
 	*/
-	public int reactToDiscard(Tile t, TableViewer tviewer){
+	public boolean reactToDiscard(Tile t, TableViewer tviewer){
 		mCallStatus = CALLED_NONE;
 		
 		//if able to call the tile, ask self for reaction
@@ -583,7 +583,7 @@ public class Player {
 		if (mCallStatus == CALLED_NONE)
 			mDrawNeeded = DRAW_NORMAL;
 		
-		return mCallStatus;
+		return (mCallStatus != CALLED_NONE);
 	}
 	
 	
@@ -699,8 +699,7 @@ public class Player {
 		int call = CALLED_NONE;
 		
 		
-//		if (mHand.ableToKan())
-//			call = Player.CALLED_KAN;
+		if (mHand.ableToKan()) call = Player.CALLED_KAN;
 		
 		return call;
 	}
@@ -880,26 +879,6 @@ public class Player {
 	public int getNumKansMade(){return mHand.getNumKansMade();}
 	public boolean hasMadeAKan(){return (getNumKansMade() != 0);}
 	
-	
-	
-	
-	
-	
-	
-	//accessors for other players
-	//returns references to mutable objects lol
-	public Player getKamicha(){return linkKamicha;}
-	public Player getToimen(){return linkToimen;}
-	public Player getShimocha(){return linkShimocha;}
-	//mutators for other player links
-	
-	//shimocha - player to your right
-	//toimen - player directly across 
-	//kamicha - player to your left
-	public void setShimocha(Player p){linkShimocha = p;}
-	public void setToimen(Player p){linkToimen = p;}
-	public void setKamicha(Player p){linkKamicha = p;}
-	public void setNeighbors(Player shimo, Player toi, Player kami){linkShimocha = shimo;linkToimen = toi;linkKamicha = kami;}
 	
 	
 	

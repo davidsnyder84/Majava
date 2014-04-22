@@ -68,6 +68,8 @@ public class RoundTracker {
 	private int mRoundBonusNum;
 	
 	private int mWhoseTurn;
+	private Tile mMostRecentDiscard;
+	
 	private int mNumKansMade;
 	
 	private Wall mWall;
@@ -274,12 +276,38 @@ public class RoundTracker {
 	
 	
 	
+	private Player __neighborOffsetOf(Player p, int offset){
+		int positionOfP = -1;
+		for (int i = 0; i < mPTrackers.length; i++)
+			if (mPTrackers[i].player == p) positionOfP = i;
+		
+		return mPTrackers[(positionOfP + offset) % 4].player;
+	}
+	public Player neighborShimochaOf(Player p){return __neighborOffsetOf(p, 1);}
+	public Player neighborToimenOf(Player p){return __neighborOffsetOf(p, 2);}
+	public Player neighborKamichaOf(Player p){return __neighborOffsetOf(p, 3);}
+	public Player neighborNextPlayer(Player p){return neighborShimochaOf(p);}
 	
 	
-//	public int getNumKansMade(){return mNumKansMade;}
+	
+	public boolean callWasMadeOnDiscard(){
+		for (int i = 0; i < 3; i++)
+			if (mPTrackers[(mWhoseTurn + i) % 4].player.called())
+				return true;
+		return false;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	//returns true if multiple players have made kans, returns false if only one player or no players have made kans
-	public boolean multiplePlayersHaveMadeKans(){
+	private boolean __multiplePlayersHaveMadeKans(){
 		//count the number of players who have made kans
 		int count = 0;
 		for (PlayerTracker pt: mPTrackers){
@@ -288,17 +316,17 @@ public class RoundTracker {
 		}
 		return (count > 1);
 	}
-	
 	//returns true if a round-ending number of kans have been made
 	//returns true if 5 kans have been made, or if 4 kans have been made by multiple players
-	public boolean tooManyKans(){
+	private boolean __tooManyKans(){
 		
 		final int KAN_LIMIT = 4;
 		if (getNumKansMade() < KAN_LIMIT) return false;
-		if (getNumKansMade() == KAN_LIMIT && !multiplePlayersHaveMadeKans()) return false;
+		if (getNumKansMade() == KAN_LIMIT && !__multiplePlayersHaveMadeKans()) return false;
 		
 		return true;
 	}
+	
 	
 	//returns the number of kans made on the table
 	public int getNumKansMade(){
@@ -314,7 +342,7 @@ public class RoundTracker {
 	
 	//checks if too many kans have been made, and sets the round result if so
 	public boolean checkIfTooManyKans(){
-		if (tooManyKans()){
+		if (__tooManyKans()){
 			setResult4Kan();
 			return true;
 		}
@@ -342,6 +370,13 @@ public class RoundTracker {
 	
 	
 	
+	public void setMostRecentDiscard(Tile discard){mMostRecentDiscard = discard;}
+	public Tile getMostRecentDiscard(){return mMostRecentDiscard;}
+	
+	
+	
+	
+	
 	
 	
 	
@@ -353,7 +388,6 @@ public class RoundTracker {
 	
 	public char getRoundWind(){return mRoundWind;}
 	public int getRoundNum(){return mRoundNum;}
-	
 	
 	
 	

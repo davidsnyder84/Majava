@@ -641,20 +641,31 @@ public class TableViewer extends JFrame{
 	
 	
 	
-	public TableViewer(RoundTracker rTracker){
-		this();
+//	public TableViewer(RoundTracker rTracker){
+//		this();
+//		
+//		mRoundTracker = rTracker;
+//		rTracker.syncWithViewer(this);
+//		blankEverything();
+//	}
+	
+//	public void setRoundTracker(RoundTracker rTracker){
+//		mRoundTracker = rTracker;
+//		rTracker.syncWithViewer(this);
+//		blankEverything();
+//	}
+	
+	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, TileList[] pHandTiles, TileList[] pPondTiles, Tile[] trackerTilesW){
 		
 		mRoundTracker = rTracker;
-		rTracker.syncWithViewer(this);
-		blankEverything();
-	}
-	
-	public void syncWithRoundTracker(Player[] pPlayers, TileList[] pHandTiles, TileList[] pPondTiles, Tile[] trackerTilesW){
+		
 		mPTrackers = new PlayerTracker[NUM_PLAYERS_TO_TRACK];
 		for (int i = 0; i < NUM_PLAYERS_TO_TRACK; i++)
 			mPTrackers[i] = new PlayerTracker(pPlayers[i], pHandTiles[i], pPondTiles[i]);
 		
 		tilesW = trackerTilesW;
+		
+		blankEverything();
 	}
 	
 	

@@ -173,6 +173,8 @@ public class Hand implements Iterable<Tile>{
 			sortHand();
 			//check if removing the tile put the hand in tenpai
 			mChecker.updateTenpaiStatus();
+			//update what turn actions are possible after removing the tile
+			mChecker.updateTurnActions();
 			
 			return true;
 		}
@@ -291,9 +293,6 @@ public class Hand implements Iterable<Tile>{
 		//update the hand's closed status after making the meld
 		mChecker.updateClosedStatus();
 		
-		//update what turn actions are possible after making the meld
-		mChecker.updateTurnActions();
-		
 	}
 	public void makeMeldChiL(){__makeMeld(MeldType.CHI_L);}
 	public void makeMeldChiM(){__makeMeld(MeldType.CHI_M);}
@@ -318,7 +317,7 @@ public class Hand implements Iterable<Tile>{
 		
 		if (meldType.isKan()){
 
-			candidateIndex = mChecker.getCandidateMinkanIndex();
+			candidateIndex = mChecker.getCandidateAnkanIndex();
 			candidate = mTiles.get(candidateIndex);
 			
 			partnerIndices = mTiles.findAllIndicesOf(candidate);
@@ -335,8 +334,6 @@ public class Hand implements Iterable<Tile>{
 			
 
 			mNumMeldsMade++;
-			//update what turn actions are possible after making the meld
-			mChecker.updateTurnActions();
 		}
 			
 		

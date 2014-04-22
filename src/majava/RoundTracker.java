@@ -99,7 +99,7 @@ public class RoundTracker {
 	
 	
 	
-	public RoundTracker(char roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){
+	public RoundTracker(TableViewer tviewer, char roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){
 		
 		mRoundWind = roundWind;
 		mRoundNum = roundNum;
@@ -113,7 +113,24 @@ public class RoundTracker {
 		
 		__syncWithWall(wall);
 		__setupPlayerTrackers(p1,p2,p3,p4);
+		
+		__syncWithViewer(tviewer);
 	}
+//	public RoundTracker(char roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){
+//		
+//		mRoundWind = roundWind;
+//		mRoundNum = roundNum;
+//		mRoundBonusNum = roundBonus;
+//		
+//		mWhoseTurn = 1;
+//		mNumKansMade = 0;
+//		
+//		mRoundResult = RESULT_UNDECIDED;
+//		mRoundIsOver = false;
+//		
+//		__syncWithWall(wall);
+//		__setupPlayerTrackers(p1,p2,p3,p4);
+//	}
 	
 	
 	private void __syncWithWall(Wall wall){
@@ -162,13 +179,13 @@ public class RoundTracker {
 		mPTrackers[numPlayersSynched].tilesP = pondTiles;
 	}
 	
-	public void syncWithViewer(TableViewer viewer){
+	private void __syncWithViewer(TableViewer viewer){
 		
 		Player[] pPlayers = {mPTrackers[0].player, mPTrackers[1].player, mPTrackers[2].player, mPTrackers[3].player};
 		TileList[] pHandTiles = {mPTrackers[0].tilesH, mPTrackers[1].tilesH, mPTrackers[2].tilesH, mPTrackers[3].tilesH};
 		TileList[] pPondTiles = {mPTrackers[0].tilesP, mPTrackers[1].tilesP, mPTrackers[2].tilesP, mPTrackers[3].tilesP};
 		
-		viewer.syncWithRoundTracker(pPlayers, pHandTiles, pPondTiles, tilesW);
+		viewer.syncWithRoundTracker(this, pPlayers, pHandTiles, pPondTiles, tilesW);
 	}
 	
 	

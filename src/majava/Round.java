@@ -59,12 +59,10 @@ public class Round {
 	private int mRoundNum;
 	private int mRoundBonusNum;
 	
-	private boolean mReaction;
-	
 	
 	
 	/*
-	1-arg Constructor
+	Constructor
 	initializes a new round to make it ready for playing
 	
 	creates the wall
@@ -83,8 +81,6 @@ public class Round {
 		mRoundWind = roundWind;
 		mRoundNum = roundNum;
 		mRoundBonusNum = roundBonusNum;
-		
-		mReaction = false;
 		
 		
 		mTviewer = tviewer;
@@ -153,30 +149,16 @@ public class Round {
 		
 		
 		
-		mReaction = false;
-		
-		
-		//loop until the round is over
+		//game loop, loop until the round is over
 		while (mRoundTracker.roundIsOver() == false){
-			
+
 			//handle player turns
-			if (mRoundTracker.whoseTurn() == 1 && !mRoundTracker.roundIsOver())
-				doPlayerTurn(p1);
+			doPlayerTurn(mRoundTracker.currentPlayer());
 			
-			if (!mReaction && mRoundTracker.whoseTurn() == 2 && !mRoundTracker.roundIsOver())
-				doPlayerTurn(p2);
-			
-			if (!mReaction && mRoundTracker.whoseTurn() == 3 && !mRoundTracker.roundIsOver())
-				doPlayerTurn(p3);
-			
-			if (!mReaction && mRoundTracker.whoseTurn() == 4 && !mRoundTracker.roundIsOver())
-				doPlayerTurn(p4);
-			
-			
+
 			//handle reactions here
-			if (mReaction){
+			if (mRoundTracker.callWasMadeOnDiscard())
 				handleReaction();
-			}
 			
 		}
 		
@@ -276,15 +258,9 @@ public class Round {
 		
 		
 		
-		
-		mReaction = mRoundTracker.callWasMadeOnDiscard();
-		
-		
-		
-		
 		//pause for dramatic effect
 		pauseWait();
-		if (mReaction == false){
+		if (mRoundTracker.callWasMadeOnDiscard() == false){
 			pauseWait();
 			
 			//update turn indicator
@@ -335,10 +311,18 @@ public class Round {
 		//add the tile to the player's hand
 		p.addTileToHand(drawnTile);
 		if (p.controllerIsHuman()) mTviewer.updateEverything();
+		
 	}
 	
 	
 	
+	
+	
+	
+	private void updateWindow(){
+		mTviewer.updateEverything();
+		pauseWait();
+	}
 	
 	
 	
@@ -420,9 +404,6 @@ public class Round {
 		
 		//pause for dramatic effect
 		pauseWait();
-		
-		//reset reaction to none (since reaction has been handled)
-		mReaction = false;
 	}
 	
 	

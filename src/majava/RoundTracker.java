@@ -272,6 +272,9 @@ public class RoundTracker {
 	public void setTurn(int turn){if (turn <= NUM_PLAYERS) mWhoseTurn = turn;}
 	public int whoseTurn(){return mWhoseTurn;}
 	
+	public Player currentPlayer(){return mPTrackers[mWhoseTurn - 1].player;}
+	
+	
 	
 	
 	

@@ -292,32 +292,17 @@ public class Table {
 			//if the player made an ankan or minkan, they need a rinshan draw
 			if (p.needsDrawRinshan()){
 				
-				
+				//give player a rinshan draw
 				givePlayerTile(p);
 				
-				
-				//take rinshan draw and give it to player
-//				drawnTile = mWall.takeTileFromDeadWall();
-//				mWall.printDeadWall();
-//				mWall.printDoraIndicators();	//debug
-//				if (drawnTile == null){
-//					//handle 4kan here
-//					System.out.println("-----End of wall reached. Cannot draw tile.");
-//					mRoundTracker.setResultWashout();
-//					return null;
-//				}
-//				p.addTileToHand(drawnTile);
-//				if (p.controllerIsHuman()) mTviewer.updateEverything();
 			}
+			
+			if (p.turnActionCalledTsumo()) mRoundTracker.setResultVictory(p.getSeatWind());
 		}
 		while (p.turnActionChoseDiscard() == false && mRoundTracker.roundIsOver() == false);
 //		while (p.turnActionMadeKan());
 		
 		
-//		if (p.turnActionCalledTsumo()){
-//			mRoundTracker.setResultVictory(p.getSeatWind());
-//			return null;
-//		}
 		
 		
 		//return early if the round is over (tsumo or 4kan or 4riichi or kyuushu)

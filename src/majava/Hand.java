@@ -301,10 +301,30 @@ public class Hand implements Iterable<Tile>{
 	
 	
 	
-	public void makeMeldTurnAnkan(){};
-	public void makeMeldTurnMinkan(){};
+	public void makeMeldTurnAnkan(){
+		
+	}
 	
-
+	
+	public void makeMeldTurnMinkan(){
+		Tile candidate = mChecker.getCandidateMinkan();
+		
+		int candidateIndex = mChecker.getCandidateMinkanIndex();
+		candidate = mTiles.get(candidateIndex);
+		
+		Meld meldToUpgrade = null;
+		
+		//find the pon
+		for (Meld m: mMelds)
+			if (m.isPon() && m.getFirstTile().equals(candidate))
+				meldToUpgrade = m;
+		
+		//upgrade the pon to a kan
+		meldToUpgrade.upgradeToMinkan(candidate);
+		
+		//remove the tile from the hand
+		removeTile(candidateIndex);
+	}
 	
 	
 	

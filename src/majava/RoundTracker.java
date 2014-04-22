@@ -283,15 +283,19 @@ public class RoundTracker {
 		return true;
 	}
 	
+	//returns the number of kans made on the table
 	public int getNumKansMade(){
 		int count = 0;
-		for (PlayerTracker pt: mPTrackers)
-			count += pt.player.getNumKansMade();
-		
+		for (PlayerTracker pt: mPTrackers) count += pt.player.getNumKansMade();
 		return count;
 	}
 	
 	
+	
+	
+	
+	
+	//checks if too many kans have been made, and sets the round result if so
 	public boolean checkIfTooManyKans(){
 		if (tooManyKans()){
 			setResult4Kan();
@@ -303,8 +307,7 @@ public class RoundTracker {
 	
 	
 	
-	
-	
+	//checks if the wall is empty, and sets the round result if so	
 	public boolean checkIfWallIsEmpty(){
 		if (mWall.isEmpty()){
 			setResultWashout();

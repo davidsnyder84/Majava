@@ -307,6 +307,14 @@ public class Player {
 				
 				//make the meld
 				
+				if (mTurnAction == TURN_ACTION_ANKAN){
+					mHand.makeMeldTurnAnkan();
+				}
+				else if (mTurnAction == TURN_ACTION_MINKAN){
+					mHand.makeMeldTurnMinkan();
+				}
+				
+				
 				mDrawNeeded = DRAW_RINSHAN;
 			}
 			
@@ -455,7 +463,7 @@ public class Player {
 		chosenDiscardIndex = 0;
 		
 		
-		if (mSeatWind == 'S')chosenDiscardIndex = mHand.getSize() - 1; 
+//		if (mSeatWind == 'S')chosenDiscardIndex = mHand.getSize() - 1; 
 		
 		
 		mTurnAction = TURN_ACTION_DISCARD;
@@ -692,9 +700,8 @@ public class Player {
 		int call = CALLED_NONE;
 		
 		
-		
-		if (mHand.ableToKan())
-			call = Player.CALLED_KAN;
+//		if (mHand.ableToKan())
+//			call = Player.CALLED_KAN;
 		
 		return call;
 	}
@@ -779,8 +786,9 @@ public class Player {
 	
 	
 	
-	
-	
+	//will use these for chankan later
+	public int reactToAnkan(Tile t){return CALLED_NONE;}
+	public int reactToMinkan(Tile t){return CALLED_NONE;}
 	
 	
 	

@@ -135,7 +135,7 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	add the new tile to the meld
 	sort the meld if it is a chi
 	*/
-	public void __formMeld(TileList handTiles, Tile newTile, MeldType meldType){
+	private void __formMeld(TileList handTiles, Tile newTile, MeldType meldType){
 		
 		//set the owner's seat wind
 		mOwnerSeatWind = handTiles.getFirst().getOrignalOwner();
@@ -162,6 +162,33 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 		//sort the meld if it is a chi
 		if (mMeldType.isChi()) mTiles.sort();
 	}
+	
+	
+	
+	
+	//uses the given tile to upgrade a minkou to a minkan
+	public void upgradeToMinkan(Tile handTile){
+		
+		if (!isPon()) return;
+		
+		//add the tile to the meld
+		__addTile(handTile);
+		
+		//change meld type to kan
+		mMeldType = MeldType.KAN; 
+	}
+	
+	//adds a tile to a meld (needed for upgrading minkou to minkan)
+	private void __addTile(Tile t){mTiles.add(t);}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

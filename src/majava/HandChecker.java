@@ -123,6 +123,8 @@ public class HandChecker {
 	private boolean mCanTsumo;
 	private Tile mTurnAnkanCandidate;
 	private Tile mTurnMinkanCandidate;
+	private int mTurnAnkanCandidateIndex;
+	private int mTurnMinkanCandidateIndex;
 	
 	
 	private boolean pairHasBeenChosen = false;
@@ -441,15 +443,21 @@ public class HandChecker {
 		
 		__resetCallableFlags();
 		
-		for (Tile t: mHandTiles){
+		
+//		for (Tile t: mHandTiles){
+		for (int index = 0; index < mHandTiles.size(); index++){
+			
+			Tile t = mHandTiles.get(index);
 			
 			if (__canClosedKan(t, mHandTiles)){
 				mTurnAnkanCandidate = t;
+				mTurnAnkanCandidateIndex = index;
 				mCanAnkan = true;
 			}
 			
 			if (__canMinkan(t)){
 				mTurnMinkanCandidate = t;
+				mTurnMinkanCandidateIndex = index;
 				mCanMinkan = true;
 			}
 			
@@ -457,7 +465,7 @@ public class HandChecker {
 	}
 	
 	
-	public boolean __canMinkan(Tile candidate){
+	private boolean __canMinkan(Tile candidate){
 		for (Meld m: mHandMelds){
 			if (m.isPon() && m.getFirstTile().equals(candidate))
 				return true;
@@ -465,6 +473,11 @@ public class HandChecker {
 		return false;
 	}
 	
+	
+	public Tile getCandidateMinkan(){return mTurnMinkanCandidate;}
+	public Tile getCandidateAnnkan(){return mTurnAnkanCandidate;}
+	public int getCandidateMinkanIndex(){return mTurnMinkanCandidateIndex;}
+	public int getCandidateAnnkanIndex(){return mTurnAnkanCandidateIndex;}
 	
 	
 	

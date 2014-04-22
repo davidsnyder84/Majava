@@ -72,7 +72,6 @@ public class Round {
 	*/
 	public Round(TableViewer tviewer, Player[] playerArray, char roundWind, int roundNum, int roundBonusNum){
 		
-		
 		mPlayerArray = playerArray;
 		p1 = mPlayerArray[0]; p2 = mPlayerArray[1]; p3 = mPlayerArray[2]; p4 = mPlayerArray[3];
 		
@@ -606,7 +605,6 @@ public class Round {
 	public static void main(String[] args) {
 		
 		System.out.println("Welcome to Majava (Round)!");
-		
 		
 		System.out.println("Launching Table...");
 		Table.main(null);

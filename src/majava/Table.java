@@ -46,8 +46,6 @@ public class Table {
 	//for debug use
 	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = true;
 	public static final boolean DEBUG_SHUFFLE_SEATS = false;
-	public static final boolean DEBUG_WAIT_AFTER_COMPUTER = true;
-	public static final boolean DEBUG_LOAD_DEBUG_WALL = true;
 	
 	
 	
@@ -60,16 +58,13 @@ public class Table {
 	private TableViewer mTviewer;
 	
 	
-	private char mRoundWind;
-	private int mRoundNum;
-	private int mRoundBonusNum;
 	
-	private int mGameType;
+//	private int mGameType;
 //	private boolean mGameIsOver;
 //	private int mGameResult;
 	
 	
-	private Round mCurrentRound;	
+	private Game mCurrentGame;
 	
 	
 	/*
@@ -85,27 +80,7 @@ public class Table {
 	*/
 	public Table(int gameType){
 		
-		//creates a new player to sit at each seat
-		p1 = new Player(Player.SEAT_EAST);
-		p2 = new Player(Player.SEAT_SOUTH);
-		p3 = new Player(Player.SEAT_WEST);
-		p4 = new Player(Player.SEAT_NORTH);
-		mPlayerArray = new Player[]{p1, p2, p3, p4};
-		
-		
-		//initializes round info
-		mRoundWind = DEFAULT_ROUND_WIND;mRoundNum = 1;mRoundBonusNum = 0;
-		
 //		mGameIsOver = false;
-		
-		if (gameType == GAME_TYPE_SINGLE || gameType == GAME_TYPE_TONPUUSEN || gameType == GAME_TYPE_HANCHAN)
-			mGameType = gameType;
-		else
-			mGameType = GAME_TYPE_DEFAULT;
-		
-		
-		//initialize Round Tracker
-//		mRoundTracker = new RoundTracker(mRoundWind,mRoundNum,mRoundBonusNum,  mWall,  p1,p2,p3,p4);
 		
 		//initialize Table Viewer
 		mTviewer = new TableViewer();
@@ -127,17 +102,30 @@ public class Table {
 	*/
 	public void play(){
 		
+		//generate players to sit at the table
+		__generatePlayers();
+		
 		//decide seats
 		decideSeats();
 		
 		
-		//play one round
-		
-		mCurrentRound = new Round(mTviewer, mPlayerArray);
-		mCurrentRound.play();
+		//play one game
+		mCurrentGame = new Game(mTviewer, mPlayerArray);
+		mCurrentGame.play();
 		
 	}
 	
+	
+	
+	private void __generatePlayers(){
+		
+		//creates a new player to sit at each seat
+		p1 = new Player(Player.SEAT_EAST);
+		p2 = new Player(Player.SEAT_SOUTH);
+		p3 = new Player(Player.SEAT_WEST);
+		p4 = new Player(Player.SEAT_NORTH);
+		mPlayerArray = new Player[]{p1, p2, p3, p4};
+	}
 	
 	
 	
@@ -206,9 +194,8 @@ public class Table {
 	
 	
 	//accessors
-	public int getGameType(){return mGameType;}
-	public char getRoundWind(){return mRoundWind;}
-//	public boolean gameIsOver(){return mGameIsOver;}
+	public int getGameType(){return mCurrentGame.getGameType();}
+//	public boolean gameIsOver(){return mCurrentGame.gameIsOver();}
 	
 	
 	

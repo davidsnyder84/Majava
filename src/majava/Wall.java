@@ -50,7 +50,7 @@ public class Wall {
 	public static final int POS_START_OF_DEAD_WALL = 122;
 	public static final int FIRST_TILE_IN_WALL = 0;
 	
-	public static final boolean DEGBUG_SHUFFLE_WALL = Table.DEBUG_LOAD_DEBUG_WALL;
+	public static final boolean DEGBUG_SHUFFLE_WALL = Round.DEBUG_LOAD_DEBUG_WALL;
 	
 	
 	

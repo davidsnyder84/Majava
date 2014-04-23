@@ -396,8 +396,10 @@ public class TableViewer extends JFrame{
 		
 		//update ponds
 		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
-			for (currentTile = 0; currentTile < SIZE_POND; currentTile++)
+			for (currentTile = 0; currentTile < SIZE_POND; currentTile++){
 				larryPonds[currentPlayer][currentTile].setIcon(__getImageIcon(mPTrackers[currentPlayer].tilesP, currentTile, currentPlayer, SMALL));
+//				if mPTrackers[currentPlayer].
+			}
 		}
 		
 		

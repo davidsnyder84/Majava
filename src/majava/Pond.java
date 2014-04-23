@@ -1,5 +1,7 @@
 package majava;
 
+import java.util.ArrayList;
+
 /*
 Class: Pond
 represents a player's pond of discarded tiles
@@ -33,12 +35,14 @@ public class Pond {
 	
 //	private Tile mRiichiTile;
 	private int mRiichiTileIndex;
+	private ArrayList<Integer> mMissingTileIndices;
 	
 	
 	
 	
 	public Pond(){
 		mTiles = new TileList(SIZE_DEFAULT);
+		mMissingTileIndices = new ArrayList<Integer>(0);
 	}
 	
 	
@@ -61,6 +65,14 @@ public class Pond {
 	
 	//returns the most recently discarded tile in the pond
 	public Tile getMostRecentTile(){return mTiles.getLast();}
+	
+	
+	
+	//marks the most recent tile as missing (because it was callled)
+	public Tile removeMostRecentTile(){
+		mMissingTileIndices.add(mTiles.size());
+		return getMostRecentTile();
+	}
 	
 	
 	

@@ -306,6 +306,10 @@ public class Player {
 	}
 	
 	
+	//removes the most recent tile from the player's pond (because another player called it)
+	public Tile removeTileFromPond(){return mPond.removeMostRecentTile();}
+	
+	
 	
 	
 	private Tile __discardChosenTile(){

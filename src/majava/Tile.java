@@ -60,19 +60,19 @@ methods:
 public class Tile implements Comparable<Tile> {
 	
 	public static final int NUMBER_OF_DIFFERENT_TILES = 34;
-	
-	public static final int DEFAULT_ID = 0;
-	public static final char OWNER_NONE = 'N';
-	public static final String CHAR_FOR_RED_DORA = "%";
-
-	public static final char SUIT_MAN = 'M';
-	public static final char SUIT_PIN = 'C';
-	public static final char SUIT_SOU = 'B';
-	public static final char SUIT_WIND = 'W';
-	public static final char SUIT_DRAGON = 'D';
-
-	public static final int ID_FIRST_HONOR_TILE = 28;
 	public static final int NUMBER_OF_YAOCHUU_TILES = 13;
+	private static final int ID_FIRST_HONOR_TILE = 28;
+	
+	private static final int DEFAULT_ID = 0;
+	private static final char OWNER_NONE = 'N';
+	private static final String CHAR_FOR_RED_DORA = "%";
+
+	private static final char SUIT_MAN = 'M';
+	private static final char SUIT_PIN = 'C';
+	private static final char SUIT_SOU = 'B';
+	private static final char SUIT_WIND = 'W';
+	private static final char SUIT_DRAGON = 'D';
+
 	
 	private static final String STR_REPS_BY_ID = "M1M2M3M4M5M6M7M8M9P1P2P3P4P5P6P7P8P9S1S2S3S4S5S6S7S8S9WEWSWWWNDWDGDR";
 	private static final TileList LIST_OF_YAOCHUU_TILES = new TileList(1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34);
@@ -84,9 +84,11 @@ public class Tile implements Comparable<Tile> {
 	private int mID;
 	private char mSuit;
 	private char mFace;
+	private boolean mRedDora;
 	
 	private char mOriginalOwner;
-	private boolean mRedDora;
+	private boolean mIsRiichiTile;
+	private boolean mWasCalled;
 	
 	
 	

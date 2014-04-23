@@ -67,15 +67,33 @@ public class MajaPlay {
 		
 		//kokushiTenpaiTest();
 		
-		chiitoiTenpaiTest();
+//		chiitoiTenpaiTest();
 		
 		//mahListPlay();
 		
 //		listEqualsTest();
 		
 		
+		playTileInheritance();
+		
+		
 		System.out.println();
 	}
+	
+	
+	public static void playTileInheritance(){
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	public static void testCompleteNormal(){

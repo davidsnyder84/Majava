@@ -199,8 +199,6 @@ public class Round {
 	return discardedTile
 	*/
 	private void doPlayerTurn(Player p){
-
-		Tile adiscardedTile = null;
 		
 		//~~~~~~handle drawing a tile
 		//if the player needs to draw a tile, draw a tile
@@ -210,13 +208,12 @@ public class Round {
 		
 		
 		
-		
 		//~~~~~~get player's discard (ankans, riichi, and such are handled inside here)
 		//loop until the player has chosen a discard
 		//loop until the player stops making kans
 		do{
-			adiscardedTile = p.takeTurn(mTviewer);
-			mRoundTracker.setMostRecentDiscard(adiscardedTile);
+			Tile discardedTile = p.takeTurn(mTviewer);
+			mRoundTracker.setMostRecentDiscard(discardedTile);
 			
 			//if the player made an ankan or minkan, they need a rinshan draw
 			if (p.needsDrawRinshan()){
@@ -249,6 +246,8 @@ public class Round {
 		System.out.println("\t" + p.getSeatWind() + " Player's discard: ^^^^^" + mRoundTracker.getMostRecentDiscard().toString() + "^^^^^");
 		p.showPond();
 		updateWindow();
+		
+		
 		
 		
 		//~~~~~~get reactions from the other players
@@ -307,7 +306,6 @@ public class Round {
 		//add the tile to the player's hand
 		p.addTileToHand(drawnTile);
 		updateWindow();
-		
 	}
 	
 	
@@ -344,7 +342,11 @@ public class Round {
 	*/
 	private void handleReaction(){
 		
-		Tile discardedTile = mRoundTracker.getMostRecentDiscard();
+		
+		//remove the tile from the discarder's pond (because it is being called)
+		Tile discardedTile = mRoundTracker.currentPlayer().removeTileFromPond();
+//		Tile discardedTile = mRoundTracker.getMostRecentDiscard();
+		
 		
 		
 		//figure out who called the tile, and if multiple players called, who gets priority

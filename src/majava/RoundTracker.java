@@ -185,6 +185,7 @@ public class RoundTracker {
 		Player[] pPlayers = {mPTrackers[0].player, mPTrackers[1].player, mPTrackers[2].player, mPTrackers[3].player};
 		TileList[] pHandTiles = {mPTrackers[0].tilesH, mPTrackers[1].tilesH, mPTrackers[2].tilesH, mPTrackers[3].tilesH};
 		TileList[] pPondTiles = {mPTrackers[0].tilesP, mPTrackers[1].tilesP, mPTrackers[2].tilesP, mPTrackers[3].tilesP};
+//		Pond[] pPonds = {mPTrackers[0].pond, mPTrackers[1].pond, mPTrackers[2].pond, mPTrackers[3].pond};
 		
 		viewer.syncWithRoundTracker(this, pPlayers, pHandTiles, pPondTiles, tilesW);
 	}
@@ -377,6 +378,12 @@ public class RoundTracker {
 	
 	
 	
+	
+//	public ArrayList<Integer> getPondMissingIndices(int whichPond){
+//		ArrayList<Integer> missingIndices = new ArrayList<Integer>
+//	}
+//	public ArrayList<Integer> getPond1MissingIndices(){}
+////	public ArrayList<Integer> pond1MissingIndices(){}
 	
 	
 	

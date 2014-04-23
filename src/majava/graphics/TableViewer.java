@@ -5,8 +5,9 @@ import majava.Meld;
 import majava.Player;
 import majava.Pond;
 import majava.RoundTracker;
-import majava.Tile;
+import majava.tiles.Tile;
 import majava.TileList;
+import majava.tiles.PondTile;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -90,6 +91,8 @@ public class TableViewer extends JFrame{
 	private static final Color COLOR_RIND = new Color(0,155,155,35);
 	private static final Color COLOR_CALL_PANEL = new Color(210,0, 210, 30);
 	
+	private static final Color COLOR_POND_CALLED_TILE = new Color(250, 0, 0, 250);
+	private static final Color COLOR_POND_RIICHI_TILE = new Color(0, 0, 250, 250);
 	
 	
 	
@@ -343,14 +346,33 @@ public class TableViewer extends JFrame{
 		
 		return garryTiles[seatNum][tileSize][id];
 	}
+	private ImageIcon __getImageIconPond(TileList tList, int index, int seatNum){
+		if (tList.size() <= index) return null;
+		
+		int id =__getImageID(tList.get(index));
+		if (id == NULL_TILE_IMAGE_ID) return null;
+		
+		
+		//mark label if the pond tile has been called
+		if ( ((PondTile)(tList.get(index))).wasCalled() ){
+			larryPonds[seatNum][index].setOpaque(true); larryPonds[seatNum][index].setBackground(COLOR_POND_CALLED_TILE);
+		}
+		if ( ((PondTile)(tList.get(index))).isRiichiTile() ){
+			seatNum = (seatNum + 1) % NUM_PLAYERS;
+		}
+		
+		return garryTiles[seatNum][SMALL][id];
+	}
+	
+	
 	//gets icon for wall tile array
-	private ImageIcon __getImageIconWall(Tile[] tList, int index, int seatNum, int tileSize){
+	private ImageIcon __getImageIconWall(Tile[] tList, int index, int seatNum){
 		if (seatNum == 1) seatNum = 3; else if (seatNum == 3) seatNum = 1;
 		
 		int id = __getImageID(tList[index]);
 		if (id == NULL_TILE_IMAGE_ID) return null;
 		
-		return garryTiles[seatNum][tileSize][id];
+		return garryTiles[seatNum][SMALL][id];
 	}
 	
 	//returns the image ID number for the tile at the given index of tList
@@ -397,21 +419,19 @@ public class TableViewer extends JFrame{
 		//update ponds
 		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_POND; currentTile++){
-				larryPonds[currentPlayer][currentTile].setIcon(__getImageIcon(mPTrackers[currentPlayer].tilesP, currentTile, currentPlayer, SMALL));
-//				if mPTrackers[currentPlayer].
+				larryPonds[currentPlayer][currentTile].setIcon(__getImageIconPond(mPTrackers[currentPlayer].tilesP, currentTile, currentPlayer));
 			}
 		}
-		
 		
 		//update wall(s)
 		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_WALL; currentTile++)
-				larryWalls[currentPlayer][currentTile].setIcon(__getImageIconWall(tilesW, currentTile + currentPlayer*SIZE_WALL, currentPlayer, SMALL));
+				larryWalls[currentPlayer][currentTile].setIcon(__getImageIconWall(tilesW, currentTile + currentPlayer*SIZE_WALL, currentPlayer));
 		}
 		
 		//update dead wall
 		for (currentTile = 0; currentTile < SIZE_DEAD_WALL; currentTile++){
-			larryDW[currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT1, SMALL));
+			larryDW[currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT1));
 		}
 		
 		

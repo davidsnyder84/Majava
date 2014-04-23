@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import majava.graphics.TableViewer;
+import majava.tiles.Tile;
 
 /*
 Class: Player

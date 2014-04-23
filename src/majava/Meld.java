@@ -3,6 +3,8 @@ package majava;
 
 import java.util.Iterator;
 
+import majava.tiles.Tile;
+
 
 /*
 Class: Meld

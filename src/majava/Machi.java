@@ -2,6 +2,8 @@ package majava;
 
 import java.util.ArrayList;
 
+import majava.tiles.Tile;
+
 
 public class Machi {
 	

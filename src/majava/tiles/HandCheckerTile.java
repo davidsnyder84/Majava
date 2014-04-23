@@ -1,7 +1,5 @@
 package majava.tiles;
 
-import majava.Tile;
-
 
 public class HandCheckerTile extends Tile {
 	

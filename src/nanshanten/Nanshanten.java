@@ -1,7 +1,7 @@
 package nanshanten;
 
 
-import majava.Tile;
+import majava.tiles.Tile;
 
 
 public class Nanshanten {

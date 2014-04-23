@@ -3,6 +3,7 @@ package majava;
 import java.util.ArrayList;
 
 import majava.graphics.TableViewer;
+import majava.tiles.Tile;
 
 
 

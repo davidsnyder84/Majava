@@ -2,6 +2,8 @@ package majava;
 
 import java.util.ArrayList;
 
+import majava.tiles.Tile;
+
 import utility.GenSort;
 import utility.MahList;
 import utility.MahStack;

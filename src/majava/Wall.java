@@ -2,6 +2,8 @@ package majava;
 
 import java.util.Scanner;
 
+import majava.tiles.Tile;
+
 import utility.GenSort;
 
 

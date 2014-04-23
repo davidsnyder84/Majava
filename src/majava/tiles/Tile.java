@@ -1,6 +1,8 @@
-package majava;
+package majava.tiles;
 
 import java.util.ArrayList;
+
+import majava.TileList;
 
 
 

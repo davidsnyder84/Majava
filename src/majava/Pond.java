@@ -2,6 +2,9 @@ package majava;
 
 import java.util.ArrayList;
 
+import majava.tiles.PondTile;
+import majava.tiles.Tile;
+
 /*
 Class: Pond
 represents a player's pond of discarded tiles
@@ -33,21 +36,20 @@ public class Pond {
 	private TileList mTiles;
 	private RoundTracker mRoundTracker;
 	
-//	private Tile mRiichiTile;
 	private int mRiichiTileIndex;
-	private ArrayList<Integer> mMissingTileIndices;
 	
 	
 	
 	
 	public Pond(){
 		mTiles = new TileList(SIZE_DEFAULT);
-		mMissingTileIndices = new ArrayList<Integer>(0);
+		mRoundTracker = null;
+		mRiichiTileIndex = -1;
 	}
 	
 	
 	public void addTile(Tile t){
-		mTiles.add(t);
+		mTiles.add(new PondTile(t));
 	}
 	
 	
@@ -70,7 +72,7 @@ public class Pond {
 	
 	//marks the most recent tile as missing (because it was callled)
 	public Tile removeMostRecentTile(){
-		mMissingTileIndices.add(mTiles.size());
+		((PondTile) mTiles.getLast()).setCalled();
 		return getMostRecentTile();
 	}
 	

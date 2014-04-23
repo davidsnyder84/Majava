@@ -4,6 +4,8 @@ package majava;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import majava.tiles.Tile;
+
 import utility.MahList;
 
 

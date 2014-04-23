@@ -1,6 +1,5 @@
 package majava.tiles;
 
-import majava.Tile;
 
 public class PondTile extends Tile{
 	

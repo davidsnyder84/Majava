@@ -639,22 +639,6 @@ public class TableViewer extends JFrame{
 	
 	
 	
-	
-	
-//	public TableViewer(RoundTracker rTracker){
-//		this();
-//		
-//		mRoundTracker = rTracker;
-//		rTracker.syncWithViewer(this);
-//		blankEverything();
-//	}
-	
-//	public void setRoundTracker(RoundTracker rTracker){
-//		mRoundTracker = rTracker;
-//		rTracker.syncWithViewer(this);
-//		blankEverything();
-//	}
-	
 	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, TileList[] pHandTiles, TileList[] pPondTiles, Tile[] trackerTilesW){
 		
 		mRoundTracker = rTracker;
@@ -3365,7 +3349,7 @@ public class TableViewer extends JFrame{
 		
 		
 		panelRoundResult = new JPanel();
-		panelRoundResult.setBounds(16, 424, 212, 66);
+		panelRoundResult.setBounds(31, 422, 212, 66);
 		panelSidebar.add(panelRoundResult);
 		panelRoundResult.setLayout(null);
 		panelRoundResult.setBackground(COLOR_CALL_PANEL);

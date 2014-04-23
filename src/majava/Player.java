@@ -109,8 +109,6 @@ public class Player {
 	private static final int COM_BEHAVIOR_DISCARD_FIRST = 2;
 	private static final int COM_BEHAVIOR_DISCARD_RANDOM = 3;
 	private static final int COM_BEHAVIOR_DISCARD_DEFAULT = COM_BEHAVIOR_DISCARD_LAST;
-	public static final int TIME_TO_SLEEP = 250;
-//	public static final int TIME_TO_SLEEP = 2000;
 	
 	public static final int POINTS_STARTING_AMOUNT = 25000;
 
@@ -126,9 +124,7 @@ public class Player {
 	private static final int DRAW_NONE = 0;
 	private static final int DRAW_NORMAL = 1;
 	private static final int DRAW_RINSHAN = 3;
-
-//	public static final Tile WANT_SOMETHING = null;
-//	public static final int WANT_KAN_DRAW = 20;
+	
 	
 	public static final int TURN_ACTION_DISCARD = -10;
 	public static final int TURN_ACTION_ANKAN = -20;
@@ -167,11 +163,6 @@ public class Player {
 	private boolean mFuritenStatus;
 	
 	//private ArrayList<Tile> mWaits;
-
-	private Player linkShimocha;
-	private Player linkToimen;
-	private Player linkKamicha;
-	
 	
 	private RoundTracker mRoundTracker;
 	
@@ -182,32 +173,6 @@ public class Player {
 	
 	
 	
-//	public Player(char seatwind, int seatnum, char controller, String pName, RoundTracker rinf){
-//		
-//		mSeatWind = seatwind;
-//		mSeatNumber = seatnum;
-//		
-//		mController = controller;
-//		mPlayerName = pName;
-//		
-//		mHand = new Hand(mSeatWind);
-//		mPond = new Pond();
-//		mPoints = POINTS_STARTING_AMOUNT;
-//		
-//		mCallStatus = CALLED_NONE;
-//		mDrawNeeded = DRAW_NORMAL;
-//		
-//		mRiichiStatus = false;
-//		mFuritenStatus = false;
-//		mHoldingRinshanTile = false;
-//		//mTenpaiStatus = false;
-//		
-//		//link round info
-//		mRTracker = rinf;
-//		
-//		
-//		
-//	}
 	public Player(char seat, char controller, String pName){
 		
 		mSeatWind = seat;

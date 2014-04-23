@@ -62,7 +62,6 @@ public class RoundTracker {
 	
 	
 	
-	
 	private char mRoundWind;
 	private int mRoundNum;
 	private int mRoundBonusNum;

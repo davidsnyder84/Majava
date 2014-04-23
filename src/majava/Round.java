@@ -34,14 +34,14 @@ public class Round {
 	public static final int DEFAULT_ROUND_NUM = 1;
 	public static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
-	public static final int NO_REACTION = 0;
+	public static final int TIME_TO_SLEEP = 500;
 	
 	
 	//for debug use
 	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = true;
 	public static final boolean DEBUG_SHUFFLE_SEATS = false;
 	public static final boolean DEBUG_WAIT_AFTER_COMPUTER = true;
-	public static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+	public static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	
 	
 	
@@ -136,7 +136,7 @@ public class Round {
 		//deal and sort hands
 		mWall.dealHands(p1, p2, p3, p4);
 		p1.sortHand(); p2.sortHand(); p3.sortHand(); p4.sortHand();
-		mTviewer.updateEverything();
+		updateWindow();
 		
 
 		//------------------------------------------------DEBUG INFO
@@ -248,7 +248,7 @@ public class Round {
 		System.out.println("\n\n\tTiles left: " + mWall.getNumTilesLeftInWall());
 		System.out.println("\t" + p.getSeatWind() + " Player's discard: ^^^^^" + mRoundTracker.getMostRecentDiscard().toString() + "^^^^^");
 		p.showPond();
-		mTviewer.updateEverything();
+		updateWindow();
 		
 		
 		//~~~~~~get reactions from the other players
@@ -258,11 +258,7 @@ public class Round {
 		
 		
 		
-		//pause for dramatic effect
-		pauseWait();
 		if (mRoundTracker.callWasMadeOnDiscard() == false){
-			pauseWait();
-			
 			//update turn indicator
 			mRoundTracker.nextTurn();
 		}
@@ -310,20 +306,9 @@ public class Round {
 		
 		//add the tile to the player's hand
 		p.addTileToHand(drawnTile);
-		if (p.controllerIsHuman()) mTviewer.updateEverything();
+		updateWindow();
 		
 	}
-	
-	
-	
-	
-	
-	
-	private void updateWindow(){
-		mTviewer.updateEverything();
-		pauseWait();
-	}
-	
 	
 	
 	
@@ -380,7 +365,7 @@ public class Round {
 		else{
 			//make the meld
 			priorityCaller.makeMeld(discardedTile);
-			mTviewer.updateEverything();
+			updateWindow();
 			//meld has been made
 			
 
@@ -401,9 +386,6 @@ public class Round {
 		
 		//it is now the calling player's turn
 		mRoundTracker.setTurn(priorityCaller.getPlayerNumber());
-		
-		//pause for dramatic effect
-		pauseWait();
 	}
 	
 	
@@ -561,16 +543,6 @@ public class Round {
 	public boolean roundIsOver(){return mRoundTracker.roundIsOver();}
 	
 	
-	//pauses for dramatic effect (like after a computer's turn)
-	public static void pauseWait(){
-		int time = 0;
-		if (DEBUG_WAIT_AFTER_COMPUTER) time = Player.TIME_TO_SLEEP / 2;
-		
-		try {Thread.sleep(time);} catch (InterruptedException e){}
-	}
-	
-	
-	
 	
 	/*
 	method: displayRoundResult
@@ -580,12 +552,34 @@ public class Round {
 		
 		mRoundTracker.printRoundResult();
 		
-		mTviewer.updateEverything();
+		updateWindow();
 		
 		for (Player p: mPlayerArray) p.showHand();
 	}
 	
 	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	private void updateWindow(){
+		mTviewer.updateEverything();
+		pauseWait();
+	}
+
+	
+	//pauses for dramatic effect (like after a computer's turn)
+	public static void pauseWait(){
+		int time = 0;
+		if (DEBUG_WAIT_AFTER_COMPUTER) time = TIME_TO_SLEEP;
+		
+		try {Thread.sleep(time);} catch (InterruptedException e){}
+	}
 	
 	
 	

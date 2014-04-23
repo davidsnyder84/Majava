@@ -44,7 +44,7 @@ public class Table {
 	
 	
 	//for debug use
-	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = true;
+	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = false;
 	public static final boolean DEBUG_SHUFFLE_SEATS = false;
 	
 	
@@ -179,10 +179,14 @@ public class Table {
 		p4.setController(controllers.get(3));
 		
 		//set my human player name
-		if (p1.controllerIsHuman()) p1.setPlayerName("Suwado");
-		if (p2.controllerIsHuman()) p2.setPlayerName("Albert");
-		if (p3.controllerIsHuman()) p3.setPlayerName("Brenda");
-		if (p4.controllerIsHuman()) p4.setPlayerName("Carl");
+//		if (p1.controllerIsHuman()) p1.setPlayerName("Suwado");
+//		if (p2.controllerIsHuman()) p2.setPlayerName("Albert");
+//		if (p3.controllerIsHuman()) p3.setPlayerName("Brenda");
+//		if (p4.controllerIsHuman()) p4.setPlayerName("Carl");
+		p1.setPlayerName("Suwado");
+		p2.setPlayerName("Albert");
+		p3.setPlayerName("Brenda");
+		p4.setPlayerName("Carl");
 	}
 	
 	

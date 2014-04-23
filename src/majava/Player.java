@@ -134,7 +134,7 @@ public class Player {
 	public static final int TURN_ACTION_TSUMO = -50;
 	
 	
-	public static final String PLAYERNAME_DEFAULT = "Matsunaga";
+	public static final String PLAYERNAME_DEFAULT = "Kyoutarou";
 	
 	
 	public static final boolean DEBUG_SKIP_PLAYER_CALL = false;
@@ -612,7 +612,6 @@ public class Player {
 		final int CHOICE_PON = 4;
 		final int CHOICE_KAN = 5;
 		final int CHOICE_RON = 6;
-		final int CHOICE_CHI = 7;
 		
 		int choice = CHOICE_INVALID;
 		ArrayList<Integer> validChoices = new ArrayList<Integer>(4);	
@@ -645,7 +644,7 @@ public class Player {
 		return call;
 	}
 	
-	
+	private static final boolean DEBUG_COMPUTERS_MAKE_CALLS = true;
 	
 	/*
 	private method: __askReactionCom
@@ -659,18 +658,54 @@ public class Player {
 	call = NONE
 	return call
 	*/
+	@SuppressWarnings("unused")
 	private int __askReactionCom(Tile t){
 		/*
 		I'm a computer. What do I want to call?
 		Ron > Kan = pon > Chi-L = Chi-M = Chi-H > none
 		*/
 		
-		
 		int call = CALLED_NONE;
+		if (DEBUG_COMPUTERS_MAKE_CALLS == false) return call;
 		
 		
-		if (mHand.ableToKan()) call = Player.CALLED_KAN;
+		final int CHOICE_NONE = 0;
+		final int CHOICE_CHI_L = 1;
+		final int CHOICE_CHI_M = 2;
+		final int CHOICE_CHI_H = 3;
+		final int CHOICE_PON = 4;
+		final int CHOICE_KAN = 5;
+		final int CHOICE_RON = 6;
 		
+		
+		ArrayList<Integer> validChoices = new ArrayList<Integer>(4);
+		validChoices.add(CHOICE_NONE);
+		if (mHand.ableToChiL()) validChoices.add(CHOICE_CHI_L);
+		if (mHand.ableToChiM()) validChoices.add(CHOICE_CHI_M);
+		if (mHand.ableToChiH()) validChoices.add(CHOICE_CHI_H);
+		if (mHand.ableToPon()){
+			validChoices.add(CHOICE_PON);
+			if (mHand.ableToKan()) validChoices.add(CHOICE_KAN);
+		}
+		if (mHand.ableToRon()) validChoices.add(CHOICE_RON);
+		
+		
+		//computer picks Ron>Kan>Pon>ChiH>ChiM>ChiL>None
+		int choice = validChoices.get(validChoices.size() - 1);
+		
+		//decide call based on player's choice
+		switch (choice){
+		case CHOICE_CHI_L: call = Player.CALLED_CHI_L; break;
+		case CHOICE_CHI_M: call = Player.CALLED_CHI_M; break;
+		case CHOICE_CHI_H: call = Player.CALLED_CHI_H; break;
+		case CHOICE_PON: call = Player.CALLED_PON; break;
+		case CHOICE_KAN: call = Player.CALLED_KAN; break;
+		case CHOICE_RON: call = Player.CALLED_RON; break;
+		case CHOICE_NONE: call = Player.CALLED_NONE; break;
+		default: call = Player.CALLED_NONE; break;
+		}
+
+		//return call
 		return call;
 	}
 	

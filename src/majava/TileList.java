@@ -10,7 +10,7 @@ import utility.MahList;
 
 
 /*
-Class: MahList
+Class: TileList
 a wrapper class for an ArrayList of Tiles. adds extra functionalities
 
 data:

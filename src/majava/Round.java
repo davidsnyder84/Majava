@@ -35,14 +35,12 @@ public class Round {
 	public static final int DEFAULT_ROUND_NUM = 1;
 	public static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
-	public static final int TIME_TO_SLEEP = 500;
+	public static final int TIME_TO_SLEEP = 100;
 	
 	
 	//for debug use
-	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = true;
-	public static final boolean DEBUG_SHUFFLE_SEATS = false;
 	public static final boolean DEBUG_WAIT_AFTER_COMPUTER = true;
-	public static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+	public static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	
 	
 	
@@ -208,6 +206,9 @@ public class Round {
 		}
 		
 		
+		//return early if the round is over (4kan or washout)
+		if (mRoundTracker.roundIsOver()) return;
+		
 		
 		//~~~~~~get player's discard (ankans, riichi, and such are handled inside here)
 		//loop until the player has chosen a discard
@@ -233,8 +234,7 @@ public class Round {
 		
 		
 		//return early if the round is over (tsumo or 4kan or 4riichi or kyuushu)
-		if (mRoundTracker.roundIsOver())
-			return;
+		if (mRoundTracker.roundIsOver()) return;
 		
 		
 		
@@ -259,8 +259,10 @@ public class Round {
 		
 		
 		if (mRoundTracker.callWasMadeOnDiscard() == false){
+			
 			//update turn indicator
-			mRoundTracker.nextTurn();
+			if (mRoundTracker.checkIfWallIsEmpty() == false)
+				mRoundTracker.nextTurn();
 		}
 	}
 	

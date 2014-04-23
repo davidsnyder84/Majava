@@ -1,7 +1,7 @@
 package majava.tiles;
 
 
-public class PondTile extends Tile{
+public class PondTile extends Tile {
 	
 	
 	private boolean mIsRiichiTile;
@@ -10,14 +10,15 @@ public class PondTile extends Tile{
 	
 	
 	
-//	public PondTile(int id) {super(id);}
 	public PondTile(Tile other){
 		super(other);
 		mIsRiichiTile = false;
 		mWasCalled = false;
 	}
+	public PondTile(int id) {this (new Tile(id));}
 	
-
+	
+	
 	
 	public boolean isRiichiTile(){return mIsRiichiTile;}
 	public boolean wasCalled(){return mWasCalled;}

@@ -7,6 +7,7 @@ import majava.MeldType;
 import majava.Player;
 import majava.Tile;
 import majava.TileList;
+import majava.tiles.PondTile;
 
 import utility.GenSort;
 import utility.MahList;
@@ -81,11 +82,32 @@ public class MajaPlay {
 	}
 	
 	
+	
+	
 	public static void playTileInheritance(){
 		
+		Tile t = new Tile(5);
+
+		Tile pt = new PondTile(t);
+		((PondTile) pt).setRiichiTile();
+		((PondTile) pt).setCalled();
 		
 		
 		
+		TileList tlist = new TileList();
+		tlist.add(t);
+		tlist.add(pt);
+		
+		
+		System.out.println(t.toString());
+		
+		System.out.println(pt.toString());
+		System.out.println(((PondTile) pt).isRiichiTile());
+		System.out.println(((PondTile) pt).wasCalled());
+		
+		
+		System.out.println("\n\n\n");
+		System.out.println(tlist.toString());
 		
 	}
 	

@@ -87,8 +87,6 @@ public class Tile implements Comparable<Tile> {
 	private boolean mRedDora;
 	
 	private char mOriginalOwner;
-	private boolean mIsRiichiTile;
-	private boolean mWasCalled;
 	
 	
 	
@@ -119,42 +117,13 @@ public class Tile implements Comparable<Tile> {
 		this(id);
 		mOriginalOwner = ownerWind;
 	}
-	
-	
 	public Tile(Tile other){
 		mID = other.mID;
 		mSuit = other.mSuit;
 		mFace = other.mFace;
 		mOriginalOwner = other.mOriginalOwner;
 		mRedDora = other.mRedDora;
-		
-//		mMeldTypeStack = new MahStack<MeldType>(other.mMeldTypeStack);
 	}
-	
-	/*
-	public boolean mstackPush(MeldType meldType){return mMeldTypeStack.push(meldType);}
-	public MeldType mstackPop(){return mMeldTypeStack.pop();}
-	public MeldType mstackTop(){return mMeldTypeStack.top();}
-	public boolean mstackIsEmpty(){return mMeldTypeStack.isEmpty();}
-	
-	//returns a list of the partner IDs for the top meldType on the stack
-	public ArrayList<Integer> mstackTopParterIDs(){
-		
-		ArrayList<Integer> partnerIDs = new ArrayList<Integer>(2);
-		
-		switch(mMeldTypeStack.top()){
-		case CHI_L: partnerIDs.add(mID + 1); partnerIDs.add(mID + 2); break;
-		case CHI_M: partnerIDs.add(mID - 1); partnerIDs.add(mID + 1); break;
-		case CHI_H: partnerIDs.add(mID - 2); partnerIDs.add(mID - 1); break;
-		case PON: partnerIDs.add(mID); partnerIDs.add(mID); break;
-		case KAN: partnerIDs.add(mID); partnerIDs.add(mID); partnerIDs.add(mID); break;
-		case PAIR: partnerIDs.add(mID); break;
-		default: break;
-		}
-		return partnerIDs;
-	}
-	
-	*/
 	
 	
 	//accessors
@@ -286,14 +255,6 @@ public class Tile implements Comparable<Tile> {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	//returns all of the tile's info as a string (for debug use)
 	public String toStringAllInfo(){
 		
@@ -320,20 +281,6 @@ public class Tile implements Comparable<Tile> {
 	
 	
 	
-	
-	
-	
-	
-	
-	public int getImageID(){
-		if (mRedDora)
-			switch(mID){
-			case 5: return NUMBER_OF_DIFFERENT_TILES + 1;
-			case 14: return NUMBER_OF_DIFFERENT_TILES + 2;
-			case 23: return NUMBER_OF_DIFFERENT_TILES + 3;
-		}
-		return mID;
-	}
 	
 	
 	

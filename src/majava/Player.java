@@ -127,11 +127,13 @@ public class Player {
 	private static final int DRAW_RINSHAN = 3;
 	
 	
-	public static final int TURN_ACTION_DISCARD = -10;
-	public static final int TURN_ACTION_ANKAN = -20;
-	public static final int TURN_ACTION_MINKAN = -30;
-	public static final int TURN_ACTION_RIICHI = -40;
-	public static final int TURN_ACTION_TSUMO = -50;
+	private static final int TURN_ACTION_DISCARD = -10;
+	private static final int TURN_ACTION_ANKAN = -20;
+	private static final int TURN_ACTION_MINKAN = -30;
+	private static final int TURN_ACTION_RIICHI = -40;
+	private static final int TURN_ACTION_TSUMO = -50;
+	private static final int NO_ACTION_CHOSEN = -1;
+	private static final int NO_DISCARD_CHOSEN = -94564;
 	
 	
 	public static final String PLAYERNAME_DEFAULT = "Kyoutarou";
@@ -241,17 +243,14 @@ public class Player {
 	*/
 	public Tile takeTurn(TableViewer tviewer){
 		
-//		Tile discardedTile;
 		mLastDiscard = null;
 		mChosenDiscardIndex = -1;
 		
 		//discard a tile
-//		discardedTile = 
 		__chooseTurnAction(tviewer);
 		
 		
 		
-//		if (discardedTile != null){
 		if (turnActionChoseDiscard()){
 			
 			//discard and return the chosen tile
@@ -260,11 +259,10 @@ public class Player {
 		}
 		else{
 			
-			if (mTurnAction == TURN_ACTION_ANKAN) System.out.println("\n\n!!!!!OOOOOHBOY ANKAN\n!!!!");
-			if (mTurnAction == TURN_ACTION_MINKAN) System.out.println("\n\n!!!!!OOOOOHBOY MINKAN\n!!!!");
-			if (mTurnAction == TURN_ACTION_RIICHI) System.out.println("\n\n!!!!!OOOOOHBOY RIICHI\n!!!!");
-			if (mTurnAction == TURN_ACTION_TSUMO) System.out.println("\n\n!!!!!OOOOOHBOY TSUMO\n!!!!");
-			
+			if (turnActionMadeAnkan()) System.out.println("\n\n!!!!!OOOOOHBOY ANKAN\n!!!!");
+			if (turnActionMadeMinkan()) System.out.println("\n\n!!!!!OOOOOHBOY MINKAN\n!!!!");
+			if (turnActionRiichi()) System.out.println("\n\n!!!!!OOOOOHBOY RIICHI\n!!!!");
+			if (turnActionCalledTsumo()) System.out.println("\n\n!!!!!OOOOOHBOY TSUMO\n!!!!");
 			
 			
 			
@@ -274,10 +272,10 @@ public class Player {
 				
 				//make the meld
 				
-				if (mTurnAction == TURN_ACTION_ANKAN){
+				if (turnActionMadeAnkan()){
 					mHand.makeMeldTurnAnkan();
 				}
-				else if (mTurnAction == TURN_ACTION_MINKAN){
+				else if (turnActionMadeMinkan()){
 					mHand.makeMeldTurnMinkan();
 				}
 				
@@ -376,7 +374,6 @@ public class Player {
 	
 	
 	
-	
 	/*
 	private method: __askDiscardHuman
 	asks a human player which tile they want to discard, returns their choice
@@ -390,25 +387,30 @@ public class Player {
 	*/
 	private int __askTurnActionHuman(TableViewer tviewer){
 		
-		int chosenAction = 0;
+		int chosenAction = NO_ACTION_CHOSEN;
+		int chosenDiscardIndex = NO_DISCARD_CHOSEN;
 		
 		//show hand
 		showHand();
 		tviewer.updateEverything();
 
-		//ask user which tile they want to discard
-		chosenAction = tviewer.getClickTurnAction();
+		//get the player's desired action
+		tviewer.getClickTurnAction();
 		
-		//if the user chose a tile to discard, return its index
-		if (chosenAction > 0){
+		if (tviewer.resultClickTurnActionWasDiscard()){
 			mTurnAction = TURN_ACTION_DISCARD;
-			mChosenDiscardIndex = chosenAction - 1;	//adjust for index
+			chosenDiscardIndex = tviewer.getResultClickedDiscard();
+			mChosenDiscardIndex = chosenDiscardIndex - 1;	//adjust for index
 			return mChosenDiscardIndex;
 		}
 		else{
+			if (tviewer.resultClickTurnActionWasAnkan()) chosenAction = TURN_ACTION_ANKAN;
+			if (tviewer.resultClickTurnActionWasMinkan()) chosenAction = TURN_ACTION_MINKAN;
+			if (tviewer.resultClickTurnActionWasRiichi()) chosenAction = TURN_ACTION_RIICHI;
+			if (tviewer.resultClickTurnActionWasTsumo()) chosenAction = TURN_ACTION_TSUMO;
 			mTurnAction = chosenAction;
-			return mTurnAction;
-		}	
+			return NO_DISCARD_CHOSEN;
+		}
 	}
 	
 	
@@ -447,7 +449,9 @@ public class Player {
 	public Tile getLastDiscard(){return mLastDiscard;}
 	
 	
-	public boolean turnActionMadeKan(){return (mTurnAction == TURN_ACTION_ANKAN || mTurnAction == TURN_ACTION_MINKAN);}
+	public boolean turnActionMadeKan(){return (turnActionMadeAnkan() || turnActionMadeMinkan());}
+	public boolean turnActionMadeAnkan(){return (mTurnAction == TURN_ACTION_ANKAN);}
+	public boolean turnActionMadeMinkan(){return (mTurnAction == TURN_ACTION_MINKAN);}
 	public boolean turnActionCalledTsumo(){return (mTurnAction == TURN_ACTION_TSUMO);}
 	public boolean turnActionChoseDiscard(){return (mTurnAction == TURN_ACTION_DISCARD);}
 //	public boolean turnActionChoseDiscard(){return (mTurnAction == TURN_ACTION_DISCARD || mTurnAction == TURN_ACTION_RIICHI);}

@@ -40,7 +40,7 @@ public class Round {
 	
 	//for debug use
 	public static final boolean DEBUG_WAIT_AFTER_COMPUTER = true;
-	public static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+	public static final boolean DEBUG_LOAD_DEBUG_WALL = true;
 	
 	
 	
@@ -149,15 +149,16 @@ public class Round {
 		
 		
 		//game loop, loop until the round is over
-		while (mRoundTracker.roundIsOver() == false){
+		while (!mRoundTracker.roundIsOver()){
 
 			//handle player turns
 			doPlayerTurn(mRoundTracker.currentPlayer());
 			
 
 			//handle reactions here
-			if (mRoundTracker.callWasMadeOnDiscard())
-				handleReaction();
+			if (!mRoundTracker.roundIsOver())
+				if (mRoundTracker.callWasMadeOnDiscard())
+					handleReaction();
 			
 		}
 		
@@ -225,7 +226,8 @@ public class Round {
 				
 			}
 			
-			if (p.turnActionCalledTsumo()) mRoundTracker.setResultVictory(p.getSeatWind());
+			if (p.turnActionCalledTsumo())
+				mRoundTracker.setResultVictory(p.getSeatWind());
 		}
 		while (p.turnActionChoseDiscard() == false && mRoundTracker.roundIsOver() == false);
 //		while (p.turnActionMadeKan());
@@ -279,6 +281,8 @@ public class Round {
 		
 		Tile drawnTile = null;
 		if (p.needsDraw() == false) return;
+		
+		mWall.printWall(); //debug
 		
 		//draw from wall or dead wall, depending on what player needs
 		if (p.needsDrawNormal()){

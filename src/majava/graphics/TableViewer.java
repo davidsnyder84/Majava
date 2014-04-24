@@ -128,10 +128,10 @@ public class TableViewer extends JFrame{
 	private static final int LARRY_INFOPLAYER_POINTS = 1;
 	private static final int LARRY_INFOPLAYER_RIICHI = 2;
 	
-	private static final int BARRY_PCALLS_RIICHI = 0;
-	private static final int BARRY_PCALLS_ANKAN = 1;
-	private static final int BARRY_PCALLS_MINKAN = 2;
-	private static final int BARRY_PCALLS_TSUMO = 3;
+	private static final int BARRY_TACTIONS_RIICHI = 0;
+	private static final int BARRY_TACTIONS_ANKAN = 1;
+	private static final int BARRY_TACTIONS_MINKAN = 2;
+	private static final int BARRY_TACTIONS_TSUMO = 3;
 
 	private static final int GARRYINDEX_OTHER_RIICHI = 0;
 	
@@ -683,13 +683,13 @@ public class TableViewer extends JFrame{
 		Player currentPlayer = mPTrackers[mRoundTracker.whoseTurn()-1].player;
 		
 		//show riichi if player is in tenpai
-		if (currentPlayer.checkTenpai()) barryTActions[BARRY_PCALLS_RIICHI].setVisible(true);
+		if (currentPlayer.checkTenpai()) barryTActions[BARRY_TACTIONS_RIICHI].setVisible(true);
 		
-		if (currentPlayer.ableToAnkan()) barryTActions[BARRY_PCALLS_ANKAN].setVisible(true);
+		if (currentPlayer.ableToAnkan()) barryTActions[BARRY_TACTIONS_ANKAN].setVisible(true);
 		
-		if (currentPlayer.ableToMinkan()) barryTActions[BARRY_PCALLS_MINKAN].setVisible(true);
+		if (currentPlayer.ableToMinkan()) barryTActions[BARRY_TACTIONS_MINKAN].setVisible(true);
 		
-		if (currentPlayer.ableToTsumo()) barryTActions[BARRY_PCALLS_TSUMO].setVisible(true);
+		if (currentPlayer.ableToTsumo()) barryTActions[BARRY_TACTIONS_TSUMO].setVisible(true);
 		
 		
 		mChosenTurnAction = NO_ACTION_CHOSEN;

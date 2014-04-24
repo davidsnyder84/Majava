@@ -455,8 +455,16 @@ public class HandChecker {
 				mCanMinkan = true;
 			}
 			
+			if (__canTsumo()){
+				mCanTsumo = true;
+			}
+			
 		}
 	}
+	
+	private boolean __canTsumo(){return isComplete();}
+	
+	
 	
 	
 	private boolean __canMinkan(Tile candidate){
@@ -609,6 +617,12 @@ public class HandChecker {
 	//***************************************************************************************************
 	//***************************************************************************************************
 	
+	
+	
+	//returns true if a hand is complete (it is a winning hand)
+	public boolean isComplete(){
+		return (kokushiMusouIsComplete() || chiitoitsuIsComplete() || isNormalComplete());
+	}
 	
 	
 	
@@ -955,16 +969,22 @@ public class HandChecker {
 	*/
 	public boolean isNormalComplete(TileList handTiles){
 		
+		if ((handTiles.size() % 3) != 2) return false;
+		
 		//populate stacks
 		MeldTypeStackList listMTSL = new MeldTypeStackList(handTiles.size());
 		if (populateMeldStacks(handTiles, listMTSL) == false) return false;
 		
 		pairHasBeenChosen = false;
 		mFinishingMelds = new ArrayList<Meld>(5);
-		return isCompleteHand(handTiles, listMTSL);
+		return __isNormalCompleteHand(handTiles, listMTSL);
 	}
 	//overloaded, checks mHandTiles by default
-	public boolean isNormalComplete(){return isNormalComplete(mHandTiles);}
+//	public boolean isNormalComplete(){return isNormalComplete(mHandTiles);}
+	public boolean isNormalComplete(){
+		TileList handTilesCopy = mHandTiles.makeCopy();
+		return isNormalComplete(handTilesCopy);
+	}
 	
 	/*
 	method: populateMeldStacks
@@ -1023,7 +1043,7 @@ public class HandChecker {
 	end while
 	return false (currentTile could not make any meld, so the hand cannot be complete)
 	*/
-	public boolean isCompleteHand(TileList handTiles, MeldTypeStackList listMTSL){
+	private boolean __isNormalCompleteHand(TileList handTiles, MeldTypeStackList listMTSL){
 		
 		//if the hand is empty, it is complete
 		if (handTiles.isEmpty()) return true;
@@ -1120,7 +1140,7 @@ public class HandChecker {
 				listMTSLMinusThisMeld.remove(0);
 				
 				//~~~~Recursive call, check if the hand is still complete without the removed meld tiles
-				if (isCompleteHand(handTilesMinusThisMeld, listMTSLMinusThisMeld)){
+				if (__isNormalCompleteHand(handTilesMinusThisMeld, listMTSLMinusThisMeld)){
 					mFinishingMelds.add(new Meld(toMeldTiles, currentTileMeldType));	//add the meld tiles to the finishing melds stack
 					return true;
 				}

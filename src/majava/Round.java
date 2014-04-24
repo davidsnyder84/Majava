@@ -227,7 +227,8 @@ public class Round {
 			}
 			
 			if (p.turnActionCalledTsumo())
-				mRoundTracker.setResultVictory(p.getSeatWind());
+				mRoundTracker.setResultVictory(p);
+			
 		}
 		while (p.turnActionChoseDiscard() == false && mRoundTracker.roundIsOver() == false);
 //		while (p.turnActionMadeKan());
@@ -367,7 +368,7 @@ public class Round {
 			System.out.println("\n*****RON! RON RON! RON! RON! ROOOOOOOOOOOOOOOOOOOOOON!");
 			//handle here
 			
-			mRoundTracker.setResultVictory(priorityCaller.getSeatWind());
+			mRoundTracker.setResultVictory(priorityCaller);
 			
 			
 		}

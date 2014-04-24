@@ -28,6 +28,28 @@ methods:
 */
 public class RoundTracker {
 	
+	private static final int NUM_PLAYERS = 4;
+	private static final int NUM_PLAYERS_TO_TRACK = NUM_PLAYERS;
+	private static final int NUM_MELDS_TO_TRACK = 5;
+
+	private static final int RESULT_UNDECIDED = -1;
+	private static final int RESULT_DRAW_WASHOUT = 0;
+	private static final int RESULT_DRAW_KYUUSHU = 1;
+	private static final int RESULT_DRAW_4KAN = 2;
+	private static final int RESULT_DRAW_4RIICHI = 3;
+	private static final int RESULT_DRAW_4WIND = 4;
+	private static final int RESULT_VICTORY_E = 5;
+	private static final int RESULT_VICTORY_S = 6;
+	private static final int RESULT_VICTORY_W = 7;
+	private static final int RESULT_VICTORY_N = 8;
+
+	private static final int WIN_TYPE_UNDECIDED = -1;
+	private static final int WIN_TYPE_TSUMO = 50;
+	private static final int WIN_TYPE_RON = 4;
+	
+	
+	
+	
 	
 	private class PlayerTracker{
 		private Player player;
@@ -46,20 +68,14 @@ public class RoundTracker {
 		private ArrayList<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
 	}
 	
-	private static final int NUM_PLAYERS = 4;
-	private static final int NUM_PLAYERS_TO_TRACK = NUM_PLAYERS;
-	private static final int NUM_MELDS_TO_TRACK = 5;
+	private PlayerTracker[] mPTrackers;
+	private int numPlayersSynched;
+	private boolean wallSynched;
 
-	public static final int RESULT_UNDECIDED = -1;
-	public static final int RESULT_DRAW_WASHOUT = 0;
-	public static final int RESULT_DRAW_KYUUSHU = 1;
-	public static final int RESULT_DRAW_4KAN = 2;
-	public static final int RESULT_DRAW_4RIICHI = 3;
-	public static final int RESULT_DRAW_4WIND = 4;
-	public static final int RESULT_VICTORY_E = 5;
-	public static final int RESULT_VICTORY_S = 6;
-	public static final int RESULT_VICTORY_W = 7;
-	public static final int RESULT_VICTORY_N = 8;
+	private Wall mWall;
+	private Tile[] tilesW;
+	
+	
 	
 	
 	
@@ -67,32 +83,18 @@ public class RoundTracker {
 	private int mRoundNum;
 	private int mRoundBonusNum;
 	
+	
 	private int mWhoseTurn;
 	private Tile mMostRecentDiscard;
 	
-	private int mNumKansMade;
 	
-	private Wall mWall;
-	private Tile[] tilesW;
-	
-	
-	
-	private PlayerTracker[] mPTrackers;
-	private int numPlayersSynched;
-	private boolean wallSynched;
-	
-	
-	
-	
-//	private int mGameType;
-//	
-//	private TileList mDoraIndicators;
-//	
 	private boolean mRoundIsOver;
 	private int mRoundResult;
-	
-	
-	
+	private int mWinType;
+
+	private Player mWinningPlayer;
+	private Player mFurikondaPlayer;
+
 	
 	
 	
@@ -108,31 +110,18 @@ public class RoundTracker {
 		mRoundBonusNum = roundBonus;
 		
 		mWhoseTurn = 1;
-		mNumKansMade = 0;
+		mMostRecentDiscard = null;
 		
 		mRoundResult = RESULT_UNDECIDED;
+		mWinType = WIN_TYPE_UNDECIDED;
 		mRoundIsOver = false;
+		mWinningPlayer = mFurikondaPlayer = null;
 		
 		__syncWithWall(wall);
 		__setupPlayerTrackers(p1,p2,p3,p4);
 		
 		__syncWithViewer(tviewer);
 	}
-//	public RoundTracker(char roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){
-//		
-//		mRoundWind = roundWind;
-//		mRoundNum = roundNum;
-//		mRoundBonusNum = roundBonus;
-//		
-//		mWhoseTurn = 1;
-//		mNumKansMade = 0;
-//		
-//		mRoundResult = RESULT_UNDECIDED;
-//		mRoundIsOver = false;
-//		
-//		__syncWithWall(wall);
-//		__setupPlayerTrackers(p1,p2,p3,p4);
-//	}
 	
 	
 	private void __syncWithWall(Wall wall){
@@ -215,11 +204,11 @@ public class RoundTracker {
 	public void setResult4Kan(){__setRoundOver(RESULT_DRAW_4KAN);}
 	public void setResult4Riichi(){__setRoundOver(RESULT_DRAW_4RIICHI);}
 	public void setResult4Wind(){__setRoundOver(RESULT_DRAW_4WIND);}
-	public void setResultVictoryE(){__setRoundOver(RESULT_VICTORY_E);}
-	public void setResultVictoryS(){__setRoundOver(RESULT_VICTORY_S);}
-	public void setResultVictoryW(){__setRoundOver(RESULT_VICTORY_W);}
-	public void setResultVictoryN(){__setRoundOver(RESULT_VICTORY_N);}
-	public void setResultVictory(char winningSeat){
+//	private void setResultVictoryE(){__setRoundOver(RESULT_VICTORY_E);}
+//	private void setResultVictoryS(){__setRoundOver(RESULT_VICTORY_S);}
+//	private void setResultVictoryW(){__setRoundOver(RESULT_VICTORY_W);}
+//	private void setResultVictoryN(){__setRoundOver(RESULT_VICTORY_N);}
+	private void __setResultVictory(char winningSeat){
 		switch(winningSeat){
 		case 'E': __setRoundOver(RESULT_VICTORY_E); break;
 		case 'S': __setRoundOver(RESULT_VICTORY_S); break;
@@ -227,6 +216,24 @@ public class RoundTracker {
 		case 'N': __setRoundOver(RESULT_VICTORY_N); break;
 		default: break;
 		}
+	}
+	
+	
+	
+	private void __setVictoryRon(Player discarder){
+		mFurikondaPlayer = discarder; 
+		mWinType = WIN_TYPE_RON;
+	}
+	private void __setVictoryTsumo(){
+		mWinType = WIN_TYPE_TSUMO;
+	}
+	
+	public void setResultVictory(Player winner){
+		__setResultVictory(winner.getSeatWind());
+		mWinningPlayer = winner;
+		
+		if (winner == currentPlayer()) __setVictoryTsumo();
+		else __setVictoryRon(currentPlayer());
 	}
 	
 	
@@ -249,12 +256,17 @@ public class RoundTracker {
 		 case RESULT_DRAW_4RIICHI: return "Draw (4 riichi)";
 		 case RESULT_DRAW_4WIND: return "Draw (4 wind)";
 		 
-		 case RESULT_VICTORY_E: return "E player wins!";
-		 case RESULT_VICTORY_S: return "S player wins!";
-		 case RESULT_VICTORY_W: return "W player wins!";
-		 case RESULT_VICTORY_N: return "N player wins!";
+		 case RESULT_VICTORY_E: return ("E wins! (" + __getWinTypeString() + ")");
+		 case RESULT_VICTORY_S: return ("S wins! (" + __getWinTypeString() + ")");
+		 case RESULT_VICTORY_W: return ("W wins! (" + __getWinTypeString() + ")");
+		 case RESULT_VICTORY_N: return ("N wins! (" + __getWinTypeString() + ")");
 		 default: return "??Undecided??";
 		 }
+	}
+	
+	private String __getWinTypeString(){
+		if (mWinType == WIN_TYPE_TSUMO) return "TSUMO";
+		else return "RON";
 	}
 	
 	public boolean roundIsOver(){return mRoundIsOver;}

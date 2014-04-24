@@ -658,12 +658,12 @@ public class Player {
 		if (!DEBUG_COMPUTERS_MAKE_CALLS) return call;
 		
 		//computer will always call if possible
-//		if (mHand.ableToChiL()) call = Player.CALLED_CHI_L;
-//		if (mHand.ableToChiM()) call = Player.CALLED_CHI_M;
-//		if (mHand.ableToChiH()) call = Player.CALLED_CHI_H;
-//		if (mHand.ableToPon()) call = Player.CALLED_PON;
-//		if (mHand.ableToKan()) call = Player.CALLED_KAN;
-//		if (mHand.ableToRon()) call = Player.CALLED_RON;
+		if (mHand.ableToChiL()) call = Player.CALLED_CHI_L;
+		if (mHand.ableToChiM()) call = Player.CALLED_CHI_M;
+		if (mHand.ableToChiH()) call = Player.CALLED_CHI_H;
+		if (mHand.ableToPon()) call = Player.CALLED_PON;
+		if (mHand.ableToKan()) call = Player.CALLED_KAN;
+		if (mHand.ableToRon()) call = Player.CALLED_RON;
 		
 		return call;
 	}

@@ -621,7 +621,8 @@ public class HandChecker {
 	
 	//returns true if a hand is complete (it is a winning hand)
 	public boolean isComplete(){
-		return (kokushiMusouIsComplete() || chiitoitsuIsComplete() || isNormalComplete());
+//		return (kokushiMusouIsComplete() || chiitoitsuIsComplete() || isNormalComplete());
+		return (isNormalComplete());
 	}
 	
 	
@@ -983,6 +984,7 @@ public class HandChecker {
 //	public boolean isNormalComplete(){return isNormalComplete(mHandTiles);}
 	public boolean isNormalComplete(){
 		TileList handTilesCopy = mHandTiles.makeCopy();
+		handTilesCopy.sort();
 		return isNormalComplete(handTilesCopy);
 	}
 	

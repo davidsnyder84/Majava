@@ -440,10 +440,15 @@ public class Player {
 		if (mSeatWind == 'E')chosenDiscardIndex = mHand.getSize() - 1;
 		
 		
-		mTurnAction = TURN_ACTION_DISCARD;
-		mChosenDiscardIndex = chosenDiscardIndex;
-		
-		return mChosenDiscardIndex;
+		if (ableToTsumo()){
+			mTurnAction = TURN_ACTION_TSUMO;
+			return NO_DISCARD_CHOSEN;
+		}
+		else{
+			mTurnAction = TURN_ACTION_DISCARD;
+			mChosenDiscardIndex = chosenDiscardIndex;
+			return mChosenDiscardIndex;
+		}
 	}
 	
 	

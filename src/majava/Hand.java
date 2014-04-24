@@ -3,6 +3,7 @@ package majava;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Scanner;
 
 import majava.tiles.Tile;
 
@@ -151,6 +152,7 @@ public class Hand implements Iterable<Tile>{
 			t.setOwner(mOwnerSeatWind);	//TODO for debug use, should remove when done
 			
 			mTiles.add(t);
+			
 			//new tile added to the hand, update what turn actions are possible
 			mChecker.updateTurnActions();
 			return true;

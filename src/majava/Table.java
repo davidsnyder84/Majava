@@ -44,7 +44,7 @@ public class Table {
 	
 	
 	//for debug use
-	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = false;
+	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = true;
 	public static final boolean DEBUG_SHUFFLE_SEATS = false;
 	
 	
@@ -150,7 +150,7 @@ public class Table {
 		if (DEBUG_DO_SINGLE_PLAYER_GAME)
 			numHumans = 1;
 		else{
-//			@SuppressWarnings("resource")
+			@SuppressWarnings("resource")
 			Scanner keyboard = new Scanner(System.in);
 			System.out.println("How many humans will be playing? (Enter 1-4): ");
 			numHumans = keyboard.nextInt();
@@ -178,11 +178,7 @@ public class Table {
 		p3.setController(controllers.get(2));
 		p4.setController(controllers.get(3));
 		
-		//set my human player name
-//		if (p1.controllerIsHuman()) p1.setPlayerName("Suwado");
-//		if (p2.controllerIsHuman()) p2.setPlayerName("Albert");
-//		if (p3.controllerIsHuman()) p3.setPlayerName("Brenda");
-//		if (p4.controllerIsHuman()) p4.setPlayerName("Carl");
+		//set names
 		p1.setPlayerName("Suwado");
 		p2.setPlayerName("Albert");
 		p3.setPlayerName("Brenda");

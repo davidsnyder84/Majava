@@ -114,13 +114,13 @@ public class Player {
 	public static final int POINTS_STARTING_AMOUNT = 25000;
 
 	private static final int CALLED_NONE = 0;
-	private static final int CALLED_CHI = 123;
 	private static final int CALLED_CHI_L = 1;
 	private static final int CALLED_CHI_M = 2;
 	private static final int CALLED_CHI_H = 3;
 	private static final int CALLED_PON = 4;
 	private static final int CALLED_KAN = 5;
 	private static final int CALLED_RON = 6;
+	private static final int CALLED_CHI = 123;
 	
 	private static final int DRAW_NONE = 0;
 	private static final int DRAW_NORMAL = 1;
@@ -138,6 +138,7 @@ public class Player {
 	
 	
 	public static final boolean DEBUG_SKIP_PLAYER_CALL = false;
+	private static final boolean DEBUG_COMPUTERS_MAKE_CALLS = true;
 	
 	
 	
@@ -600,51 +601,30 @@ public class Player {
 	return call
 	*/
 	private int __askReactionHuman(Tile t, TableViewer tviewer){
+		
 		int call = CALLED_NONE;
+		boolean called = false;
 		if (DEBUG_SKIP_PLAYER_CALL) return call;
 		
-		
-		final int CHOICE_INVALID = -1;
-		final int CHOICE_NONE = 0;
-		final int CHOICE_CHI_L = 1;
-		final int CHOICE_CHI_M = 2;
-		final int CHOICE_CHI_H = 3;
-		final int CHOICE_PON = 4;
-		final int CHOICE_KAN = 5;
-		final int CHOICE_RON = 6;
-		
-		int choice = CHOICE_INVALID;
-		ArrayList<Integer> validChoices = new ArrayList<Integer>(4);	
-		
-		
-		validChoices.add(CHOICE_NONE);
-		if (mHand.ableToChiL()) validChoices.add(CHOICE_CHI_L);
-		if (mHand.ableToChiM()) validChoices.add(CHOICE_CHI_M);
-		if (mHand.ableToChiH()) validChoices.add(CHOICE_CHI_H);
-		if (mHand.ableToPon()){
-			validChoices.add(CHOICE_PON);
-			if (mHand.ableToKan()) validChoices.add(CHOICE_KAN);
-		}
-		if (mHand.ableToRon()) validChoices.add(CHOICE_RON);
-		
-		
 		//get user's choice through GUI
-		choice = tviewer.getClickCall(validChoices);
-		
-		//decide call based on player's choice
-		if (choice == CHOICE_CHI_L) call = Player.CALLED_CHI_L;
-		else if (choice == CHOICE_CHI_M) call = Player.CALLED_CHI_M;
-		else if (choice == CHOICE_CHI_H) call = Player.CALLED_CHI_H;
-		else if (choice == CHOICE_PON) call = Player.CALLED_PON;
-		else if (choice == CHOICE_KAN) call = Player.CALLED_KAN;
-		else if (choice == CHOICE_RON) call = Player.CALLED_RON;
-		else if (choice == CHOICE_NONE) call = Player.CALLED_NONE;
+		called = tviewer.getClickCall(mHand.ableToChiL(), mHand.ableToChiM(), mHand.ableToChiH(),
+									mHand.ableToPon(), mHand.ableToKan(), 
+									mHand.ableToRon());
 
-		//return call
+		//decide call based on player's choice
+		if (called){
+			if (tviewer.resultClickCallWasChiL()) call = Player.CALLED_CHI_L;
+			else if (tviewer.resultClickCallWasChiM()) call = Player.CALLED_CHI_M;
+			else if (tviewer.resultClickCallWasChiH()) call = Player.CALLED_CHI_H;
+			else if (tviewer.resultClickCallWasPon()) call = Player.CALLED_PON;
+			else if (tviewer.resultClickCallWasKan()) call = Player.CALLED_KAN;
+			else if (tviewer.resultClickCallWasRon()) call = Player.CALLED_RON;
+		}
+		
 		return call;
 	}
 	
-	private static final boolean DEBUG_COMPUTERS_MAKE_CALLS = true;
+	
 	
 	/*
 	private method: __askReactionCom
@@ -658,7 +638,6 @@ public class Player {
 	call = NONE
 	return call
 	*/
-	@SuppressWarnings("unused")
 	private int __askReactionCom(Tile t){
 		/*
 		I'm a computer. What do I want to call?
@@ -666,46 +645,16 @@ public class Player {
 		*/
 		
 		int call = CALLED_NONE;
-		if (DEBUG_COMPUTERS_MAKE_CALLS == false) return call;
+		if (!DEBUG_COMPUTERS_MAKE_CALLS) return call;
 		
+		//computer will always call if possible
+		if (mHand.ableToChiL()) call = Player.CALLED_CHI_L;
+		if (mHand.ableToChiM()) call = Player.CALLED_CHI_M;
+		if (mHand.ableToChiH()) call = Player.CALLED_CHI_H;
+		if (mHand.ableToPon()) call = Player.CALLED_PON;
+		if (mHand.ableToKan()) call = Player.CALLED_KAN;
+		if (mHand.ableToRon()) call = Player.CALLED_RON;
 		
-		final int CHOICE_NONE = 0;
-		final int CHOICE_CHI_L = 1;
-		final int CHOICE_CHI_M = 2;
-		final int CHOICE_CHI_H = 3;
-		final int CHOICE_PON = 4;
-		final int CHOICE_KAN = 5;
-		final int CHOICE_RON = 6;
-		
-		
-		ArrayList<Integer> validChoices = new ArrayList<Integer>(4);
-		validChoices.add(CHOICE_NONE);
-		if (mHand.ableToChiL()) validChoices.add(CHOICE_CHI_L);
-		if (mHand.ableToChiM()) validChoices.add(CHOICE_CHI_M);
-		if (mHand.ableToChiH()) validChoices.add(CHOICE_CHI_H);
-		if (mHand.ableToPon()){
-			validChoices.add(CHOICE_PON);
-			if (mHand.ableToKan()) validChoices.add(CHOICE_KAN);
-		}
-		if (mHand.ableToRon()) validChoices.add(CHOICE_RON);
-		
-		
-		//computer picks Ron>Kan>Pon>ChiH>ChiM>ChiL>None
-		int choice = validChoices.get(validChoices.size() - 1);
-		
-		//decide call based on player's choice
-		switch (choice){
-		case CHOICE_CHI_L: call = Player.CALLED_CHI_L; break;
-		case CHOICE_CHI_M: call = Player.CALLED_CHI_M; break;
-		case CHOICE_CHI_H: call = Player.CALLED_CHI_H; break;
-		case CHOICE_PON: call = Player.CALLED_PON; break;
-		case CHOICE_KAN: call = Player.CALLED_KAN; break;
-		case CHOICE_RON: call = Player.CALLED_RON; break;
-		case CHOICE_NONE: call = Player.CALLED_NONE; break;
-		default: call = Player.CALLED_NONE; break;
-		}
-
-		//return call
 		return call;
 	}
 	

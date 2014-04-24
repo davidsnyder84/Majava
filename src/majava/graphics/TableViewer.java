@@ -206,7 +206,7 @@ public class TableViewer extends JFrame{
 	
 
 	private JButton[] barryCalls = new JButton[8];
-	private JButton[] barryPCalls = new JButton[4];
+	private JButton[] barryTActions = new JButton[4];
 	private JLabel[] larryDW = new JLabel[SIZE_DEAD_WALL];
 	
 	private JPanel panelResult;
@@ -485,10 +485,11 @@ public class TableViewer extends JFrame{
 		
 		for (JLabel[] lar: larryHands)	//hands
 			for (JLabel l: lar) l.setIcon(null);
-		for (JLabel[] lar: larryPonds)	//ponds
-			for (JLabel l: lar) l.setIcon(null);
 		for (JLabel[] lar: larryWalls)	//walls
 			for (JLabel l: lar) l.setIcon(null);
+		
+		for (JLabel[] lar: larryPonds)//ponds
+			for (JLabel l: lar) {l.setIcon(null); l.setOpaque(false);}
 		
 		//melds
 		for (JLabel[][] larg: larryHandMelds)
@@ -518,8 +519,8 @@ public class TableViewer extends JFrame{
 		for (JButton b: barryCalls)
 			b.setVisible(false);
 		
-//		turn action buttons
-		for (JButton b: barryPCalls)
+		//turn action buttons
+		for (JButton b: barryTActions)
 			b.setVisible(false);
 		
 		//dead wall
@@ -544,7 +545,7 @@ public class TableViewer extends JFrame{
 	
 	private int mChosenCall;
 
-	private static final int CALL_INVALID = -1;
+//	private static final int CALL_INVALID = -1;
 	private static final int CALL_NONE = 0;
 	private static final int CALL_CHI_L = 1;
 	private static final int CALL_CHI_M = 2;
@@ -556,24 +557,51 @@ public class TableViewer extends JFrame{
 	
 	
 	
-	private static final int NO_DISCARD_CHOSEN = -1;
+	private static final int NO_ACTION_CHOSEN = -1;
+	private static final int NO_CALL_CHOSEN = -1;
 	
 	
 	
-	public int getClickCall(ArrayList<Integer> validChoices){
+//	public boolean getClickCall(ArrayList<Integer> validChoices){
+	public boolean getClickCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
 		
-		mChosenCall = CALL_INVALID;
+		mChosenCall = NO_CALL_CHOSEN;
 		for (JButton b: barryCalls) b.setVisible(false);
 		
-		for (Integer i: validChoices) barryCalls[i].setVisible(true);
+		
+		barryCalls[CALL_NONE].setVisible(true);
+		
+		if (canChiL) barryCalls[CALL_CHI_L].setVisible(true);
+		if (canChiM) barryCalls[CALL_CHI_M].setVisible(true);
+		if (canChiH) barryCalls[CALL_CHI_H].setVisible(true);
+		
+		if (canPon) barryCalls[CALL_PON].setVisible(true);
+		if (canKan) barryCalls[CALL_KAN].setVisible(true);
+		if (canRon) barryCalls[CALL_RON].setVisible(true);
+		
+		
 		thisguy.repaint();
-		while (mChosenCall == CALL_INVALID);//intentionally blank
+		
+		
+		while (mChosenCall == NO_CALL_CHOSEN);//intentionally blank
 		
 		for (JButton b: barryCalls) b.setVisible(false);
-		return mChosenCall;
+		
+		
+		return (mChosenCall != NO_CALL_CHOSEN);
 	}
-	public int getCallChoice(){return mChosenCall;}
+	
+	public boolean resultClickCallWasNone(){return (mChosenCall == NO_CALL_CHOSEN);}
+	public boolean resultClickCallWasChiL(){return (mChosenCall == CALL_CHI_L);}
+	public boolean resultClickCallWasChiM(){return (mChosenCall == CALL_CHI_M);}
+	public boolean resultClickCallWasChiH(){return (mChosenCall == CALL_CHI_H);}
+	public boolean resultClickCallWasPon(){return (mChosenCall == CALL_PON);}
+	public boolean resultClickCallWasKan(){return (mChosenCall == CALL_KAN);}
+	public boolean resultClickCallWasRon(){return (mChosenCall == CALL_RON);}
+	
 
+	
+	
 	
 	
 	private class CallListener implements ActionListener{
@@ -615,36 +643,35 @@ public class TableViewer extends JFrame{
 		Player currentPlayer = mPTrackers[mRoundTracker.whoseTurn()-1].player;
 		
 		//show riichi if player is in tenpai
-		if (currentPlayer.checkTenpai() && currentPlayer.controllerIsHuman())
-			barryPCalls[BARRY_PCALLS_RIICHI].setVisible(true);
+		if (currentPlayer.checkTenpai()) barryTActions[BARRY_PCALLS_RIICHI].setVisible(true);
 		
-		if (currentPlayer.ableToAnkan())
-			barryPCalls[BARRY_PCALLS_ANKAN].setVisible(true);
+		if (currentPlayer.ableToAnkan()) barryTActions[BARRY_PCALLS_ANKAN].setVisible(true);
 		
-		if (currentPlayer.ableToMinkan())
-			barryPCalls[BARRY_PCALLS_MINKAN].setVisible(true);
+		if (currentPlayer.ableToMinkan()) barryTActions[BARRY_PCALLS_MINKAN].setVisible(true);
 		
-		if (currentPlayer.ableToTsumo())
-			barryPCalls[BARRY_PCALLS_TSUMO].setVisible(true);
-			
+		if (currentPlayer.ableToTsumo()) barryTActions[BARRY_PCALLS_TSUMO].setVisible(true);
 		
 		
 		
-		
-//		for (JButton b: barryPCalls) b.setVisible(true);
-		
-		mChosenTurnAction = NO_DISCARD_CHOSEN;
-		while (mChosenTurnAction == NO_DISCARD_CHOSEN){
+		mChosenTurnAction = NO_ACTION_CHOSEN;
+		while (mChosenTurnAction == NO_ACTION_CHOSEN){
 			if (mChosenTurnAction > currentPlayer.getHandSize())
-				mChosenTurnAction = NO_DISCARD_CHOSEN;
+				mChosenTurnAction = NO_ACTION_CHOSEN;
 		}
 		if (mChosenTurnAction == 0) mChosenTurnAction = currentPlayer.getHandSize();
 		
-		for (JButton b: barryPCalls) b.setVisible(false);
+		for (JButton b: barryTActions) b.setVisible(false);
 		return mChosenTurnAction;
 	}
 	
 	public int getTurnActionChoice(){return mChosenTurnAction;}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -685,17 +712,15 @@ public class TableViewer extends JFrame{
 		TableViewer viewer = new TableViewer();
 		viewer.setVisible(true);
 		
-		ArrayList<Integer> callz = new ArrayList<Integer>();
-		callz.add(TableViewer.CALL_NONE);
-		callz.add(TableViewer.CALL_CHI_L);
-		callz.add(TableViewer.CALL_CHI_M);
-		callz.add(TableViewer.CALL_CHI_H);
-		callz.add(TableViewer.CALL_PON);
-		callz.add(TableViewer.CALL_KAN);
-		callz.add(TableViewer.CALL_RON);
+		boolean canChiL = true;
+		boolean canChiM = true; 
+		boolean canChiH = true; 
+		boolean canPon = true; 
+		boolean canKan = true; 
+		boolean canRon = true;
+		
 		while (true){
-//			System.out.println(viewer.getClickCall(callz));
-//			System.out.println(viewer.getClickCall(callz));
+			System.out.println(viewer.getClickCall(canChiL, canChiM, canChiH, canPon, canKan, canRon));
 			System.out.println(viewer.getClickTurnAction());
 			viewer.repaint();
 		}
@@ -804,7 +829,7 @@ public class TableViewer extends JFrame{
 		
 		JPanel panelDeadWall;
 		JPanel panelCalls;
-		JPanel panelPCalls;
+		JPanel panelTActions;
 		JPanel panelRoundResult;
 		
 		
@@ -3158,31 +3183,31 @@ public class TableViewer extends JFrame{
 		
 		
 		
-		panelPCalls = new JPanel();
-		panelPCalls.setBounds(104, 0, 100, 147);
-		panelPCalls.setOpaque(false);
-		panelCalls.add(panelPCalls);
-		panelPCalls.setLayout(null);
+		panelTActions = new JPanel();
+		panelTActions.setBounds(104, 0, 100, 147);
+		panelTActions.setOpaque(false);
+		panelCalls.add(panelTActions);
+		panelTActions.setLayout(null);
 
 		
 		buttonRiichi = new JButton("Riichi?");
 		buttonRiichi.setBounds(11, 0, 89, 23);
-		panelPCalls.add(buttonRiichi);
+		panelTActions.add(buttonRiichi);
 		buttonRiichi.setActionCommand("Riichi");
 		
 		buttonAnkan = new JButton("Ankan?");
 		buttonAnkan.setBounds(11, 24, 89, 23);
-		panelPCalls.add(buttonAnkan);
+		panelTActions.add(buttonAnkan);
 		buttonAnkan.setActionCommand("Ankan");
 		
 		buttonMinkan = new JButton("Minkan?");
 		buttonMinkan.setBounds(11, 48, 89, 23);
-		panelPCalls.add(buttonMinkan);
+		panelTActions.add(buttonMinkan);
 		buttonMinkan.setActionCommand("Minkan");
 		
 		buttonTsumo = new JButton("Tsumo!!!");
 		buttonTsumo.setBounds(0, 96, 100, 51);
-		panelPCalls.add(buttonTsumo);
+		panelTActions.add(buttonTsumo);
 		buttonTsumo.setActionCommand("Tsumo");
 		
 		
@@ -3459,7 +3484,7 @@ public class TableViewer extends JFrame{
 		barryCalls[0] = btnCallNone;barryCalls[1] = btnCallChiL;barryCalls[2] = btnCallChiM;barryCalls[3] = btnCallChiH;barryCalls[4] = btnCallPon;barryCalls[5] = btnCallKan;barryCalls[6] = btnCallRon;
 		barryCalls[7] = btnCallChi;
 		
-		barryPCalls[0] = buttonRiichi;barryPCalls[1] = buttonAnkan;barryPCalls[2] = buttonMinkan;barryPCalls[3] = buttonTsumo;
+		barryTActions[0] = buttonRiichi;barryTActions[1] = buttonAnkan;barryTActions[2] = buttonMinkan;barryTActions[3] = buttonTsumo;
 		
 		
 		
@@ -3519,7 +3544,7 @@ public class TableViewer extends JFrame{
 			b.setOpaque(false);
 		}
 		TurnActionListener taListener = new TurnActionListener();
-		for (JButton b: barryPCalls){
+		for (JButton b: barryTActions){
 			b.addActionListener(taListener);
 			
 	//		b.setBorderPainted(false);

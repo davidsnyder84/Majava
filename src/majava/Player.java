@@ -139,7 +139,7 @@ public class Player {
 	public static final String PLAYERNAME_DEFAULT = "Kyoutarou";
 	
 	
-	public static final boolean DEBUG_SKIP_PLAYER_CALL = false;
+	private static final boolean DEBUG_SKIP_PLAYER_CALL = false;
 	private static final boolean DEBUG_COMPUTERS_MAKE_CALLS = true;
 	
 	
@@ -244,7 +244,7 @@ public class Player {
 	public Tile takeTurn(TableViewer tviewer){
 		
 		mLastDiscard = null;
-		mChosenDiscardIndex = -1;
+		mChosenDiscardIndex = NO_DISCARD_CHOSEN;
 		
 		//discard a tile
 		__chooseTurnAction(tviewer);

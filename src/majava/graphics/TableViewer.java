@@ -581,14 +581,28 @@ public class TableViewer extends JFrame{
 	public boolean getClickCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
 		
 		mChosenCall = NO_CALL_CHOSEN;
+		boolean onlyOneChiPossible = ((canChiL ^ canChiM ^ canChiH) ^ (canChiL && canChiM && canChiH));
+		int chiType = -1;
+		
 		for (JButton b: barryCalls) b.setVisible(false);
 		
 		
 		barryCalls[CALL_NONE].setVisible(true);
 		
-		if (canChiL) barryCalls[CALL_CHI_L].setVisible(true);
-		if (canChiM) barryCalls[CALL_CHI_M].setVisible(true);
-		if (canChiH) barryCalls[CALL_CHI_H].setVisible(true);
+		//if only one type of chi is possible, just show a single Chi button
+		if (onlyOneChiPossible){
+			barryCalls[CALL_CHI].setVisible(true);
+			
+			if (canChiL) chiType = CALL_CHI_L;
+			else if (canChiM) chiType = CALL_CHI_M;
+			else if (canChiH) chiType = CALL_CHI_H;
+		}
+		else{
+			//else, show multiple chi buttons
+			if (canChiL) barryCalls[CALL_CHI_L].setVisible(true);
+			if (canChiM) barryCalls[CALL_CHI_M].setVisible(true);
+			if (canChiH) barryCalls[CALL_CHI_H].setVisible(true);
+		}
 		
 		if (canPon) barryCalls[CALL_PON].setVisible(true);
 		if (canKan) barryCalls[CALL_KAN].setVisible(true);
@@ -598,6 +612,8 @@ public class TableViewer extends JFrame{
 		
 		
 		while (mChosenCall == NO_CALL_CHOSEN);//intentionally blank
+		
+		if (mChosenCall == CALL_CHI) mChosenCall = chiType;
 		
 		for (JButton b: barryCalls) b.setVisible(false);
 		return (mChosenCall != NO_CALL_CHOSEN);
@@ -610,6 +626,9 @@ public class TableViewer extends JFrame{
 	public boolean resultClickCallWasKan(){return (mChosenCall == CALL_KAN);}
 	public boolean resultClickCallWasRon(){return (mChosenCall == CALL_RON);}
 	
+	
+	
+	
 
 	
 	
@@ -618,14 +637,15 @@ public class TableViewer extends JFrame{
 	private class CallListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String call = e.getActionCommand();
-			if (call.equals("Chi-L")) mChosenCall = CALL_CHI_L;
-			else if (call.equals("Chi-M")) mChosenCall = CALL_CHI_M;
-			else if (call.equals("Chi-H")) mChosenCall = CALL_CHI_H;
-			else if (call.equals("Pon")) mChosenCall = CALL_PON;
-			else if (call.equals("Kan")) mChosenCall = CALL_KAN;
-			else if (call.equals("Ron")) mChosenCall = CALL_RON;
-			else if (call.equals("None")) mChosenCall = CALL_NONE;
+			String command = e.getActionCommand();
+			if (command.equals("Chi-L")) mChosenCall = CALL_CHI_L;
+			else if (command.equals("Chi-M")) mChosenCall = CALL_CHI_M;
+			else if (command.equals("Chi-H")) mChosenCall = CALL_CHI_H;
+			else if (command.equals("Pon")) mChosenCall = CALL_PON;
+			else if (command.equals("Kan")) mChosenCall = CALL_KAN;
+			else if (command.equals("Ron")) mChosenCall = CALL_RON;
+			else if (command.equals("None")) mChosenCall = CALL_NONE;
+			else if (command.equals("Chi")) mChosenCall = CALL_CHI;
 		}		
 	}
 	
@@ -636,11 +656,11 @@ public class TableViewer extends JFrame{
 	private class TurnActionListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String call = e.getActionCommand();
-			if (call.equals("Ankan")) mChosenTurnAction = TURN_ACTION_ANKAN;
-			else if (call.equals("Minkan")) mChosenTurnAction = TURN_ACTION_MINKAN;
-			else if (call.equals("Riichi")) mChosenTurnAction = TURN_ACTION_RIICHI;
-			else if (call.equals("Tsumo")) mChosenTurnAction = TURN_ACTION_TSUMO;
+			String command = e.getActionCommand();
+			if (command.equals("Ankan")) mChosenTurnAction = TURN_ACTION_ANKAN;
+			else if (command.equals("Minkan")) mChosenTurnAction = TURN_ACTION_MINKAN;
+			else if (command.equals("Riichi")) mChosenTurnAction = TURN_ACTION_RIICHI;
+			else if (command.equals("Tsumo")) mChosenTurnAction = TURN_ACTION_TSUMO;
 		}		
 	}
 	
@@ -673,18 +693,13 @@ public class TableViewer extends JFrame{
 		
 		
 		mChosenTurnAction = NO_ACTION_CHOSEN;
-		while (mChosenTurnAction == NO_ACTION_CHOSEN){
-//			if (mChosenDiscard > currentPlayer.getHandSize())
-//				{mChosenTurnAction = NO_ACTION_CHOSEN; mChosenDiscard = NO_DISCARD_CHOSEN;}
-		}
+		while (mChosenTurnAction == NO_ACTION_CHOSEN);//intentionally blank
+		
 		if (mChosenDiscard > currentPlayer.getHandSize()) __setDiscardChosen(DEFAULT_DISCARD);
 		if (mChosenDiscard == DEFAULT_DISCARD) mChosenDiscard = currentPlayer.getHandSize();
 		
 		
 		for (JButton b: barryTActions) b.setVisible(false);
-		
-//		if (resultClickTurnActionWasDiscard()) return mChosenDiscard;
-//		else return NO_DISCARD_CHOSEN;
 	}
 	public boolean resultClickTurnActionWasDiscard(){return (mChosenTurnAction == TURN_ACTION_DISCARD);}
 	public boolean resultClickTurnActionWasAnkan(){return (mChosenTurnAction == TURN_ACTION_ANKAN);}

@@ -133,6 +133,12 @@ public class Hand implements Iterable<Tile>{
 	//returns true if the hand is in tenpai
 	public boolean getTenpaiStatus(){return mChecker.getTenpaiStatus();}
 	
+	//returns a list of the hand's tenpai waits
+	public TileList getTenpaiWaits(){
+		if (getTenpaiStatus()) return mChecker.getTenpaiWaits();
+		else return null;
+	}
+	
 	
 	
 	
@@ -355,10 +361,6 @@ public class Hand implements Iterable<Tile>{
 	
 	
 	public void makeMeldTurnAnkan(){
-//		Tile candidate = mChecker.getCandidateAnkan();
-//		
-//		int candidateIndex = mChecker.getCandidateAnkanIndex();
-//		candidate = mTiles.get(candidateIndex);
 		
 		makeClosedMeldKan();
 	}

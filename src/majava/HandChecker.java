@@ -296,7 +296,7 @@ public class HandChecker {
 		MahList<Integer> tempPartnerIndices = new MahList<Integer>(numPartnersNeeded);
 		
 		//meld is possible if there are enough partners in the hand to form the meld
-		if (howManyOfThisTileInHand(candidate, tempPartnerIndices.getArrayList()) >= numPartnersNeeded){
+		if (__howManyOfThisTileInHand(candidate, tempPartnerIndices.getArrayList()) >= numPartnersNeeded){
 
 			//store the partner indices in the pon partner index list
 			__storePartnerIndices(storePartnersHere, tempPartnerIndices.subList(0, numPartnersNeeded));
@@ -315,6 +315,15 @@ public class HandChecker {
 	
 	
 	
+	//returns true if the player can call ron on the candidate tile
+	private boolean __canRon(Tile candidate){
+		return (mTenpaiWaits.contains(candidate));
+	}
+	//overloaded. if no tile argument given, candidate = mCallCandidate is passsed
+	private boolean __canRon(){return __canRon(mCallCandidate);}
+	
+	
+	
 	/*
 	private method: howManyOfThisTileInHand
 	returns how many copies of tile t are in the hand
@@ -325,7 +334,7 @@ public class HandChecker {
 	if a (list was provided): store the indices in that list
 	return (number of indices found)
 	*/
-	public int howManyOfThisTileInHand(Tile t, ArrayList<Integer> storeIndicesHere){
+	private int __howManyOfThisTileInHand(Tile t, ArrayList<Integer> storeIndicesHere){
 		
 		//find all the indices of t in the hand, then store the indices if a list was provided
 		MahList<Integer> foundIndices = mHandTiles.findAllIndicesOf(t);
@@ -335,20 +344,9 @@ public class HandChecker {
 		return foundIndices.size();
 	}
 	//overloaded, omitting list argument simply returns the count, and doesn't populate any list
-	public int howManyOfThisTileInHand(Tile t){return howManyOfThisTileInHand(t, null);}
+	public int howManyOfThisTileInHand(Tile t){return __howManyOfThisTileInHand(t, null);}
 	
 	
-	
-	
-	
-	//returns true if the player can call ron on the candidate tile
-	public boolean __canRon(){
-		
-		
-		
-		
-		return false;
-	}
 	
 	
 	
@@ -390,7 +388,7 @@ public class HandChecker {
 				mCanKan = __canKan();
 		
 		//if in tenpai, check ron
-		if (mTenpaiStatus == true)
+		if (mTenpaiStatus)
 			mCanRon = __canRon();
 		
 		//~~~~return true if a call (any call) can be made
@@ -433,13 +431,7 @@ public class HandChecker {
 		return count;
 	}
 	
-	public int numberOfTurnActionsPossible(){
-		int count = 0;
-		if (mCanAnkan) count++;
-		if (mCanMinkan) count++;
-		if (mCanTsumo) count++;
-		return count;
-	}
+	
 	
 	
 	
@@ -447,8 +439,6 @@ public class HandChecker {
 		
 		__resetCallableFlags();
 		
-		
-//		for (Tile t: mHandTiles){
 		for (int index = 0; index < mHandTiles.size(); index++){
 			
 			Tile t = mHandTiles.get(index);
@@ -483,12 +473,13 @@ public class HandChecker {
 	public int getCandidateMinkanIndex(){return mTurnMinkanCandidateIndex;}
 	public int getCandidateAnkanIndex(){return mTurnAnkanCandidateIndex;}
 	
-	
-	
-	
-	
-	
-	
+	public int numberOfTurnActionsPossible(){
+		int count = 0;
+		if (mCanAnkan) count++;
+		if (mCanMinkan) count++;
+		if (mCanTsumo) count++;
+		return count;
+	}
 	
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -436,7 +436,7 @@ public class Player {
 		chosenDiscardIndex = 0;
 		
 		
-//		if (mSeatWind == 'S')chosenDiscardIndex = mHand.getSize() - 1; 
+		if (mSeatWind == 'N')chosenDiscardIndex = mHand.getSize() - 1; 
 		
 		
 		mTurnAction = TURN_ACTION_DISCARD;

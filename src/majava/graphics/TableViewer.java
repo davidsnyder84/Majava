@@ -3532,8 +3532,41 @@ public class TableViewer extends JFrame{
 		barryTActions[0] = buttonRiichi;barryTActions[1] = buttonAnkan;barryTActions[2] = buttonMinkan;barryTActions[3] = buttonTsumo;
 		
 		
+		//load image icons into arrays
+		__loadImagesIntoArrays();
 		
-		//put image icons into arrays
+		
+
+		
+		//set call button attributes
+		CallListener callListener = new CallListener();
+		for (JButton b: barryCalls){
+			b.addActionListener(callListener);
+			
+	//		b.setBorderPainted(false);
+			b.setContentAreaFilled(false);
+			b.setRolloverEnabled(false);
+			b.setFocusPainted(false);
+//			b.setFocusPainted(false);
+			b.setOpaque(false);
+		}
+		TurnActionListener taListener = new TurnActionListener();
+		for (JButton b: barryTActions){
+			b.addActionListener(taListener);
+			
+	//		b.setBorderPainted(false);
+			b.setContentAreaFilled(false);
+			b.setRolloverEnabled(false);
+			b.setFocusPainted(false);
+//			b.setFocusPainted(false);
+			b.setOpaque(false);
+		}
+	}
+	
+	
+	//put image icons into arrays
+	private void __loadImagesIntoArrays(){
+		
 		//load Tile images into array
 		for(int seat = 0; seat < SIZE_NUM_SEATS; seat++){
 			//get tileback and each of the 34 tiles
@@ -3568,37 +3601,8 @@ public class TableViewer extends JFrame{
 		//load Other (riichi stick, sheepy2) into array
 		garryOther[0] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\riichiStick.png");
 		garryOther[1] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\sheepy2trans.png");
-		
-		
-		
-		
-		
-		
-
-		
-		//set call button attributes
-		CallListener callListener = new CallListener();
-		for (JButton b: barryCalls){
-			b.addActionListener(callListener);
-			
-	//		b.setBorderPainted(false);
-			b.setContentAreaFilled(false);
-			b.setRolloverEnabled(false);
-			b.setFocusPainted(false);
-//			b.setFocusPainted(false);
-			b.setOpaque(false);
-		}
-		TurnActionListener taListener = new TurnActionListener();
-		for (JButton b: barryTActions){
-			b.addActionListener(taListener);
-			
-	//		b.setBorderPainted(false);
-			b.setContentAreaFilled(false);
-			b.setRolloverEnabled(false);
-			b.setFocusPainted(false);
-//			b.setFocusPainted(false);
-			b.setOpaque(false);
-		}
 	}
+	
+	
 	
 }

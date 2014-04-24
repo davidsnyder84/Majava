@@ -45,6 +45,7 @@ public class Table {
 	
 	//for debug use
 	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = true;
+	public static final boolean DEBUG_DO_COMPUTER_PLAYER_GAME = true;
 	public static final boolean DEBUG_SHUFFLE_SEATS = false;
 	
 	
@@ -146,14 +147,16 @@ public class Table {
 	private void decideSeats(){
 
 		//figure out how many humans are playing
-		int numHumans = 0;
-		if (DEBUG_DO_SINGLE_PLAYER_GAME)
-			numHumans = 1;
-		else{
-			@SuppressWarnings("resource")
+		int numHumans = -1;
+		if (DEBUG_DO_SINGLE_PLAYER_GAME) numHumans = 1;
+		if (DEBUG_DO_COMPUTER_PLAYER_GAME) numHumans = 0;
+		
+		if (numHumans < 0){
+//			@SuppressWarnings("resource")
 			Scanner keyboard = new Scanner(System.in);
 			System.out.println("How many humans will be playing? (Enter 1-4): ");
 			numHumans = keyboard.nextInt();
+			keyboard.close();
 		}
 		
 		

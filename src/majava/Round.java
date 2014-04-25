@@ -1,5 +1,6 @@
 package majava;
 
+import utility.Pauser;
 import majava.graphics.TableViewer;
 import majava.tiles.Tile;
 
@@ -35,7 +36,7 @@ public class Round {
 	public static final int DEFAULT_ROUND_NUM = 1;
 	public static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
-	public static final int TIME_TO_SLEEP = 10;
+	public static final int TIME_TO_SLEEP = 400;
 	
 	
 	//for debug use
@@ -52,6 +53,7 @@ public class Round {
 	
 	private RoundTracker mRoundTracker;
 	private TableViewer mTviewer;
+	private Pauser mPauser;
 	
 	
 	private char mRoundWind;
@@ -86,7 +88,7 @@ public class Round {
 		
 		//initialize Round Tracker
 		mRoundTracker = new RoundTracker(tviewer, mRoundWind,mRoundNum,mRoundBonusNum,  mWall,  p1,p2,p3,p4);
-		
+		mPauser = new Pauser(TIME_TO_SLEEP);
 	}
 	public Round(TableViewer tviewer, Player[] playerArray, char roundWind, int roundNum){this(tviewer, playerArray, roundWind, roundNum, DEFAULT_ROUND_BONUS_NUM);}
 	public Round(TableViewer tviewer, Player[] playerArray){this(tviewer, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
@@ -580,16 +582,8 @@ public class Round {
 	
 	private void updateWindow(){
 		mTviewer.updateEverything();
-		pauseWait();
-	}
-
-	
-	//pauses for dramatic effect (like after a computer's turn)
-	public static void pauseWait(){
-		int time = 0;
-		if (DEBUG_WAIT_AFTER_COMPUTER) time = TIME_TO_SLEEP;
-		
-		try {Thread.sleep(time);} catch (InterruptedException e){}
+		//pause for dramatic effect (like after a computer's turn)
+		mPauser.pauseWait();
 	}
 	
 	

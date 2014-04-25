@@ -8,6 +8,7 @@ import majava.RoundTracker;
 import majava.tiles.Tile;
 import majava.TileList;
 import majava.tiles.PondTile;
+import utility.Pauser;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -51,7 +52,7 @@ public class TableViewer extends JFrame{
 	
 	//Control constants
 	private static final boolean DEFAULT_OPTION_HIDE_WALL = true;
-	private static final boolean DEFAULT_OPTION_HIDE_HANDS = false;
+	private static final boolean DEFAULT_OPTION_HIDE_HANDS = true;
 	
 	
 	private static final int WINDOW_WIDTH = 1150;
@@ -103,6 +104,7 @@ public class TableViewer extends JFrame{
 	private static final int SIZE_WALL = 34;
 	private static final int SIZE_DEAD_WALL = 14;
 	private static final int OFFSET_DEAD_WALL = SIZE_WALL * 4 - SIZE_DEAD_WALL;
+	private static final int POS_DORA_1 = 8;
 	private static final int SIZE_POND = 24;
 	private static final int SIZE_LARRY_INFOPLAYER = 3;
 	private static final int SIZE_LARRY_INFOROUND = 2;
@@ -440,13 +442,22 @@ public class TableViewer extends JFrame{
 	}
 	
 	
-
-	private static final int POS_DORA_1 = 8;
 	
 	public void updateEverything(){
 		
 		int currentPlayer, currentTile;
 		int currentMeld;
+		
+		
+		//show end of round result if round is over
+		if (mRoundTracker.roundIsOver()){
+			lblResult.setText(mRoundTracker.getRoundResultString());
+			panelResult.setVisible(true);
+			
+			for (int i = 0; i < mHideHands.length; i++) mHideHands[i] = false;
+		}
+		
+		
 		
 		//update hands
 		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
@@ -508,12 +519,6 @@ public class TableViewer extends JFrame{
 		//update turn indicators
 		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
 			parryTurnInds[currentPlayer].setVisible(mRoundTracker.whoseTurn() == currentPlayer+1);
-		}
-		
-		
-		if (mRoundTracker.roundIsOver()){
-			lblResult.setText(mRoundTracker.getRoundResultString());
-			panelResult.setVisible(true);
 		}
 		
 		
@@ -727,6 +732,28 @@ public class TableViewer extends JFrame{
 		if (resultClickTurnActionWasDiscard()) return mChosenDiscard;
 		else return NO_DISCARD_CHOSEN;
 	}
+	
+	
+	
+	
+	
+	private static final int TIME_TO_PAUSE_FOR_EXCLAMATION = 600;
+	private static final int[][] EXCLAMATION_LOCS = {{7,6}, {7,6}, {7,6}, {7,6}};
+	
+	public void showExclamation(String exclamation, int seatNum){
+		
+		//show a label
+//		lblResult.setText(exclamation);
+//		lblResult.setBounds(EXCLAMATION_LOCS[seatNum][0], EXCLAMATION_LOCS[seatNum][1], lblResult.getWidth(), lblResult.getHeight());
+//		lblResult.setVisible(true);
+		
+		//pause
+		Pauser.pauseFor(TIME_TO_PAUSE_FOR_EXCLAMATION);
+		
+		//get rid of label
+//		lblResult.setVisible(true);
+	}
+	
 	
 	
 	

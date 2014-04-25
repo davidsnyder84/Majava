@@ -50,8 +50,8 @@ public class TableViewer extends JFrame{
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	
 	//Control constants
-	private static final boolean OPTION_HIDE_WALL = false;
-	private static final boolean OPTION_HIDE_HANDS = false;
+	private static final boolean DEFAULT_OPTION_HIDE_WALL = true;
+	private static final boolean DEFAULT_OPTION_HIDE_HANDS = false;
 	
 	
 	private static final int WINDOW_WIDTH = 1150;
@@ -117,6 +117,7 @@ public class TableViewer extends JFrame{
 	private static final int GARRYINDEX_RED5M = 35;
 	private static final int GARRYINDEX_RED5P = 36;
 	private static final int GARRYINDEX_RED5S = 37;
+	private static final int GARRYINDEX_TILEBACK = 0;
 	
 	
 
@@ -304,7 +305,9 @@ public class TableViewer extends JFrame{
 	private TableViewer thisguy;
 	
 	
-	
+	private boolean mOptionHideWall;
+	private boolean mOptionHideHands;
+	private boolean[] mHideHands;
 	
 	
 	
@@ -363,18 +366,21 @@ public class TableViewer extends JFrame{
 	
 	
 	
-	
-	
 	private static final int NULL_TILE_IMAGE_ID = -1;
 	
-	private ImageIcon __getImageIcon(TileList tList, int index, int seatNum, int tileSize){
+	private ImageIcon __getImageIcon(TileList tList, int index, int seatNum, int tileSize, boolean hide){
 		if (tList.size() <= index) return null;
+		
+		if (hide) return garryTiles[seatNum][tileSize][GARRYINDEX_TILEBACK];
 		
 		int id =__getImageID(tList.get(index));
 		if (id == NULL_TILE_IMAGE_ID) return null;
 		
 		return garryTiles[seatNum][tileSize][id];
 	}
+	private ImageIcon __getImageIcon(TileList tList, int index, int seatNum, int tileSize){return __getImageIcon(tList, index, seatNum, tileSize, false);}
+	
+	
 	private ImageIcon __getImageIconPond(TileList tList, int index, int seatNum){
 		if (tList.size() <= index) return null;
 		
@@ -395,14 +401,17 @@ public class TableViewer extends JFrame{
 	
 	
 	//gets icon for wall tile array
-	private ImageIcon __getImageIconWall(Tile[] tList, int index, int seatNum){
+	private ImageIcon __getImageIconWall(Tile[] tList, int index, int seatNum, boolean hide){
 		if (seatNum == 1) seatNum = 3; else if (seatNum == 3) seatNum = 1;
 		
 		int id = __getImageID(tList[index]);
 		if (id == NULL_TILE_IMAGE_ID) return null;
 		
+		if (hide) id = GARRYINDEX_TILEBACK;
 		return garryTiles[seatNum][SMALL][id];
 	}
+	private ImageIcon __getImageIconWall(Tile[] tList, int index, int seatNum){return __getImageIconWall(tList, index, seatNum, false);}
+	
 	
 	//returns the image ID number for the tile at the given index of tList
 	private int __getImageID(Tile t){
@@ -431,7 +440,8 @@ public class TableViewer extends JFrame{
 	}
 	
 	
-	
+
+	private static final int POS_DORA_1 = 8;
 	
 	public void updateEverything(){
 		
@@ -440,8 +450,9 @@ public class TableViewer extends JFrame{
 		
 		//update hands
 		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
-			for (currentTile = 0; currentTile < SIZE_HAND; currentTile++)
-				larryHands[currentPlayer][currentTile].setIcon(__getImageIcon(mPTrackers[currentPlayer].tilesH, currentTile, currentPlayer, BIG));
+			for (currentTile = 0; currentTile < SIZE_HAND; currentTile++){
+				larryHands[currentPlayer][currentTile].setIcon(__getImageIcon(mPTrackers[currentPlayer].tilesH, currentTile, currentPlayer, BIG, mHideHands[currentPlayer]));
+			}
 		}
 		
 		
@@ -455,11 +466,15 @@ public class TableViewer extends JFrame{
 		//update wall(s)
 		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_WALL; currentTile++)
-				larryWalls[currentPlayer][currentTile].setIcon(__getImageIconWall(tilesW, currentTile + currentPlayer*SIZE_WALL, currentPlayer));
+				larryWalls[currentPlayer][currentTile].setIcon(__getImageIconWall(tilesW, currentTile + currentPlayer*SIZE_WALL, currentPlayer, mOptionHideWall));
 		}
 		
 		//update dead wall
 		for (currentTile = 0; currentTile < SIZE_DEAD_WALL; currentTile++){
+			larryDW[currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT1, mOptionHideWall));
+//			larryDW[currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT1, mOptionHideWall || ));
+		}
+		for (currentTile = POS_DORA_1; currentTile >= 2*(4 - mRoundTracker.getNumKansMade()); currentTile -= 2){
 			larryDW[currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT1));
 		}
 		
@@ -733,8 +748,6 @@ public class TableViewer extends JFrame{
 	
 	
 	
-	
-	
 	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, TileList[] pHandTiles, TileList[] pPondTiles, Tile[] trackerTilesW){
 		
 		mRoundTracker = rTracker;
@@ -742,6 +755,11 @@ public class TableViewer extends JFrame{
 		mPTrackers = new PlayerTracker[NUM_PLAYERS_TO_TRACK];
 		for (int i = 0; i < NUM_PLAYERS_TO_TRACK; i++)
 			mPTrackers[i] = new PlayerTracker(pPlayers[i], pHandTiles[i], pPondTiles[i]);
+		
+		
+		mHideHands = new boolean[NUM_PLAYERS_TO_TRACK];
+		for (int i = 0; i < NUM_PLAYERS_TO_TRACK; i++) 
+			mHideHands[i] = (mOptionHideHands && mPTrackers[i].player.controllerIsComputer());
 		
 		tilesW = trackerTilesW;
 		
@@ -776,6 +794,11 @@ public class TableViewer extends JFrame{
 	
 	//TODO start of constructor
 	public TableViewer(){
+		
+		
+		mOptionHideWall = DEFAULT_OPTION_HIDE_WALL;
+		mOptionHideHands = DEFAULT_OPTION_HIDE_HANDS;
+		
 		
 		thisguy = this;
 		
@@ -3102,7 +3125,7 @@ public class TableViewer extends JFrame{
 				for (JLabel l: larryP1)
 					l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW1)
-					if (OPTION_HIDE_WALL) l.setIcon(garryTiles[0][1][0]); 
+					if (DEFAULT_OPTION_HIDE_WALL) l.setIcon(garryTiles[0][1][0]); 
 					else l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH1Ms)
 					for (JLabel l: lar)
@@ -3111,13 +3134,13 @@ public class TableViewer extends JFrame{
 				
 				
 				for (JLabel l: larryH2)
-					if (OPTION_HIDE_HANDS) l.setIcon(garryTiles[1][0][0]);
+					if (DEFAULT_OPTION_HIDE_HANDS) l.setIcon(garryTiles[1][0][0]);
 					else l.setIcon(garryTiles[1][0][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP2)
 					if (randGen.nextInt(34) != 1) l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
 					else l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW2)
-					if (OPTION_HIDE_WALL) l.setIcon(garryTiles[1][1][0]); 
+					if (DEFAULT_OPTION_HIDE_WALL) l.setIcon(garryTiles[1][1][0]); 
 					else l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH2Ms)
 					for (JLabel l: lar)
@@ -3125,12 +3148,12 @@ public class TableViewer extends JFrame{
 				
 				
 				for (JLabel l: larryH3)
-					if (OPTION_HIDE_HANDS) l.setIcon(garryTiles[2][0][0]);
+					if (DEFAULT_OPTION_HIDE_HANDS) l.setIcon(garryTiles[2][0][0]);
 					else l.setIcon(garryTiles[2][0][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP3)
 					l.setIcon(garryTiles[2][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW3)
-					if (OPTION_HIDE_WALL) l.setIcon(garryTiles[2][1][0]); 
+					if (DEFAULT_OPTION_HIDE_WALL) l.setIcon(garryTiles[2][1][0]); 
 					else l.setIcon(garryTiles[2][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH3Ms)
 					for (JLabel l: lar)
@@ -3138,12 +3161,12 @@ public class TableViewer extends JFrame{
 				
 				
 				for (JLabel l: larryH4)
-					if (OPTION_HIDE_HANDS) l.setIcon(garryTiles[3][0][0]);
+					if (DEFAULT_OPTION_HIDE_HANDS) l.setIcon(garryTiles[3][0][0]);
 					else l.setIcon(garryTiles[3][0][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP4)
 					l.setIcon(garryTiles[3][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW4)
-					if (OPTION_HIDE_WALL) l.setIcon(garryTiles[3][1][0]); 
+					if (DEFAULT_OPTION_HIDE_WALL) l.setIcon(garryTiles[3][1][0]); 
 					else l.setIcon(garryTiles[3][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH4Ms)
 					for (JLabel l: lar)

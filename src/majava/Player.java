@@ -141,6 +141,7 @@ public class Player {
 	
 	private static final boolean DEBUG_SKIP_PLAYER_CALL = false;
 	private static final boolean DEBUG_COMPUTERS_MAKE_CALLS = true;
+	private static final boolean DEBUG_COMPUTERS_MAKE_ACTIONS = false;
 	
 	
 	
@@ -425,6 +426,7 @@ public class Player {
 	chosenDiscard = the last tile in the player's hand
 	return chosenDiscard
 	*/
+	@SuppressWarnings("unused")
 	private int __askTurnActionCom(){
 		
 		int chosenDiscardIndex;
@@ -440,7 +442,7 @@ public class Player {
 		if (mSeatWind == 'E')chosenDiscardIndex = mHand.getSize() - 1;
 		
 		
-		if (ableToTsumo()){
+		if (DEBUG_COMPUTERS_MAKE_ACTIONS && ableToTsumo()){
 			mTurnAction = TURN_ACTION_TSUMO;
 			return NO_DISCARD_CHOSEN;
 		}

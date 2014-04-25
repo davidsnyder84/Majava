@@ -413,6 +413,16 @@ public class RoundTracker {
 	
 	
 	
+	public int getSeatNumber(Player p) {
+		for (int i = 0; i < mPTrackers.length; i++)
+			if (p == mPTrackers[i].player)
+				return i;
+		
+		return -1;
+	}
+	
+	
+	
 	
 	
 	

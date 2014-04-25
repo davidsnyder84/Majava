@@ -51,8 +51,8 @@ public class TableViewer extends JFrame{
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	
 	//Control constants
-	private static final boolean DEFAULT_OPTION_HIDE_WALL = true;
-	private static final boolean DEFAULT_OPTION_HIDE_HANDS = true;
+	private static final boolean DEFAULT_OPTION_HIDE_WALL = false;
+	private static final boolean DEFAULT_OPTION_HIDE_HANDS = false;
 	
 	
 	private static final int WINDOW_WIDTH = 1150;
@@ -94,7 +94,10 @@ public class TableViewer extends JFrame{
 	
 	private static final Color COLOR_POND_CALLED_TILE = new Color(250, 0, 0, 250);
 	private static final Color COLOR_POND_RIICHI_TILE = new Color(0, 0, 250, 250);
+
 	
+	private static final int TIME_TO_PAUSE_FOR_EXCLAMATION = 1500;
+	private static final int[][] EXCLAMATION_LOCS =  {{352, 699}, {715, 626}, {347, 117}, {1, 178}};
 	
 	
 	private static final int NUM_PLAYERS = 4;
@@ -241,6 +244,8 @@ public class TableViewer extends JFrame{
 	
 	private JPanel panelResult;
 	private JLabel lblResult;
+	
+	private JLabel lblExclamation;
 	
 	/*......................................END LABEL ARRAYS......................................*/
 	
@@ -532,6 +537,9 @@ public class TableViewer extends JFrame{
 	//replaces all imageicons with null
 	public void blankEverything(){
 		
+		//exclamation
+		lblExclamation.setVisible(false);
+		
 		for (JLabel[] lar: larryHands)	//hands
 			for (JLabel l: lar) l.setIcon(null);
 		for (JLabel[] lar: larryWalls)	//walls
@@ -737,21 +745,18 @@ public class TableViewer extends JFrame{
 	
 	
 	
-	private static final int TIME_TO_PAUSE_FOR_EXCLAMATION = 600;
-	private static final int[][] EXCLAMATION_LOCS = {{7,6}, {7,6}, {7,6}, {7,6}};
-	
 	public void showExclamation(String exclamation, int seatNum){
 		
 		//show a label
-//		lblResult.setText(exclamation);
-//		lblResult.setBounds(EXCLAMATION_LOCS[seatNum][0], EXCLAMATION_LOCS[seatNum][1], lblResult.getWidth(), lblResult.getHeight());
-//		lblResult.setVisible(true);
+		lblExclamation.setText(exclamation);
+		lblExclamation.setBounds(EXCLAMATION_LOCS[seatNum][0], EXCLAMATION_LOCS[seatNum][1], lblResult.getWidth(), lblResult.getHeight());
+		lblExclamation.setVisible(true);
 		
 		//pause
 		Pauser.pauseFor(TIME_TO_PAUSE_FOR_EXCLAMATION);
 		
 		//get rid of label
-//		lblResult.setVisible(true);
+		lblExclamation.setVisible(false);
 	}
 	
 	
@@ -971,6 +976,7 @@ public class TableViewer extends JFrame{
 		JLabel lblDW1;JLabel lblDW2;JLabel lblDW3;JLabel lblDW4;JLabel lblDW5;JLabel lblDW6;JLabel lblDW7;JLabel lblDW8;JLabel lblDW9;JLabel lblDW10;JLabel lblDW11;JLabel lblDW12;JLabel lblDW13;JLabel lblDW14;
 		
 		JLabel lblRoundOver;JLabel lblRoundResult;
+		JLabel lblExclamationLabel;
 		
 		
 		//button declarations
@@ -1002,6 +1008,17 @@ public class TableViewer extends JFrame{
 		panelTable.setBackground(COLOR_TABLE);
 		contentPane.add(panelTable);
 		panelTable.setLayout(null);
+		
+		
+		
+		lblExclamationLabel = new JLabel("TSUMO!");
+		lblExclamationLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblExclamationLabel.setFont(new Font("Maiandra GD", Font.BOLD, 28));
+		lblExclamationLabel.setBounds(373, 697, 134, 34);
+		lblExclamationLabel.setBorder(new LineBorder(new Color(0, 0, 200), 3, true));
+		panelTable.add(lblExclamationLabel);
+		lblExclamationLabel.setOpaque(true);
+		lblExclamationLabel.setBackground(COLOR_CALL_PANEL);
 		
 		
 		
@@ -3517,10 +3534,6 @@ public class TableViewer extends JFrame{
 		
 		
 		
-		
-		
-		
-		
 		///////////
 		
 		
@@ -3571,6 +3584,8 @@ public class TableViewer extends JFrame{
 		//round results
 		panelResult = panelRoundResult; lblResult = lblRoundResult;
 		
+		lblExclamation = lblExclamationLabel;
+		
 		//load deadwall labels into arrays
 		larryDW[0] = lblDW1;larryDW[1] = lblDW2;larryDW[2] = lblDW3;larryDW[3] = lblDW4;larryDW[4] = lblDW5;larryDW[5] = lblDW6;larryDW[6] = lblDW7;larryDW[7] = lblDW8;larryDW[8] = lblDW9;larryDW[9] = lblDW10;larryDW[10] = lblDW11;larryDW[11] = lblDW12;larryDW[12] = lblDW13;larryDW[13] = lblDW14;
 		
@@ -3580,6 +3595,7 @@ public class TableViewer extends JFrame{
 		barryCalls[7] = btnCallChi;
 		
 		barryTActions[0] = buttonRiichi;barryTActions[1] = buttonAnkan;barryTActions[2] = buttonMinkan;barryTActions[3] = buttonTsumo;
+		
 		
 		
 		//load image icons into arrays
@@ -3652,7 +3668,4 @@ public class TableViewer extends JFrame{
 		garryOther[0] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\riichiStick.png");
 		garryOther[1] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\sheepy2trans.png");
 	}
-	
-	
-	
 }

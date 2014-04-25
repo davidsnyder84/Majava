@@ -223,13 +223,17 @@ public class Round {
 			//if the player made an ankan or minkan, they need a rinshan draw
 			if (p.needsDrawRinshan()){
 				
+				mTviewer.showExclamation("Kan!", mRoundTracker.getSeatNumber(p));
+				
 				//give player a rinshan draw
 				givePlayerTile(p);
 				
 			}
 			
-			if (p.turnActionCalledTsumo())
+			if (p.turnActionCalledTsumo()){
+				mTviewer.showExclamation("Tsumo!", mRoundTracker.getSeatNumber(p));
 				mRoundTracker.setResultVictory(p);
+			}
 			
 		}
 		while (p.turnActionChoseDiscard() == false && mRoundTracker.roundIsOver() == false);
@@ -361,6 +365,9 @@ public class Round {
 		
 		//figure out who called the tile, and if multiple players called, who gets priority
 		Player priorityCaller = whoCalled();
+		
+		
+		mTviewer.showExclamation(priorityCaller.getCallStatusString(), mRoundTracker.getSeatNumber(priorityCaller));
 		
 		
 		//give the caller the discarded tile so they can make their meld

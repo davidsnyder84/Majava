@@ -140,7 +140,7 @@ public class Player {
 	
 	
 	private static final boolean DEBUG_SKIP_PLAYER_CALL = false;
-	private static final boolean DEBUG_COMPUTERS_MAKE_CALLS = false;
+	private static final boolean DEBUG_COMPUTERS_MAKE_CALLS = true;
 	private static final boolean DEBUG_COMPUTERS_MAKE_ACTIONS = false;
 	
 	
@@ -435,7 +435,7 @@ public class Player {
 		chosenDiscardIndex = mHand.getSize() - 1;
 		
 		//always choose the first tile in the hand
-//		chosenDiscardIndex = 0;
+		chosenDiscardIndex = 0;
 		
 		
 		if (mSeatWind == 'N')chosenDiscardIndex = mHand.getSize() - 1;

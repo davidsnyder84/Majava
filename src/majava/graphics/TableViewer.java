@@ -96,9 +96,8 @@ public class TableViewer extends JFrame{
 	private static final Color COLOR_POND_RIICHI_TILE = new Color(0, 0, 250, 250);
 
 	
-//	private static final int TIME_TO_PAUSE_FOR_EXCLAMATION = 1500;
-	private static final int TIME_TO_PAUSE_FOR_EXCLAMATION = 5;
-	private static final int[][] EXCLAMATION_LOCS =  {{352, 699}, {715, 626}, {347, 117}, {1, 178}};
+	private static final int DEFAULT_SLEEP_TIME_EXCLAMATION = 1500;
+	private static final int[][] EXCLAMATION_LOCS =  {{352, 699}, {660, 626}, {347, 117}, {1, 178}};
 	
 	
 	private static final int NUM_PLAYERS = 4;
@@ -746,7 +745,7 @@ public class TableViewer extends JFrame{
 	
 	
 	
-	public void showExclamation(String exclamation, int seatNum){
+	public void showExclamation(String exclamation, int seatNum, int sleepTime){
 		
 		//show a label
 		lblExclamation.setText(exclamation);
@@ -754,11 +753,12 @@ public class TableViewer extends JFrame{
 		lblExclamation.setVisible(true);
 		
 		//pause
-		Pauser.pauseFor(TIME_TO_PAUSE_FOR_EXCLAMATION);
+		Pauser.pauseFor(sleepTime);
 		
 		//get rid of label
 		lblExclamation.setVisible(false);
 	}
+	public void showExclamation(String exclamation, int seatNum){showExclamation(exclamation, seatNum, DEFAULT_SLEEP_TIME_EXCLAMATION);}
 	
 	
 	

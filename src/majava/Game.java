@@ -56,7 +56,7 @@ public class Game {
 	private int mRoundBonusNum;
 	
 	private int mGameType;
-//	private boolean mGameIsOver;
+	private boolean mGameIsOver;
 //	private int mGameResult;
 	
 	
@@ -82,7 +82,7 @@ public class Game {
 		//initializes round info
 		mRoundWind = DEFAULT_ROUND_WIND;mRoundNum = 1;mRoundBonusNum = 0;
 		
-//		mGameIsOver = false;
+		mGameIsOver = false;
 		
 		if (gameType == GAME_TYPE_SINGLE || gameType == GAME_TYPE_TONPUUSEN || gameType == GAME_TYPE_HANCHAN)
 			mGameType = gameType;
@@ -119,7 +119,7 @@ public class Game {
 	public void play(){
 		
 		
-		final int NUM_ROUNDS_TO_PLAY = 40;
+		final int NUM_ROUNDS_TO_PLAY = 100;
 		
 		
 		//play one round
@@ -131,6 +131,8 @@ public class Game {
 				mWinStrings.add(mCurrentRound.getWinningHandString());
 		}
 		
+		mGameIsOver = true;
+		
 		displayGameResult();
 		
 	}
@@ -138,10 +140,10 @@ public class Game {
 	
 	public void displayGameResult(){
 		
+		System.out.println("\n\n\n~~~~~~~~~~~~~~~~~~~~~~\nGAMEOVER\n~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		System.out.println("\n\n\n~~~~~~~~~~~~~~~~~~~~~~\nPrinting win results\n~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		for (String s: mWinStrings)
 			System.out.println(s);
-		
 	}
 	
 	
@@ -152,7 +154,7 @@ public class Game {
 	//accessors
 	public int getGameType(){return mGameType;}
 	public char getRoundWind(){return mRoundWind;}
-//	public boolean gameIsOver(){return mGameIsOver;}
+	public boolean gameIsOver(){return mGameIsOver;}
 	
 	
 	

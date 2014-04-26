@@ -284,6 +284,7 @@ public class TileList implements Iterable<Tile>{
 	
 	//allow counting itself
 	public int findHowManyOf(Tile tile){return findAllIndicesOf(tile, true).size();}
+	public int findHowManyOf(int id){return findHowManyOf(new Tile(id));}
 	
 	
 	

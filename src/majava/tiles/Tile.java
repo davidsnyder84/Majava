@@ -65,15 +65,15 @@ public class Tile implements Comparable<Tile> {
 	public static final int NUMBER_OF_YAOCHUU_TILES = 13;
 	private static final int ID_FIRST_HONOR_TILE = 28;
 	
-	private static final int DEFAULT_ID = 0;
+//	private static final int DEFAULT_ID = 0;
 	private static final char OWNER_NONE = 'N';
 	private static final String CHAR_FOR_RED_DORA = "%";
 
-	private static final char SUIT_MAN = 'M';
-	private static final char SUIT_PIN = 'C';
-	private static final char SUIT_SOU = 'B';
-	private static final char SUIT_WIND = 'W';
-	private static final char SUIT_DRAGON = 'D';
+//	private static final char SUIT_MAN = 'M';
+//	private static final char SUIT_PIN = 'C';
+//	private static final char SUIT_SOU = 'B';
+//	private static final char SUIT_WIND = 'W';
+//	private static final char SUIT_DRAGON = 'D';
 
 	
 	private static final String STR_REPS_BY_ID = "M1M2M3M4M5M6M7M8M9P1P2P3P4P5P6P7P8P9S1S2S3S4S5S6S7S8S9WEWSWWWNDWDGDR";
@@ -129,11 +129,11 @@ public class Tile implements Comparable<Tile> {
 	
 	
 	//accessors
-	public int getId(){return mID;}
-	public char getSuit(){return mSuit;}
-	public char getFace(){return mFace;}
-	public boolean isRedDora(){return mRedDora;}
-	public char getOrignalOwner(){return mOriginalOwner;}
+	final public int getId(){return mID;}
+	final public char getSuit(){return mSuit;}
+	final public char getFace(){return mFace;}
+	final public boolean isRedDora(){return mRedDora;}
+	final public char getOrignalOwner(){return mOriginalOwner;}
 	
 	
 	
@@ -206,11 +206,11 @@ public class Tile implements Comparable<Tile> {
 	
 	
 	//returns true if the tile is a terminal or honor, false otherwise
-	public boolean isYaochuu(){return (isHonor() || isTerminal());}
+	final public boolean isYaochuu(){return (isHonor() || isTerminal());}
 	//returns true if the tile is an honor tile, false if not
-	public boolean isHonor(){return (mID >= ID_FIRST_HONOR_TILE);}
+	final public boolean isHonor(){return (mID >= ID_FIRST_HONOR_TILE);}
 	//returns true if the tile is a terminal tile, false if not
-	public boolean isTerminal(){return (mFace == '1' || mFace == '9');}
+	final public boolean isTerminal(){return (mFace == '1' || mFace == '9');}
 
 	
 	
@@ -221,7 +221,7 @@ public class Tile implements Comparable<Tile> {
 	//compares the IDs of two tiles
 	//if they are both 5's, and one is a red dora, the red dora will "come after" the non-red tile
 	@Override
-	public int compareTo(Tile other){
+	final public int compareTo(Tile other){
 		
 		//if the tiles have different id's, return the difference
 		if (mID != other.mID)
@@ -239,7 +239,7 @@ public class Tile implements Comparable<Tile> {
 	
 	//returns true if the tiles have the same ID
 	@Override
-	public boolean equals(Object other){
+	final public boolean equals(Object other){
 		if (other == null || (other instanceof Tile) == false)
 			return false;
 		

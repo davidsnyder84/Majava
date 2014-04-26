@@ -703,7 +703,6 @@ public class HandChecker {
 	
 	//returns true if a 14-tile hand is a complete kokushi musou
 	public boolean isCompleteKokushi(){
-		
 		if ((mHandTiles.size() == Hand.MAX_HAND_SIZE) &&
 			(isTenpaiKokushi() == true) &&
 			(getKokushiWaits().size() == Tile.NUMBER_OF_YAOCHUU_TILES))
@@ -923,16 +922,17 @@ public class HandChecker {
 	
 	
 	//demo completed melds
-	public boolean demoComplete(){
-		boolean complete;
-		if (complete = isCompleteNormal(mHandTiles)){
-			for (Meld m: mFinishingMelds) mHandMelds.add(m);
-			GenSort<Meld> meldSorter = new GenSort<Meld>(mHandMelds);
-			meldSorter.sort();
-		}
-		
-		return complete;
-	}
+//	public boolean demoComplete(){
+//		boolean complete;
+//		if (complete = isCompleteNormal(mHandTiles)){
+//			for (Meld m: mFinishingMelds) mHandMelds.add(m);
+//			GenSort<Meld> meldSorter = new GenSort<Meld>(mHandMelds);
+//			meldSorter.sort();
+//		}
+//		
+//		return complete;
+//	}
+	public boolean DEMOisComplete(){return isComplete();}
 	
 	
 	

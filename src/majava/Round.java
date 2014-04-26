@@ -36,7 +36,9 @@ public class Round {
 	public static final int DEFAULT_ROUND_NUM = 1;
 	public static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
-	public static final int TIME_TO_SLEEP = 10;
+	public static final int TIME_TO_SLEEP = 20;
+	public static final int TIME_TO_SLEEP_EXCLAMATION = 500;
+	public static final int TIME_TO_SLEEP_END_OF_ROUND = 3000;
 	
 	
 	//for debug use
@@ -227,7 +229,7 @@ public class Round {
 			//if the player made an ankan or minkan, they need a rinshan draw
 			if (p.needsDrawRinshan()){
 				
-				mTviewer.showExclamation("Kan!", mRoundTracker.getSeatNumber(p));
+				showExclamation("Kan!", p);
 				
 				//give player a rinshan draw
 				givePlayerTile(p);
@@ -235,7 +237,7 @@ public class Round {
 			}
 			
 			if (p.turnActionCalledTsumo()){
-				mTviewer.showExclamation("Tsumo!", mRoundTracker.getSeatNumber(p));
+				showExclamation("Tsumo", p);
 				mRoundTracker.setResultVictory(p);
 			}
 			
@@ -371,7 +373,8 @@ public class Round {
 		Player priorityCaller = whoCalled();
 		
 		
-		mTviewer.showExclamation(priorityCaller.getCallStatusString(), mRoundTracker.getSeatNumber(priorityCaller));
+		//show the call
+		showExclamation(priorityCaller.getCallStatusString(), priorityCaller);
 		
 		
 		//give the caller the discarded tile so they can make their meld
@@ -583,15 +586,9 @@ public class Round {
 		
 		for (Player p: mPlayerArray) p.showHand();
 		
-		Pauser.pauseFor(3000);
+		Pauser.pauseFor(TIME_TO_SLEEP_END_OF_ROUND);
 	}
 	
-	
-	
-	
-	
-	
-
 	
 	
 	
@@ -600,6 +597,11 @@ public class Round {
 		mTviewer.updateEverything();
 		//pause for dramatic effect (like after a computer's turn)
 		mPauser.pauseWait();
+	}
+	
+	
+	private void showExclamation(String exclamation, Player p){
+		mTviewer.showExclamation(exclamation, mRoundTracker.getSeatNumber(p), TIME_TO_SLEEP_EXCLAMATION);
 	}
 	
 	

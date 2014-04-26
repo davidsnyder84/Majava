@@ -25,8 +25,74 @@ public class DemoHandGen {
 
 		random = new Random();
 		runTenpaiSimulation(5000);
+//		runSumulationRandom(50000);
+	}
+	
+	
+	
+	
+	
+	public static void runSumulationRandom(int howManyTimes){
+		
+		Hand currentHand = null;
+//		boolean hit = true;
+		int numHits = 0;
+		
+		
+		
+		for (int i = 0; i < howManyTimes; i++){
+			
+			currentHand = generateRandomHand();
+			
+//			currentHand = new Hand(ONWER_SEAT);
+//			currentHand.fill();
+			
+//			hit = currentHand.mChecker.DEMOisComplete();
+			
+			if (currentHand.mChecker.DEMOisComplete()){
+				numHits++;
+				System.out.println(currentHand.toString() + "\n");
+			}
+		}
+		
+		
+
+		System.out.println("Total number of trials: " + howManyTimes);
+		System.out.println("Total number of hits: " + numHits);
 		
 	}
+	
+	public static Hand generateRandomHand(){
+		
+		Hand hand = new Hand(ONWER_SEAT);
+		TileList tiles = new TileList();
+		Tile currentTile = null;
+		int id = 0;
+		int numMeldsMade = random.nextInt(3);
+		
+		
+		
+		while (tiles.size() < 14 - 3*numMeldsMade){
+			//generate a random tile
+			id = random.nextInt(34) + 1;
+			
+			if (tiles.findHowManyOf(id) < 4){
+				currentTile = new Tile(id);
+				currentTile.setOwner(ONWER_SEAT);
+				tiles.add(currentTile);
+			}
+		}
+		
+		for (Tile t: tiles) hand.addTile(t);
+		
+		hand.sortHand();
+//		System.out.println(hand.toString());
+		
+		return hand;
+	}
+	
+	
+	
 	
 	
 	
@@ -46,7 +112,7 @@ public class DemoHandGen {
 
 			System.out.println(currentHand.toString() + "\n");
 			
-			success = currentHand.mChecker.demoComplete();
+			success = currentHand.mChecker.DEMOisComplete();
 			currentHand.showMeldsCompact();
 			System.out.println("Hand is complete normal?: " + success);
 			
@@ -64,7 +130,6 @@ public class DemoHandGen {
 		System.out.println("Total number of trials: " + totalNum);
 		System.out.println("Total number of failures: " + numFailures);
 	}
-	
 	
 	
 	

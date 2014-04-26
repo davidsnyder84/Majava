@@ -62,6 +62,7 @@ public class Game {
 	
 	private Round mCurrentRound;	
 	
+	private ArrayList<String> mWinStrings;
 	
 	
 	
@@ -90,6 +91,8 @@ public class Game {
 		
 		
 		mTviewer = tviewer;
+		
+		mWinStrings = new ArrayList<String>();
 		
 	}
 	//defaults to single round game
@@ -123,9 +126,25 @@ public class Game {
 		for (int i = 0; i < NUM_ROUNDS_TO_PLAY; i++){
 			mCurrentRound = new Round(mTviewer, mPlayerArray);
 			mCurrentRound.play();
+			
+			if (mCurrentRound.endedWithVictory())
+				mWinStrings.add(mCurrentRound.getWinningHandString());
 		}
 		
+		displayGameResult();
+		
 	}
+	
+	
+	public void displayGameResult(){
+		
+		System.out.println("\n\n\n~~~~~~~~~~~~~~~~~~~~~~\nPrinting win results\n~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		for (String s: mWinStrings)
+			System.out.println(s);
+		
+	}
+	
+	
 	
 	
 	

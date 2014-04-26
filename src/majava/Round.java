@@ -36,12 +36,12 @@ public class Round {
 	public static final int DEFAULT_ROUND_NUM = 1;
 	public static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
-	public static final int TIME_TO_SLEEP = 100;
+	public static final int TIME_TO_SLEEP = 10;
 	
 	
 	//for debug use
 	public static final boolean DEBUG_WAIT_AFTER_COMPUTER = true;
-	public static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+	public static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	
 	
 	
@@ -73,6 +73,10 @@ public class Round {
 		
 		mPlayerArray = playerArray;
 		p1 = mPlayerArray[0]; p2 = mPlayerArray[1]; p3 = mPlayerArray[2]; p4 = mPlayerArray[3];
+		
+		//prepare players for new round
+		for (Player p: mPlayerArray)
+			p.prepareForNewRound();
 		
 		
 		//creates the wall
@@ -561,6 +565,9 @@ public class Round {
 	//accessors
 	public char getRoundWind(){return mRoundWind;}
 	public boolean roundIsOver(){return mRoundTracker.roundIsOver();}
+	
+	public String getWinningHandString(){return mRoundTracker.getWinningHandString();}
+	public boolean endedWithVictory(){return mRoundTracker.roundEndedWithVictory();}
 	
 	
 	

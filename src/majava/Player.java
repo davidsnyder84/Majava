@@ -152,7 +152,7 @@ public class Player {
 	private int mPoints;
 	
 	private char mSeatWind;
-	private int mSeatNumber;
+//	private int mSeatNumber;
 	private char mController;
 	private String mPlayerName;
 	
@@ -166,8 +166,6 @@ public class Player {
 	private boolean mHoldingRinshanTile;
 	private boolean mRiichiStatus;
 	private boolean mFuritenStatus;
-	
-	//private ArrayList<Tile> mWaits;
 	
 	private RoundTracker mRoundTracker;
 	
@@ -184,19 +182,9 @@ public class Player {
 		mController = controller;
 		mPlayerName = pName;
 		
-		mHand = new Hand(mSeatWind);
-		mPond = new Pond();
 		mPoints = POINTS_STARTING_AMOUNT;
 		
-		mCallStatus = CALLED_NONE;
-		mDrawNeeded = DRAW_NORMAL;
-		
-		mRiichiStatus = false;
-		mFuritenStatus = false;
-		mHoldingRinshanTile = false;
-		//mTenpaiStatus = false;
-		
-		mLastDiscard = null;
+		prepareForNewRound();
 	}
 	public Player(char seat, char controller){
 		this(seat, controller, PLAYERNAME_DEFAULT);
@@ -209,6 +197,26 @@ public class Player {
 	}
 	
 	
+	
+	
+	
+	public void prepareForNewRound(){
+		
+		mHand = new Hand(mSeatWind);
+		mPond = new Pond();
+		
+		mCallStatus = CALLED_NONE;
+		mDrawNeeded = DRAW_NORMAL;
+		
+		mChosenDiscardIndex = NO_DISCARD_CHOSEN;
+		mTurnAction = NO_ACTION_CHOSEN;
+		
+		mRiichiStatus = false;
+		mFuritenStatus = false;
+		mHoldingRinshanTile = false;
+		
+		mLastDiscard = null;
+	}
 	
 	
 	

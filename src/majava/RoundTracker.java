@@ -223,12 +223,15 @@ public class RoundTracker {
 	
 	
 	private void __setVictoryRon(Player discarder){
-		mFurikondaPlayer = discarder; 
+		mFurikondaPlayer = discarder;
+		mWinningTile = mMostRecentDiscard;
 		mWinType = WIN_TYPE_RON;
 	}
 	private void __setVictoryTsumo(){
+		mWinningTile = mPTrackers[getSeatNumber(mWinningPlayer)].tilesH.getLast();
 		mWinType = WIN_TYPE_TSUMO;
 	}
+	
 	
 	public void setResultVictory(Player winner){
 		__setResultVictory(winner.getSeatWind());
@@ -236,7 +239,31 @@ public class RoundTracker {
 		
 		if (winner == currentPlayer()) __setVictoryTsumo();
 		else __setVictoryRon(currentPlayer());
+		
+		__setWinningHand();
 	}
+	
+	
+	private void __setWinningHand(){
+		TileList winHand = new TileList();
+		winHand = mPTrackers[getSeatNumber(mWinningPlayer)].tilesH.makeCopy();
+		
+//		if (mWinType == WIN_TYPE_RON) winHand.add(mMostRecentDiscard);
+		
+		mWinningHand = winHand;
+	}
+	
+	public String getWinningHandString(){
+		String winString = "";
+		winString += "Winning hand: " + mWinningHand.toString() + ", agarihai: " + mWinningTile.toString() + " (" + __getWinTypeString() + ")";
+		String mWinningString = winString;
+		return mWinningString;
+	}
+	
+	
+	
+	private TileList mWinningHand;
+	
 	
 	
 	public void printRoundResult(){
@@ -272,6 +299,8 @@ public class RoundTracker {
 	}
 	
 	public boolean roundIsOver(){return mRoundIsOver;}
+	public boolean roundEndedWithDraw(){return !roundEndedWithVictory();}
+	public boolean roundEndedWithVictory(){return (mRoundResult == RESULT_VICTORY_E || mRoundResult == RESULT_VICTORY_S || mRoundResult == RESULT_VICTORY_W || mRoundResult == RESULT_VICTORY_N);}
 	
 	
 	

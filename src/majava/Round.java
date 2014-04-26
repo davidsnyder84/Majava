@@ -36,7 +36,7 @@ public class Round {
 	public static final int DEFAULT_ROUND_NUM = 1;
 	public static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
-	public static final int TIME_TO_SLEEP = 400;
+	public static final int TIME_TO_SLEEP = 100;
 	
 	
 	//for debug use
@@ -575,6 +575,8 @@ public class Round {
 		updateWindow();
 		
 		for (Player p: mPlayerArray) p.showHand();
+		
+		Pauser.pauseFor(3000);
 	}
 	
 	

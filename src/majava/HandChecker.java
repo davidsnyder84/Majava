@@ -621,8 +621,7 @@ public class HandChecker {
 	
 	//returns true if a hand is complete (it is a winning hand)
 	public boolean isComplete(){
-//		return (kokushiMusouIsComplete() || chiitoitsuIsComplete() || isNormalComplete());
-		return (isNormalComplete());
+		return (isCompleteKokushi() || isCompleteChiitoitsu() || isCompleteNormal());
 	}
 	
 	
@@ -641,9 +640,9 @@ public class HandChecker {
 		mTenpaiWaits = new TileList();
 		
 		//check for kokushi musou tenpai, waits are also found here
-		isKokushiTenpai = kokushiMusouInTenpai();
+		isKokushiTenpai = isTenpaiKokushi();
 		if (isKokushiTenpai)
-				mTenpaiWaits = kokushiMusouWaits();
+				mTenpaiWaits = getKokushiWaits();
 		else{
 			
 			//check if the hand is in normal tenpai, waits are also found here (don't check if in already kokushi tenpai)
@@ -651,7 +650,7 @@ public class HandChecker {
 			
 			//check for chiitoitsu tenpai, wait is also found here (only check if no kokushi tenpai and no normal tenpai)
 			if (!isNormalTenpai)
-				isChiitoitsuTenpai = chiitoitsuInTenpai(mHandTiles);			
+				isChiitoitsuTenpai = isTenpaiChiitoitsu();			
 		}		
 		
 		mTenpaiStatus = (isKokushiTenpai || isChiitoitsuTenpai || isNormalTenpai);
@@ -681,7 +680,7 @@ public class HandChecker {
 	
 	//returns true if the hand is in tenpai for kokushi musou
 	//if this is true, it means that: handsize >= 13, hand has at least 12 different TYC tiles
-	public boolean kokushiMusouInTenpai(){
+	public boolean isTenpaiKokushi(){
 		
 		//if any melds have been made, kokushi musou is impossible, return false
 		if (mHand.getNumMeldsMade() > 0) return false;
@@ -703,11 +702,11 @@ public class HandChecker {
 	}
 	
 	//returns true if a 14-tile hand is a complete kokushi musou
-	public boolean kokushiMusouIsComplete(){
+	public boolean isCompleteKokushi(){
 		
 		if ((mHandTiles.size() == Hand.MAX_HAND_SIZE) &&
-			(kokushiMusouInTenpai() == true) &&
-			(kokushiMusouWaits().size() == Tile.NUMBER_OF_YAOCHUU_TILES))
+			(isTenpaiKokushi() == true) &&
+			(getKokushiWaits().size() == Tile.NUMBER_OF_YAOCHUU_TILES))
 			return true;
 		
 		return false;
@@ -715,12 +714,12 @@ public class HandChecker {
 
 	//returns a list of the hand's waits, if it is in tenpai for kokushi musou
 	//returns an empty list if not in kokushi musou tenpai
-	public TileList kokushiMusouWaits(){
+	public TileList getKokushiWaits(){
 		
 		TileList waits = new TileList(1);
 		
 		Tile missingTYC = null;
-		if (kokushiMusouInTenpai() == true){
+		if (isTenpaiKokushi() == true){
 			//look for a Yaochuu tile that the hand doesn't contain
 			TileList listTYC = Tile.listOfYaochuuTiles();
 			for (Tile t: listTYC)
@@ -748,8 +747,6 @@ public class HandChecker {
 	
 	
 	
-	
-	
 	/*
 	method: chiitoitsuInTenpai
 	checks if the hand is in tenpai for chiitoitsu, and modifies the list of waits if so 
@@ -759,7 +756,7 @@ public class HandChecker {
 	returns true if the hand is in tenpai for chiitoitsu 
 	return false if either of them are missing
 	*/
-	public boolean chiitoitsuInTenpai(TileList handTiles){
+	public boolean isTenpaiChiitoitsu(TileList handTiles){
 		
 		Tile missingTile = null;
 		//conditions:
@@ -790,21 +787,30 @@ public class HandChecker {
 		if (missingTile != null) mTenpaiWaits.add(missingTile);
 		return true;
 	}
+	public boolean isTenpaiChiitoitsu(){return isTenpaiChiitoitsu(mHandTiles);}
+	
+	
+	
 	
 	
 	//returns true if a 14-tile hand is a complete chiitoitsu
-	public boolean chiitoitsuIsComplete(){
+	public boolean isCompleteChiitoitsu(TileList handTiles){
+		
+		handTiles.sort();
 		
 		//chiitoitsu is impossible if a meld has been made
-		if (mHandTiles.size() < Hand.MAX_HAND_SIZE) return false;
+		if (handTiles.size() < Hand.MAX_HAND_SIZE) return false;
 		
 		//even tiles should equal odd tiles, if chiitoitsu
-		TileList evenTiles = mHandTiles.getMultiple(0,2,4,6,8,10,12);
-		TileList oddTiles = mHandTiles.getMultiple(1,3,5,7,9,11,13);
+		TileList evenTiles = handTiles.getMultiple(0,2,4,6,8,10,12);
+		TileList oddTiles = handTiles.getMultiple(1,3,5,7,9,11,13);
 		return evenTiles.equals(oddTiles);
 	}
+	public boolean isCompleteChiitoitsu(){return isCompleteChiitoitsu(mHandTiles.makeCopy());}
 	
-	public boolean DEMOchiitoitsuInTenpai(){return chiitoitsuInTenpai(mHandTiles);}
+	
+	
+	public boolean DEMOchiitoitsuInTenpai(){return isTenpaiChiitoitsu();}
 	
 	
 	
@@ -919,7 +925,7 @@ public class HandChecker {
 	//demo completed melds
 	public boolean demoComplete(){
 		boolean complete;
-		if (complete = isNormalComplete(mHandTiles)){
+		if (complete = isCompleteNormal(mHandTiles)){
 			for (Meld m: mFinishingMelds) mHandMelds.add(m);
 			GenSort<Meld> meldSorter = new GenSort<Meld>(mHandMelds);
 			meldSorter.sort();
@@ -952,7 +958,7 @@ public class HandChecker {
 			handTilesCopy.add(currentHotTile); handTilesCopy.sort();
 			
 			//check if the copy, with the added tile, is complete
-			if (isNormalComplete(handTilesCopy)) waits.add(currentHotTile);
+			if (isCompleteNormal(handTilesCopy)) waits.add(currentHotTile);
 		}
 		
 		//store the waits in mTenpaiWaits, if there are any
@@ -968,7 +974,7 @@ public class HandChecker {
 	method: isNormalComplete
 	returns true if list of handTiles is complete (is a winning hand)
 	*/
-	public boolean isNormalComplete(TileList handTiles){
+	public boolean isCompleteNormal(TileList handTiles){
 		
 		if ((handTiles.size() % 3) != 2) return false;
 		
@@ -978,14 +984,14 @@ public class HandChecker {
 		
 		pairHasBeenChosen = false;
 		mFinishingMelds = new ArrayList<Meld>(5);
-		return __isNormalCompleteHand(handTiles, listMTSL);
+		return __isCompleteNormalHand(handTiles, listMTSL);
 	}
 	//overloaded, checks mHandTiles by default
 //	public boolean isNormalComplete(){return isNormalComplete(mHandTiles);}
-	public boolean isNormalComplete(){
+	public boolean isCompleteNormal(){
 		TileList handTilesCopy = mHandTiles.makeCopy();
 		handTilesCopy.sort();
-		return isNormalComplete(handTilesCopy);
+		return isCompleteNormal(handTilesCopy);
 	}
 	
 	/*
@@ -1003,7 +1009,6 @@ public class HandChecker {
 		
 		return true;
 	}
-	
 	
 	
 	/*
@@ -1045,7 +1050,7 @@ public class HandChecker {
 	end while
 	return false (currentTile could not make any meld, so the hand cannot be complete)
 	*/
-	private boolean __isNormalCompleteHand(TileList handTiles, MeldTypeStackList listMTSL){
+	private boolean __isCompleteNormalHand(TileList handTiles, MeldTypeStackList listMTSL){
 		
 		//if the hand is empty, it is complete
 		if (handTiles.isEmpty()) return true;
@@ -1142,7 +1147,7 @@ public class HandChecker {
 				listMTSLMinusThisMeld.remove(0);
 				
 				//~~~~Recursive call, check if the hand is still complete without the removed meld tiles
-				if (__isNormalCompleteHand(handTilesMinusThisMeld, listMTSLMinusThisMeld)){
+				if (__isCompleteNormalHand(handTilesMinusThisMeld, listMTSLMinusThisMeld)){
 					mFinishingMelds.add(new Meld(toMeldTiles, currentTileMeldType));	//add the meld tiles to the finishing melds stack
 					return true;
 				}
@@ -1306,7 +1311,7 @@ public class HandChecker {
 			System.out.println(waitString);
 		}
 		else{
-			System.out.println("\nHand is complete normal?: " + h.mChecker.isNormalComplete());
+			System.out.println("\nHand is complete normal?: " + h.mChecker.isCompleteNormal());
 		}
 		
 		

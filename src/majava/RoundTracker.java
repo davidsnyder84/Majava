@@ -94,6 +94,7 @@ public class RoundTracker {
 
 	private Player mWinningPlayer;
 	private Player mFurikondaPlayer;
+	private Tile mWinningTile;
 
 	
 	
@@ -116,6 +117,7 @@ public class RoundTracker {
 		mWinType = WIN_TYPE_UNDECIDED;
 		mRoundIsOver = false;
 		mWinningPlayer = mFurikondaPlayer = null;
+		mWinningTile = null;
 		
 		__syncWithWall(wall);
 		__setupPlayerTrackers(p1,p2,p3,p4);

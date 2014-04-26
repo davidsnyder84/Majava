@@ -46,6 +46,7 @@ public class Table {
 	//for debug use
 	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = true;
 	public static final boolean DEBUG_DO_COMPUTER_PLAYER_GAME = false;
+//	public static final boolean DEBUG_DO_COMPUTER_PLAYER_GAME = true;
 	public static final boolean DEBUG_SHUFFLE_SEATS = false;
 	
 	

@@ -346,10 +346,19 @@ public class Wall {
 	public void loadDebugWall(){
 		
 		//desired hands (ENTER HERE)
-		int[] h1 = {2,2,2,2,2,2,2,2,2,2,2,2,2,7};
-		int[] h2 = {2,2,2,2,2,2,2,2,2,2,2,2,2};
-		int[] h3 = {3,3,3,3,3,3,3,3,3,3,3,3,3};
-		int[] h4 = {4,4,4,4,4,4,4,4,4,4,4,4,4};
+//		int[] h1 = {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34, 7};
+//		int[] h1 = {2,2,2,2,2,2,2,2,2,2,2,2,2,7};
+//		int[] h1 = {1,1,1,2,3,4,5,6,7,8,9,9,9,15};
+		int[] h1 = {2,2,4,4,6,6,8,8,10,10,12,12,15,15};
+		int[] h2 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
+		int[] h3 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
+		int[] h4 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
+		
+		
+//		int[] h1 = {2,2,2,2,2,2,2,2,2,2,2,2,2,7};
+//		int[] h2 = {2,2,2,2,2,2,2,2,2,2,2,2,2};
+//		int[] h3 = {3,3,3,3,3,3,3,3,3,3,3,3,3};
+//		int[] h4 = {4,4,4,4,4,4,4,4,4,4,4,4,4};
 		
 		
 
@@ -384,18 +393,10 @@ public class Wall {
 		*/
 		
 
-		TileList tilesE = new TileList(14);
-		TileList tilesS = new TileList(13);
-		TileList tilesW = new TileList(13);
-		TileList tilesN = new TileList(13);
-		for(int i: h1)
-			tilesE.add(new Tile(i));
-		for(int i: h2)
-			tilesS.add(new Tile(i));
-		for(int i: h3)
-			tilesW.add(new Tile(i));
-		for(int i: h4)
-			tilesN.add(new Tile(i));
+		TileList tilesE = new TileList(h1);
+		TileList tilesS = new TileList(h2);
+		TileList tilesW = new TileList(h3);
+		TileList tilesN = new TileList(h4);
 		
 		final int TAKEN_PER_ROUND = 16;
 		final int TAKEN_PER_PLAYER = 4;

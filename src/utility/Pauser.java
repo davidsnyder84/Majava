@@ -21,11 +21,4 @@ public class Pauser {
 	public static void pauseFor(int sleepTime){
 		try {Thread.sleep(sleepTime);} catch (InterruptedException e){}
 	}
-	
-//	public static void pauseWait(){
-//		int time = 0;
-//		if (DEBUG_WAIT_AFTER_COMPUTER) time = TIME_TO_SLEEP;
-//		
-//		try {Thread.sleep(time);} catch (InterruptedException e){}
-//	}
 }

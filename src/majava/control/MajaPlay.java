@@ -138,7 +138,7 @@ public class MajaPlay {
 		System.out.println(h.toString());
 		
 
-		System.out.println("\nHand is complete normal?: " + h.mChecker.isNormalComplete());
+		System.out.println("\nHand is complete normal?: " + h.mChecker.isCompleteNormal());
 		
 	}
 	
@@ -242,14 +242,14 @@ public class MajaPlay {
 		System.out.println(h.toString());
 		
 
-		System.out.println("\nIn tenpai for kokushi musou?: " + h.mChecker.kokushiMusouInTenpai());
+		System.out.println("\nIn tenpai for kokushi musou?: " + h.mChecker.isTenpaiKokushi());
 		
-		waits = h.mChecker.kokushiMusouWaits();
+		waits = h.mChecker.getKokushiWaits();
 		System.out.print(waits.size() + "-sided wait: ");
 		for (Tile t: waits)
 			System.out.print(t.toString() + ", ");
 		
-		System.out.println("\n\nKokushi musou complete?: " + h.mChecker.kokushiMusouIsComplete());
+		System.out.println("\n\nKokushi musou complete?: " + h.mChecker.isCompleteKokushi());
 	}
 	
 	

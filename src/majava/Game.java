@@ -98,6 +98,15 @@ public class Game {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/*
 	method: play
 	plays a new game of mahjong
@@ -106,9 +115,15 @@ public class Game {
 	*/
 	public void play(){
 		
+		
+		final int NUM_ROUNDS_TO_PLAY = 40;
+		
+		
 		//play one round
-		mCurrentRound = new Round(mTviewer, mPlayerArray);
-		mCurrentRound.play();
+		for (int i = 0; i < NUM_ROUNDS_TO_PLAY; i++){
+			mCurrentRound = new Round(mTviewer, mPlayerArray);
+			mCurrentRound.play();
+		}
 		
 	}
 	

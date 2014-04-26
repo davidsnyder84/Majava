@@ -96,7 +96,8 @@ public class TableViewer extends JFrame{
 	private static final Color COLOR_POND_RIICHI_TILE = new Color(0, 0, 250, 250);
 
 	
-	private static final int TIME_TO_PAUSE_FOR_EXCLAMATION = 1500;
+//	private static final int TIME_TO_PAUSE_FOR_EXCLAMATION = 1500;
+	private static final int TIME_TO_PAUSE_FOR_EXCLAMATION = 5;
 	private static final int[][] EXCLAMATION_LOCS =  {{352, 699}, {715, 626}, {347, 117}, {1, 178}};
 	
 	

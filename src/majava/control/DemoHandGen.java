@@ -77,7 +77,7 @@ public class DemoHandGen {
 		
 		
 		for (int i = 0; i < howManyTimes; i++){
-			if (!generateCompleteHand().mChecker.isNormalComplete()) numFailures++;
+			if (!generateCompleteHand().mChecker.isCompleteNormal()) numFailures++;
 		}
 		
 		

@@ -38,6 +38,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.FlowLayout;
 import javax.swing.JTextArea;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JCheckBoxMenuItem;
 
 @SuppressWarnings("serial")
 public class TableViewer extends JFrame{
@@ -51,8 +55,8 @@ public class TableViewer extends JFrame{
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	
 	//Control constants
-	private static final boolean DEFAULT_OPTION_HIDE_WALL = false;
-	private static final boolean DEFAULT_OPTION_HIDE_HANDS = false;
+	private static final boolean DEFAULT_OPTION_REVEAL_WALL = true;
+	private static final boolean DEFAULT_OPTION_REVEAL_HANDS = true;
 	
 	
 	private static final int WINDOW_WIDTH = 1150;
@@ -61,6 +65,7 @@ public class TableViewer extends JFrame{
 	private static final int WINDOW_TOP_BORDER_SIZE = 30;
 	private static final int WINDOW_SIDE_BORDER_SIZE = 8;
 	private static final int WINDOW_BOTTOM_BORDER_SIZE = 8;
+	private static final int WINDOW_MENU_BORDER_SIZE = 23;
 	
 
 	
@@ -312,9 +317,10 @@ public class TableViewer extends JFrame{
 	private TableViewer thisguy;
 	
 	
-	private boolean mOptionHideWall;
-	private boolean mOptionHideHands;
-	private boolean[] mHideHands;
+	private boolean mOptionRevealWall;
+	private boolean mOptionRevealHands;
+//	private boolean[] mHideHands;
+	private boolean[] mRevealHands;
 	
 	
 	
@@ -375,17 +381,17 @@ public class TableViewer extends JFrame{
 	
 	private static final int NULL_TILE_IMAGE_ID = -1;
 	
-	private ImageIcon __getImageIcon(TileList tList, int index, int seatNum, int tileSize, boolean hide){
+	private ImageIcon __getImageIcon(TileList tList, int index, int seatNum, int tileSize, boolean reveal){
 		if (tList.size() <= index) return null;
 		
-		if (hide) return garryTiles[seatNum][tileSize][GARRYINDEX_TILEBACK];
+		if (!reveal) return garryTiles[seatNum][tileSize][GARRYINDEX_TILEBACK];
 		
 		int id =__getImageID(tList.get(index));
 		if (id == NULL_TILE_IMAGE_ID) return null;
 		
 		return garryTiles[seatNum][tileSize][id];
 	}
-	private ImageIcon __getImageIcon(TileList tList, int index, int seatNum, int tileSize){return __getImageIcon(tList, index, seatNum, tileSize, false);}
+	private ImageIcon __getImageIcon(TileList tList, int index, int seatNum, int tileSize){return __getImageIcon(tList, index, seatNum, tileSize, true);}
 	
 	
 	private ImageIcon __getImageIconPond(TileList tList, int index, int seatNum){
@@ -408,16 +414,16 @@ public class TableViewer extends JFrame{
 	
 	
 	//gets icon for wall tile array
-	private ImageIcon __getImageIconWall(Tile[] tList, int index, int seatNum, boolean hide){
+	private ImageIcon __getImageIconWall(Tile[] tList, int index, int seatNum, boolean reveal){
 		if (seatNum == 1) seatNum = 3; else if (seatNum == 3) seatNum = 1;
 		
 		int id = __getImageID(tList[index]);
 		if (id == NULL_TILE_IMAGE_ID) return null;
 		
-		if (hide) id = GARRYINDEX_TILEBACK;
+		if (!reveal) id = GARRYINDEX_TILEBACK;
 		return garryTiles[seatNum][SMALL][id];
 	}
-	private ImageIcon __getImageIconWall(Tile[] tList, int index, int seatNum){return __getImageIconWall(tList, index, seatNum, false);}
+	private ImageIcon __getImageIconWall(Tile[] tList, int index, int seatNum){return __getImageIconWall(tList, index, seatNum, true);}
 	
 	
 	//returns the image ID number for the tile at the given index of tList
@@ -459,7 +465,7 @@ public class TableViewer extends JFrame{
 			lblResult.setText(mRoundTracker.getRoundResultString());
 			panelResult.setVisible(true);
 			
-			for (int i = 0; i < mHideHands.length; i++) mHideHands[i] = false;
+			for (int i = 0; i < mRevealHands.length; i++) mRevealHands[i] = true;
 		}
 		
 		
@@ -467,7 +473,7 @@ public class TableViewer extends JFrame{
 		//update hands
 		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_HAND; currentTile++){
-				larryHands[currentPlayer][currentTile].setIcon(__getImageIcon(mPTrackers[currentPlayer].tilesH, currentTile, currentPlayer, BIG, mHideHands[currentPlayer]));
+				larryHands[currentPlayer][currentTile].setIcon(__getImageIcon(mPTrackers[currentPlayer].tilesH, currentTile, currentPlayer, BIG, mRevealHands[currentPlayer]));
 			}
 		}
 		
@@ -482,13 +488,12 @@ public class TableViewer extends JFrame{
 		//update wall(s)
 		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_WALL; currentTile++)
-				larryWalls[currentPlayer][currentTile].setIcon(__getImageIconWall(tilesW, currentTile + currentPlayer*SIZE_WALL, currentPlayer, mOptionHideWall));
+				larryWalls[currentPlayer][currentTile].setIcon(__getImageIconWall(tilesW, currentTile + currentPlayer*SIZE_WALL, currentPlayer, mOptionRevealWall));
 		}
 		
 		//update dead wall
 		for (currentTile = 0; currentTile < SIZE_DEAD_WALL; currentTile++){
-			larryDW[currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT1, mOptionHideWall));
-//			larryDW[currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT1, mOptionHideWall || ));
+			larryDW[currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT1, mOptionRevealWall));
 		}
 		for (currentTile = POS_DORA_1; currentTile >= 2*(4 - mRoundTracker.getNumKansMade()); currentTile -= 2){
 			larryDW[currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT1));
@@ -711,7 +716,7 @@ public class TableViewer extends JFrame{
 		Player currentPlayer = mPTrackers[mRoundTracker.whoseTurn()-1].player;
 		
 		//show riichi if player is in tenpai
-		if (currentPlayer.checkTenpai()) barryTActions[BARRY_TACTIONS_RIICHI].setVisible(true);
+//		if (currentPlayer.checkTenpai()) barryTActions[BARRY_TACTIONS_RIICHI].setVisible(true);
 		
 		if (currentPlayer.ableToAnkan()) barryTActions[BARRY_TACTIONS_ANKAN].setVisible(true);
 		
@@ -790,9 +795,8 @@ public class TableViewer extends JFrame{
 			mPTrackers[i] = new PlayerTracker(pPlayers[i], pHandTiles[i], pPondTiles[i]);
 		
 		
-		mHideHands = new boolean[NUM_PLAYERS_TO_TRACK];
-		for (int i = 0; i < NUM_PLAYERS_TO_TRACK; i++) 
-			mHideHands[i] = (mOptionHideHands && mPTrackers[i].player.controllerIsComputer());
+		mRevealHands = new boolean[NUM_PLAYERS_TO_TRACK];
+		for (int i = 0; i < mRevealHands.length; i++) mRevealHands[i] = (mOptionRevealHands || mPTrackers[i].player.controllerIsHuman());
 		
 		tilesW = trackerTilesW;
 		
@@ -829,14 +833,14 @@ public class TableViewer extends JFrame{
 	public TableViewer(){
 		
 		
-		mOptionHideWall = DEFAULT_OPTION_HIDE_WALL;
-		mOptionHideHands = DEFAULT_OPTION_HIDE_HANDS;
+		mOptionRevealWall = DEFAULT_OPTION_REVEAL_WALL;
+		mOptionRevealHands = DEFAULT_OPTION_REVEAL_HANDS;
 		
 		
 		thisguy = this;
 		
 		final int WINDOW_BOUND_WIDTH = WINDOW_WIDTH + 2*WINDOW_SIDE_BORDER_SIZE;
-		final int WINDOW_BOUND_HEIGHT = WINDOW_HEIGHT + WINDOW_TOP_BORDER_SIZE + WINDOW_BOTTOM_BORDER_SIZE;
+		final int WINDOW_BOUND_HEIGHT = WINDOW_HEIGHT + WINDOW_TOP_BORDER_SIZE + WINDOW_BOTTOM_BORDER_SIZE + WINDOW_MENU_BORDER_SIZE;
 
 		
 		
@@ -849,11 +853,18 @@ public class TableViewer extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, WINDOW_BOUND_WIDTH, WINDOW_BOUND_HEIGHT);
 		
+		
+		
+		
+		
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		
+
 		
 		
 		
@@ -909,7 +920,11 @@ public class TableViewer extends JFrame{
 		
 		
 		
-		
+
+		//menus
+		JMenuBar menuBar;
+		JMenu menuCheats;
+		JCheckBoxMenuItem checkboxRevealWalls; JCheckBoxMenuItem checkboxRevealHands;
 		
 		//panel declarations
 		JPanel panelTable;
@@ -987,6 +1002,56 @@ public class TableViewer extends JFrame{
 		JButton btnCallChi;
 		
 		JButton buttonRiichi;JButton buttonAnkan;JButton buttonMinkan;JButton buttonTsumo;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+		menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		menuCheats = new JMenu("Cheats");
+		menuBar.add(menuCheats);
+		
+		checkboxRevealWalls = new JCheckBoxMenuItem("Reveal Walls");
+		checkboxRevealWalls.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				mOptionRevealWall = !mOptionRevealWall;
+				updateEverything();
+			}
+		});
+		checkboxRevealWalls.setSelected(true);
+		menuCheats.add(checkboxRevealWalls);
+		
+		checkboxRevealHands = new JCheckBoxMenuItem("Reveal Hands");
+		checkboxRevealHands.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				mOptionRevealHands = !mOptionRevealHands;
+				for (int i = 0; i < mRevealHands.length; i++) mRevealHands[i] = (mOptionRevealHands || mPTrackers[i].player.controllerIsHuman());
+				updateEverything();
+			}
+		});
+		checkboxRevealHands.setSelected(true);
+		menuCheats.add(checkboxRevealHands);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -3170,7 +3235,7 @@ public class TableViewer extends JFrame{
 				for (JLabel l: larryP1)
 					l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW1)
-					if (DEFAULT_OPTION_HIDE_WALL) l.setIcon(garryTiles[0][1][0]); 
+					if (!DEFAULT_OPTION_REVEAL_WALL) l.setIcon(garryTiles[0][1][0]); 
 					else l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH1Ms)
 					for (JLabel l: lar)
@@ -3179,13 +3244,13 @@ public class TableViewer extends JFrame{
 				
 				
 				for (JLabel l: larryH2)
-					if (DEFAULT_OPTION_HIDE_HANDS) l.setIcon(garryTiles[1][0][0]);
+					if (!DEFAULT_OPTION_REVEAL_HANDS) l.setIcon(garryTiles[1][0][0]);
 					else l.setIcon(garryTiles[1][0][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP2)
 					if (randGen.nextInt(34) != 1) l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
 					else l.setIcon(garryTiles[0][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW2)
-					if (DEFAULT_OPTION_HIDE_WALL) l.setIcon(garryTiles[1][1][0]); 
+					if (!DEFAULT_OPTION_REVEAL_WALL) l.setIcon(garryTiles[1][1][0]); 
 					else l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH2Ms)
 					for (JLabel l: lar)
@@ -3193,12 +3258,12 @@ public class TableViewer extends JFrame{
 				
 				
 				for (JLabel l: larryH3)
-					if (DEFAULT_OPTION_HIDE_HANDS) l.setIcon(garryTiles[2][0][0]);
+					if (!DEFAULT_OPTION_REVEAL_HANDS) l.setIcon(garryTiles[2][0][0]);
 					else l.setIcon(garryTiles[2][0][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP3)
 					l.setIcon(garryTiles[2][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW3)
-					if (DEFAULT_OPTION_HIDE_WALL) l.setIcon(garryTiles[2][1][0]); 
+					if (!DEFAULT_OPTION_REVEAL_WALL) l.setIcon(garryTiles[2][1][0]); 
 					else l.setIcon(garryTiles[2][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH3Ms)
 					for (JLabel l: lar)
@@ -3206,12 +3271,12 @@ public class TableViewer extends JFrame{
 				
 				
 				for (JLabel l: larryH4)
-					if (DEFAULT_OPTION_HIDE_HANDS) l.setIcon(garryTiles[3][0][0]);
+					if (!DEFAULT_OPTION_REVEAL_HANDS) l.setIcon(garryTiles[3][0][0]);
 					else l.setIcon(garryTiles[3][0][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP4)
 					l.setIcon(garryTiles[3][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryW4)
-					if (DEFAULT_OPTION_HIDE_WALL) l.setIcon(garryTiles[3][1][0]); 
+					if (!DEFAULT_OPTION_REVEAL_WALL) l.setIcon(garryTiles[3][1][0]); 
 					else l.setIcon(garryTiles[3][1][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH4Ms)
 					for (JLabel l: lar)

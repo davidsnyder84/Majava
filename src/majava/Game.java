@@ -140,10 +140,11 @@ public class Game {
 	
 	public void displayGameResult(){
 		
-		System.out.println("\n\n\n~~~~~~~~~~~~~~~~~~~~~~\nGAMEOVER\n~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-		System.out.println("\n\n\n~~~~~~~~~~~~~~~~~~~~~~\nPrinting win results\n~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-		for (String s: mWinStrings)
-			System.out.println(s);
+		System.out.println("\n\n\n\n\n\n~~~~~~~~~~~~~~~~~~~~~~\nGAMEOVER\n~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~\nPrinting win results\n~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		
+		for (int i = 0; i < mWinStrings.size(); i++)
+			System.out.printf("%3d: %s\n", i+1, mWinStrings.get(i));
 	}
 	
 	

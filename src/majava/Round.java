@@ -36,9 +36,12 @@ public class Round {
 	public static final int DEFAULT_ROUND_NUM = 1;
 	public static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
-	public static final int TIME_TO_SLEEP = 20;
-	public static final int TIME_TO_SLEEP_EXCLAMATION = 500;
-	public static final int TIME_TO_SLEEP_END_OF_ROUND = 3000;
+	public static final int TIME_TO_SLEEP = 0;
+	public static final int TIME_TO_SLEEP_EXCLAMATION = 0;
+	public static final int TIME_TO_SLEEP_END_OF_ROUND = 0;
+//	public static final int TIME_TO_SLEEP = 200;
+//	public static final int TIME_TO_SLEEP_EXCLAMATION = 1500;
+//	public static final int TIME_TO_SLEEP_END_OF_ROUND = 3000;
 	
 	
 	//for debug use
@@ -419,6 +422,14 @@ public class Round {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
 	/*
 	method: whoCalled
 	decides who gets to call the tile
@@ -442,50 +453,28 @@ public class Round {
 	private Player whoCalled(){
 		
 		Player callingPlayer = null;
+		Player callerPon = null, callerRon = null;
 		
-		//this is set to true by default, because we know at LEAST one player called
-		boolean onlyOnePlayerCalled = true;
-		//this is false until a call is found
-		boolean alreadyFoundACall = false;
+		boolean onlyOnePlayerCalled = true;	//this is set to true by default, because we know at LEAST one player called
+		boolean alreadyFoundACall = false;	//this is false until a call is found
 		
-		//if this player called, foundCall = true
-		if (p1.called()){
-			alreadyFoundACall = true;
-			callingPlayer = p1;
+		
+		for (Player p: mPlayerArray){
+			if (p.called()){
+				if (alreadyFoundACall) onlyOnePlayerCalled = false;
+				
+				callingPlayer = p;
+				alreadyFoundACall = true;
+			}
 		}
 		
-		//if this player called, and we have already found another call, onlyOnePlayerCalled = false
-		if (p2.called())
-			if (alreadyFoundACall)
-				onlyOnePlayerCalled = false;
-			else{
-				alreadyFoundACall = true;
-				callingPlayer = p2;
-			}
 		
-		if (p3.called())
-			if (alreadyFoundACall)
-				onlyOnePlayerCalled = false;
-			else{
-				alreadyFoundACall = true;
-				callingPlayer = p3;
-			}
-		
-		if (p4.called())
-			if (alreadyFoundACall)
-				onlyOnePlayerCalled = false;
-			else{
-				alreadyFoundACall = true;
-				callingPlayer = p4;
-			}
-		
-		
-
 		//if only one player called, return that player
 		if (onlyOnePlayerCalled){
 			return callingPlayer;
 		}
-		else{	
+		else {
+			
 			//else, if more than one player called, figure out who has more priority
 			/*
 			can 2 players call pon?: no, not enough tiles
@@ -506,51 +495,27 @@ public class Round {
 			2 rons: decide by closest seat order
 			
 			if >1 players called, and one of them called chi, the chi caller will NEVER have higher priority
-			*/
-			
 			//if 1 chi and 1 pon/kan, or 1 chi and 1 ron, the pon/kan/ron always gets higher priority
 			//so the chi is not even considered
-			Player callerPon = null, callerRon = null;
-			
-			//if p1 called something other than a chi...
-			if (p1.called() && !p1.calledChi())
-				if (p1.calledPon() || p1.calledKan())
-					//if he called pon/kan, he is the pon caller (there can't be 2 pon callers, not enough tiles in the game)
-					callerPon = p1;
-				else if (callerRon == null)
-					//if he called ron, he is the ron caller (if there is already a ron caller, do nothing, because that caller has seat order priority)
-					callerRon = p1;
-			
-			//check p2
-			if (p2.called() && !p2.calledChi())
-				if (p2.calledPon() || p2.calledKan())
-					callerPon = p2;
-				else if (callerRon == null)
-					callerRon = p2;
+			*/
 
-			//check p3
-			if (p3.called() && !p3.calledChi())
-				if (p3.calledPon() || p3.calledKan())
-					callerPon = p3;
-				else if (callerRon == null)
-					callerRon = p3;
-
-			//check p4
-			if (p4.called() && !p4.calledChi())
-				if (p4.calledPon() || p4.calledKan())
-					callerPon = p4;
-				else if (callerRon == null)
-					callerRon = p4;
-			
+			//if p called something other than a chi...
+				//if he called pon/kan, he is the pon caller (there can't be 2 pon callers, not enough tiles in the game)
+				//if he called ron, he is the ron caller (if there is already a ron caller, do nothing, because that caller has seat order priority)
+			for (int i = mPlayerArray.length - 1; i >= 0 ; i--){
+				if (mPlayerArray[i].called() && !mPlayerArray[i].calledChi())
+					if (mPlayerArray[i].calledPon() || mPlayerArray[i].calledKan())
+						callerPon = mPlayerArray[i];
+					else
+						callerRon = mPlayerArray[i];
+			}
 			
 			//return the first ron caller, or return the pon caller if there was no ron caller
-			if (callerRon != null)
-				return callerRon;
-			else
-				return callerPon;
+			if (callerRon != null) return callerRon;
+			else return callerPon;
 		}
-		
 	}
+	
 	
 	
 	

@@ -155,6 +155,7 @@ public class Hand implements Iterable<Tile>{
 			
 			//new tile added to the hand, update what turn actions are possible
 			mChecker.updateTurnActions();
+			mChecker.updateTenpaiStatus();
 			return true;
 		}
 		return false;

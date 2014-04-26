@@ -97,7 +97,7 @@ public class TableViewer extends JFrame{
 
 	
 	private static final int DEFAULT_SLEEP_TIME_EXCLAMATION = 1500;
-	private static final int[][] EXCLAMATION_LOCS =  {{352, 699}, {660, 626}, {347, 117}, {1, 178}};
+	private static final int[][] EXCLAMATION_LOCS =  {{352, 699}, {660, 632}, {347, 117}, {1, 178}};
 	
 	
 	private static final int NUM_PLAYERS = 4;

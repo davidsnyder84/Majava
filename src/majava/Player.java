@@ -110,6 +110,9 @@ public class Player {
 	private static final int COM_BEHAVIOR_DISCARD_FIRST = 2;
 	private static final int COM_BEHAVIOR_DISCARD_RANDOM = 3;
 	private static final int COM_BEHAVIOR_DISCARD_DEFAULT = COM_BEHAVIOR_DISCARD_LAST;
+	private static final int COM_BEHAVIOR = COM_BEHAVIOR_DISCARD_LAST;
+	
+	
 	
 	public static final int POINTS_STARTING_AMOUNT = 25000;
 
@@ -438,16 +441,15 @@ public class Player {
 	private int __askTurnActionCom(){
 		
 		int chosenDiscardIndex;
-
-		//always choose the last tile in the hand (most recently drawn one)
-		chosenDiscardIndex = mHand.getSize() - 1;
 		
-		//always choose the first tile in the hand
-		chosenDiscardIndex = 0;
+		//choose the first tile in the hand
+		if (COM_BEHAVIOR == COM_BEHAVIOR_DISCARD_FIRST) chosenDiscardIndex = 0;
+		//choose the last tile in the hand (most recently drawn one)
+		if (COM_BEHAVIOR == COM_BEHAVIOR_DISCARD_LAST) chosenDiscardIndex = mHand.getSize() - 1;
 		
 		
-		if (mSeatWind == 'N')chosenDiscardIndex = mHand.getSize() - 1;
-		if (mSeatWind == 'E')chosenDiscardIndex = mHand.getSize() - 1;
+//		if (mSeatWind == 'N')chosenDiscardIndex = mHand.getSize() - 1;
+//		if (mSeatWind == 'E')chosenDiscardIndex = mHand.getSize() - 1;
 		
 		
 		if (DEBUG_COMPUTERS_MAKE_ACTIONS && ableToTsumo()){

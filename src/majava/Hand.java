@@ -56,20 +56,22 @@ methods:
 */
 public class Hand implements Iterable<Tile>{
 	
-
 	public static final int MAX_HAND_SIZE = 14;
 	public static final int MAX_NUM_MELDS = 5;
 	public static final int AVG_NUM_TILES_PER_MELD = 3;
-
+	
+	private enum ModifyAction {ADD, REMOVE;}
+	
 	//for debug use
 	public static final boolean DEBUG_SHOW_MELDS_ALONG_WITH_HAND = false;
 	
 	
 	
-	private TileList mTiles;
-	private ArrayList<Meld> mMelds;
+	
+	private final TileList mTiles;
+	private final ArrayList<Meld> mMelds;
 	//is public right now for debug purposes, but it shouldn't be
-	final public HandChecker mChecker;
+	public final HandChecker mChecker;
 	
 	
 	private int mNumMeldsMade;
@@ -92,9 +94,7 @@ public class Hand implements Iterable<Tile>{
 		mChecker = new HandChecker(this, mTiles, mMelds);
 		mRoundTracker = null;
 	}
-	public Hand(){
-		this(Player.SEAT_UNDECIDED);
-	}
+	public Hand(){this(Player.SEAT_UNDECIDED);}
 	
 	
 	
@@ -146,52 +146,70 @@ public class Hand implements Iterable<Tile>{
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
 	//adds a tile to the hand (cannot add more than max hand size)
-	public boolean addTile(Tile t){
-		if (mTiles.size() < MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*mNumMeldsMade){
-			t.setOwner(mOwnerSeatWind);	//TODO for debug use, should remove when done
-			
-			mTiles.add(t);
-			
-			//new tile added to the hand, update what turn actions are possible
-			mChecker.updateTurnActions();
-			mChecker.updateTenpaiStatus();
-			return true;
-		}
-		return false;
-	}
-	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand (debug use)
+	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand
+	public boolean addTile(Tile t){return __modifyHand(ModifyAction.ADD, t);}
 	public boolean addTile(int tileID){return addTile(new Tile(tileID));}
 	
 	
+	//removes the tile at the given index
+	public boolean removeTile(int index){return __modifyHand(ModifyAction.REMOVE, index);}
 	
 	
 	/*
-	method: removeTile
-	removes the tile at the given index, and checks if removing the tile puts the hand in tenpai
-	returns true if successful, returns false if index is outside of the hand's range
+	method: __modifyHand
+	removes a tile from or adds a tile to a hand
 	
-	remove the tile
-	sort the hand
-	check if removing the tile put the hand in tenpai (modifies mTenpaiStatus flag)
+	if (add): add the tile to the hand
+	if (remove): remove the tile, sort the hand
+	
+	check if modifying the hand put the hand in tenpai
+	update what turn actions are possible after modifying the hand
 	*/
-	public boolean removeTile(int index){
-		if (index >= 0 && index < mTiles.size()){
-			//remove the tile
-			mTiles.remove(index);
+	private boolean __modifyHand(ModifyAction modType, Tile addThisTile, int removeThisIndex){
+		
+		if (modType == ModifyAction.ADD && addThisTile != null){
 			
-			//sort hand
-			sortHand();
-			//check if removing the tile put the hand in tenpai
-			mChecker.updateTenpaiStatus();
-			//update what turn actions are possible after removing the tile
-			mChecker.updateTurnActions();
-			
-			return true;
+			if (mTiles.size() < MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*mNumMeldsMade){
+				addThisTile.setOwner(mOwnerSeatWind);
+				mTiles.add(addThisTile);
+			}
+			else return false;
 		}
-		return false;
-	}
+		else if (modType == ModifyAction.REMOVE){
+			
+			if (removeThisIndex >= 0 && removeThisIndex < mTiles.size()){
+				mTiles.remove(removeThisIndex);
+				sortHand();
+			}
+			else return false;
+		}
+		else return false;
+		
 
+		//check if modifying the hand put the hand in tenpai
+		mChecker.updateTenpaiStatus();
+		//update what turn actions are possible after modifying the hand
+		mChecker.updateTurnActions();
+		
+		return true;
+	}
+	private boolean __modifyHand(ModifyAction modType, Tile addThisTile){return __modifyHand(ModifyAction.REMOVE, addThisTile, -1);}
+	private boolean __modifyHand(ModifyAction modType, int removeThisIndex){return __modifyHand(ModifyAction.REMOVE, null, removeThisIndex);}
+	
+	
+	
+	
+	
+	
+	
 	
 	//returns true if the hand contains an occurence of tile t
 	public boolean contains(Tile t){
@@ -346,16 +364,12 @@ public class Hand implements Iterable<Tile>{
 
 			mNumMeldsMade++;
 		}
-			
-		
-		
-		
 	}
 	public void makeClosedMeldKan(){__makeClosedMeld(MeldType.KAN);}
-	public void makeClosedMeldPon(){__makeClosedMeld(MeldType.PON);}
-	public void makeClosedMeldChiL(){__makeClosedMeld(MeldType.CHI_L);}
-	public void makeClosedMeldChiM(){__makeClosedMeld(MeldType.CHI_M);}
-	public void makeClosedMeldChiH(){__makeClosedMeld(MeldType.CHI_H);}
+//	public void makeClosedMeldPon(){__makeClosedMeld(MeldType.PON);}
+//	public void makeClosedMeldChiL(){__makeClosedMeld(MeldType.CHI_L);}
+//	public void makeClosedMeldChiM(){__makeClosedMeld(MeldType.CHI_M);}
+//	public void makeClosedMeldChiH(){__makeClosedMeld(MeldType.CHI_H);}
 	
 	
 	

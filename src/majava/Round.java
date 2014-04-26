@@ -368,13 +368,11 @@ public class Round {
 		
 		//remove the tile from the discarder's pond (because it is being called)
 		Tile discardedTile = mRoundTracker.currentPlayer().removeTileFromPond();
-//		Tile discardedTile = mRoundTracker.getMostRecentDiscard();
 		
 		
 		
 		//figure out who called the tile, and if multiple players called, who gets priority
 		Player priorityCaller = whoCalled();
-		
 		
 		//show the call
 		showExclamation(priorityCaller.getCallStatusString(), priorityCaller);
@@ -392,6 +390,7 @@ public class Round {
 			
 		}
 		else{
+			
 			//make the meld
 			priorityCaller.makeMeld(discardedTile);
 			updateWindow();
@@ -525,7 +524,7 @@ public class Round {
 	method: showHandsOfHumanPlayers
 	shows the hands of all human players in the game
 	*/
-	private void showHandsOfHumanPlayers(){for (Player p: mPlayerArray) p.showHand();}
+	private void showHandsOfHumanPlayers(){for (Player p: mPlayerArray) if (p.controllerIsHuman()) p.showHand();}
 	
 	
 	

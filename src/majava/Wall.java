@@ -126,10 +126,10 @@ public class Wall {
     East takes 2, South takes 1, West takes 1, North takes 1
 	*/
 	public void dealHands(Player p1, Player p2, Player p3, Player p4){
-		TileList tilesE = new TileList(Hand.MAX_HAND_SIZE);
-		TileList tilesS = new TileList(Hand.MAX_HAND_SIZE - 1);
-		TileList tilesW = new TileList(Hand.MAX_HAND_SIZE - 1);
-		TileList tilesN = new TileList(Hand.MAX_HAND_SIZE - 1);
+		TileList tilesE = new TileList();
+		TileList tilesS = new TileList();
+		TileList tilesW = new TileList();
+		TileList tilesN = new TileList();
 		
 		int i, j;
 		//each player takes 4, 3 times

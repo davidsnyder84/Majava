@@ -299,8 +299,6 @@ public class TableViewer extends JFrame{
 	private static final int SEAT4 = 3;
 	private static final int BIG = 0;
 	private static final int SMALL = 1;
-//	public enum SeatNumber {SEAT1, SEAT2, SEAT3, SEAT4;}
-//	public enum TileSize {BIG, SMALL;}
 	
 	/*+++++++++++++++++++++++++++++++++++++++END IMAGE ARRAYS+++++++++++++++++++++++++++++++++++++++*/
 	

@@ -10,7 +10,7 @@ import majava.tiles.Tile;
 
 
 /*
-Class: RoundInfo
+Class: RoundTracker
 
 data:
 	
@@ -31,23 +31,45 @@ public class RoundTracker {
 	private static final int NUM_PLAYERS = 4;
 	private static final int NUM_PLAYERS_TO_TRACK = NUM_PLAYERS;
 	private static final int NUM_MELDS_TO_TRACK = 5;
-
-	private static final int RESULT_UNDECIDED = -1;
-	private static final int RESULT_DRAW_WASHOUT = 0;
-	private static final int RESULT_DRAW_KYUUSHU = 1;
-	private static final int RESULT_DRAW_4KAN = 2;
-	private static final int RESULT_DRAW_4RIICHI = 3;
-	private static final int RESULT_DRAW_4WIND = 4;
-	private static final int RESULT_VICTORY_E = 5;
-	private static final int RESULT_VICTORY_S = 6;
-	private static final int RESULT_VICTORY_W = 7;
-	private static final int RESULT_VICTORY_N = 8;
-
-	private static final int WIN_TYPE_UNDECIDED = -1;
-	private static final int WIN_TYPE_TSUMO = 50;
-	private static final int WIN_TYPE_RON = 4;
 	
 	
+	public enum Result{
+		UNDECIDED,
+		DRAW_WASHOUT, DRAW_KYUUSHU, DRAW_4KAN, DRAW_4RIICHI, DRAW_4WIND,
+		VICTORY_E, VICTORY_S, VICTORY_W, VICTORY_N;
+		
+		public boolean isDraw(){return (this == DRAW_WASHOUT || this == DRAW_KYUUSHU || this == DRAW_4KAN || this == DRAW_4RIICHI || this == DRAW_4WIND);}
+		public boolean isVictory(){return (this == VICTORY_E || this == VICTORY_S || this == VICTORY_W || this == VICTORY_N);}
+		
+		@Override
+		public String toString(){
+			switch (this){
+			case DRAW_WASHOUT: return "Draw (Washout)";
+			case DRAW_KYUUSHU: return "Draw (Kyuushu)";
+			case DRAW_4KAN: return "Draw (4 kans)";
+			case DRAW_4RIICHI: return "Draw (4 riichi)";
+			case DRAW_4WIND: return "Draw (4 wind)";
+			
+			case VICTORY_E: return "E wins!";
+			case VICTORY_S: return "S wins!";
+			case VICTORY_W: return "W wins!";
+			case VICTORY_N: return "N wins!";
+			default: return "??Undecided??";
+			}
+		}
+	}
+	public enum WinType{
+		UNDECIDED, TSUMO, RON;
+		
+		@Override
+		public String toString(){
+			switch (this){
+			case TSUMO: return "TSUMO";
+			case RON: return "RON";
+			default: return "undecided";
+			}
+		}
+	}
 	
 	
 	
@@ -89,8 +111,8 @@ public class RoundTracker {
 	
 	
 	private boolean mRoundIsOver;
-	private int mRoundResult;
-	private int mWinType;
+	private Result mRoundResult;
+	private WinType mWinType;
 
 	private Player mWinningPlayer;
 	private Player mFurikondaPlayer;
@@ -113,8 +135,8 @@ public class RoundTracker {
 		mWhoseTurn = 1;
 		mMostRecentDiscard = null;
 		
-		mRoundResult = RESULT_UNDECIDED;
-		mWinType = WIN_TYPE_UNDECIDED;
+		mRoundResult = Result.UNDECIDED;
+		mWinType = WinType.UNDECIDED;
 		mRoundIsOver = false;
 		mWinningPlayer = mFurikondaPlayer = null;
 		mWinningTile = null;
@@ -197,25 +219,21 @@ public class RoundTracker {
 	
 	
 	
-	private void __setRoundOver(int result){
+	private void __setRoundOver(Result result){
 		mRoundResult = result;
 		mRoundIsOver = true;
 	}
-	public void setResultWashout(){__setRoundOver(RESULT_DRAW_WASHOUT);}
-	public void setResultKyuushu(){__setRoundOver(RESULT_DRAW_KYUUSHU);}
-	public void setResult4Kan(){__setRoundOver(RESULT_DRAW_4KAN);}
-	public void setResult4Riichi(){__setRoundOver(RESULT_DRAW_4RIICHI);}
-	public void setResult4Wind(){__setRoundOver(RESULT_DRAW_4WIND);}
-//	private void setResultVictoryE(){__setRoundOver(RESULT_VICTORY_E);}
-//	private void setResultVictoryS(){__setRoundOver(RESULT_VICTORY_S);}
-//	private void setResultVictoryW(){__setRoundOver(RESULT_VICTORY_W);}
-//	private void setResultVictoryN(){__setRoundOver(RESULT_VICTORY_N);}
+	public void setResultWashout(){__setRoundOver(Result.DRAW_WASHOUT);}
+	public void setResultKyuushu(){__setRoundOver(Result.DRAW_KYUUSHU);}
+	public void setResult4Kan(){__setRoundOver(Result.DRAW_4KAN);}
+	public void setResult4Riichi(){__setRoundOver(Result.DRAW_4RIICHI);}
+	public void setResult4Wind(){__setRoundOver(Result.DRAW_4WIND);}
 	private void __setResultVictory(char winningSeat){
 		switch(winningSeat){
-		case 'E': __setRoundOver(RESULT_VICTORY_E); break;
-		case 'S': __setRoundOver(RESULT_VICTORY_S); break;
-		case 'W': __setRoundOver(RESULT_VICTORY_W); break;
-		case 'N': __setRoundOver(RESULT_VICTORY_N); break;
+		case 'E': __setRoundOver(Result.VICTORY_E); break;
+		case 'S': __setRoundOver(Result.VICTORY_S); break;
+		case 'W': __setRoundOver(Result.VICTORY_W); break;
+		case 'N': __setRoundOver(Result.VICTORY_N); break;
 		default: break;
 		}
 	}
@@ -225,11 +243,11 @@ public class RoundTracker {
 	private void __setVictoryRon(Player discarder){
 		mFurikondaPlayer = discarder;
 		mWinningTile = mMostRecentDiscard;
-		mWinType = WIN_TYPE_RON;
+		mWinType = WinType.RON;
 	}
 	private void __setVictoryTsumo(){
 		mWinningTile = mPTrackers[getSeatNumber(mWinningPlayer)].tilesH.getLast();
-		mWinType = WIN_TYPE_TSUMO;
+		mWinType = WinType.TSUMO;
 	}
 	
 	
@@ -248,7 +266,7 @@ public class RoundTracker {
 		TileList winHand = new TileList();
 		winHand = mPTrackers[getSeatNumber(mWinningPlayer)].tilesH.makeCopy();
 		
-//		if (mWinType == WIN_TYPE_RON) winHand.add(mMostRecentDiscard);
+//		if (mWinType == WinType.RON) winHand.add(mMostRecentDiscard);
 		
 		mWinningHand = winHand;
 	}
@@ -278,29 +296,18 @@ public class RoundTracker {
 	
 	//returns the round result as a string
 	public String getRoundResultString(){
-		 switch (mRoundResult){
-		 case RESULT_DRAW_WASHOUT: return "Draw (Washout)";
-		 case RESULT_DRAW_KYUUSHU: return "Draw (Kyuushu)";
-		 case RESULT_DRAW_4KAN: return "Draw (4 kans)";
-		 case RESULT_DRAW_4RIICHI: return "Draw (4 riichi)";
-		 case RESULT_DRAW_4WIND: return "Draw (4 wind)";
-		 
-		 case RESULT_VICTORY_E: return ("E wins! (" + __getWinTypeString() + ")");
-		 case RESULT_VICTORY_S: return ("S wins! (" + __getWinTypeString() + ")");
-		 case RESULT_VICTORY_W: return ("W wins! (" + __getWinTypeString() + ")");
-		 case RESULT_VICTORY_N: return ("N wins! (" + __getWinTypeString() + ")");
-		 default: return "??Undecided??";
-		 }
+		
+		String resString = "";
+		resString += mRoundResult.toString();
+		
+		if (mRoundResult.isVictory()) resString += " (" + __getWinTypeString() + ")";
+		return resString;
 	}
-	
-	private String __getWinTypeString(){
-		if (mWinType == WIN_TYPE_TSUMO) return "TSUMO";
-		else return "RON";
-	}
+	private String __getWinTypeString(){return mWinType.toString();}
 	
 	public boolean roundIsOver(){return mRoundIsOver;}
-	public boolean roundEndedWithDraw(){return !roundEndedWithVictory();}
-	public boolean roundEndedWithVictory(){return (mRoundResult == RESULT_VICTORY_E || mRoundResult == RESULT_VICTORY_S || mRoundResult == RESULT_VICTORY_W || mRoundResult == RESULT_VICTORY_N);}
+	public boolean roundEndedWithDraw(){return mRoundResult.isDraw();}
+	public boolean roundEndedWithVictory(){return mRoundResult.isVictory();}
 	
 	
 	
@@ -421,13 +428,6 @@ public class RoundTracker {
 	public Tile getMostRecentDiscard(){return mMostRecentDiscard;}
 	
 	
-	
-	
-//	public ArrayList<Integer> getPondMissingIndices(int whichPond){
-//		ArrayList<Integer> missingIndices = new ArrayList<Integer>
-//	}
-//	public ArrayList<Integer> getPond1MissingIndices(){}
-////	public ArrayList<Integer> pond1MissingIndices(){}
 	
 	
 	

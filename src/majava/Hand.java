@@ -201,7 +201,7 @@ public class Hand implements Iterable<Tile>{
 		
 		return true;
 	}
-	private boolean __modifyHand(ModifyAction modType, Tile addThisTile){return __modifyHand(ModifyAction.REMOVE, addThisTile, -1);}
+	private boolean __modifyHand(ModifyAction modType, Tile addThisTile){return __modifyHand(ModifyAction.ADD, addThisTile, -1);}
 	private boolean __modifyHand(ModifyAction modType, int removeThisIndex){return __modifyHand(ModifyAction.REMOVE, null, removeThisIndex);}
 	
 	

@@ -145,7 +145,7 @@ public class Round {
 		
 		//deal and sort hands
 		mWall.dealHands(p1, p2, p3, p4);
-		p1.sortHand(); p2.sortHand(); p3.sortHand(); p4.sortHand();
+//		p1.sortHand(); p2.sortHand(); p3.sortHand(); p4.sortHand();
 		updateWindow();
 		
 

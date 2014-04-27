@@ -65,7 +65,7 @@ public class TableViewer extends JFrame{
 	private static final int WINDOW_TOP_BORDER_SIZE = 30;
 	private static final int WINDOW_SIDE_BORDER_SIZE = 8;
 	private static final int WINDOW_BOTTOM_BORDER_SIZE = 8;
-	private static final int WINDOW_MENU_BORDER_SIZE = 23;
+	private static final int WINDOW_MENU_SIZE = 23;
 	
 
 	
@@ -713,7 +713,7 @@ public class TableViewer extends JFrame{
 		//add appropriate player call buttons
 		Player currentPlayer = mPTrackers[mRoundTracker.whoseTurn()-1].player;
 		
-		//show riichi if player is in tenpai
+//		//show riichi if player is in tenpai
 //		if (currentPlayer.checkTenpai()) barryTActions[BARRY_TACTIONS_RIICHI].setVisible(true);
 		
 		if (currentPlayer.ableToAnkan()) barryTActions[BARRY_TACTIONS_ANKAN].setVisible(true);
@@ -812,19 +812,19 @@ public class TableViewer extends JFrame{
 		TableViewer viewer = new TableViewer();
 		viewer.setVisible(true);
 		
-		boolean canChiL = true;
-		boolean canChiM = true; 
-		boolean canChiH = true; 
-		boolean canPon = true; 
-		boolean canKan = true; 
-		boolean canRon = true;
-		
-		while (true){
-			System.out.println(viewer.getClickCall(canChiL, canChiM, canChiH, canPon, canKan, canRon));
-			viewer.getClickTurnAction();
-			System.out.println(viewer.getResultClickedDiscard());
-			viewer.repaint();
-		}
+//		boolean canChiL = true;
+//		boolean canChiM = true; 
+//		boolean canChiH = true; 
+//		boolean canPon = true; 
+//		boolean canKan = true; 
+//		boolean canRon = true;
+//		
+//		while (true){
+//			System.out.println(viewer.getClickCall(canChiL, canChiM, canChiH, canPon, canKan, canRon));
+//			viewer.getClickTurnAction();
+//			System.out.println(viewer.getResultClickedDiscard());
+//			viewer.repaint();
+//		}
 	}
 	
 	//TODO start of constructor
@@ -838,15 +838,13 @@ public class TableViewer extends JFrame{
 		thisguy = this;
 		
 		final int WINDOW_BOUND_WIDTH = WINDOW_WIDTH + 2*WINDOW_SIDE_BORDER_SIZE;
-		final int WINDOW_BOUND_HEIGHT = WINDOW_HEIGHT + WINDOW_TOP_BORDER_SIZE + WINDOW_BOTTOM_BORDER_SIZE + WINDOW_MENU_BORDER_SIZE;
+		final int WINDOW_BOUND_HEIGHT = WINDOW_HEIGHT + WINDOW_TOP_BORDER_SIZE + WINDOW_BOTTOM_BORDER_SIZE + WINDOW_MENU_SIZE;
 
 		
 		
-		String windowIconImgPath = "C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transE.png";
-		ImageIcon windowIconImg = new ImageIcon(windowIconImgPath);
-		windowIconImg.equals(windowIconImg);
+		ImageIcon windowIconImg = new ImageIcon(getClass().getResource("/res/img/winds/transE.png"));
+		setIconImage(windowIconImg.getImage());
 		
-		setIconImage(Toolkit.getDefaultToolkit().getImage(windowIconImgPath));
 		setTitle("The Beaver");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, WINDOW_BOUND_WIDTH, WINDOW_BOUND_HEIGHT);
@@ -874,42 +872,41 @@ public class TableViewer extends JFrame{
 		
 		
 		
+		/*................................................DEMO PURPOSES.......................................................*/
 		
+		ImageIcon pImg = new ImageIcon(getClass().getResource("/res/img/tiles/seat1/small/22.png"));
+		ImageIcon p2Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat2/small/22.png"));
+		ImageIcon p3Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat3/small/25.png"));
+		ImageIcon p4Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat4/small/21.png"));
 		
-		
-		
-		ImageIcon pImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\22.png");
-		ImageIcon p2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\22.png");
-		ImageIcon p3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\25.png");
-		ImageIcon p4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\21.png");
-		
-		ImageIcon wImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\0.png");
-		ImageIcon w2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\0.png");
-		ImageIcon w3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\0.png");
-		ImageIcon w4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\0.png");
+		ImageIcon wImg = new ImageIcon(getClass().getResource("/res/img/tiles/seat1/small/0.png"));
+		ImageIcon w2Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat2/small/0.png"));
+		ImageIcon w3Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat3/small/0.png"));
+		ImageIcon w4Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat4/small/0.png"));
 
-		ImageIcon dwImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\0.png");
+		ImageIcon dwImg = new ImageIcon(getClass().getResource("/res/img/tiles/seat1/small/0.png"));
 		
-		ImageIcon hImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png");
-		ImageIcon h2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\1.png");
-		ImageIcon h3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\1.png");
-		ImageIcon h4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\1.png");
+		ImageIcon hImg = new ImageIcon(getClass().getResource("/res/img/tiles/seat1/1.png"));
+		ImageIcon h2Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat2/1.png"));
+		ImageIcon h3Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat3/1.png"));
+		ImageIcon h4Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat4/1.png"));
 
-		ImageIcon meldImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\34.png");
-		ImageIcon meld2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat2\\small\\34.png");
-		ImageIcon meld3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat3\\small\\34.png");
-		ImageIcon meld4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat4\\small\\34.png");
+		ImageIcon meldImg = new ImageIcon(getClass().getResource("/res/img/tiles/seat1/small/34.png"));
+		ImageIcon meld2Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat2/small/34.png"));
+		ImageIcon meld3Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat3/small/34.png"));
+		ImageIcon meld4Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat4/small/34.png"));
 		
 
-		ImageIcon windRImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transE.png");
-		ImageIcon wind1Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transEs.png");
-		ImageIcon wind2Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transSs.png");
-		ImageIcon wind3Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transWs.png");
-		ImageIcon wind4Img = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transNs.png");
+		ImageIcon windRImg = new ImageIcon(getClass().getResource("/res/img/winds/transE.png"));
+		ImageIcon wind1Img = new ImageIcon(getClass().getResource("/res/img/winds/small/transEs.png"));
+		ImageIcon wind2Img = new ImageIcon(getClass().getResource("/res/img/winds/small/transSs.png"));
+		ImageIcon wind3Img = new ImageIcon(getClass().getResource("/res/img/winds/small/transWs.png"));
+		ImageIcon wind4Img = new ImageIcon(getClass().getResource("/res/img/winds/small/transNs.png"));
 		
-		ImageIcon riichiImg = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\riichiStick.png");
+		ImageIcon riichiImg = new ImageIcon(getClass().getResource("/res/img/other/riichiStick.png"));
+		ImageIcon sheepImg = new ImageIcon(getClass().getResource("/res/img/other/sheepy2trans.png"));
 		
-		
+		/*................................................DEMO PURPOSES.......................................................*/
 		
 		
 		
@@ -980,12 +977,6 @@ public class TableViewer extends JFrame{
 		JLabel lblW4T1;JLabel lblW4T2;JLabel lblW4T3;JLabel lblW4T4;JLabel lblW4T5;JLabel lblW4T6;JLabel lblW4T7;JLabel lblW4T8;JLabel lblW4T9;JLabel lblW4T10;JLabel lblW4T11;JLabel lblW4T12;JLabel lblW4T13;JLabel lblW4T14;JLabel lblW4T15;JLabel lblW4T16;JLabel lblW4T17;JLabel lblW4T18;JLabel lblW4T19;JLabel lblW4T20;JLabel lblW4T21;JLabel lblW4T22;JLabel lblW4T23;JLabel lblW4T24;JLabel lblW4T25;JLabel lblW4T26;JLabel lblW4T27;JLabel lblW4T28;JLabel lblW4T29;JLabel lblW4T30;JLabel lblW4T31;JLabel lblW4T32;JLabel lblW4T33;JLabel lblW4T34;
 		
 		JLabel labelWeHaveFun;
-		JLabel lblBigTileDemo1;
-		JLabel lblBigTileDemo2;
-		JLabel lblBigTileDemo3;
-		JLabel lblSmallTileDemo1;
-		JLabel lblSmallTileDemo2;
-		JLabel lblSmallTileDemo3;
 		
 		JLabel lblDW1;JLabel lblDW2;JLabel lblDW3;JLabel lblDW4;JLabel lblDW5;JLabel lblDW6;JLabel lblDW7;JLabel lblDW8;JLabel lblDW9;JLabel lblDW10;JLabel lblDW11;JLabel lblDW12;JLabel lblDW13;JLabel lblDW14;
 		
@@ -3162,41 +3153,9 @@ public class TableViewer extends JFrame{
 		panelSidebar.setLayout(null);
 		
 		labelWeHaveFun = new JLabel("");
-		labelWeHaveFun.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\sheepy2trans.png"));
+		labelWeHaveFun.setIcon(sheepImg);
 		labelWeHaveFun.setBounds(4, 5, 270, 345);
 		panelSidebar.add(labelWeHaveFun);
-		
-		
-		
-		lblBigTileDemo1 = new JLabel("");
-		lblBigTileDemo1.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
-		lblBigTileDemo1.setBounds(23, 365, 30, 41);
-		panelSidebar.add(lblBigTileDemo1);
-		
-		lblBigTileDemo2 = new JLabel("");
-		lblBigTileDemo2.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
-		lblBigTileDemo2.setBounds(53, 365, 30, 41);
-		panelSidebar.add(lblBigTileDemo2);
-		
-		lblBigTileDemo3 = new JLabel("");
-		lblBigTileDemo3.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\1.png"));
-		lblBigTileDemo3.setBounds(83, 365, 30, 41);
-		panelSidebar.add(lblBigTileDemo3);
-		
-		lblSmallTileDemo1 = new JLabel("");
-		lblSmallTileDemo1.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
-		lblSmallTileDemo1.setBounds(126, 372, 23, 31);
-		panelSidebar.add(lblSmallTileDemo1);
-		
-		lblSmallTileDemo2 = new JLabel("");
-		lblSmallTileDemo2.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
-		lblSmallTileDemo2.setBounds(149, 372, 23, 31);
-		panelSidebar.add(lblSmallTileDemo2);
-		
-		lblSmallTileDemo3 = new JLabel("");
-		lblSmallTileDemo3.setIcon(new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat1\\small\\14.png"));
-		lblSmallTileDemo3.setBounds(172, 372, 23, 31);
-		panelSidebar.add(lblSmallTileDemo3);
 		
 		
 		
@@ -3694,42 +3653,46 @@ public class TableViewer extends JFrame{
 	}
 	
 	
+	
+	
 	//put image icons into arrays
 	private void __loadImagesIntoArrays(){
+		
+		final int NUM_TILES_PLUS_TILEBACK = 35;
 		
 		//load Tile images into array
 		for(int seat = 0; seat < SIZE_NUM_SEATS; seat++){
 			//get tileback and each of the 34 tiles
 			//garryTiles[seat number][0=big,1=small][tile number]
-			for (int tile = 0; tile < SIZE_GARRY_TILES; tile++){
-				garryTiles[seat][GARRYINDEX_TILE_BIG][tile] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\" + tile + ".png");
-				garryTiles[seat][GARRYINDEX_TILE_SMALL][tile] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\small\\" + tile + ".png");
+			for (int tile = 0; tile < NUM_TILES_PLUS_TILEBACK; tile++){
+				garryTiles[seat][GARRYINDEX_TILE_BIG][tile] = new ImageIcon(getClass().getResource("/res/img/tiles/seat" + (seat+1) + "/" + tile + ".png"));
+				garryTiles[seat][GARRYINDEX_TILE_SMALL][tile] = new ImageIcon(getClass().getResource("/res/img/tiles/seat" + (seat+1) + "/small/" + tile + ".png"));
 			}
 			
 			//get red fives
-			garryTiles[seat][GARRYINDEX_TILE_BIG][GARRYINDEX_RED5M] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\5r.png");
-			garryTiles[seat][GARRYINDEX_TILE_SMALL][GARRYINDEX_RED5M] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\small\\5r.png");
+			garryTiles[seat][GARRYINDEX_TILE_BIG][GARRYINDEX_RED5M] = new ImageIcon(getClass().getResource("/res/img/tiles/seat" + (seat+1) + "/5r.png"));
+			garryTiles[seat][GARRYINDEX_TILE_SMALL][GARRYINDEX_RED5M] = new ImageIcon(getClass().getResource("/res/img/tiles/seat" + (seat+1) + "/small/5r.png"));
 			
-			garryTiles[seat][GARRYINDEX_TILE_BIG][GARRYINDEX_RED5P] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\14r.png");
-			garryTiles[seat][GARRYINDEX_TILE_SMALL][GARRYINDEX_RED5P] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\small\\14r.png");
+			garryTiles[seat][GARRYINDEX_TILE_BIG][GARRYINDEX_RED5P] = new ImageIcon(getClass().getResource("/res/img/tiles/seat" + (seat+1) + "/14r.png"));
+			garryTiles[seat][GARRYINDEX_TILE_SMALL][GARRYINDEX_RED5P] = new ImageIcon(getClass().getResource("/res/img/tiles/seat" + (seat+1) + "/small/14r.png"));
 
-			garryTiles[seat][GARRYINDEX_TILE_BIG][GARRYINDEX_RED5S] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\23r.png");
-			garryTiles[seat][GARRYINDEX_TILE_SMALL][GARRYINDEX_RED5S] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\tiles\\seat" + (seat+1) + "\\small\\23r.png");
+			garryTiles[seat][GARRYINDEX_TILE_BIG][GARRYINDEX_RED5S] = new ImageIcon(getClass().getResource("/res/img/tiles/seat" + (seat+1) + "/23r.png"));
+			garryTiles[seat][GARRYINDEX_TILE_SMALL][GARRYINDEX_RED5S] = new ImageIcon(getClass().getResource("/res/img/tiles/seat" + (seat+1) + "/small/23r.png"));
 		}
 		
 		
 		//load Wind images into array
-		garryWinds[0][0] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transE.png");
-		garryWinds[0][1] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transS.png");
-		garryWinds[0][2] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transW.png");
-		garryWinds[0][3] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\transN.png");
-		garryWinds[1][0] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transEs.png");
-		garryWinds[1][1] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transSs.png");
-		garryWinds[1][2] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transWs.png");
-		garryWinds[1][3] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\winds\\small\\transNs.png");
+		garryWinds[0][0] = new ImageIcon(getClass().getResource("/res/img/winds/transE.png"));
+		garryWinds[0][1] = new ImageIcon(getClass().getResource("/res/img/winds/transS.png"));
+		garryWinds[0][2] = new ImageIcon(getClass().getResource("/res/img/winds/transW.png"));
+		garryWinds[0][3] = new ImageIcon(getClass().getResource("/res/img/winds/transN.png"));
+		garryWinds[1][0] = new ImageIcon(getClass().getResource("/res/img/winds/small/transEs.png"));
+		garryWinds[1][1] = new ImageIcon(getClass().getResource("/res/img/winds/small/transSs.png"));
+		garryWinds[1][2] = new ImageIcon(getClass().getResource("/res/img/winds/small/transWs.png"));
+		garryWinds[1][3] = new ImageIcon(getClass().getResource("/res/img/winds/small/transNs.png"));
 		
 		//load Other (riichi stick, sheepy2) into array
-		garryOther[0] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\riichiStick.png");
-		garryOther[1] = new ImageIcon("C:\\Users\\David\\workspace\\MajavaWorking\\img\\other\\sheepy2trans.png");
+		garryOther[0] = new ImageIcon(getClass().getResource("/res/img/other/riichiStick.png"));
+		garryOther[1] = new ImageIcon(getClass().getResource("/res/img/other/sheepy2trans.png"));
 	}
 }

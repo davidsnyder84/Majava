@@ -36,17 +36,9 @@ public class Round {
 	public static final int DEFAULT_ROUND_NUM = 1;
 	public static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
-	public static final int TIME_TO_SLEEP = 0;
-	public static final int TIME_TO_SLEEP_EXCLAMATION = 0;
-	public static final int TIME_TO_SLEEP_END_OF_ROUND = 0;
-//	public static final int TIME_TO_SLEEP = 200;
-//	public static final int TIME_TO_SLEEP_EXCLAMATION = 1500;
-//	public static final int TIME_TO_SLEEP_END_OF_ROUND = 3000;
-	
-	
 	//for debug use
-	public static final boolean DEBUG_WAIT_AFTER_COMPUTER = true;
-	public static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	
 	
 	
@@ -65,6 +57,8 @@ public class Round {
 	private int mRoundNum;
 	private int mRoundBonusNum;
 	
+	private boolean mDoFastGameplay;
+	private int sleepTime, sleepTimeExclamation, sleepTimeRoundEnd;
 	
 	
 	/*
@@ -97,7 +91,8 @@ public class Round {
 		
 		//initialize Round Tracker
 		mRoundTracker = new RoundTracker(tviewer, mRoundWind,mRoundNum,mRoundBonusNum,  mWall,  p1,p2,p3,p4);
-		mPauser = new Pauser(TIME_TO_SLEEP);
+		
+		setOptionFastGameplay(DEFAULT_DO_FAST_GAMEPLAY);
 	}
 	public Round(TableViewer tviewer, Player[] playerArray, char roundWind, int roundNum){this(tviewer, playerArray, roundWind, roundNum, DEFAULT_ROUND_BONUS_NUM);}
 	public Round(TableViewer tviewer, Player[] playerArray){this(tviewer, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
@@ -550,7 +545,7 @@ public class Round {
 		
 		for (Player p: mPlayerArray) p.showHand();
 		
-		Pauser.pauseFor(TIME_TO_SLEEP_END_OF_ROUND);
+		Pauser.pauseFor(sleepTimeRoundEnd);
 	}
 	
 	
@@ -565,12 +560,33 @@ public class Round {
 	
 	
 	private void showExclamation(String exclamation, Player p){
-		mTviewer.showExclamation(exclamation, mRoundTracker.getSeatNumber(p), TIME_TO_SLEEP_EXCLAMATION);
+		mTviewer.showExclamation(exclamation, mRoundTracker.getSeatNumber(p), sleepTimeExclamation);
 	}
 	
 	
 	
 	
+	
+	public void setOptionFastGameplay(boolean doFastGameplay){
+		
+		mDoFastGameplay = doFastGameplay;
+		
+		final int DEAFULT_TIME_TO_SLEEP = 400;
+		final int DEAFULT_TIME_TO_SLEEP_EXCLAMATION = 1500;
+		final int DEAFULT_TIME_TO_SLEEP_END_OF_ROUND = 3000;
+		
+		
+		if (mDoFastGameplay){
+			sleepTime = sleepTimeExclamation = sleepTimeRoundEnd = 0;
+		}
+		else{
+			sleepTime = DEAFULT_TIME_TO_SLEEP;
+			sleepTimeExclamation = DEAFULT_TIME_TO_SLEEP_EXCLAMATION;
+			sleepTimeRoundEnd = DEAFULT_TIME_TO_SLEEP_END_OF_ROUND;
+		}
+		
+		mPauser = new Pauser(sleepTime);
+	}
 	
 	
 	

@@ -413,7 +413,7 @@ public class TableViewer extends JFrame{
 	
 	//gets icon for wall tile array
 	private ImageIcon __getImageIconWall(Tile[] tList, int index, int seatNum, boolean reveal){
-		if (seatNum == 1) seatNum = 3; else if (seatNum == 3) seatNum = 1;
+		if (seatNum == SEAT2) seatNum = SEAT4; else if (seatNum == SEAT4) seatNum = SEAT2;
 		
 		int id = __getImageID(tList[index]);
 		if (id == NULL_TILE_IMAGE_ID) return null;
@@ -488,6 +488,15 @@ public class TableViewer extends JFrame{
 			for (currentTile = 0; currentTile < SIZE_WALL; currentTile++)
 				larryWalls[currentPlayer][currentTile].setIcon(__getImageIconWall(tilesW, currentTile + currentPlayer*SIZE_WALL, currentPlayer, mOptionRevealWall));
 		}
+//		larryWallAll
+		for (currentTile = POS_DORA_1; currentTile >= 2*(4 - mRoundTracker.getNumKansMade()); currentTile -= 2){
+			larryWallAll[OFFSET_DEAD_WALL + currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT4));
+		}
+//		larryWallAll
+//		for (currentTile = POS_DORA_1; currentTile >= 2*(4 - mRoundTracker.getNumKansMade()); currentTile -= 2){
+//			larryWalls[3][currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT2));
+//		}
+		
 		
 		//update dead wall
 		for (currentTile = 0; currentTile < SIZE_DEAD_WALL; currentTile++){

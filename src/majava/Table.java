@@ -44,10 +44,10 @@ public class Table {
 	
 	
 	//for debug use
-	public static final boolean DEBUG_DO_SINGLE_PLAYER_GAME = true;
-	public static final boolean DEBUG_DO_COMPUTER_PLAYER_GAME = false;
-//	public static final boolean DEBUG_DO_COMPUTER_PLAYER_GAME = true;
-	public static final boolean DEBUG_SHUFFLE_SEATS = false;
+	private static final boolean DEBUG_SHUFFLE_SEATS = false;
+	
+	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
+	private static final boolean DEFAULT_DO_SINGLE_PLAYER = true;
 	
 	
 	
@@ -56,14 +56,12 @@ public class Table {
 	private Player[] mPlayerArray;
 	
 	
-//	public static TableViewer mTviewer;	//will be private
 	private TableViewer mTviewer;
 	
 	
-	
-//	private int mGameType;
-//	private boolean mGameIsOver;
-//	private int mGameResult;
+	//options
+	private boolean mDoSinglePlayer;
+	private boolean mDoFastGameplay;
 	
 	
 	private Game mCurrentGame;
@@ -82,12 +80,13 @@ public class Table {
 	*/
 	public Table(int gameType){
 		
-//		mGameIsOver = false;
-		
 		//initialize Table Viewer
 		mTviewer = new TableViewer();
 		mTviewer.setVisible(true);
 		mTviewer.blankEverything();
+		
+		mDoSinglePlayer = DEFAULT_DO_SINGLE_PLAYER;
+		mDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
 	}
 	//no-arg constuctor, defaults to single round game
 	public Table(){this(GAME_TYPE_DEFAULT);}
@@ -106,16 +105,26 @@ public class Table {
 		
 		//generate players to sit at the table
 		__generatePlayers();
+		mPlayerArray = new Player[]{p1, p2, p3, p4};
 		
 		//decide seats
-		decideSeats();
+		__decideSeats();
 		
 		
 		//play one game
 		mCurrentGame = new Game(mTviewer, mPlayerArray);
+		mCurrentGame.setOptionFastGameplay(mDoFastGameplay);
 		mCurrentGame.play();
-		
 	}
+	
+	
+	
+	//sit one human at the table
+	public void setOptionSinglePlayerMode(boolean doSinglePlayer){mDoSinglePlayer = doSinglePlayer;}
+	public void setOptionFastGameplay(boolean doFastGameplay){mDoFastGameplay = doFastGameplay;}
+	
+	
+	
 	
 	
 	
@@ -126,7 +135,6 @@ public class Table {
 		p2 = new Player(Player.SEAT_SOUTH);
 		p3 = new Player(Player.SEAT_WEST);
 		p4 = new Player(Player.SEAT_NORTH);
-		mPlayerArray = new Player[]{p1, p2, p3, p4};
 	}
 	
 	
@@ -145,15 +153,15 @@ public class Table {
 	
 	return
 	*/
-	private void decideSeats(){
+	private void __decideSeats(){
 
 		//figure out how many humans are playing
 		int numHumans = -1;
-		if (DEBUG_DO_SINGLE_PLAYER_GAME) numHumans = 1;
-		if (DEBUG_DO_COMPUTER_PLAYER_GAME) numHumans = 0;
+		if (mDoSinglePlayer) numHumans = 1;
+		else numHumans = 0;
+		
 		
 		if (numHumans < 0){
-//			@SuppressWarnings("resource")
 			Scanner keyboard = new Scanner(System.in);
 			System.out.println("How many humans will be playing? (Enter 1-4): ");
 			numHumans = keyboard.nextInt();
@@ -162,7 +170,7 @@ public class Table {
 		
 		
 		//add the requested number of humans to the list of controllers
-		ArrayList<Character> controllers = new ArrayList<Character>(NUM_PLAYERS);
+		ArrayList<Character> controllers = new ArrayList<Character>();
 		int i;
 		for (i = 0; i < NUM_PLAYERS; i++)
 			if (i < numHumans)
@@ -170,30 +178,28 @@ public class Table {
 			else
 				controllers.add(Player.CONTROLLER_COM);
 		
+		
 		if (DEBUG_SHUFFLE_SEATS){
 			//shuffle the list controllers
 			GenSort<Character> sorter = new GenSort<Character>(controllers);
 			sorter.shuffle();
 		}
-
-		//assign the controllers to seats
-		p1.setController(controllers.get(0));
-		p2.setController(controllers.get(1));
-		p3.setController(controllers.get(2));
-		p4.setController(controllers.get(3));
 		
-		//set names
-		p1.setPlayerName("Suwado");
-		p2.setPlayerName("Albert");
-		p3.setPlayerName("Brenda");
-		p4.setPlayerName("Carl");
+		
+		String[] names = {"Suwado", "Albert", "Brenda", "Carl"};
+
+		//assign the controllers and names to players
+		for (i = 0; i < NUM_PLAYERS; i++){
+			mPlayerArray[i].setController(controllers.get(i));
+			mPlayerArray[i].setPlayerName(names[i]);
+		}
 	}
 	
 	
 	
 	//accessors
 	public int getGameType(){return mCurrentGame.getGameType();}
-//	public boolean gameIsOver(){return mCurrentGame.gameIsOver();}
+	public boolean gameIsOver(){return mCurrentGame.gameIsOver();}
 	
 	
 	

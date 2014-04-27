@@ -246,7 +246,7 @@ public class RoundTracker {
 		 String resultStr = "Result: " + getRoundResultString();
 		 System.out.println(resultStr);
 		 
-		 System.out.println(getWinningHandString());
+		 if (mRoundResult.isVictory()) System.out.println(getWinningHandString());
 	}
 	//returns the round result as a string
 	public String getRoundResultString(){return mRoundResult.getRoundResultString();}

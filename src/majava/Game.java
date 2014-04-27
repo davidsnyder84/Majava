@@ -37,6 +37,9 @@ public class Game {
 	public static final int GAME_TYPE_TONPUUSEN = 1;
 	public static final int GAME_TYPE_HANCHAN = 2;
 	public static final int GAME_TYPE_DEFAULT = GAME_TYPE_SINGLE;
+
+	public static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
+	
 	
 	
 	private Player p1, p2, p3, p4;
@@ -56,11 +59,10 @@ public class Game {
 //	private int mGameResult;
 	
 	
-	private Round mCurrentRound;	
-	
+	private Round mCurrentRound;
 	private ArrayList<String> mWinStrings;
 	
-	
+	private boolean mDoFastGameplay;
 	
 	
 	
@@ -90,6 +92,7 @@ public class Game {
 		
 		mWinStrings = new ArrayList<String>();
 		
+		mDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
 	}
 	//defaults to single round game
 	public Game(TableViewer tviewer, Player[] playerArray){this(tviewer, playerArray, GAME_TYPE_DEFAULT);}
@@ -121,6 +124,7 @@ public class Game {
 		//play one round
 		for (int i = 0; i < NUM_ROUNDS_TO_PLAY; i++){
 			mCurrentRound = new Round(mTviewer, mPlayerArray);
+			mCurrentRound.setOptionFastGameplay(mDoFastGameplay);
 			mCurrentRound.play();
 			
 			if (mCurrentRound.endedWithVictory())
@@ -154,6 +158,11 @@ public class Game {
 	public boolean gameIsOver(){return mGameIsOver;}
 	
 	
+	
+	
+	
+
+	public void setOptionFastGameplay(boolean doFastGameplay){mDoFastGameplay = doFastGameplay;}
 	
 	
 	

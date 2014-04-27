@@ -145,6 +145,8 @@ public class RoundResult {
 	
 	public String getWinningHandString(){
 		String winString = "";
+		if (!isVictory()) return "No winner";
+		
 		winString += "Winning hand: " + mWinnerHand.toString() + ",   agarihai: " + mWinningTile.toString() + " (" + getWinTypeString() + ")\n";
 		for (Meld m: mWinnerMelds)
 			winString += m.toString() + "\n";

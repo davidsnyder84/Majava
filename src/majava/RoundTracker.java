@@ -33,45 +33,6 @@ public class RoundTracker {
 	private static final int NUM_MELDS_TO_TRACK = 5;
 	
 	
-	public enum Result{
-		UNDECIDED,
-		DRAW_WASHOUT, DRAW_KYUUSHU, DRAW_4KAN, DRAW_4RIICHI, DRAW_4WIND,
-		VICTORY_E, VICTORY_S, VICTORY_W, VICTORY_N;
-		
-		public boolean isDraw(){return (this == DRAW_WASHOUT || this == DRAW_KYUUSHU || this == DRAW_4KAN || this == DRAW_4RIICHI || this == DRAW_4WIND);}
-		public boolean isVictory(){return (this == VICTORY_E || this == VICTORY_S || this == VICTORY_W || this == VICTORY_N);}
-		
-		@Override
-		public String toString(){
-			switch (this){
-			case DRAW_WASHOUT: return "Draw (Washout)";
-			case DRAW_KYUUSHU: return "Draw (Kyuushu)";
-			case DRAW_4KAN: return "Draw (4 kans)";
-			case DRAW_4RIICHI: return "Draw (4 riichi)";
-			case DRAW_4WIND: return "Draw (4 wind)";
-			
-			case VICTORY_E: return "E wins!";
-			case VICTORY_S: return "S wins!";
-			case VICTORY_W: return "W wins!";
-			case VICTORY_N: return "N wins!";
-			default: return "??Undecided??";
-			}
-		}
-	}
-	public enum WinType{
-		UNDECIDED, TSUMO, RON;
-		
-		@Override
-		public String toString(){
-			switch (this){
-			case TSUMO: return "TSUMO";
-			case RON: return "RON";
-			default: return "undecided";
-			}
-		}
-	}
-	
-	
 	
 	private class PlayerTracker{
 		private Player player;
@@ -105,20 +66,11 @@ public class RoundTracker {
 	private int mRoundNum;
 	private int mRoundBonusNum;
 	
-	
 	private int mWhoseTurn;
 	private Tile mMostRecentDiscard;
 	
 	
-	private boolean mRoundIsOver;
-	private Result mRoundResult;
-	private WinType mWinType;
-
-	private Player mWinningPlayer;
-	private Player mFurikondaPlayer;
-	private Tile mWinningTile;
-
-	
+	private RoundResult mRoundResult;
 	
 	
 	
@@ -135,11 +87,7 @@ public class RoundTracker {
 		mWhoseTurn = 1;
 		mMostRecentDiscard = null;
 		
-		mRoundResult = Result.UNDECIDED;
-		mWinType = WinType.UNDECIDED;
-		mRoundIsOver = false;
-		mWinningPlayer = mFurikondaPlayer = null;
-		mWinningTile = null;
+		mRoundResult = new RoundResult();
 		
 		__syncWithWall(wall);
 		__setupPlayerTrackers(p1,p2,p3,p4);
@@ -214,108 +162,6 @@ public class RoundTracker {
 	
 	
 	
-	
-	
-	
-	
-	
-	private void __setRoundOver(Result result){
-		mRoundResult = result;
-		mRoundIsOver = true;
-	}
-	public void setResultWashout(){__setRoundOver(Result.DRAW_WASHOUT);}
-	public void setResultKyuushu(){__setRoundOver(Result.DRAW_KYUUSHU);}
-	public void setResult4Kan(){__setRoundOver(Result.DRAW_4KAN);}
-	public void setResult4Riichi(){__setRoundOver(Result.DRAW_4RIICHI);}
-	public void setResult4Wind(){__setRoundOver(Result.DRAW_4WIND);}
-	private void __setResultVictory(char winningSeat){
-		switch(winningSeat){
-		case 'E': __setRoundOver(Result.VICTORY_E); break;
-		case 'S': __setRoundOver(Result.VICTORY_S); break;
-		case 'W': __setRoundOver(Result.VICTORY_W); break;
-		case 'N': __setRoundOver(Result.VICTORY_N); break;
-		default: break;
-		}
-	}
-	
-	
-	
-	private void __setVictoryRon(Player discarder){
-		mFurikondaPlayer = discarder;
-		mWinningTile = mMostRecentDiscard;
-		mWinType = WinType.RON;
-	}
-	private void __setVictoryTsumo(){
-		mWinningTile = mPTrackers[getSeatNumber(mWinningPlayer)].tilesH.getLast();
-		mWinType = WinType.TSUMO;
-	}
-	
-	
-	public void setResultVictory(Player winner){
-		__setResultVictory(winner.getSeatWind());
-		mWinningPlayer = winner;
-		
-		if (winner == currentPlayer()) __setVictoryTsumo();
-		else __setVictoryRon(currentPlayer());
-		
-		__setWinningHand();
-	}
-	
-	
-	private void __setWinningHand(){
-		TileList winHand = new TileList();
-		winHand = mPTrackers[getSeatNumber(mWinningPlayer)].tilesH.makeCopy();
-		
-//		if (mWinType == WinType.RON) winHand.add(mMostRecentDiscard);
-		
-		mWinningHand = winHand;
-	}
-	
-	public String getWinningHandString(){
-		String winString = "";
-		winString += "Winning hand: " + mWinningHand.toString() + ", agarihai: " + mWinningTile.toString() + " (" + __getWinTypeString() + ")";
-		String mWinningString = winString;
-		return mWinningString;
-	}
-	
-	
-	
-	private TileList mWinningHand;
-	
-	
-	
-	public void printRoundResult(){
-		if (roundIsOver())
-			 System.out.println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
-			 					"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
-					 			"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		
-		 String resultStr = "Result: " + getRoundResultString();
-		 System.out.println(resultStr);
-	}
-	
-	//returns the round result as a string
-	public String getRoundResultString(){
-		
-		String resString = "";
-		resString += mRoundResult.toString();
-		
-		if (mRoundResult.isVictory()) resString += " (" + __getWinTypeString() + ")";
-		return resString;
-	}
-	private String __getWinTypeString(){return mWinType.toString();}
-	
-	public boolean roundIsOver(){return mRoundIsOver;}
-	public boolean roundEndedWithDraw(){return mRoundResult.isDraw();}
-	public boolean roundEndedWithVictory(){return mRoundResult.isVictory();}
-	
-	
-	
-	
-	
-	
-	
-	
 	public void nextTurn(){
 		mWhoseTurn++;
 		if (mWhoseTurn > NUM_PLAYERS) mWhoseTurn = 1;
@@ -350,6 +196,70 @@ public class RoundTracker {
 				return true;
 		return false;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	public void setResultVictory(Player winner){
+		
+		Tile winningTile = null;
+		
+		if (winner == currentPlayer()){
+			mRoundResult.setVictoryTsumo(winner);
+			winningTile = mPTrackers[getSeatNumber(winner)].tilesH.getLast();
+		}
+		else{ 
+			mRoundResult.setVictoryRon(winner, currentPlayer());
+			winningTile = mMostRecentDiscard;
+		}
+		
+		mRoundResult.setWinningHand(mPTrackers[getSeatNumber(winner)].tilesH, mPTrackers[getSeatNumber(winner)].melds, winningTile); 
+	}
+	public void setResultWashout(){mRoundResult.setResultWashout();}
+	public void setResultKyuushu(){mRoundResult.setResultKyuushu();}
+	public void setResult4Kan(){mRoundResult.setResult4Kan();}
+	public void setResult4Riichi(){mRoundResult.setResult4Riichi();}
+	public void setResult4Wind(){mRoundResult.setResult4Wind();}
+	
+	
+	
+	public String getWinningHandString(){return mRoundResult.getWinningHandString();}
+	
+	public void printRoundResult(){
+		if (roundIsOver())
+			 System.out.println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
+			 					"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
+					 			"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		
+		
+		 String resultStr = "Result: " + getRoundResultString();
+		 System.out.println(resultStr);
+		 
+		 System.out.println(getWinningHandString());
+	}
+	//returns the round result as a string
+	public String getRoundResultString(){return mRoundResult.getRoundResultString();}
+	
+	
+	public boolean roundIsOver(){return mRoundResult.isOver();}
+	public boolean roundEndedWithDraw(){return mRoundResult.isDraw();}
+	public boolean roundEndedWithVictory(){return mRoundResult.isVictory();}
+	
+	
+	
+	
+	
 	
 	
 	

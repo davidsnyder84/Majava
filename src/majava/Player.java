@@ -170,6 +170,8 @@ public class Player {
 	private boolean mRiichiStatus;
 	private boolean mFuritenStatus;
 	
+	private boolean mWon;
+	
 	private RoundTracker mRoundTracker;
 	
 	
@@ -217,6 +219,8 @@ public class Player {
 		mRiichiStatus = false;
 		mFuritenStatus = false;
 		mHoldingRinshanTile = false;
+		
+		mWon = false;
 		
 		mLastDiscard = null;
 	}
@@ -939,7 +943,7 @@ public class Player {
 	////////////////////////////////////////////////////////////////////////////////////
 	//fill hand with demo values
 	public void fillHand(){
-		mHand.fill();
+		mHand.fillChuuren();
 	}
 	////////////////////////////////////////////////////////////////////////////////////
 	//////END DEMO METHODS

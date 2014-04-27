@@ -50,16 +50,6 @@ public class Face extends JFrame {
 
 		Face frame = new Face();
 		frame.setVisible(true);
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					Face frame = new Face();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
 	}
 
 	/**

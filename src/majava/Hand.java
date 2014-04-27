@@ -419,22 +419,12 @@ public class Hand implements Iterable<Tile>{
 	//xxxxBEGIN DEMO METHODS
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	//demo values
-	public void fill(){
-		mTiles.add(new Tile(1));
-		mTiles.add(new Tile(1));
-		mTiles.add(new Tile(1));
-		mTiles.add(new Tile(2));
-		mTiles.add(new Tile(3));
-		mTiles.add(new Tile(4));
-		mTiles.add(new Tile(5));
-		mTiles.add(new Tile(6));
-		mTiles.add(new Tile(7));
-		mTiles.add(new Tile(8));
-		mTiles.add(new Tile(9));
-		mTiles.add(new Tile(9));
-		mTiles.add(new Tile(9));
-		mTiles.add(new Tile(7));
+	public void fillChuuren(int lastTile){
+		int[] ids = {1,1,1,2,3,4,5,6,7,8,9,9,9,lastTile};
+		for (int i: ids) addTile(i);
 	}
+	public void fillChuuren(){fillChuuren(8);}
+	
 	//true returns a string of indices (indices are +1 to match display)
 	//false returns a string of actual tile values
 	public String partnerIndicesString(MeldType meldType, boolean wantActualTiles){

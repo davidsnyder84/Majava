@@ -75,11 +75,34 @@ public class MajaPlay {
 //		listEqualsTest();
 		
 		
-		playTileInheritance();
+//		playTileInheritance();
+		
+		playFinishingMelds();
 		
 		
 		System.out.println();
 	}
+	
+	
+	
+	public static void playFinishingMelds(){
+		
+		Hand h = new Hand(ownerSeat);
+		
+		
+		for (int i = 1; i <= 9; i++){
+			h = new Hand(ownerSeat);
+			h.fillChuuren(i);
+			
+			System.out.println("\n\n\n" + h.toString());
+			System.out.println("Complete?: " + h.mChecker.isCompleteNormal());
+			h.mChecker.printFinishingMelds();
+		}
+		
+	}
+	
+	
+	
 	
 	
 	

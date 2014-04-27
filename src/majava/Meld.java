@@ -31,17 +31,6 @@ methods:
 */
 public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	
-	/*
-	public static final int MELD_TYPE_UNKNOWN = 0;
-	public static final int MELD_TYPE_CHI_L = 1;
-	public static final int MELD_TYPE_CHI_M = 2;
-	public static final int MELD_TYPE_CHI_H = 3;
-	public static final int MELD_TYPE_PON = 4;
-	public static final int MELD_TYPE_KAN = 5;
-	public static final int MELD_TYPE_PAIR = 8;
-	public static final int MELD_TYPE_DEFAULT = MELD_TYPE_UNKNOWN;
-	public static final int MELD_TYPE_CHI = 123;
-	*/
 	
 	public static final char OWNER_UNKOWN = '?';
 	public static final char OWNER_DEFAULT = OWNER_UNKOWN;
@@ -282,6 +271,7 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	//iterator, returns mTile's iterator
 	@Override
 	public Iterator<Tile> iterator() {return mTiles.iterator();}
+	
 	
 	
 	@Override

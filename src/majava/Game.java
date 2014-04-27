@@ -67,7 +67,7 @@ public class Game {
 	
 	
 	/*
-	initializes a game to make it ready for playing
+	initializes a game
 	*/
 	public Game(TableViewer tviewer, Player[] playerArray, int gameType){
 		

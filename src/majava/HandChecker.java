@@ -1181,6 +1181,17 @@ public class HandChecker {
 	
 	
 	
+	public void printFinishingMelds(){
+		for (Meld m: mFinishingMelds){
+			System.out.println(m.toString());
+		}
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	

@@ -59,11 +59,15 @@ public class TableViewer extends JFrame{
 	private static final boolean DEFAULT_OPTION_REVEAL_HANDS = true;
 	
 	
-	private static final int WINDOW_WIDTH = 1150 - 30;
-	private static final int WINDOW_HEIGHT = 850 - 70 - 54;
+	private static final int WINDOW_WIDTH = 1120;
+	private static final int WINDOW_HEIGHT = 726 + 6;
+//	private static final int WINDOW_WIDTH = 1150 - 30;
+//	private static final int WINDOW_HEIGHT = 850 - 70 - 54 + 6;
 	
-	private static final int WINDOW_TOP_BORDER_SIZE = 30;
-	private static final int WINDOW_SIDE_BORDER_SIZE = 8;
+	private static final int WINDOW_TOP_BORDER_SIZE_WITH_RESIZE = 30;
+	private static final int WINDOW_TOP_BORDER_SIZE = 26;
+	private static final int WINDOW_SIDE_BORDER_SIZE_WITH_RESIZE = 8;
+	private static final int WINDOW_SIDE_BORDER_SIZE = 2;
 	private static final int WINDOW_BOTTOM_BORDER_SIZE = 8;
 	private static final int WINDOW_MENU_SIZE = 23;
 	
@@ -839,6 +843,7 @@ public class TableViewer extends JFrame{
 	
 	//TODO start of constructor
 	public TableViewer(){
+		setResizable(false);
 		
 		
 		mOptionRevealWall = DEFAULT_OPTION_REVEAL_WALL;
@@ -847,7 +852,7 @@ public class TableViewer extends JFrame{
 		
 		thisguy = this;
 		final int WINDOW_BOUND_WIDTH = WINDOW_WIDTH + 2*WINDOW_SIDE_BORDER_SIZE;
-		final int WINDOW_BOUND_HEIGHT = WINDOW_HEIGHT + WINDOW_TOP_BORDER_SIZE + WINDOW_BOTTOM_BORDER_SIZE + WINDOW_MENU_SIZE;
+		final int WINDOW_BOUND_HEIGHT = WINDOW_HEIGHT + WINDOW_TOP_BORDER_SIZE + WINDOW_MENU_SIZE;
 
 		
 		
@@ -856,7 +861,7 @@ public class TableViewer extends JFrame{
 		
 		setTitle("The Beaver");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, WINDOW_BOUND_WIDTH, WINDOW_BOUND_HEIGHT);
+		setBounds(0, 0, WINDOW_BOUND_WIDTH, WINDOW_BOUND_HEIGHT);
 		
 		
 		
@@ -1068,7 +1073,7 @@ public class TableViewer extends JFrame{
 				}
 			}
 		});
-		panelTable.setBounds(0, 0, 844, 726);
+		panelTable.setBounds(0, 0, 844, WINDOW_HEIGHT);
 		panelTable.setBackground(COLOR_TABLE);
 		contentPane.add(panelTable);
 		panelTable.setLayout(null);

@@ -117,25 +117,49 @@ public class Game {
 	*/
 	public void play(){
 		
-		
-		final int NUM_ROUNDS_TO_PLAY = 100;
-		
-		
 		//play one round
-		for (int i = 0; i < NUM_ROUNDS_TO_PLAY; i++){
-			mCurrentRound = new Round(mTviewer, mPlayerArray);
-			mCurrentRound.setOptionFastGameplay(mDoFastGameplay);
-			mCurrentRound.play();
-			
-			if (mCurrentRound.endedWithVictory())
-				mWinStrings.add(mCurrentRound.getWinningHandString());
+		mCurrentRound = new Round(mTviewer, mPlayerArray);
+		mCurrentRound.setOptionFastGameplay(mDoFastGameplay);
+		mCurrentRound.play();
+		
+		if (mCurrentRound.endedWithVictory()){
+			mWinStrings.add(mCurrentRound.getWinningHandString());
 		}
 		
 		mGameIsOver = true;
 		
 		displayGameResult();
-		
 	}
+	
+	
+	/*
+	method: runSimulation
+	runs a simulation
+	*/
+	public void runSimulation(){
+		
+		final int NUM_ROUNDS_TO_PLAY = 100;
+
+		
+		
+		//play a bunch of rounds
+		for (int i = 0; i < NUM_ROUNDS_TO_PLAY; i++){
+			mCurrentRound = new Round(mTviewer, mPlayerArray);
+			mCurrentRound.setOptionFastGameplay(true);
+			mCurrentRound.play();
+			
+			if (mCurrentRound.endedWithVictory()){
+				if (mCurrentRound.getWinningHandString().charAt(16) != ',')
+				mWinStrings.add(mCurrentRound.getWinningHandString());
+			}
+		}
+		
+		mGameIsOver = true;
+		
+		displayGameResult();
+	}
+	
+	
 	
 	
 	public void displayGameResult(){

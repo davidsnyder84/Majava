@@ -144,7 +144,7 @@ public class Player {
 	
 	private static final boolean DEBUG_SKIP_PLAYER_CALL = false;
 	private static final boolean DEBUG_COMPUTERS_MAKE_CALLS = true;
-	private static final boolean DEBUG_COMPUTERS_MAKE_ACTIONS = false;
+	private static final boolean DEBUG_COMPUTERS_MAKE_ACTIONS = true;
 	
 	
 	
@@ -438,7 +438,8 @@ public class Player {
 	@SuppressWarnings("unused")
 	private int __askTurnActionCom(){
 		
-		int chosenDiscardIndex;
+		int chosenAction = NO_ACTION_CHOSEN;
+		int chosenDiscardIndex = NO_DISCARD_CHOSEN;
 		
 		//choose the first tile in the hand
 		if (COM_BEHAVIOR == COM_BEHAVIOR_DISCARD_FIRST) chosenDiscardIndex = 0;
@@ -449,9 +450,12 @@ public class Player {
 //		if (mSeatWind == 'N')chosenDiscardIndex = mHand.getSize() - 1;
 //		if (mSeatWind == 'E')chosenDiscardIndex = mHand.getSize() - 1;
 		
+		if (DEBUG_COMPUTERS_MAKE_ACTIONS && ableToAnkan()) chosenAction = TURN_ACTION_ANKAN;
+		if (DEBUG_COMPUTERS_MAKE_ACTIONS && ableToMinkan()) chosenAction = TURN_ACTION_MINKAN;
+		if (DEBUG_COMPUTERS_MAKE_ACTIONS && ableToTsumo()) chosenAction = TURN_ACTION_TSUMO;
 		
-		if (DEBUG_COMPUTERS_MAKE_ACTIONS && ableToTsumo()){
-			mTurnAction = TURN_ACTION_TSUMO;
+		if (chosenAction != NO_ACTION_CHOSEN){
+			mTurnAction = chosenAction;
 			return NO_DISCARD_CHOSEN;
 		}
 		else{
@@ -859,14 +863,12 @@ public class Player {
 	
 	
 	//mutator for seat wind
-	public boolean setSeatWind(char wind){
-		if (wind ==  SEAT_EAST || wind ==  SEAT_SOUTH || wind ==  SEAT_WEST || wind ==  SEAT_NORTH)
-			mSeatWind = wind;
-		else
-			return false;
-		
-		return true;
-	}
+	private void __setSeatWind(char wind){mSeatWind = wind;}
+	public void setSeatWindEast(){__setSeatWind(SEAT_EAST);}
+	public void setSeatWindSouth(){__setSeatWind(SEAT_SOUTH);}
+	public void setSeatWindWest(){__setSeatWind(SEAT_WEST);}
+	public void setSeatWindNorth(){__setSeatWind(SEAT_NORTH);}
+	
 	
 	//used to set the controller of the player after its creation
 	public boolean setController(char newController){

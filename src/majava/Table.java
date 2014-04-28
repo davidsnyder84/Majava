@@ -6,6 +6,7 @@ import java.util.Scanner;
 import majava.graphics.TableViewer;
 
 import utility.GenSort;
+import utility.Pauser;
 
 
 
@@ -82,7 +83,6 @@ public class Table {
 		
 		//initialize Table Viewer
 		mTviewer = new TableViewer();
-		mTviewer.setVisible(true);
 		mTviewer.blankEverything();
 		
 		mDoSinglePlayer = DEFAULT_DO_SINGLE_PLAYER;
@@ -90,8 +90,6 @@ public class Table {
 	}
 	//no-arg constuctor, defaults to single round game
 	public Table(){this(GAME_TYPE_DEFAULT);}
-	
-	
 	
 	
 	/*
@@ -105,16 +103,21 @@ public class Table {
 		
 		//generate players to sit at the table
 		__generatePlayers();
-		mPlayerArray = new Player[]{p1, p2, p3, p4};
 		
 		//decide seats
 		__decideSeats();
 		
+		//show table window
+		mTviewer.setVisible(true);
 		
 		//play one game
 		mCurrentGame = new Game(mTviewer, mPlayerArray);
 		mCurrentGame.setOptionFastGameplay(mDoFastGameplay);
 		mCurrentGame.play();
+		
+		//close the window
+		Pauser.pauseFor(3000);
+		mTviewer.dispose();
 	}
 	
 	
@@ -127,72 +130,54 @@ public class Table {
 	
 	
 	
+	/*
+	private method: __generatePlayers
+	generates four players to sit at the table
 	
+	decides the players' names and controllers
+	*/
 	private void __generatePlayers(){
 		
 		//creates a new player to sit at each seat
-		p1 = new Player(Player.SEAT_EAST);
-		p2 = new Player(Player.SEAT_SOUTH);
-		p3 = new Player(Player.SEAT_WEST);
-		p4 = new Player(Player.SEAT_NORTH);
+		p1 = new Player();
+		p2 = new Player();
+		p3 = new Player();
+		p4 = new Player();
+		mPlayerArray = new Player[]{p1, p2, p3, p4};
+		
+		
+		//figure out how many humans are playing
+//		int numHumans = -1;
+//		if (mDoSinglePlayer) numHumans = 1;
+//		else numHumans = 0;
+		
+
+		String[] names = {"Suwado", "Albert", "Brenda", "Carl"};
+		boolean[] humanController = {false, false, false, false};
+		
+		if (mDoSinglePlayer) humanController[0] = true;
+		
+		//assign the controllers and names to players
+		for (int i = 0; i < NUM_PLAYERS; i++){
+			if (humanController[i]) mPlayerArray[i].setControllerHuman();
+			else mPlayerArray[i].setControllerComputer();
+			
+			mPlayerArray[i].setPlayerName(names[i]);
+		}
 	}
 	
 	
 	
 	
 	/*
-	method: decideSeats
-	decides how many humans are playing, and randomly assigns all players to a seat
-	
-	
-	numHumans = ask how many humans will be playing
-	make list of controllers, with the desired number of humans
-	
-	shuffle the list randomly
-	assign each of the controllers in the list to a seat
-	
-	return
+	private method: __decideSeats
+	assigns a seat to each player
 	*/
 	private void __decideSeats(){
-
-		//figure out how many humans are playing
-		int numHumans = -1;
-		if (mDoSinglePlayer) numHumans = 1;
-		else numHumans = 0;
-		
-		
-		if (numHumans < 0){
-			Scanner keyboard = new Scanner(System.in);
-			System.out.println("How many humans will be playing? (Enter 1-4): ");
-			numHumans = keyboard.nextInt();
-			keyboard.close();
-		}
-		
-		
-		//add the requested number of humans to the list of controllers
-		ArrayList<Character> controllers = new ArrayList<Character>();
-		int i;
-		for (i = 0; i < NUM_PLAYERS; i++)
-			if (i < numHumans)
-				controllers.add(Player.CONTROLLER_HUMAN);
-			else
-				controllers.add(Player.CONTROLLER_COM);
-		
-		
-		if (DEBUG_SHUFFLE_SEATS){
-			//shuffle the list controllers
-			GenSort<Character> sorter = new GenSort<Character>(controllers);
-			sorter.shuffle();
-		}
-		
-		
-		String[] names = {"Suwado", "Albert", "Brenda", "Carl"};
-
-		//assign the controllers and names to players
-		for (i = 0; i < NUM_PLAYERS; i++){
-			mPlayerArray[i].setController(controllers.get(i));
-			mPlayerArray[i].setPlayerName(names[i]);
-		}
+		p1.setSeatWindEast();
+		p2.setSeatWindSouth();
+		p3.setSeatWindWest();
+		p4.setSeatWindNorth();
 	}
 	
 	

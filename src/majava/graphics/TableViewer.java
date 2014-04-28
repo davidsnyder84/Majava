@@ -59,8 +59,8 @@ public class TableViewer extends JFrame{
 	private static final boolean DEFAULT_OPTION_REVEAL_HANDS = true;
 	
 	
-	private static final int WINDOW_WIDTH = 1150;
-	private static final int WINDOW_HEIGHT = 850 - 70;
+	private static final int WINDOW_WIDTH = 1150 - 30;
+	private static final int WINDOW_HEIGHT = 850 - 70 - 54;
 	
 	private static final int WINDOW_TOP_BORDER_SIZE = 30;
 	private static final int WINDOW_SIDE_BORDER_SIZE = 8;
@@ -102,7 +102,8 @@ public class TableViewer extends JFrame{
 
 	
 	private static final int DEFAULT_SLEEP_TIME_EXCLAMATION = 1500;
-	private static final int[][] EXCLAMATION_LOCS =  {{352, 699}, {660, 632}, {347, 117}, {1, 178}};
+	private static final int[][] EXCLAMATION_LOCS =  {{161, 688}, {708, 573}, {542, 6}, {3, 116}};
+	
 	
 	
 	private static final int NUM_PLAYERS = 4;
@@ -761,7 +762,7 @@ public class TableViewer extends JFrame{
 		
 		//show a label
 		lblExclamation.setText(exclamation);
-		lblExclamation.setBounds(EXCLAMATION_LOCS[seatNum][0], EXCLAMATION_LOCS[seatNum][1], lblResult.getWidth(), lblResult.getHeight());
+		lblExclamation.setBounds(EXCLAMATION_LOCS[seatNum][0], EXCLAMATION_LOCS[seatNum][1], lblExclamation.getWidth(), lblExclamation.getHeight());
 		lblExclamation.setVisible(true);
 		
 		//pause
@@ -1067,7 +1068,7 @@ public class TableViewer extends JFrame{
 				}
 			}
 		});
-		panelTable.setBounds(0, 0, 874, WINDOW_HEIGHT);
+		panelTable.setBounds(0, 0, 844, 726);
 		panelTable.setBackground(COLOR_TABLE);
 		contentPane.add(panelTable);
 		panelTable.setLayout(null);
@@ -1077,7 +1078,7 @@ public class TableViewer extends JFrame{
 		lblExclamationLabel = new JLabel("TSUMO!");
 		lblExclamationLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblExclamationLabel.setFont(new Font("Maiandra GD", Font.BOLD, 28));
-		lblExclamationLabel.setBounds(355, 662, 134, 34);
+		lblExclamationLabel.setBounds(161, 688, 134, 34);
 		lblExclamationLabel.setBorder(new LineBorder(new Color(0, 0, 200), 3, true));
 		panelTable.add(lblExclamationLabel);
 		lblExclamationLabel.setOpaque(true);
@@ -1089,7 +1090,7 @@ public class TableViewer extends JFrame{
 		
 		
 		panelMidTable = new JPanel();
-		panelMidTable.setBounds(143, 118, 552, 544);
+		panelMidTable.setBounds(143, 91, 552, 544);
 		panelMidTable.setBackground(COLOR_TRANSPARENT);
 		panelTable.add(panelMidTable);
 		panelMidTable.setLayout(null);
@@ -2289,7 +2290,7 @@ public class TableViewer extends JFrame{
 		
 		
 		panelPlayer1 = new JPanel();
-		panelPlayer1.setBounds(167, 697, 667, 78);
+		panelPlayer1.setBounds(167, 643, 667, 78);
 		panelPlayer1.setBackground(COLOR_TRANSPARENT);
 		panelTable.add(panelPlayer1);
 		panelPlayer1.setLayout(null);
@@ -2424,7 +2425,7 @@ public class TableViewer extends JFrame{
 		
 		
 		panelH1Ms = new JPanel();
-		panelH1Ms.setBounds(160, 47, 474, 31);
+		panelH1Ms.setBounds(130, 47, 474, 31);
 		panelH1Ms.setBackground(COLOR_TRANSPARENT);
 		panelPlayer1.add(panelH1Ms);
 		panelH1Ms.setLayout(null);
@@ -2550,7 +2551,7 @@ public class TableViewer extends JFrame{
 		
 		
 		panelPlayer2 = new JPanel();
-		panelPlayer2.setBounds(730, -26, 78, 667);
+		panelPlayer2.setBounds(730, -53, 78, 667);
 		panelPlayer2.setBackground(COLOR_TRANSPARENT);
 		panelTable.add(panelPlayer2);
 		panelPlayer2.setLayout(null);
@@ -2633,7 +2634,7 @@ public class TableViewer extends JFrame{
 		
 		
 		panelH2Ms = new JPanel();
-		panelH2Ms.setBounds(46, 34, 35, 474);
+		panelH2Ms.setBounds(46, 64, 35, 474);
 		panelH2Ms.setBackground(COLOR_TRANSPARENT);
 		panelPlayer2.add(panelH2Ms);
 		panelH2Ms.setLayout(null);
@@ -2832,7 +2833,7 @@ public class TableViewer extends JFrame{
 		
 		
 		panelH3Ms = new JPanel();
-		panelH3Ms.setBounds(34, 0, 474, 35);
+		panelH3Ms.setBounds(64, 0, 474, 35);
 		panelH3Ms.setBackground(COLOR_TRANSPARENT);
 		panelPlayer3.add(panelH3Ms);
 		panelH3Ms.setLayout(null);
@@ -2945,7 +2946,7 @@ public class TableViewer extends JFrame{
 		
 		
 		panelPlayer4 = new JPanel();
-		panelPlayer4.setBounds(30, 136, 78, 667);
+		panelPlayer4.setBounds(30, 109, 78, 667);
 		panelPlayer4.setBackground(COLOR_TRANSPARENT);
 		panelTable.add(panelPlayer4);
 		panelPlayer4.setLayout(null);
@@ -3034,7 +3035,7 @@ public class TableViewer extends JFrame{
 		
 		
 		panelH4Ms = new JPanel();
-		panelH4Ms.setBounds(0, 160, 35, 474);
+		panelH4Ms.setBounds(0, 130, 35, 474);
 		panelH4Ms.setBackground(COLOR_TRANSPARENT);
 		panelPlayer4.add(panelH4Ms);
 		panelH4Ms.setLayout(null);
@@ -3155,7 +3156,8 @@ public class TableViewer extends JFrame{
 		
 		
 		panelSidebar = new JPanel();
-		panelSidebar.setBounds(874, 0, 276, WINDOW_HEIGHT);
+//		panelSidebar.setBounds(874, 0, 276, WINDOW_HEIGHT);
+		panelSidebar.setBounds(panelTable.getWidth(), 0, 276, WINDOW_HEIGHT);
 		panelSidebar.setBackground(COLOR_SIDEBAR);
 		contentPane.add(panelSidebar);
 		panelSidebar.setLayout(null);
@@ -3273,7 +3275,7 @@ public class TableViewer extends JFrame{
 		
 		
 		panelCalls = new JPanel();
-		panelCalls.setBounds(28, 621, 204, 147);
+		panelCalls.setBounds(28, 567, 204, 147);
 		panelCalls.setBackground(COLOR_CALL_PANEL);
 		panelSidebar.add(panelCalls);
 		panelCalls.setLayout(null);

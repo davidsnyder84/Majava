@@ -570,20 +570,25 @@ public class Round {
 	public void setOptionFastGameplay(boolean doFastGameplay){
 		
 		mDoFastGameplay = doFastGameplay;
+
+		final int DEAFULT_SLEEPTIME = 400;
+		final int DEAFULT_SLEEPTIME_EXCLAMATION = 1500;
+		final int DEAFULT_SLEEPTIME_ROUND_END = 3000;
 		
-		final int DEAFULT_TIME_TO_SLEEP = 400;
-		final int DEAFULT_TIME_TO_SLEEP_EXCLAMATION = 1500;
-		final int DEAFULT_TIME_TO_SLEEP_END_OF_ROUND = 3000;
+		final int FAST_SLEEPTIME = 0;
+		final int FAST_SLEEPTIME_EXCLAMATION = 0;
+		final int FAST_SLEEPTIME_ROUND_END = 0;
 		
 		
 		if (mDoFastGameplay){
-			sleepTime = sleepTimeExclamation = sleepTimeRoundEnd = 0;
-			sleepTimeRoundEnd = 4000;
+			sleepTime = FAST_SLEEPTIME;
+			sleepTimeExclamation = FAST_SLEEPTIME_EXCLAMATION;
+			sleepTimeRoundEnd = FAST_SLEEPTIME_ROUND_END;
 		}
 		else{
-			sleepTime = DEAFULT_TIME_TO_SLEEP;
-			sleepTimeExclamation = DEAFULT_TIME_TO_SLEEP_EXCLAMATION;
-			sleepTimeRoundEnd = DEAFULT_TIME_TO_SLEEP_END_OF_ROUND;
+			sleepTime = DEAFULT_SLEEPTIME;
+			sleepTimeExclamation = DEAFULT_SLEEPTIME_EXCLAMATION;
+			sleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
 		}
 		
 		mPauser = new Pauser(sleepTime);

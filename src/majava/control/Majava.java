@@ -25,7 +25,8 @@ public class Majava {
 		
 		MajavaWelcome welcomeMenu = new MajavaWelcome();
 		
-		//get choice
+		
+		//get options
 		welcomeMenu.setVisible(true);
 		welcomeMenu.waitForChoice();
 		doSinglePlayer = welcomeMenu.choseSinglePlayer();
@@ -34,6 +35,9 @@ public class Majava {
 		
 		System.out.println("\n\n\n\n");
 		
+		
+		
+		//play the game
 		Table table = new Table();
 		table.setOptionSinglePlayerMode(doSinglePlayer);
 		table.setOptionFastGameplay(doFastGameplay);

@@ -578,6 +578,7 @@ public class Round {
 		
 		if (mDoFastGameplay){
 			sleepTime = sleepTimeExclamation = sleepTimeRoundEnd = 0;
+			sleepTimeRoundEnd = 4000;
 		}
 		else{
 			sleepTime = DEAFULT_TIME_TO_SLEEP;

@@ -191,15 +191,9 @@ public class Player {
 		
 		prepareForNewRound();
 	}
-	public Player(char seat, char controller){
-		this(seat, controller, PLAYERNAME_DEFAULT);
-	}
-	public Player(char seat){
-		this(seat, CONTROLLER_DEFAULT);
-	}
-	public Player(){
-		this(SEAT_DEFAULT);
-	}
+	public Player(char seat, char controller){this(seat, controller, PLAYERNAME_DEFAULT);}
+	public Player(char seat){this(seat, CONTROLLER_DEFAULT);}
+	public Player(){this(SEAT_DEFAULT);}
 	
 	
 	

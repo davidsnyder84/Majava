@@ -221,7 +221,14 @@ public class Hand implements Iterable<Tile>{
 	
 	
 	//sort the hand in ascending order
-	public void sortHand(){mTiles.sort();}
+	public void sortHand(){
+		mTiles.sort();
+		
+		//check if modifying the hand put the hand in tenpai
+		mChecker.updateTenpaiStatus();
+		//update what turn actions are possible after modifying the hand
+		mChecker.updateTurnActions();
+	}
 	
 
 	

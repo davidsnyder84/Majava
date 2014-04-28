@@ -58,6 +58,8 @@ public class TableViewer extends JFrame{
 	private static final boolean DEFAULT_OPTION_REVEAL_WALL = true;
 	private static final boolean DEFAULT_OPTION_REVEAL_HANDS = true;
 	
+	private static final boolean DEBUG_BUTTONS_VISIBLE = false;
+	
 	
 	private static final int WINDOW_WIDTH = 1120;
 	private static final int WINDOW_HEIGHT = 726 + 6;
@@ -3185,6 +3187,7 @@ public class TableViewer extends JFrame{
 			}
 		});
 		btnBlankAll.setBounds(204, 485, 68, 23);
+		btnBlankAll.setVisible(DEBUG_BUTTONS_VISIBLE);
 		panelSidebar.add(btnBlankAll);
 		
 		
@@ -3272,6 +3275,7 @@ public class TableViewer extends JFrame{
 			}
 		});
 		btnRandAll.setBounds(204, 460, 65, 23);
+		btnRandAll.setVisible(DEBUG_BUTTONS_VISIBLE);
 		panelSidebar.add(btnRandAll);
 		
 		

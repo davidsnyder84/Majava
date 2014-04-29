@@ -69,7 +69,7 @@ public class DemoHandGen {
 		
 		Hand hand = generateSpecificHand();
 
-		hand.DEMOgetChecker().trackdicks = true;
+//		hand.DEMOgetChecker().trackdicks = true;
 		System.out.println(hand.toString());
 		System.out.println("Hand is complete normal?: " + hand.DEMOgetChecker().isCompleteNormal());
 		

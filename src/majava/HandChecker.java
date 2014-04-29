@@ -351,7 +351,7 @@ public class HandChecker {
 	
 	
 	
-		
+	
 	/*
 	method: checkCallableTile
 	checks if a tile is callable
@@ -991,12 +991,8 @@ public class HandChecker {
 		
 		pairHasBeenChosen = false;
 		mFinishingMelds = new ArrayList<Meld>(5);
-		stringDickstring = "";
 		
-		
-		boolean yes = __isCompleteNormalHand(checkTiles);
-		if (trackdicks) System.out.println(stringDickstring.toString());
-		return yes;
+		return __isCompleteNormalHand(checkTiles);
 	}
 	//overloaded, checks mHandTiles by default
 	public boolean isCompleteNormal(){return isCompleteNormal(mHandTiles);}
@@ -1065,10 +1061,6 @@ public class HandChecker {
 	return false (currentTile could not make any meld, so the hand cannot be complete)
 	*/
 	private boolean __isCompleteNormalHand(TileList checkTiles){
-		
-//		System.out.println(checkTiles.toString());
-		if (trackdicks) stringDickstring += "\n" + (checkTiles.toString());
-		
 		
 		//if the hand is empty, it is complete
 		if (checkTiles.isEmpty()) return true;
@@ -1145,22 +1137,7 @@ public class HandChecker {
 				
 
 				//~~~~Add the tiles to a meld tile list
-				//add the currentTile to the meldlist, add the hand tiles to the meldlist
-//				toMeldTiles = new TileList();
-//				toMeldTiles.add(currentTile);
-//				for (Integer index: partnerIndices) toMeldTiles.add(checkTiles.get(index));
-//				
-//
-				//make a copy of the hand and stacklist, and remove the meld tiles from the copies
-//				checkTilesMinusThisMeld = checkTiles.makeCopyWithCheckers();
-//				
-//				while (partnerIndices.isEmpty() == false){
-//					checkTilesMinusThisMeld.remove(partnerIndices.get(partnerIndices.size() - 1).intValue());
-//					partnerIndices.remove(partnerIndices.size() - 1);
-//				}
-//				checkTilesMinusThisMeld.removeFirst();
-				
-				//make a copy of the hand, and remove the meld tiles from the copy
+				//make a copy of the hand, then remove the meld tiles from the copy and add them to the meld
 				checkTilesMinusThisMeld = checkTiles.makeCopyWithCheckers();
 				toMeldTiles = new TileList();
 				
@@ -1190,27 +1167,6 @@ public class HandChecker {
 		
 		return false;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	public static boolean trackdicks = false;
-	String stringDickstring;
-	
-	
-	
-	
-	
 	
 
 	

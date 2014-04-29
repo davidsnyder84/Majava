@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import majava.Hand;
 import majava.MeldType;
 import majava.Player;
+import majava.tiles.HandCheckerTile;
 import majava.tiles.Tile;
 import majava.TileList;
 import majava.tiles.PondTile;
@@ -75,9 +76,9 @@ public class MajaPlay {
 //		listEqualsTest();
 		
 		
-//		playTileInheritance();
+		playTileInheritance();
 		
-		playFinishingMelds();
+//		playFinishingMelds();
 		
 		
 		System.out.println();
@@ -113,7 +114,6 @@ public class MajaPlay {
 
 		Tile pt = new PondTile(t);
 		((PondTile) pt).setRiichiTile();
-		((PondTile) pt).setCalled();
 		
 		
 		
@@ -125,12 +125,43 @@ public class MajaPlay {
 		System.out.println(t.toString());
 		
 		System.out.println(pt.toString());
-		System.out.println(((PondTile) pt).isRiichiTile());
-		System.out.println(((PondTile) pt).wasCalled());
+		System.out.println(((PondTile) tlist.get(1)).isRiichiTile());
+		System.out.println(((PondTile) tlist.get(1)).wasCalled());
 		
 		
-		System.out.println("\n\n\n");
 		System.out.println(tlist.toString());
+		
+		
+		
+		TileList copyList = new TileList();
+//		for (Tile tile: tlist) copyList.add(t);
+		for (int i = 0; i < tlist.size(); i++) copyList.add(tlist.get(i));
+		
+		
+		System.out.println(((PondTile) copyList.get(1)).isRiichiTile());
+		System.out.println(((PondTile) copyList.get(1)).wasCalled());
+		
+		System.out.println(tlist.toString());
+		
+		
+		
+
+		System.out.println("\n\n\n\n");
+		
+		TileList hList = new TileList();
+		hList.add(3);hList.add(5);
+		
+		TileList cList = hList.makeCopyWithCheckers();
+		((HandCheckerTile)cList.get(0)).mstackPush(MeldType.CHI);
+		((HandCheckerTile)cList.get(0)).mstackPush(MeldType.PON);
+		
+		System.out.println(hList.toString());
+		System.out.println(((HandCheckerTile)cList.get(0)).stackString());
+		
+		
+		
+		TileList dList = cList.makeCopyWithCheckers();
+		System.out.println(((HandCheckerTile)dList.get(0)).stackString());
 		
 	}
 	

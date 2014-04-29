@@ -16,7 +16,7 @@ import utility.MahList;
 public class DemoHandGen {
 	
 
-	public static final char ONWER_SEAT = Player.SEAT_SOUTH;
+	public static final char OWNER_SEAT = Player.SEAT_SOUTH;
 	
 	public static Random random;
 	
@@ -24,8 +24,10 @@ public class DemoHandGen {
 	public static void main(String[] args) {
 
 		random = new Random();
-		runTenpaiSimulation(5000);
+//		runTenpaiSimulation(5000);
+		runSimulationNoDisplay(25000);
 //		runSumulationRandom(50000);
+//		runSpecificTest();
 	}
 	
 	
@@ -44,7 +46,7 @@ public class DemoHandGen {
 			
 			currentHand = generateRandomHand();
 			
-//			currentHand = new Hand(ONWER_SEAT);
+//			currentHand = new Hand(OWNER_SEAT);
 //			currentHand.fill();
 			
 //			hit = currentHand.mChecker.DEMOisComplete();
@@ -62,9 +64,38 @@ public class DemoHandGen {
 		
 	}
 	
+	
+	public static void runSpecificTest(){
+		
+		Hand hand = generateSpecificHand();
+
+		hand.DEMOgetChecker().trackdicks = true;
+		System.out.println(hand.toString());
+		System.out.println("Hand is complete normal?: " + hand.DEMOgetChecker().isCompleteNormal());
+		
+	}
+	
+	public static Hand generateSpecificHand(){
+		Hand hand = new Hand(OWNER_SEAT);
+		TileList tiles = new TileList(19,19,19,20,21,21,22,22,23,32,32,32,34,34);
+//		TileList tiles = new TileList(21,22,23,32,32,32,34,34);
+		
+		for (Tile t: tiles){
+			t.setOwner(OWNER_SEAT);
+			hand.addTile(t);
+		}
+		//S1 S1 S1 S2 S3 S3 S4 S4 S5 DW DW DW DR DR
+		
+		hand.sortHand();
+		return hand;
+	}
+	
+	
+	
+	
 	public static Hand generateRandomHand(){
 		
-		Hand hand = new Hand(ONWER_SEAT);
+		Hand hand = new Hand(OWNER_SEAT);
 		TileList tiles = new TileList();
 		Tile currentTile = null;
 		int id = 0;
@@ -78,7 +109,7 @@ public class DemoHandGen {
 			
 			if (tiles.findHowManyOf(id) < 4){
 				currentTile = new Tile(id);
-				currentTile.setOwner(ONWER_SEAT);
+				currentTile.setOwner(OWNER_SEAT);
 				tiles.add(currentTile);
 			}
 		}
@@ -142,7 +173,11 @@ public class DemoHandGen {
 		
 		
 		for (int i = 0; i < howManyTimes; i++){
-			if (!generateCompleteHand().mChecker.isCompleteNormal()) numFailures++;
+			if (!(currentHand = generateCompleteHand()).mChecker.isCompleteNormal()){
+				numFailures++;
+				System.out.println(currentHand.toString() + "\n");
+				
+			}
 		}
 		
 		
@@ -224,7 +259,7 @@ public class DemoHandGen {
 	
 	public static Hand generateCompleteHand(){
 		
-		Hand hand = new Hand(ONWER_SEAT);
+		Hand hand = new Hand(OWNER_SEAT);
 		
 		
 		TileList tiles = new TileList();
@@ -255,7 +290,7 @@ public class DemoHandGen {
 			//generate a random tile
 			id = random.nextInt(34) + 1;
 			currentTile = new Tile(id);
-			currentTile.setOwner(ONWER_SEAT);
+			currentTile.setOwner(OWNER_SEAT);
 			
 			howManyOfThisInHand = tiles.findHowManyOf(currentTile);
 			if (howManyOfThisInHand < 4){
@@ -290,7 +325,7 @@ public class DemoHandGen {
 				if (tooMany == false){
 					//add the tiles to the hand
 					for (Tile t: currentMeldTiles){
-						t.setOwner(ONWER_SEAT);
+						t.setOwner(OWNER_SEAT);
 						hand.addTile(t);
 					}
 					numSuccessfulMelds++;
@@ -307,7 +342,7 @@ public class DemoHandGen {
 			//generate a random tile
 			id = random.nextInt(34) + 1;
 			currentTile = new Tile(id);
-			currentTile.setOwner(ONWER_SEAT);
+			currentTile.setOwner(OWNER_SEAT);
 			howManyOfThisInHand = tiles.findHowManyOf(currentTile);
 		}
 		while(howManyOfThisInHand > 2);
@@ -317,7 +352,7 @@ public class DemoHandGen {
 		
 		//add the tiles to the hand
 		for (Tile t: currentMeldTiles){
-			t.setOwner(ONWER_SEAT);
+			t.setOwner(OWNER_SEAT);
 			hand.addTile(t);
 		}
 		

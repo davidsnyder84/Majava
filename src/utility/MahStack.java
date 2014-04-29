@@ -46,9 +46,7 @@ public class MahStack <T extends Comparable<T> > implements Iterable<T>{
 	
 	
 	//creates a new stack with the given capacity
-	public MahStack(int capacity){
-		mList = new ArrayList<T>(capacity);
-	}
+	public MahStack(int capacity){mList = new ArrayList<T>(capacity);}
 	public MahStack(){this(DEFAULT_CAPACITY);}
 	
 	//copy constructor, duplicates another stack

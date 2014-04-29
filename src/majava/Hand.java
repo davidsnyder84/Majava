@@ -457,7 +457,7 @@ public class Hand implements Iterable<Tile>{
 	//xxxxEND DEMO METHODS
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	
-	
+	public HandChecker DEMOgetChecker(){return mChecker;}
 	
 	
 	

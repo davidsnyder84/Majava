@@ -127,6 +127,8 @@ public class Tile implements Comparable<Tile> {
 		mRedDora = other.mRedDora;
 	}
 	
+//	public Object clone(){return null;} 
+	
 	
 	//accessors
 	final public int getId(){return mID;}

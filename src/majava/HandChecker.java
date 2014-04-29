@@ -2,6 +2,7 @@ package majava;
 
 import java.util.ArrayList;
 
+import majava.tiles.HandCheckerTile;
 import majava.tiles.Tile;
 
 import utility.GenSort;
@@ -889,26 +890,26 @@ public class HandChecker {
 	(order of stack should be top->L,M,H,Pon,Pair)
 	return true if meldStack is not empty
 	*/
-	public boolean checkMeldableTile(Tile candidate, TileList handTiles, MahStack<MeldType> meldStack){
+	public boolean checkMeldableTile(HandCheckerTile candidate, TileList checkTiles){
 		
 		//check pon. if can pon, push both pon and pair. if can't pon, check pair.
-		if (__canClosedPon(candidate, handTiles)){
-			meldStack.push(MeldType.PAIR);
-			meldStack.push(MeldType.PON);
+		if (__canClosedPon(candidate, checkTiles)){
+			candidate.mstackPush(MeldType.PAIR);
+			candidate.mstackPush(MeldType.PON);
 		}
-		else if (__canClosedPair(candidate, handTiles)) meldStack.push(MeldType.PAIR);
+		else if (__canClosedPair(candidate, checkTiles)) candidate.mstackPush(MeldType.PAIR);
 		
 		//don't check chi if candidate is an honor tile
 		if (!candidate.isHonor()){
-			if (__canClosedChiH(candidate, handTiles)) meldStack.push(MeldType.CHI_H);
-			if (__canClosedChiM(candidate, handTiles)) meldStack.push(MeldType.CHI_M);
-			if (__canClosedChiL(candidate, handTiles)) meldStack.push(MeldType.CHI_L);
+			if (__canClosedChiH(candidate, checkTiles)) candidate.mstackPush(MeldType.CHI_H);
+			if (__canClosedChiM(candidate, checkTiles)) candidate.mstackPush(MeldType.CHI_M);
+			if (__canClosedChiL(candidate, checkTiles)) candidate.mstackPush(MeldType.CHI_L);
 		}
 		
 		//~~~~return true if a call (any call) can be made
-		return (!meldStack.isEmpty());
+		return (!candidate.mstackIsEmpty());
 	}
-	public boolean checkMeldableTile(Tile candidate, MahStack<MeldType> meldStack){return checkMeldableTile(candidate, mHandTiles, meldStack);}
+	public boolean checkMeldableTile(HandCheckerTile candidate){return checkMeldableTile(candidate, mHandTiles);}
 	
 	//============================================================================
 	//====END CAN MELDS
@@ -970,6 +971,8 @@ public class HandChecker {
 	
 	
 	
+	
+	
 	/*
 	method: isNormalComplete
 	returns true if list of handTiles is complete (is a winning hand)
@@ -978,21 +981,26 @@ public class HandChecker {
 		
 		if ((handTiles.size() % 3) != 2) return false;
 		
+		//make a list of checkTiles out of the handTiles
+		TileList checkTiles = handTiles.makeCopyWithCheckers();
+		checkTiles.sort();
+		
+		
 		//populate stacks
-		MeldTypeStackList listMTSL = new MeldTypeStackList(handTiles.size());
-		if (populateMeldStacks(handTiles, listMTSL) == false) return false;
+		if (populateMeldStacks(checkTiles) == false) return false;
 		
 		pairHasBeenChosen = false;
 		mFinishingMelds = new ArrayList<Meld>(5);
-		return __isCompleteNormalHand(handTiles, listMTSL);
+		stringDickstring = "";
+		
+		
+		boolean yes = __isCompleteNormalHand(checkTiles);
+		if (trackdicks) System.out.println(stringDickstring.toString());
+		return yes;
 	}
 	//overloaded, checks mHandTiles by default
-//	public boolean isNormalComplete(){return isNormalComplete(mHandTiles);}
-	public boolean isCompleteNormal(){
-		TileList handTilesCopy = mHandTiles.makeCopy();
-		handTilesCopy.sort();
-		return isCompleteNormal(handTilesCopy);
-	}
+	public boolean isCompleteNormal(){return isCompleteNormal(mHandTiles);}
+	
 	
 	/*
 	method: populateMeldStacks
@@ -1002,13 +1010,19 @@ public class HandChecker {
 	input: handTiles is the list of tiles to check
 		   listMTSL is a list of meld type stacks, will be populated corresponding to the tiles in handTiles
 	*/
-	public boolean populateMeldStacks(TileList handTiles, MeldTypeStackList listMTSL){
+	public boolean populateMeldStacks(TileList checkTiles){
 		//check to see if every tile can make at least one meld
-		for (int i = 0; i < handTiles.size(); i++)
-			if (checkMeldableTile(handTiles.get(i), handTiles, listMTSL.get(i)) == false) return false;
+		for (int i = 0; i < checkTiles.size(); i++)
+			if (checkMeldableTile(((HandCheckerTile)checkTiles.get(i)), checkTiles) == false) return false;
 		
 		return true;
 	}
+	
+	
+	
+	
+	
+	
 	
 	
 	/*
@@ -1050,19 +1064,22 @@ public class HandChecker {
 	end while
 	return false (currentTile could not make any meld, so the hand cannot be complete)
 	*/
-	private boolean __isCompleteNormalHand(TileList handTiles, MeldTypeStackList listMTSL){
+	private boolean __isCompleteNormalHand(TileList checkTiles){
+		
+//		System.out.println(checkTiles.toString());
+		if (trackdicks) stringDickstring += "\n" + (checkTiles.toString());
+		
 		
 		//if the hand is empty, it is complete
-		if (handTiles.isEmpty()) return true;
+		if (checkTiles.isEmpty()) return true;
 		
 		
 		
 		TileList toMeldTiles = null;
-		TileList handTilesMinusThisMeld = null;
-		MeldTypeStackList listMTSLMinusThisMeld = null;
+		TileList checkTilesMinusThisMeld = null;
 		
 
-		Tile currentTile = null;
+		HandCheckerTile currentTile = null;
 		MeldType currentTileMeldType;
 		ArrayList<Integer> currentTileParterIDs = null;
 		boolean currentTilePartersAreStillHere = true;
@@ -1072,30 +1089,30 @@ public class HandChecker {
 		
 		
 		//currrentTile = first tile in the hand
-		currentTile = handTiles.getFirst();
+		currentTile = (HandCheckerTile)checkTiles.getFirst();
 		
 		
 		//loop until every possible meld type has been tried for the current tile
-		while(listMTSL.firstIsEmpty() == false){
+		while(currentTile.mstackIsEmpty() == false){
 
 			
 			//~~~~Verify that currentTile's partners are still in the hand
 			//currentTileParterIDs = list of IDs of partners for currentTile's top MeldType
-			currentTileParterIDs = listMTSL.firstTopPartnerIDs(currentTile.getId());
+			currentTileParterIDs = currentTile.mstackTopParterIDs();
 
 			//get the top meldType from currentTile's stack
-			currentTileMeldType = listMTSL.firstPop();	//(remove it)
+			currentTileMeldType = currentTile.mstackPop();	//(remove it)
 
 
 			//check if currentTile's partners are still in the hand
 			currentTilePartersAreStillHere = true;
 			if (currentTileMeldType.isChi()){
-				if (!handTiles.contains(currentTileParterIDs.get(0)) || !handTiles.contains(currentTileParterIDs.get(1)))
+				if (!checkTiles.contains(currentTileParterIDs.get(0)) || !checkTiles.contains(currentTileParterIDs.get(1)))
 					currentTilePartersAreStillHere = false;
 			}
 			else{
-				if (currentTileMeldType == MeldType.PAIR && handTiles.findHowManyOf(currentTile) < NUM_PARTNERS_NEEDED_TO_PAIR + 1) currentTilePartersAreStillHere = false;
-				if (currentTileMeldType == MeldType.PON && handTiles.findHowManyOf(currentTile) < NUM_PARTNERS_NEEDED_TO_PON + 1) currentTilePartersAreStillHere = false;
+				if (currentTileMeldType == MeldType.PAIR && checkTiles.findHowManyOf(currentTile) < NUM_PARTNERS_NEEDED_TO_PAIR + 1) currentTilePartersAreStillHere = false;
+				if (currentTileMeldType == MeldType.PON && checkTiles.findHowManyOf(currentTile) < NUM_PARTNERS_NEEDED_TO_PON + 1) currentTilePartersAreStillHere = false;
 			}
 			
 			
@@ -1113,12 +1130,12 @@ public class HandChecker {
 				
 				//if chi, just find the partners
 				if (currentTileMeldType.isChi()){
-					partnerIndices.add(handTiles.indexOf(currentTileParterIDs.get(0)));
-					partnerIndices.add(handTiles.indexOf(currentTileParterIDs.get(1)));
+					partnerIndices.add(checkTiles.indexOf(currentTileParterIDs.get(0)));
+					partnerIndices.add(checkTiles.indexOf(currentTileParterIDs.get(1)));
 				}
 				else{
 					//else if pon/pair, make sure you don't count the tile itsef
-					partnerIndices = handTiles.findAllIndicesOf(currentTile);
+					partnerIndices = checkTiles.findAllIndicesOf(currentTile);
 					
 					//trim the lists down to size to fit the meld type
 					if (currentTileMeldType == MeldType.PAIR) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PAIR) partnerIndices.removeLast();
@@ -1129,25 +1146,34 @@ public class HandChecker {
 
 				//~~~~Add the tiles to a meld tile list
 				//add the currentTile to the meldlist, add the hand tiles to the meldlist
-				toMeldTiles = new TileList();
-				toMeldTiles.add(currentTile);
-				for (Integer index: partnerIndices) toMeldTiles.add(handTiles.get(index));
-				
-
+//				toMeldTiles = new TileList();
+//				toMeldTiles.add(currentTile);
+//				for (Integer index: partnerIndices) toMeldTiles.add(checkTiles.get(index));
+//				
+//
 				//make a copy of the hand and stacklist, and remove the meld tiles from the copies
-				handTilesMinusThisMeld = handTiles.makeCopy();
-				listMTSLMinusThisMeld = listMTSL.makeCopy();
+//				checkTilesMinusThisMeld = checkTiles.makeCopyWithCheckers();
+//				
+//				while (partnerIndices.isEmpty() == false){
+//					checkTilesMinusThisMeld.remove(partnerIndices.get(partnerIndices.size() - 1).intValue());
+//					partnerIndices.remove(partnerIndices.size() - 1);
+//				}
+//				checkTilesMinusThisMeld.removeFirst();
 				
-				while (partnerIndices.isEmpty() == false){
-					handTilesMinusThisMeld.remove(partnerIndices.get(partnerIndices.size() - 1).intValue());
-					listMTSLMinusThisMeld.remove(partnerIndices.get(partnerIndices.size() - 1).intValue());
-					partnerIndices.remove(partnerIndices.size() - 1);
-				}
-				handTilesMinusThisMeld.remove(0);
-				listMTSLMinusThisMeld.remove(0);
+				//make a copy of the hand, and remove the meld tiles from the copy
+				checkTilesMinusThisMeld = checkTiles.makeCopyWithCheckers();
+				toMeldTiles = new TileList();
+				
+				while (!partnerIndices.isEmpty())
+					toMeldTiles.add(checkTilesMinusThisMeld.remove(partnerIndices.removeLast()));
+				toMeldTiles.add(checkTilesMinusThisMeld.removeFirst());
+				
+				
+				
+				
 				
 				//~~~~Recursive call, check if the hand is still complete without the removed meld tiles
-				if (__isCompleteNormalHand(handTilesMinusThisMeld, listMTSLMinusThisMeld)){
+				if (__isCompleteNormalHand(checkTilesMinusThisMeld)){
 					mFinishingMelds.add(new Meld(toMeldTiles, currentTileMeldType));	//add the meld tiles to the finishing melds stack
 					return true;
 				}
@@ -1164,6 +1190,26 @@ public class HandChecker {
 		
 		return false;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	public static boolean trackdicks = false;
+	String stringDickstring;
+	
+	
+	
+	
 	
 	
 

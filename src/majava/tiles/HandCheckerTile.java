@@ -1,14 +1,26 @@
 package majava.tiles;
 
+import java.util.ArrayList;
+
+import majava.MeldType;
+import utility.MahStack;
+
 
 public class HandCheckerTile extends Tile {
+	
+	
+	MahStack<MeldType> mMeldTypeStack;
 	
 	
 	
 //	public HandCheckerTile(int id) {super(id);}
 	public HandCheckerTile(Tile other){
 		super(other);
-//		mMeldTypeStack = new MahStack<MeldType>(other.mMeldTypeStack);
+		
+		if (other instanceof HandCheckerTile)
+			mMeldTypeStack =  new MahStack<MeldType>(((HandCheckerTile) other).mMeldTypeStack);
+		else
+			mMeldTypeStack = new MahStack<MeldType>();
 	}
 	
 	
@@ -17,7 +29,7 @@ public class HandCheckerTile extends Tile {
 	
 
 	
-	/*
+	
 	public boolean mstackPush(MeldType meldType){return mMeldTypeStack.push(meldType);}
 	public MeldType mstackPop(){return mMeldTypeStack.pop();}
 	public MeldType mstackTop(){return mMeldTypeStack.top();}
@@ -28,22 +40,28 @@ public class HandCheckerTile extends Tile {
 		
 		ArrayList<Integer> partnerIDs = new ArrayList<Integer>(2);
 		
+		int id = getId();
 		switch(mMeldTypeStack.top()){
-		case CHI_L: partnerIDs.add(mID + 1); partnerIDs.add(mID + 2); break;
-		case CHI_M: partnerIDs.add(mID - 1); partnerIDs.add(mID + 1); break;
-		case CHI_H: partnerIDs.add(mID - 2); partnerIDs.add(mID - 1); break;
-		case PON: partnerIDs.add(mID); partnerIDs.add(mID); break;
-		case KAN: partnerIDs.add(mID); partnerIDs.add(mID); partnerIDs.add(mID); break;
-		case PAIR: partnerIDs.add(mID); break;
+		case CHI_L: partnerIDs.add(id + 1); partnerIDs.add(id + 2); break;
+		case CHI_M: partnerIDs.add(id - 1); partnerIDs.add(id + 1); break;
+		case CHI_H: partnerIDs.add(id - 2); partnerIDs.add(id - 1); break;
+		case PON: partnerIDs.add(id); partnerIDs.add(id); break;
+		case KAN: partnerIDs.add(id); partnerIDs.add(id); partnerIDs.add(id); break;
+		case PAIR: partnerIDs.add(id); break;
 		default: break;
 		}
 		return partnerIDs;
 	}
 	
-	*/
 	
 	
 	
+	
+	public String stackString(){
+		String stackString = "";
+		for (MeldType m: mMeldTypeStack) stackString += m.toString() + ", ";
+		return stackString;
+	}
 	
 	
 }

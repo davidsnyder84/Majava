@@ -3,6 +3,7 @@ package majava;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import majava.tiles.HandCheckerTile;
 import majava.tiles.Tile;
 
 import utility.GenSort;
@@ -67,7 +68,6 @@ public class TileList implements Iterable<Tile>{
 	
 	
 	private static final int DEFAULT_CAPACITY = 10;
-	public static final int NOT_FOUND = -1;
 	
 	
 	private ArrayList<Tile> mTiles;
@@ -132,6 +132,13 @@ public class TileList implements Iterable<Tile>{
 		return copy;
 	}
 	
+	
+	public TileList makeCopyWithCheckers(){
+		TileList copy = new TileList(mTiles.size());
+//		for (Tile t: mTiles) copy.add(new HandCheckerTile(t));
+		for (int i = 0; i < mTiles.size(); i++) copy.add(new HandCheckerTile(mTiles.get(i)));
+		return copy;
+	}
 	
 	
 	
@@ -332,9 +339,9 @@ public class TileList implements Iterable<Tile>{
 	public Tile set(int index, Tile t){return mTiles.set(index, t);}
 	
 	
-	public void clear(){mTiles.clear();}
-	public void trimToSize(){mTiles.trimToSize();}
-	public void ensureCapacity(int minCapacity){mTiles.ensureCapacity(minCapacity);}
+//	public void clear(){mTiles.clear();}
+//	public void trimToSize(){mTiles.trimToSize();}
+//	public void ensureCapacity(int minCapacity){mTiles.ensureCapacity(minCapacity);}
 	
 	
 	//returns the arrayList's iterator

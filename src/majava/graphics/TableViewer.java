@@ -308,6 +308,10 @@ public class TableViewer extends JFrame{
 	private static final int SEAT2 = 1;
 	private static final int SEAT3 = 2;
 	private static final int SEAT4 = 3;
+	private static final int INDEX_EAST = 0;
+	private static final int INDEX_SOUTH = 1;
+	private static final int INDEX_WEST = 2;
+	private static final int INDEX_NORTH = 3;
 	private static final int BIG = 0;
 	private static final int SMALL = 1;
 	
@@ -851,6 +855,11 @@ public class TableViewer extends JFrame{
 		
 		mOptionRevealWall = DEFAULT_OPTION_REVEAL_WALL;
 		mOptionRevealHands = DEFAULT_OPTION_REVEAL_HANDS;
+
+
+		//load image icons into arrays
+		__loadImagesIntoArrays();
+		
 		
 		
 		thisguy = this;
@@ -859,7 +868,8 @@ public class TableViewer extends JFrame{
 
 		
 		
-		ImageIcon windowIconImg = new ImageIcon(getClass().getResource("/res/img/winds/transE.png"));
+//		ImageIcon windowIconImg = new ImageIcon(getClass().getResource("/res/img/winds/transE.png"));
+		ImageIcon windowIconImg = garryWinds[BIG][INDEX_EAST];
 		setIconImage(windowIconImg.getImage());
 		
 		setTitle("The Beaver");
@@ -877,13 +887,6 @@ public class TableViewer extends JFrame{
 		contentPane.setLayout(null);
 		
 		
-
-		
-		
-		
-		
-		
-		
 		
 		
 		
@@ -891,27 +894,27 @@ public class TableViewer extends JFrame{
 		
 		/*................................................DEMO PURPOSES.......................................................*/
 		
-		ImageIcon pImg = new ImageIcon(getClass().getResource("/res/img/tiles/seat1/small/22.png"));
-		ImageIcon p2Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat2/small/22.png"));
-		ImageIcon p3Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat3/small/25.png"));
-		ImageIcon p4Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat4/small/21.png"));
+		ImageIcon pImg = garryTiles[SEAT1][SMALL][22];
+		ImageIcon p2Img = garryTiles[SEAT2][SMALL][22];
+		ImageIcon p3Img = garryTiles[SEAT3][SMALL][25];
+		ImageIcon p4Img = garryTiles[SEAT4][SMALL][21];
 		
-		ImageIcon wImg = new ImageIcon(getClass().getResource("/res/img/tiles/seat1/small/0.png"));
-		ImageIcon w2Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat2/small/0.png"));
-		ImageIcon w3Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat3/small/0.png"));
-		ImageIcon w4Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat4/small/0.png"));
+		ImageIcon wImg = garryTiles[SEAT1][SMALL][0];
+		ImageIcon w2Img = garryTiles[SEAT2][SMALL][0];
+		ImageIcon w3Img = garryTiles[SEAT3][SMALL][0];
+		ImageIcon w4Img = garryTiles[SEAT4][SMALL][0];
 
-		ImageIcon dwImg = new ImageIcon(getClass().getResource("/res/img/tiles/seat1/small/0.png"));
+		ImageIcon dwImg = garryTiles[SEAT1][SMALL][0];
 		
-		ImageIcon hImg = new ImageIcon(getClass().getResource("/res/img/tiles/seat1/1.png"));
-		ImageIcon h2Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat2/1.png"));
-		ImageIcon h3Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat3/1.png"));
-		ImageIcon h4Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat4/1.png"));
-
-		ImageIcon meldImg = new ImageIcon(getClass().getResource("/res/img/tiles/seat1/small/34.png"));
-		ImageIcon meld2Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat2/small/34.png"));
-		ImageIcon meld3Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat3/small/34.png"));
-		ImageIcon meld4Img = new ImageIcon(getClass().getResource("/res/img/tiles/seat4/small/34.png"));
+		ImageIcon hImg =  garryTiles[SEAT1][BIG][1];
+		ImageIcon h2Img = garryTiles[SEAT2][BIG][1];
+		ImageIcon h3Img = garryTiles[SEAT3][BIG][1];
+		ImageIcon h4Img = garryTiles[SEAT4][BIG][1];
+		
+		ImageIcon meldImg = garryTiles[SEAT1][SMALL][34];
+		ImageIcon meld2Img = garryTiles[SEAT2][SMALL][34];
+		ImageIcon meld3Img = garryTiles[SEAT3][SMALL][34];
+		ImageIcon meld4Img = garryTiles[SEAT4][SMALL][34];
 		
 
 		ImageIcon windRImg = new ImageIcon(getClass().getResource("/res/img/winds/transE.png"));
@@ -3674,7 +3677,7 @@ public class TableViewer extends JFrame{
 		
 		
 		//load image icons into arrays
-		__loadImagesIntoArrays();
+//		__loadImagesIntoArrays();
 		
 		
 
@@ -3720,23 +3723,20 @@ public class TableViewer extends JFrame{
 			//get tileback and each of the 34 tiles
 			//garryTiles[seat number][0=big,1=small][tile number]
 			for (int tile = 0; tile < NUM_TILES_PLUS_TILEBACK; tile++){
-				garryTiles[seat][GARRYINDEX_TILE_BIG][tile] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/seat1/" + tile + ".png")));
-				garryTiles[seat][GARRYINDEX_TILE_SMALL][tile] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/seat1/small/" + tile + ".png")));
+				garryTiles[seat][GARRYINDEX_TILE_BIG][tile] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/" + tile + ".png")));
+				garryTiles[seat][GARRYINDEX_TILE_SMALL][tile] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/" + tile + ".png")));
 			}
 			
 			//get red fives
-			garryTiles[seat][GARRYINDEX_TILE_BIG][GARRYINDEX_RED5M] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/seat1/5r.png")));
-			garryTiles[seat][GARRYINDEX_TILE_SMALL][GARRYINDEX_RED5M] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/seat1/small/5r.png")));
+			garryTiles[seat][GARRYINDEX_TILE_BIG][GARRYINDEX_RED5M] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/5r.png")));
+			garryTiles[seat][GARRYINDEX_TILE_SMALL][GARRYINDEX_RED5M] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/5r.png")));
 			
-			garryTiles[seat][GARRYINDEX_TILE_BIG][GARRYINDEX_RED5P] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/seat1/14r.png")));
-			garryTiles[seat][GARRYINDEX_TILE_SMALL][GARRYINDEX_RED5P] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/seat1/small/14r.png")));
+			garryTiles[seat][GARRYINDEX_TILE_BIG][GARRYINDEX_RED5P] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/14r.png")));
+			garryTiles[seat][GARRYINDEX_TILE_SMALL][GARRYINDEX_RED5P] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/14r.png")));
 
-			garryTiles[seat][GARRYINDEX_TILE_BIG][GARRYINDEX_RED5S] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/seat1/23r.png")));
-			garryTiles[seat][GARRYINDEX_TILE_SMALL][GARRYINDEX_RED5S] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/seat1/small/23r.png")));
+			garryTiles[seat][GARRYINDEX_TILE_BIG][GARRYINDEX_RED5S] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/23r.png")));
+			garryTiles[seat][GARRYINDEX_TILE_SMALL][GARRYINDEX_RED5S] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/23r.png")));
 		}
-		
-		
-		
 		
 		
 		//load Wind images into array

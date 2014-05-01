@@ -366,6 +366,8 @@ public class RoundTracker {
 	
 	
 	
+	public int getNumTilesLeftInWall(){return mWall.getNumTilesLeftInWall();}
+	
 	
 	
 	

@@ -259,6 +259,8 @@ public class TableViewer extends JFrame{
 	
 	private JLabel lblExclamation;
 	
+	private JLabel lblWallTilesLeft;
+	
 	/*......................................END LABEL ARRAYS......................................*/
 	
 	
@@ -512,6 +514,7 @@ public class TableViewer extends JFrame{
 		for (currentTile = POS_DORA_1; currentTile >= 2*(4 - mRoundTracker.getNumKansMade()); currentTile -= 2){
 			larryDW[currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT1));
 		}
+		lblWallTilesLeft.setText(Integer.toString(mRoundTracker.getNumTilesLeftInWall()));
 		
 		
 		//update melds
@@ -602,6 +605,8 @@ public class TableViewer extends JFrame{
 		//dead wall
 		for (JLabel l: larryDW)
 			l.setIcon(null);
+		
+		lblWallTilesLeft.setText("0");
 		
 		thisguy.repaint();
 	}
@@ -3172,6 +3177,7 @@ public class TableViewer extends JFrame{
 		labelWeHaveFun = new JLabel("");
 		labelWeHaveFun.setIcon(sheepImg);
 		labelWeHaveFun.setBounds(4, 5, 270, 345);
+		labelWeHaveFun.setBounds(-500, -500, 270, 345);
 		panelSidebar.add(labelWeHaveFun);
 		
 		
@@ -3370,17 +3376,43 @@ public class TableViewer extends JFrame{
 		
 		
 		
+
+		
+		
+		
+		
+		JPanel panelWallSummary = new JPanel();
+		panelSidebar.add(panelWallSummary);
+		panelWallSummary.setLayout(null);
+		panelWallSummary.setBounds(10, 446, 161, 85);
+		panelWallSummary.setOpaque(false);
+		
+
+		
+		JPanel panelWTL = new JPanel();
+		panelWTL.setBounds(1, 62, 78, 21);
+		panelWallSummary.add(panelWTL);
+		panelWTL.setOpaque(false);
+		panelWTL.setLayout(new GridLayout(0, 2, 0, 0));
+		
+		JLabel lblWTLText = new JLabel("Left: ");
+		lblWTLText.setFont(new Font("Tahoma", Font.BOLD, 14));
+		panelWTL.add(lblWTLText);
+		
+		JLabel lblWallTilesLeftLabel = new JLabel("122");
+		lblWallTilesLeftLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		panelWTL.add(lblWallTilesLeftLabel);
+		
 		
 		
 		
 		
 		
 		panelDeadWall = new JPanel();
-		panelDeadWall.setBounds(33, 446, 161, 62);
+		panelDeadWall.setBounds(0, 0, 161, 62);
+		panelWallSummary.add(panelDeadWall);
 //		panelDeadWall.setBackground(COLOR_TRANSPARENT);
 		panelDeadWall.setBackground(COLOR_CALL_PANEL);
-//		panelDeadWall.setBorder(new LineBorder(new Color(0, 0, 0), 0, true));
-		panelSidebar.add(panelDeadWall);
 		panelDeadWall.setLayout(new GridLayout(2, 7, 0, 0));
 
 		
@@ -3544,6 +3576,8 @@ public class TableViewer extends JFrame{
 		
 		
 		
+		
+		
 
 		
 		
@@ -3628,8 +3662,11 @@ public class TableViewer extends JFrame{
 		
 		lblExclamation = lblExclamationLabel;
 		
+		
 		//load deadwall labels into arrays
 		larryDW[0] = lblDW1;larryDW[1] = lblDW2;larryDW[2] = lblDW3;larryDW[3] = lblDW4;larryDW[4] = lblDW5;larryDW[5] = lblDW6;larryDW[6] = lblDW7;larryDW[7] = lblDW8;larryDW[8] = lblDW9;larryDW[9] = lblDW10;larryDW[10] = lblDW11;larryDW[11] = lblDW12;larryDW[12] = lblDW13;larryDW[13] = lblDW14;
+		
+		lblWallTilesLeft = lblWallTilesLeftLabel; 
 		
 		
 		//load call buttons into array

@@ -26,10 +26,6 @@ data:
 	mFuritenStatus - is true if the player is in furiten status, false if not
 	mTenpaiStatus = is true if the player's hand is in tenpai
 	
-	linkShimocha - a link to the player's shimocha (player to the right)
-	linkToimen - a link to the player's toimen (player directly across)
-	linkKamicha - a link to the player's kamicha (player to the left)
-	
 
 methods:
 	constructors:
@@ -41,14 +37,12 @@ methods:
 	mutators:
 	setController - sets the player's controller
  	setSeatWind - sets the player's seat wind
-	setShimocha, setToimen, setKamicha, setNeighbors - set links to the player's neighbors
 	pointsIncrease, pointsDecrease - increase/decrease the player's points by an integer amount
  	
  	accessors:
  	getHandSize - returns hand size
 	getSeatWind - return seat wind
 	getPlayerNumber - returns (1,2,3,4) corresponding to (E,S,W,N)
-	getKamicha, getToimen, getShimocha - returns links to the player's neighbors
 	getPoints - returns how many points the player has
 	
 	getRiichiStatus - returns true if the player is in riichi status
@@ -86,10 +80,6 @@ methods:
 	showHand - display the player's hand
 	showPond - display the player's pond
 	getPondAsString - get the player's pond as a string
-	
-	
-	static:
-	findKamichaOf - receives a seat wind (as a character), returns the seat wind of the received wind's kamicha
 */
 public class Player {
 	
@@ -130,7 +120,24 @@ public class Player {
 	
 	private enum CallType{
 		NONE, CHI_L, CHI_M, CHI_H, PON, KAN, RON, CHI, UNDECIDED;
+		
+
+		public boolean isChi(){return (this == CHI_L || this == CHI_M || this == CHI_H);}
+		public boolean isPon(){return (this == PON);}
+		
+		
+		@Override
+		public String toString(){
+			switch (this){
+			case CHI_L: case CHI_M: case CHI_H: return "Chi";
+			case PON: return "Pon";
+			case KAN: return "Kan";
+			case RON: return "Ron";
+			default: return "None";
+			}
+		}
 	}
+	
 	
 	private enum DrawType{
 		NONE, NORMAL, RINSHAN;
@@ -149,10 +156,6 @@ public class Player {
 	private static final int CALLED_KAN = 5;
 	private static final int CALLED_RON = 6;
 	private static final int CALLED_CHI = 123;
-	
-//	private static final int DRAW_NONE = 0;
-//	private static final int DRAW_NORMAL = 1;
-//	private static final int DRAW_RINSHAN = 3;
 	
 	
 	private static final int TURN_ACTION_DISCARD = -10;
@@ -179,16 +182,15 @@ public class Player {
 	private Pond mPond;
 	private int mPoints;
 	
-//	private char mSeatWind;
 	private Wind mSeatWind;
 //	private int mSeatNumber;
 	private Controller mController;
 	private String mPlayerName;
 	
-	private int mCallStatus;
+	private CallType mCallStatus;
 	private DrawType mDrawNeeded;
-	private int mChosenDiscardIndex;
 	private int mTurnAction;
+	private int mChosenDiscardIndex;
 	
 	private Tile mLastDiscard;
 	
@@ -233,7 +235,7 @@ public class Player {
 		mHand = new Hand(mSeatWind);
 		mPond = new Pond();
 		
-		mCallStatus = CALLED_NONE;
+		mCallStatus = CallType.NONE;
 		mDrawNeeded = DrawType.NORMAL;
 		
 		mChosenDiscardIndex = NO_DISCARD_CHOSEN;
@@ -585,7 +587,7 @@ public class Player {
 	return call status
 	*/
 	public boolean reactToDiscard(Tile t, TableViewer tviewer){
-		mCallStatus = CALLED_NONE;
+		mCallStatus = CallType.NONE;
 		
 		//if able to call the tile, ask self for reaction
 		if (__ableToCallTile(t)){
@@ -598,10 +600,10 @@ public class Player {
 		////////////////////WATCH THIS MOTHERFUCKER
 		//////////////////I DONT KNOW WHAT THIS WILL DO
 		//draw normally if no call
-		if (mCallStatus == CALLED_NONE)
+		if (mCallStatus == CallType.NONE)
 			mDrawNeeded = DrawType.NORMAL;
 		
-		return (mCallStatus != CALLED_NONE);
+		return (mCallStatus != CallType.NONE);
 	}
 	
 	
@@ -624,8 +626,8 @@ public class Player {
 	end if
 	return call
 	*/
-	private int __askSelfForReaction(Tile t, TableViewer tviewer){
-		int call = CALLED_NONE;
+	private CallType __askSelfForReaction(Tile t, TableViewer tviewer){
+		CallType call = CallType.NONE;
 		
 		if (controllerIsHuman()) call = __askReactionHuman(t, tviewer);
 		else call = __askReactionCom(t);
@@ -647,9 +649,9 @@ public class Player {
 	call = decide based on player's choice
 	return call
 	*/
-	private int __askReactionHuman(Tile t, TableViewer tviewer){
+	private CallType __askReactionHuman(Tile t, TableViewer tviewer){
 		
-		int call = CALLED_NONE;
+		CallType call = CallType.NONE;
 		boolean called = false;
 		if (DEBUG_SKIP_PLAYER_CALL) return call;
 		
@@ -660,12 +662,12 @@ public class Player {
 
 		//decide call based on player's choice
 		if (called){
-			if (tviewer.resultClickCallWasChiL()) call = Player.CALLED_CHI_L;
-			else if (tviewer.resultClickCallWasChiM()) call = Player.CALLED_CHI_M;
-			else if (tviewer.resultClickCallWasChiH()) call = Player.CALLED_CHI_H;
-			else if (tviewer.resultClickCallWasPon()) call = Player.CALLED_PON;
-			else if (tviewer.resultClickCallWasKan()) call = Player.CALLED_KAN;
-			else if (tviewer.resultClickCallWasRon()) call = Player.CALLED_RON;
+			if (tviewer.resultClickCallWasChiL()) call = CallType.CHI_L;
+			else if (tviewer.resultClickCallWasChiM()) call = CallType.CHI_M;
+			else if (tviewer.resultClickCallWasChiH()) call = CallType.CHI_H;
+			else if (tviewer.resultClickCallWasPon()) call = CallType.PON;
+			else if (tviewer.resultClickCallWasKan()) call = CallType.KAN;
+			else if (tviewer.resultClickCallWasRon()) call = CallType.RON;
 		}
 		
 		return call;
@@ -685,22 +687,22 @@ public class Player {
 	call = NONE
 	return call
 	*/
-	private int __askReactionCom(Tile t){
+	private CallType __askReactionCom(Tile t){
 		/*
 		I'm a computer. What do I want to call?
 		Ron > Kan = pon > Chi-L = Chi-M = Chi-H > none
 		*/
 		
-		int call = CALLED_NONE;
+		CallType call = CallType.NONE;
 		if (!DEBUG_COMPUTERS_MAKE_CALLS) return call;
 		
 		//computer will always call if possible
-		if (mHand.ableToChiL()) call = Player.CALLED_CHI_L;
-		if (mHand.ableToChiM()) call = Player.CALLED_CHI_M;
-		if (mHand.ableToChiH()) call = Player.CALLED_CHI_H;
-		if (mHand.ableToPon()) call = Player.CALLED_PON;
-		if (mHand.ableToKan()) call = Player.CALLED_KAN;
-		if (mHand.ableToRon()) call = Player.CALLED_RON;
+		if (mHand.ableToChiL()) call = CallType.CHI_L;
+		if (mHand.ableToChiM()) call = CallType.CHI_M;
+		if (mHand.ableToChiH()) call = CallType.CHI_H;
+		if (mHand.ableToPon()) call = CallType.PON;
+		if (mHand.ableToKan()) call = CallType.KAN;
+		if (mHand.ableToRon()) call = CallType.RON;
 		
 		return call;
 	}
@@ -758,24 +760,24 @@ public class Player {
 	*/
 	public void makeMeld(Tile t){
 		
-		if (mCallStatus != CALLED_NONE){
+		if (mCallStatus != CallType.NONE){
 			
 			//make the right type of meld, based on call status
-			if (mCallStatus == CALLED_CHI_L) mHand.makeMeldChiL();
-			else if (mCallStatus == CALLED_CHI_M) mHand.makeMeldChiM();
-			else if (mCallStatus == CALLED_CHI_H) mHand.makeMeldChiH();
-			else if (mCallStatus == CALLED_PON) mHand.makeMeldPon();
-			else if (mCallStatus == CALLED_KAN) mHand.makeMeldKan();
+			if (mCallStatus == CallType.CHI_L) mHand.makeMeldChiL();
+			else if (mCallStatus == CallType.CHI_M) mHand.makeMeldChiM();
+			else if (mCallStatus == CallType.CHI_H) mHand.makeMeldChiH();
+			else if (mCallStatus == CallType.PON) mHand.makeMeldPon();
+			else if (mCallStatus == CallType.KAN) mHand.makeMeldKan();
 			
 			
 			//update what the player will need to draw next turn (draw nothing if called chi/pon, rinshan draw if called kan)
-			if (mCallStatus == CALLED_CHI_L || mCallStatus == CALLED_CHI_M || mCallStatus == CALLED_CHI_H || mCallStatus == CALLED_PON)
+			if (mCallStatus == CallType.CHI_L || mCallStatus == CallType.CHI_M || mCallStatus == CallType.CHI_H || mCallStatus == CallType.PON)
 				mDrawNeeded = DrawType.NONE;
-			if (mCallStatus == CALLED_KAN)
+			if (mCallStatus == CallType.KAN)
 				mDrawNeeded = DrawType.RINSHAN;
 			
 			//clear call status because the call has been completed
-			mCallStatus = CALLED_NONE;
+			mCallStatus = CallType.NONE;
 		}
 		else
 			System.out.println("-----Error: No meld to make (the player didn't make a call!!)");
@@ -832,26 +834,18 @@ public class Player {
 	
 	
 	//returns call status as a string
-	public String getCallStatusString(){
-		switch (mCallStatus){
-		case CALLED_CHI_L: case CALLED_CHI_M: case CALLED_CHI_H: return "Chi";
-		case CALLED_PON: return "Pon";
-		case CALLED_KAN: return "Kan";
-		case CALLED_RON: return "Ron";
-		default: return "None";
-		}
-	}
+	public String getCallStatusString(){return mCallStatus.toString();}
 	
 	//returns true if the player called a tile
-	public boolean called(){return (mCallStatus != CALLED_NONE);}
+	public boolean called(){return (mCallStatus != CallType.NONE);}
 	//individual call statuses
 	public boolean calledChi(){return (calledChiL() || calledChiM() || calledChiH());}
-	public boolean calledChiL(){return (mCallStatus == CALLED_CHI_L);}
-	public boolean calledChiM(){return (mCallStatus == CALLED_CHI_M);}
-	public boolean calledChiH(){return (mCallStatus == CALLED_CHI_H);}
-	public boolean calledPon(){return (mCallStatus == CALLED_PON);}
-	public boolean calledKan(){return (mCallStatus == CALLED_KAN);}
-	public boolean calledRon(){return (mCallStatus == CALLED_RON);}
+	public boolean calledChiL(){return (mCallStatus == CallType.CHI_L);}
+	public boolean calledChiM(){return (mCallStatus == CallType.CHI_M);}
+	public boolean calledChiH(){return (mCallStatus == CallType.CHI_H);}
+	public boolean calledPon(){return (mCallStatus == CallType.PON);}
+	public boolean calledKan(){return (mCallStatus == CallType.KAN);}
+	public boolean calledRon(){return (mCallStatus == CallType.RON);}
 	
 	
 	//check if the players needs to draw a tile, and what type of draw (normal vs rinshan)

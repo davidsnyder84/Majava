@@ -112,10 +112,10 @@ public class RoundResult {
 	private void __setResultVictory(Player winner, WinType winType){
 		
 		switch(winner.getSeatWind()){
-		case 'E': __setRoundOver(Result.VICTORY_E); break;
-		case 'S': __setRoundOver(Result.VICTORY_S); break;
-		case 'W': __setRoundOver(Result.VICTORY_W); break;
-		case 'N': __setRoundOver(Result.VICTORY_N); break;
+		case EAST: __setRoundOver(Result.VICTORY_E); break;
+		case SOUTH: __setRoundOver(Result.VICTORY_S); break;
+		case WEST: __setRoundOver(Result.VICTORY_W); break;
+		case NORTH: __setRoundOver(Result.VICTORY_N); break;
 		default: break;
 		}
 		

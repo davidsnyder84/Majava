@@ -37,7 +37,7 @@ public class RoundTracker {
 	private class PlayerTracker{
 		private Player player;
 		
-		private char seatWind;
+		private Wind seatWind;
 		private int points;
 		private boolean riichiStatus;
 		private String playerName;
@@ -62,7 +62,7 @@ public class RoundTracker {
 	
 	
 	
-	private char mRoundWind;
+	private Wind mRoundWind;
 	private int mRoundNum;
 	private int mRoundBonusNum;
 	
@@ -78,7 +78,7 @@ public class RoundTracker {
 	
 	
 	
-	public RoundTracker(TableViewer tviewer, char roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){
+	public RoundTracker(TableViewer tviewer, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){
 		
 		mRoundWind = roundWind;
 		mRoundNum = roundNum;
@@ -349,7 +349,7 @@ public class RoundTracker {
 	
 	
 	
-	public char getRoundWind(){return mRoundWind;}
+	public Wind getRoundWind(){return mRoundWind;}
 	public int getRoundNum(){return mRoundNum;}
 	
 	

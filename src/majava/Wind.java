@@ -15,7 +15,7 @@ public enum Wind {
 		}
 	}
 	public Wind prev(){return next().next().next();}
-//	public Wind getKamicha(){return prev();}
+	public Wind kamichaWind(){return prev();}
 	
 	
 	
@@ -38,6 +38,15 @@ public enum Wind {
 //		case NORTH: return 'N';
 //		default: return 'U';
 //		}
+	}
+	public int getNum(){
+		switch(this){
+		case EAST: return 0;
+		case SOUTH: return 1;
+		case WEST: return 2;
+		case NORTH: return 3;
+		default: return -1;
+		}
 	}
 	
 	

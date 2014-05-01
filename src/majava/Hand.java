@@ -75,7 +75,7 @@ public class Hand implements Iterable<Tile>{
 	
 	
 	private int mNumMeldsMade;
-	private char mOwnerSeatWind;
+	private Wind mOwnerSeatWind;
 	
 	
 	private RoundTracker mRoundTracker;
@@ -83,7 +83,7 @@ public class Hand implements Iterable<Tile>{
 	
 	
 	//1-arg constructor, takes player's seat wind
-	public Hand(char playerWind){
+	public Hand(Wind playerWind){
 		mTiles = new TileList(MAX_HAND_SIZE);
 		mMelds = new ArrayList<Meld>(MAX_NUM_MELDS);
 		
@@ -94,7 +94,7 @@ public class Hand implements Iterable<Tile>{
 		mChecker = new HandChecker(this, mTiles, mMelds);
 		mRoundTracker = null;
 	}
-	public Hand(){this(Player.SEAT_UNDECIDED);}
+	public Hand(){this(Wind.UNKNOWN);}
 	
 	
 	
@@ -130,7 +130,7 @@ public class Hand implements Iterable<Tile>{
 	}
 	
 	//returns the hand owner's seat wind
-	public char getOwnerSeatWind(){return mOwnerSeatWind;}
+	public Wind getOwnerSeatWind(){return mOwnerSeatWind;}
 	//returns true if the hand is in tenpai
 	public boolean getTenpaiStatus(){return mChecker.getTenpaiStatus();}
 	

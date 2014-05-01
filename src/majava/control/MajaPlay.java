@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import majava.Hand;
 import majava.MeldType;
 import majava.Player;
+import majava.Wind;
 import majava.tiles.HandCheckerTile;
 import majava.tiles.Tile;
 import majava.TileList;
@@ -17,7 +18,8 @@ import utility.MahList;
 public class MajaPlay {
 	
 
-	public static final char ownerSeat = Player.SEAT_SOUTH;
+//	public static final char ownerSeat = Player.SEAT_SOUTH;
+	public static final Wind ownerSeat = Wind.SOUTH;
 	
 	
 	public static void main(String[] args) {
@@ -308,10 +310,9 @@ public class MajaPlay {
 	
 	
 	public static void testCallPartners(){
-
-		final char ONWER_SEAT = Player.SEAT_SOUTH;
+		
 		Tile q = null;
-		Hand h = new Hand(ONWER_SEAT);
+		Hand h = new Hand(ownerSeat);
 
 		h.addTile(1);
 		h.addTile(2);
@@ -332,7 +333,7 @@ public class MajaPlay {
 		for (Integer id: discardIDs)
 		{
 			q = new Tile(id);
-			q.setOwner(Player.findKamichaOf(ONWER_SEAT));
+			q.setOwner(ownerSeat.kamichaWind());
 			h.checkCallableTile(q);
 			
 			System.out.println(h.toString());
@@ -388,7 +389,7 @@ public class MajaPlay {
 		
 		
 		q = new Tile(1);
-		q.setOwner(Player.findKamichaOf(ownerSeat));
+		q.setOwner(ownerSeat.kamichaWind());
 		System.out.println("\nDiscarded tile: " + q.toStringAllInfo());
 		h.checkCallableTile(q);
 		
@@ -415,7 +416,7 @@ public class MajaPlay {
 		q = new Tile(1);
 //		q.setOwner(ownerSeat);
 //		q.setOwner(Player.findKamichaOf(ownerSeat));
-		q.setOwner('W');
+		q.setOwner(Wind.WEST);
 		
 
 		System.out.println("\nDiscarded tile: " + q.toStringAllInfo());
@@ -524,7 +525,7 @@ public class MajaPlay {
 	//probably broke this when clickable discards were implemented
 	public static void testMeldMaking(){
 		
-		Player p = new Player(Player.SEAT_EAST);
+		Player p = new Player(Wind.EAST);
 
 		p.addTileToHand(2);
 		p.addTileToHand(3);
@@ -610,7 +611,7 @@ public class MajaPlay {
 	
 	public static void testPlayerCall(){
 		
-		Player p = new Player(Player.SEAT_EAST);
+		Player p = new Player(Wind.EAST);
 
 		p.addTileToHand(2);
 		p.addTileToHand(2);
@@ -928,7 +929,7 @@ public class MajaPlay {
 		TileList oddTiles = handTiles.getMultiple(1,3,5,7,9,11,13);
 		
 		oddTiles.get(1).setRedDora();
-		oddTiles.get(2).setOwner('N');
+		oddTiles.get(2).setOwner(Wind.NORTH);
 		
 		System.out.println("List1: " + evenTiles.toString());
 		System.out.println("List2: " + oddTiles.toString());

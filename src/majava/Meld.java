@@ -51,10 +51,10 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	private MeldType mMeldType;
 	private boolean mClosed;
 
-	private char mOwnerSeatWind;
+	private Wind mOwnerSeatWind;
 	
 	private Tile mCompletedTile;
-	private char mPlayerResponsible;
+	private Wind mPlayerResponsible;
 	
 	private int mFu;
 	
@@ -199,8 +199,8 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	
 	//accessors
 	public boolean isClosed(){return mClosed;}
-	public char getOwnerSeatWind(){return mOwnerSeatWind;}
-	public char getResponsible(){return mPlayerResponsible;}
+	public Wind getOwnerSeatWind(){return mOwnerSeatWind;}
+	public Wind getResponsible(){return mPlayerResponsible;}
 	
 
 	//returns the tile at the given index in the meld, returns null if index is outside of the meld's range

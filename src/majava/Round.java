@@ -32,7 +32,8 @@ methods:
 public class Round {
 	
 	public static final int DEFAULT_NUM_PLAYERS = 4;
-	public static final char DEFAULT_ROUND_WIND = 'E';
+	
+	public static final Wind DEFAULT_ROUND_WIND = Wind.EAST;
 	public static final int DEFAULT_ROUND_NUM = 1;
 	public static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
@@ -53,7 +54,7 @@ public class Round {
 	private Pauser mPauser;
 	
 	
-	private char mRoundWind;
+	private Wind mRoundWind;
 	private int mRoundNum;
 	private int mRoundBonusNum;
 	
@@ -68,7 +69,7 @@ public class Round {
 	creates the wall
 	initializes round and game info
 	*/
-	public Round(TableViewer tviewer, Player[] playerArray, char roundWind, int roundNum, int roundBonusNum){
+	public Round(TableViewer tviewer, Player[] playerArray, Wind roundWind, int roundNum, int roundBonusNum){
 		
 		mPlayerArray = playerArray;
 		p1 = mPlayerArray[0]; p2 = mPlayerArray[1]; p3 = mPlayerArray[2]; p4 = mPlayerArray[3];
@@ -94,7 +95,7 @@ public class Round {
 		
 		setOptionFastGameplay(DEFAULT_DO_FAST_GAMEPLAY);
 	}
-	public Round(TableViewer tviewer, Player[] playerArray, char roundWind, int roundNum){this(tviewer, playerArray, roundWind, roundNum, DEFAULT_ROUND_BONUS_NUM);}
+	public Round(TableViewer tviewer, Player[] playerArray, Wind roundWind, int roundNum){this(tviewer, playerArray, roundWind, roundNum, DEFAULT_ROUND_BONUS_NUM);}
 	public Round(TableViewer tviewer, Player[] playerArray){this(tviewer, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
 	
 	
@@ -525,7 +526,7 @@ public class Round {
 	
 	
 	//accessors
-	public char getRoundWind(){return mRoundWind;}
+	public Wind getRoundWind(){return mRoundWind;}
 	public boolean roundIsOver(){return mRoundTracker.roundIsOver();}
 	
 	public String getWinningHandString(){return mRoundTracker.getWinningHandString();}

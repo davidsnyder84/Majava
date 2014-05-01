@@ -5,6 +5,7 @@ import majava.Meld;
 import majava.Player;
 import majava.Pond;
 import majava.RoundTracker;
+import majava.Wind;
 import majava.tiles.Tile;
 import majava.TileList;
 import majava.tiles.PondTile;
@@ -446,15 +447,9 @@ public class TableViewer extends JFrame{
 	}
 	
 	//gets icon for the given wind (char) of the given size
-	private ImageIcon __getImageIconWind(char wind, int windSize){
+	private ImageIcon __getImageIconWind(Wind wind, int windSize){
 		int windNum = -1;
-		switch(wind){
-		case 'E': windNum = 0; break;
-		case 'S': windNum = 1; break;
-		case 'W': windNum = 2; break;
-		case 'N': windNum = 3; break;
-		default: return null;
-		}
+		windNum = wind.getNum();
 		
 		return garryWinds[windSize][windNum];
 	}

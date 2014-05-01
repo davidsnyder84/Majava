@@ -376,7 +376,7 @@ public class HandChecker {
 		//only allow chis from the player's kamicha, or from the player's own tiles. don't check chi if candidate is an honor tile
 		if (!candidate.isHonor() && (
 			(candidate.getOrignalOwner() == mHand.getOwnerSeatWind()) || 
-			(candidate.getOrignalOwner() == Player.findKamichaOf(mHand.getOwnerSeatWind()))) ){
+			(candidate.getOrignalOwner() == mHand.getOwnerSeatWind().kamichaWind())) ){
 			mCanChiL = __canChiL();
 			mCanChiM = __canChiM();
 			mCanChiH = __canChiH();

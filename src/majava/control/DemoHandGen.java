@@ -6,6 +6,7 @@ import java.util.Random;
 import majava.Hand;
 import majava.MeldType;
 import majava.Player;
+import majava.Wind;
 import majava.tiles.Tile;
 import majava.TileList;
 
@@ -16,7 +17,7 @@ import utility.MahList;
 public class DemoHandGen {
 	
 
-	public static final char OWNER_SEAT = Player.SEAT_SOUTH;
+	public static final Wind OWNER_SEAT = Wind.SOUTH;
 	
 	public static Random random;
 	

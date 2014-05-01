@@ -3,6 +3,7 @@ package majava.tiles;
 import java.util.ArrayList;
 
 import majava.TileList;
+import majava.Wind;
 
 
 
@@ -88,7 +89,7 @@ public class Tile implements Comparable<Tile> {
 	private char mFace;
 	private boolean mRedDora;
 	
-	private char mOriginalOwner;
+	private Wind mOriginalOwner;
 	
 	
 	
@@ -99,7 +100,7 @@ public class Tile implements Comparable<Tile> {
 		mSuit = repr_suitOfId(id);
 		mFace = repr_faceOfId(id);
 
-		mOriginalOwner = OWNER_NONE;
+		mOriginalOwner = Wind.UNKNOWN;
 		mRedDora = isRed;
 	}
 	//1-arg Constructor, takes tile ID
@@ -115,7 +116,7 @@ public class Tile implements Comparable<Tile> {
 		this(repr_idOfStringRepr(suitfaceString.toUpperCase()));
 	}
 	//2-arg, takes id and sets an onwer's seat wind
-	public Tile(int id, char ownerWind){
+	public Tile(int id, Wind ownerWind){
 		this(id);
 		mOriginalOwner = ownerWind;
 	}
@@ -135,13 +136,13 @@ public class Tile implements Comparable<Tile> {
 	final public char getSuit(){return mSuit;}
 	final public char getFace(){return mFace;}
 	final public boolean isRedDora(){return mRedDora;}
-	final public char getOrignalOwner(){return mOriginalOwner;}
+	final public Wind getOrignalOwner(){return mOriginalOwner;}
 	
 	
 	
 	
 	//sets the original owner attribute of the tile (the player who drew the tile from the wall)
-	public void setOwner(char owner){
+	public void setOwner(Wind owner){
 		mOriginalOwner = owner;
 	}
 	

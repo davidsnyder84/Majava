@@ -93,19 +93,30 @@ methods:
 */
 public class Player {
 	
-	public static final char SEAT_UNDECIDED = 'U';
-	public static final char SEAT_EAST = 'E';
-	public static final char SEAT_SOUTH = 'S';
-	public static final char SEAT_WEST = 'W';
-	public static final char SEAT_NORTH = 'N';
-	public static final char SEAT_DEFAULT = SEAT_UNDECIDED;
-	public static final String SEAT_WINDS = "ESWN";
+	
+	
+	private enum Controller{
+		HUMAN, COM, UNDECIDED;
+		
+		@Override
+		public String toString(){
+			switch (this){
+			case HUMAN: return "Human";
+			case COM: return "Computer";
+			default: return "Undecided";
+			}
+		}
+		
+		public boolean isComputer(){return (this == COM);}
+		public boolean isHuman(){return (this == HUMAN);}
+	}
+	
 
-	public static final char CONTROLLER_UNDECIDED = 'u';
-	public static final char CONTROLLER_HUMAN = 'h';
-	public static final char CONTROLLER_COM = 'c';
-	public static final char CONTROLLER_DEFAULT = CONTROLLER_UNDECIDED;
-
+	
+	private static final Wind SEAT_DEFAULT = Wind.UNKNOWN;
+	public static final Controller CONTROLLER_DEFAULT = Controller.UNDECIDED;
+	
+	
 	private static final int COM_BEHAVIOR_DISCARD_LAST = 1;
 	private static final int COM_BEHAVIOR_DISCARD_FIRST = 2;
 	private static final int COM_BEHAVIOR_DISCARD_RANDOM = 3;
@@ -115,6 +126,20 @@ public class Player {
 	
 	
 	public static final int POINTS_STARTING_AMOUNT = 25000;
+	
+	
+	private enum CallType{
+		NONE, CHI_L, CHI_M, CHI_H, PON, KAN, RON, CHI, UNDECIDED;
+	}
+	
+	private enum DrawType{
+		NONE, NORMAL, RINSHAN;
+	}
+	
+	private enum ActionType{
+		DISCARD, ANKAN, MINKAN, RIICHI, TSUMO, UNDECIDED;
+	}
+	
 
 	private static final int CALLED_NONE = 0;
 	private static final int CALLED_CHI_L = 1;
@@ -125,9 +150,9 @@ public class Player {
 	private static final int CALLED_RON = 6;
 	private static final int CALLED_CHI = 123;
 	
-	private static final int DRAW_NONE = 0;
-	private static final int DRAW_NORMAL = 1;
-	private static final int DRAW_RINSHAN = 3;
+//	private static final int DRAW_NONE = 0;
+//	private static final int DRAW_NORMAL = 1;
+//	private static final int DRAW_RINSHAN = 3;
 	
 	
 	private static final int TURN_ACTION_DISCARD = -10;
@@ -154,13 +179,14 @@ public class Player {
 	private Pond mPond;
 	private int mPoints;
 	
-	private char mSeatWind;
+//	private char mSeatWind;
+	private Wind mSeatWind;
 //	private int mSeatNumber;
-	private char mController;
+	private Controller mController;
 	private String mPlayerName;
 	
 	private int mCallStatus;
-	private int mDrawNeeded;
+	private DrawType mDrawNeeded;
 	private int mChosenDiscardIndex;
 	private int mTurnAction;
 	
@@ -181,18 +207,20 @@ public class Player {
 	
 	
 	
-	public Player(char seat, char controller, String pName){
+	public Player(Wind seat, Controller controller, String pName){
 		
 		mSeatWind = seat;
 		mController = controller;
-		mPlayerName = pName;
+		
+		if (pName == null) pName = PLAYERNAME_DEFAULT;
+		setPlayerName(pName);
 		
 		mPoints = POINTS_STARTING_AMOUNT;
 		
 		prepareForNewRound();
 	}
-	public Player(char seat, char controller){this(seat, controller, PLAYERNAME_DEFAULT);}
-	public Player(char seat){this(seat, CONTROLLER_DEFAULT);}
+	public Player(Wind seat, Controller controller){this(seat, controller, PLAYERNAME_DEFAULT);}
+	public Player(Wind seat){this(seat, CONTROLLER_DEFAULT);}
 	public Player(){this(SEAT_DEFAULT);}
 	
 	
@@ -206,7 +234,7 @@ public class Player {
 		mPond = new Pond();
 		
 		mCallStatus = CALLED_NONE;
-		mDrawNeeded = DRAW_NORMAL;
+		mDrawNeeded = DrawType.NORMAL;
 		
 		mChosenDiscardIndex = NO_DISCARD_CHOSEN;
 		mTurnAction = NO_ACTION_CHOSEN;
@@ -291,7 +319,7 @@ public class Player {
 				}
 				
 				
-				mDrawNeeded = DRAW_RINSHAN;
+				mDrawNeeded = DrawType.RINSHAN;
 			}
 			
 			
@@ -335,7 +363,7 @@ public class Player {
 		__putTileInPond(discardedTile);
 		
 		//set needed draw to normal, since we just discarded a tile
-		mDrawNeeded = DRAW_NORMAL;
+		mDrawNeeded = DrawType.NORMAL;
 
 		//return the discarded tile
 		return discardedTile;
@@ -516,7 +544,7 @@ public class Player {
 		mHand.addTile(t);
 		
 		//no longer need to draw
-		mDrawNeeded = DRAW_NONE;
+		mDrawNeeded = DrawType.NONE;
 	}
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand (for debug use)
 	public void addTileToHand(int tileID){addTileToHand(new Tile(tileID));}
@@ -571,7 +599,7 @@ public class Player {
 		//////////////////I DONT KNOW WHAT THIS WILL DO
 		//draw normally if no call
 		if (mCallStatus == CALLED_NONE)
-			mDrawNeeded = DRAW_NORMAL;
+			mDrawNeeded = DrawType.NORMAL;
 		
 		return (mCallStatus != CALLED_NONE);
 	}
@@ -599,7 +627,7 @@ public class Player {
 	private int __askSelfForReaction(Tile t, TableViewer tviewer){
 		int call = CALLED_NONE;
 		
-		if (mController == CONTROLLER_HUMAN) call = __askReactionHuman(t, tviewer);
+		if (controllerIsHuman()) call = __askReactionHuman(t, tviewer);
 		else call = __askReactionCom(t);
 		
 		return call;
@@ -742,9 +770,9 @@ public class Player {
 			
 			//update what the player will need to draw next turn (draw nothing if called chi/pon, rinshan draw if called kan)
 			if (mCallStatus == CALLED_CHI_L || mCallStatus == CALLED_CHI_M || mCallStatus == CALLED_CHI_H || mCallStatus == CALLED_PON)
-				mDrawNeeded = DRAW_NONE;
+				mDrawNeeded = DrawType.NONE;
 			if (mCallStatus == CALLED_KAN)
-				mDrawNeeded = DRAW_RINSHAN;
+				mDrawNeeded = DrawType.RINSHAN;
 			
 			//clear call status because the call has been completed
 			mCallStatus = CALLED_NONE;
@@ -783,13 +811,13 @@ public class Player {
 	
 	//accessors
 	public int getHandSize(){return mHand.getSize();}
-	public char getSeatWind(){return mSeatWind;}
+	public Wind getSeatWind(){return mSeatWind;}
 	//returns 1,2,3,4, corresponding to seat wind E,S,W,N
 	public int getPlayerNumber(){
-		if (mSeatWind == SEAT_EAST) return 1;
-		else if (mSeatWind == SEAT_SOUTH) return 2;
-		else if (mSeatWind == SEAT_WEST) return 3;
-		else if (mSeatWind == SEAT_NORTH) return 4;
+		if (mSeatWind == Wind.EAST) return 1;
+		else if (mSeatWind == Wind.SOUTH) return 2;
+		else if (mSeatWind == Wind.WEST) return 3;
+		else if (mSeatWind == Wind.NORTH) return 4;
 		else return 0;
 	}
 	public String getPlayerName(){return mPlayerName;}
@@ -828,8 +856,8 @@ public class Player {
 	
 	//check if the players needs to draw a tile, and what type of draw (normal vs rinshan)
 	public boolean needsDraw(){return (needsDrawNormal() || needsDrawRinshan());}
-	public boolean needsDrawNormal(){return (mDrawNeeded == DRAW_NORMAL);}
-	public boolean needsDrawRinshan(){return (mDrawNeeded == DRAW_RINSHAN);}
+	public boolean needsDrawNormal(){return (mDrawNeeded == DrawType.NORMAL);}
+	public boolean needsDrawRinshan(){return (mDrawNeeded == DrawType.RINSHAN);}
 	
 	
 
@@ -858,38 +886,26 @@ public class Player {
 	
 	
 	//mutator for seat wind
-	private void __setSeatWind(char wind){mSeatWind = wind;}
-	public void setSeatWindEast(){__setSeatWind(SEAT_EAST);}
-	public void setSeatWindSouth(){__setSeatWind(SEAT_SOUTH);}
-	public void setSeatWindWest(){__setSeatWind(SEAT_WEST);}
-	public void setSeatWindNorth(){__setSeatWind(SEAT_NORTH);}
+	private void __setSeatWind(Wind wind){mSeatWind = wind;}
+	public void setSeatWindEast(){__setSeatWind(Wind.EAST);}
+	public void setSeatWindSouth(){__setSeatWind(Wind.SOUTH);}
+	public void setSeatWindWest(){__setSeatWind(Wind.WEST);}
+	public void setSeatWindNorth(){__setSeatWind(Wind.NORTH);}
+	
 	
 	
 	//used to set the controller of the player after its creation
-	public boolean setController(char newController){
-		if (mController == CONTROLLER_UNDECIDED)
-			if (newController == CONTROLLER_HUMAN || newController == CONTROLLER_COM){
-				mController = newController;
-				return true;
-			}
-			else
-				System.out.println("-----Error: controller must be human or computer\n");
-		else
-			System.out.println("-----Error: controller has already been set\n");
-		
-		return false;
+	private void __setController(Controller newController){
+		mController = newController;
 	}
-	public boolean setControllerHuman(){return setController(CONTROLLER_HUMAN);}
-	public boolean setControllerComputer(){return setController(CONTROLLER_COM);}
+	public void setControllerHuman(){__setController(Controller.HUMAN);}
+	public void setControllerComputer(){__setController(Controller.COM);}
 	
+	public String getControllerAsString(){return mController.toString();}
 	
-	public String getControllerAsString(){
-		if (mController == CONTROLLER_HUMAN) return "Human";
-		else return "Computer";
-	}
+	public boolean controllerIsHuman(){return mController.isHuman();}
+	public boolean controllerIsComputer(){return mController.isComputer();}
 	
-	public boolean controllerIsHuman(){return mController == CONTROLLER_HUMAN;}
-	public boolean controllerIsComputer(){return mController == CONTROLLER_COM;}
 	
 	
 	
@@ -992,18 +1008,6 @@ public class Player {
 		mRoundTracker = tracker;
 		mRoundTracker.syncPlayer(mHand, mPond);
 	}
-	
-	
-	
-	
-	
-	public static char findKamichaOf(char seat){
-		if (SEAT_WINDS.indexOf(seat) == -1) return SEAT_UNDECIDED;
-		
-		if (seat == SEAT_EAST) return SEAT_NORTH;
-		else return SEAT_WINDS.charAt(SEAT_WINDS.indexOf(seat) - 1);
-	}
-	
 	
 
 }

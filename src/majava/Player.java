@@ -199,6 +199,7 @@ public class Player {
 	
 	
 	
+	//initializes a player's resources for a new round
 	public void prepareForNewRound(){
 		
 		mHand = new Hand(mSeatWind);
@@ -236,7 +237,7 @@ public class Player {
 	
 	/*
 	method: takeTurn
-	walks the player through their discard turn
+	walks the player through their turn
 	
 	returns the discarded tile if they chose a discard
 	returns null if the player did not discard (they made a kan or tsumo)
@@ -428,12 +429,6 @@ public class Player {
 	/*
 	private method: __askDiscardCom
 	asks a computer player which tile they want to discard, returns their choice
-	
-	returns the index of the tile the player wants to discard
-	
-	
-	chosenDiscard = the last tile in the player's hand
-	return chosenDiscard
 	*/
 	@SuppressWarnings("unused")
 	private int __askTurnActionCom(){

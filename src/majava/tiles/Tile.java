@@ -67,7 +67,6 @@ public class Tile implements Comparable<Tile> {
 	private static final int ID_FIRST_HONOR_TILE = 28;
 	
 //	private static final int DEFAULT_ID = 0;
-	private static final char OWNER_NONE = 'N';
 	private static final String CHAR_FOR_RED_DORA = "%";
 
 //	private static final char SUIT_MAN = 'M';
@@ -101,20 +100,15 @@ public class Tile implements Comparable<Tile> {
 		mFace = repr_faceOfId(id);
 
 		mOriginalOwner = Wind.UNKNOWN;
-		mRedDora = isRed;
+		mRedDora = false;
+		if (isRed) setRedDora();
 	}
 	//1-arg Constructor, takes tile ID
-	public Tile(int id){
-		this(id, false);
-	}
+	public Tile(int id){this(id, false);}
 	//2-arg, takes string representation, and boolean red dora flag
-	public Tile(String suitfaceString, boolean isRed){
-		this(repr_idOfStringRepr(suitfaceString), isRed);
-	}
+	public Tile(String suitfaceString, boolean isRed){this(repr_idOfStringRepr(suitfaceString), isRed);}
 	//1-arg, takes string representation of tile
-	public Tile(String suitfaceString){
-		this(repr_idOfStringRepr(suitfaceString.toUpperCase()));
-	}
+	public Tile(String suitfaceString){this(repr_idOfStringRepr(suitfaceString.toUpperCase()));}
 	//2-arg, takes id and sets an onwer's seat wind
 	public Tile(int id, Wind ownerWind){
 		this(id);
@@ -147,7 +141,7 @@ public class Tile implements Comparable<Tile> {
 	}
 	
 	//makes the tile a red dora tile
-	public void setRedDora(){if (mFace == '5') mRedDora = true;}
+	final public void setRedDora(){if (mFace == '5') mRedDora = true;}
 	
 	
 	
@@ -190,7 +184,7 @@ public class Tile implements Comparable<Tile> {
 	returns the tile that follows this one
 	used to find a dora from a dora indicator
 	*/
-	public Tile nextTile(){
+	final public Tile nextTile(){
 		int nextID = 1;
 		
 		//determine the ID of the next tile

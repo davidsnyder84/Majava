@@ -117,6 +117,9 @@ public class Game {
 	*/
 	public void play(){
 		
+		runSimulation();
+		
+		
 		//play one round
 		mCurrentRound = new Round(mTviewer, mPlayerArray);
 		mCurrentRound.setOptionFastGameplay(mDoFastGameplay);

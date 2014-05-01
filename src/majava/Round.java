@@ -58,6 +58,8 @@ public class Round {
 	private int mRoundNum;
 	private int mRoundBonusNum;
 	
+	
+	//options
 	private boolean mDoFastGameplay;
 	private int sleepTime, sleepTimeExclamation, sleepTimeRoundEnd;
 	

@@ -84,7 +84,8 @@ methods:
 public class Player {
 	
 	
-	
+
+	//used to indicate who is controlling the player
 	private enum Controller{
 		HUMAN, COM, UNDECIDED;
 		
@@ -100,24 +101,8 @@ public class Player {
 		public boolean isComputer(){return (this == COM);}
 		public boolean isHuman(){return (this == HUMAN);}
 	}
-	
 
-	
-	private static final Wind SEAT_DEFAULT = Wind.UNKNOWN;
-	public static final Controller CONTROLLER_DEFAULT = Controller.UNDECIDED;
-	
-	
-	private static final int COM_BEHAVIOR_DISCARD_LAST = 1;
-	private static final int COM_BEHAVIOR_DISCARD_FIRST = 2;
-	private static final int COM_BEHAVIOR_DISCARD_RANDOM = 3;
-	private static final int COM_BEHAVIOR_DISCARD_DEFAULT = COM_BEHAVIOR_DISCARD_LAST;
-	private static final int COM_BEHAVIOR = COM_BEHAVIOR_DISCARD_LAST;
-	
-	
-	
-	public static final int POINTS_STARTING_AMOUNT = 25000;
-	
-	
+	//used to indicate what call a player wants to make on another player's discard
 	private enum CallType{
 		NONE, CHI_L, CHI_M, CHI_H, PON, KAN, RON, CHI, UNDECIDED;
 		
@@ -138,36 +123,35 @@ public class Player {
 		}
 	}
 	
-	
+	//used to indicate what type of draw a player needs
 	private enum DrawType{
 		NONE, NORMAL, RINSHAN;
 	}
-	
+
+	//used to indicate what action the player wants to do on their turn
 	private enum ActionType{
 		DISCARD, ANKAN, MINKAN, RIICHI, TSUMO, UNDECIDED;
 	}
 	
+	//used to dictate how the com chooses its discards
+	private enum ComBehavior{DISCARD_LAST, DISCARD_FIRST, DISCARD_RANDOM}
+	private static final ComBehavior COM_BEHAVIOR_DEFAULT = ComBehavior.DISCARD_LAST;
+	
+	
 
-	private static final int CALLED_NONE = 0;
-	private static final int CALLED_CHI_L = 1;
-	private static final int CALLED_CHI_M = 2;
-	private static final int CALLED_CHI_H = 3;
-	private static final int CALLED_PON = 4;
-	private static final int CALLED_KAN = 5;
-	private static final int CALLED_RON = 6;
-	private static final int CALLED_CHI = 123;
 	
 	
-	private static final int TURN_ACTION_DISCARD = -10;
-	private static final int TURN_ACTION_ANKAN = -20;
-	private static final int TURN_ACTION_MINKAN = -30;
-	private static final int TURN_ACTION_RIICHI = -40;
-	private static final int TURN_ACTION_TSUMO = -50;
-	private static final int NO_ACTION_CHOSEN = -1;
+	private static final Wind SEAT_DEFAULT = Wind.UNKNOWN;
+	public static final Controller CONTROLLER_DEFAULT = Controller.UNDECIDED;
+	public static final String PLAYERNAME_DEFAULT = "Kyoutarou";
+	private static final ComBehavior COM_BEHAVIOR = COM_BEHAVIOR_DEFAULT;
+	
+	public static final int POINTS_STARTING_AMOUNT_DEFAULT = 25000;
+	
+	
+	
 	private static final int NO_DISCARD_CHOSEN = -94564;
 	
-	
-	public static final String PLAYERNAME_DEFAULT = "Kyoutarou";
 	
 	
 	private static final boolean DEBUG_SKIP_PLAYER_CALL = false;
@@ -189,7 +173,7 @@ public class Player {
 	
 	private CallType mCallStatus;
 	private DrawType mDrawNeeded;
-	private int mTurnAction;
+	private ActionType mTurnAction;
 	private int mChosenDiscardIndex;
 	
 	private Tile mLastDiscard;
@@ -199,6 +183,7 @@ public class Player {
 	private boolean mFuritenStatus;
 	
 	private boolean mWon;
+	
 	
 	private RoundTracker mRoundTracker;
 	
@@ -217,7 +202,7 @@ public class Player {
 		if (pName == null) pName = PLAYERNAME_DEFAULT;
 		setPlayerName(pName);
 		
-		mPoints = POINTS_STARTING_AMOUNT;
+		mPoints = POINTS_STARTING_AMOUNT_DEFAULT;
 		
 		prepareForNewRound();
 	}
@@ -239,7 +224,7 @@ public class Player {
 		mDrawNeeded = DrawType.NORMAL;
 		
 		mChosenDiscardIndex = NO_DISCARD_CHOSEN;
-		mTurnAction = NO_ACTION_CHOSEN;
+		mTurnAction = ActionType.UNDECIDED;
 		
 		mRiichiStatus = false;
 		mFuritenStatus = false;
@@ -428,7 +413,7 @@ public class Player {
 	*/
 	private int __askTurnActionHuman(TableViewer tviewer){
 		
-		int chosenAction = NO_ACTION_CHOSEN;
+		ActionType chosenAction = ActionType.UNDECIDED;
 		int chosenDiscardIndex = NO_DISCARD_CHOSEN;
 		
 		//show hand
@@ -439,16 +424,16 @@ public class Player {
 		tviewer.getClickTurnAction();
 		
 		if (tviewer.resultClickTurnActionWasDiscard()){
-			mTurnAction = TURN_ACTION_DISCARD;
+			mTurnAction = ActionType.DISCARD;
 			chosenDiscardIndex = tviewer.getResultClickedDiscard();
 			mChosenDiscardIndex = chosenDiscardIndex - 1;	//adjust for index
 			return mChosenDiscardIndex;
 		}
 		else{
-			if (tviewer.resultClickTurnActionWasAnkan()) chosenAction = TURN_ACTION_ANKAN;
-			if (tviewer.resultClickTurnActionWasMinkan()) chosenAction = TURN_ACTION_MINKAN;
-			if (tviewer.resultClickTurnActionWasRiichi()) chosenAction = TURN_ACTION_RIICHI;
-			if (tviewer.resultClickTurnActionWasTsumo()) chosenAction = TURN_ACTION_TSUMO;
+			if (tviewer.resultClickTurnActionWasAnkan()) chosenAction = ActionType.ANKAN;
+			if (tviewer.resultClickTurnActionWasMinkan()) chosenAction = ActionType.MINKAN;
+			if (tviewer.resultClickTurnActionWasRiichi()) chosenAction = ActionType.RIICHI;
+			if (tviewer.resultClickTurnActionWasTsumo()) chosenAction = ActionType.TSUMO;
 			mTurnAction = chosenAction;
 			return NO_DISCARD_CHOSEN;
 		}
@@ -463,28 +448,28 @@ public class Player {
 	@SuppressWarnings("unused")
 	private int __askTurnActionCom(){
 		
-		int chosenAction = NO_ACTION_CHOSEN;
+		ActionType chosenAction = ActionType.UNDECIDED;
 		int chosenDiscardIndex = NO_DISCARD_CHOSEN;
 		
 		//choose the first tile in the hand
-		if (COM_BEHAVIOR == COM_BEHAVIOR_DISCARD_FIRST) chosenDiscardIndex = 0;
+		if (COM_BEHAVIOR == ComBehavior.DISCARD_FIRST) chosenDiscardIndex = 0;
 		//choose the last tile in the hand (most recently drawn one)
-		if (COM_BEHAVIOR == COM_BEHAVIOR_DISCARD_LAST) chosenDiscardIndex = mHand.getSize() - 1;
+		if (COM_BEHAVIOR == ComBehavior.DISCARD_LAST) chosenDiscardIndex = mHand.getSize() - 1;
 		
 		
 //		if (mSeatWind == 'N')chosenDiscardIndex = mHand.getSize() - 1;
 //		if (mSeatWind == 'E')chosenDiscardIndex = mHand.getSize() - 1;
 		
-		if (DEBUG_COMPUTERS_MAKE_ACTIONS && ableToAnkan()) chosenAction = TURN_ACTION_ANKAN;
-		if (DEBUG_COMPUTERS_MAKE_ACTIONS && ableToMinkan()) chosenAction = TURN_ACTION_MINKAN;
-		if (DEBUG_COMPUTERS_MAKE_ACTIONS && ableToTsumo()) chosenAction = TURN_ACTION_TSUMO;
+		if (DEBUG_COMPUTERS_MAKE_ACTIONS && ableToAnkan()) chosenAction = ActionType.ANKAN;
+		if (DEBUG_COMPUTERS_MAKE_ACTIONS && ableToMinkan()) chosenAction = ActionType.MINKAN;
+		if (DEBUG_COMPUTERS_MAKE_ACTIONS && ableToTsumo()) chosenAction = ActionType.TSUMO;
 		
-		if (chosenAction != NO_ACTION_CHOSEN){
+		if (chosenAction != ActionType.UNDECIDED){
 			mTurnAction = chosenAction;
 			return NO_DISCARD_CHOSEN;
 		}
 		else{
-			mTurnAction = TURN_ACTION_DISCARD;
+			mTurnAction = ActionType.DISCARD;
 			mChosenDiscardIndex = chosenDiscardIndex;
 			return mChosenDiscardIndex;
 		}
@@ -495,12 +480,12 @@ public class Player {
 	
 	
 	public boolean turnActionMadeKan(){return (turnActionMadeAnkan() || turnActionMadeMinkan());}
-	public boolean turnActionMadeAnkan(){return (mTurnAction == TURN_ACTION_ANKAN);}
-	public boolean turnActionMadeMinkan(){return (mTurnAction == TURN_ACTION_MINKAN);}
-	public boolean turnActionCalledTsumo(){return (mTurnAction == TURN_ACTION_TSUMO);}
-	public boolean turnActionChoseDiscard(){return (mTurnAction == TURN_ACTION_DISCARD);}
+	public boolean turnActionMadeAnkan(){return (mTurnAction == ActionType.ANKAN);}
+	public boolean turnActionMadeMinkan(){return (mTurnAction == ActionType.MINKAN);}
+	public boolean turnActionCalledTsumo(){return (mTurnAction == ActionType.TSUMO);}
+	public boolean turnActionChoseDiscard(){return (mTurnAction == ActionType.DISCARD);}
 //	public boolean turnActionChoseDiscard(){return (mTurnAction == TURN_ACTION_DISCARD || mTurnAction == TURN_ACTION_RIICHI);}
-	public boolean turnActionRiichi(){return (mTurnAction == TURN_ACTION_DISCARD || mTurnAction == TURN_ACTION_RIICHI);}
+	public boolean turnActionRiichi(){return (mTurnAction == ActionType.RIICHI);}
 	
 	
 	//turn actions
@@ -788,8 +773,8 @@ public class Player {
 	
 	
 	//will use these for chankan later
-	public int reactToAnkan(Tile t){return CALLED_NONE;}
-	public int reactToMinkan(Tile t){return CALLED_NONE;}
+	public boolean reactToAnkan(Tile t){return false;}
+	public boolean reactToMinkan(Tile t){return false;}
 	
 	
 	

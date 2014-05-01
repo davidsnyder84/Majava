@@ -3172,7 +3172,7 @@ public class TableViewer extends JFrame{
 		labelWeHaveFun = new JLabel("");
 		labelWeHaveFun.setIcon(sheepImg);
 		labelWeHaveFun.setBounds(4, 5, 270, 345);
-		labelWeHaveFun.setBounds(-500, -500, 270, 345);
+//		labelWeHaveFun.setBounds(-500, -500, 270, 345);
 		panelSidebar.add(labelWeHaveFun);
 		
 		

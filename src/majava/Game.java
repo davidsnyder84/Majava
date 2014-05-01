@@ -31,12 +31,14 @@ methods:
 public class Game {
 	
 	public static final int NUM_PLAYERS = 4;
-	public static final char DEFAULT_ROUND_WIND = 'E';
+	public static final Wind DEFAULT_ROUND_WIND = Wind.EAST;
 	
-	public static final int GAME_TYPE_SINGLE = 0;
-	public static final int GAME_TYPE_TONPUUSEN = 1;
-	public static final int GAME_TYPE_HANCHAN = 2;
-	public static final int GAME_TYPE_DEFAULT = GAME_TYPE_SINGLE;
+	
+	
+	private enum GameType{
+		SINGLE, TONPUUSEN, HANCHAN;
+	}
+	public static final GameType GAME_TYPE_DEFAULT = GameType.SINGLE;
 
 	public static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	
@@ -50,13 +52,12 @@ public class Game {
 	private TableViewer mTviewer;
 	
 	
-	private char mRoundWind;
+	private Wind mRoundWind;
 	private int mRoundNum;
 	private int mRoundBonusNum;
 	
-	private int mGameType;
+	private GameType mGameType;
 	private boolean mGameIsOver;
-//	private int mGameResult;
 	
 	
 	private Round mCurrentRound;
@@ -71,7 +72,9 @@ public class Game {
 	/*
 	initializes a game
 	*/
-	public Game(TableViewer tviewer, Player[] playerArray, int gameType){
+	public Game(TableViewer tviewer, Player[] playerArray){
+
+		__setGameType(GAME_TYPE_DEFAULT);
 		
 		mPlayerArray = playerArray;
 		p1 = mPlayerArray[0]; p2 = mPlayerArray[1]; p3 = mPlayerArray[2]; p4 = mPlayerArray[3];
@@ -79,27 +82,23 @@ public class Game {
 		
 		//initializes round info
 		mRoundWind = DEFAULT_ROUND_WIND;mRoundNum = 1;mRoundBonusNum = 0;
-		
+
 		mGameIsOver = false;
-		
-		if (gameType == GAME_TYPE_SINGLE || gameType == GAME_TYPE_TONPUUSEN || gameType == GAME_TYPE_HANCHAN)
-			mGameType = gameType;
-		else
-			mGameType = GAME_TYPE_DEFAULT;
-		
-		
-		mTviewer = tviewer;
-		
 		mWinStrings = new ArrayList<String>();
 		
+		mTviewer = tviewer;
 		mDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
 	}
-	//defaults to single round game
-	public Game(TableViewer tviewer, Player[] playerArray){this(tviewer, playerArray, GAME_TYPE_DEFAULT);}
 	
 	
 	
-	
+	//set the game type
+	private void __setGameType(GameType gametype){
+		mGameType = gametype;
+	}
+	public void setGameTypeSingle(){__setGameType(GameType.SINGLE);}
+	public void setGameTypeTonpuusen(){__setGameType(GameType.TONPUUSEN);}
+	public void setGameTypeHanchan(){__setGameType(GameType.HANCHAN);}
 	
 	
 	
@@ -117,7 +116,8 @@ public class Game {
 	*/
 	public void play(){
 		
-		runSimulation();
+//		runSimulation();
+		if (mDoFastGameplay && p1.controllerIsComputer() && p2.controllerIsComputer() && p3.controllerIsComputer() && p4.controllerIsComputer()) runSimulation();
 		
 		
 		//play one round
@@ -180,8 +180,8 @@ public class Game {
 	
 	
 	//accessors
-	public int getGameType(){return mGameType;}
-	public char getRoundWind(){return mRoundWind;}
+//	public int getGameType(){return mGameType;}
+	public Wind getRoundWind(){return mRoundWind;}
 	public boolean gameIsOver(){return mGameIsOver;}
 	
 	

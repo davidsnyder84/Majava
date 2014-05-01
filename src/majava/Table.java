@@ -183,7 +183,7 @@ public class Table {
 	
 	
 	//accessors
-	public int getGameType(){return mCurrentGame.getGameType();}
+//	public int getGameType(){return mCurrentGame.getGameType();}
 	public boolean gameIsOver(){return mCurrentGame.gameIsOver();}
 	
 	

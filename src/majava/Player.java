@@ -141,6 +141,7 @@ public class Player {
 
 	
 	
+	
 	private static final Wind SEAT_DEFAULT = Wind.UNKNOWN;
 	public static final Controller CONTROLLER_DEFAULT = Controller.UNDECIDED;
 	public static final String PLAYERNAME_DEFAULT = "Kyoutarou";

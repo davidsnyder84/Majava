@@ -105,33 +105,27 @@ public class Round {
 	
 	/*
 	method: play
-	plays a new game of mahjong with four new players
-	 
-	 
-	before play is called:
-		wall/deadwall is set up
-		round wind = East
-	 
-	deal hands
-	 
-	whoseTurn = 1;
-	while (game is not over)
-		mReaction = no reaction;
-		
-		//handle player turns here
-	 	if (it is p1's turn && game is not over): do p1's turn
-	 	if (it is p2's turn && no calls were made && game is not over): do p2's turn
-	 	if (it is p3's turn && no calls were made && game is not over): do p3's turn
-	 	if (it is p4's turn && no calls were made && game is not over): do p4's turn
-
-
-	 	//handle reactions here
-	 	if (reaction): handleReaction
-	end while
+	plays a single round of mahjong with the round's players
 	
-	display endgame result
+	if (round is already over): return early
+	
+	deal hands
+	loop while (game is not over)
+		handle current player's turn
+		if (round is not over, and a call was made on the current player's discard)
+			handle the reaction to the player's discard
+		end if
+	end loop
+	
+	display end of round result
 	*/
 	public void play(){
+		
+		if (mRoundTracker.roundIsOver()){
+			System.out.println("----Error: Round is already over, cannot play");
+			return;
+		}
+		
 		
 		//------------------------------------------------DEBUG INFO
 		if (DEBUG_LOAD_DEBUG_WALL) mWall.loadDebugWall();
@@ -144,7 +138,7 @@ public class Round {
 		//deal and sort hands
 		mWall.dealHands(p1, p2, p3, p4);
 		p1.sortHand(); p2.sortHand(); p3.sortHand(); p4.sortHand();
-		updateWindow();
+		__updateWindow();
 		
 
 		//------------------------------------------------DEBUG INFO
@@ -161,13 +155,13 @@ public class Round {
 		while (!mRoundTracker.roundIsOver()){
 
 			//handle player turns
-			doPlayerTurn(mRoundTracker.currentPlayer());
+			__doPlayerTurn(mRoundTracker.currentPlayer());
 			
 
 			//handle reactions here
 			if (!mRoundTracker.roundIsOver())
 				if (mRoundTracker.callWasMadeOnDiscard())
-					handleReaction();
+					__handleReaction();
 			
 		}
 		
@@ -178,41 +172,33 @@ public class Round {
 	
 	
 	
+	
+	
 
 	
 	/*
-	method: doPlayerTurn
-	handles a player's turn, and the other players' reactions to the player's turn
-	
-	input: p is the player whose turn it is
-	
-	returns the tile that the player discarded
+	private method: __doPlayerTurn
+	handles player p's turn, and gets the other players' reactions to the p's turn
 	
 	
-	if (player needs to draw)
-		take tile from wall or dead wall depending on what player needs
-		if (there were no tiles left in the wall to take)
-			gameIsOver = true, result = washout
-			return null
-		else
-			add the tile to the player's hand
-		end if
-	end if
+	if (player needs to draw): give player a tile
+	if (round is over): return
 	
- 	discardedTile = player's chosen discard
+	loop while (the player has not chosen a discard)
+		let the player do something
+	end loop
+	
  	display what the player discarded
- 	get the other players' reactions to the discarded tile
- 	(the players will "make a call", the call won't actually be handled yet)
+ 	get the other players' reactions to the discarded tile (the players will "make a call", the call won't actually be handled yet)
  	
-	whoseTurn++
-	return discardedTile
+	if the wall is not empty and no one made a call, move to the next player's turn
 	*/
-	private void doPlayerTurn(Player p){
+	private void __doPlayerTurn(Player p){
 		
 		//~~~~~~handle drawing a tile
 		//if the player needs to draw a tile, draw a tile
 		if (p.needsDraw()){
-			givePlayerTile(p);
+			__givePlayerTile(p);
 		}
 		
 		
@@ -230,15 +216,15 @@ public class Round {
 			//if the player made an ankan or minkan, they need a rinshan draw
 			if (p.needsDrawRinshan()){
 				
-				showExclamation("Kan!", p);
+				__showExclamation("Kan!", p);
 				
 				//give player a rinshan draw
-				givePlayerTile(p);
+				__givePlayerTile(p);
 				
 			}
 			
 			if (p.turnActionCalledTsumo()){
-				showExclamation("Tsumo", p);
+				__showExclamation("Tsumo", p);
 				mRoundTracker.setResultVictory(p);
 			}
 			
@@ -256,13 +242,13 @@ public class Round {
 		
 		
 		//show the human player their hand
-		showHandsOfHumanPlayers();
+		__showHandsOfHumanPlayers();
 		
 		//show the discarded tile and the discarder's pond
 		System.out.println("\n\n\tTiles left: " + mWall.getNumTilesLeftInWall());
 		System.out.println("\t" + p.getSeatWind() + " Player's discard: ^^^^^" + mRoundTracker.getMostRecentDiscard().toString() + "^^^^^");
 		p.showPond();
-		updateWindow();
+		__updateWindow();
 		
 		
 		
@@ -291,7 +277,7 @@ public class Round {
 	
 	
 	//gives a player a tile from the wall or dead wall
-	private void givePlayerTile(Player p){
+	private void __givePlayerTile(Player p){
 		
 		Tile drawnTile = null;
 		if (p.needsDraw() == false) return;
@@ -326,7 +312,7 @@ public class Round {
 		
 		//add the tile to the player's hand
 		p.addTileToHand(drawnTile);
-		updateWindow();
+		__updateWindow();
 	}
 	
 	
@@ -361,7 +347,7 @@ public class Round {
 	whoseTurn = priorityCaller's turn
 	reaction = NO_REACTION
 	*/
-	private void handleReaction(){
+	private void __handleReaction(){
 		
 		
 		//remove the tile from the discarder's pond (because it is being called)
@@ -370,10 +356,10 @@ public class Round {
 		
 		
 		//figure out who called the tile, and if multiple players called, who gets priority
-		Player priorityCaller = whoCalled();
+		Player priorityCaller = __whoCalled();
 		
 		//show the call
-		showExclamation(priorityCaller.getCallStatusString(), priorityCaller);
+		__showExclamation(priorityCaller.getCallStatusString(), priorityCaller);
 		
 		
 		//give the caller the discarded tile so they can make their meld
@@ -391,7 +377,7 @@ public class Round {
 			
 			//make the meld
 			priorityCaller.makeMeld(discardedTile);
-			updateWindow();
+			__updateWindow();
 			//meld has been made
 			
 
@@ -447,7 +433,7 @@ public class Round {
 	whoseTurn = the player who made the call's turn
 	reaction = NO_REACTION
 	*/
-	private Player whoCalled(){
+	private Player __whoCalled(){
 		
 		Player callingPlayer = null;
 		Player callerPon = null, callerRon = null;
@@ -522,7 +508,10 @@ public class Round {
 	method: showHandsOfHumanPlayers
 	shows the hands of all human players in the game
 	*/
-	private void showHandsOfHumanPlayers(){for (Player p: mPlayerArray) if (p.controllerIsHuman()) p.showHand();}
+	private void __showHandsOfHumanPlayers(){for (Player p: mPlayerArray) if (p.controllerIsHuman()) p.showHand();}
+	
+	
+	
 	
 	
 	
@@ -544,7 +533,7 @@ public class Round {
 		
 		mRoundTracker.printRoundResult();
 		
-		updateWindow();
+		__updateWindow();
 		
 		for (Player p: mPlayerArray) p.showHand();
 		
@@ -555,14 +544,14 @@ public class Round {
 	
 	
 	
-	private void updateWindow(){
+	private void __updateWindow(){
 		mTviewer.updateEverything();
-		//pause for dramatic effect (like after a computer's turn)
+		//pause for dramatic effect
 		mPauser.pauseWait();
 	}
 	
 	
-	private void showExclamation(String exclamation, Player p){
+	private void __showExclamation(String exclamation, Player p){
 		mTviewer.showExclamation(exclamation, mRoundTracker.getSeatNumber(p), sleepTimeExclamation);
 	}
 	

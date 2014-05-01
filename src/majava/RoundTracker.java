@@ -84,7 +84,7 @@ public class RoundTracker {
 		mRoundNum = roundNum;
 		mRoundBonusNum = roundBonus;
 		
-		mWhoseTurn = 1;
+		mWhoseTurn = 0;
 		mMostRecentDiscard = null;
 		
 		mRoundResult = new RoundResult();
@@ -163,13 +163,12 @@ public class RoundTracker {
 	
 	
 	public void nextTurn(){
-		mWhoseTurn++;
-		if (mWhoseTurn > NUM_PLAYERS) mWhoseTurn = 1;
+		mWhoseTurn = (mWhoseTurn + 1) % 4;
 	}
-	public void setTurn(int turn){if (turn <= NUM_PLAYERS) mWhoseTurn = turn;}
+	public void setTurn(int turn){if (turn < NUM_PLAYERS) mWhoseTurn = turn;}
 	public int whoseTurn(){return mWhoseTurn;}
 	
-	public Player currentPlayer(){return mPTrackers[mWhoseTurn - 1].player;}
+	public Player currentPlayer(){return mPTrackers[mWhoseTurn].player;}
 	
 	
 	
@@ -191,7 +190,7 @@ public class RoundTracker {
 	
 	
 	public boolean callWasMadeOnDiscard(){
-		for (int i = 0; i < 3; i++)
+		for (int i = 1; i < 4; i++)
 			if (mPTrackers[(mWhoseTurn + i) % 4].player.called())
 				return true;
 		return false;

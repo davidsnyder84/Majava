@@ -801,13 +801,13 @@ public class Player {
 	public int getHandSize(){return mHand.getSize();}
 	public Wind getSeatWind(){return mSeatWind;}
 	//returns 1,2,3,4, corresponding to seat wind E,S,W,N
-	public int getPlayerNumber(){
-		if (mSeatWind == Wind.EAST) return 1;
-		else if (mSeatWind == Wind.SOUTH) return 2;
-		else if (mSeatWind == Wind.WEST) return 3;
-		else if (mSeatWind == Wind.NORTH) return 4;
-		else return 0;
-	}
+//	public int getPlayerNumber(){
+//		if (mSeatWind == Wind.EAST) return 1;
+//		else if (mSeatWind == Wind.SOUTH) return 2;
+//		else if (mSeatWind == Wind.WEST) return 3;
+//		else if (mSeatWind == Wind.NORTH) return 4;
+//		else return 0;
+//	}
 	public String getPlayerName(){return mPlayerName;}
 	
 	
@@ -866,7 +866,10 @@ public class Player {
 	
 	
 	//mutator for seat wind
+//	public void setSeatWind(Wind wind){mSeatWind = wind;}
 	private void __setSeatWind(Wind wind){mSeatWind = wind;}
+	
+	public void rotateSeat(){__setSeatWind(mSeatWind.prev());}
 	public void setSeatWindEast(){__setSeatWind(Wind.EAST);}
 	public void setSeatWindSouth(){__setSeatWind(Wind.SOUTH);}
 	public void setSeatWindWest(){__setSeatWind(Wind.WEST);}

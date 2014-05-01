@@ -31,13 +31,6 @@ public enum Wind {
 	}
 	public char toChar(){
 		return this.toString().charAt(0);
-//		switch (this){
-//		case EAST: return 'E';
-//		case SOUTH: return 'S';
-//		case WEST: return 'W';
-//		case NORTH: return 'N';
-//		default: return 'U';
-//		}
 	}
 	public int getNum(){
 		switch(this){
@@ -52,18 +45,18 @@ public enum Wind {
 	
 	
 	
-	public static void main(String[] args) {
-		Wind w = Wind.EAST;
-		System.out.println(w.toString());
-		System.out.println(w.toChar());
-
-		w = w.next();
-		System.out.println(w.toString());
-		System.out.println(w.toChar());
-		
-		w = w.prev();
-		System.out.println(w.toString());
-		System.out.println(w.toChar());
-	}
+//	public static void main(String[] args) {
+//		Wind w = Wind.EAST;
+//		System.out.println(w.toString());
+//		System.out.println(w.toChar());
+//
+//		w = w.next();
+//		System.out.println(w.toString());
+//		System.out.println(w.toChar());
+//		
+//		w = w.prev();
+//		System.out.println(w.toString());
+//		System.out.println(w.toChar());
+//	}
 
 }

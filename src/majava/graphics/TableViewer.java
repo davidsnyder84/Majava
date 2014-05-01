@@ -540,7 +540,7 @@ public class TableViewer extends JFrame{
 		
 		//update turn indicators
 		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
-			parryTurnInds[currentPlayer].setVisible(mRoundTracker.whoseTurn() == currentPlayer+1);
+			parryTurnInds[currentPlayer].setVisible(mRoundTracker.whoseTurn() == currentPlayer);
 		}
 		
 		
@@ -727,7 +727,7 @@ public class TableViewer extends JFrame{
 		mChosenDiscard = NO_DISCARD_CHOSEN;
 		
 		//add appropriate player call buttons
-		Player currentPlayer = mPTrackers[mRoundTracker.whoseTurn()-1].player;
+		Player currentPlayer = mPTrackers[mRoundTracker.whoseTurn()].player;
 		
 //		//show riichi if player is in tenpai
 //		if (currentPlayer.checkTenpai()) barryTActions[BARRY_TACTIONS_RIICHI].setVisible(true);

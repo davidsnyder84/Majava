@@ -398,7 +398,7 @@ public class Round {
 		
 		//it is now the calling player's turn (if the round isn't over)
 		if (!mRoundTracker.roundIsOver())
-			mRoundTracker.setTurn(priorityCaller.getPlayerNumber());
+			mRoundTracker.setTurn(mRoundTracker.getSeatNumber(priorityCaller));
 	}
 	
 	
@@ -569,7 +569,7 @@ public class Round {
 		
 		final int FAST_SLEEPTIME = 0;
 		final int FAST_SLEEPTIME_EXCLAMATION = 0;
-		final int FAST_SLEEPTIME_ROUND_END = 0;
+		final int FAST_SLEEPTIME_ROUND_END = 1000;
 		
 		
 		if (mDoFastGameplay){

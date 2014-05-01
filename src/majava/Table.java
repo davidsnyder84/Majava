@@ -201,6 +201,9 @@ public class Table {
 			System.out.println("\n\n\n\n");
 			
 			Table table = new Table();
+			
+			table.setOptionFastGameplay(true);
+			table.setOptionSinglePlayerMode(false);
 			table.play();
 		}
 	}

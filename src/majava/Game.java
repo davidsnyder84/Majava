@@ -141,7 +141,7 @@ public class Game {
 	*/
 	public void runSimulation(){
 		
-		final int NUM_ROUNDS_TO_PLAY = 100;
+		final int NUM_ROUNDS_TO_PLAY = 200;
 
 		
 		
@@ -155,12 +155,22 @@ public class Game {
 				if (mCurrentRound.getWinningHandString().charAt(16) != ',')
 				mWinStrings.add(mCurrentRound.getWinningHandString());
 			}
+			
+			__rotateSeats();
 		}
 		
 		mGameIsOver = true;
 		
 		displayGameResult();
 	}
+	
+	
+	
+	private void __rotateSeats(){
+		for (Player p: mPlayerArray)
+			p.rotateSeat();
+	}
+	
 	
 	
 	

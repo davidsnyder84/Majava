@@ -49,13 +49,13 @@ public class GenSort <T extends Comparable<T> > {
 	
 	
 	
-	//sorts mListToSort with a shitty selection sort, ascending order
+	//sorts mListToSort with a selection sort, ascending order
 	public void sort(){
 		sortAscending();
 	}
 	
 
-	//sorts mListToSort with a shitty selection sort, ascending order
+	//sorts mListToSort with a selection sort, ascending order
 	public void sortAscending(){
 
 		checkListLength();
@@ -78,7 +78,7 @@ public class GenSort <T extends Comparable<T> > {
 	
 	
 	
-	//sorts mListToSort with a shitty selection sort, descending order
+	//sorts mListToSort with a selection sort, descending order
 	public void sortDescending(){
 		
 		checkListLength();

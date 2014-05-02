@@ -924,7 +924,10 @@ public class TableViewer extends JFrame{
 		ImageIcon wind4Img = new ImageIcon(getClass().getResource("/res/img/winds/small/transNs.png"));
 		
 		ImageIcon riichiImg = new ImageIcon(getClass().getResource("/res/img/other/riichiStick.png"));
-		ImageIcon sheepImg = new ImageIcon(getClass().getResource("/res/img/other/sheepy2trans.png"));
+//		ImageIcon sheepImg = new ImageIcon(getClass().getResource("/res/img/other/sheepy2trans.png"));
+//		ImageIcon sheepImg = new ImageIcon(getClass().getResource("/res/img/other/birdClipart.png"));
+		ImageIcon sheepImg = new ImageIcon(getClass().getResource("/res/img/other/birdClipart2.png"));
+//		ImageIcon sheepImg = new ImageIcon(getClass().getResource("/res/img/other/birdClipart3.png"));
 		
 		/*................................................DEMO PURPOSES.......................................................*/
 		
@@ -3673,11 +3676,6 @@ public class TableViewer extends JFrame{
 		barryCalls[7] = btnCallChi;
 		
 		barryTActions[0] = buttonRiichi;barryTActions[1] = buttonAnkan;barryTActions[2] = buttonMinkan;barryTActions[3] = buttonTsumo;
-		
-		
-		
-		//load image icons into arrays
-//		__loadImagesIntoArrays();
 		
 		
 

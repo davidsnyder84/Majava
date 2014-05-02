@@ -36,12 +36,6 @@ methods:
 public class Table {
 	
 	public static final int NUM_PLAYERS = 4;
-	public static final char DEFAULT_ROUND_WIND = 'E';
-	
-	public static final int GAME_TYPE_SINGLE = 0;
-	public static final int GAME_TYPE_TONPUUSEN = 1;
-	public static final int GAME_TYPE_HANCHAN = 2;
-	public static final int GAME_TYPE_DEFAULT = GAME_TYPE_SINGLE;
 	
 	
 	//for debug use
@@ -69,17 +63,12 @@ public class Table {
 	
 	
 	/*
-	1-arg Constructor
-	initializes a table to make it ready for playing
+	no-arg Constructor
+	initializes a table, creates a GUI to view the table
 	
-	input: gameType is the length of game that will be played (single, tonpuusen, or hanchan)
-	
-	creates a player for each seat (4)
-	creates the wall
-	
-	initializes round and game info
+	initializes options for games that will be played at the table
 	*/
-	public Table(int gameType){
+	public Table(){
 		
 		//initialize Table Viewer
 		mTviewer = new TableViewer();
@@ -88,8 +77,7 @@ public class Table {
 		mDoSinglePlayer = DEFAULT_DO_SINGLE_PLAYER;
 		mDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
 	}
-	//no-arg constuctor, defaults to single round game
-	public Table(){this(GAME_TYPE_DEFAULT);}
+	
 	
 	
 	/*
@@ -97,7 +85,7 @@ public class Table {
 	plays a new game of mahjong with the table's four players
 	 
 	decide seat order
-	play round
+	play game
 	*/
 	public void play(){
 		
@@ -116,7 +104,7 @@ public class Table {
 		mCurrentGame.play();
 		
 		//close the window
-		Pauser.pauseFor(3000);
+		Pauser.pauseFor(8000);
 		mTviewer.dispose();
 	}
 	
@@ -195,17 +183,13 @@ public class Table {
 	public static void main(String[] args) {
 		
 		System.out.println("Welcome to Majava (Table)!");
-		boolean keepgoing = true;
+		System.out.println("\n\n\n\n");
 		
-		if (keepgoing){
-			System.out.println("\n\n\n\n");
-			
-			Table table = new Table();
-			
-			table.setOptionFastGameplay(true);
-			table.setOptionSinglePlayerMode(false);
-			table.play();
-		}
+		Table table = new Table();
+		
+		table.setOptionFastGameplay(true);
+		table.setOptionSinglePlayerMode(false);
+		table.play();
 	}
 	
 

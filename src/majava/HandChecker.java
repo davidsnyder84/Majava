@@ -951,7 +951,8 @@ public class HandChecker {
 		
 		for (Integer id: hotTileIDs){
 			//get a hot tile (and mark it with the hand's seat wind, so chi is valid)
-			currentHotTile = new Tile(id, mHand.getOwnerSeatWind());
+			currentHotTile = new Tile(id);
+			currentHotTile.setOwner(mHand.getOwnerSeatWind());
 			
 			//make a copy of the hand, add the current hot tile to that copy, sort the copy
 			handTilesCopy = mHandTiles.makeCopy();

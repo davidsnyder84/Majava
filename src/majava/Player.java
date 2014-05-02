@@ -446,7 +446,6 @@ public class Player {
 	private method: __askDiscardCom
 	asks a computer player which tile they want to discard, returns their choice
 	*/
-	@SuppressWarnings("unused")
 	private int __askTurnActionCom(){
 		
 		ActionType chosenAction = ActionType.UNDECIDED;
@@ -458,8 +457,8 @@ public class Player {
 		if (COM_BEHAVIOR == ComBehavior.DISCARD_LAST) chosenDiscardIndex = mHand.getSize() - 1;
 		
 		
-//		if (mSeatWind == 'N')chosenDiscardIndex = mHand.getSize() - 1;
-//		if (mSeatWind == 'E')chosenDiscardIndex = mHand.getSize() - 1;
+//		if (mSeatWind == Wind.NORTH)chosenDiscardIndex = mHand.getSize() - 1;
+//		if (mSeatWind == Wind.EAST)chosenDiscardIndex = mHand.getSize() - 1;
 		
 		if (DEBUG_COMPUTERS_MAKE_ACTIONS && ableToAnkan()) chosenAction = ActionType.ANKAN;
 		if (DEBUG_COMPUTERS_MAKE_ACTIONS && ableToMinkan()) chosenAction = ActionType.MINKAN;

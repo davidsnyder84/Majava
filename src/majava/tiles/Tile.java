@@ -92,7 +92,8 @@ public class Tile implements Comparable<Tile> {
 	
 	
 	
-	//2-arg Constructor, takes tile ID and boolean value for if it's a Red Dora 
+	//2-arg Constructor, takes tile ID and boolean value for if it's a Red Dora
+	//Takes ID of tile (and optional red dora flag)
 	public Tile(int id, boolean isRed){
 		
 		mID = id;
@@ -101,19 +102,24 @@ public class Tile implements Comparable<Tile> {
 
 		mOriginalOwner = Wind.UNKNOWN;
 		mRedDora = false;
-		if (isRed) setRedDora();
+		if (isRed) __setRedDora();
 	}
 	//1-arg Constructor, takes tile ID
 	public Tile(int id){this(id, false);}
-	//2-arg, takes string representation, and boolean red dora flag
-	public Tile(String suitfaceString, boolean isRed){this(repr_idOfStringRepr(suitfaceString), isRed);}
-	//1-arg, takes string representation of tile
-	public Tile(String suitfaceString){this(repr_idOfStringRepr(suitfaceString.toUpperCase()));}
-	//2-arg, takes id and sets an onwer's seat wind
-	public Tile(int id, Wind ownerWind){
-		this(id);
-		mOriginalOwner = ownerWind;
+	
+	
+	//Takes string representation of tile (and optional red dora flag)
+	public Tile(String suitfaceString, boolean isRed){
+		this((STR_REPS_BY_ID.indexOf(suitfaceString.toUpperCase()) / 2 + 1), isRed);
 	}
+	public Tile(String suitfaceString){this(suitfaceString, false);}
+	
+	
+//	//2-arg, takes id and sets an onwer's seat wind
+//	public Tile(int id, Wind ownerWind){
+//		this(id);
+//		mOriginalOwner = ownerWind;
+//	}
 	public Tile(Tile other){
 		mID = other.mID;
 		mSuit = other.mSuit;
@@ -123,6 +129,12 @@ public class Tile implements Comparable<Tile> {
 	}
 	
 //	public Object clone(){return null;} 
+	
+
+	//makes the tile a red dora tile
+	final private void __setRedDora(){if (mFace == '5') mRedDora = true;}
+	
+	
 	
 	
 	//accessors
@@ -140,8 +152,6 @@ public class Tile implements Comparable<Tile> {
 		mOriginalOwner = owner;
 	}
 	
-	//makes the tile a red dora tile
-	final public void setRedDora(){if (mFace == '5') mRedDora = true;}
 	
 	
 	
@@ -237,7 +247,7 @@ public class Tile implements Comparable<Tile> {
 	//returns true if the tiles have the same ID
 	@Override
 	final public boolean equals(Object other){
-		if (other == null || (other instanceof Tile) == false)
+		if (other == null || !(other instanceof Tile))
 			return false;
 		
 		return (mID == ((Tile)other).mID);
@@ -254,53 +264,19 @@ public class Tile implements Comparable<Tile> {
 	
 	
 	
-	//returns all of the tile's info as a string (for debug use)
-	public String toStringAllInfo(){
-		
-		String tileString = "";
-		tileString += "Tile: " + mSuit + mFace + '\n';
-		tileString += "\tID: " + mID + ", Suit: " + mSuit + ", Face: " + mFace + '\n';
-		tileString += "\tOriginal Owner: " + mOriginalOwner + '\n';
-		tileString += "\tRed Dora?: " + mRedDora + ", Yaochuu?: " + isYaochuu() + '\n';
-		tileString += "\tNext tile: " + nextTile() + '\n';
-
-		tileString += "\tHot tiles: ";
-		ArrayList<Integer> hotTiles = findHotTiles();
-		for (Integer i: hotTiles)
-			tileString += repr_stringReprOfId(i) + ", ";
-		
-		tileString = tileString.substring(0, tileString.length() - 2);
-		return tileString;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
 	
 	//takes a tile ID, returns the string representation of that ID
-	public static String repr_stringReprOfId(int id){
+	private static String repr_stringReprOfId(int id){
 		return STR_REPS_BY_ID.substring(2*(id-1), 2*(id-1) + 2);
 	}
 	//takes a tile ID, returns the suit or face of that ID
-	public static char repr_suitOfId(int id){return STR_REPS_BY_ID.charAt(2*(id-1));}
-	public static char repr_faceOfId(int id){return STR_REPS_BY_ID.charAt(2*(id-1) + 1);}
+	private static char repr_suitOfId(int id){return STR_REPS_BY_ID.charAt(2*(id-1));}
+	private static char repr_faceOfId(int id){return STR_REPS_BY_ID.charAt(2*(id-1) + 1);}
 	
 	
-	//takes a string representation of a tile, returns the ID that tile would have
-	public static int repr_idOfStringRepr(String strRep){
-		int id = STR_REPS_BY_ID.indexOf(strRep);
-		if (id < 0) return -1;
-		return (id / 2 + 1);
-	}
-	//overloaded to accept 2 characters instead of a string
-	public static int repr_idOfStringRepr(char suit, char face){return repr_idOfStringRepr(Character.toString(suit) + Character.toString(face));}
 	
 	//returns a list of all Yaochuu tiles (terminal or honor)
 	public static TileList listOfYaochuuTiles(){return (new TileList(LIST_OF_YAOCHUU_TILES));}

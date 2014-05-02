@@ -135,10 +135,8 @@ public class Round {
 		
 		
 		
-		//deal and sort hands
-		mWall.dealHands(p1, p2, p3, p4);
-		p1.sortHand(); p2.sortHand(); p3.sortHand(); p4.sortHand();
-		__updateWindow();
+		//deal starting hands
+		__dealHands();
 		
 
 		//------------------------------------------------DEBUG INFO
@@ -169,6 +167,29 @@ public class Round {
 		displayRoundResult();
 	}
 	
+	
+	
+	
+	/*
+	private method: __dealHands
+	deals players their starting hands
+	*/
+	private void __dealHands(){
+
+		//get starting hands (as lists of tiles)
+		TileList tilesE = new TileList(), tilesS = new TileList(), tilesW = new TileList(), tilesN = new TileList();
+		mWall.getStartingHands(tilesE, tilesS, tilesW, tilesN);
+		
+		//add the tiles to the players' hands
+		for(Tile t: tilesE) p1.addTileToHand(t);
+		for(Tile t: tilesS) p2.addTileToHand(t);
+		for(Tile t: tilesW) p3.addTileToHand(t);
+		for(Tile t: tilesN) p4.addTileToHand(t);
+		
+		//sort the players' hands
+		p1.sortHand(); p2.sortHand(); p3.sortHand(); p4.sortHand();
+		__updateWindow();
+	}
 	
 	
 	

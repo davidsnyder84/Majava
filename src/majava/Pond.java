@@ -91,13 +91,12 @@ public class Pond {
 		String pondString = "";
 		
 		final int TILES_PER_LINE = 6;
-		for (i = 0; i < (mTiles.size() / TILES_PER_LINE) + 1; i++)
-		{
+		for (i = 0; i < (mTiles.size() / TILES_PER_LINE) + 1; i++){
+			
 			pondString += "\t";
 			for (j = 0; j < TILES_PER_LINE && (j + TILES_PER_LINE*i < mTiles.size()); j++)
-			{
 				pondString += mTiles.get(TILES_PER_LINE*i + j).toString() + " ";
-			}
+			
 			if (TILES_PER_LINE*i < mTiles.size())
 				pondString += "\n";
 		}

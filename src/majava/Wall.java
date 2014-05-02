@@ -116,23 +116,23 @@ public class Wall {
 	
 	
 	
+	
+	
 	/*
-	method: dealHands
-	deals a starting hand for each player
+	method: getStartingHands
+	deals starting hands
+	
+	fills the received TileLists with each player's starting hands
 	
 	East takes 4, South takes 4, West takes 4, North takes 4
     East takes 4, South takes 4, West takes 4, North takes 4
     East takes 4, South takes 4, West takes 4, North takes 4
     East takes 2, South takes 1, West takes 1, North takes 1
 	*/
-	public void dealHands(Player p1, Player p2, Player p3, Player p4){
-		TileList tilesE = new TileList();
-		TileList tilesS = new TileList();
-		TileList tilesW = new TileList();
-		TileList tilesN = new TileList();
+	public void getStartingHands(TileList tilesE, TileList tilesS, TileList tilesW, TileList tilesN){
 		
 		int i, j;
-		//each player takes 4, 3 times
+		//each player takes 4 tiles, three times
 		for (i = 0; i < 3; i++){
 			//east takes 4
 			for (j = 0; j < 4; j++) tilesE.add(takeTile());
@@ -153,13 +153,6 @@ public class Wall {
 		tilesW.add(takeTile());
 		//north takes 1
 		tilesN.add(takeTile());
-		
-		
-		//add the tiles to the hands
-		for(Tile t: tilesE) p1.addTileToHand(t);
-		for(Tile t: tilesS) p2.addTileToHand(t);
-		for(Tile t: tilesW) p3.addTileToHand(t);
-		for(Tile t: tilesN) p4.addTileToHand(t);
 	}
 	
 	
@@ -194,22 +187,18 @@ public class Wall {
 	private void __initialize(){
 		
 		mCurrentWallPosition = 0;
-		int i = mCurrentWallPosition;
+		int i = 0;
 		
+		final int IDM5 = 5, IDP5 = 14, IDS5 = 23;
 		
 		//fill the wall with 4 of each tile, in sequential order
+		//make red doras accordingly for fives (1 in man, 2 in pin, 1 in sou)
 		for (int id = 1; id <= Tile.NUMBER_OF_DIFFERENT_TILES; id++){
 			mTiles[i++] = new Tile(id);
 			mTiles[i++] = new Tile(id);
-			mTiles[i++] = new Tile(id);
-			mTiles[i++] = new Tile(id);
+			mTiles[i++] = new Tile(id, (id == IDP5) );
+			mTiles[i++] = new Tile(id, (id == IDM5 || id == IDP5 || id == IDS5) );
 		}
-		
-		//mark the red dora fives (1 in man, 2 in pin, 1 in sou)
-		mTiles[(5-1) * 4].setRedDora();
-		mTiles[((5-1) + 9) * 4].setRedDora();
-		mTiles[((5-1) + 9) * 4 + 1].setRedDora();
-		mTiles[((5-1) + 9*2) * 4].setRedDora();
 		
 		//shuffle the wall
 		GenSort<Tile> shuffler = new GenSort<Tile>(mTiles);

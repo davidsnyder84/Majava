@@ -78,10 +78,10 @@ public class MajaPlay {
 //		listEqualsTest();
 		
 		
-		playTileInheritance();
+//		playTileInheritance();
 		
 //		playFinishingMelds();
-		
+		nextTileTest();
 		
 		System.out.println();
 	}
@@ -390,7 +390,8 @@ public class MajaPlay {
 		
 		q = new Tile(1);
 		q.setOwner(ownerSeat.kamichaWind());
-		System.out.println("\nDiscarded tile: " + q.toStringAllInfo());
+//		System.out.println("\nDiscarded tile: " + q.toStringAllInfo());
+		System.out.println("\nDiscarded tile: " + q.toString());
 		h.checkCallableTile(q);
 		
 		System.out.println("Number of calls possible: " + h.numberOfCallsPossible());
@@ -419,7 +420,8 @@ public class MajaPlay {
 		q.setOwner(Wind.WEST);
 		
 
-		System.out.println("\nDiscarded tile: " + q.toStringAllInfo());
+//		System.out.println("\nDiscarded tile: " + q.toStringAllInfo());
+		System.out.println("\nDiscarded tile: " + q.toString());
 		System.out.println("Callable?: " + h.checkCallableTile(q));
 		
 	}
@@ -471,12 +473,14 @@ public class MajaPlay {
 
 		System.out.println("\nHot Tiles: ");
 		for (Integer i: hots)
-			System.out.print(Tile.repr_stringReprOfId(i) + ", ");
+//			System.out.print(Tile.repr_stringReprOfId(i) + ", ");
+			System.out.print((new Tile(i)).toString() + ", ");
 		
 		
 		System.out.println("\n\nCallable Tiles: ");
 		for (Integer i: callables)
-			System.out.print(Tile.repr_stringReprOfId(i) + ", ");
+//			System.out.print(Tile.repr_stringReprOfId(i) + ", ");
+			System.out.print((new Tile(i)).toString() + ", ");
 		
 	}
 	
@@ -502,21 +506,21 @@ public class MajaPlay {
 		tiles.add(new Tile("WW"));
 		
 		for (Tile t: tiles)
-			System.out.println(t.toStringAllInfo() + "\n");
+			System.out.println(t.toString() + ", next tile: " + t.nextTile().toString());
 	}
 	
 	
 	
 	public static void strToIdTest(){
-		System.out.println("ID of M2: " + Tile.repr_idOfStringRepr("M2"));
-		System.out.println("ID of M9: " + Tile.repr_idOfStringRepr("M9"));
-		System.out.println("ID of M1: " + Tile.repr_idOfStringRepr("M1"));
-		System.out.println("ID of C9: " + Tile.repr_idOfStringRepr("C9"));
-		System.out.println("ID of WE: " + Tile.repr_idOfStringRepr("WE"));
-		System.out.println("ID of WN: " + Tile.repr_idOfStringRepr("WN"));
-		System.out.println("ID of DG: " + Tile.repr_idOfStringRepr("DG"));
-		System.out.println("ID of DR: " + Tile.repr_idOfStringRepr("DR"));
-		System.out.println("ID of BO: " + Tile.repr_idOfStringRepr("BO"));
+//		System.out.println("ID of M2: " + Tile.repr_idOfStringRepr("M2"));
+//		System.out.println("ID of M9: " + Tile.repr_idOfStringRepr("M9"));
+//		System.out.println("ID of M1: " + Tile.repr_idOfStringRepr("M1"));
+//		System.out.println("ID of C9: " + Tile.repr_idOfStringRepr("C9"));
+//		System.out.println("ID of WE: " + Tile.repr_idOfStringRepr("WE"));
+//		System.out.println("ID of WN: " + Tile.repr_idOfStringRepr("WN"));
+//		System.out.println("ID of DG: " + Tile.repr_idOfStringRepr("DG"));
+//		System.out.println("ID of DR: " + Tile.repr_idOfStringRepr("DR"));
+//		System.out.println("ID of BO: " + Tile.repr_idOfStringRepr("BO"));
 	}
 	
 	
@@ -703,7 +707,7 @@ public class MajaPlay {
 		//System.out.println("\nt2 == M2?: ");
 		//System.out.println(t2.equals(new Tile(2)));
 		
-		System.out.println(t2.toStringAllInfo());
+//		System.out.println(t2.toStringAllInfo());
 		
 		System.out.println("\nHand contains t22?: ");
 		System.out.println(tiles.contains(t2));
@@ -928,7 +932,7 @@ public class MajaPlay {
 		TileList evenTiles = handTiles.getMultiple(0,2,4,6,8,10,12);
 		TileList oddTiles = handTiles.getMultiple(1,3,5,7,9,11,13);
 		
-		oddTiles.get(1).setRedDora();
+//		oddTiles.get(1).setRedDora();
 		oddTiles.get(2).setOwner(Wind.NORTH);
 		
 		System.out.println("List1: " + evenTiles.toString());

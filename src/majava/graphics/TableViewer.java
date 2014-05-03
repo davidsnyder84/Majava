@@ -107,9 +107,11 @@ public class TableViewer extends JFrame{
 	
 	private static final Color COLOR_POND_CALLED_TILE = new Color(250, 0, 0, 250);
 	private static final Color COLOR_POND_RIICHI_TILE = new Color(0, 0, 250, 250);
+	private static final Color COLOR_POND_DISCARD_TILE = Color.YELLOW;
 
 	
 	private static final int DEFAULT_SLEEP_TIME_EXCLAMATION = 1500;
+	private static final int DEFAULT_SLEEP_TIME_DISCARD = 400;
 	private static final int[][] EXCLAMATION_LOCS =  {{161, 688}, {708, 573}, {542, 6}, {3, 116}};
 	
 	
@@ -368,7 +370,7 @@ public class TableViewer extends JFrame{
 	
 	
 	
-	
+	private JLabel mMostRecentDiscard;
 
 	private int mChosenCall;
 	private int mChosenTurnAction;
@@ -418,9 +420,10 @@ public class TableViewer extends JFrame{
 		if ( ((PondTile)(tList.get(index))).wasCalled() ){
 			larryPonds[seatNum][index].setOpaque(true); larryPonds[seatNum][index].setBackground(COLOR_POND_CALLED_TILE);
 		}
-		if ( ((PondTile)(tList.get(index))).isRiichiTile() ){
-			seatNum = (seatNum + 1) % NUM_PLAYERS;
-		}
+//		mark label if 
+//		if ( ((PondTile)(tList.get(index))).isRiichiTile() ){
+//			seatNum = (seatNum + 1) % NUM_PLAYERS;
+//		}
 		
 		return garryTiles[seatNum][SMALL][id];
 	}
@@ -461,7 +464,19 @@ public class TableViewer extends JFrame{
 	
 	
 	
+	private int mNewTurn = -1;
+	private int mOldTurn = -1;
+	
 	public void updateEverything(){
+		
+		//erase the old discard marker if the turn has changed
+		mNewTurn = mRoundTracker.whoseTurn();
+		if (mNewTurn != mOldTurn && mOldTurn >= 0 && !mPTrackers[mOldTurn].tilesP.isEmpty()){__getLastLabelInPond(mOldTurn).setOpaque(false); __getLastLabelInPond(mOldTurn).setBackground(COLOR_TRANSPARENT);}
+		//mark the new discard marker
+		if (!mPTrackers[mNewTurn].tilesP.isEmpty() && mPTrackers[mNewTurn].player.needsDraw()){__getLastLabelInPond(mNewTurn).setOpaque(true); __getLastLabelInPond(mNewTurn).setBackground(COLOR_POND_DISCARD_TILE);}
+		mOldTurn = mNewTurn;
+		
+		
 		
 		int currentPlayer, currentTile;
 		int currentMeld;
@@ -497,14 +512,10 @@ public class TableViewer extends JFrame{
 			for (currentTile = 0; currentTile < SIZE_WALL; currentTile++)
 				larryWalls[currentPlayer][currentTile].setIcon(__getImageIconWall(tilesW, currentTile + currentPlayer*SIZE_WALL, currentPlayer, mOptionRevealWall));
 		}
-//		larryWallAll
+		//deal wall portion of wall
 		for (currentTile = POS_DORA_1; currentTile >= 2*(4 - mRoundTracker.getNumKansMade()); currentTile -= 2){
 			larryWallAll[OFFSET_DEAD_WALL + currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT4));
 		}
-//		larryWallAll
-//		for (currentTile = POS_DORA_1; currentTile >= 2*(4 - mRoundTracker.getNumKansMade()); currentTile -= 2){
-//			larryWalls[3][currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT2));
-//		}
 		
 		
 		//update dead wall
@@ -567,7 +578,8 @@ public class TableViewer extends JFrame{
 		for (JLabel[] lar: larryWalls)	//walls
 			for (JLabel l: lar) l.setIcon(null);
 		
-		for (JLabel[] lar: larryPonds)//ponds
+		//ponds
+		for (JLabel[] lar: larryPonds)
 			for (JLabel l: lar) {l.setIcon(null); l.setOpaque(false);}
 		
 		//melds
@@ -771,6 +783,8 @@ public class TableViewer extends JFrame{
 	
 	public void showExclamation(String exclamation, int seatNum, int sleepTime){
 		
+		if (mMostRecentDiscard != null) {mMostRecentDiscard.setOpaque(true); mMostRecentDiscard.setBackground(COLOR_POND_DISCARD_TILE);}
+		
 		//show a label
 		lblExclamation.setText(exclamation);
 		lblExclamation.setBounds(EXCLAMATION_LOCS[seatNum][0], EXCLAMATION_LOCS[seatNum][1], lblExclamation.getWidth(), lblExclamation.getHeight());
@@ -788,10 +802,10 @@ public class TableViewer extends JFrame{
 	
 	
 	
-	
-	
-	
-	
+	private JLabel __getLastLabelInPond(int seatNum){
+		if (mPTrackers[seatNum].tilesP.isEmpty()) return null;
+		else return larryPonds[seatNum][mPTrackers[seatNum].tilesP.size() - 1];
+	}
 	
 	
 	
@@ -855,6 +869,8 @@ public class TableViewer extends JFrame{
 		
 		mOptionRevealWall = DEFAULT_OPTION_REVEAL_WALL;
 		mOptionRevealHands = DEFAULT_OPTION_REVEAL_HANDS;
+		
+		mMostRecentDiscard = null;
 
 
 		//load image icons into arrays
@@ -3703,6 +3719,14 @@ public class TableViewer extends JFrame{
 //			b.setFocusPainted(false);
 			b.setOpaque(false);
 		}
+		
+		
+		
+		
+		for (JLabel l: larryP1) {l.setHorizontalAlignment(SwingConstants.CENTER);}
+		for (JLabel l: larryP3) {l.setHorizontalAlignment(SwingConstants.CENTER);}
+		
+		
 	}
 	
 	

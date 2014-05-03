@@ -269,6 +269,7 @@ public class Round {
 		System.out.println("\n\n\tTiles left: " + mWall.getNumTilesLeftInWall());
 		System.out.println("\t" + p.getSeatWind() + " Player's discard: ^^^^^" + mRoundTracker.getMostRecentDiscard().toString() + "^^^^^");
 		p.showPond();
+//		__showDiscard();
 		__updateWindow();
 		
 		
@@ -371,13 +372,16 @@ public class Round {
 	private void __handleReaction(){
 		
 		
-		//remove the tile from the discarder's pond (because it is being called)
-		Tile discardedTile = mRoundTracker.currentPlayer().removeTileFromPond();
+		//get the discarded tile
+		Tile discardedTile = mRoundTracker.currentPlayer().getLastDiscard();
 		
 		
 		
 		//figure out who called the tile, and if multiple players called, who gets priority
 		Player priorityCaller = __whoCalled();
+		
+		//remove the tile from the discarder's pond (because it is being called), unless the call was Ron
+		if (!priorityCaller.calledRon()) mRoundTracker.currentPlayer().removeTileFromPond();
 		
 		//show the call
 		__showExclamation(priorityCaller.getCallStatusString(), priorityCaller);
@@ -590,7 +594,7 @@ public class Round {
 		
 		final int FAST_SLEEPTIME = 0;
 		final int FAST_SLEEPTIME_EXCLAMATION = 0;
-		final int FAST_SLEEPTIME_ROUND_END = 1000;
+		final int FAST_SLEEPTIME_ROUND_END = 2000;
 		
 		
 		if (mDoFastGameplay){

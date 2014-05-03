@@ -30,9 +30,9 @@ public class MajavaWelcome extends JFrame implements ActionListener {
 	private static final int WINDOW_WIDTH = 500;
 	private static final int WINDOW_HEIGHT = 300;
 	
-	private static final int WINDOW_TOP_BORDER_SIZE = 30;
-	private static final int WINDOW_SIDE_BORDER_SIZE = 8;
-	private static final int WINDOW_BOTTOM_BORDER_SIZE = 8;
+	private static final int WINDOW_TOP_BORDER_SIZE = 26;
+	private static final int WINDOW_SIDE_BORDER_SIZE = 2;
+	private static final int WINDOW_BOTTOM_BORDER_SIZE = 2;
 	private static final int WINDOW_MENU_SIZE = 23;
 	
 	

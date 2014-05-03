@@ -17,8 +17,6 @@ import utility.MahList;
 
 public class MajaPlay {
 	
-
-//	public static final char ownerSeat = Player.SEAT_SOUTH;
 	public static final Wind ownerSeat = Wind.SOUTH;
 	
 	

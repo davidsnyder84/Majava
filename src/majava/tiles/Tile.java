@@ -106,20 +106,10 @@ public class Tile implements Comparable<Tile> {
 	}
 	//1-arg Constructor, takes tile ID
 	public Tile(int id){this(id, false);}
-	
-	
 	//Takes string representation of tile (and optional red dora flag)
-	public Tile(String suitfaceString, boolean isRed){
-		this((STR_REPS_BY_ID.indexOf(suitfaceString.toUpperCase()) / 2 + 1), isRed);
-	}
+	public Tile(String suitfaceString, boolean isRed){this((STR_REPS_BY_ID.indexOf(suitfaceString.toUpperCase()) / 2 + 1), isRed);}
 	public Tile(String suitfaceString){this(suitfaceString, false);}
 	
-	
-//	//2-arg, takes id and sets an onwer's seat wind
-//	public Tile(int id, Wind ownerWind){
-//		this(id);
-//		mOriginalOwner = ownerWind;
-//	}
 	public Tile(Tile other){
 		mID = other.mID;
 		mSuit = other.mSuit;
@@ -127,7 +117,6 @@ public class Tile implements Comparable<Tile> {
 		mOriginalOwner = other.mOriginalOwner;
 		mRedDora = other.mRedDora;
 	}
-	
 //	public Object clone(){return null;} 
 	
 
@@ -247,19 +236,15 @@ public class Tile implements Comparable<Tile> {
 	//returns true if the tiles have the same ID
 	@Override
 	final public boolean equals(Object other){
-		if (other == null || !(other instanceof Tile))
-			return false;
-		
+		if (other == null || !(other instanceof Tile)) return false;
 		return (mID == ((Tile)other).mID);
 	}
 	
 	//string representaiton of tile's suit/face
 	@Override
 	public String toString(){
-		if (mRedDora)
-			return (Character.toString(mSuit) + CHAR_FOR_RED_DORA); 
-		else
-			return repr_stringReprOfId(mID);
+		if (mRedDora) return (Character.toString(mSuit) + CHAR_FOR_RED_DORA); 
+		else return repr_stringReprOfId(mID);
 	}
 	
 	

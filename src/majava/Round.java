@@ -158,7 +158,7 @@ public class Round {
 		mWall.printWall();
 		mWall.printDoraIndicators();
 		
-		p1.showHand();p2.showHand();p3.showHand();p4.showHand();
+		__showHandsOfAllPlayers();
 		System.out.println("\n\n\n");
 		//------------------------------------------------DEBUG INFO
 		
@@ -278,7 +278,7 @@ public class Round {
 		
 		
 		//show the human player their hand
-		__showHandsOfHumanPlayers();
+		__showHandsOfAllPlayers();
 		
 		//show the discarded tile and the discarder's pond
 		System.out.println("\n\n\tTiles left: " + mWall.getNumTilesLeftInWall());
@@ -544,11 +544,8 @@ public class Round {
 	
 	
 	
-	/*
-	private method: __showHandsOfHumanPlayers
-	shows the hands of all human players in the game
-	*/
-	private void __showHandsOfHumanPlayers(){for (Player p: mPlayerArray) if (p.controllerIsHuman()) p.showHand();}
+	//prints the hands of each player
+	private void __showHandsOfAllPlayers(){for (Player p: mPlayerArray) p.showHand();}
 	
 	
 	

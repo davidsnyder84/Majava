@@ -350,7 +350,7 @@ public class TableViewer extends JFrame{
 		private TileList tilesH;
 		private TileList tilesP;
 
-		//private char seatWind;
+		//private Wind seatWind;
 		//private int points;
 		//private boolean riichiStatus;
 		//private String playerName;

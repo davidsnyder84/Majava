@@ -5,44 +5,62 @@ import majava.graphics.MajavaWelcome;
 
 
 
+/*
+Class: Majava
+main class to drive the program
 
+data:
+	mWelcomeMenu - a welcome menu to get the user's choice
+	
+methods:
+	start - start the program
+*/
 public class Majava {
 	
 	
-	
-	//disallow instantiation of this class
-	private Majava(){}
-	
+	private MajavaWelcome mWelcomeMenu;
+	private Table mTable;
 	
 	
+	public Majava(){
+		mWelcomeMenu = new MajavaWelcome();
+		mTable = null;
+	}
 	
-	public static void main(String[] args) {
+	
+	//start the program
+	public void start(){
 		
 		System.out.println("Welcome to Majava!");
 		
 		boolean doSinglePlayer = true;
 		boolean doFastGameplay = false;
 		
-		MajavaWelcome welcomeMenu = new MajavaWelcome();
-		
 		
 		//get options
-		welcomeMenu.setVisible(true);
-		welcomeMenu.waitForChoice();
-		doSinglePlayer = welcomeMenu.choseSinglePlayer();
-		doFastGameplay = welcomeMenu.choseFastGameplay();
+		mWelcomeMenu.setVisible(true);
+		mWelcomeMenu.waitForChoice();
+		doSinglePlayer = mWelcomeMenu.choseSinglePlayer();
+		doFastGameplay = mWelcomeMenu.choseFastGameplay();
 		
 		
 		System.out.println("\n\n\n\n");
 		
-		
-		
 		//play the game
-		Table table = new Table();
-		table.setOptionSinglePlayerMode(doSinglePlayer);
-		table.setOptionFastGameplay(doFastGameplay);
+		mTable = new Table();
+		mTable.setOptionSinglePlayerMode(doSinglePlayer);
+		mTable.setOptionFastGameplay(doFastGameplay);
 		
-		table.play();
+		mTable.play();
+	}
+	
+	
+	
+	
+	
+	public static void main(String[] args) {
+		Majava majavaGame = new Majava();
+		majavaGame.start();
 	}
 
 }

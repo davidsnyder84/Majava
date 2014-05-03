@@ -8,12 +8,6 @@ import majava.tiles.Tile;
 public class Machi {
 	
 	
-	/*
-	public static final int WAIT_TYPE_UNKNOWN =  Meld.MELD_TYPE_UNKNOWN;
-	public static final int WAIT_TYPE_DEFAULT = WAIT_TYPE_UNKNOWN;
-	*/
-	
-	
 	
 	private MeldType mWaitType;
 	private Tile mCallCandidate;

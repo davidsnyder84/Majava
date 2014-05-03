@@ -302,7 +302,7 @@ public class Round {
 	private void __givePlayerTile(Player p){
 		
 		Tile drawnTile = null;
-		if (p.needsDraw() == false) return;
+		if (!p.needsDraw()) return;
 		
 		mWall.printWall(); //debug
 		
@@ -383,8 +383,16 @@ public class Round {
 		//remove the tile from the discarder's pond (because it is being called), unless the call was Ron
 		if (!priorityCaller.calledRon()) mRoundTracker.currentPlayer().removeTileFromPond();
 		
+		
+		
+		//show who called the tile 
+		System.out.println("\n*********************************************************" + 
+							"\n**********" + priorityCaller.getSeatWind() + " Player called the tile (" + discardedTile.toString() + ")! " + priorityCaller.getCallStatusString() + "!!!**********" + 
+							"\n*********************************************************");
 		//show the call
 		__showExclamation(priorityCaller.getCallStatusString(), priorityCaller);
+		
+		
 		
 		
 		//give the caller the discarded tile so they can make their meld
@@ -392,8 +400,6 @@ public class Round {
 		if (priorityCaller.calledRon()){
 			
 			System.out.println("\n*****RON! RON RON! RON! RON! ROOOOOOOOOOOOOOOOOOOOOON!");
-			//handle here
-			
 			mRoundTracker.setResultVictory(priorityCaller);
 			
 			
@@ -404,12 +410,6 @@ public class Round {
 			priorityCaller.makeMeld(discardedTile);
 			__updateWindow();
 			//meld has been made
-			
-
-			//show who called the tile 
-			System.out.println("\n*********************************************************" + 
-								"\n**********" + priorityCaller.getSeatWind() + " Player called the tile (" + discardedTile.toString() + ")! " + priorityCaller.getCallStatusString() + "!!!**********" + 
-								"\n*********************************************************");
 		}
 		
 		
@@ -423,7 +423,7 @@ public class Round {
 		
 		//it is now the calling player's turn (if the round isn't over)
 		if (!mRoundTracker.roundIsOver())
-			mRoundTracker.setTurn(mRoundTracker.getSeatNumber(priorityCaller));
+			mRoundTracker.setTurn(priorityCaller);
 	}
 	
 	
@@ -556,11 +556,11 @@ public class Round {
 	*/
 	public void displayRoundResult(){
 		
+		for (Player p: mPlayerArray) p.showHand();
+
 		mRoundTracker.printRoundResult();
 		
 		__updateWindow();
-		
-		for (Player p: mPlayerArray) p.showHand();
 		
 		Pauser.pauseFor(sleepTimeRoundEnd);
 	}
@@ -594,7 +594,7 @@ public class Round {
 		
 		final int FAST_SLEEPTIME = 0;
 		final int FAST_SLEEPTIME_EXCLAMATION = 0;
-		final int FAST_SLEEPTIME_ROUND_END = 2000;
+		final int FAST_SLEEPTIME_ROUND_END = 0;
 		
 		
 		if (mDoFastGameplay){

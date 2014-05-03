@@ -3,7 +3,6 @@ package majava;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Scanner;
 
 import majava.tiles.Tile;
 
@@ -17,48 +16,58 @@ represents a player's hand of tiles
 data:
 	mTiles - list of tiles in the hand
 	mMelds - list of melds made from the hand
-	mChecker - runs checks on the hand. is final.
+	mChecker - runs checks on the hand
 	
 	mNumMeldsMade - the number of melds made
-	mOwnerSeatWind - holds the wind of the player who owns the hand
+	mOwnerSeatWind - the seat wind of the player who owns the hand
+	
+	mRoundTracker - used to look at round info
 	
 methods:
 	
 	constructors:
-	1-arg, takes player's seat wind - creates list of tiles and melds, initializes hand info, creates a checker
-	
-	mutators:
-	addTile - adds a tile to the hand (overloaded for actual tile, or an integer tile ID)
-	removeTile - removes the tile at the given index, and checks if removing the tile puts the hand in tenpai
-	sortHand - sorts the hand in ascending order
- 	
- 	
- 	accessors:
-	getSize - returns the number of tiles in the hand
-	getTile - returns the tile at the given index in the hand
- 	contains - returns true if the hand contains a copy of the given tile
-	
-	getNumMeldsMade - returns the number of melds made
-	howManyOfThisTileInHand - returns how many copies of a given tile are in the hand
-	
-	getTenpaiStatus - returns true if the hand is in tenpai
-	isClosed - returns true if the hand is fully concealed, false if an open meld has been made
-	ableToChiL, ableToChiM, ableToChiH, ableToPon, ableToKan, ableToRon - return true if a call can be made
+	Requires player's seat wind - creates list of tiles and melds, initializes hand info, creates a checker
 	
 	
-	other:
-	checkCallableTile - runs checks to see if a given tile is callable. returns true if the tile is callable.
-	numberOfCallsPossible - returns the number of different calls that can be made on a tile
-	makeMeld - forms a meld of the given type with mCallCandidate
-	
-	showMelds - prints all melds to the screen
-	toString - returns string of all tiles in the hand, and their indices
+	public:
+		mutators:
+		addTile - adds a tile to the hand  (and updates possible calls/actions)
+		removeTile - removes the tile at the given index (and updates possible calls/actions)
+		sortHand - sorts the hand in ascending order
+		
+		checkCallableTile - runs checks to see if a given tile is callable. returns true if the tile is callable. (modifies the checker)
+		makeMeldChiL, etc - forms a meld of the corresponding type with the most recent discard (mCallCandidate)
+		makeMeldTurnAnkan/makeMeldTurnMinkan - forms the corresponding turn meld
+	 	
+	 	
+	 	accessors:
+		getSize - returns the number of tiles in the hand
+		getTile - returns the tile at the given index in the hand
+		
+		getNumMeldsMade - returns the number of melds made
+		getMelds - returns a list of the melds that have been made (copy of actual melds)
+		
+		isClosed - returns true if the hand is fully concealed, false if an open meld has been made
+		getOwnerSeatWind - returns the hand owner's seat wind
+		getTenpaiStatus - returns true if the hand is in tenpai
+		getTenpaiWaits - returns the hand's waits, if it is in tenpai
+		
+		numberOfCallsPossible - returns the number of different calls that can be made on a tile
+		ableToChiL, etc - returns true if the corresponding call can be made
+		ableToAnkan, etc - returns true if the corresponding action is possible
+		
+		showMelds, showMeldsCompact - prints all melds to the screen
+		toString - returns a string of all tiles in the hand, and their indices
+		
+		
+		other:
+		syncWithRoundTracker - associates the hand with the tracker
 */
 public class Hand implements Iterable<Tile>{
 	
-	public static final int MAX_HAND_SIZE = 14;
-	public static final int MAX_NUM_MELDS = 5;
-	public static final int AVG_NUM_TILES_PER_MELD = 3;
+	private static final int MAX_HAND_SIZE = 14;
+	private static final int MAX_NUM_MELDS = 5;
+	private static final int AVG_NUM_TILES_PER_MELD = 3;
 	
 	private enum ModifyAction {ADD, REMOVE;}
 	
@@ -73,9 +82,9 @@ public class Hand implements Iterable<Tile>{
 	//is public right now for debug purposes, but it shouldn't be
 	public final HandChecker mChecker;
 	
-	
+
+	private final Wind mOwnerSeatWind;
 	private int mNumMeldsMade;
-	private Wind mOwnerSeatWind;
 	
 	
 	private RoundTracker mRoundTracker;
@@ -115,12 +124,10 @@ public class Hand implements Iterable<Tile>{
 	
 	
 	
-	//returns the number of tiles in the hand
 	public int getSize(){return mTiles.size();}
-	//returns true if the hand is fully concealed, false if an open meld has been made
 	public boolean isClosed(){return mChecker.getClosedStatus();}
-	//returns the number of melds made
 	public int getNumMeldsMade(){return mNumMeldsMade;}
+	
 	
 	//returns the number of kans the player has made
 	public int getNumKansMade(){
@@ -211,15 +218,6 @@ public class Hand implements Iterable<Tile>{
 	
 	
 	
-	//returns true if the hand contains an occurence of tile t
-	public boolean contains(Tile t){
-		return mTiles.contains(t);
-	}
-	//overloaded to accept tile id instead of actual tile
-	public boolean contains(int id){return contains(new Tile(id));}
-	
-	
-	
 	//sort the hand in ascending order
 	public void sortHand(){
 		mTiles.sort();
@@ -274,10 +272,7 @@ public class Hand implements Iterable<Tile>{
 	public boolean ableToTsumo(){return mChecker.ableToTsumo();}
 	
 	//returns the number of different calls possible for callCandidate
-	public int numberOfCallsPossible(){return mChecker.numberOfCallsPossible();}
-	
-	//returns how many copies of tile t are in the hand
-	public int howManyOfThisTileInHand(Tile t){return mChecker.howManyOfThisTileInHand(t);}
+//	public int numberOfCallsPossible(){return mChecker.numberOfCallsPossible();}
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//~~~~END MELD CHEKCERS
@@ -301,7 +296,7 @@ public class Hand implements Iterable<Tile>{
 	remove the tiles from the hand
 	numMeldsMade++
 	update hand's closed status after making the meld
-	*///TODO coupling
+	*/
 	private void __makeMeld(MeldType meldType){
 		
 		//~~~~gather the tiles from the hand that will be in the meld
@@ -372,7 +367,7 @@ public class Hand implements Iterable<Tile>{
 			mNumMeldsMade++;
 		}
 	}
-	public void makeClosedMeldKan(){__makeClosedMeld(MeldType.KAN);}
+	private void __makeClosedMeldKan(){__makeClosedMeld(MeldType.KAN);}
 //	public void makeClosedMeldPon(){__makeClosedMeld(MeldType.PON);}
 //	public void makeClosedMeldChiL(){__makeClosedMeld(MeldType.CHI_L);}
 //	public void makeClosedMeldChiM(){__makeClosedMeld(MeldType.CHI_M);}
@@ -386,16 +381,15 @@ public class Hand implements Iterable<Tile>{
 	
 	public void makeMeldTurnAnkan(){
 		
-		makeClosedMeldKan();
+		__makeClosedMeldKan();
 	}
 	
 	
 	
 	public void makeMeldTurnMinkan(){
-		Tile candidate = mChecker.getCandidateMinkan();
 		
 		int candidateIndex = mChecker.getCandidateMinkanIndex();
-		candidate = mTiles.get(candidateIndex);
+		Tile candidate = mTiles.get(candidateIndex);
 		
 		Meld meldToUpgrade = null;
 		
@@ -450,9 +444,9 @@ public class Hand implements Iterable<Tile>{
 	public String partnerIndicesString(MeldType meldType){return partnerIndicesString(meldType, false);}
 	
 	//returns a list of hot tile IDs for ALL tiles in the hand
-	public ArrayList<Integer> findAllHotTiles(){return mChecker.findAllHotTiles();}
+	public ArrayList<Integer> DEMOfindAllHotTiles(){return mChecker.DEMOfindAllHotTiles();}
 	//returns a list of callable tile IDs for ALL tiles in the hand
-	public ArrayList<Integer> findAllCallableTiles(){return mChecker.findAllCallableTiles();}
+	public ArrayList<Integer> DEMOfindAllCallableTiles(){return mChecker.DEMOfindAllCallableTiles();}
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	//xxxxEND DEMO METHODS
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -534,6 +528,7 @@ public class Hand implements Iterable<Tile>{
 	
 	//sync hand tilelist and meldlist with tracker
 	public void syncWithRoundTracker(RoundTracker tracker){
+		if (mRoundTracker != null) return;
 		mRoundTracker = tracker;
 		mRoundTracker.syncHand(mTiles, mMelds);
 	}

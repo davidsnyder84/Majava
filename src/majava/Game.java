@@ -10,33 +10,51 @@ import majava.graphics.TableViewer;
 Class: Game
 
 data:
-	p1, p2, p3, p4 - four players. p1 is always east, p2 is always south, etc. 
-	mWall - wall of tiles, includes the dead wall
+	p1, p2, p3, p4 - the game's four players
+	mPlayerArray - an array containing the four players
 	
-	mGameType - length of game being played (single, tonpuusen, or hanchan)
+	mGameType - the type of game being played (single, tonpuusen, or hanchan)
 	
-	mRoundWind - the prevailing wind of the current round ('E' or 'S')
-	mWhoseTurn - whose turn it is (1,2,3,4 corresponds to E,S,W,N)
-	mReaction - will be NO_REACTION if no calls were made during a turn, will be something else otherwise
+	mCurrentRound - the current round being played
+	mCurrentRoundWind, mCurrentRoundNum, mCurrentRoundBonusNum - information for the current round
+	
 	mGameIsOver - will be true if the game is over, false if not
-	mGameResult - the specific result of the game (reason for a draw game, or who won), is UNDECIDED if game is not over
+	mWinStrings - a string containing the winning hands of each round in the game
+	
+	mTviewer - TableViewer GUI window for the game
+	mDoFastGameplay - option, will do fast gameplay if true
 	
 methods:
-	mutators:
- 	
- 	accessors:
+	constructors:
+	2-arg, requires a TableViewer GUI and an array of four players
 	
-	other:
+	public:
+		play - plays a game of mahjong with the four players
+		runSimulation - plays a large number of fast games with computer players only
+	
+		mutators:
+		setOptionFastGameplay - turns fast gameplay on or off
+ 	
+ 		accessors:
+ 		gameIsOver - returns true if the game is over
+ 		displayGameResult - displays the result of a game that has finished
 */
 public class Game {
 	
-	public static final int NUM_PLAYERS = 4;
-	public static final Wind DEFAULT_ROUND_WIND = Wind.EAST;
-	
-	
+	private static final int NUM_PLAYERS = 4;
+	private static final Wind DEFAULT_ROUND_WIND = Wind.EAST;
 	
 	private enum GameType{
 		SINGLE, TONPUUSEN, HANCHAN;
+		@Override
+		public String toString(){
+			switch (this){
+			case SINGLE: return "Single";
+			case TONPUUSEN: return "Tonpuusen";
+			case HANCHAN: return "Hanchan";
+			default: return "unknown";
+			}
+		}
 	}
 	public static final GameType GAME_TYPE_DEFAULT = GameType.SINGLE;
 
@@ -44,24 +62,21 @@ public class Game {
 	
 	
 	
+	
+	
 	private Player p1, p2, p3, p4;
 	private Player[] mPlayerArray;
 	
-	
-//	public static TableViewer mTviewer;	//will be private
-	private TableViewer mTviewer;
-	
-	
-	private Wind mRoundWind;
-	private int mRoundNum;
-	private int mRoundBonusNum;
+	private Round mCurrentRound;
+	private Wind mCurrentRoundWind;
+	private int mCurrentRoundNum;
+	private int mCurrentRoundBonusNum;
 	
 	private GameType mGameType;
 	private boolean mGameIsOver;
-	
-	
-	private Round mCurrentRound;
 	private ArrayList<String> mWinStrings;
+
+	private TableViewer mTviewer;
 	
 	private boolean mDoFastGameplay;
 	
@@ -81,7 +96,7 @@ public class Game {
 		
 		
 		//initializes round info
-		mRoundWind = DEFAULT_ROUND_WIND;mRoundNum = 1;mRoundBonusNum = 0;
+		mCurrentRoundWind = DEFAULT_ROUND_WIND;mCurrentRoundNum = 1;mCurrentRoundBonusNum = 0;
 
 		mGameIsOver = false;
 		mWinStrings = new ArrayList<String>();
@@ -116,7 +131,6 @@ public class Game {
 	*/
 	public void play(){
 		
-//		runSimulation();
 		if (mDoFastGameplay && p1.controllerIsComputer() && p2.controllerIsComputer() && p3.controllerIsComputer() && p4.controllerIsComputer()) runSimulation();
 		
 		
@@ -141,12 +155,12 @@ public class Game {
 	*/
 	public void runSimulation(){
 		
-		final int NUM_ROUNDS_TO_PLAY = 200;
+		final int NUM_ROUNDS_TO_PLAY = 100;
 
 		
 		
 		//play a bunch of rounds
-		for (int i = 0; i < NUM_ROUNDS_TO_PLAY; i++){
+		for (mCurrentRoundNum = 1; mCurrentRoundNum <= NUM_ROUNDS_TO_PLAY; mCurrentRoundNum++){
 			mCurrentRound = new Round(mTviewer, mPlayerArray);
 			mCurrentRound.setOptionFastGameplay(true);
 			mCurrentRound.play();
@@ -191,7 +205,6 @@ public class Game {
 	
 	//accessors
 //	public int getGameType(){return mGameType;}
-	public Wind getRoundWind(){return mRoundWind;}
 	public boolean gameIsOver(){return mGameIsOver;}
 	
 	

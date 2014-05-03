@@ -5,7 +5,6 @@ import java.util.Random;
 
 import majava.Hand;
 import majava.MeldType;
-import majava.Player;
 import majava.Wind;
 import majava.tiles.Tile;
 import majava.TileList;
@@ -69,8 +68,8 @@ public class DemoHandGen {
 	public static void runSpecificTest(){
 		
 		Hand hand = generateSpecificHand();
-
-//		hand.DEMOgetChecker().trackdicks = true;
+		
+		
 		System.out.println(hand.toString());
 		System.out.println("Hand is complete normal?: " + hand.DEMOgetChecker().isCompleteNormal());
 		
@@ -169,7 +168,6 @@ public class DemoHandGen {
 		
 		Hand currentHand = null;
 		int numFailures = 0;
-		int totalNum = 0;
 		
 		
 		
@@ -210,7 +208,7 @@ public class DemoHandGen {
 
 			System.out.println(currentHand.toString() + "\n");
 			
-			waits = currentHand.mChecker.findTenpaiWaits();
+			waits = currentHand.mChecker.DEMOfindTenpaiWaits();
 			
 			
 			System.out.print("Waits: ");

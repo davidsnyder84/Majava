@@ -89,11 +89,11 @@ public class RoundResult {
 		mRoundIsOver = true;
 	}
 	
-	public void setResultWashout(){__setRoundOver(Result.DRAW_WASHOUT);}
-	public void setResultKyuushu(){__setRoundOver(Result.DRAW_KYUUSHU);}
-	public void setResult4Kan(){__setRoundOver(Result.DRAW_4KAN);}
-	public void setResult4Riichi(){__setRoundOver(Result.DRAW_4RIICHI);}
-	public void setResult4Wind(){__setRoundOver(Result.DRAW_4WIND);}
+	public void setResultRyuukyokuWashout(){__setRoundOver(Result.DRAW_WASHOUT);}
+	public void setResultRyuukyokuKyuushu(){__setRoundOver(Result.DRAW_KYUUSHU);}
+	public void setResultRyuukyoku4Kan(){__setRoundOver(Result.DRAW_4KAN);}
+	public void setResultRyuukyoku4Riichi(){__setRoundOver(Result.DRAW_4RIICHI);}
+	public void setResultRyuukyoku4Wind(){__setRoundOver(Result.DRAW_4WIND);}
 	
 	
 	public void setResultVictory(char winningSeat){
@@ -147,7 +147,7 @@ public class RoundResult {
 		String winString = "";
 		if (!isVictory()) return "No winner";
 		
-		winString += "Winning hand: " + mWinnerHand.toString() + ",   agarihai: " + mWinningTile.toString() + " (" + getWinTypeString() + ")\n";
+		winString += "Winning hand (" + mWinningPlayer.getSeatWind() + "): " + mWinnerHand.toString() + ",   agarihai: " + mWinningTile.toString() + " (" + getWinTypeString() + ")\n";
 		for (Meld m: mWinnerMelds)
 			winString += m.toString() + "\n";
 		

@@ -99,7 +99,7 @@ public class MajaPlay {
 			
 			System.out.println("\n\n\n" + h.toString());
 			System.out.println("Complete?: " + h.mChecker.isCompleteNormal());
-			h.mChecker.printFinishingMelds();
+			h.mChecker.DEMOprintFinishingMelds();
 		}
 		
 	}
@@ -300,7 +300,7 @@ public class MajaPlay {
 
 		System.out.println("\nIn tenpai for kokushi musou?: " + h.mChecker.isTenpaiKokushi());
 		
-		waits = h.mChecker.getKokushiWaits();
+		waits = h.mChecker.DEMOgetKokushiWaits();
 		System.out.print(waits.size() + "-sided wait: ");
 		for (Tile t: waits)
 			System.out.print(t.toString() + ", ");
@@ -394,7 +394,17 @@ public class MajaPlay {
 		System.out.println("\nDiscarded tile: " + q.toString());
 		h.checkCallableTile(q);
 		
-		System.out.println("Number of calls possible: " + h.numberOfCallsPossible());
+		
+		
+		int count = 0;
+		if (h.ableToChiL()) count++;
+		if (h.ableToChiM()) count++;
+		if (h.ableToChiH()) count++;
+		if (h.ableToPon()) count++;
+		if (h.ableToKan()) count++;
+		if (h.ableToRon()) count++;
+		
+		System.out.println("Number of calls possible: " + count);
 		
 		
 	}
@@ -461,8 +471,8 @@ public class MajaPlay {
 
 		System.out.println(h.toString());
 		
-		ArrayList<Integer> hots = h.findAllHotTiles();
-		ArrayList<Integer> callables = h.findAllCallableTiles();
+		ArrayList<Integer> hots = h.DEMOfindAllHotTiles();
+		ArrayList<Integer> callables = h.DEMOfindAllCallableTiles();
 		
 		
 		
@@ -724,7 +734,7 @@ public class MajaPlay {
 		
 		
 		ArrayList<Integer> hots = new ArrayList<Integer>(0);
-		hots = h.findAllHotTiles();
+		hots = h.DEMOfindAllHotTiles();
 		
 		System.out.println(h.toString());
 		

@@ -2,7 +2,6 @@ package majava;
 
 
 import java.util.Iterator;
-
 import majava.tiles.Tile;
 
 
@@ -16,30 +15,35 @@ data:
 	mClosed = if the meld is a closed meld, this will be true, false otherwise
 	mFu - the fu value of the meld
 	
-	mPlayerSeatWind - the seat wind of the owner of the meld (needed for checking fu of wind pairs)
+	mOwnerSeatWind - the seat wind of the owner of the meld (needed for checking fu of wind pairs)
+	
+	mCompletedTile - the tile that completed the meld
+	mPlayerResponsible - the player who contributed the completing tile to the meld
 	
 methods:
 	constructors:
-
-	mutators:
- 	
- 	accessors:
+	3-arg: requires list of tiles from hand, the completing tile, and meld type
+	2-arg: requires list of tiles from hand and meld type
+	copy constructor
 	
-	other:
-	
-	private:
+	public:
+	 	accessors:
+	 	calculateFu - returns the amount of fu points the meld is worth
+	 	isClosed - returns true if the meld is closed
+	 	
+	 	getOwnerSeatWind - returns the seat wind of the meld's owner
+	 	getResponsible - returns the seat wind of the player responsible for completing the meld
+	 	
+	 	getTile - returns the tile at the given index in the meld
+	 	getAllTiles - returns a list of all tiles in the meld
+		getSize - returns how many tiles are in the meld
+		isChi, isPon, isKan - returns true if the meld is of the corresponding type
+		
+		
+		mutators:
+		upgradeToMinkan - uses the given tile to upgrade an open pon to a minkan
 */
 public class Meld implements Iterable<Tile>, Comparable<Meld> {
-	
-	
-	public static final char OWNER_UNKOWN = '?';
-	public static final char OWNER_DEFAULT = OWNER_UNKOWN;
-
-	public static final boolean CLOSED_STATUS_CLOSED = true;
-	public static final boolean CLOSED_STATUS_OPEN = false;
-	public static final boolean CLOSED_STATUS_DEFAULT = CLOSED_STATUS_CLOSED;
-
-	public static final int AVG_NUM_TILES_PER_MELD = 3;
 	
 	private static final int FU_DEFAULT = 0;
 	
@@ -115,12 +119,7 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	set player responsible = player who discarded the newTile
 	set tile that completed the meld = newTile
 	set meld type
-	
-	if (owner's wind == responsible's wind)
-		set closed = true (tiles all came from owner's hand)
-	else (owner's wind is different from responsible's wind)
-		set closed = false (tile was called)
-	end if
+	set closed = (responsible's wind == owner's wind)
 	
 	add the hand tiles to the meld
 	add the new tile to the meld
@@ -212,8 +211,8 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	public Tile getFirstTile(){return mTiles.getFirst();}
 	
 	
-	//returns the entire list of tiles (this is a good idea)
-	public TileList getAllTiles(){return mTiles;}
+	//returns a copy of the entire list of tiles
+	public TileList getAllTiles(){return mTiles.makeCopy();}
 	
 	
 	//returns how many tiles are in the meld

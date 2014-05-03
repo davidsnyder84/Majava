@@ -13,18 +13,67 @@ import majava.tiles.Tile;
 Class: RoundTracker
 
 data:
+	mRoundWind - the round wind
+	mRoundNum - the round number
+	mRoundBonusNum - the round bonus number
+	mRoundResult - the result of the round
 	
-	mGameType - length of game being played (single, tonpuusen, or hanchan)
-	mRoundWind - the prevailing wind of the current round ('E' or 'S')
-	mGameIsOver - will be true if the game is over, false if not
-	mGameResult - the specific result of the game (reason for a draw game, or who won), is UNDECIDED if game is not over
+	mPTrackers - array of tracked info for each player
+	mWhoseTurn - indicates whose turn it is (number 0..3)
+	mMostRecentDiscard - the most recently discarded tile
+	
+	checks:
+		numPlayersSynched - used to check how many players are synched
+		wallSynched - used to check if the wall is synched
 	
 methods:
-	mutators:
+	constructors:
+	requires: (TableViewer GUI, round wind, round num, round bonus num, a wall, and four players)
 	
- 	accessors:
 	
-	other:
+	public:
+	
+		mutators:
+		nextTurn - advances the turn to the next player
+		setTurn - advances the turn to the given player
+		setMostRecentDiscard - sets the most recently discarded tile to the given tile
+		
+		setResultVictory - sets the round result to victory for the given player
+		setResultRyuukyoku.., etc - sets the round result a certain type of Ryuukyoku (draw)
+		
+		checkIfTooManyKans - checks if too many kans have been made, and sets the round to over if so
+		checkIfWallIsEmpty - checks if the wall is empty, and sets the round to over if so
+		
+		
+	 	accessors:
+	 	getRoundWind, getRoundNum, getRoundBonusNum - return the corresponding round info
+	 	
+	 	currentPlayer - returns the Player whose turn it is (reference to mutable object)
+	 	neighborShimochaOf, etc - returns the corresponding neighbor Player of the given player (reference to mutable object)
+	 	getSeatNumber - returns the seat number of the given player
+	 	
+	 	getMostRecentDiscard - returns the most recently discarded tile
+	 	callWasMadeOnDiscard - returns true if any player made a call on the most recent discard
+	 	
+	 	getNumKansMade - returns the number of kans made in the round
+	 	getNumTilesLeftInWall - returns the number of tiles left in the wall
+	 	
+	 	roundIsOver - returns true if the round has ended
+	 	roundEndedWithDraw, roundEndedWithVictory - returns true if the round ended with the corresponding result
+	 	printRoundResult - prints the round result
+	 	getRoundResultString - returns the round result as a string
+	 	getWinningHandString - returns a string representation of the winner's winning hand
+	 	
+ 	
+	
+	setup:
+		syncWall
+		__setupPlayerTrackers - sets up player trackers (track players, their hands, and their ponds)
+		__syncWithWall - set up association with the wall
+		__syncWithViewer - set up association with the GUI
+		syncPlayer - called by a player, associates that player with the tracker
+		syncHand - called by a hand, associates that hand with the tracker
+		syncPond - called by a pond, associates that pond with the tracker
 */
 public class RoundTracker {
 	
@@ -33,14 +82,14 @@ public class RoundTracker {
 	private static final int NUM_MELDS_TO_TRACK = 5;
 	
 	
-	
+	//tracks information for a player
 	private class PlayerTracker{
 		private Player player;
 		
 		private Wind seatWind;
-		private int points;
-		private boolean riichiStatus;
-		private String playerName;
+//		private int points;
+//		private boolean riichiStatus;
+//		private String playerName;
 		
 		private Hand hand;
 		private Pond pond;
@@ -127,10 +176,10 @@ public class RoundTracker {
 		mPTrackers[numPlayersSynched].hand = h;
 		mPTrackers[numPlayersSynched].pond = p;
 		
-		mPTrackers[numPlayersSynched].playerName = mPTrackers[numPlayersSynched].player.getPlayerName();	//link
+//		mPTrackers[numPlayersSynched].playerName = mPTrackers[numPlayersSynched].player.getPlayerName();	//NOT LINK
 		mPTrackers[numPlayersSynched].seatWind = mPTrackers[numPlayersSynched].player.getSeatWind();	//NOT LINK, but it won't change
-		mPTrackers[numPlayersSynched].points = mPTrackers[numPlayersSynched].player.getPoints();	//NOT LINK
-		mPTrackers[numPlayersSynched].riichiStatus = mPTrackers[numPlayersSynched].player.getRiichiStatus();	//NOT LINK
+//		mPTrackers[numPlayersSynched].points = mPTrackers[numPlayersSynched].player.getPoints();	//NOT LINK
+//		mPTrackers[numPlayersSynched].riichiStatus = mPTrackers[numPlayersSynched].player.getRiichiStatus();	//NOT LINK
 	}
 	public void syncHand(TileList handTiles, ArrayList<Meld> handMelds){
 		if (numPlayersSynched > NUM_PLAYERS_TO_TRACK) return;
@@ -166,6 +215,8 @@ public class RoundTracker {
 		mWhoseTurn = (mWhoseTurn + 1) % 4;
 	}
 	public void setTurn(int turn){if (turn < NUM_PLAYERS) mWhoseTurn = turn;}
+	public void setTurn(Player p){setTurn(getSeatNumber(p));}	//overloaded to accept a player
+	
 	public int whoseTurn(){return mWhoseTurn;}
 	
 	public Player currentPlayer(){return mPTrackers[mWhoseTurn].player;}
@@ -225,11 +276,11 @@ public class RoundTracker {
 		
 		mRoundResult.setWinningHand(mPTrackers[getSeatNumber(winner)].tilesH, mPTrackers[getSeatNumber(winner)].melds, winningTile); 
 	}
-	public void setResultWashout(){mRoundResult.setResultWashout();}
-	public void setResultKyuushu(){mRoundResult.setResultKyuushu();}
-	public void setResult4Kan(){mRoundResult.setResult4Kan();}
-	public void setResult4Riichi(){mRoundResult.setResult4Riichi();}
-	public void setResult4Wind(){mRoundResult.setResult4Wind();}
+	public void setResultRyuukyokuWashout(){mRoundResult.setResultRyuukyokuWashout();}
+	public void setResultRyuukyokuKyuushu(){mRoundResult.setResultRyuukyokuKyuushu();}
+	public void setResultRyuukyoku4Kan(){mRoundResult.setResultRyuukyoku4Kan();}
+	public void setResultRyuukyoku4Riichi(){mRoundResult.setResultRyuukyoku4Riichi();}
+	public void setResultRyuukyoku4Wind(){mRoundResult.setResultRyuukyoku4Wind();}
 	
 	
 	
@@ -306,7 +357,7 @@ public class RoundTracker {
 	//checks if too many kans have been made, and sets the round result if so
 	public boolean checkIfTooManyKans(){
 		if (__tooManyKans()){
-			setResult4Kan();
+			setResultRyuukyoku4Kan();
 			return true;
 		}
 		return false;
@@ -318,7 +369,7 @@ public class RoundTracker {
 	//checks if the wall is empty, and sets the round result if so	
 	public boolean checkIfWallIsEmpty(){
 		if (mWall.isEmpty()){
-			setResultWashout();
+			setResultRyuukyokuWashout();
 			return true;
 		}
 		return false;
@@ -350,6 +401,7 @@ public class RoundTracker {
 	
 	public Wind getRoundWind(){return mRoundWind;}
 	public int getRoundNum(){return mRoundNum;}
+	public int getRoundBonusNum(){return mRoundBonusNum;}
 	
 	
 	
@@ -368,14 +420,6 @@ public class RoundTracker {
 	public int getNumTilesLeftInWall(){return mWall.getNumTilesLeftInWall();}
 	
 	
-	
-	
-	
-	
-	
-//	//accessors
-//	public int getGameType(){return mGameType;}
-//	public TileList getDoraIndicators(){return mDoraIndicators;}
 	
 	
 	

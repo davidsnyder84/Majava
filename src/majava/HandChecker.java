@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import majava.tiles.HandCheckerTile;
 import majava.tiles.Tile;
-
-import utility.GenSort;
 import utility.MahList;
 
 
@@ -22,60 +20,43 @@ data:
 	mTenpaiStatus - is true if the hand is in tenpai (one tile away from winning)
 	
 	mCallCandidate - the most recently discarded tile. checks are run on it to see if it can be called.
-	mCanChiL, mCanChiM, mCanChiH, mCanPon, mCanKan, mCanRon - flags, set to true if a call can be made on mCallCandidate
+	mCanChiL, etc - flags, set to true if a call can be made on mCallCandidate
+	mCanAnkan, etc - flags, set to true if an action can be made
 	mPartnerIndicesChiL, etc - hold the hand indices of meld partners for mCallCandidate, if it can be called
 	
 	mTenpaiWaits - if the hand is in tenpai, this holds a list of the hand's waits 
 
 methods:
-	
 	constructors:
-	takes a hand, a list of the hand's tiles, and a list of the hand's melds (creates a LINK between this and the hand's tiles/melds)
+	3-arg: requires a hand, a list of the hand's tiles, and a list of the hand's melds (creates a LINK between this and the hand's tiles/melds)
  	
- 	accessors:
-	getClosedStatus - returns true if the hand is fully concealed, false if an open meld has been made
-	getTenpaiStatus - returns true if the hand is in tenpai
-	getTenpaiWaits - returns the list of tenpai waits
-	
-	findAllHotTiles - returns a list of hot tile IDs for ALL tiles in the hand
-	findAllCallableTiles - returns a list of callable tile IDs for ALL tiles in the hand
-	ableToChiL, ableToChiM, ableToChiH, ableToPon, ableToKan, ableToRon - return true if a call can be made on mCallCandidate
-	numberOfCallsPossible - returns the number of different calls possible for mCallCandidate
-	getCallCandidate - returns mCallCandidate
-	getPartnerIndices - returns the partner indices list for a given meld type
-	
-	
-	private:
-	__resetCallableFlags - resets call flags to false, creates new empty partner index lists
-	__storePartnerIndices - takes a partner list and a list integer indices, stores the indices in the partner list
-	__canRon - returns true if the player can call ron on the candidate tile
-	
-	__canChiType - checks if a candidate can make a chiL/M/H. populates chiL/M/H partner list, returns true if chiL/M/H is possible
-	__canChiL - checks if a candidate can make a Chi-L
-	__canChiM - checks if a candidate can make a Chi-M
-	__canChiH - checks if a candidate can make a Chi-H
-	
-	__canMultiType - checks if a candidate can make a pair/pon/kan. populates pair/pon/kan partner list and returns true if a pair/pon/kan possible
-	__canPair - checks if a candidate can make a pair
-	__canPon - checks if a candidate can make a pon
-	__canKan - checks if a candidate can make a kan
-	__howManyOfThisTileInHand - returns how many copies of a tile are in the hand, can fill a list with the indices where the tile is found
-	
-	__checkIfTenpai - checks if the hand is in tenpai, sets mTenpaiStaus flag if it is, and returns true
-	kokushiMusouInTenpai - returns true if the hand is in tenpai for kokushi musou
-	kokushiMusouIsComplete - returns true if a 14-tile hand is a complete kokushi musou
-	kokushiMusouWaits - returns a list of the hand's waits, if it is in tenpai for kokushi musou
-	
-	
-	public:
-	checkCallableTile - checks if a tile is callable. if it is callable, sets flag and populates partner index lists for that call
-	updateClosedStatus - checks if the hand is closed or open, sets flag accordingly
-	updateTenpaiStatus - checks if the hand is in tenpai, sets flag accordingly
+ 	public:
+ 	
+	 	mutators:
+	 	checkCallableTile - checks if a tile is callable. if it is callable, sets flag and populates partner index lists for that call
+		updateClosedStatus - checks if the hand is closed or open, sets flag accordingly
+		updateTenpaiStatus - checks if the hand is in tenpai, sets flag accordingly
+		updateTurnActions - updates what turn actions are possible, sets flags accordingly
+	 	
+	 	isComplete - returns true if a hand is complete (modifies wait lists)
+	 	isTenpaiKokushi, isCompleteKokushi - checks completeness, tenpai for kokushi (modifies wait lists)
+	 	isTenpaiChiitoitsu, isCompleteChiitoitsu - checks completeness, tenpai for chiitoi (modifies wait lists)
+	 	
+	 	
+	 	accessors:
+		getClosedStatus - returns true if the hand is fully concealed, false if an open meld has been made
+		getTenpaiStatus - returns true if the hand is in tenpai
+		getTenpaiWaits - returns the list of tenpai waits
+		
+		ableToChiL, etc - returns true if the corresponding call can be made on mCallCandidate
+		ableToAnkan, etc - returns true if the corresponding action is possible
+		getCallCandidate - returns mCallCandidate
+		getPartnerIndices - returns the partner indices list for a given meld type
+		getCandidateAn/MinkanIndex - get the index of the tile that can make a minkan/ankan
 */
 public class HandChecker {
 	
 	
-	//private static final int NOT_FOUND = -1;
 	public static final boolean DEFAULT_CLOSED_STATUS = true;
 	
 	public static final int NUM_PARTNERS_NEEDED_TO_CHI = 2;
@@ -90,6 +71,7 @@ public class HandChecker {
 	private static final int OFFSET_CHI_H1 = -2;
 	private static final int OFFSET_CHI_H2 = -1;
 	
+	private static final int MAX_HAND_SIZE = 14;
 	
 	
 	
@@ -99,34 +81,19 @@ public class HandChecker {
 	private TileList mHandTiles;
 	private ArrayList<Meld> mHandMelds;
 	
-	private boolean mTenpaiStatus;
 	private boolean mClosed;
+	private boolean mTenpaiStatus;
 	
 	
 	//call flags and partner index lists
-	private boolean mCanChiL;
-	private boolean mCanChiM;
-	private boolean mCanChiH;
-	private boolean mCanPon;
-	private boolean mCanKan;
-	private boolean mCanRon;
-	private boolean mCanPair;
-	private ArrayList<Integer> mPartnerIndicesChiL;
-	private ArrayList<Integer> mPartnerIndicesChiM;
-	private ArrayList<Integer> mPartnerIndicesChiH;
-	private ArrayList<Integer> mPartnerIndicesPon;
-	private ArrayList<Integer> mPartnerIndicesKan;
-	private ArrayList<Integer> mPartnerIndicesPair;
+	private boolean mCanChiL, mCanChiM, mCanChiH, mCanPon, mCanKan, mCanRon, mCanPair;
+	private ArrayList<Integer> mPartnerIndicesChiL, mPartnerIndicesChiM, mPartnerIndicesChiH, mPartnerIndicesPon, mPartnerIndicesKan, mPartnerIndicesPair;
 	private Tile mCallCandidate;
 	
-	private boolean mCanAnkan;
-	private boolean mCanMinkan;
-	private boolean mCanRiichi;
-	private boolean mCanTsumo;
-	private Tile mTurnAnkanCandidate;
-	private Tile mTurnMinkanCandidate;
-	private int mTurnAnkanCandidateIndex;
-	private int mTurnMinkanCandidateIndex;
+	private boolean mCanAnkan, mCanMinkan, mCanRiichi, mCanTsumo;
+//	private Tile mTurnAnkanCandidate;
+//	private Tile mTurnMinkanCandidate;
+	private int mTurnAnkanCandidateIndex, mTurnMinkanCandidateIndex;
 	
 	
 	private boolean pairHasBeenChosen = false;
@@ -149,48 +116,31 @@ public class HandChecker {
 		__resetCallableFlags();
 		mCallCandidate = null;
 	}
-	//copy constructor, makes another checker for the hand
-	//creates a COPY OF the other checker tiles/melds lists
-	public HandChecker(HandChecker other){
-		
-		mHandTiles = new TileList(Hand.MAX_HAND_SIZE);
-		for (Tile t: other.mHandTiles) mHandTiles.add(t);
-		mHandMelds = new ArrayList<Meld>(Hand.MAX_NUM_MELDS);
-		for (Meld m: other.mHandMelds) mHandMelds.add(new Meld(m));
-
-		this.__resetCallableFlags();
-		mCallCandidate = other.mCallCandidate;
-		mCanChiL = other.mCanChiL;
-		mCanChiM = other.mCanChiM;
-		mCanChiH = other.mCanChiH;
-		mCanPon = other.mCanPon;
-		mCanKan = other.mCanKan;
-		mCanRon = other.mCanRon;
-		mCanPair = other.mCanPair;
-		for (Integer i: other.mPartnerIndicesChiL) mPartnerIndicesChiL.add(i);
-		for (Integer i: other.mPartnerIndicesChiM) mPartnerIndicesChiM.add(i);
-		for (Integer i: other.mPartnerIndicesChiH) mPartnerIndicesChiH.add(i);
-		for (Integer i: other.mPartnerIndicesPon) mPartnerIndicesPon.add(i);
-		for (Integer i: other.mPartnerIndicesKan) mPartnerIndicesKan.add(i);
-		for (Integer i: other.mPartnerIndicesPair) mPartnerIndicesPair.add(i);
-		
-		mCanAnkan = other.mCanAnkan;
-		mCanMinkan = other.mCanMinkan;
-		mCanTsumo = other.mCanTsumo;
-		mCanRiichi = other.mCanRiichi;
-		
-		mTenpaiStatus = other.mTenpaiStatus;
-		mClosed = other.mClosed;
-	}
-	/*
-	//creates a COPY of the hand's tiles/melds to check (don't use this unless you NEED a copy)
-	public HandChecker(Hand hand){
-		mHand = hand;
-		mHandTiles = new ArrayList<Tile>(mHand.getSize());
-		for (Tile t: mHand) mHandTiles.add(t);	//copy tiles into this checker's lsit
-		//copy melds (not done this yet)
-	}
-	*/
+	//copy constructor, makes another checker for the hand (creates a COPY OF the other checker tiles/melds lists)
+//	public HandChecker(HandChecker other){
+//		
+//		mHandTiles = new TileList();
+//		for (Tile t: other.mHandTiles) mHandTiles.add(t);
+//		mHandMelds = new ArrayList<Meld>();
+//		for (Meld m: other.mHandMelds) mHandMelds.add(new Meld(m));
+//
+//		this.__resetCallableFlags();
+//		mCallCandidate = other.mCallCandidate;
+//		mCanChiL = other.mCanChiL; mCanChiM = other.mCanChiM; mCanChiH = other.mCanChiH; mCanPon = other.mCanPon; mCanKan = other.mCanKan; mCanRon = other.mCanRon; mCanPair = other.mCanPair; 
+//		for (Integer i: other.mPartnerIndicesChiL) mPartnerIndicesChiL.add(i);
+//		for (Integer i: other.mPartnerIndicesChiM) mPartnerIndicesChiM.add(i);
+//		for (Integer i: other.mPartnerIndicesChiH) mPartnerIndicesChiH.add(i);
+//		for (Integer i: other.mPartnerIndicesPon) mPartnerIndicesPon.add(i);
+//		for (Integer i: other.mPartnerIndicesKan) mPartnerIndicesKan.add(i);
+//		for (Integer i: other.mPartnerIndicesPair) mPartnerIndicesPair.add(i);
+//		
+//		mCanAnkan = other.mCanAnkan; mCanMinkan = other.mCanMinkan; mCanTsumo = other.mCanTsumo; mCanRiichi = other.mCanRiichi;
+//		mTurnAnkanCandidate = other.mTurnAnkanCandidate; mTurnMinkanCandidate = other.mTurnMinkanCandidate;
+//		mTurnAnkanCandidateIndex = other.mTurnAnkanCandidateIndex; mTurnMinkanCandidateIndex = other.mTurnMinkanCandidateIndex;
+//		
+//		mTenpaiStatus = other.mTenpaiStatus;
+//		mClosed = other.mClosed;
+//	}
 	
 	
 	
@@ -325,7 +275,7 @@ public class HandChecker {
 	
 	
 	/*
-	private method: howManyOfThisTileInHand
+	private method: __howManyOfThisTileInHand
 	returns how many copies of tile t are in the hand
 	
 	input: t is the tile to look for. if a list is provided, storeIndicesHere will be populated with the indices where t occurs 
@@ -344,7 +294,7 @@ public class HandChecker {
 		return foundIndices.size();
 	}
 	//overloaded, omitting list argument simply returns the count, and doesn't populate any list
-	public int howManyOfThisTileInHand(Tile t){return __howManyOfThisTileInHand(t, null);}
+//	private int __howManyOfThisTileInHand(Tile t){return __howManyOfThisTileInHand(t, null);}
 	
 	
 	
@@ -367,9 +317,14 @@ public class HandChecker {
 	*/
 	public boolean checkCallableTile(Tile candidate){
 		
+		//check if tile candidate is a hot tile. if candidate is not a hot tile, return false
+		if (!__findAllHotTiles().contains(candidate.getId())) return false;
+		
+		//check which melds candidate can be called for, if any
+		
+		
 		//~~~~reset flags
 		__resetCallableFlags();
-		//set mCallCandidate = candidate
 		mCallCandidate = candidate;
 		
 		//~~~~runs checks, set flags to the check results
@@ -420,16 +375,16 @@ public class HandChecker {
 	
 	
 	//returns the number of different calls possible for mCallCandidate
-	public int numberOfCallsPossible(){
-		int count = 0;
-		if (mCanChiL) count++;
-		if (mCanChiM) count++;
-		if (mCanChiH) count++;
-		if (mCanPon) count++;
-		if (mCanKan) count++;
-		if (mCanRon) count++;
-		return count;
-	}
+//	public int numberOfCallsPossible(){
+//		int count = 0;
+//		if (mCanChiL) count++;
+//		if (mCanChiM) count++;
+//		if (mCanChiH) count++;
+//		if (mCanPon) count++;
+//		if (mCanKan) count++;
+//		if (mCanRon) count++;
+//		return count;
+//	}
 	
 	
 	
@@ -444,13 +399,13 @@ public class HandChecker {
 			Tile t = mHandTiles.get(index);
 			
 			if (__canClosedKan(t, mHandTiles)){
-				mTurnAnkanCandidate = t;
+//				mTurnAnkanCandidate = t;
 				mTurnAnkanCandidateIndex = index;
 				mCanAnkan = true;
 			}
 			
 			if (__canMinkan(t)){
-				mTurnMinkanCandidate = t;
+//				mTurnMinkanCandidate = t;
 				mTurnMinkanCandidateIndex = index;
 				mCanMinkan = true;
 			}
@@ -476,18 +431,18 @@ public class HandChecker {
 	}
 	
 	
-	public Tile getCandidateMinkan(){return mTurnMinkanCandidate;}
-	public Tile getCandidateAnkan(){return mTurnAnkanCandidate;}
+//	public Tile getCandidateMinkan(){return mTurnMinkanCandidate;}
+//	public Tile getCandidateAnkan(){return mTurnAnkanCandidate;}
 	public int getCandidateMinkanIndex(){return mTurnMinkanCandidateIndex;}
 	public int getCandidateAnkanIndex(){return mTurnAnkanCandidateIndex;}
 	
-	public int numberOfTurnActionsPossible(){
-		int count = 0;
-		if (mCanAnkan) count++;
-		if (mCanMinkan) count++;
-		if (mCanTsumo) count++;
-		return count;
-	}
+//	public int numberOfTurnActionsPossible(){
+//		int count = 0;
+//		if (mCanAnkan) count++;
+//		if (mCanMinkan) count++;
+//		if (mCanTsumo) count++;
+//		return count;
+//	}
 	
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -526,7 +481,7 @@ public class HandChecker {
 	//---------------------------------------------------------------------------------------------------
 	
 	//returns a list of hot tile IDs for ALL tiles in the hand
-	public ArrayList<Integer> findAllHotTiles(){
+	private ArrayList<Integer> __findAllHotTiles(){
 
 		ArrayList<Integer> allHotTileIds = new ArrayList<Integer>(16);
 		ArrayList<Integer> singleTileHotTiles = null;
@@ -543,25 +498,22 @@ public class HandChecker {
 		//return list of integer IDs
 		return allHotTileIds;
 	}
-
+	
+	
+	
+	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	//xxxxBEGIN DEMO METHODS
+	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	//returns a list of callable tile IDs for ALL tiles in the hand
-	public ArrayList<Integer> findAllCallableTiles(){
-		
+	private ArrayList<Integer> __findAllCallableTiles(){
 		
 		ArrayList<Integer> allCallableTileIds = new  ArrayList<Integer>(4);
-		ArrayList<Integer> hotTileIds;
-		
+		ArrayList<Integer> hotTileIds = new ArrayList<Integer>(34);
 		
 		final boolean TEST_ALL_TILES = false;
 		
-		if (TEST_ALL_TILES){
-			hotTileIds = new ArrayList<Integer>(34);
-			for (int i = 1; i <= 34; i++)
-				hotTileIds.add(i);
-		}
-		else
-			hotTileIds = findAllHotTiles();
-		
+		if (TEST_ALL_TILES) for (int i = 1; i <= 34; i++) hotTileIds.add(i);
+		else hotTileIds = __findAllHotTiles();
 		
 		//examine all hot tiles
 		for (Integer i: hotTileIds)
@@ -570,15 +522,14 @@ public class HandChecker {
 				//add its id to the list of callable tiles
 				allCallableTileIds.add(i);
 		
-		//return list of callable tile ids
 		return allCallableTileIds;
 	}
-	
-	
-	public void findAllMachis(){
-		
-	}
-	
+	public ArrayList<Integer> DEMOfindAllCallableTiles(){return __findAllCallableTiles();}
+	public ArrayList<Integer> DEMOfindAllHotTiles(){return __findAllHotTiles();}
+	public void findAllMachis(){}
+	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	//xxxxEND DEMO METHODS
+	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	
 	
 	//---------------------------------------------------------------------------------------------------
@@ -642,11 +593,11 @@ public class HandChecker {
 		//check for kokushi musou tenpai, waits are also found here
 		isKokushiTenpai = isTenpaiKokushi();
 		if (isKokushiTenpai)
-				mTenpaiWaits = getKokushiWaits();
+				mTenpaiWaits = __getKokushiWaits();
 		else{
 			
 			//check if the hand is in normal tenpai, waits are also found here (don't check if in already kokushi tenpai)
-			isNormalTenpai = (!findTenpaiWaits().isEmpty());
+			isNormalTenpai = (!__findTenpaiWaits().isEmpty());
 			
 			//check for chiitoitsu tenpai, wait is also found here (only check if no kokushi tenpai and no normal tenpai)
 			if (!isNormalTenpai)
@@ -703,9 +654,9 @@ public class HandChecker {
 	
 	//returns true if a 14-tile hand is a complete kokushi musou
 	public boolean isCompleteKokushi(){
-		if ((mHandTiles.size() == Hand.MAX_HAND_SIZE) &&
+		if ((mHandTiles.size() == MAX_HAND_SIZE) &&
 			(isTenpaiKokushi() == true) &&
-			(getKokushiWaits().size() == Tile.NUMBER_OF_YAOCHUU_TILES))
+			(__getKokushiWaits().size() == Tile.NUMBER_OF_YAOCHUU_TILES))
 			return true;
 		
 		return false;
@@ -713,7 +664,7 @@ public class HandChecker {
 
 	//returns a list of the hand's waits, if it is in tenpai for kokushi musou
 	//returns an empty list if not in kokushi musou tenpai
-	public TileList getKokushiWaits(){
+	private TileList __getKokushiWaits(){
 		
 		TileList waits = new TileList(1);
 		
@@ -737,6 +688,7 @@ public class HandChecker {
 		if (!waits.isEmpty()) mTenpaiWaits = waits;
 		return waits;
 	}
+	public TileList DEMOgetKokushiWaits(){return __getKokushiWaits();}
 	
 	
 	
@@ -747,7 +699,7 @@ public class HandChecker {
 	
 	
 	/*
-	method: chiitoitsuInTenpai
+	method: isTenpaiChiitoitsu
 	checks if the hand is in tenpai for chiitoitsu, and modifies the list of waits if so 
 	
 	input: handTiles is the list of Tiles to check for chiitoi tenpai
@@ -798,7 +750,7 @@ public class HandChecker {
 		handTiles.sort();
 		
 		//chiitoitsu is impossible if a meld has been made
-		if (handTiles.size() < Hand.MAX_HAND_SIZE) return false;
+		if (handTiles.size() < MAX_HAND_SIZE) return false;
 		
 		//even tiles should equal odd tiles, if chiitoitsu
 		TileList evenTiles = handTiles.getMultiple(0,2,4,6,8,10,12);
@@ -889,7 +841,7 @@ public class HandChecker {
 	(order of stack should be top->L,M,H,Pon,Pair)
 	return true if meldStack is not empty
 	*/
-	public boolean checkMeldableTile(HandCheckerTile candidate, TileList checkTiles){
+	private boolean __checkMeldableTile(HandCheckerTile candidate, TileList checkTiles){
 		
 		//check pon. if can pon, push both pon and pair. if can't pon, check pair.
 		if (__canClosedPon(candidate, checkTiles)){
@@ -908,7 +860,7 @@ public class HandChecker {
 		//~~~~return true if a call (any call) can be made
 		return (!candidate.mstackIsEmpty());
 	}
-	public boolean checkMeldableTile(HandCheckerTile candidate){return checkMeldableTile(candidate, mHandTiles);}
+//	private boolean __checkMeldableTile(HandCheckerTile candidate){return __checkMeldableTile(candidate, mHandTiles);}
 	
 	//============================================================================
 	//====END CAN MELDS
@@ -940,13 +892,13 @@ public class HandChecker {
 	
 	
 	
-	public TileList findTenpaiWaits(){
+	private TileList __findTenpaiWaits(){
 		//TODO this is find tenpai waits
 		
 		TileList waits = new TileList();
 		
 		TileList handTilesCopy;
-		ArrayList<Integer> hotTileIDs = findAllHotTiles();
+		ArrayList<Integer> hotTileIDs = __findAllHotTiles();
 		Tile currentHotTile;
 		
 		for (Integer id: hotTileIDs){
@@ -959,13 +911,14 @@ public class HandChecker {
 			handTilesCopy.add(currentHotTile); handTilesCopy.sort();
 			
 			//check if the copy, with the added tile, is complete
-			if (isCompleteNormal(handTilesCopy)) waits.add(currentHotTile);
+			if (__isCompleteNormal(handTilesCopy)) waits.add(currentHotTile);
 		}
 		
 		//store the waits in mTenpaiWaits, if there are any
 		if (!waits.isEmpty()) mTenpaiWaits = waits;
 		return waits;
 	}
+	public TileList DEMOfindTenpaiWaits(){return __findTenpaiWaits();}
 	
 	
 	
@@ -974,10 +927,10 @@ public class HandChecker {
 	
 	
 	/*
-	method: isNormalComplete
+	private method: __isCompleteNormal
 	returns true if list of handTiles is complete (is a winning hand)
 	*/
-	public boolean isCompleteNormal(TileList handTiles){
+	public boolean __isCompleteNormal(TileList handTiles){
 		
 		if ((handTiles.size() % 3) != 2) return false;
 		
@@ -987,7 +940,7 @@ public class HandChecker {
 		
 		
 		//populate stacks
-		if (populateMeldStacks(checkTiles) == false) return false;
+		if (!__populateMeldStacks(checkTiles)) return false;
 		
 		pairHasBeenChosen = false;
 		mFinishingMelds = new ArrayList<Meld>(5);
@@ -995,21 +948,19 @@ public class HandChecker {
 		return __isCompleteNormalHand(checkTiles);
 	}
 	//overloaded, checks mHandTiles by default
-	public boolean isCompleteNormal(){return isCompleteNormal(mHandTiles);}
+	public boolean isCompleteNormal(){return __isCompleteNormal(mHandTiles);}
+	
 	
 	
 	/*
-	method: populateMeldStacks
-	populates the meld type stacks for all of the hand tiles
+	private method: __populateMeldStacks
+	populates the meld type stacks for all of the tile in checkTiles
 	returns true if all tiles can make a meld, returns false if a tile cannot make a meld
-	
-	input: handTiles is the list of tiles to check
-		   listMTSL is a list of meld type stacks, will be populated corresponding to the tiles in handTiles
 	*/
-	public boolean populateMeldStacks(TileList checkTiles){
+	private boolean __populateMeldStacks(TileList checkTiles){
 		//check to see if every tile can make at least one meld
 		for (int i = 0; i < checkTiles.size(); i++)
-			if (checkMeldableTile(((HandCheckerTile)checkTiles.get(i)), checkTiles) == false) return false;
+			if (!__checkMeldableTile(((HandCheckerTile)checkTiles.get(i)), checkTiles)) return false;
 		
 		return true;
 	}
@@ -1022,7 +973,7 @@ public class HandChecker {
 	
 	
 	/*
-	method: isCompleteHand
+	private method: __isCompleteNormalHand
 	checks if a hand is complete
 	if a hand is complete, should populate meld lists and flags and stuff (it doesn't yet)
 	
@@ -1163,7 +1114,6 @@ public class HandChecker {
 			}
 			
 		}
-		//TODO
 		
 		return false;
 	}
@@ -1183,11 +1133,7 @@ public class HandChecker {
 	
 	
 	
-	public void printFinishingMelds(){
-		for (Meld m: mFinishingMelds){
-			System.out.println(m.toString());
-		}
-	}
+	public void DEMOprintFinishingMelds(){for (Meld m: mFinishingMelds) System.out.println(m.toString());}
 	
 	
 	
@@ -1317,7 +1263,7 @@ public class HandChecker {
 		System.out.println(h.toString());
 		
 		if (DO_TENPAI){
-			TileList waits = h.mChecker.findTenpaiWaits();
+			TileList waits = h.mChecker.DEMOfindTenpaiWaits();
 			System.out.print("Waits: ");
 			String waitString = "";
 			for (Tile t: waits) waitString += t.toString() + ", ";
@@ -1330,11 +1276,5 @@ public class HandChecker {
 		
 		majava.control.DemoHandGen.main(null);
 	}
-
-	//satisfy compiler whining
-	public void lookAtMelds(){mHandMelds.size();}//yep, i'm looking at them
-	
-	
-	
 	
 }

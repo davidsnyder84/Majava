@@ -1,7 +1,6 @@
 package majava;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import majava.graphics.TableViewer;
 import majava.tiles.Tile;
@@ -83,7 +82,6 @@ methods:
 */
 public class Player {
 	
-	
 
 	//used to indicate who is controlling the player
 	private enum Controller{
@@ -105,11 +103,9 @@ public class Player {
 	//used to indicate what call a player wants to make on another player's discard
 	private enum CallType{
 		NONE, CHI_L, CHI_M, CHI_H, PON, KAN, RON, CHI, UNDECIDED;
-		
 
 		public boolean isChi(){return (this == CHI_L || this == CHI_M || this == CHI_H);}
 		public boolean isPon(){return (this == PON);}
-		
 		
 		@Override
 		public String toString(){
@@ -168,7 +164,6 @@ public class Player {
 	private int mPoints;
 	
 	private Wind mSeatWind;
-//	private int mSeatNumber;
 	private Controller mController;
 	private String mPlayerName;
 	
@@ -699,30 +694,12 @@ public class Player {
 	checks if the player is able to make a call on Tile t
 	
 	input: t is the tile to check if the player can call
-	
 	returns true if the player can call the tile, false if not
-	
-	
-	get list of hot tiles for the hand
-	check if t is a hot tile
-	if (t is not a hot tile): return false
-	
-	check if t is callable
-	if (t is callable): return true
-	if (t not callable): return false
 	*/
 	private boolean __ableToCallTile(Tile t){
 		
-		boolean ableToCall = false;
-		
-		//check if tile t is a hot tile. if t is not a hot tile, return false
-		ArrayList<Integer> hotList = mHand.findAllHotTiles();
-		if (hotList.contains(t.getId()) == false) return false;
-		
-		//~~~~At this point, we know t is a hot tile
-		//we need to check which melds it can be called for, if any
 		//check if t can be called to make a meld
-		ableToCall = mHand.checkCallableTile(t);
+		boolean ableToCall = mHand.checkCallableTile(t);
 		
 		//return true if t is callable, false if not
 		return ableToCall;
@@ -745,20 +722,20 @@ public class Player {
 	*/
 	public void makeMeld(Tile t){
 		
-		if (mCallStatus != CallType.NONE){
+		if (called()){
 			
 			//make the right type of meld, based on call status
-			if (mCallStatus == CallType.CHI_L) mHand.makeMeldChiL();
-			else if (mCallStatus == CallType.CHI_M) mHand.makeMeldChiM();
-			else if (mCallStatus == CallType.CHI_H) mHand.makeMeldChiH();
-			else if (mCallStatus == CallType.PON) mHand.makeMeldPon();
-			else if (mCallStatus == CallType.KAN) mHand.makeMeldKan();
+			if (calledChiL()) mHand.makeMeldChiL();
+			else if (calledChiM()) mHand.makeMeldChiM();
+			else if (calledChiH()) mHand.makeMeldChiH();
+			else if (calledPon()) mHand.makeMeldPon();
+			else if (calledKan()) mHand.makeMeldKan();
 			
 			
 			//update what the player will need to draw next turn (draw nothing if called chi/pon, rinshan draw if called kan)
-			if (mCallStatus == CallType.CHI_L || mCallStatus == CallType.CHI_M || mCallStatus == CallType.CHI_H || mCallStatus == CallType.PON)
+			if (calledChi() || calledPon())
 				mDrawNeeded = DrawType.NONE;
-			if (mCallStatus == CallType.KAN)
+			if (calledKan())
 				mDrawNeeded = DrawType.RINSHAN;
 			
 			//clear call status because the call has been completed
@@ -799,14 +776,7 @@ public class Player {
 	//accessors
 	public int getHandSize(){return mHand.getSize();}
 	public Wind getSeatWind(){return mSeatWind;}
-	//returns 1,2,3,4, corresponding to seat wind E,S,W,N
-//	public int getPlayerNumber(){
-//		if (mSeatWind == Wind.EAST) return 1;
-//		else if (mSeatWind == Wind.SOUTH) return 2;
-//		else if (mSeatWind == Wind.WEST) return 3;
-//		else if (mSeatWind == Wind.NORTH) return 4;
-//		else return 0;
-//	}
+	
 	public String getPlayerName(){return mPlayerName;}
 	
 	
@@ -815,6 +785,9 @@ public class Player {
 	public boolean getRiichiStatus(){return mRiichiStatus;}
 	public boolean checkFuriten(){return mFuritenStatus;}
 	public boolean checkTenpai(){return mHand.getTenpaiStatus();}
+	
+	
+	
 	
 	
 	

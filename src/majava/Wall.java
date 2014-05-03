@@ -1,9 +1,7 @@
 package majava;
 
-import java.util.Scanner;
 
 import majava.tiles.Tile;
-
 import utility.GenSort;
 
 
@@ -14,45 +12,38 @@ represents the wall of tiles used in the game
 
 data:
 	mTiles - list of tiles in the wall (includes dead wall)
-	mNumKansMade - the number of kans made (affects kan draws and dora indicators)
-	mStartOfDeadWall - marks the index of the first dead wall tile
+	mCurrentWallPosition - marks the index of the current position in the wall
 	
+	mRoundTracker - used to look at round info
 	
 methods:
-	constructors:
-	no-arg - builds and initializes the wall
-
-	mutators:
-	dealHands - deals starting hands for each player
-	takeTile - removes a tile from the beginning of the wall and returns it
-	takeTileFromDeadWall - removes a tile from the end of the dead wall and returns it
- 	
- 	accessors:
-	isEmpty - returns true if the main wall is empty (has no tiles left)
-	getNumTilesLeftInWall - returns the number of tiles left in the wall (not including dead wall)
-	
-	getNumTilesLeftInDeadWall - returns the number of tiles left in the dead wall
- 	getNumKansMade - returns the number of kans made
-	getDoraIndicators - returns a list of dora indicator tiles
-	getDoraIndicatorsWithUra - returns a list of dora indicator tiles, including ura dora
+	public:
+		mutators:
+		getStartingHands - fills the received lists with starting hands for each player
+		takeTile - removes a tile from the current wall position and returns it
+		takeTileFromDeadWall - removes a tile from the end of the dead wall and returns it
+	 	
+	 	accessors:
+		isEmpty - returns true if the main wall is empty (has no tiles left)
+		getNumTilesLeftInWall - returns the number of tiles left in the wall (not including dead wall)
+		getNumTilesLeftInDeadWall - returns the number of tiles left in the dead wall
+	 	getNumKansMade - returns the number of kans made
+	 	
+		getDoraIndicators/WithUra - returns a list of dora indicator tiles, including ura dora if specified
+		toStringDeadWall - returns a string representation of the dead wall
+		printWall, printDeadWall, printDoraIndicators - print wall information
+		
 	
 	other:
-	toString
-	
-	private:
-	__initialize - builds, initializes, and shuffles the wall
-	__getDoraIndicators - returns a list of dora indicator tiles. can also return ura dora depending on the flag.
+		syncWithTracker - associates this wall with the round tracker
 */
 public class Wall {
 	
 
-	public static final int MAX_SIZE_WALL = 136;
-	public static final int POS_LAST_NORMAL_WALL_TILE = 121;
-	public static final int POS_LAST_DEAD_WALL_TILE = 135;
-	public static final int POS_START_OF_DEAD_WALL = 122;
-	public static final int FIRST_TILE_IN_WALL = 0;
-	
-//	public static final boolean DEGBUG_SHUFFLE_WALL = Round.DEBUG_LOAD_DEBUG_WALL;
+	private static final int MAX_SIZE_WALL = 136;
+	private static final int POS_LAST_NORMAL_WALL_TILE = 121;
+//	private static final int POS_LAST_DEAD_WALL_TILE = 135;
+//	private static final int FIRST_TILE_IN_WALL = 0;
 	
 	
 	
@@ -60,8 +51,8 @@ public class Wall {
 	
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN DEAD WALL CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	
-	public static final int OFFSET_DEAD_WALL = 122;
-	public static final int MAX_SIZE_DEAD_WALL = 14;
+	private static final int OFFSET_DEAD_WALL = 122;
+	private static final int MAX_SIZE_DEAD_WALL = 14;
 	
 	//even numbers are top row, odd are bottom row
 	private static final int POS_KANDRAW_1 = 12;
@@ -95,12 +86,8 @@ public class Wall {
 	
 	
 	
-	
-//	private TileList mTiles;
 	private Tile[] mTiles;
-	
 	private int mCurrentWallPosition;
-//	private int mNumKansMade;
 	
 	private RoundTracker mRoundTracker;
 	
@@ -233,25 +220,25 @@ public class Wall {
 		TileList indicators = new TileList(size);
 		
 		//add the first dora indicator
-		indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_DORA_1]);
+		indicators.add(mTiles[OFFSET_DEAD_WALL + POS_DORA_1]);
 		
 		//add additional indicators if kans have been made
-		if (numKansMade >= 1) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_DORA_2]);
-		if (numKansMade >= 2) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_DORA_3]);
-		if (numKansMade >= 3) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_DORA_4]);
-		if (numKansMade == 4) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_DORA_5]);
+		if (numKansMade >= 1) indicators.add(mTiles[OFFSET_DEAD_WALL + POS_DORA_2]);
+		if (numKansMade >= 2) indicators.add(mTiles[OFFSET_DEAD_WALL + POS_DORA_3]);
+		if (numKansMade >= 3) indicators.add(mTiles[OFFSET_DEAD_WALL + POS_DORA_4]);
+		if (numKansMade == 4) indicators.add(mTiles[OFFSET_DEAD_WALL + POS_DORA_5]);
 		
 		
 		//add ura dora indicators, if specified
 		if (getUraDora){
 			//add the first ura dora indicator
-			indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_URADORA_1]);
+			indicators.add(mTiles[OFFSET_DEAD_WALL + POS_URADORA_1]);
 
 			//add additional ura indicators if kans have been made
-			if (numKansMade >= 1) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_URADORA_2]);
-			if (numKansMade >= 2) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_URADORA_3]);
-			if (numKansMade >= 3) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_URADORA_4]);
-			if (numKansMade == 4) indicators.add(mTiles[POS_START_OF_DEAD_WALL + POS_URADORA_5]);
+			if (numKansMade >= 1) indicators.add(mTiles[OFFSET_DEAD_WALL + POS_URADORA_2]);
+			if (numKansMade >= 2) indicators.add(mTiles[OFFSET_DEAD_WALL + POS_URADORA_3]);
+			if (numKansMade >= 3) indicators.add(mTiles[OFFSET_DEAD_WALL + POS_URADORA_4]);
+			if (numKansMade == 4) indicators.add(mTiles[OFFSET_DEAD_WALL + POS_URADORA_5]);
 		}
 		
 		return indicators;
@@ -287,8 +274,8 @@ public class Wall {
 	public Tile takeTileFromDeadWall(){
 		Tile takenTile = null;
 
-		takenTile = mTiles[POS_START_OF_DEAD_WALL + POS_KANDRAWS[mRoundTracker.getNumKansMade() - 1]];
-		mTiles[POS_START_OF_DEAD_WALL + POS_KANDRAWS[mRoundTracker.getNumKansMade() - 1]] = null;
+		takenTile = mTiles[OFFSET_DEAD_WALL + POS_KANDRAWS[mRoundTracker.getNumKansMade() - 1]];
+		mTiles[OFFSET_DEAD_WALL + POS_KANDRAWS[mRoundTracker.getNumKansMade() - 1]] = null;
 		
 		return takenTile;
 	}
@@ -540,7 +527,7 @@ public class Wall {
 		if (mTiles[index] == null) return "  ";
 		else return mTiles[index].toString();
 	}
-	private String __deadWallTileToString(int index){return __wallTileToString(POS_START_OF_DEAD_WALL + index);}
+	private String __deadWallTileToString(int index){return __wallTileToString(OFFSET_DEAD_WALL + index);}
 	
 	
 	

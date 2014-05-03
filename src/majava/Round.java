@@ -11,31 +11,46 @@ import majava.tiles.Tile;
 Class: Round
 
 data:
-	p1, p2, p3, p4 - four players. p1 is always east, p2 is always south, etc. 
+	p1, p2, p3, p4 - the four players who will play the round
+	mPlayerArray - an array containing the four players
+	
 	mWall - wall of tiles, includes the dead wall
 	
-	mGameType - length of game being played (single, tonpuusen, or hanchan)
+	mRoundTracker - tracks and manages information on the round
+	mTviewer - TableViewer GUI to display the game and get input from the human player
+	mPauser - used to pause (wait) after player actions
 	
-	mRoundWind - the prevailing wind of the current round ('E' or 'S')
-	mWhoseTurn - whose turn it is (1,2,3,4 corresponds to E,S,W,N)
-	mReaction - will be true if no calls were made during a turn, will be false if a call was made
-	mGameIsOver - will be true if the game is over, false if not
-	mGameResult - the specific result of the game (reason for a draw game, or who won), is UNDECIDED if game is not over
+	mCurrentRoundWind, mCurrentRoundNum, mCurrentRoundBonusNum - information for the round
+	
+	mDoFastGameplay - option, will do fast gameplay if true
+	sleepTime, sleepTimeExclamation, sleepTimeRoundEnd - determine how long to pause during gameplay
 	
 methods:
-	mutators:
- 	
- 	accessors:
+	constructor:
+	2-arg: requires TableViewer, array of four players
+	4-arg: requires TableViewer, array of four players, round wind, round num
+	5-arg: requires TableViewer, array of four players, round wind, round num, round bonus num
 	
-	other:
+	public:
+		mutators:
+	 	play - play the round
+	 	setOptionFastGameplay - set option to do fast gameplay or not
+	 	
+	 	accessors:
+	 	getRoundWind, getRoundNum, getRoundBonusNum - returns round information
+	 	
+	 	roundIsOver - returns true if the round has ended
+	 	endedWithVictory - returns true if the round ended with a win (not a draw)
+	 	getWinningHandString - return a string repesentation of the round's winning hand
+	 	displayRoundResult - displays the round's end result
 */
 public class Round {
 	
-	public static final int DEFAULT_NUM_PLAYERS = 4;
+//	private static final int DEFAULT_NUM_PLAYERS = 4;
 	
-	public static final Wind DEFAULT_ROUND_WIND = Wind.EAST;
-	public static final int DEFAULT_ROUND_NUM = 1;
-	public static final int DEFAULT_ROUND_BONUS_NUM = 0;
+	private static final Wind DEFAULT_ROUND_WIND = Wind.EAST;
+	private static final int DEFAULT_ROUND_NUM = 1;
+	private static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
 	//for debug use
 	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
@@ -348,7 +363,7 @@ public class Round {
 	
 	
 	/*
-	method: handleReaction
+	private method: __handleReaction
 	handles a call made on a discarded tile
 	
 	input: t is the discarded tile
@@ -439,7 +454,7 @@ public class Round {
 	
 	
 	/*
-	method: whoCalled
+	private method: __whoCalled
 	decides who gets to call the tile
 	
 	
@@ -530,7 +545,7 @@ public class Round {
 	
 	
 	/*
-	method: showHandsOfHumanPlayers
+	private method: __showHandsOfHumanPlayers
 	shows the hands of all human players in the game
 	*/
 	private void __showHandsOfHumanPlayers(){for (Player p: mPlayerArray) if (p.controllerIsHuman()) p.showHand();}
@@ -543,10 +558,12 @@ public class Round {
 	
 	//accessors
 	public Wind getRoundWind(){return mRoundWind;}
-	public boolean roundIsOver(){return mRoundTracker.roundIsOver();}
+	public int getRoundNum(){return mRoundNum;}
+	public int getRoundBonusNum(){return mRoundBonusNum;}
 	
-	public String getWinningHandString(){return mRoundTracker.getWinningHandString();}
+	public boolean roundIsOver(){return mRoundTracker.roundIsOver();}
 	public boolean endedWithVictory(){return mRoundTracker.roundEndedWithVictory();}
+	public String getWinningHandString(){return mRoundTracker.getWinningHandString();}
 	
 	
 	

@@ -1,8 +1,19 @@
 package majava;
 
+
+/*
+Enum: Wind
+represents a wind (East, South, West, North)
+	
+methods:
+	public:
+ 	next - returns the next wind clockwise
+ 	prev - returns the next wind counterclockwise
+ 	kamichaWind - returns the previous wind
+ 	toString, toChar - returns a string or char represnation of the wind
+*/
 public enum Wind {
 	EAST, SOUTH, WEST, NORTH, UNKNOWN;
-
 	
 	
 	public Wind next(){
@@ -29,9 +40,7 @@ public enum Wind {
 		default: return "Unknown";
 		}
 	}
-	public char toChar(){
-		return this.toString().charAt(0);
-	}
+	public char toChar(){return this.toString().charAt(0);}
 	public int getNum(){
 		switch(this){
 		case EAST: return 0;
@@ -41,22 +50,5 @@ public enum Wind {
 		default: return -1;
 		}
 	}
-	
-	
-	
-	
-//	public static void main(String[] args) {
-//		Wind w = Wind.EAST;
-//		System.out.println(w.toString());
-//		System.out.println(w.toChar());
-//
-//		w = w.next();
-//		System.out.println(w.toString());
-//		System.out.println(w.toChar());
-//		
-//		w = w.prev();
-//		System.out.println(w.toString());
-//		System.out.println(w.toChar());
-//	}
 
 }

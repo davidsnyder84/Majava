@@ -4,6 +4,34 @@ import java.util.ArrayList;
 
 import majava.tiles.Tile;
 
+
+
+/*
+Class: RoundResult
+
+data:
+	mRoundIsOver - is true if the round is over
+	mResult - the result of the round (washout, 4kan, victoryE, etc)
+	mWinType - the type of win (tsumo, ron)
+	
+	mWinningPlayer - the player who won
+	mFurikondaPlayer - the player who discarded into the winner's ron, if any
+	mWinningTile - the winner's winning tile
+	mWinnerHand - a list of tiles in the winner's hand
+	mWinnerMelds - a list of the winner's melds
+	
+methods:
+	public:
+		mutators:
+	 	setVictoryRon, setVictoryTsumo - sets the result to victory for the given player, for the corresponding win type
+	 	setWinningHand - used to set the winning hand
+	 	
+	 	accessors:
+	 	isOver - returns true if the round has ended
+	 	isDraw, isVictory - returns true if the result is the corresponding result
+	 	getWinningHandString - returns string representation of the winning hand
+	 	getWinTypeString - returns the win type as a string (tsumo, ron)
+*/
 public class RoundResult {
 	
 	
@@ -43,6 +71,9 @@ public class RoundResult {
 			default: return "undecided";
 			}
 		}
+		
+		public boolean isTsumo(){return this == TSUMO;}
+		public boolean isRon(){return this == RON;}
 	}
 	
 	
@@ -96,17 +127,6 @@ public class RoundResult {
 	public void setResultRyuukyoku4Wind(){__setRoundOver(Result.DRAW_4WIND);}
 	
 	
-	public void setResultVictory(char winningSeat){
-		switch(winningSeat){
-		case 'E': __setRoundOver(Result.VICTORY_E); break;
-		case 'S': __setRoundOver(Result.VICTORY_S); break;
-		case 'W': __setRoundOver(Result.VICTORY_W); break;
-		case 'N': __setRoundOver(Result.VICTORY_N); break;
-		default: break;
-		}
-	}
-	
-	
 	
 	
 	private void __setResultVictory(Player winner, WinType winType){
@@ -147,7 +167,10 @@ public class RoundResult {
 		String winString = "";
 		if (!isVictory()) return "No winner";
 		
-		winString += "Winning hand (" + mWinningPlayer.getSeatWind() + "): " + mWinnerHand.toString() + ",   agarihai: " + mWinningTile.toString() + " (" + getWinTypeString() + ")\n";
+		winString += "Winning hand (" + mWinningPlayer.getSeatWind() + "): " + mWinnerHand + ",   agarihai: " + mWinningTile + " (" + getWinTypeString() + ")";
+		if (mWinType.isRon()) winString += " [from " + mFurikondaPlayer.getSeatWind() + "]";
+		
+		winString += "\n";
 		for (Meld m: mWinnerMelds)
 			winString += m.toString() + "\n";
 		
@@ -173,24 +196,14 @@ public class RoundResult {
 	
 	
 	//returns the round result as a string
-	public String getRoundResultString(){
+	@Override
+	public String toString(){
 		
 		String resString = "";
 		resString += mResult.toString();
 		
 		if (mResult.isVictory()) resString += " (" + mWinType.toString() + ")";
 		return resString;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	public static void main(String[] args) {
-		
 	}
 
 }

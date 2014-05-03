@@ -454,7 +454,7 @@ public class TableViewer extends JFrame{
 		return t.getId();
 	}
 	
-	//gets icon for the given wind (char) of the given size
+	//gets icon for the given wind of the given size
 	private ImageIcon __getImageIconWind(Wind wind, int windSize){
 		int windNum = -1;
 		windNum = wind.getNum();

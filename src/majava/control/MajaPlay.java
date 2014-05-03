@@ -539,7 +539,8 @@ public class MajaPlay {
 	//probably broke this when clickable discards were implemented
 	public static void testMeldMaking(){
 		
-		Player p = new Player(Wind.EAST);
+		Player p = new Player();
+		p.setSeatWindEast();
 
 		p.addTileToHand(2);
 		p.addTileToHand(3);
@@ -622,10 +623,12 @@ public class MajaPlay {
 
 	
 	
-	
+
+	//probably broke this when clickable discards were implemented
 	public static void testPlayerCall(){
 		
-		Player p = new Player(Wind.EAST);
+		Player p = new Player();
+		p.setSeatWindEast();
 
 		p.addTileToHand(2);
 		p.addTileToHand(2);

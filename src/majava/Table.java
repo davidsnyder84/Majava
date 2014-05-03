@@ -1,11 +1,7 @@
 package majava;
 
-import java.util.ArrayList;
-import java.util.Scanner;
 
 import majava.graphics.TableViewer;
-
-import utility.GenSort;
 import utility.Pauser;
 
 
@@ -15,23 +11,22 @@ import utility.Pauser;
 Class: Table
 
 data:
-	p1, p2, p3, p4 - four players. p1 is always east, p2 is always south, etc. 
-	mWall - wall of tiles, includes the dead wall
+	p1, p2, p3, p4 - the four players who will play the round
+	mPlayerArray - an array containing the four players
 	
-	mGameType - length of game being played (single, tonpuusen, or hanchan)
+	mCurrentGame - the current game being played at the table
 	
-	mRoundWind - the prevailing wind of the current round ('E' or 'S')
-	mWhoseTurn - whose turn it is (1,2,3,4 corresponds to E,S,W,N)
-	mReaction - will be NO_REACTION if no calls were made during a turn, will be something else otherwise
-	mGameIsOver - will be true if the game is over, false if not
-	mGameResult - the specific result of the game (reason for a draw game, or who won), is UNDECIDED if game is not over
+	mTviewer - TableViewer GUI to display the game and get input from the human player
+	mDoFastGameplay - option, will do fast gameplay if true
+	mDoSinglePlayer - option, will do single player if true
 	
 methods:
-	mutators:
- 	
- 	accessors:
-	
-	other:
+	public:
+		mutators:
+		play - plays a game of mahjong with the four players seated at the table
+	 	
+	 	accessors:
+	 	gameIsOver - returns true if the current game is over
 */
 public class Table {
 	
@@ -39,7 +34,7 @@ public class Table {
 	
 	
 	//for debug use
-	private static final boolean DEBUG_SHUFFLE_SEATS = false;
+//	private static final boolean DEBUG_SHUFFLE_SEATS = false;
 	
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	private static final boolean DEFAULT_DO_SINGLE_PLAYER = true;

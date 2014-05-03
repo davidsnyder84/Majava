@@ -1,7 +1,5 @@
 package majava;
 
-import java.util.ArrayList;
-
 import majava.tiles.PondTile;
 import majava.tiles.Tile;
 
@@ -11,30 +9,32 @@ represents a player's pond of discarded tiles
 
 data:
 	mTiles - list of tiles in the pond
+	mRiichiTileIndex - the index of the tile used to riichi
 	
 methods:
 	
-	constructors:
-	
-	
-	mutators:
- 	
- 	
- 	accessors:
-	
+	public:
+		mutators:
+		addTile - adds a tile to the pond
+	 	removeMostRecentTile - marks the most recent tile as missing (because it was callled)
+	 	
+	 	accessors:
+	 	isNagashiMangan - returns true if the player has made a nagashi mangan in their pond
+		getRiichiTile - returns which tile the player used for riichi
+		getMostRecentTile - returns the most recently discarded tile in the pond
 	
 	other:
+		syncWithRoundTracker - associates this pond with the round tracker
 */
 public class Pond {
 	
 	
-	public static final int SIZE_DEFAULT = 30;
+	private static final int SIZE_DEFAULT = 30;
 	
 	
 	
 	
 	private TileList mTiles;
-	private RoundTracker mRoundTracker;
 	
 	private int mRiichiTileIndex;
 	
@@ -43,7 +43,6 @@ public class Pond {
 	
 	public Pond(){
 		mTiles = new TileList(SIZE_DEFAULT);
-		mRoundTracker = null;
 		mRiichiTileIndex = -1;
 	}
 	
@@ -110,8 +109,7 @@ public class Pond {
 	
 	//sync pond tilelist with tracker
 	public void syncWithRoundTracker(RoundTracker tracker){
-		mRoundTracker = tracker;
-		mRoundTracker.syncPond(mTiles);
+		tracker.syncPond(mTiles);
 	}
 	
 	

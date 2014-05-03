@@ -299,7 +299,7 @@ public class RoundTracker {
 		 if (mRoundResult.isVictory()) System.out.println(getWinningHandString());
 	}
 	//returns the round result as a string
-	public String getRoundResultString(){return mRoundResult.getRoundResultString();}
+	public String getRoundResultString(){return mRoundResult.toString();}
 	
 	
 	public boolean roundIsOver(){return mRoundResult.isOver();}

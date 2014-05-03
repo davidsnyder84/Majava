@@ -14,71 +14,85 @@ data:
 	mPond - the player's pond of discards
 	mPoints - how many points the player has
 	
-	mSeatWind - the player's seat wind (ESWN)
+	mSeatWind - the player's seat wind
 	mController - who is controlling the player (human or computer)
+	mPlayerName - the player's name as a string
 	
 	mCallStatus - the player's call (reaction) to the most recent disacrd (chi, pon, kan, ron, or none)
-	mDrawNeeded - the type of draw the player needs for their next turn (normal draw, kan draw, or no draw) 
+	mDrawNeeded - the type of draw the player needs for their next turn (normal draw, rinshan draw, or no draw)
+	mTurnAction - the player's choice of action on their turn (discard, ankan, tsumo, etc)
+	mChosenDiscardIndex - the index of the tile the player has chosen to discard
 	
 	mHoldingRinshanTile - is true if the player is holding a rinshan tile that they drew this turn, false otherwise
 	mRiichiStatus - is true if the player has declared riichi, false if not
 	mFuritenStatus - is true if the player is in furiten status, false if not
-	mTenpaiStatus = is true if the player's hand is in tenpai
 	
+	mRoundTracker - used to look at round info
 
 methods:
 	constructors:
-	2-arg - takes seat and controller, initializes wall and pond, and status info
-	1-arg - takes seat, sets default controller
-	no-arg - sets default seat and controller
+	Can optionally supply a player name (string)
 	
 	
-	mutators:
-	setController - sets the player's controller
- 	setSeatWind - sets the player's seat wind
-	pointsIncrease, pointsDecrease - increase/decrease the player's points by an integer amount
- 	
- 	accessors:
- 	getHandSize - returns hand size
-	getSeatWind - return seat wind
-	getPlayerNumber - returns (1,2,3,4) corresponding to (E,S,W,N)
-	getPoints - returns how many points the player has
-	
-	getRiichiStatus - returns true if the player is in riichi status
-	checkFuriten - returns true if the player is in furiten status
-	checkRinshan - returns true if the player is holding a rinshan tile that they drew this turn
-	checkTenpai - returns true if the player is in tenpai
-	getNumMeldsMade - returns the number of melds the player has made (open melds and ankans)
-	
-	called - returns true if the player has called a discarded tile
-	checkCallStatus - returns the specific type of call the player has made
-	checkCallStatusString - returns the specific type of call the player has made, as a string
-	checkDrawNeeded - returns the type of draw the player needs (normal draw, kan draw, or none)
-
-	
-	
-	private:
-	__discardTile - gets a player's discard choice, discards it, and returns the tile
-	__askSelfForDiscard- asks a player which tile they want to discard, returns their choice
-	__askDiscardHuman - asks a human player which tile they want to discard, returns their choice
-	__askDiscardCom - asks a computer player which tile they want to discard, returns their choice
-	
-	__askSelfForReaction - asks the player how they want to react to the discarded tile
-	__askReactionHuman - asks a human player how they want to react to the discarded tile
-	__askReactionCom - asks a computer player how they want to react to the discarded tile
-	
-	__putTileInPond - adds a tile to the player's pond
-	__ableToCallTile - checks if the player is able to make a call on Tile t
-	
-	
+	public:
+		
+		mutators:
+		prepareForNewRound - prepares a player's variables for a new round
+		takeTurn - walks the player through their turn, returns their discard
+		reactToDiscard - shows a player a discarded tile, and gets their reaction (call or no call) to it
+		reactToAnkan, reactToMinkan - return a player's reaction to another player's minkan or ankan
+		
+		setPlayerName - sets the player's name
+		setControllerHuman/Com - sets the player's controller to the corresponding controller
+	 	setSeatWindEast, etc - sets the player's seat wind to the corresponding wind
+	 	rotateSeat - rotates the player's seat wind to the next wind
+		pointsIncrease, pointsDecrease - increase/decrease the player's points by an integer amount
+		
+		addTileToHand - receives a tile and adds it to the player's hand
+		removeTileFromPond - removes the most recent tile from the player's pond
+		makeMeld - tell the player to make the meld corresponding to their desired call
+	 	sortHand - sorts the player's hand
+		
+		
+		
+	 	accessors:
+	 	getHandSize - returns hand size
+		getSeatWind - return seat wind
+		getPoints - returns how many points the player has
+		getPlayerName - returns the player's name
+		getControllerAsString - returns the player's controller as a string
+		controllerIsHuman/Computer - returns true if the player's controller is of the corresponding type
+		
+		getRiichiStatus - returns true if the player is in riichi status
+		checkFuriten - returns true if the player is in furiten status
+		checkRinshan - returns true if the player is holding a rinshan tile that they drew this turn
+		checkTenpai - returns true if the player is in tenpai
+		
+		getMelds - returns a list of the player's melds
+		getNumMeldsMade - returns the number of melds the player has made (open melds and ankans)
+		getNumKansMade - returns the number of kans the player has made
+		hasMadeAKan - returns true if the player has made a kan
+		handIsFullyConcealed - returns true if the player's hand is fully concealed
+		
+		
+		called - returns true if the player has called a discarded tile
+		calledChi, etc - returns true if the player made the corresponding call
+		checkCallStatusString - returns the specific type of call the player has made, as a string
+		
+		needsDraw - returns true if the player needs to draw a tile
+		needsDrawNormal, needsDrawRinshan - returns true if the player needs the corresponding type of draw
+		
+		turnActionChoseDiscard - returns true if the player chose a discard during their turn
+		turnActionMadeKan, etc - returns true if the player made the corresponding action during their turn
+		ableToAnkan, etc - returns true if the player is able to make the corresponding action during their turn
+		
+		showHand - display the player's hand
+		showPond - display the player's pond
+		getPondAsString - get the player's pond as a string
+		
+		
 	other:
-	addTileToHand - add a tile to the player's hand
-	takeTurn - walks the player through their discard turn, returns their discard
-	reactToDiscard - shows a player a discarded tile, and gets their reaction (call or no call) to it
-	
-	showHand - display the player's hand
-	showPond - display the player's pond
-	getPondAsString - get the player's pond as a string
+		syncWithRoundTracker - associates this player with the round tracker
 */
 public class Player {
 	
@@ -139,11 +153,11 @@ public class Player {
 	
 	
 	private static final Wind SEAT_DEFAULT = Wind.UNKNOWN;
-	public static final Controller CONTROLLER_DEFAULT = Controller.UNDECIDED;
-	public static final String PLAYERNAME_DEFAULT = "Kyoutarou";
+	private static final Controller CONTROLLER_DEFAULT = Controller.UNDECIDED;
+	private static final String PLAYERNAME_DEFAULT = "Kyoutarou";
 	private static final ComBehavior COM_BEHAVIOR = COM_BEHAVIOR_DEFAULT;
 	
-	public static final int POINTS_STARTING_AMOUNT_DEFAULT = 25000;
+	private static final int POINTS_STARTING_AMOUNT_DEFAULT = 25000;
 	
 	
 	
@@ -190,10 +204,10 @@ public class Player {
 	
 	
 	
-	public Player(Wind seat, Controller controller, String pName){
+	public Player(String pName){
 		
-		mSeatWind = seat;
-		mController = controller;
+		mSeatWind = SEAT_DEFAULT;
+		mController = CONTROLLER_DEFAULT;
 		
 		if (pName == null) pName = PLAYERNAME_DEFAULT;
 		setPlayerName(pName);
@@ -202,11 +216,7 @@ public class Player {
 		
 		prepareForNewRound();
 	}
-	public Player(Wind seat, Controller controller){this(seat, controller, PLAYERNAME_DEFAULT);}
-	public Player(Wind seat){this(seat, CONTROLLER_DEFAULT);}
-	public Player(){this(SEAT_DEFAULT);}
-	
-	
+	public Player(){this(PLAYERNAME_DEFAULT);}
 	
 	
 	

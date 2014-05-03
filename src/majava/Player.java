@@ -117,9 +117,6 @@ public class Player {
 	//used to indicate what call a player wants to make on another player's discard
 	private enum CallType{
 		NONE, CHI_L, CHI_M, CHI_H, PON, KAN, RON, CHI, UNDECIDED;
-
-		public boolean isChi(){return (this == CHI_L || this == CHI_M || this == CHI_H);}
-		public boolean isPon(){return (this == PON);}
 		
 		@Override
 		public String toString(){
@@ -150,7 +147,11 @@ public class Player {
 	
 
 	
+
 	
+	private static final boolean DEBUG_SKIP_PLAYER_CALL = false;
+	private static final boolean DEBUG_COMPUTERS_MAKE_CALLS = true;
+	private static final boolean DEBUG_COMPUTERS_MAKE_ACTIONS = true;
 	
 	private static final Wind SEAT_DEFAULT = Wind.UNKNOWN;
 	private static final Controller CONTROLLER_DEFAULT = Controller.UNDECIDED;
@@ -159,15 +160,9 @@ public class Player {
 	
 	private static final int POINTS_STARTING_AMOUNT_DEFAULT = 25000;
 	
-	
-	
 	private static final int NO_DISCARD_CHOSEN = -94564;
 	
 	
-	
-	private static final boolean DEBUG_SKIP_PLAYER_CALL = false;
-	private static final boolean DEBUG_COMPUTERS_MAKE_CALLS = true;
-	private static final boolean DEBUG_COMPUTERS_MAKE_ACTIONS = true;
 	
 	
 	
@@ -191,8 +186,6 @@ public class Player {
 	private boolean mHoldingRinshanTile;
 	private boolean mRiichiStatus;
 	private boolean mFuritenStatus;
-	
-	private boolean mWon;
 	
 	
 	private RoundTracker mRoundTracker;
@@ -235,8 +228,6 @@ public class Player {
 		mRiichiStatus = false;
 		mFuritenStatus = false;
 		mHoldingRinshanTile = false;
-		
-		mWon = false;
 		
 		mLastDiscard = null;
 	}
@@ -333,9 +324,7 @@ public class Player {
 	
 	
 	//adds a tile to the pond
-	private void __putTileInPond(Tile t){
-		mPond.addTile(t);
-	}
+	private void __putTileInPond(Tile t){mPond.addTile(t);}
 	
 	
 	//removes the most recent tile from the player's pond (because another player called it)

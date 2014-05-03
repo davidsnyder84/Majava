@@ -103,7 +103,9 @@ public class TableViewer extends JFrame{
 	private static final Color COLOR_SIDEBAR = new Color(0, 255, 0, 100);
 	private static final Color COLOR_RINF_PANEL = new Color(0,255,255,35);
 	private static final Color COLOR_RIND = new Color(0,155,155,35);
+	private static final Color COLOR_TURN_INDICATOR = Color.YELLOW;
 	private static final Color COLOR_CALL_PANEL = new Color(210,0, 210, 30);
+	private static final Color COLOR_EXCLAMATION = new Color(210, 100, 210);
 	
 	private static final Color COLOR_POND_CALLED_TILE = new Color(250, 0, 0, 250);
 	private static final Color COLOR_POND_RIICHI_TILE = new Color(0, 0, 250, 250);
@@ -111,8 +113,8 @@ public class TableViewer extends JFrame{
 
 	
 	private static final int DEFAULT_SLEEP_TIME_EXCLAMATION = 1500;
-	private static final int DEFAULT_SLEEP_TIME_DISCARD = 400;
-	private static final int[][] EXCLAMATION_LOCS =  {{161, 688}, {708, 573}, {542, 6}, {3, 116}};
+//	private static final int[][] EXCLAMATION_LOCS =  {{161, 688}, {708, 573}, {542, 6}, {3, 116}};
+	private static final int[][] EXCLAMATION_LOCS =  {{161, 688}, {708, 360}, {542, 6}, {3, 360}};
 	
 	
 	
@@ -1112,7 +1114,7 @@ public class TableViewer extends JFrame{
 		lblExclamationLabel.setBorder(new LineBorder(new Color(0, 0, 200), 3, true));
 		panelTable.add(lblExclamationLabel);
 		lblExclamationLabel.setOpaque(true);
-		lblExclamationLabel.setBackground(COLOR_CALL_PANEL);
+		lblExclamationLabel.setBackground(COLOR_EXCLAMATION);
 		
 		
 		
@@ -3524,13 +3526,13 @@ public class TableViewer extends JFrame{
 		lblTurnInd11.setBounds(1, 0, 55, 13);
 		panelTurnInd1.add(lblTurnInd11);
 		lblTurnInd11.setOpaque(true);
-		lblTurnInd11.setBackground(Color.YELLOW);
+		lblTurnInd11.setBackground(COLOR_TURN_INDICATOR);
 		
 		lblTurnInd12 = new JLabel("");
 		lblTurnInd12.setBounds(110, 0, 55, 13);
 		panelTurnInd1.add(lblTurnInd12);
 		lblTurnInd12.setOpaque(true);
-		lblTurnInd12.setBackground(Color.YELLOW);
+		lblTurnInd12.setBackground(COLOR_TURN_INDICATOR);
 		
 		
 
@@ -3544,13 +3546,13 @@ public class TableViewer extends JFrame{
 		lblTurnInd21.setBounds(1, 1, 13, 52);
 		panelTurnInd2.add(lblTurnInd21);
 		lblTurnInd21.setOpaque(true);
-		lblTurnInd21.setBackground(Color.YELLOW);
+		lblTurnInd21.setBackground(COLOR_TURN_INDICATOR);
 		
 		lblTurnInd22 = new JLabel("");
 		lblTurnInd22.setBounds(0, 105, 13, 52);
 		panelTurnInd2.add(lblTurnInd22);
 		lblTurnInd22.setOpaque(true);
-		lblTurnInd22.setBackground(Color.YELLOW);
+		lblTurnInd22.setBackground(COLOR_TURN_INDICATOR);
 		
 		
 		panelTurnInd3 = new JPanel();
@@ -3563,13 +3565,13 @@ public class TableViewer extends JFrame{
 		lblTurnInd31.setBounds(1, 0, 55, 13);
 		panelTurnInd3.add(lblTurnInd31);
 		lblTurnInd31.setOpaque(true);
-		lblTurnInd31.setBackground(Color.YELLOW);
+		lblTurnInd31.setBackground(COLOR_TURN_INDICATOR);
 		
 		lblTurnInd32 = new JLabel("");
 		lblTurnInd32.setBounds(110, 0, 55, 13);
 		panelTurnInd3.add(lblTurnInd32);
 		lblTurnInd32.setOpaque(true);
-		lblTurnInd32.setBackground(Color.YELLOW);
+		lblTurnInd32.setBackground(COLOR_TURN_INDICATOR);
 		
 		
 		panelTurnInd4 = new JPanel();
@@ -3582,13 +3584,13 @@ public class TableViewer extends JFrame{
 		lblTurnInd41.setBounds(1, 1, 13, 51);
 		panelTurnInd4.add(lblTurnInd41);
 		lblTurnInd41.setOpaque(true);
-		lblTurnInd41.setBackground(Color.YELLOW);
+		lblTurnInd41.setBackground(COLOR_TURN_INDICATOR);
 		
 		lblTurnInd42 = new JLabel("");
 		lblTurnInd42.setBounds(0, 105, 13, 51);
 		panelTurnInd4.add(lblTurnInd42);
 		lblTurnInd42.setOpaque(true);
-		lblTurnInd42.setBackground(Color.YELLOW);
+		lblTurnInd42.setBackground(COLOR_TURN_INDICATOR);
 		
 		
 		

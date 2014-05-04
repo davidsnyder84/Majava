@@ -204,7 +204,6 @@ public class Game {
 	
 	
 	//accessors
-//	public int getGameType(){return mGameType;}
 	public boolean gameIsOver(){return mGameIsOver;}
 	
 	

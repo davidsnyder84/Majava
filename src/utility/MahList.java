@@ -71,10 +71,10 @@ public class MahList <T extends Comparable<T> > implements Iterable<T>{
 		mList = newData;
 		mSorter = new GenSort<T>(mList);
 	}
-	//creates a new lsit with the given capacity
-	public MahList(int capacity){
-		this(new ArrayList<T>(capacity));
-	}
+	//creates a new list with the given capacity
+	public MahList(int capacity){this(new ArrayList<T>(capacity));}
+	public MahList(){this(DEFAULT_CAPACITY);}
+	
 	@SafeVarargs
 	//can take an array, or a variable number or arguments of type T 
 	public MahList(T... items){
@@ -86,24 +86,12 @@ public class MahList <T extends Comparable<T> > implements Iterable<T>{
 		this(other.size());
 		for (T item: other) mList.add(item);
 	}
-	public MahList(){
-		this(DEFAULT_CAPACITY);
-	}
 	
 	
 	
 	
-	/*
-	private method: subList
-	returns a sublist, as a MahList<T> type list from fromIndex (inclusive) to toIndex (exclusive)
-	Returns a view of the portion of this list between the specified fromIndex, inclusive, and toIndex, exclusive. (If fromIndex and toIndex are equal, the returned list is empty)
 	
-	input: fromIndex, inclusive
-		   toIndex, exclusive
-	
-	creates a new arraylist out of a sublist of mList
-	returns a new MahList object with the sublist as its list 
-	*/
+	//returns a sublist, as a MahList<T> type list from fromIndex (inclusive) to toIndex (exclusive)
 	public MahList<T> subList(int fromIndex, int toIndex){
 		ArrayList<T> alSubList = new ArrayList<T>(mList.subList(fromIndex, toIndex));
 		return new MahList<T>(alSubList);
@@ -164,11 +152,10 @@ public class MahList <T extends Comparable<T> > implements Iterable<T>{
 	}
 	
 	
+	
 	//add multiple items to the end of a list
 	//takes a list, an array, or var arguments
-	public void addMultiple(MahList<T> items){
-		for (T item: items) mList.add(item);
-	}
+	public void addMultiple(MahList<T> items){for (T item: items) mList.add(item);}
 	@SuppressWarnings("unchecked")
 	public void addMultiple(T... items){addMultiple(new MahList<T>(items));}
 	public void addMultiple(ArrayList<T> items){addMultiple(new MahList<T>(items));}
@@ -177,9 +164,7 @@ public class MahList <T extends Comparable<T> > implements Iterable<T>{
 	
 	//add multiple items to the beginning of a list
 	//takes a list, an array, or var arguments
-	public void addMultipleToBeginning(MahList<T> items){
-		for (T item: items) mList.add(0, item);
-	}
+	public void addMultipleToBeginning(MahList<T> items){for (T item: items) mList.add(0, item);}
 	@SuppressWarnings("unchecked")
 	public void addMultipleToBeginning(T... items){addMultiple(new MahList<T>(items));}
 	public void addMultipleToBeginning(ArrayList<T> items){addMultiple(new MahList<T>(items));}

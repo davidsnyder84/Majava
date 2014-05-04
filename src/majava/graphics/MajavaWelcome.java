@@ -143,7 +143,7 @@ public class MajavaWelcome extends JFrame implements ActionListener {
 		
 		JLabel lblTori = new JLabel("");
 		lblTori.setBounds(351, 91, 137, 190);
-		lblTori.setIcon(new ImageIcon(getClass().getResource("/res/img/other/sounotori.png")));
+		lblTori.setIcon(new ImageIcon(getClass().getResource("/res/img/omake/sounotori.png")));
 		contentPane.add(lblTori);
 		
 		

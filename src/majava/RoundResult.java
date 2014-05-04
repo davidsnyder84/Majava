@@ -47,15 +47,15 @@ public class RoundResult {
 		public String toString(){
 			switch (this){
 			case DRAW_WASHOUT: return "Draw (Washout)";
-			case DRAW_KYUUSHU: return "Draw (Kyuushu)";
+			case DRAW_KYUUSHU: return "Draw (Kyuushuu)";
 			case DRAW_4KAN: return "Draw (4 kans)";
 			case DRAW_4RIICHI: return "Draw (4 riichi)";
 			case DRAW_4WIND: return "Draw (4 wind)";
 			
-			case VICTORY_E: return "E wins!";
-			case VICTORY_S: return "S wins!";
-			case VICTORY_W: return "W wins!";
-			case VICTORY_N: return "N wins!";
+			case VICTORY_E: return "East wins!";
+			case VICTORY_S: return "South wins!";
+			case VICTORY_W: return "West wins!";
+			case VICTORY_N: return "North wins!";
 			default: return "??Undecided??";
 			}
 		}

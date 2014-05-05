@@ -65,14 +65,15 @@ methods:
 */
 public class Hand implements Iterable<Tile>{
 	
+	private enum ModifyAction {ADD, REMOVE;}
+	
+	
 	private static final int MAX_HAND_SIZE = 14;
 	private static final int MAX_NUM_MELDS = 5;
 	private static final int AVG_NUM_TILES_PER_MELD = 3;
 	
-	private enum ModifyAction {ADD, REMOVE;}
-	
 	//for debug use
-	public static final boolean DEBUG_SHOW_MELDS_ALONG_WITH_HAND = false;
+	private static final boolean DEBUG_SHOW_MELDS_ALONG_WITH_HAND = false;
 	
 	
 	
@@ -346,13 +347,15 @@ public class Hand implements Iterable<Tile>{
 		int candidateIndex;
 		MahList<Integer> partnerIndices;
 		
+		final int NUM_PARTNERS_NEEDED_TO_KAN = 3;
+		
 		if (meldType.isKan()){
 
 			candidateIndex = mChecker.getCandidateAnkanIndex();
 			candidate = mTiles.get(candidateIndex);
 			
 			partnerIndices = mTiles.findAllIndicesOf(candidate);
-			while(partnerIndices.size() > HandChecker.NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.removeLast();
+			while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.removeLast();
 			
 			handTiles = mTiles.getMultiple(partnerIndices);
 			

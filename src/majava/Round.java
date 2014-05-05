@@ -46,8 +46,6 @@ methods:
 */
 public class Round {
 	
-//	private static final int DEFAULT_NUM_PLAYERS = 4;
-	
 	private static final Wind DEFAULT_ROUND_WIND = Wind.EAST;
 	private static final int DEFAULT_ROUND_NUM = 1;
 	private static final int DEFAULT_ROUND_BONUS_NUM = 0;
@@ -236,6 +234,7 @@ public class Round {
 		if (p.needsDraw()){
 			__givePlayerTile(p);
 		}
+		else __updateWindow();
 		
 		
 		//return early if the round is over (4kan or washout)
@@ -253,6 +252,7 @@ public class Round {
 			if (p.needsDrawRinshan()){
 				
 				__showExclamation("Kan!", p);
+				__updateWindow();
 				
 				//give player a rinshan draw
 				__givePlayerTile(p);
@@ -284,7 +284,6 @@ public class Round {
 		System.out.println("\n\n\tTiles left: " + mWall.getNumTilesLeftInWall());
 		System.out.println("\t" + p.getSeatWind() + " Player's discard: ^^^^^" + mRoundTracker.getMostRecentDiscard().toString() + "^^^^^");
 		p.showPond();
-//		__showDiscard();
 		__updateWindow();
 		
 		

@@ -30,7 +30,7 @@ methods:
 */
 public class Table {
 	
-	public static final int NUM_PLAYERS = 4;
+	private static final int NUM_PLAYERS = 4;
 	
 	
 	//for debug use
@@ -60,7 +60,6 @@ public class Table {
 	/*
 	no-arg Constructor
 	initializes a table, creates a GUI to view the table
-	
 	initializes options for games that will be played at the table
 	*/
 	public Table(){

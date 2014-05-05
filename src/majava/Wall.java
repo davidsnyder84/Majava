@@ -40,7 +40,8 @@ methods:
 public class Wall {
 	
 
-	private static final int MAX_SIZE_WALL = 136;
+	private static final int NUMBER_OF_DIFFERENT_TILES = 34;
+	private static final int MAX_SIZE_WALL = NUMBER_OF_DIFFERENT_TILES * 4;	//136
 	private static final int POS_LAST_NORMAL_WALL_TILE = 121;
 //	private static final int POS_LAST_DEAD_WALL_TILE = 135;
 //	private static final int FIRST_TILE_IN_WALL = 0;
@@ -180,7 +181,7 @@ public class Wall {
 		
 		//fill the wall with 4 of each tile, in sequential order
 		//make red doras accordingly for fives (1 in man, 2 in pin, 1 in sou)
-		for (int id = 1; id <= Tile.NUMBER_OF_DIFFERENT_TILES; id++){
+		for (int id = 1; id <= NUMBER_OF_DIFFERENT_TILES; id++){
 			mTiles[i++] = new Tile(id);
 			mTiles[i++] = new Tile(id);
 			mTiles[i++] = new Tile(id, (id == IDP5) );

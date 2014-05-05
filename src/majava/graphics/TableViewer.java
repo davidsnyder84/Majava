@@ -160,9 +160,8 @@ public class TableViewer extends JFrame{
 
 	private static final int GARRYINDEX_OTHER_RIICHI = 0;
 	
-	
-	
-	
+
+	private static final int NUMBER_OF_DIFFERENT_TILES = 34;
 	
 	
 	//click action constants
@@ -453,9 +452,9 @@ public class TableViewer extends JFrame{
 		if (t == null) return NULL_TILE_IMAGE_ID;
 		if (t.isRedDora())
 			switch(t.getId()){
-			case 5: return Tile.NUMBER_OF_DIFFERENT_TILES + 1;
-			case 14: return Tile.NUMBER_OF_DIFFERENT_TILES + 2;
-			case 23: return Tile.NUMBER_OF_DIFFERENT_TILES + 3;
+			case 5: return NUMBER_OF_DIFFERENT_TILES + 1;
+			case 14: return NUMBER_OF_DIFFERENT_TILES + 2;
+			case 23: return NUMBER_OF_DIFFERENT_TILES + 3;
 		}
 		return t.getId();
 	}

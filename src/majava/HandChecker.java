@@ -57,12 +57,12 @@ methods:
 public class HandChecker {
 	
 	
-	public static final boolean DEFAULT_CLOSED_STATUS = true;
+	private static final boolean DEFAULT_CLOSED_STATUS = true;
 	
-	public static final int NUM_PARTNERS_NEEDED_TO_CHI = 2;
-	public static final int NUM_PARTNERS_NEEDED_TO_PON = 2;
-	public static final int NUM_PARTNERS_NEEDED_TO_KAN = 3;
-	public static final int NUM_PARTNERS_NEEDED_TO_PAIR = 1;
+	private static final int NUM_PARTNERS_NEEDED_TO_CHI = 2;
+	private static final int NUM_PARTNERS_NEEDED_TO_PON = 2;
+	private static final int NUM_PARTNERS_NEEDED_TO_KAN = 3;
+	private static final int NUM_PARTNERS_NEEDED_TO_PAIR = 1;
 	
 	private static final int OFFSET_CHI_L1 = 1;
 	private static final int OFFSET_CHI_L2 = 2;
@@ -72,6 +72,9 @@ public class HandChecker {
 	private static final int OFFSET_CHI_H2 = -1;
 	
 	private static final int MAX_HAND_SIZE = 14;
+
+	private static final int NUMBER_OF_YAOCHUU_TILES = 13;
+	private static final TileList LIST_OF_YAOCHUU_TILES = new TileList(1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34);
 	
 	
 	
@@ -640,14 +643,14 @@ public class HandChecker {
 		
 		
 		//check if the hand contains at least 12 different TYC tiles
-		TileList listTYC = Tile.listOfYaochuuTiles();
+		TileList listTYC = __listOfYaochuuTiles();
 		int countTYC = 0;
-		for (int i = 0; i < Tile.NUMBER_OF_YAOCHUU_TILES; i++)
+		for (int i = 0; i < NUMBER_OF_YAOCHUU_TILES; i++)
 			if (mHandTiles.contains(listTYC.get(i)))
 				countTYC++;
 
 		//return false if the hand doesn't contain at least 12 different TYC tiles
-		if (countTYC < Tile.NUMBER_OF_YAOCHUU_TILES - 1) return false;
+		if (countTYC < NUMBER_OF_YAOCHUU_TILES - 1) return false;
 		
 		return true;
 	}
@@ -656,7 +659,7 @@ public class HandChecker {
 	public boolean isCompleteKokushi(){
 		if ((mHandTiles.size() == MAX_HAND_SIZE) &&
 			(isTenpaiKokushi() == true) &&
-			(__getKokushiWaits().size() == Tile.NUMBER_OF_YAOCHUU_TILES))
+			(__getKokushiWaits().size() == NUMBER_OF_YAOCHUU_TILES))
 			return true;
 		
 		return false;
@@ -671,7 +674,7 @@ public class HandChecker {
 		Tile missingTYC = null;
 		if (isTenpaiKokushi() == true){
 			//look for a Yaochuu tile that the hand doesn't contain
-			TileList listTYC = Tile.listOfYaochuuTiles();
+			TileList listTYC = __listOfYaochuuTiles();
 			for (Tile t: listTYC)
 				if (mHandTiles.contains(t) == false)
 					missingTYC = t;
@@ -1225,8 +1228,9 @@ public class HandChecker {
 	
 	
 	
+
 	
-	
+	private final static TileList __listOfYaochuuTiles(){return (new TileList(LIST_OF_YAOCHUU_TILES));}
 	
 	
 	

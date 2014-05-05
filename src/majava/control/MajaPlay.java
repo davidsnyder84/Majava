@@ -278,10 +278,10 @@ public class MajaPlay {
 
 		h.addTile(new Tile("M1"));	//1
 		h.addTile(new Tile("M9"));	//2
-		h.addTile(new Tile("C1"));	//3
-		h.addTile(new Tile("C9"));	//4
-		h.addTile(new Tile("B1"));	//5
-		h.addTile(new Tile("B9"));	//6
+		h.addTile(new Tile("P1"));	//3
+		h.addTile(new Tile("P9"));	//4
+		h.addTile(new Tile("S1"));	//5
+		h.addTile(new Tile("S9"));	//6
 		h.addTile(new Tile("WE"));	//7
 		h.addTile(new Tile("WS"));	//8
 		h.addTile(new Tile("WW"));	//9
@@ -502,9 +502,9 @@ public class MajaPlay {
 		
 		ArrayList<Tile> tiles = new ArrayList<Tile>(10);
 
-		tiles.add(new Tile("B2"));
-		tiles.add(new Tile("C6"));
-		tiles.add(new Tile("C9"));
+		tiles.add(new Tile("S2"));
+		tiles.add(new Tile("P6"));
+		tiles.add(new Tile("P9"));
 		tiles.add(new Tile("M1"));
 		tiles.add(new Tile("M9"));
 		tiles.add(new Tile("DG"));
@@ -927,9 +927,9 @@ public class MajaPlay {
 		Hand h = new Hand(ownerSeat);
 		h.addTile(new Tile("M1"));	//1
 		h.addTile(new Tile("M9"));	//2
-		h.addTile(new Tile("C1"));	//3
-		h.addTile(new Tile("C9"));	//4
-		h.addTile(new Tile("B1"));	//5
+		h.addTile(new Tile("P1"));	//3
+		h.addTile(new Tile("P9"));	//4
+		h.addTile(new Tile("S1"));	//5
 		
 		for (Tile t: h) System.out.println(t.toString());
 	}

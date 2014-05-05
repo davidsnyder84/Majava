@@ -1,8 +1,7 @@
 package majava.tiles;
 
 import java.util.ArrayList;
-
-import majava.TileList;
+import java.util.Arrays;
 import majava.Wind;
 
 
@@ -54,40 +53,29 @@ methods:
 	toString - returns string representation of a tile's suit/face
 	toStringAllInfo - returns all info about a tile as a string (debug use)
 	getImageFilename - returns the filename of the image that represents the tile
-	
-	
-	static:
-	stringReprOfId - takes an ID, returns the string representation of the suit/face of that ID
-	idOfStringRepr - takes a string representation of the suit/face of a tile, returns the ID that tile would have
 */
 public class Tile implements Comparable<Tile> {
 	
-	public static final int NUMBER_OF_DIFFERENT_TILES = 34;
-	public static final int NUMBER_OF_YAOCHUU_TILES = 13;
+	private static final int NUMBER_OF_DIFFERENT_TILES = 34;
 	private static final int ID_FIRST_HONOR_TILE = 28;
 	
-//	private static final int DEFAULT_ID = 0;
 	private static final String CHAR_FOR_RED_DORA = "%";
 
-//	private static final char SUIT_MAN = 'M';
-//	private static final char SUIT_PIN = 'C';
-//	private static final char SUIT_SOU = 'B';
-//	private static final char SUIT_WIND = 'W';
-//	private static final char SUIT_DRAGON = 'D';
-
 	
-	private static final String STR_REPS_BY_ID = "M1M2M3M4M5M6M7M8M9P1P2P3P4P5P6P7P8P9S1S2S3S4S5S6S7S8S9WEWSWWWNDWDGDR";
-	private static final TileList LIST_OF_YAOCHUU_TILES = new TileList(1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34);
+	private static final String[] STR_REPS = {"O0", 
+											  "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9",
+											  "P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9",
+											  "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9",
+											  "WE", "WS", "WW", "WN",
+											  "DW", "DG", "DR"};
 	
-	
-	
-	//instance variables
 	
 	private int mID;
 	private char mSuit;
 	private char mFace;
-	private boolean mRedDora;
+	private String mSuitfaceString;
 	
+	private boolean mRedDora;
 	private Wind mOriginalOwner;
 	
 	
@@ -96,18 +84,22 @@ public class Tile implements Comparable<Tile> {
 	//Takes ID of tile (and optional red dora flag)
 	public Tile(int id, boolean isRed){
 		
+		if (id < 1 || id > NUMBER_OF_DIFFERENT_TILES) id = 0;
 		mID = id;
-		mSuit = repr_suitOfId(id);
-		mFace = repr_faceOfId(id);
+		
+		mSuitfaceString = STR_REPS[mID];
+		mSuit = mSuitfaceString.charAt(0);
+		mFace = mSuitfaceString.charAt(1);
 
 		mOriginalOwner = Wind.UNKNOWN;
+		
 		mRedDora = false;
 		if (isRed) __setRedDora();
 	}
 	//1-arg Constructor, takes tile ID
 	public Tile(int id){this(id, false);}
 	//Takes string representation of tile (and optional red dora flag)
-	public Tile(String suitfaceString, boolean isRed){this((STR_REPS_BY_ID.indexOf(suitfaceString.toUpperCase()) / 2 + 1), isRed);}
+	public Tile(String suitfaceString, boolean isRed){this(Arrays.asList(STR_REPS).indexOf(suitfaceString.toUpperCase()), isRed);}
 	public Tile(String suitfaceString){this(suitfaceString, false);}
 	
 	public Tile(Tile other){
@@ -117,11 +109,10 @@ public class Tile implements Comparable<Tile> {
 		mOriginalOwner = other.mOriginalOwner;
 		mRedDora = other.mRedDora;
 	}
-//	public Object clone(){return null;} 
 	
 
 	//makes the tile a red dora tile
-	final private void __setRedDora(){if (mFace == '5') mRedDora = true;}
+	final private void __setRedDora(){if (mFace == '5'){mRedDora = true; mSuitfaceString = mSuit + CHAR_FOR_RED_DORA;}}
 	
 	
 	
@@ -133,13 +124,14 @@ public class Tile implements Comparable<Tile> {
 	final public boolean isRedDora(){return mRedDora;}
 	final public Wind getOrignalOwner(){return mOriginalOwner;}
 	
+	final public boolean isYaochuu(){return (isHonor() || isTerminal());}
+	final public boolean isHonor(){return (mID >= ID_FIRST_HONOR_TILE);}
+	final public boolean isTerminal(){return (mFace == '1' || mFace == '9');}
 	
 	
 	
 	//sets the original owner attribute of the tile (the player who drew the tile from the wall)
-	public void setOwner(Wind owner){
-		mOriginalOwner = owner;
-	}
+	public void setOwner(Wind owner){mOriginalOwner = owner;}
 	
 	
 	
@@ -179,34 +171,16 @@ public class Tile implements Comparable<Tile> {
 	
 	/*
 	method: nextTile
-	
 	returns the tile that follows this one
 	used to find a dora from a dora indicator
 	*/
 	final public Tile nextTile(){
-		int nextID = 1;
-		
-		//determine the ID of the next tile
-		if(mFace != '9' && mFace != 'N' && mFace != 'R')
-			nextID = mID + 1;
-		else
-			if (mFace == '9')
-				nextID = mID - 8;
-			else if (mFace == 'N')
-				nextID = mID - 3;
-			else if (mFace == 'R')
-				nextID = mID - 2;
-		
-		return new Tile(nextID);
+		if (mFace == '9') return new Tile(mID - 8);
+		else if (mFace == 'N') return new Tile(mID - 3);
+		else if (mFace == 'R') return new Tile(mID - 2);
+		else return new Tile(mID + 1);
 	}
 	
-	
-	//returns true if the tile is a terminal or honor, false otherwise
-	final public boolean isYaochuu(){return (isHonor() || isTerminal());}
-	//returns true if the tile is an honor tile, false if not
-	final public boolean isHonor(){return (mID >= ID_FIRST_HONOR_TILE);}
-	//returns true if the tile is a terminal tile, false if not
-	final public boolean isTerminal(){return (mFace == '1' || mFace == '9');}
 
 	
 	
@@ -242,31 +216,6 @@ public class Tile implements Comparable<Tile> {
 	
 	//string representaiton of tile's suit/face
 	@Override
-	public String toString(){
-		if (mRedDora) return (Character.toString(mSuit) + CHAR_FOR_RED_DORA); 
-		else return repr_stringReprOfId(mID);
-	}
+	public String toString(){return mSuitfaceString;}
 	
-	
-	
-	
-	
-	
-	
-	//takes a tile ID, returns the string representation of that ID
-	private static String repr_stringReprOfId(int id){
-		return STR_REPS_BY_ID.substring(2*(id-1), 2*(id-1) + 2);
-	}
-	//takes a tile ID, returns the suit or face of that ID
-	private static char repr_suitOfId(int id){return STR_REPS_BY_ID.charAt(2*(id-1));}
-	private static char repr_faceOfId(int id){return STR_REPS_BY_ID.charAt(2*(id-1) + 1);}
-	
-	
-	
-	//returns a list of all Yaochuu tiles (terminal or honor)
-	public static TileList listOfYaochuuTiles(){return (new TileList(LIST_OF_YAOCHUU_TILES));}
-	
-	
-	
-
 }

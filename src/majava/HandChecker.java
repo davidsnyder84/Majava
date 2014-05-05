@@ -490,16 +490,40 @@ public class HandChecker {
 		ArrayList<Integer> singleTileHotTiles = null;
 		
 		//get hot tiles for each tile in the hand
-		for (Tile t: mHandTiles)
-		{
-			singleTileHotTiles = t.findHotTiles();
-			for (Integer i: singleTileHotTiles)
-				if (allHotTileIds.contains(i) == false)
-					allHotTileIds.add(i);
+		for (Tile t: mHandTiles){
+			singleTileHotTiles = __findHotTilesOfTile(t);
+			for (Integer i: singleTileHotTiles) if (!allHotTileIds.contains(i)) allHotTileIds.add(i);
+		}
+		
+		return allHotTileIds;
+	}
+	
+	/*
+	private static method: __findHotTilesOfTile
+	returns a list of integer IDs of hot tiles, for tile t
+	
+	add t to the list (because pon)
+	if (t is not honor): add all possible chi partners to the list
+	return list
+	*/
+	private static ArrayList<Integer> __findHotTilesOfTile(Tile t){
+		
+		ArrayList<Integer> hotTileIds = new ArrayList<Integer>(1); 
+		int id = t.getId(); char face = t.getFace();
+		
+		//a tile is always its own hot tile (pon/kan/pair)
+		hotTileIds.add(id);
+		
+		//add possible chi partners, if tile is not an honor tile
+		if (!t.isHonor()){
+			if (face != '1' && face != '2') hotTileIds.add(id - 2);
+			if (face != '1') hotTileIds.add(id - 1);
+			if (face != '9') hotTileIds.add(id + 1);
+			if (face != '8' && face != '9') hotTileIds.add(id + 2);
 		}
 		
 		//return list of integer IDs
-		return allHotTileIds;
+		return hotTileIds;
 	}
 	
 	
@@ -1219,10 +1243,6 @@ public class HandChecker {
 	
 	//returns true if the hand is fully concealed, false if an open meld has been made
 	public boolean getClosedStatus(){return mClosed;}
-	
-	
-	
-	
 	
 	
 	

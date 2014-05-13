@@ -4,27 +4,35 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
+
+/*
+Class: GenSort
+contains operations for sorting an ArrayList in various ways
+
+methods:
+	
+	constructors:
+	Requires an arraylist, associates this sorter with the arraylist
+	
+	public:
+		mutators:
+	 	sort, sortAscending, sortDescending - sorts the list in the specified order
+	 	shuffle - shuffles the list in a random order
+*/
 public class GenSort <T extends Comparable<T> > {
 	
-	public static final int SORT_ASCENDING = 1;
-	public static final int SORT_DESCENDING = 2;
-	public static final int SORT_RANDOM = 3;
-	public static final int SORT_DEFAULT = SORT_ASCENDING;
-	
-	public static final int INVALID_LIST_LENGTH = -1;
+	private static final int INVALID_LIST_LENGTH = -1;
 	
 	
-	private ArrayList<T> mListToSort = null;
-	private T[] mArrayToSort = null;
-	private int mListLength = INVALID_LIST_LENGTH;
+	private ArrayList<T> mListToSort;
+	private int mListLength;
 	
-	//1-arg constructor
-	//takes an arraylist
+	//1-arg constructor, takes an arraylist
 	public GenSort(ArrayList<T> list){
 		
 		if (list != null){
 			mListToSort = list;
-			checkListLength();
+			__checkListLength();
 		}
 		else{
 			mListToSort = null;
@@ -32,33 +40,18 @@ public class GenSort <T extends Comparable<T> > {
 			System.out.println("-----Error: unsuitable list received by GenSort");
 		}
 	}
-	//array constructor
-	public GenSort(T[] list){
-		
-		if (list != null){
-			mArrayToSort = list;
-			mListLength = mArrayToSort.length;
-		}
-		else{
-			mListToSort = null;
-			mListLength = INVALID_LIST_LENGTH;
-			System.out.println("-----Error: unsuitable array received by GenSort");
-		}
-	}
 	
 	
 	
 	
 	//sorts mListToSort with a selection sort, ascending order
-	public void sort(){
-		sortAscending();
-	}
+	public void sort(){sortAscending();}
 	
-
+	
 	//sorts mListToSort with a selection sort, ascending order
 	public void sortAscending(){
 
-		checkListLength();
+		__checkListLength();
 		int current, walker, smallest;
 		T temp;
 		
@@ -81,7 +74,7 @@ public class GenSort <T extends Comparable<T> > {
 	//sorts mListToSort with a selection sort, descending order
 	public void sortDescending(){
 		
-		checkListLength();
+		__checkListLength();
 		int current, walker, biggest;
 		T temp;
 		
@@ -101,10 +94,12 @@ public class GenSort <T extends Comparable<T> > {
 	
 	
 	
+	
+	
 	//shuffles the elements of mListToSort in a random order
 	public void shuffle(){
 
-		checkListLength();
+		__checkListLength();
 		Random random = new Random();
 		int swapIndex = -1;
 		T temp = null;
@@ -120,50 +115,11 @@ public class GenSort <T extends Comparable<T> > {
 			mListToSort.set(swapIndex, temp);
 		}
 	}
-	public void shuffleArray(){
-		if (mArrayToSort == null) return;
-		
-		Random random = new Random();
-		int swapIndex = -1;
-		T temp = null;
-		
-		int curIndex;
-		for (curIndex = 0; curIndex < mListLength; curIndex++){
-			//decide the swap index randomly
-			swapIndex = random.nextInt(mListLength);
-			
-			//swap the items at the current index and the swap index
-			temp = mArrayToSort[curIndex];
-			mArrayToSort[curIndex] = mArrayToSort[swapIndex];
-			mArrayToSort[swapIndex] = temp;
-		}
-	}
-	
-	
-	
-	//reverses the order of the items in a list
-	public void reverseOrder(){
-		
-		checkListLength();
-		
-		//templist is a copy of the list
-		ArrayList<T> tempList = new ArrayList<T>(mListLength);
-		for (T item: mListToSort) tempList.add(item);
-		
-		//empty ListToSort
-		mListToSort.clear();
-		
-		//add the items back to ListToSort in reverse order 
-		while (tempList.isEmpty() == false) mListToSort.add(tempList.remove(tempList.size() - 1));
-	}
-	
-	
 	
 	
 	
 	//checks the list length (must be done before a sort)
-	public int checkListLength(){return mListLength = mListToSort.size();}
-	
+	private int __checkListLength(){return mListLength = mListToSort.size();}
 	
 	
 }

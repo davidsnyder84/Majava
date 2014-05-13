@@ -1,6 +1,7 @@
-package majava.control;
+package majava.control.testcode;
 
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import majava.Hand;
@@ -9,16 +10,18 @@ import majava.Wind;
 import majava.tiles.Tile;
 import majava.TileList;
 
-import utility.MahList;
 
 
-
+/*
+Class: DemoHandGen
+code for testing HandChecker functions
+*/
 public class DemoHandGen {
 	
-
 	public static final Wind OWNER_SEAT = Wind.SOUTH;
 	
 	public static Random random;
+	
 	
 	
 	public static void main(String[] args) {
@@ -26,7 +29,7 @@ public class DemoHandGen {
 		random = new Random();
 //		runTenpaiSimulation(5000);
 		runSimulationNoDisplay(25000);
-//		runSumulationRandom(50000);
+//		runSumulationRandom(90000);
 //		runSpecificTest();
 	}
 	
@@ -34,99 +37,18 @@ public class DemoHandGen {
 	
 	
 	
-	public static void runSumulationRandom(int howManyTimes){
-		
-		Hand currentHand = null;
-//		boolean hit = true;
-		int numHits = 0;
-		
-		
-		
-		for (int i = 0; i < howManyTimes; i++){
-			
-			currentHand = generateRandomHand();
-			
-//			currentHand = new Hand(OWNER_SEAT);
-//			currentHand.fill();
-			
-//			hit = currentHand.mChecker.DEMOisComplete();
-			
-			if (currentHand.mChecker.DEMOisComplete()){
-				numHits++;
-				System.out.println(currentHand.toString() + "\n");
-			}
-		}
-		
-		
-
-		System.out.println("Total number of trials: " + howManyTimes);
-		System.out.println("Total number of hits: " + numHits);
-		
-	}
-	
-	
-	public static void runSpecificTest(){
-		
-		Hand hand = generateSpecificHand();
-		
-		
-		System.out.println(hand.toString());
-		System.out.println("Hand is complete normal?: " + hand.DEMOgetChecker().isCompleteNormal());
-		
-	}
-	
-	public static Hand generateSpecificHand(){
-		Hand hand = new Hand(OWNER_SEAT);
-		TileList tiles = new TileList(19,19,19,20,21,21,22,22,23,32,32,32,34,34);
-//		TileList tiles = new TileList(21,22,23,32,32,32,34,34);
-		
-		for (Tile t: tiles){
-			t.setOwner(OWNER_SEAT);
-			hand.addTile(t);
-		}
-		//S1 S1 S1 S2 S3 S3 S4 S4 S5 DW DW DW DR DR
-		
-		hand.sortHand();
-		return hand;
-	}
-	
-	
-	
-	
-	public static Hand generateRandomHand(){
-		
-		Hand hand = new Hand(OWNER_SEAT);
-		TileList tiles = new TileList();
-		Tile currentTile = null;
-		int id = 0;
-		int numMeldsMade = random.nextInt(3);
-		
-		
-		
-		while (tiles.size() < 14 - 3*numMeldsMade){
-			//generate a random tile
-			id = random.nextInt(34) + 1;
-			
-			if (tiles.findHowManyOf(id) < 4){
-				currentTile = new Tile(id);
-				currentTile.setOwner(OWNER_SEAT);
-				tiles.add(currentTile);
-			}
-		}
-		
-		for (Tile t: tiles) hand.addTile(t);
-		
-		hand.sortHand();
-//		System.out.println(hand.toString());
-		
-		return hand;
-	}
 	
 	
 	
 	
 	
 	
+	/*
+	static method: runSimulation
+	
+	generates a number of complete hands, and runs them through the HandChecker completeness checker
+	keeps track of when HandChecker gives a wrong answer
+	*/
 	public static void runSimulation(int howManyTimes){
 		
 		
@@ -143,7 +65,7 @@ public class DemoHandGen {
 
 			System.out.println(currentHand.toString() + "\n");
 			
-			success = currentHand.mChecker.DEMOisComplete();
+			success = currentHand.DEMOgetChecker().DEMOisComplete();
 			currentHand.showMeldsCompact();
 			System.out.println("Hand is complete normal?: " + success);
 			
@@ -172,7 +94,7 @@ public class DemoHandGen {
 		
 		
 		for (int i = 0; i < howManyTimes; i++){
-			if (!(currentHand = generateCompleteHand()).mChecker.isCompleteNormal()){
+			if (!(currentHand = generateCompleteHand()).DEMOgetChecker().isCompleteNormal()){
 				numFailures++;
 				System.out.println(currentHand.toString() + "\n");
 				
@@ -187,7 +109,12 @@ public class DemoHandGen {
 	
 	
 	
-
+	/*
+	static method: runTenpaiSimulation
+	
+	generates a number of tenpai hands, and runs them through the HandChecker tenpai checker
+	keeps track of when HandChecker gives a wrong answer
+	*/
 	public static void runTenpaiSimulation(int howManyTimes){
 		
 		Hand currentHand = null;
@@ -195,7 +122,7 @@ public class DemoHandGen {
 		TileList waits = null;
 		String waitString = "";
 
-		TileList maxWaits = null;
+//		TileList maxWaits = null;
 		Hand maxWaitsHand = null;
 		int maxNumWaits = 0;
 		String maxWaitString = "";
@@ -208,7 +135,7 @@ public class DemoHandGen {
 
 			System.out.println(currentHand.toString() + "\n");
 			
-			waits = currentHand.mChecker.DEMOfindTenpaiWaits();
+			waits = currentHand.DEMOgetChecker().DEMOfindTenpaiWaits();
 			
 			
 			System.out.print("Waits: ");
@@ -223,7 +150,7 @@ public class DemoHandGen {
 			else{
 				System.out.println(waitString);
 				if (waits.size() > maxNumWaits){
-					maxWaits = waits;
+//					maxWaits = waits;
 					maxWaitsHand = currentHand;
 					maxWaitString = waitString;
 					maxNumWaits = waits.size();
@@ -244,6 +171,9 @@ public class DemoHandGen {
 	
 	
 	
+	
+	
+	//returns a hand that is tenpai
 	public static Hand generateTenpaiHand(){
 		
 		Hand hand = generateCompleteHand();
@@ -255,7 +185,7 @@ public class DemoHandGen {
 	}
 		
 	
-	
+	//returns a hand that is complete
 	public static Hand generateCompleteHand(){
 		
 		Hand hand = new Hand(OWNER_SEAT);
@@ -269,7 +199,7 @@ public class DemoHandGen {
 		
 		int meldWhich = -1;
 		MeldType chosenMeld;
-		MahList<MeldType> validMelds = null;
+		ArrayList<MeldType> validMelds = null;
 		
 		int howManyOfThisInHand = -1;
 		
@@ -294,7 +224,7 @@ public class DemoHandGen {
 			howManyOfThisInHand = tiles.findHowManyOf(currentTile);
 			if (howManyOfThisInHand < 4){
 				
-				validMelds = new MahList<MeldType>(5);
+				validMelds = new ArrayList<MeldType>(5);
 				if (!currentTile.isHonor()){
 					if (currentTile.getFace() != '8' && currentTile.getFace() != '9') validMelds.add(MeldType.CHI_L);
 					if (currentTile.getFace() != '1' && currentTile.getFace() != '9') validMelds.add(MeldType.CHI_M);
@@ -362,6 +292,103 @@ public class DemoHandGen {
 	
 	
 	
+	
+	
+	
+	/*
+	static method: runSumulationRandom
+	
+	generates a number of random hands, and runs them through the HandChecker completeness checker
+	keeps track of when HandChecker identifies a complete hand
+	*/
+	public static void runSumulationRandom(int howManyTimes){
+		
+		Hand currentHand = null;
+//		boolean hit = true;
+		int numHits = 0;
+		
+		
+		
+		for (int i = 0; i < howManyTimes; i++){
+			
+			currentHand = generateRandomHand();
+			
+//			currentHand = new Hand(OWNER_SEAT);
+//			currentHand.fill();
+			
+//			hit = currentHand.mChecker.DEMOisComplete();
+			
+			if (currentHand.DEMOgetChecker().DEMOisComplete()){
+				numHits++;
+				System.out.println(currentHand.toString() + "\n");
+			}
+		}
+		
+		
+
+		System.out.println("Total number of trials: " + howManyTimes);
+		System.out.println("Total number of hits: " + numHits);
+		
+	}
+	
+	public static Hand generateRandomHand(){
+		
+		Hand hand = new Hand(OWNER_SEAT);
+		TileList tiles = new TileList();
+		Tile currentTile = null;
+		int id = 0;
+		int numMeldsMade = random.nextInt(3);
+		
+		
+		
+		while (tiles.size() < 14 - 3*numMeldsMade){
+			//generate a random tile
+			id = random.nextInt(34) + 1;
+			
+			if (tiles.findHowManyOf(id) < 4){
+				currentTile = new Tile(id);
+				currentTile.setOwner(OWNER_SEAT);
+				tiles.add(currentTile);
+			}
+		}
+		
+		for (Tile t: tiles) hand.addTile(t);
+		
+		hand.sortHand();
+//		System.out.println(hand.toString());
+		
+		return hand;
+	}
+	
+	
+	
+	
+	
+	
+	public static void runSpecificTest(){
+		
+		Hand hand = generateSpecificHand();
+		
+		
+		System.out.println(hand.toString());
+		System.out.println("Hand is complete normal?: " + hand.DEMOgetChecker().isCompleteNormal());
+		
+	}
+	
+	public static Hand generateSpecificHand(){
+		Hand hand = new Hand(OWNER_SEAT);
+		TileList tiles = new TileList(19,19,19,20,21,21,22,22,23,32,32,32,34,34);
+//		TileList tiles = new TileList(21,22,23,32,32,32,34,34);
+		
+		for (Tile t: tiles){
+			t.setOwner(OWNER_SEAT);
+			hand.addTile(t);
+		}
+		//S1 S1 S1 S2 S3 S3 S4 S4 S5 DW DW DW DR DR
+		
+		hand.sortHand();
+		return hand;
+	}
 	
 	
 

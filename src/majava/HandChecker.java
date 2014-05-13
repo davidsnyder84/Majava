@@ -72,6 +72,8 @@ public class HandChecker {
 	private static final int OFFSET_CHI_H2 = -1;
 	
 	private static final int MAX_HAND_SIZE = 14;
+	
+	private int NOT_FOUND = -1;	//arraylist
 
 	private static final int NUMBER_OF_YAOCHUU_TILES = 13;
 	private static final TileList LIST_OF_YAOCHUU_TILES = new TileList(1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34);
@@ -164,9 +166,6 @@ public class HandChecker {
 	
 	
 	
-	
-	
-	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//~~~~BEGIN MELD CHEKCERS
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -198,7 +197,7 @@ public class HandChecker {
 		tempPartnerIndices.add(mHandTiles.indexOf(new Tile(candidate.getId() + offset2)));
 		
 		//if both parters were found in the hand
-		if (tempPartnerIndices.getFirst() != MahList.NOT_FOUND && tempPartnerIndices.getLast() != MahList.NOT_FOUND){
+		if (tempPartnerIndices.getFirst() != NOT_FOUND && tempPartnerIndices.getLast() != NOT_FOUND){
 			
 			//sore the indices of the partners in a partner list
 			__storePartnerIndices(storePartnersHere, tempPartnerIndices);
@@ -1248,57 +1247,11 @@ public class HandChecker {
 	
 	
 	
-
-	
-	private final static TileList __listOfYaochuuTiles(){return (new TileList(LIST_OF_YAOCHUU_TILES));}
+	private final static TileList __listOfYaochuuTiles(){return LIST_OF_YAOCHUU_TILES.makeCopy();}
 	
 	
 	
-	public static void main(String[] args){
-		
-		Hand h = new Hand(majava.control.MajaPlay.ownerSeat);
-		
-		/*
-		h.addTile(new Tile(1));
-		h.addTile(new Tile(1));
-		h.addTile(new Tile(2));
-		h.addTile(new Tile(2));
-		h.addTile(new Tile(2));
-		h.addTile(new Tile(3));
-		h.addTile(new Tile(3));
-		h.addTile(new Tile(4));
-		h.addTile(new Tile(4));
-		*/
-//		h.addTile(new Tile(3));
-		h.addTile(new Tile(9));
-		h.addTile(new Tile(9));
-		h.addTile(new Tile(9));
-		
-		h.addTile(new Tile(11));
-		h.addTile(new Tile(12));
-		h.addTile(new Tile(24));
-		h.addTile(new Tile(24));
-		
-		h.sortHand();
-		
-		
-		boolean DO_TENPAI = true;
-		
-		System.out.println(h.toString());
-		
-		if (DO_TENPAI){
-			TileList waits = h.mChecker.DEMOfindTenpaiWaits();
-			System.out.print("Waits: ");
-			String waitString = "";
-			for (Tile t: waits) waitString += t.toString() + ", ";
-			System.out.println(waitString);
-		}
-		else{
-			System.out.println("\nHand is complete normal?: " + h.mChecker.isCompleteNormal());
-		}
-		
-		
-		majava.control.DemoHandGen.main(null);
-	}
+	//runs test code
+	public static void main(String[] args){majava.control.testcode.DemoHandGen.main(null);}
 	
 }

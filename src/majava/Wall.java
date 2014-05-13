@@ -1,8 +1,10 @@
 package majava;
 
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import majava.tiles.Tile;
-import utility.GenSort;
 
 
 
@@ -189,8 +191,7 @@ public class Wall {
 		}
 		
 		//shuffle the wall
-		GenSort<Tile> shuffler = new GenSort<Tile>(mTiles);
-		shuffler.shuffleArray();
+		Collections.shuffle(Arrays.asList(mTiles));
 	}
 	
 	
@@ -200,18 +201,18 @@ public class Wall {
 	
 	
 	/*
-	 private method: __getDoraIndicators
-	 returns the dora indicators, as a list of Tiles
-	 input: if getUraDora is true, the list will also contain the ura dora indicators
-	 
-	 
-	 decide the exact size of the list
-	 add first dora indicator
-	 if kans have been made,  add more indicators to the list
-	 if (getUraDora)
-	 	add first ura dora indicator
-	 	if kans have been made,  add more ura indicators to the list
-	 return the list
+	private method: __getDoraIndicators
+	returns the dora indicators, as a list of Tiles
+	input: if getUraDora is true, the list will also contain the ura dora indicators
+	
+	
+	decide the exact size of the list
+	add first dora indicator
+	if kans have been made,  add more indicators to the list
+	if (getUraDora)
+		add first ura dora indicator
+		if kans have been made,  add more ura indicators to the list
+	return the list
 	*/
 	private TileList __getDoraIndicators(boolean getUraDora){
 		

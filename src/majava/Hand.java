@@ -80,8 +80,7 @@ public class Hand implements Iterable<Tile>{
 	
 	private final TileList mTiles;
 	private final ArrayList<Meld> mMelds;
-	//is public right now for debug purposes, but it shouldn't be
-	public final HandChecker mChecker;
+	private final HandChecker mChecker;
 	
 
 	private final Wind mOwnerSeatWind;

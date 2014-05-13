@@ -15,51 +15,25 @@ data:
 methods:
 	
 	constructors:
-	Takes ArrayList
-	Takes initial capacity
-	Takes Array or Var args
-	Takes another MahList, duplicates entries
+	ArrayList / initial capacity / Array or Var args / copy constructor
 	Default - creates empty list with default capacity
 	
-	
-	mutators:
-	addMultiple - adds multiple items to the end of a list. takes a list, an array, or var arguments
-	addMultipleToBeginning -  adds multiple items to the beginning of a list. takes a list, an array, or var arguments
-	
-	removeFirst - removes and returns the first item in the list, returns null if the list is empty
-	removeLast - removes and returns the last item in the list, returns null if the list is empty
-	
-	removeMultiple... - removes specified number of items from a specified position
-	removeMultipleFromEnd - remove multiple items from end
-	removeMultipleFromBeginning - remove multiple items from beginning
-	removeMultipleFromPosition - remove multiple items from a given position
-	
-	sort - sort the list in ascending order
-	sortAscending - sort ascending
-	sortDescending - sort descending
-	shuffle - shuffle the elements of the list in a random order
- 	
- 	
- 	accessors:
-	getFirst - returns the fist item in the list, returns null if the list is empty
-	getLast - returns the last item in the list, returns null if the list is empty
-	subList - returns a sublist, as a MahList from fromIndex (inclusive) to toIndex (exclusive)
-	findAllIndicesOf - searches the list for all occurences of item, returns a MahList of integer indices of where that item occurred
-	
-	
-	other:
-	iterator - the ArrayList's iterator
-	
-	methods from ArrayList:
-	add, remove, size, get, contains, isEmpty, indexOf, lastIndexOf, 
-	set, clear, trimToSize, ensureCapacity, iterator
-	
+	public:
+		mutators:
+		removeFirst, removeLast - removes and returns an item in the list, returns null if the list is empty
+		sort, sortAscending, sortDescending, shuffle - sorts the list
+	 	
+	 	accessors:
+		getFirst, getLast - returns an item in the list, returns null if the list is empty
+		findAllIndicesOf - searches the list for all occurences of item, returns a MahList of integer indices of where that item occurred
+		
+		methods from ArrayList:
+		add, remove, size, get, contains, isEmpty, indexOf, lastIndexOf, set, clear, trimToSize, ensureCapacity, iterator, subList, iterator
 */
 public class MahList <T extends Comparable<T> > implements Iterable<T>{
 	
 	
-	protected static final int DEFAULT_CAPACITY = 10;
-	public static final int NOT_FOUND = -1;
+	private static final int DEFAULT_CAPACITY = 10;
 	
 	
 	private ArrayList<T> mList;
@@ -90,84 +64,14 @@ public class MahList <T extends Comparable<T> > implements Iterable<T>{
 	
 	
 	
-	
-	//returns a sublist, as a MahList<T> type list from fromIndex (inclusive) to toIndex (exclusive)
-	public MahList<T> subList(int fromIndex, int toIndex){
-		ArrayList<T> alSubList = new ArrayList<T>(mList.subList(fromIndex, toIndex));
-		return new MahList<T>(alSubList);
-	}
+	//returns an item
+	public T getFirst(){if (mList.isEmpty()) return null; return mList.get(0);}
+	public T getLast(){if (mList.isEmpty()) return null; return mList.get(mList.size() - 1);}
 	
 	
-	
-	//returns the first item in the list, returns null if the list is empty
-	public T getFirst(){
-		if (mList.isEmpty()) return null;
-		return mList.get(0);
-	}
-	//returns the last item in the list, returns null if the list is empty
-	public T getLast(){
-		if (mList.isEmpty()) return null;
-		return mList.get(mList.size() - 1);
-	}
-	
-	
-	//removes and returns the first item in the list, returns null if the list is empty
-	public T removeFirst(){
-		if (mList.isEmpty()) return null;
-		return mList.remove(0);
-	}
-	//removes and returns the last item in the list, returns null if the list is empty
-	public T removeLast(){
-		if (mList.isEmpty()) return null;
-		return mList.remove(mList.size() - 1);
-	}
-	
-	
-	//remove multiple items
-	//returns true if exactly the desired number of items were removed
-	//returns false if the list was emptied before removing the desired number of items
-	public boolean removeMultipleFromEnd(int howMany){
-		int i = 0;
-		while(i < howMany && !mList.isEmpty()){
-			mList.remove(mList.size() - 1);
-			i++;
-		}
-		return (i == howMany);
-	}
-	public boolean removeMultipleFromBeginning(int howMany){
-		int i = 0;
-		while(i < howMany && !mList.isEmpty()){
-			mList.remove(0);
-			i++;
-		}
-		return (i == howMany);
-	}
-	public boolean removeMultipleFromPosition(int howMany, int position){
-		int i = 0;
-		while(i < howMany && (position + i) < mList.size()){
-			mList.remove(position);
-			i++;
-		}
-		return (i == howMany);
-	}
-	
-	
-	
-	//add multiple items to the end of a list
-	//takes a list, an array, or var arguments
-	public void addMultiple(MahList<T> items){for (T item: items) mList.add(item);}
-	@SuppressWarnings("unchecked")
-	public void addMultiple(T... items){addMultiple(new MahList<T>(items));}
-	public void addMultiple(ArrayList<T> items){addMultiple(new MahList<T>(items));}
-	
-	
-	
-	//add multiple items to the beginning of a list
-	//takes a list, an array, or var arguments
-	public void addMultipleToBeginning(MahList<T> items){for (T item: items) mList.add(0, item);}
-	@SuppressWarnings("unchecked")
-	public void addMultipleToBeginning(T... items){addMultiple(new MahList<T>(items));}
-	public void addMultipleToBeginning(ArrayList<T> items){addMultiple(new MahList<T>(items));}
+	//removes and returns an item
+	public T removeFirst(){if (mList.isEmpty()) return null; return mList.remove(0);}
+	public T removeLast(){if (mList.isEmpty()) return null; return mList.remove(mList.size() - 1);}
 	
 	
 	
@@ -175,19 +79,18 @@ public class MahList <T extends Comparable<T> > implements Iterable<T>{
 	//finds all indices where an item occurs in a list
 	//returns the indices in a MahList
 	public MahList<Integer> findAllIndicesOf(T item){
-		MahList<Integer> indices = new MahList<Integer>(2);
-		for (int i = 0; i < mList.size(); i++)
-			if (mList.get(i).equals(item))	
-				indices.add(i);
+		MahList<Integer> indices = new MahList<Integer>();
+		for (int i = 0; i < mList.size(); i++) if (mList.get(i).equals(item)) indices.add(i);
 		
 		return indices;
 	}
 	
 	
 	
+	
 	//sorts
 	public void sort(){sortAscending();}
-	public void sortAscending(){mSorter.sort();}
+	public void sortAscending(){mSorter.sortAscending();}
 	public void sortDescending(){mSorter.sortDescending();}
 	public void shuffle(){mSorter.shuffle();}
 	
@@ -221,19 +124,20 @@ public class MahList <T extends Comparable<T> > implements Iterable<T>{
 	public int lastIndexOf(T item){return mList.lastIndexOf(item);}
 	public T set(int index, T item){return mList.set(index, item);}
 	
+	//returns a sublist, as a MahList<T>
+	public MahList<T> subList(int fromIndex, int toIndex){ArrayList<T> alSubList = new ArrayList<T>(mList.subList(fromIndex, toIndex)); return new MahList<T>(alSubList);}
 
 	//public List<T> subList(int fromIndex, int toIndex){return mList.subList(fromIndex, toIndex);}
 	public void clear(){mList.clear();}
 	public void trimToSize(){mList.trimToSize();}
 	public void ensureCapacity(int minCapacity){mList.ensureCapacity(minCapacity);}
 	
-	
-	//returns the arrayList's iterator
 	@Override
-	public Iterator<T> iterator(){return mList.iterator();}
+	public Iterator<T> iterator(){return mList.iterator();}	//returns the arrayList's iterator
 	//***************************************************************************************************
 	//****END ARRAYLIST FUNCS
 	//***************************************************************************************************
+	
 	
 	//returns a reference to the MahList's arrayList (parentheses this is a good idea)
 	public ArrayList<T> getArrayList(){return mList;}

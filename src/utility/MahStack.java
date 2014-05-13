@@ -14,27 +14,23 @@ data:
 methods:
 	
 	constructors:
-	Takes initial capacity
-	Default - creates empty stack with default capacity
+	initial capacity
 	Copy constructor - Takes another stack, duplicates entries
 	
-	
-	mutators:
-	push - adds an item to the top of the stack
-	pop - removes and returns the top item on the stack, returns null if the stack is empty
-	makeEmpty - removes all items from the stack
-	reverseOrder - reverses the order of the stack
- 	
- 	accessors:
-	top - returns the top item on the stack, returns null if the stack is empty
-	isEmpty - returns true if the stack is empty
-	size - returns the number of items in the stack
-	
-	
-	other:
-	iterator - the ArrayList's iterator
-	getArrayList - returns the arralist that holds the elements of the stack (this is a good idea)
-	
+	public
+		mutators:
+		push - adds an item to the top of the stack
+		pop - removes and returns the top item on the stack, returns null if the stack is empty
+		makeEmpty - removes all items from the stack
+	 	
+	 	accessors:
+		top - returns the top item on the stack, returns null if the stack is empty
+		isEmpty - returns true if the stack is empty
+		size - returns the number of items in the stack
+		
+		
+		other:
+		iterator - the ArrayList's iterator
 */
 public class MahStack <T extends Comparable<T> > implements Iterable<T>{
 	
@@ -82,15 +78,6 @@ public class MahStack <T extends Comparable<T> > implements Iterable<T>{
 	//returns the number of items in the stack
 	public int size(){return mList.size();}
 	
-	/*
-	public MahStack<T> createCopy(){
-		MahStack<T> newStack;
-	}
-	*/
-	
-	
-	//reverses the order of the stack
-	public void reverseOrder(){GenSort<T> sorter = new GenSort<T>(mList); sorter.reverseOrder();}
 	
 	//removes all items from the stack
 	public void makeEmpty(){mList = new ArrayList<T>(DEFAULT_CAPACITY);}
@@ -100,18 +87,9 @@ public class MahStack <T extends Comparable<T> > implements Iterable<T>{
 	
 	
 	
-	//returns the arrayList's iterator
+	
 	@Override
-	public Iterator<T> iterator(){return mList.iterator();}
-	
-	//returns a reference to the MahList's arrayList (parentheses this is a good idea)
-	public ArrayList<T> getArrayList(){return mList;}
-	
-	
-	
-	
-	
-	
+	public Iterator<T> iterator(){return mList.iterator();}	//returns the arrayList's iterator
 	
 	
 	

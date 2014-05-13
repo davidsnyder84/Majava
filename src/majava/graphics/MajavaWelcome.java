@@ -33,7 +33,7 @@ public class MajavaWelcome extends JFrame implements ActionListener {
 	private static final int WINDOW_TOP_BORDER_SIZE = 26;
 	private static final int WINDOW_SIDE_BORDER_SIZE = 2;
 	private static final int WINDOW_BOTTOM_BORDER_SIZE = 2;
-	private static final int WINDOW_MENU_SIZE = 23;
+//	private static final int WINDOW_MENU_SIZE = 23;
 	
 	
 	private static final Color COLOR_CONTENT_PANE = new Color(210,0, 210, 30);

@@ -6,22 +6,43 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
  
 
-//used to rotate an imageicon in intervals of 90 degrees
+/*
+Class: ImageRotator
+used to rotate an imageicon in intervals of 90 degrees
+
+data:
+	mAngle - the angle at which to rotate an imageicon
+	
+methods:
+	constructors:
+	Requires an angle
+	
+	public:
+		rotateImage - rotates an icon and returns the rotated form
+*/
 public class ImageRotator {
 	
 	int mAngle;
 	
-	
+	//constructors, require an angle
 	public ImageRotator(int angle){mAngle = angle;}
 	public ImageRotator(){this(90);}
 	
 	
-
-	public void setAngle(int angle){mAngle = angle;}
+	//accessor
 	public int getAngle(){return mAngle;}
 	
 	
 	
+	
+	//receives an imageicon, rotates it and returns the rotated icon
+	public ImageIcon rotateImage(ImageIcon aicon){
+		switch(mAngle){
+		case 90: case -90: return __rotateImage(aicon, mAngle);
+		case 180: return __rotateImage(__rotateImage(aicon, 90), 90);
+		default: return aicon;
+		}
+	}
 	private ImageIcon __rotateImage(ImageIcon aicon, int angle){
 		
 		int w = aicon.getIconWidth();
@@ -41,13 +62,6 @@ public class ImageRotator {
 		grBimg.dispose();
 		
 		return new ImageIcon(bimg);
-	}
-	public ImageIcon rotateImage(ImageIcon aicon){
-		switch(mAngle){
-		case 90: case -90: return __rotateImage(aicon, mAngle);
-		case 180: return __rotateImage(__rotateImage(aicon, 90), 90);
-		default: return aicon;
-		}
 	}
 	    
 	    

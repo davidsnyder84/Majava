@@ -1,4 +1,4 @@
-package majava.control;
+package majava.control.testcode;
 
 import java.util.ArrayList;
 
@@ -96,8 +96,8 @@ public class MajaPlay {
 			h.fillChuuren(i);
 			
 			System.out.println("\n\n\n" + h.toString());
-			System.out.println("Complete?: " + h.mChecker.isCompleteNormal());
-			h.mChecker.DEMOprintFinishingMelds();
+			System.out.println("Complete?: " + h.DEMOgetChecker().isCompleteNormal());
+			h.DEMOgetChecker().DEMOprintFinishingMelds();
 		}
 		
 	}
@@ -176,7 +176,7 @@ public class MajaPlay {
 		
 		Hand h = new Hand(ownerSeat);
 		//Tile q = null;
-		TileList waits = null;
+//		TileList waits = null;
 		
 		h.addTile(new Tile(1));
 		h.addTile(new Tile(1));
@@ -192,7 +192,7 @@ public class MajaPlay {
 		System.out.println(h.toString());
 		
 
-		System.out.println("\nHand is complete normal?: " + h.mChecker.isCompleteNormal());
+		System.out.println("\nHand is complete normal?: " + h.DEMOgetChecker().isCompleteNormal());
 		
 	}
 	
@@ -210,8 +210,8 @@ public class MajaPlay {
 		System.out.println(h.toString());
 		
 
-		System.out.println("\nIn tenpai for chiitoi?: " + h.mChecker.DEMOchiitoitsuInTenpai());
-		waits = h.mChecker.getTenpaiWaits();
+		System.out.println("\nIn tenpai for chiitoi?: " + h.DEMOgetChecker().DEMOchiitoitsuInTenpai());
+		waits = h.DEMOgetChecker().getTenpaiWaits();
 		if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.getFirst().toString());
 		System.out.println("\n\n\n");
 		
@@ -233,8 +233,8 @@ public class MajaPlay {
 
 			System.out.println(h.toString());
 
-			System.out.println("\nIn tenpai for chiitoi?: " + h.mChecker.DEMOchiitoitsuInTenpai());
-			waits = h.mChecker.getTenpaiWaits();
+			System.out.println("\nIn tenpai for chiitoi?: " + h.DEMOgetChecker().DEMOchiitoitsuInTenpai());
+			waits = h.DEMOgetChecker().getTenpaiWaits();
 			if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.getFirst().toString());
 			System.out.println("\n\n\n");
 		}
@@ -257,8 +257,8 @@ public class MajaPlay {
 
 			System.out.println(h.toString());
 
-			System.out.println("\nIn tenpai for chiitoi?: " + h.mChecker.DEMOchiitoitsuInTenpai());
-			waits = h.mChecker.getTenpaiWaits();
+			System.out.println("\nIn tenpai for chiitoi?: " + h.DEMOgetChecker().DEMOchiitoitsuInTenpai());
+			waits = h.DEMOgetChecker().getTenpaiWaits();
 			if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.getFirst().toString());
 			System.out.println("\n\n\n");
 		}
@@ -296,14 +296,14 @@ public class MajaPlay {
 		System.out.println(h.toString());
 		
 
-		System.out.println("\nIn tenpai for kokushi musou?: " + h.mChecker.isTenpaiKokushi());
+		System.out.println("\nIn tenpai for kokushi musou?: " + h.DEMOgetChecker().isTenpaiKokushi());
 		
-		waits = h.mChecker.DEMOgetKokushiWaits();
+		waits = h.DEMOgetChecker().DEMOgetKokushiWaits();
 		System.out.print(waits.size() + "-sided wait: ");
 		for (Tile t: waits)
 			System.out.print(t.toString() + ", ");
 		
-		System.out.println("\n\nKokushi musou complete?: " + h.mChecker.isCompleteKokushi());
+		System.out.println("\n\nKokushi musou complete?: " + h.DEMOgetChecker().isCompleteKokushi());
 	}
 	
 	

@@ -155,7 +155,7 @@ public class Game {
 	*/
 	public void runSimulation(){
 		
-		final int NUM_ROUNDS_TO_PLAY = 100;
+		final int NUM_ROUNDS_TO_PLAY = 500;
 
 		
 		

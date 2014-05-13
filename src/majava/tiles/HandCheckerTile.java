@@ -6,6 +6,26 @@ import majava.MeldType;
 import utility.MahStack;
 
 
+/*
+Class: HandCheckerTile
+a tile with additional information required for hand checking
+
+data:
+	mMeldTypeStack - stack of possible melds the tile can form
+	
+methods:
+	
+	constructors:
+	Requires another tile (copy constructor) 
+	
+	public:
+		mutators:
+	 	mstackPush, mstackPop - stack functions for stack of melds
+	 	
+	 	accessors:
+		mstackTop, mstackIsEmpty - stack functions for stack of melds
+		mstackTopParterIDs - returns partner ids for the meld on top of the stack
+*/
 public class HandCheckerTile extends Tile {
 	
 	
@@ -13,7 +33,6 @@ public class HandCheckerTile extends Tile {
 	
 	
 	
-//	public HandCheckerTile(int id) {super(id);}
 	public HandCheckerTile(Tile other){
 		super(other);
 		
@@ -28,8 +47,7 @@ public class HandCheckerTile extends Tile {
 	
 	
 
-	
-	
+	//stack functions
 	public boolean mstackPush(MeldType meldType){return mMeldTypeStack.push(meldType);}
 	public MeldType mstackPop(){return mMeldTypeStack.pop();}
 	public MeldType mstackTop(){return mMeldTypeStack.top();}

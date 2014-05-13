@@ -57,10 +57,11 @@ public class TableViewer extends JFrame{
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	
 	//Control constants
-	private static final boolean DEFAULT_OPTION_REVEAL_WALL = true;
-	private static final boolean DEFAULT_OPTION_REVEAL_HANDS = true;
+	private static final boolean DEFAULT_OPTION_REVEAL_WALL = false;
+	private static final boolean DEFAULT_OPTION_REVEAL_HANDS = false;
 	
-	private static final boolean DEBUG_BUTTONS_VISIBLE = true;
+	//debug buttons
+	private static final boolean DEBUG_BUTTONS_VISIBLE = false;
 	
 	
 	private static final int WINDOW_WIDTH = 1120;
@@ -113,7 +114,6 @@ public class TableViewer extends JFrame{
 
 	
 	private static final int DEFAULT_SLEEP_TIME_EXCLAMATION = 1500;
-//	private static final int[][] EXCLAMATION_LOCS =  {{161, 688}, {708, 573}, {542, 6}, {3, 116}};
 	private static final int[][] EXCLAMATION_LOCS =  {{161, 688}, {708, 360}, {542, 6}, {3, 360}};
 	
 	
@@ -893,7 +893,8 @@ public class TableViewer extends JFrame{
 		ImageIcon windowIconImg = garryWinds[BIG][EAST];
 		setIconImage(windowIconImg.getImage());
 		
-		setTitle("The Beaver");
+//		setTitle("The Beaver");
+		setTitle("Majava");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, WINDOW_BOUND_WIDTH, WINDOW_BOUND_HEIGHT);
 		
@@ -1090,7 +1091,7 @@ public class TableViewer extends JFrame{
 				updateEverything();
 			}
 		});
-		checkboxRevealWalls.setSelected(true);
+		checkboxRevealWalls.setSelected(DEFAULT_OPTION_REVEAL_WALL);
 		menuCheats.add(checkboxRevealWalls);
 		
 		checkboxRevealHands = new JCheckBoxMenuItem("Reveal Hands");
@@ -1101,7 +1102,7 @@ public class TableViewer extends JFrame{
 				updateEverything();
 			}
 		});
-		checkboxRevealHands.setSelected(true);
+		checkboxRevealHands.setSelected(DEFAULT_OPTION_REVEAL_HANDS);
 		menuCheats.add(checkboxRevealHands);
 		
 		

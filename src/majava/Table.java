@@ -172,8 +172,6 @@ public class Table {
 	
 	
 	
-	
-	
 	public static void main(String[] args) {
 		
 		System.out.println("Welcome to Majava (Table)!");
@@ -181,8 +179,8 @@ public class Table {
 		
 		Table table = new Table();
 		
-		table.setOptionFastGameplay(true);
-		table.setOptionSinglePlayerMode(false);
+		table.setOptionFastGameplay(DEFAULT_DO_FAST_GAMEPLAY);
+		table.setOptionSinglePlayerMode(DEFAULT_DO_SINGLE_PLAYER);
 		table.play();
 	}
 	

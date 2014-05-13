@@ -21,48 +21,25 @@ data:
 methods:
 	
 	constructors:
-	Takes ArrayList
-	Takes initial capacity
-	Takes Array or Var args
-	Takes another MahList, duplicates entries
-	Default - creates empty list with default capacity
+	ArrayList / Takes initial capacity / Takes Array or Var args
 	
-	
-	mutators:
-	addMultiple - adds multiple tiles to the end of a list. takes a list, an array, or var arguments
-	addMultipleToBeginning -  adds multiple tiles to the beginning of a list. takes a list, an array, or var arguments
-	
-	removeFirst - removes and returns the first tile in the list, returns null if the list is empty
-	removeLast - removes and returns the last tile in the list, returns null if the list is empty
-	
-	removeMultiple... - removes specified number of tiles from a specified position
-	removeMultipleFromEnd - remove multiple tiles from end
-	removeMultipleFromBeginning - remove multiple tiles from beginning
-	removeMultipleFromPosition - remove multiple tiles from a given position
-	
-	sort - sort the list in ascending order
-	sortAscending - sort ascending
-	sortDescending - sort descending
-	shuffle - shuffle the tiles of the list in a random order
- 	
- 	
- 	accessors:
-	getFirst - returns the fist tile in the list, returns null if the list is empty
-	getLast - returns the last tile in the list, returns null if the list is empty
-	subList - returns a sublist, as a MahList from fromIndex (inclusive) to toIndex (exclusive)
-	
-	findAllIndicesOf - searches the list for all occurences of Tile t, returns a MahList of integer indices of where that tile occurred
-	makeCopy - 
-	makeCopyNoDuplicates - 
-	
-	
-	other:
-	iterator - the ArrayList's iterator
-	
-	methods from ArrayList:
-	add, remove, size, get, contains, isEmpty, indexOf, lastIndexOf, 
-	set, clear, trimToSize, ensureCapacity, iterator
-	
+	public:
+		mutators:
+		removeFirst, removeLast - removes and returns a tile in the list, returns null if the list is empty
+		sort, sortAscending, sortDescending, shuffle - sort the list in specified order
+	 	
+	 	accessors:
+		getFirst, getLast - returns a tile in the list, returns null if the list is empty
+		subList - returns a sublist, as a TileList from fromIndex (inclusive) to toIndex (exclusive)
+		
+		findAllIndicesOf - searches the list for all occurences of Tile t, returns a MahList of integer indices of where that tile occurred
+		makeCopy - returns a copy of the list
+		makeCopyNoDuplicates - returns a copy of the list with no duplicate tiles
+		makeCopyWithCheckers - makes a copy of the list with checkers
+		
+		
+		methods from ArrayList:
+		add, remove, size, get, contains, isEmpty, indexOf, lastIndexOf, set, clear, trimToSize, ensureCapacity, iterator
 */
 public class TileList implements Iterable<Tile>{
 	
@@ -101,21 +78,9 @@ public class TileList implements Iterable<Tile>{
 		this(ids.length);
 		for (int id: ids) mTiles.add(new Tile(id));
 	}
-	//copy constructor, duplicates another MahList
-	public TileList(TileList other){		
-		this(other.size());
-		for (Tile t: other) mTiles.add(t);
-	}
 	
 	
-	/*
-	//make a list with a COPY (independent) of each tile in the other list
-	public TileList makeCopy(TileList other){
-		TileList copy = new TileList(other.size());
-		for (Tile t: other) copy.add(new Tile(t));
-		return copy;
-	}
-	*/
+	
 	//return a new TileList with a COPY (independent) of each tile in the list
 	public TileList makeCopy(){
 		TileList copy = new TileList(mTiles.size());
@@ -180,16 +145,24 @@ public class TileList implements Iterable<Tile>{
 	public TileList getAllExceptLast(){return subList(0, mTiles.size() - 1);}
 	
 	
-	//returns the first tile in the list, returns null if the list is empty
-	public Tile getFirst(){
-		if (mTiles.isEmpty()) return null;
-		return mTiles.get(0);
-	}
-	//returns the last tile in the list, returns null if the list is empty
-	public Tile getLast(){
-		if (mTiles.isEmpty()) return null;
-		return mTiles.get(mTiles.size() - 1);
-	}
+	
+	
+	//returns a tile in the list, returns null if the list is empty
+	public Tile getFirst(){if (mTiles.isEmpty()) return null; return mTiles.get(0);}
+	public Tile getLast(){if (mTiles.isEmpty()) return null; return mTiles.get(mTiles.size() - 1);}
+	
+	//removes and returns a tile in the list, returns null if the list is empty
+	public Tile removeFirst(){if (mTiles.isEmpty()) return null; return mTiles.remove(0);}
+	public Tile removeLast(){if (mTiles.isEmpty()) return null; return mTiles.remove(mTiles.size() - 1);}
+	
+	//indexOf
+	public int indexOf(Tile t){return mTiles.indexOf(t);}
+	public int indexOf(int tileID){return mTiles.indexOf(new Tile(tileID));}	//overloaded for Tile ID
+	
+	
+	
+	
+	
 	
 	//returns multiple tiles in the list, at the given indices
 	public TileList getMultiple(ArrayList<Integer> indices){
@@ -208,72 +181,7 @@ public class TileList implements Iterable<Tile>{
 	
 	
 	
-	
-	
-	//removes and returns the first tile in the list, returns null if the list is empty
-	public Tile removeFirst(){
-		if (mTiles.isEmpty()) return null;
-		return mTiles.remove(0);
-	}
-	//removes and returns the last tile in the list, returns null if the list is empty
-	public Tile removeLast(){
-		if (mTiles.isEmpty()) return null;
-		return mTiles.remove(mTiles.size() - 1);
-	}
-	
-	
-	//remove multiple tiles
-	//returns true if exactly the desired number of tiles were removed
-	//returns false if the list was emptied before removing the desired number of tiles
-	public boolean removeMultipleFromEnd(int howMany){
-		int i = 0;
-		while(i < howMany && !mTiles.isEmpty()){
-			mTiles.remove(mTiles.size() - 1);
-			i++;
-		}
-		return (i == howMany);
-	}
-	public boolean removeMultipleFromBeginning(int howMany){
-		int i = 0;
-		while(i < howMany && !mTiles.isEmpty()){
-			mTiles.remove(0);
-			i++;
-		}
-		return (i == howMany);
-	}
-	public boolean removeMultipleFromPosition(int howMany, int position){
-		int i = 0;
-		while(i < howMany && (position + i) < mTiles.size()){
-			mTiles.remove(position);
-			i++;
-		}
-		return (i == howMany);
-	}
-	
-	
-	//add multiple tiles to the end of a list
-	//takes a list, an array, or var arguments
-	public void addMultiple(TileList tiles){
-		for (Tile t: tiles) mTiles.add(t);
-	}
-	public void addMultiple(Tile... tiles){addMultiple(new TileList(tiles));}
-	public void addMultiple(ArrayList<Tile> tiles){addMultiple(new TileList(tiles));}
-	
-	
-	
-	//add multiple tiles to the beginning of a list
-	//takes a list, an array, or var arguments
-	public void addMultipleToBeginning(TileList tiles){
-		for (Tile t: tiles) mTiles.add(0, t);
-	}
-	public void addMultipleToBeginning(Tile... tiles){addMultiple(new TileList(tiles));}
-	public void addMultipleToBeginning(ArrayList<Tile> tiles){addMultiple(new TileList(tiles));}
-	
-	
-	
-	
-	//finds all indices where a tile occurs in the list
-	//returns the indices in a MahList<Integer>
+	//finds all indices where a tile occurs in the list, returns the indices in a MahList<Integer>
 	public MahList<Integer> findAllIndicesOf(Tile t, boolean allowCountingItself){
 		MahList<Integer> indices = new MahList<Integer>(2);
 		for (int i = 0; i < mTiles.size(); i++)
@@ -308,12 +216,6 @@ public class TileList implements Iterable<Tile>{
 	
 	
 	
-	public int indexOf(Tile t){return mTiles.indexOf(t);}
-	//indexOf, overloaded for Tile ID
-	public int indexOf(int tileID){return mTiles.indexOf(new Tile(tileID));}
-	
-	
-	
 	
 	
 	
@@ -343,16 +245,11 @@ public class TileList implements Iterable<Tile>{
 //	public void trimToSize(){mTiles.trimToSize();}
 //	public void ensureCapacity(int minCapacity){mTiles.ensureCapacity(minCapacity);}
 	
-	
-	//returns the arrayList's iterator
 	@Override
-	public Iterator<Tile> iterator(){return mTiles.iterator();}
+	public Iterator<Tile> iterator(){return mTiles.iterator();}	//returns the arrayList's iterator
 	//***************************************************************************************************
 	//****END ARRAYLIST FUNCS
 	//***************************************************************************************************
-	
-	//returns a reference to the MahList's arrayList (parentheses this is a good idea)
-	public ArrayList<Tile> getArrayList(){return mTiles;}
 	
 	
 	

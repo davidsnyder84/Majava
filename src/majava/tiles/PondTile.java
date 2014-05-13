@@ -1,6 +1,26 @@
 package majava.tiles;
 
 
+/*
+Class: PondTile
+represents a tile in a pond
+
+data:
+	mIsRiichiTile - is true if the tile was used to riichi
+	mWasCalled - is true if the tile was called by another player
+	
+methods:
+	
+	constructors:
+	Requires tile ID, or another tile (copy constructor) 
+	
+	public:
+		mutators:
+	 	setRiichiTile, setCalled
+	 	
+	 	accessors:
+		isRiichiTile, wasCalled
+*/
 public class PondTile extends Tile {
 	
 	

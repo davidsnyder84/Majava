@@ -27,7 +27,6 @@ methods:
 	public:
 		mutators:
 	 	setOwner - sets the original owner attribute of the tile (the player who drew the tile from the wall)
-		setRedDora - marks the tile as a red dora (only possible for a 5 tile)
 	 	
 	 	accessors:
 		getId - returns the integer ID of the tile
@@ -49,7 +48,7 @@ public class Tile implements Comparable<Tile> {
 	private static final int NUMBER_OF_DIFFERENT_TILES = 34;
 	private static final int ID_FIRST_HONOR_TILE = 28;
 	
-	private static final String CHAR_FOR_RED_DORA = "%";
+	private static final String FACE_FOR_RED_DORA = "%";
 
 	
 	private static final String[] STR_REPS = {"O0", 
@@ -70,7 +69,6 @@ public class Tile implements Comparable<Tile> {
 	
 	
 	
-	//2-arg Constructor, takes tile ID and boolean value for if it's a Red Dora
 	//Takes ID of tile (and optional red dora flag)
 	public Tile(int id, boolean isRed){
 		
@@ -92,17 +90,18 @@ public class Tile implements Comparable<Tile> {
 	public Tile(String suitfaceString, boolean isRed){this(Arrays.asList(STR_REPS).indexOf(suitfaceString.toUpperCase()), isRed);}
 	public Tile(String suitfaceString){this(suitfaceString, false);}
 	
+	//copy constructor
 	public Tile(Tile other){
 		mID = other.mID;
 		mSuit = other.mSuit;
 		mFace = other.mFace;
+		mSuitfaceString = other.mSuitfaceString;
 		mOriginalOwner = other.mOriginalOwner;
 		mRedDora = other.mRedDora;
 	}
-	
 
 	//makes the tile a red dora tile
-	final private void __setRedDora(){if (mFace == '5'){mRedDora = true; mSuitfaceString = mSuit + CHAR_FOR_RED_DORA;}}
+	private void __setRedDora(){if (mFace == '5'){mRedDora = true; mSuitfaceString = mSuit + FACE_FOR_RED_DORA;}}
 	
 	
 	
@@ -151,16 +150,15 @@ public class Tile implements Comparable<Tile> {
 	final public int compareTo(Tile other){
 		
 		//if the tiles have different id's, return the difference
-		if (mID != other.mID)
-			return (mID - other.mID);
+		if (mID != other.mID) return (mID - other.mID);
 		
 		//at this point, both tiles have the same ID
 		//if both 5's, check if one is red dora
-		if (mFace == '5' && other.mFace == '5')
+		if (mFace == '5')
 			if (mRedDora && !other.mRedDora) return 1;
-			else if (!mRedDora && other.mRedDora) return -1;
+			else return -1;
 		
-		//if the tiles are not 5's, or if both are red doras, return 0
+		//if the tiles are not 5's, or if both or neither are red doras, return 0
 		return 0;
 	}
 	

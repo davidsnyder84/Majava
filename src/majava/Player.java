@@ -942,7 +942,10 @@ public class Player {
 	
 	
 	
+
 	
+	@Override
+	public boolean equals(Object other){return (this == other);}
 	
 	
 	

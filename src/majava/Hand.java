@@ -3,6 +3,7 @@ package majava;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import majava.tiles.Tile;
 
@@ -301,7 +302,7 @@ public class Hand implements Iterable<Tile>{
 		
 		//~~~~gather the tiles from the hand that will be in the meld
 		//get the list of partner indices, based on the the meld type
-		ArrayList<Integer> partnerIndices = mChecker.getPartnerIndices(meldType);
+		List<Integer> partnerIndices = mChecker.getPartnerIndices(meldType);
 
 		//list of TILES, will hold the tiles coming from the hand that will be in the meld
 		TileList tilesFromHand = mTiles.getMultiple(partnerIndices);
@@ -316,7 +317,7 @@ public class Hand implements Iterable<Tile>{
 		
 		//remove the tiles from the hand
 		while (partnerIndices.isEmpty() == false){
-			removeTile(partnerIndices.get(partnerIndices.size() - 1).intValue());
+			removeTile(partnerIndices.get(partnerIndices.size() - 1));
 			partnerIndices.remove(partnerIndices.size() - 1);
 		}
 		mNumMeldsMade++;

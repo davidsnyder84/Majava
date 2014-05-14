@@ -121,11 +121,7 @@ public class TileList implements Iterable<Tile>{
 	
 	
 	
-	/*
-	method: subList
-	returns a sublist, as a TileList from fromIndex (inclusive) to toIndex (exclusive)
-	Returns a view of the portion of this list between the specified fromIndex, inclusive, and toIndex, exclusive. (If fromIndex and toIndex are equal, the returned list is empty)
-	*/
+	//returns a sublist, as a TileList from fromIndex (inclusive) to toIndex (exclusive)
 	public TileList subList(int fromIndex, int toIndex){return new TileList(new ArrayList<Tile>(mTiles.subList(fromIndex, toIndex)));}
 	
 	//returns a sublist of the entire list, minus the last tile
@@ -166,7 +162,7 @@ public class TileList implements Iterable<Tile>{
 
 	
 	
-	//finds all indices where a tile occurs in the list, returns the indices in an arraylist of integers
+	//finds all indices where a tile occurs in the list, returns the indices as an arraylist of integers
 	public ArrayList<Integer> findAllIndicesOf(Tile t, boolean allowCountingItself){
 		ArrayList<Integer> indices = new ArrayList<Integer>(2);
 		for (int i = 0; i < mTiles.size(); i++)

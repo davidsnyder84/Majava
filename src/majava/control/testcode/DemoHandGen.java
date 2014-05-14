@@ -28,8 +28,8 @@ public class DemoHandGen {
 
 		random = new Random();
 //		runTenpaiSimulation(5000);
-		runSimulationNoDisplay(25000);
-//		runSumulationRandom(90000);
+//		runSimulationNoDisplay(25000);
+		runSumulationRandom(90000);
 //		runSpecificTest();
 	}
 	

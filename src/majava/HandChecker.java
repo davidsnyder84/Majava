@@ -1,6 +1,7 @@
 package majava;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import majava.tiles.HandCheckerTile;
@@ -73,7 +74,7 @@ public class HandChecker {
 	
 	private static final int MAX_HAND_SIZE = 14;
 	
-	private int NOT_FOUND = -1;	//arraylist
+	private int NOT_FOUND = -1;	//list
 
 	private static final int NUMBER_OF_YAOCHUU_TILES = 13;
 	private static final TileList LIST_OF_YAOCHUU_TILES = new TileList(1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34);
@@ -188,23 +189,22 @@ public class HandChecker {
 	end if
 	return false
 	*/
-	private boolean __canChiType(Tile candidate, ArrayList<Integer> storePartnersHere, int offset1, int offset2){
+	private boolean __canChiType(Tile candidate, List<Integer> storePartnersHere, int offset1, int offset2){
 		
 		//decide who the chi partners should be (offset is decided based on chi type)
 		//search the hand for the desired chi partners (get the indices)
-		ArrayList<Integer> tempPartnerIndices = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
-		tempPartnerIndices.add(mHandTiles.indexOf(new Tile(candidate.getId() + offset1)));
-		tempPartnerIndices.add(mHandTiles.indexOf(new Tile(candidate.getId() + offset2)));
+		Integer[] tempPartnerIndices = {mHandTiles.indexOf(new Tile(candidate.getId() + offset1)), mHandTiles.indexOf(new Tile(candidate.getId() + offset2))};
 		
 		//if both parters were found in the hand
-		if (tempPartnerIndices.get(0) != NOT_FOUND && tempPartnerIndices.get(1) != NOT_FOUND){
+		if (tempPartnerIndices[0] != NOT_FOUND && tempPartnerIndices[1] != NOT_FOUND){
 			
 			//sore the indices of the partners in a partner list
-			__storePartnerIndices(storePartnersHere, tempPartnerIndices);
+			__storePartnerIndices(storePartnersHere, Arrays.asList(tempPartnerIndices));
 			
 			return true;
 		}
 		return false;
+		
 	}
 	private boolean __canChiL(Tile candidate){
 		if (candidate.getFace() == '8' || candidate.getFace() == '9') return false;
@@ -242,10 +242,10 @@ public class HandChecker {
 	end if
 	else return false
 	*/
-	private boolean __canMultiType(Tile candidate, ArrayList<Integer> storePartnersHere, int numPartnersNeeded){
+	private boolean __canMultiType(Tile candidate, List<Integer> storePartnersHere, int numPartnersNeeded){
 		
 		//count how many occurences of the tile, and store the indices of the occurences in tempPartnerIndices
-		ArrayList<Integer> tempPartnerIndices = new ArrayList<Integer>(numPartnersNeeded);
+		List<Integer> tempPartnerIndices = new ArrayList<Integer>(numPartnersNeeded);
 		
 		//meld is possible if there are enough partners in the hand to form the meld
 		if (__howManyOfThisTileInHand(candidate, tempPartnerIndices) >= numPartnersNeeded){
@@ -286,17 +286,15 @@ public class HandChecker {
 	if a (list was provided): store the indices in that list
 	return (number of indices found)
 	*/
-	private int __howManyOfThisTileInHand(Tile t, ArrayList<Integer> storeIndicesHere){
+	private int __howManyOfThisTileInHand(Tile t, List<Integer> storeIndicesHere){
 		
 		//find all the indices of t in the hand, then store the indices if a list was provided
-		ArrayList<Integer> foundIndices = mHandTiles.findAllIndicesOf(t);
+		List<Integer> foundIndices = mHandTiles.findAllIndicesOf(t);
 		if (storeIndicesHere != null) for (Integer i: foundIndices) storeIndicesHere.add(i);
 		
 		//return the number of indices found
 		return foundIndices.size();
 	}
-	//overloaded, omitting list argument simply returns the count, and doesn't populate any list
-//	private int __howManyOfThisTileInHand(Tile t){return __howManyOfThisTileInHand(t, null);}
 	
 	
 	
@@ -356,7 +354,7 @@ public class HandChecker {
 	
 	
 	//takes a list and several integer indices, stores the indices in the list
-	private void __storePartnerIndices(ArrayList<Integer> storeHere, List<Integer> partnerIndices){
+	private void __storePartnerIndices(List<Integer> storeHere, List<Integer> partnerIndices){
 		for (int i: partnerIndices) storeHere.add(i);
 	}
 	
@@ -923,7 +921,7 @@ public class HandChecker {
 		TileList waits = new TileList();
 		
 		TileList handTilesCopy;
-		ArrayList<Integer> hotTileIDs = __findAllHotTiles();
+		List<Integer> hotTileIDs = __findAllHotTiles();
 		Tile currentHotTile;
 		
 		for (Integer id: hotTileIDs){
@@ -1049,9 +1047,9 @@ public class HandChecker {
 
 		HandCheckerTile currentTile = null;
 		MeldType currentTileMeldType;
-		ArrayList<Integer> currentTileParterIDs = null;
+		List<Integer> currentTileParterIDs = null;
 		boolean currentTilePartersAreStillHere = true;
-		ArrayList<Integer> partnerIndices = null;
+		List<Integer> partnerIndices = null;
 		
 		
 		

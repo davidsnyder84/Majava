@@ -1,6 +1,7 @@
 package majava;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import majava.graphics.TableViewer;
 import majava.tiles.Tile;
@@ -406,10 +407,8 @@ public class RoundTracker {
 	
 	
 	public int getSeatNumber(Player p) {
-		for (int i = 0; i < mPTrackers.length; i++)
-			if (p == mPTrackers[i].player)
-				return i;
-		
+//		return Arrays.asList(mPTrackers).indexOf(p);
+		for (int i = 0; i < mPTrackers.length; i++) if (p == mPTrackers[i].player) return i;
 		return -1;
 	}
 	

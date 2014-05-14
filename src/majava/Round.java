@@ -141,7 +141,7 @@ public class Round {
 		
 		
 		//------------------------------------------------DEBUG INFO
-		if (DEBUG_LOAD_DEBUG_WALL) mWall.loadDebugWall();
+		if (DEBUG_LOAD_DEBUG_WALL) mWall.DEMOloadDebugWall();
 		System.out.println(mWall.toString() + "\n\n\n");mWall.printDoraIndicators();
 		//------------------------------------------------DEBUG INFO
 		

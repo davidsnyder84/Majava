@@ -45,13 +45,35 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JCheckBoxMenuItem;
 
-@SuppressWarnings("serial")
+
+/*
+Class: TableViewer
+a GUI for viewing and interacting with the game
+	
+methods:
+	public:
+		mutators:
+		updateEverything - updates everything to reflect the current state of the game
+		blankEverything - blanks labels and images
+		showExclamation - displays the received exclamation and pauses briefly
+		
+		getClickCall - prompts a player to click a button to make a call
+		getClickTurnAction - prompts a player to click a button to choose an action
+		
+		
+		accessors:
+		resultClickCallWasNone, etc - returns true if the specified call was clicked
+		
+		resultClickTurnActionWasDiscard, etc - returns true if the specified action was clicked
+		getResultClickedDiscard - returns the discard index the player clicked on
+		
+		
+	other:
+	syncWithRoundTracker - associates the viewer with the round tracker
+*/
 public class TableViewer extends JFrame{
 	
-	
-	
-
-	
+	private static final long serialVersionUID = 9210599763112170767L;
 	
 	
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

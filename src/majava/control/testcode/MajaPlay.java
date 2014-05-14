@@ -6,15 +6,15 @@ import majava.Hand;
 import majava.MeldType;
 import majava.Player;
 import majava.Wind;
-import majava.tiles.HandCheckerTile;
 import majava.tiles.Tile;
 import majava.TileList;
-import majava.tiles.PondTile;
 
 import utility.GenSort;
 import utility.MahList;
 
 
+
+//code to test various functions
 public class MajaPlay {
 	
 	public static final Wind ownerSeat = Wind.SOUTH;
@@ -27,11 +27,9 @@ public class MajaPlay {
 		
 //		testCallPartners();
 		
-		//meldEnumPlay();
 		
-		
-		
-		//iterableTest();
+
+//		nextTileTest();
 		
 		//testHots();
 		
@@ -41,45 +39,28 @@ public class MajaPlay {
 		
 		//testPlayerCall();
 		
-		//subListPlay();
-		
 		
 		//testMeldMaking();
 		
 		
-		//strToIdTest();
-		
 		//nextTileTest();
-		
-		//sleepTest();
 		
 		
 		//callableIdTest();
-		
-		
-		//intArrayCopyTest();
 		
 		
 		//chiKamichaTest();
 		
 		//finishingMovePre();
 		
-		//finalListTest();
 		
 		
 		//kokushiTenpaiTest();
 		
 //		chiitoiTenpaiTest();
 		
-		//mahListPlay();
 		
-//		listEqualsTest();
-		
-		
-//		playTileInheritance();
-		
-//		playFinishingMelds();
-		nextTileTest();
+		playFinishingMelds();
 		
 		System.out.println();
 	}
@@ -93,7 +74,7 @@ public class MajaPlay {
 		
 		for (int i = 1; i <= 9; i++){
 			h = new Hand(ownerSeat);
-			h.fillChuuren(i);
+			h.DEMOfillChuuren(i);
 			
 			System.out.println("\n\n\n" + h.toString());
 			System.out.println("Complete?: " + h.DEMOgetChecker().isCompleteNormal());
@@ -101,70 +82,6 @@ public class MajaPlay {
 		}
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	public static void playTileInheritance(){
-		
-		Tile t = new Tile(5);
-
-		Tile pt = new PondTile(t);
-		((PondTile) pt).setRiichiTile();
-		
-		
-		
-		TileList tlist = new TileList();
-		tlist.add(t);
-		tlist.add(pt);
-		
-		
-		System.out.println(t.toString());
-		
-		System.out.println(pt.toString());
-		System.out.println(((PondTile) tlist.get(1)).isRiichiTile());
-		System.out.println(((PondTile) tlist.get(1)).wasCalled());
-		
-		
-		System.out.println(tlist.toString());
-		
-		
-		
-		TileList copyList = new TileList();
-//		for (Tile tile: tlist) copyList.add(t);
-		for (int i = 0; i < tlist.size(); i++) copyList.add(tlist.get(i));
-		
-		
-		System.out.println(((PondTile) copyList.get(1)).isRiichiTile());
-		System.out.println(((PondTile) copyList.get(1)).wasCalled());
-		
-		System.out.println(tlist.toString());
-		
-		
-		
-
-		System.out.println("\n\n\n\n");
-		
-		TileList hList = new TileList();
-		hList.add(3);hList.add(5);
-		
-		TileList cList = hList.makeCopyWithCheckers();
-		((HandCheckerTile)cList.get(0)).mstackPush(MeldType.CHI);
-		((HandCheckerTile)cList.get(0)).mstackPush(MeldType.PON);
-		
-		System.out.println(hList.toString());
-		System.out.println(((HandCheckerTile)cList.get(0)).stackString());
-		
-		
-		
-		TileList dList = cList.makeCopyWithCheckers();
-		System.out.println(((HandCheckerTile)dList.get(0)).stackString());
-		
-	}
-	
 	
 	
 	
@@ -338,39 +255,25 @@ public class MajaPlay {
 			System.out.println("\nDiscarded tile: " + q.toString());
 			
 			System.out.print("\n\tChi-L?: " + h.ableToChiL());
-			if (h.ableToChiL())	System.out.print(", Partners: " + h.partnerIndicesString(MeldType.CHI_L, true) + ", Ind: " + h.partnerIndicesString(MeldType.CHI_L));
+			if (h.ableToChiL())	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.CHI_L, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.CHI_L));
 			
 			System.out.print("\n\tChi-M?: " + h.ableToChiM());
-			if (h.ableToChiM())	System.out.print(", Partners: " + h.partnerIndicesString(MeldType.CHI_M, true) + ", Ind: " + h.partnerIndicesString(MeldType.CHI_M));
+			if (h.ableToChiM())	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.CHI_M, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.CHI_M));
 			
 			System.out.print("\n\tChi-H?: " + h.ableToChiH());
-			if (h.ableToChiH())	System.out.print(", Partners: " + h.partnerIndicesString(MeldType.CHI_H, true) + ", Ind: " + h.partnerIndicesString(MeldType.CHI_H));
+			if (h.ableToChiH())	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.CHI_H, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.CHI_H));
 			
 			System.out.print("\n\tPon?  : " + h.ableToPon());
-			if (h.ableToPon())	System.out.print(", Partners: " + h.partnerIndicesString(MeldType.PON, true) + ", Ind: " + h.partnerIndicesString(MeldType.PON));
+			if (h.ableToPon())	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.PON, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.PON));
 
 			System.out.print("\n\tKan?  : " + h.ableToKan());
-			if (h.ableToKan())	System.out.print(", Partners: " + h.partnerIndicesString(MeldType.KAN, true) + ", Ind: " + h.partnerIndicesString(MeldType.KAN));
+			if (h.ableToKan())	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.KAN, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.KAN));
 			
 			System.out.print("\n\tPair? : " + h.ableToPair());
-			if (h.ableToPair())	System.out.print(", Partners: " + h.partnerIndicesString(MeldType.PAIR, true) + ", Ind: " + h.partnerIndicesString(MeldType.PAIR));
+			if (h.ableToPair())	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.PAIR, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.PAIR));
 			System.out.println("\n\n\n\n");
 		}
 		
-	}
-	
-	
-	public static void meldEnumPlay(){
-		
-		MeldType call = MeldType.CHI_H;
-		int want = 3;
-		MeldType wantCall = MeldType.values()[want];
-		
-		System.out.println("Call: " + call + ", " + call.ordinal());
-		System.out.println("Want: " + wantCall + ", " + wantCall.ordinal());
-
-		System.out.println("Call == Want?: " + (call == wantCall));
-		System.out.println("Call > Want?: " + (call.compareTo(wantCall) > 0));
 	}
 	
 	
@@ -519,22 +422,9 @@ public class MajaPlay {
 	
 	
 	
-	public static void strToIdTest(){
-//		System.out.println("ID of M2: " + Tile.repr_idOfStringRepr("M2"));
-//		System.out.println("ID of M9: " + Tile.repr_idOfStringRepr("M9"));
-//		System.out.println("ID of M1: " + Tile.repr_idOfStringRepr("M1"));
-//		System.out.println("ID of C9: " + Tile.repr_idOfStringRepr("C9"));
-//		System.out.println("ID of WE: " + Tile.repr_idOfStringRepr("WE"));
-//		System.out.println("ID of WN: " + Tile.repr_idOfStringRepr("WN"));
-//		System.out.println("ID of DG: " + Tile.repr_idOfStringRepr("DG"));
-//		System.out.println("ID of DR: " + Tile.repr_idOfStringRepr("DR"));
-//		System.out.println("ID of BO: " + Tile.repr_idOfStringRepr("BO"));
-	}
 	
 	
-	
-	
-	//probably broke this when clickable discards were implemented
+	//broke this when clickable discards were implemented
 	public static void testMeldMaking(){
 		
 		Player p = new Player();
@@ -581,7 +471,7 @@ public class MajaPlay {
 			System.out.println("\nDiscarded tile: " + q.toString() + "\n");
 			
 
-			//probably broke this when clickable discards were implemented
+			//broke this when clickable discards were implemented
 //			p.reactToDiscard(q);
 			p.makeMeld(q);
 			
@@ -606,7 +496,7 @@ public class MajaPlay {
 //			System.out.println("Player's call status: " + whatCalled + " (status: " + status + ")");
 			
 			
-			//probably broke this when clickable discards were implemented
+			//broke this when clickable discards were implemented
 //			p.takeTurn();
 			
 		}
@@ -622,7 +512,7 @@ public class MajaPlay {
 	
 	
 
-	//probably broke this when clickable discards were implemented
+	//broke this when clickable discards were implemented
 	public static void testPlayerCall(){
 		
 		Player p = new Player();
@@ -645,7 +535,7 @@ public class MajaPlay {
 		System.out.println("\nDiscarded tile: " + q.toString() + "\n");
 		
 
-		//probably broke this when clickable discards were implemented
+		//broke this when clickable discards were implemented
 //		p.reactToDiscard(q);
 		
 		//broke this when reduced coupling in Player
@@ -689,13 +579,13 @@ public class MajaPlay {
 		System.out.println(h.toString());
 		System.out.println("\nDiscarded tile: " + q.toString() + "\n");
 		
-		/*
-		System.out.println("Chi-L?: " + h.canChiL(q));
-		System.out.println("Chi-M?: " + h.canChiM(q));
-		System.out.println("Chi-H?: " + h.canChiH(q));
-		System.out.println("Pon?  : " + h.canPon(q));
-		System.out.println("Kan?  : " + h.canKan(q));
-		*/
+		
+//		System.out.println("Chi-L?: " + h.canChiL(q));
+//		System.out.println("Chi-M?: " + h.canChiM(q));
+//		System.out.println("Chi-H?: " + h.canChiH(q));
+//		System.out.println("Pon?  : " + h.canPon(q));
+//		System.out.println("Kan?  : " + h.canKan(q));
+		
 		
 	}
 	
@@ -753,186 +643,7 @@ public class MajaPlay {
 	
 	
 	
-
-	public static void subListPlay(){
-		
-		ArrayList<Integer> list = new ArrayList<Integer>(9);
-		list.add(1);
-		list.add(2);
-		list.add(3);
-		list.add(4);
-		list.add(5);
-		list.add(6);
-		list.add(7);
-		list.add(8);
-		list.add(9);
-
-//		ArrayList<Integer> sublist = (ArrayList<Integer>)list.subList(0, list.size());
-		ArrayList<Integer> sublist = new ArrayList<Integer>(list.subList(1, 4));
-		
-		for (Integer i: sublist)
-			System.out.println(i);
-	}
 	
-	public static void intArrayCopyTest(){
-
-		ArrayList<Integer> list1 = new ArrayList<Integer>(5);
-		list1.add(5);
-		list1.add(6);
-		list1.add(7);
-		list1.add(8);
-		list1.add(9);
-
-		System.out.print("List1: "); for (Integer i: list1) System.out.print(i.toString() + ", ");
-		
-		
-		ArrayList<Integer> list2 = list1;
-		System.out.print("\nList2: "); for (Integer i: list2) System.out.print(i.toString() + ", ");
-		
-		
-		
-		/*
-		//after list2 = list1
-		//BAD - XXXX - Removing an object from either list removes it from both lists
-		list2 = list1;
-		list2.remove(2);
-		System.out.print("\nList1: "); for (Integer i: list1) System.out.print(i.toString() + ", ");
-		System.out.print("\nList2: "); for (Integer i: list2) System.out.print(i.toString() + ", ");
-		*/
-		
-		
-		/*
-		//after list2 = list1.clone()
-		//GOOD - Removing an object from either list does NOT affect the other list
-		list2 = (ArrayList<Integer>)list1.clone();
-		list1.remove(3);
-		System.out.print("\n\nList1: "); for (Integer i: list1) System.out.print(i.toString() + ", ");
-		System.out.print("\nList2: "); for (Integer i: list2) System.out.print(i.toString() + ", ");
-		*/
-		
-		
-		/*
-		//after list2 = new arraylist(list1) copy constructor
-		//GOOD - Removing an object from either list does NOT affect the other list
-		list2 = new ArrayList<Integer>(list1);
-		list2.remove(4);
-		System.out.print("\n\nList1: "); for (Integer i: list1) System.out.print(i.toString() + ", ");
-		System.out.print("\nList2: "); for (Integer i: list2) System.out.print(i.toString() + ", ");
-		*/
-		
-
-		//after list2 = add 1 by 1 from list 1
-		//GOOD - Removing an object from either list does NOT affect the other list
-		list2 = new ArrayList<Integer>(0);for (int i = 0; i < list1.size(); i++) list2.add(list1.get(i));
-		list1.remove(2);
-		System.out.print("\n\nList1: "); for (Integer i: list1) System.out.print(i.toString() + ", ");
-		System.out.print("\nList2: "); for (Integer i: list2) System.out.print(i.toString() + ", ");
-	}
-	public static void sleepTest(){
-		
-		final int SLEEP_AMOUNT = 1000;
-		
-		System.out.println("Hello sir!");
-		try {Thread.sleep(SLEEP_AMOUNT);} 
-		catch (InterruptedException e) {}
-		
-		System.out.println("I am");
-		try {Thread.sleep(SLEEP_AMOUNT);}
-		catch (InterruptedException e) {}
-		
-		System.out.println("very");
-		try {Thread.sleep(SLEEP_AMOUNT);}
-		catch (InterruptedException e) {}
-		
-		System.out.println("very...");
-		try {Thread.sleep(SLEEP_AMOUNT);}
-		catch (InterruptedException e) {}
-		
-		System.out.println("sleepy!");	
-	}
-	
-	
-	
-	/*
-	public static List<Integer> unlist;
-	static{
-		List<Integer> temp = new List<Integer>(3);
-		temp.add(4);
-		temp.add(6);
-		temp.add(8);
-		unlist = temp;
-		unlist = Collections.unmodifiableList(temp);
-	}
-	*/
-	public static void finalListTest(){
-		
-		ArrayList<Integer> prelist = new ArrayList<Integer>(5);
-		prelist.add(5);
-		prelist.add(6);
-		prelist.add(7);
-		prelist.add(8);
-		prelist.add(9);
-		final ArrayList<Integer> list1 = new ArrayList<Integer>(prelist);
-		
-		
-		System.out.print("list1: "); for (Integer i: list1) System.out.print(i.toString() + ", ");
-		
-		list1.remove(2);
-		System.out.print("\n\nList1: "); for (Integer i: list1) System.out.print(i.toString() + ", ");
-	}
-	
-	
-	public static void mahListPlay(){
-		MahList<Integer> list = new MahList<Integer>();
-		list.add(3);
-		list.add(5);
-		list.add(7);
-		list.add(9);
-		list.add(11);
-		
-
-		Integer[] intArray = new Integer[5];
-		intArray[0] = 2;
-		intArray[1] = 4;
-		intArray[2] = 6;
-		intArray[3] = 8;
-		intArray[4] = 10;
-		
-		MahList<Integer> sublist = new MahList<Integer>(4, 7, 3, 1, 5);
-		sublist.sort();
-		
-		
-		
-		System.out.print("list: ");
-		for (Integer i: list)
-			System.out.print(i.toString() + ", ");
-
-		System.out.print("\nsub : ");
-		for (Integer i: sublist)
-			System.out.print(i.toString() + ", ");
-		
-		
-		
-		sublist.add(6);
-		sublist.add(2);
-		sublist.sort();
-		System.out.print("\nsub : ");
-		for (Integer i: sublist)
-			System.out.print(i.toString() + ", ");
-		
-	}
-	
-	
-	public static void iterableTest(){
-		Hand h = new Hand(ownerSeat);
-		h.addTile(new Tile("M1"));	//1
-		h.addTile(new Tile("M9"));	//2
-		h.addTile(new Tile("P1"));	//3
-		h.addTile(new Tile("P9"));	//4
-		h.addTile(new Tile("S1"));	//5
-		
-		for (Tile t: h) System.out.println(t.toString());
-	}
 
 	
 	public static void listEqualsTest(){

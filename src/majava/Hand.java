@@ -422,15 +422,15 @@ public class Hand implements Iterable<Tile>{
 	//xxxxBEGIN DEMO METHODS
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	//demo values
-	public void fillChuuren(int lastTile){
+	public void DEMOfillChuuren(int lastTile){
 		int[] ids = {1,1,1,2,3,4,5,6,7,8,9,9,9,lastTile};
 		for (int i: ids) addTile(i);
 	}
-	public void fillChuuren(){fillChuuren(8);}
+	public void DEMOfillChuuren(){DEMOfillChuuren(8);}
 	
 	//true returns a string of indices (indices are +1 to match display)
 	//false returns a string of actual tile values
-	public String partnerIndicesString(MeldType meldType, boolean wantActualTiles){
+	public String DEMOpartnerIndicesString(MeldType meldType, boolean wantActualTiles){
 		
 		String partnersString = "";
 		ArrayList<Integer> wantedIndices = null;
@@ -443,17 +443,17 @@ public class Hand implements Iterable<Tile>{
 		if (partnersString != "") partnersString = partnersString.substring(0, partnersString.length() - 2);
 		return partnersString;
 	}
-	public String partnerIndicesString(MeldType meldType){return partnerIndicesString(meldType, false);}
+	public String DEMOpartnerIndicesString(MeldType meldType){return DEMOpartnerIndicesString(meldType, false);}
 	
 	//returns a list of hot tile IDs for ALL tiles in the hand
 	public ArrayList<Integer> DEMOfindAllHotTiles(){return mChecker.DEMOfindAllHotTiles();}
 	//returns a list of callable tile IDs for ALL tiles in the hand
 	public ArrayList<Integer> DEMOfindAllCallableTiles(){return mChecker.DEMOfindAllCallableTiles();}
+	
+	public HandChecker DEMOgetChecker(){return mChecker;}
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	//xxxxEND DEMO METHODS
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	
-	public HandChecker DEMOgetChecker(){return mChecker;}
 	
 	
 	

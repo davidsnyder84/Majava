@@ -863,9 +863,7 @@ public class Player {
 	
 	
 	
-	public void setPlayerName(String newName){
-		if (newName != null) mPlayerName = newName;
-	}
+	public void setPlayerName(String newName){if (newName != null) mPlayerName = newName;}
 	
 	
 	
@@ -903,9 +901,7 @@ public class Player {
 	//////BEGIN DEMO METHODS
 	////////////////////////////////////////////////////////////////////////////////////
 	//fill hand with demo values
-	public void fillHand(){
-		mHand.fillChuuren();
-	}
+	public void DEMOfillHand(){mHand.DEMOfillChuuren();}
 	////////////////////////////////////////////////////////////////////////////////////
 	//////END DEMO METHODS
 	////////////////////////////////////////////////////////////////////////////////////

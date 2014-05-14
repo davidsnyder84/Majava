@@ -20,7 +20,18 @@ import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
 
 
-
+/*
+Class: MajavaWelcome
+a welcome menu GUI to start the game 
+	
+methods:
+	public:
+		mutators:
+		waitForChoice - waits for the player to click a choice
+		
+		accessors:
+		choseSinglePlayer, choseFastGameplay - returns true if the players chose the specified option
+*/
 public class MajavaWelcome extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = 3226158067427833672L;

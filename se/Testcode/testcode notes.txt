@@ -1,0 +1,11 @@
+DemoHandGen
+Contains methods that generate complete or almost complete hands, and run them through the program's hand checking functions to see if they give the right answer
+
+
+MajaPlay
+Contains various methods that test a specific function of the program
+
+
+
+
+

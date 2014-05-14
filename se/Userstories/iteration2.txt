@@ -1,0 +1,12 @@
+Second Iteration: 22 days (This is what I will finish by the end of the semester)
+User stories included:
+	*Tenpai check (3)
+	*Winning a hand (3)
+	*Wining with non-standard hands (2) 
+	*Ankan and minkan (1) 
+	*GUI Display hands and ponds (5)
+	*GUI Display round information (1)
+	*GUI Choose discard with mouse (3)
+	*GUI Clickable button prompts (4)
+In this release, game display and user interaction will take place through a GUI. The user will see images of the tiles on the game table, and will use the mouse to choose a discard or respond to a prompt. Also in this iteration, a player will be able to claim a win if they complete a hand. This includes the non-standard Seven Pairs and Thirteen Orphans hands. Additionally, a player will be notified when they are one tile away from a complete hand (tenpai).
+

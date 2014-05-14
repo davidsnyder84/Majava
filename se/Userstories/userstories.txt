@@ -1,0 +1,239 @@
+Title:	 Game structure
+Description: 	Wall of tiles. Four players. Players have hands, melds, and ponds.
+Estimation: 	4
+Assumptions: 	x
+
+
+
+Title:	 Drawing tiles
+Description: 	Players are dealt their initial hands, then take turns drawing tiles
+Estimation: 	1
+Assumptions: 	x
+
+
+
+Title:	Discarding tiles
+Description:	Players take turns discarding tiles from their hands. Everyone can see everyone else’s discards.
+Estimation:		2
+Assumptions:	x
+
+
+
+Title:	Calling tiles
+Description:	A player can call another player's discard to complete a meld
+Estimation:	2
+Assumptions:	x
+
+
+
+Title:	Abortive draw - Washout
+Description:	End the round in a draw if there are no more tiles left to draw
+Estimation:		<1
+Assumptions:	x
+
+
+
+Title:	Text-based display
+Description:	Display the players’ hands and discards through the command line interface
+Estimation:		2
+Assumptions:	x
+
+
+Title:	Text-based input
+Description:	Players enter their choices by typing in the command line interface
+Estimation:	2
+Assumptions:	x
+
+
+
+
+
+
+
+Title:	Abortive draw - 4 kans
+Description:	End the round in a draw if 4 kans are made, unless they are all made by the same player (in this case, end if a 5th kan is made)
+Estimation:		<1
+Assumptions:	x
+
+
+
+Title:	Abortive draw - 4 riichi
+Description:	End the round in a draw if all 4 players have declared riichi
+Estimation:		<1
+Assumptions:	x
+
+
+
+Title:	No-ten payment
+Description:	If the round ends in washout, the players who are not in tenpai must pay points to the players who are
+Estimation:		1
+Assumptions:	x
+
+
+
+Title:	Tonpuusen game
+Description:	Hands are played and seats rotate until everyone has been the dealer at least once
+Estimation:		2
+Assumptions:	x
+
+
+
+Title:	Renchan bonus
+Description:	If the dealer wins a hand or is in tenpai during washout, he remains dealer and a bonus counter is added to the next hand
+Estimation:		2
+Assumptions:	Assume Tenhou rules for renchan in South 4
+
+
+
+Title:	Ankan and minkan
+Description:	A player will be able to make a mikan or ankan from within their hand if they have the necessary tiles
+Estimation:		1
+Assumptions:	x
+
+
+
+
+
+
+
+Title:	Tenpai check
+Description:	A player will be notified if their hand is one tile away from winning (tenpai)
+Estimation:		3
+Assumptions:	x
+
+
+
+Title:	Riichi
+Description:	A player will be able to declare riichi if they are in tenpai
+Estimation:		2
+Assumptions:	x
+
+
+
+Title:	Winning a hand
+Description:	A player can claim a win if they complete a standard hand (four melds and one pair)
+Estimation:		3
+Assumptions:	x
+
+
+
+Title:	Wining with non-standard hands
+Description:	A player can claim a win with the non-standard Seven Pairs and Thirteen Orphans hands
+Estimation:		2
+Assumptions:	x
+
+
+
+Title:	Furiten
+Description:	Do not allow a player to claim a win if they previously discarded one of their hand's winning tiles
+Estimation:		3
+Assumptions:	x
+
+
+
+
+
+
+Title:	Automatic Fu counting
+Description:	The fu points of a player's hand and melds are calculated upon winning
+Estimation:		2
+Assumptions:	x
+
+
+
+Title:	Automatic Han counting
+Description:	A winning hand’s han is determined based on the composition of the hand
+Estimation:		7
+Assumptions:	x
+
+
+
+Title:	Minimum yaku
+Description:	A player may not claim a win if their hand does not meet the minimum yaku requirement
+Estimation:		5
+Assumptions:	Assume the standard minimum of 1 yaku
+
+
+
+Title:	Point payments
+Description:	Points are calculated based on a hand's fu and han, and are paid by the losers to the winner
+Estimation:		1
+Assumptions:	x
+
+
+
+
+
+
+
+
+Title:	Chankan
+Description:	Allow a player to claim a win by robbing another player's minkan (or ankan for kokushi)
+Estimation:		2
+Assumptions:	x
+
+
+
+Title:	Nagashi mangan
+Description:	If a washout occurs and a player's pond includes only terminals and honors, he is awarded points for a nagashi mangan
+Estimation:		1
+Assumptions:	x
+
+
+
+
+
+
+Title:	Computer player AI basic offense
+Description:	A CPU player will make choices to form their own hands as fast as possible
+Estimation:		14
+Assumptions:	x
+
+
+
+Title:	Computer player AI basic defense
+Description:	A CPU player will evaluate other players' discards and make safe choices to avoid dealing into their hands
+Estimation:		10
+Assumptions:	x
+
+
+
+Title:	Computer player AI strategy
+Description:	By evaluating the situation, a CPU player may switch between offense and defense
+Estimation:		14
+Assumptions:	x
+
+
+
+
+
+
+Title:	GUI: Display hands and ponds
+Description:	The player's hand and all discard piles will be displayed and updated in the GUI
+Estimation:		5
+Assumptions:	x
+
+
+
+Title:	GUI: Display round information
+Description:	The GUI will display the current round wind/number, seat winds, and point totals
+Estimation:		1
+Assumptions:	x
+
+
+
+Title:	GUI: Choose discard with mouse
+Description:	The player will select which tile to discard by clicking on it
+Estimation:		3
+Assumptions:	x
+
+
+
+Title:	GUI: Clickable button prompts
+Description:	When a player's input is needed for tile calling or other actions, he will be prompted in the GUI and will click on his choice
+Estimation:		4
+Assumptions:	x
+
+
+
+

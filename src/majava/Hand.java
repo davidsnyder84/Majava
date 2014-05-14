@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 import majava.tiles.Tile;
 
-import utility.MahList;
+import utility.GenSort;
 
 
 /*
@@ -82,8 +82,8 @@ public class Hand implements Iterable<Tile>{
 	private final ArrayList<Meld> mMelds;
 	private final HandChecker mChecker;
 	
-
 	private final Wind mOwnerSeatWind;
+	
 	private int mNumMeldsMade;
 	
 	
@@ -344,7 +344,7 @@ public class Hand implements Iterable<Tile>{
 		TileList handTiles = new TileList();
 		Tile candidate;
 		int candidateIndex;
-		MahList<Integer> partnerIndices;
+		ArrayList<Integer> partnerIndices;
 		
 		final int NUM_PARTNERS_NEEDED_TO_KAN = 3;
 		
@@ -354,7 +354,7 @@ public class Hand implements Iterable<Tile>{
 			candidate = mTiles.get(candidateIndex);
 			
 			partnerIndices = mTiles.findAllIndicesOf(candidate);
-			while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.removeLast();
+			while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.remove(partnerIndices.size() - 1);
 			
 			handTiles = mTiles.getMultiple(partnerIndices);
 			
@@ -362,7 +362,7 @@ public class Hand implements Iterable<Tile>{
 			
 			//remove the tiles from the hand
 			partnerIndices.add(candidateIndex);
-			partnerIndices.sortDescending();
+			GenSort<Integer> sorter = new GenSort<Integer>(partnerIndices); sorter.sortDescending();
 			for (Integer i: partnerIndices) removeTile(i);
 			
 

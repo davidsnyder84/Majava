@@ -1,13 +1,14 @@
 package majava;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import majava.tiles.HandCheckerTile;
 import majava.tiles.Tile;
 
 import utility.GenSort;
-import utility.MahList;
 
 
 /*
@@ -15,7 +16,7 @@ Class: TileList
 a wrapper class for an ArrayList of Tiles. adds extra functionalities
 
 data:
-	mTiles - an arraylist that holds the elements of the MahList
+	mTiles - an arraylist that holds the list of tiles
 	mSorter - used to sort the list
 	
 methods:
@@ -32,7 +33,7 @@ methods:
 		getFirst, getLast - returns a tile in the list, returns null if the list is empty
 		subList - returns a sublist, as a TileList from fromIndex (inclusive) to toIndex (exclusive)
 		
-		findAllIndicesOf - searches the list for all occurences of Tile t, returns a MahList of integer indices of where that tile occurred
+		findAllIndicesOf - searches the list for all occurences of Tile t, returns an ArrayList of integer indices of where that tile occurred
 		makeCopy - returns a copy of the list
 		makeCopyNoDuplicates - returns a copy of the list with no duplicate tiles
 		makeCopyWithCheckers - makes a copy of the list with checkers
@@ -47,7 +48,7 @@ public class TileList implements Iterable<Tile>{
 	private static final int DEFAULT_CAPACITY = 10;
 	
 	
-	private ArrayList<Tile> mTiles;
+	private final ArrayList<Tile> mTiles;
 	private final GenSort<Tile> mSorter;
 	
 	
@@ -55,22 +56,15 @@ public class TileList implements Iterable<Tile>{
 	public TileList(ArrayList<Tile> tiles){
 		mTiles = tiles;
 		mSorter = new GenSort<Tile>(mTiles);
-	}	
-	//takes a MahList
-	public TileList(MahList<Tile> tiles){
-		this(tiles.getArrayList());
 	}
-	//creates a new lsit with the given capacity
-	public TileList(int capacity){
-		this(new ArrayList<Tile>(capacity));
-	}
+	//creates a new list with the given capacity
+	public TileList(int capacity){this(new ArrayList<Tile>(capacity));}
+	public TileList(){this(DEFAULT_CAPACITY);}
+	
 	//can take an array, or a variable number or arguments of type T 
 	public TileList(Tile... tiles){
 		this(tiles.length);
 		for (Tile t: tiles) mTiles.add(t);
-	}
-	public TileList(){
-		this(DEFAULT_CAPACITY);
 	}
 	
 	//takes a list of integer ids, makes a list of tiles out of them
@@ -128,19 +122,12 @@ public class TileList implements Iterable<Tile>{
 	
 	
 	/*
-	private method: subList
-	returns a sublist, as a TileList type list from fromIndex (inclusive) to toIndex (exclusive)
+	method: subList
+	returns a sublist, as a TileList from fromIndex (inclusive) to toIndex (exclusive)
 	Returns a view of the portion of this list between the specified fromIndex, inclusive, and toIndex, exclusive. (If fromIndex and toIndex are equal, the returned list is empty)
-	
-	input: fromIndex, inclusive
-		   toIndex, exclusive
-	
-	creates a new arraylist out of a sublist of mTiles
-	returns a new MahList object with the sublist as its list 
 	*/
-	public TileList subList(int fromIndex, int toIndex){
-		return new TileList(new ArrayList<Tile>(mTiles.subList(fromIndex, toIndex)));
-	}
+	public TileList subList(int fromIndex, int toIndex){return new TileList(new ArrayList<Tile>(mTiles.subList(fromIndex, toIndex)));}
+	
 	//returns a sublist of the entire list, minus the last tile
 	public TileList getAllExceptLast(){return subList(0, mTiles.size() - 1);}
 	
@@ -165,7 +152,7 @@ public class TileList implements Iterable<Tile>{
 	
 	
 	//returns multiple tiles in the list, at the given indices
-	public TileList getMultiple(ArrayList<Integer> indices){
+	public TileList getMultiple(List<Integer> indices){
 		TileList holder = new TileList();
 		for (Integer index: indices)
 			if (index < mTiles.size() && index >= 0)
@@ -173,17 +160,15 @@ public class TileList implements Iterable<Tile>{
 		
 		return holder;
 	}
-	public TileList getMultiple(MahList<Integer> indices){return getMultiple(indices.getArrayList());}
-	public TileList getMultiple(Integer... indices){return getMultiple(new MahList<Integer>(indices));}
+	public TileList getMultiple(Integer... indices){return getMultiple(Arrays.asList(indices));}
 	
 	
+
 	
 	
-	
-	
-	//finds all indices where a tile occurs in the list, returns the indices in a MahList<Integer>
-	public MahList<Integer> findAllIndicesOf(Tile t, boolean allowCountingItself){
-		MahList<Integer> indices = new MahList<Integer>(2);
+	//finds all indices where a tile occurs in the list, returns the indices in an arraylist of integers
+	public ArrayList<Integer> findAllIndicesOf(Tile t, boolean allowCountingItself){
+		ArrayList<Integer> indices = new ArrayList<Integer>(2);
 		for (int i = 0; i < mTiles.size(); i++)
 			if (mTiles.get(i).equals(t)){
 				if (mTiles.get(i) != t)
@@ -194,7 +179,7 @@ public class TileList implements Iterable<Tile>{
 		return indices;
 	}
 	//overloaded, omitting allowCountingItself will default to false (do not count itself)
-	public MahList<Integer> findAllIndicesOf(Tile tile){return findAllIndicesOf(tile, false);}
+	public ArrayList<Integer> findAllIndicesOf(Tile tile){return findAllIndicesOf(tile, false);}
 	
 	
 	//allow counting itself

@@ -1,10 +1,10 @@
 package majava;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import majava.tiles.HandCheckerTile;
 import majava.tiles.Tile;
-import utility.MahList;
 
 
 /*
@@ -192,12 +192,12 @@ public class HandChecker {
 		
 		//decide who the chi partners should be (offset is decided based on chi type)
 		//search the hand for the desired chi partners (get the indices)
-		MahList<Integer> tempPartnerIndices = new MahList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
+		ArrayList<Integer> tempPartnerIndices = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
 		tempPartnerIndices.add(mHandTiles.indexOf(new Tile(candidate.getId() + offset1)));
 		tempPartnerIndices.add(mHandTiles.indexOf(new Tile(candidate.getId() + offset2)));
 		
 		//if both parters were found in the hand
-		if (tempPartnerIndices.getFirst() != NOT_FOUND && tempPartnerIndices.getLast() != NOT_FOUND){
+		if (tempPartnerIndices.get(0) != NOT_FOUND && tempPartnerIndices.get(1) != NOT_FOUND){
 			
 			//sore the indices of the partners in a partner list
 			__storePartnerIndices(storePartnersHere, tempPartnerIndices);
@@ -245,10 +245,10 @@ public class HandChecker {
 	private boolean __canMultiType(Tile candidate, ArrayList<Integer> storePartnersHere, int numPartnersNeeded){
 		
 		//count how many occurences of the tile, and store the indices of the occurences in tempPartnerIndices
-		MahList<Integer> tempPartnerIndices = new MahList<Integer>(numPartnersNeeded);
+		ArrayList<Integer> tempPartnerIndices = new ArrayList<Integer>(numPartnersNeeded);
 		
 		//meld is possible if there are enough partners in the hand to form the meld
-		if (__howManyOfThisTileInHand(candidate, tempPartnerIndices.getArrayList()) >= numPartnersNeeded){
+		if (__howManyOfThisTileInHand(candidate, tempPartnerIndices) >= numPartnersNeeded){
 
 			//store the partner indices in the pon partner index list
 			__storePartnerIndices(storePartnersHere, tempPartnerIndices.subList(0, numPartnersNeeded));
@@ -289,7 +289,7 @@ public class HandChecker {
 	private int __howManyOfThisTileInHand(Tile t, ArrayList<Integer> storeIndicesHere){
 		
 		//find all the indices of t in the hand, then store the indices if a list was provided
-		MahList<Integer> foundIndices = mHandTiles.findAllIndicesOf(t);
+		ArrayList<Integer> foundIndices = mHandTiles.findAllIndicesOf(t);
 		if (storeIndicesHere != null) for (Integer i: foundIndices) storeIndicesHere.add(i);
 		
 		//return the number of indices found
@@ -356,9 +356,8 @@ public class HandChecker {
 	
 	
 	//takes a list and several integer indices, stores the indices in the list
-	private void __storePartnerIndices(ArrayList<Integer> storeHere, MahList<Integer> partnerIndices){
-		for (int i: partnerIndices)
-			storeHere.add(i);
+	private void __storePartnerIndices(ArrayList<Integer> storeHere, List<Integer> partnerIndices){
+		for (int i: partnerIndices) storeHere.add(i);
 	}
 	
 	//resets call flags to false, creates new empty partner index lists
@@ -1052,7 +1051,7 @@ public class HandChecker {
 		MeldType currentTileMeldType;
 		ArrayList<Integer> currentTileParterIDs = null;
 		boolean currentTilePartersAreStillHere = true;
-		MahList<Integer> partnerIndices = null;
+		ArrayList<Integer> partnerIndices = null;
 		
 		
 		
@@ -1088,14 +1087,14 @@ public class HandChecker {
 			
 			//~~~~Separate the tiles if the meld is possible
 			//if (currentTile's partners for the meld are still in the hand) AND (if pair has already been chosen, currentTileMeldType must not be a pair)
-			if (currentTilePartersAreStillHere && !(pairHasBeenChosen && currentTileMeldType == MeldType.PAIR))
-			{
+			if (currentTilePartersAreStillHere && !(pairHasBeenChosen && currentTileMeldType == MeldType.PAIR)){
+				
 				//take the pair privelige
 				if (currentTileMeldType == MeldType.PAIR) pairHasBeenChosen = true;
 				
 				
 				//~~~~Find the inidces of currentTile's partners
-				partnerIndices = new MahList<Integer>();
+				partnerIndices = new ArrayList<Integer>();
 				
 				//if chi, just find the partners
 				if (currentTileMeldType.isChi()){
@@ -1107,8 +1106,8 @@ public class HandChecker {
 					partnerIndices = checkTiles.findAllIndicesOf(currentTile);
 					
 					//trim the lists down to size to fit the meld type
-					if (currentTileMeldType == MeldType.PAIR) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PAIR) partnerIndices.removeLast();
-					if (currentTileMeldType == MeldType.PON) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PON) partnerIndices.removeLast();
+					if (currentTileMeldType == MeldType.PAIR) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PAIR) partnerIndices.remove(partnerIndices.size() - 1);
+					if (currentTileMeldType == MeldType.PON) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PON) partnerIndices.remove(partnerIndices.size() - 1);
 				}
 				
 				
@@ -1118,8 +1117,7 @@ public class HandChecker {
 				checkTilesMinusThisMeld = checkTiles.makeCopyWithCheckers();
 				toMeldTiles = new TileList();
 				
-				while (!partnerIndices.isEmpty())
-					toMeldTiles.add(checkTilesMinusThisMeld.remove(partnerIndices.removeLast()));
+				while (!partnerIndices.isEmpty()) toMeldTiles.add(checkTilesMinusThisMeld.remove(partnerIndices.remove(partnerIndices.size() - 1)));
 				toMeldTiles.add(checkTilesMinusThisMeld.removeFirst());
 				
 				

@@ -1,6 +1,8 @@
 package majava.control.testcode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import majava.Hand;
 import majava.MeldType;
@@ -10,7 +12,6 @@ import majava.tiles.Tile;
 import majava.TileList;
 
 import utility.GenSort;
-import utility.MahList;
 
 
 
@@ -242,11 +243,12 @@ public class MajaPlay {
 		h.addTile(32);
 		h.addTile(33);
 		
-		MahList<Integer> discardIDs = new MahList<Integer>(1,2,3,4,5,6,7,8,9,10,11,30,31,32,33,34);
+		Integer[] dIDs = {1,2,3,4,5,6,7,8,9,10,11,30,31,32,33,34};
+		List<Integer> discardIDs = Arrays.asList(dIDs);
 		
 		
-		for (Integer id: discardIDs)
-		{
+		for (Integer id: discardIDs){
+			
 			q = new Tile(id);
 			q.setOwner(ownerSeat.kamichaWind());
 			h.checkCallableTile(q);

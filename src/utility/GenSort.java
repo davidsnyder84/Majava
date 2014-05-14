@@ -121,5 +121,4 @@ public class GenSort <T extends Comparable<T> > {
 	//checks the list length (must be done before a sort)
 	private int __checkListLength(){return mListLength = mListToSort.size();}
 	
-	
 }

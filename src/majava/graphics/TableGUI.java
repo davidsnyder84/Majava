@@ -497,31 +497,26 @@ public abstract class TableGUI extends JFrame{
 	
 	private int mNewTurn = -1;
 	private int mOldTurn = -1;
-	
+	//highlights the most recent discard
 	private void __updateDiscardMarker(){
-
-//		//erase the old discard marker if the turn has changed
-//		mNewTurn = mRoundTracker.whoseTurn();
-////		if (mNewTurn != mOldTurn && mOldTurn >= 0 && !mPTrackers[mOldTurn].tilesP.isEmpty()){__getLastLabelInPond(mOldTurn).setOpaque(false); __getLastLabelInPond(mOldTurn).setBackground(COLOR_TRANSPARENT);}
-//		if (mOldTurn >= 0 && !mPTrackers[mOldTurn].tilesP.isEmpty()){__getLastLabelInPond(mOldTurn).setOpaque(false); __getLastLabelInPond(mOldTurn).setBackground(COLOR_TRANSPARENT);}
-//		//mark the new discard marker
-//		if (!mPTrackers[mNewTurn].tilesP.isEmpty() && mPTrackers[mNewTurn].player.needsDraw()){__getLastLabelInPond(mNewTurn).setOpaque(true); __getLastLabelInPond(mNewTurn).setBackground(COLOR_POND_DISCARD_TILE);}
-//		mOldTurn = mNewTurn;
-	
 		
-		//always erase the old discard marker
 		mNewTurn = mRoundTracker.whoseTurn();
-		if (mOldTurn >= 0 && !mPTrackers[mOldTurn].tilesP.isEmpty()){__getLastLabelInPond(mOldTurn).setOpaque(false); __getLastLabelInPond(mOldTurn).setBackground(COLOR_TRANSPARENT);}
-		
-		if (!mPTrackers[mNewTurn].tilesP.isEmpty() && mPTrackers[mNewTurn].player.needsDraw()){__getLastLabelInPond(mNewTurn).setOpaque(true); __getLastLabelInPond(mNewTurn).setBackground(COLOR_POND_DISCARD_TILE);}
-		
-//		if (mNewTurn != mOldTurn){
-//			if (mOldTurn >= 0 && !mPTrackers[mOldTurn].tilesP.isEmpty()){__getLastLabelInPond(mOldTurn).setOpaque(false); __getLastLabelInPond(mOldTurn).setBackground(COLOR_TRANSPARENT);}
-//			//mark the new discard marker
-//			if (!mPTrackers[mNewTurn].tilesP.isEmpty() && mPTrackers[mNewTurn].player.needsDraw()){__getLastLabelInPond(mNewTurn).setOpaque(true); __getLastLabelInPond(mNewTurn).setBackground(COLOR_POND_DISCARD_TILE);}
-//		}
+		__discardMarkerErase();
+		__discardMarkerSet();
 		mOldTurn = mNewTurn;
-		
+	}
+	private void __discardMarkerSet(){
+		if (!mPTrackers[mNewTurn].tilesP.isEmpty() && mPTrackers[mNewTurn].player.needsDraw()){
+			if (mNewTurn == mOldTurn &&  mPTrackers[mNewTurn].player.needsDrawRinshan()) return;
+			__getLastLabelInPond(mNewTurn).setOpaque(true);
+			__getLastLabelInPond(mNewTurn).setBackground(COLOR_POND_DISCARD_TILE);
+		}
+	}
+	private void __discardMarkerErase(){
+		if (mOldTurn >= 0 && !mPTrackers[mOldTurn].tilesP.isEmpty()){
+			__getLastLabelInPond(mOldTurn).setOpaque(false);
+			__getLastLabelInPond(mOldTurn).setBackground(COLOR_TRANSPARENT);
+		}
 	}
 	
 	public void updateEverything(){
@@ -811,8 +806,6 @@ public abstract class TableGUI extends JFrame{
 	
 	
 	protected void showExclamation(String exclamation, int x, int y, int sleepTime){
-		
-		if (mMostRecentDiscard != null) {mMostRecentDiscard.setOpaque(true); mMostRecentDiscard.setBackground(COLOR_POND_DISCARD_TILE);}
 		
 		//show a label
 		lblExclamation.setText(exclamation);

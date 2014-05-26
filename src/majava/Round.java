@@ -296,10 +296,10 @@ public class Round {
 		
 		
 		
-		if (mRoundTracker.callWasMadeOnDiscard() == false){
+		if (!mRoundTracker.callWasMadeOnDiscard()){
 			
 			//update turn indicator
-			if (mRoundTracker.checkIfWallIsEmpty() == false)
+			if (!mRoundTracker.checkIfWallIsEmpty())
 				mRoundTracker.nextTurn();
 		}
 	}

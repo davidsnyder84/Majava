@@ -32,7 +32,7 @@ public interface TableGUI {
 	public boolean resultClickCallWasRon();
 	
 	//prompts a player to click a button to choose an action
-	public void getClickTurnAction();
+	public void getClickTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo);
 	
 	//returns true if the specified call was clicked
 	public boolean resultClickTurnActionWasDiscard();

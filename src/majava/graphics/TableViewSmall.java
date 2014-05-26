@@ -644,9 +644,7 @@ public class TableViewSmall extends JFrame implements TableGUI{
 	
 	
 	
-	
-	
-	
+
 	public boolean getClickCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
 		
 		mChosenCall = NO_CALL_CHOSEN;
@@ -668,14 +666,14 @@ public class TableViewSmall extends JFrame implements TableGUI{
 		}
 		else{
 			//else, show multiple chi buttons
-			if (canChiL) barryCalls[CALL_CHI_L].setVisible(true);
-			if (canChiM) barryCalls[CALL_CHI_M].setVisible(true);
-			if (canChiH) barryCalls[CALL_CHI_H].setVisible(true);
+			barryCalls[CALL_CHI_L].setVisible(canChiL);
+			barryCalls[CALL_CHI_M].setVisible(canChiM);
+			barryCalls[CALL_CHI_H].setVisible(canChiH);
 		}
 		
-		if (canPon) barryCalls[CALL_PON].setVisible(true);
-		if (canKan) barryCalls[CALL_KAN].setVisible(true);
-		if (canRon) barryCalls[CALL_RON].setVisible(true);
+		barryCalls[CALL_PON].setVisible(canPon);
+		barryCalls[CALL_KAN].setVisible(canKan);
+		barryCalls[CALL_RON].setVisible(canRon);
 		
 		thisguy.repaint();
 		
@@ -743,29 +741,23 @@ public class TableViewSmall extends JFrame implements TableGUI{
 	}
 	
 	
-	public void getClickTurnAction(){
+	public void getClickTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){
 		
 		mChosenTurnAction = NO_ACTION_CHOSEN;
 		mChosenDiscard = NO_DISCARD_CHOSEN;
 		
-		//add appropriate player call buttons
-		Player currentPlayer = mPTrackers[mRoundTracker.whoseTurn()].player;
-		
-		//riichi
-		if (currentPlayer.ableToRiichi()) barryTActions[BARRY_TACTIONS_RIICHI].setVisible(true);
-		
-		if (currentPlayer.ableToAnkan()) barryTActions[BARRY_TACTIONS_ANKAN].setVisible(true);
-		
-		if (currentPlayer.ableToMinkan()) barryTActions[BARRY_TACTIONS_MINKAN].setVisible(true);
-		
-		if (currentPlayer.ableToTsumo()) barryTActions[BARRY_TACTIONS_TSUMO].setVisible(true);
+		//add appropriate turn action buttons
+		barryTActions[BARRY_TACTIONS_RIICHI].setVisible(canRiichi);
+		barryTActions[BARRY_TACTIONS_ANKAN].setVisible(canAnkan);
+		barryTActions[BARRY_TACTIONS_MINKAN].setVisible(canMinkan);
+		barryTActions[BARRY_TACTIONS_TSUMO].setVisible(canTsumo);
 		
 		
 		mChosenTurnAction = NO_ACTION_CHOSEN;
 		while (mChosenTurnAction == NO_ACTION_CHOSEN);//intentionally blank
 		
-		if (mChosenDiscard > currentPlayer.getHandSize()) __setDiscardChosen(DEFAULT_DISCARD);
-		if (mChosenDiscard == DEFAULT_DISCARD) mChosenDiscard = currentPlayer.getHandSize();
+		if (mChosenDiscard > handSize) __setDiscardChosen(DEFAULT_DISCARD);
+		if (mChosenDiscard == DEFAULT_DISCARD) mChosenDiscard = handSize;
 		
 		
 		for (JButton b: barryTActions) b.setVisible(false);
@@ -985,7 +977,6 @@ public class TableViewSmall extends JFrame implements TableGUI{
 
 		JPanel panelMidTable;
 		JPanel panelP1;JPanel panelP2;JPanel panelP3;JPanel panelP4;
-		JPanel panelW1;JPanel panelW2;JPanel panelW3;JPanel panelW4;
 		JPanel panelRoundInfo;JPanel panelRInd;JPanel panelInfoP1;JPanel panelInfoP2;JPanel panelInfoP3;JPanel panelInfoP4;JPanel panelRndInfBackground;
 		JPanel panelTurnInds;
 		JPanel panelTurnInd1; JPanel panelTurnInd2; JPanel panelTurnInd3; JPanel panelTurnInd4;

@@ -362,20 +362,7 @@ public class Player {
 	
 	chosenDiscardIndex = ask self which tile to discard
 	return chosenDiscardIndex
-	*/
-	private int __chooseTurnAction(TableGUI tviewer){
-		
-		//ask player for which tile to discard
-		int chosenAction = __askSelfForTurnAction(tviewer);
-		
-		//return the chosen tile index
-		return chosenAction;
-		
-	}
-	
-	
-	
-	/*
+	------------------------------
 	private method: __askSelfForTurnAction
 	asks a player what they want to do on their turn
 	(only asks and gets their choice, doesn't carry out the action)
@@ -386,7 +373,18 @@ public class Player {
 	if (controller is human) ask human and return choice
 	else (controller is computer) ask computer and return choice
 	*/
-	private int __askSelfForTurnAction(TableGUI tviewer){
+	private int __chooseTurnAction(TableGUI tviewer){
+		
+		//auto discard if in riichi (if unable to tsumo/kan)
+		if (mRiichiStatus && (!ableToTsumo() && !ableToAnkan())){
+			mTurnAction = ActionType.DISCARD;
+			mChosenDiscardIndex = mHand.getSize() - 1;
+			return mChosenDiscardIndex;
+		}
+		
+		
+		
+		//ask self for turn action
 		if (controllerIsHuman()) return __askTurnActionHuman(tviewer);
 		else return __askTurnActionCom();
 	}
@@ -414,13 +412,14 @@ public class Player {
 		tviewer.updateEverything();
 
 		//get the player's desired action
-		tviewer.getClickTurnAction();
+		tviewer.getClickTurnAction(getHandSize(), ableToRiichi(), ableToAnkan(), ableToMinkan(), ableToTsumo());
+		
+		
+		
 		
 		if (tviewer.resultClickTurnActionWasDiscard()){
-//		if (tviewer.resultClickTurnActionWasDiscard() || tviewer.resultClickTurnActionWasRiichi()){
 			mTurnAction = ActionType.DISCARD;
 			chosenDiscardIndex = tviewer.getResultClickedDiscard();
-//			if (tviewer.resultClickTurnActionWasRiichi()) chosenDiscardIndex = mHand.getSize();
 			mChosenDiscardIndex = chosenDiscardIndex - 1;	//adjust for index
 			return mChosenDiscardIndex;
 		}
@@ -430,12 +429,17 @@ public class Player {
 			if (tviewer.resultClickTurnActionWasRiichi()) chosenAction = ActionType.RIICHI;
 			if (tviewer.resultClickTurnActionWasTsumo()) chosenAction = ActionType.TSUMO;
 			mTurnAction = chosenAction;
-			return NO_DISCARD_CHOSEN;
 			
-//			if (mTurnAction != ActionType.RIICHI) return NO_DISCARD_CHOSEN;
-//			else{
-//				
-//			}
+			//riichi
+			if (mTurnAction != ActionType.RIICHI) return NO_DISCARD_CHOSEN;
+			else{
+				
+				mRiichiStatus = true;
+				
+				mTurnAction = ActionType.DISCARD;
+				mChosenDiscardIndex = getHandSize() - 1;
+				return mChosenDiscardIndex;
+			}
 		}
 	}
 	
@@ -490,7 +494,7 @@ public class Player {
 	//turn actions
 	public boolean ableToAnkan(){return mHand.ableToAnkan();}
 	public boolean ableToMinkan(){return mHand.ableToMinkan();}
-	public boolean ableToRiichi(){return mHand.ableToRiichi();}
+	public boolean ableToRiichi(){return !mRiichiStatus && mHand.ableToRiichi();}
 	public boolean ableToTsumo(){return mHand.ableToTsumo();}
 	
 	
@@ -640,10 +644,8 @@ public class Player {
 		if (!DEBUG_ALLOW_PLAYER_CALLS) return call;
 		
 		//get user's choice through GUI
-		called = tviewer.getClickCall(mHand.ableToChiL(), mHand.ableToChiM(), mHand.ableToChiH(),
-									mHand.ableToPon(), mHand.ableToKan(), 
-									mHand.ableToRon());
-
+		called = tviewer.getClickCall(ableToCallChiL(), ableToCallChiM(), ableToCallChiH(), ableToCallPon(), ableToCallKan(), ableToCallRon());
+		
 		//decide call based on player's choice
 		if (called){
 			if (tviewer.resultClickCallWasChiL()) call = CallType.CHI_L;
@@ -681,12 +683,12 @@ public class Player {
 		if (!DEBUG_COMPUTERS_MAKE_CALLS) return call;
 		
 		//computer will always call if possible
-		if (mHand.ableToChiL()) call = CallType.CHI_L;
-		if (mHand.ableToChiM()) call = CallType.CHI_M;
-		if (mHand.ableToChiH()) call = CallType.CHI_H;
-		if (mHand.ableToPon()) call = CallType.PON;
-		if (mHand.ableToKan()) call = CallType.KAN;
-		if (mHand.ableToRon()) call = CallType.RON;
+		if (ableToCallChiL()) call = CallType.CHI_L;
+		if (ableToCallChiM()) call = CallType.CHI_M;
+		if (ableToCallChiH()) call = CallType.CHI_H;
+		if (ableToCallPon()) call = CallType.PON;
+		if (ableToCallKan()) call = CallType.KAN;
+		if (ableToCallRon()) call = CallType.RON;
 		
 		return call;
 	}
@@ -705,9 +707,20 @@ public class Player {
 		//check if t can be called to make a meld
 		boolean ableToCall = mHand.checkCallableTile(t);
 		
+		//only allow ron if riichi
+		if (mRiichiStatus && !mHand.ableToRon()) ableToCall = false;
+		
 		//return true if t is callable, false if not
 		return ableToCall;
 	}
+	
+	public boolean ableToCallChiL(){return !mRiichiStatus && mHand.ableToChiL();}
+	public boolean ableToCallChiM(){return !mRiichiStatus && mHand.ableToChiM();}
+	public boolean ableToCallChiH(){return !mRiichiStatus && mHand.ableToChiH();}
+	public boolean ableToCallPon(){return !mRiichiStatus && mHand.ableToPon();}
+	public boolean ableToCallKan(){return !mRiichiStatus && mHand.ableToKan();}
+	public boolean ableToCallRon(){return mHand.ableToRon();}
+	
 	
 	
 	

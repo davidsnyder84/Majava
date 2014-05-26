@@ -64,9 +64,6 @@ methods:
 */
 public class Hand implements Iterable<Tile>{
 	
-	private enum ModifyAction {ADD, REMOVE;}
-	
-	
 	private static final int MAX_HAND_SIZE = 14;
 	private static final int MAX_NUM_MELDS = 5;
 	private static final int AVG_NUM_TILES_PER_MELD = 3;
@@ -151,70 +148,6 @@ public class Hand implements Iterable<Tile>{
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	//adds a tile to the hand (cannot add more than max hand size)
-	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand
-//	public boolean addTile(Tile t){return __modifyHand(ModifyAction.ADD, t);}
-//	public boolean addTile(int tileID){return addTile(new Tile(tileID));}
-	
-	
-	//removes the tile at the given index
-//	public boolean removeTile(int index){return __modifyHand(ModifyAction.REMOVE, index);}
-	
-	
-	
-	
-	/*
-	method: __modifyHand
-	removes a tile from or adds a tile to a hand
-	
-	if (add): add the tile to the hand
-	if (remove): remove the tile, sort the hand
-	
-	check if modifying the hand put the hand in tenpai
-	update what turn actions are possible after modifying the hand
-	*/
-//	private boolean __modifyHand(ModifyAction modType, Tile addThisTile, int removeThisIndex){
-//		
-//		if (modType == ModifyAction.ADD && addThisTile != null){
-//			
-//			if (mTiles.size() < MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*mNumMeldsMade){
-//				addThisTile.setOwner(mOwnerSeatWind);
-//				mTiles.add(addThisTile);
-//			}
-//			else return false;
-//		}
-//		else if (modType == ModifyAction.REMOVE){
-//			
-//			if (removeThisIndex >= 0 && removeThisIndex < mTiles.size()){
-//				mTiles.remove(removeThisIndex);
-//				sortHand();
-//			}
-//			else return false;
-//		}
-//		else return false;
-//		
-//
-//		//check if modifying the hand put the hand in tenpai
-//		mChecker.updateTenpaiStatus();
-//		//update what turn actions are possible after modifying the hand
-//		mChecker.updateTurnActions();
-//		
-//		return true;
-//	}
-//	private boolean __modifyHand(ModifyAction modType, Tile addThisTile){return __modifyHand(ModifyAction.ADD, addThisTile, -1);}
-//	private boolean __modifyHand(ModifyAction modType, int removeThisIndex){return __modifyHand(ModifyAction.REMOVE, null, removeThisIndex);}
-	
-	
-	
-	
 	//adds a tile to the hand (cannot add more than max hand size)
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand
 	public boolean addTile(Tile addThisTile){
@@ -226,16 +159,6 @@ public class Hand implements Iterable<Tile>{
 		
 		__updateChecker();
 		return true;
-		
-		
-//		if (mTiles.size() < MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*mNumMeldsMade){
-//			addThisTile.setOwner(mOwnerSeatWind);
-//			mTiles.add(addThisTile);
-//			
-//			__updateChecker();
-//			return true;
-//		}
-//		return false;
 	}
 	public boolean addTile(int tileID){return addTile(new Tile(tileID));}
 	
@@ -249,25 +172,12 @@ public class Hand implements Iterable<Tile>{
 		
 		sortHand();
 		return true;
-		
-//		if (removeThisIndex >= 0 && removeThisIndex < mTiles.size()){
-//			mTiles.remove(removeThisIndex);
-//			sortHand();
-//			
-//			__updateChecker();
-//			return true;
-//		}
-//		return false;
 	}
 	public boolean removeMultiple(List<Integer> removeIndices){
-		
-//		for (Integer i: removeIndices) if (i < 0 || i >= mTiles.size()) return false;
-//		for (Integer i: removeIndices) mTiles.remove(i);
 		
 		mTiles.removeMultiple(removeIndices);
 		
 		sortHand();
-		
 		return true;
 	}
 	

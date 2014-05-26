@@ -27,6 +27,7 @@ methods:
 	public:
 		mutators:
 		removeFirst, removeLast - removes and returns a tile in the list, returns null if the list is empty
+		removeMultiple - removes multiple indices from the list
 		sort, sortAscending, sortDescending, shuffle - sort the list in specified order
 	 	
 	 	accessors:

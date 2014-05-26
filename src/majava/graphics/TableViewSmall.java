@@ -47,7 +47,7 @@ import javax.swing.JCheckBoxMenuItem;
 
 
 /*
-Class: TableViewer
+Class: TableViewSmall
 a GUI for viewing and interacting with the game
 	
 methods:
@@ -71,7 +71,7 @@ methods:
 	other:
 	syncWithRoundTracker - associates the viewer with the round tracker
 */
-public class TableViewer extends JFrame implements TableGUI{
+public class TableViewSmall extends JFrame implements TableGUI{
 	
 	private static final long serialVersionUID = 9210599763112170767L;
 	
@@ -79,15 +79,16 @@ public class TableViewer extends JFrame implements TableGUI{
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	
 	//Control constants
-	private static final boolean DEFAULT_OPTION_REVEAL_WALL = false;
-	private static final boolean DEFAULT_OPTION_REVEAL_HANDS = false;
+	private static final boolean DEFAULT_OPTION_REVEAL_WALL = true;
+	private static final boolean DEFAULT_OPTION_REVEAL_HANDS = true;
 	
 	//debug buttons
-	private static final boolean DEBUG_BUTTONS_VISIBLE = false;
+	private static final boolean DEBUG_BUTTONS_VISIBLE = true;
 	
+	private static final String STRING_WINDOW_TITLE = "The Beaver";
 	
-	private static final int WINDOW_WIDTH = 1120;
-	private static final int WINDOW_HEIGHT = 726 + 6;
+	private static final int WINDOW_WIDTH = 1120 + (-62*2 - 6);
+	private static final int WINDOW_HEIGHT = 726 + 6 + (-62*2 + 25 + 18);
 //	private static final int WINDOW_WIDTH = 1150 - 30;
 //	private static final int WINDOW_HEIGHT = 850 - 70 - 54 + 6;
 	
@@ -98,6 +99,8 @@ public class TableViewer extends JFrame implements TableGUI{
 	private static final int WINDOW_BOTTOM_BORDER_SIZE = 8;
 	private static final int WINDOW_MENU_SIZE = 23;
 	
+	
+	
 
 	
 	private static final int TILE_BIG_WIDTH = 30;
@@ -107,27 +110,22 @@ public class TableViewer extends JFrame implements TableGUI{
 	private static final int PONDPANEL_NEW_WIDTH = TILE_SMALL_WIDTH*6;
 	private static final int PONDPANEL_NEW_HEIGHT = TILE_SMALL_HEIGHT*4;
 	
-	
-	private static final int TILE_OLD_BIG_WIDTH = 36;
-	private static final int TILE_OLD_BIG_HEIGHT = 46;
-	private static final int TILE_OLD_SMALL_WIDTH = 27;
-	private static final int TILE_OLD_SMALL_HEIGHT = 35;
-	private static final int PONDPANEL_OLD_WIDTH = TILE_OLD_SMALL_WIDTH*6;
-	private static final int PONDPANEL_OLD_HEIGHT = TILE_OLD_SMALL_HEIGHT*4;
-	
-	private static final int POND_PANEL_WIDTH = PONDPANEL_OLD_WIDTH;
+	private static final int POND_PANEL_WIDTH = (TILE_SMALL_WIDTH + 4) * 6;
 	private static final int POND_PANEL_HEIGHT = PONDPANEL_NEW_HEIGHT;
 	
 	
 	
 	
 	private static final Color COLOR_TRANSPARENT = new Color(0, 0, 0, 0);
+	private static final Color COLOR_PURPLISH =  new Color(210,0, 210, 30);
+	
 	private static final Color COLOR_TABLE = new Color(0, 140, 0, 100);
+	private static final Color COLOR_MID_TABLE = COLOR_TRANSPARENT;
 	private static final Color COLOR_SIDEBAR = new Color(0, 255, 0, 100);
 	private static final Color COLOR_RINF_PANEL = new Color(0,255,255,35);
 	private static final Color COLOR_RIND = new Color(0,155,155,35);
 	private static final Color COLOR_TURN_INDICATOR = Color.YELLOW;
-	private static final Color COLOR_CALL_PANEL = new Color(210,0, 210, 30);
+	private static final Color COLOR_CALL_PANEL = COLOR_PURPLISH;
 	private static final Color COLOR_EXCLAMATION = new Color(210, 100, 210);
 	
 	private static final Color COLOR_POND_CALLED_TILE = new Color(250, 0, 0, 250);
@@ -136,7 +134,7 @@ public class TableViewer extends JFrame implements TableGUI{
 
 	
 	private static final int DEFAULT_SLEEP_TIME_EXCLAMATION = 1500;
-	private static final int[][] EXCLAMATION_LOCS =  {{161, 688}, {708, 360}, {542, 6}, {3, 360}};
+	private static final int[][] EXCLAMATION_LOCS =  {{99, 564 + 30}, {584, 298}, {480, 6 + 30}, {3, 298}};
 	
 	
 	
@@ -249,13 +247,6 @@ public class TableViewer extends JFrame implements TableGUI{
 	private JLabel[][] larryH4Ms = {larryH4M1, larryH4M2, larryH4M3, larryH4M4};
 	private JLabel[][][] larryHandMelds = {larryH1Ms, larryH2Ms, larryH3Ms, larryH4Ms};
 		
-	private JLabel[] larryW1 = new JLabel[SIZE_WALL];
-	private JLabel[] larryW2 = new JLabel[SIZE_WALL];
-	private JLabel[] larryW3 = new JLabel[SIZE_WALL];
-	private JLabel[] larryW4 = new JLabel[SIZE_WALL];
-	private JLabel[][] larryWalls = {larryW1, larryW4, larryW3, larryW2};
-	private JLabel[] larryWallAll = new JLabel[SIZE_WALL*4];
-		
 	private JLabel[] larryP1 = new JLabel[SIZE_POND];
 	private JLabel[] larryP2 = new JLabel[SIZE_POND];
 	private JLabel[] larryP3 = new JLabel[SIZE_POND];
@@ -356,7 +347,7 @@ public class TableViewer extends JFrame implements TableGUI{
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^BEGIN MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 	
 	private JPanel contentPane;
-	private TableViewer thisguy;
+	private TableViewSmall thisguy;
 	
 	
 	private boolean mOptionRevealWall;
@@ -533,16 +524,6 @@ public class TableViewer extends JFrame implements TableGUI{
 			}
 		}
 		
-		//update wall(s)
-		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
-			for (currentTile = 0; currentTile < SIZE_WALL; currentTile++)
-				larryWalls[currentPlayer][currentTile].setIcon(__getImageIconWall(tilesW, currentTile + currentPlayer*SIZE_WALL, currentPlayer, mOptionRevealWall));
-		}
-		//deal wall portion of wall
-		for (currentTile = POS_DORA_1; currentTile >= 2*(4 - mRoundTracker.getNumKansMade()); currentTile -= 2){
-			larryWallAll[OFFSET_DEAD_WALL + currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT4));
-		}
-		
 		
 		//update dead wall
 		for (currentTile = 0; currentTile < SIZE_DEAD_WALL; currentTile++){
@@ -600,8 +581,6 @@ public class TableViewer extends JFrame implements TableGUI{
 		lblExclamation.setVisible(false);
 		
 		for (JLabel[] lar: larryHands)	//hands
-			for (JLabel l: lar) l.setIcon(null);
-		for (JLabel[] lar: larryWalls)	//walls
 			for (JLabel l: lar) l.setIcon(null);
 		
 		//ponds
@@ -772,8 +751,8 @@ public class TableViewer extends JFrame implements TableGUI{
 		//add appropriate player call buttons
 		Player currentPlayer = mPTrackers[mRoundTracker.whoseTurn()].player;
 		
-//		//show riichi if player is in tenpai
-//		if (currentPlayer.checkTenpai()) barryTActions[BARRY_TACTIONS_RIICHI].setVisible(true);
+		//riichi
+		if (currentPlayer.ableToRiichi()) barryTActions[BARRY_TACTIONS_RIICHI].setVisible(true);
 		
 		if (currentPlayer.ableToAnkan()) barryTActions[BARRY_TACTIONS_ANKAN].setVisible(true);
 		
@@ -870,7 +849,7 @@ public class TableViewer extends JFrame implements TableGUI{
 	//launch the application TODO MAIN
 	public static void main(String[] args) {
 		
-		TableViewer viewer = new TableViewer();
+		TableViewSmall viewer = new TableViewSmall();
 		viewer.setVisible(true);
 		
 //		boolean canChiL = true;
@@ -889,7 +868,7 @@ public class TableViewer extends JFrame implements TableGUI{
 	}
 	
 	//TODO start of constructor
-	public TableViewer(){
+	public TableViewSmall(){
 		setResizable(false);
 		
 		
@@ -914,8 +893,7 @@ public class TableViewer extends JFrame implements TableGUI{
 		ImageIcon windowIconImg = garryWinds[BIG][EAST];
 		setIconImage(windowIconImg.getImage());
 		
-//		setTitle("The Beaver");
-		setTitle("Majava");
+		setTitle(STRING_WINDOW_TITLE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, WINDOW_BOUND_WIDTH, WINDOW_BOUND_HEIGHT);
 		
@@ -938,12 +916,6 @@ public class TableViewer extends JFrame implements TableGUI{
 //		ImageIcon p2Img = garryTiles[SEAT2][SMALL][22];
 //		ImageIcon p3Img = garryTiles[SEAT3][SMALL][25];
 //		ImageIcon p4Img = garryTiles[SEAT4][SMALL][21];
-		
-//		ImageIcon wImg = garryTiles[SEAT1][SMALL][0];
-//		ImageIcon w2Img = garryTiles[SEAT2][SMALL][0];
-//		ImageIcon w3Img = garryTiles[SEAT3][SMALL][0];
-//		ImageIcon w4Img = garryTiles[SEAT4][SMALL][0];
-
 //		ImageIcon dwImg = garryTiles[SEAT1][SMALL][0];
 		
 //		ImageIcon hImg =  garryTiles[SEAT1][BIG][1];
@@ -962,11 +934,6 @@ public class TableViewer extends JFrame implements TableGUI{
 		ImageIcon p2Img = rotators[SEAT2].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/22.png")));
 		ImageIcon p3Img = rotators[SEAT3].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/25.png")));
 		ImageIcon p4Img = rotators[SEAT4].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/21.png")));
-		
-		ImageIcon wImg = rotators[SEAT1].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/0.png")));
-		ImageIcon w2Img = rotators[SEAT2].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/0.png")));
-		ImageIcon w3Img = rotators[SEAT3].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/0.png")));
-		ImageIcon w4Img = rotators[SEAT4].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/0.png")));
 		
 		ImageIcon dwImg = rotators[SEAT1].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/0.png")));
 		
@@ -1064,10 +1031,6 @@ public class TableViewer extends JFrame implements TableGUI{
 		JLabel lblP3T1;JLabel lblP3T2;JLabel lblP3T3;JLabel lblP3T4;JLabel lblP3T5;JLabel lblP3T6;JLabel lblP3T7;JLabel lblP3T8;JLabel lblP3T9;JLabel lblP3T10;JLabel lblP3T11;JLabel lblP3T12;JLabel lblP3T13;JLabel lblP3T14;JLabel lblP3T15;JLabel lblP3T16;JLabel lblP3T17;JLabel lblP3T18;JLabel lblP3T19;JLabel lblP3T20;JLabel lblP3T21;JLabel lblP3T22;JLabel lblP3T23;JLabel lblP3T24;
 		JLabel lblP4T1;JLabel lblP4T2;JLabel lblP4T3;JLabel lblP4T4;JLabel lblP4T5;JLabel lblP4T6;JLabel lblP4T7;JLabel lblP4T8;JLabel lblP4T9;JLabel lblP4T10;JLabel lblP4T11;JLabel lblP4T12;JLabel lblP4T13;JLabel lblP4T14;JLabel lblP4T15;JLabel lblP4T16;JLabel lblP4T17;JLabel lblP4T18;JLabel lblP4T19;JLabel lblP4T20;JLabel lblP4T21;JLabel lblP4T22;JLabel lblP4T23;JLabel lblP4T24;
 		
-		JLabel lblW1T1;JLabel lblW1T2;JLabel lblW1T3;JLabel lblW1T4;JLabel lblW1T5;JLabel lblW1T6;JLabel lblW1T7;JLabel lblW1T8;JLabel lblW1T9;JLabel lblW1T10;JLabel lblW1T11;JLabel lblW1T12;JLabel lblW1T13;JLabel lblW1T14;JLabel lblW1T15;JLabel lblW1T16;JLabel lblW1T17;JLabel lblW1T18;JLabel lblW1T19;JLabel lblW1T20;JLabel lblW1T21;JLabel lblW1T22;JLabel lblW1T23;JLabel lblW1T24;JLabel lblW1T25;JLabel lblW1T26;JLabel lblW1T27;JLabel lblW1T28;JLabel lblW1T29;JLabel lblW1T30;JLabel lblW1T31;JLabel lblW1T32;JLabel lblW1T33;JLabel lblW1T34;
-		JLabel lblW2T1;JLabel lblW2T2;JLabel lblW2T3;JLabel lblW2T4;JLabel lblW2T5;JLabel lblW2T6;JLabel lblW2T7;JLabel lblW2T8;JLabel lblW2T9;JLabel lblW2T10;JLabel lblW2T11;JLabel lblW2T12;JLabel lblW2T13;JLabel lblW2T14;JLabel lblW2T15;JLabel lblW2T16;JLabel lblW2T17;JLabel lblW2T18;JLabel lblW2T19;JLabel lblW2T20;JLabel lblW2T21;JLabel lblW2T22;JLabel lblW2T23;JLabel lblW2T24;JLabel lblW2T25;JLabel lblW2T26;JLabel lblW2T27;JLabel lblW2T28;JLabel lblW2T29;JLabel lblW2T30;JLabel lblW2T31;JLabel lblW2T32;JLabel lblW2T33;JLabel lblW2T34;
-		JLabel lblW3T1;JLabel lblW3T2;JLabel lblW3T3;JLabel lblW3T4;JLabel lblW3T5;JLabel lblW3T6;JLabel lblW3T7;JLabel lblW3T8;JLabel lblW3T9;JLabel lblW3T10;JLabel lblW3T11;JLabel lblW3T12;JLabel lblW3T13;JLabel lblW3T14;JLabel lblW3T15;JLabel lblW3T16;JLabel lblW3T17;JLabel lblW3T18;JLabel lblW3T19;JLabel lblW3T20;JLabel lblW3T21;JLabel lblW3T22;JLabel lblW3T23;JLabel lblW3T24;JLabel lblW3T25;JLabel lblW3T26;JLabel lblW3T27;JLabel lblW3T28;JLabel lblW3T29;JLabel lblW3T30;JLabel lblW3T31;JLabel lblW3T32;JLabel lblW3T33;JLabel lblW3T34;
-		JLabel lblW4T1;JLabel lblW4T2;JLabel lblW4T3;JLabel lblW4T4;JLabel lblW4T5;JLabel lblW4T6;JLabel lblW4T7;JLabel lblW4T8;JLabel lblW4T9;JLabel lblW4T10;JLabel lblW4T11;JLabel lblW4T12;JLabel lblW4T13;JLabel lblW4T14;JLabel lblW4T15;JLabel lblW4T16;JLabel lblW4T17;JLabel lblW4T18;JLabel lblW4T19;JLabel lblW4T20;JLabel lblW4T21;JLabel lblW4T22;JLabel lblW4T23;JLabel lblW4T24;JLabel lblW4T25;JLabel lblW4T26;JLabel lblW4T27;JLabel lblW4T28;JLabel lblW4T29;JLabel lblW4T30;JLabel lblW4T31;JLabel lblW4T32;JLabel lblW4T33;JLabel lblW4T34;
 		
 		JLabel lblWeHaveFun;
 		
@@ -1154,7 +1117,7 @@ public class TableViewer extends JFrame implements TableGUI{
 				}
 			}
 		});
-		panelTable.setBounds(0, 0, 844, WINDOW_HEIGHT);
+		panelTable.setBounds(0, 0, 844 - 62*2 - 6, WINDOW_HEIGHT);
 		panelTable.setBackground(COLOR_TABLE);
 		contentPane.add(panelTable);
 		panelTable.setLayout(null);
@@ -1164,7 +1127,8 @@ public class TableViewer extends JFrame implements TableGUI{
 		lblExclamationLabel = new JLabel("TSUMO!");
 		lblExclamationLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblExclamationLabel.setFont(new Font("Maiandra GD", Font.BOLD, 28));
-		lblExclamationLabel.setBounds(161, 688, 134, 34);
+//		lblExclamationLabel.setBounds(161, 688, 134, 34);
+		lblExclamationLabel.setBounds(EXCLAMATION_LOCS[SEAT1][0], EXCLAMATION_LOCS[SEAT1][1], 134, 34);
 		lblExclamationLabel.setBorder(new LineBorder(new Color(0, 0, 200), 3, true));
 		panelTable.add(lblExclamationLabel);
 		lblExclamationLabel.setOpaque(true);
@@ -1176,8 +1140,9 @@ public class TableViewer extends JFrame implements TableGUI{
 		
 		
 		panelMidTable = new JPanel();
-		panelMidTable.setBounds(143, 91, 552, 544);
-		panelMidTable.setBackground(COLOR_TRANSPARENT);
+		panelMidTable.setBounds(143, 116, 428, 420);
+//		panelMidTable.setBackground(COLOR_TRANSPARENT);
+		panelMidTable.setBackground(COLOR_MID_TABLE);
 		panelTable.add(panelMidTable);
 		panelMidTable.setLayout(null);
 		
@@ -1186,7 +1151,7 @@ public class TableViewer extends JFrame implements TableGUI{
 		
 		
 		panelP1 = new JPanel();
-		panelP1.setBounds(196, 352, POND_PANEL_WIDTH, POND_PANEL_HEIGHT);
+		panelP1.setBounds(134, 290, POND_PANEL_WIDTH, POND_PANEL_HEIGHT);
 		panelP1.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelP1);
 		panelP1.setLayout(new GridLayout(4, 6, 0, 0));
@@ -1293,7 +1258,7 @@ public class TableViewer extends JFrame implements TableGUI{
 		
 		
 		panelP2 = new JPanel();
-		panelP2.setBounds(360, 191, POND_PANEL_HEIGHT, POND_PANEL_WIDTH);
+		panelP2.setBounds(298, 129, POND_PANEL_HEIGHT, POND_PANEL_WIDTH);
 		panelP2.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelP2);
 		panelP2.setLayout(new GridLayout(6, 4, 0, 0));
@@ -1400,7 +1365,7 @@ public class TableViewer extends JFrame implements TableGUI{
 		
 		
 		panelP3 = new JPanel();
-		panelP3.setBounds(196, 68, POND_PANEL_WIDTH, POND_PANEL_HEIGHT);
+		panelP3.setBounds(134, 6, POND_PANEL_WIDTH, POND_PANEL_HEIGHT);
 		panelP3.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelP3);
 		panelP3.setLayout(new GridLayout(4, 6, 0, 0));
@@ -1507,7 +1472,7 @@ public class TableViewer extends JFrame implements TableGUI{
 		
 		
 		panelP4 = new JPanel();
-		panelP4.setBounds(68, 191, POND_PANEL_HEIGHT, POND_PANEL_WIDTH);
+		panelP4.setBounds(6, 129, POND_PANEL_HEIGHT, POND_PANEL_WIDTH);
 		panelP4.setBackground(COLOR_TRANSPARENT);
 		panelMidTable.add(panelP4);
 		panelP4.setLayout(new GridLayout(6, 4, 0, 0));
@@ -1613,617 +1578,12 @@ public class TableViewer extends JFrame implements TableGUI{
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		panelW1 = new JPanel();
-//		panelW1.setBounds(71, 528, TILE_SMALL_WIDTH*(SIZE_WALL/2)+17, TILE_SMALL_HEIGHT*2+2);
-		panelW1.setBounds(81, 482, TILE_SMALL_WIDTH*(SIZE_WALL/2), TILE_SMALL_HEIGHT*2);
-		panelW1.setBackground(COLOR_TRANSPARENT);
-		panelMidTable.add(panelW1);
-		panelW1.setLayout(new GridLayout(2, 17, 0, 0));
-		
-		lblW1T33 = new JLabel("");
-		panelW1.add(lblW1T33);
-		lblW1T33.setIcon(wImg);
-		
-		lblW1T31 = new JLabel("");
-		panelW1.add(lblW1T31);
-		lblW1T31.setIcon(wImg);
-		
-		lblW1T29 = new JLabel("");
-		panelW1.add(lblW1T29);
-		lblW1T29.setIcon(wImg);
-		
-		lblW1T27 = new JLabel("");
-		panelW1.add(lblW1T27);
-		lblW1T27.setIcon(wImg);
-		
-		lblW1T25 = new JLabel("");
-		panelW1.add(lblW1T25);
-		lblW1T25.setIcon(wImg);
-		
-		lblW1T23 = new JLabel("");
-		panelW1.add(lblW1T23);
-		lblW1T23.setIcon(wImg);
-		
-		lblW1T21 = new JLabel("");
-		panelW1.add(lblW1T21);
-		lblW1T21.setIcon(wImg);
-		
-		lblW1T19 = new JLabel("");
-		panelW1.add(lblW1T19);
-		lblW1T19.setIcon(wImg);
-		
-		lblW1T17 = new JLabel("");
-		panelW1.add(lblW1T17);
-		lblW1T17.setIcon(wImg);
-		
-		lblW1T15 = new JLabel("");
-		panelW1.add(lblW1T15);
-		lblW1T15.setIcon(wImg);
-		
-		lblW1T13 = new JLabel("");
-		panelW1.add(lblW1T13);
-		lblW1T13.setIcon(wImg);
-		
-		lblW1T11 = new JLabel("");
-		panelW1.add(lblW1T11);
-		lblW1T11.setIcon(wImg);
-		
-		lblW1T9 = new JLabel("");
-		panelW1.add(lblW1T9);
-		lblW1T9.setIcon(wImg);
-		
-		lblW1T7 = new JLabel("");
-		panelW1.add(lblW1T7);
-		lblW1T7.setIcon(wImg);
-		
-		lblW1T5 = new JLabel("");
-		panelW1.add(lblW1T5);
-		lblW1T5.setIcon(wImg);
-		
-		lblW1T3 = new JLabel("");
-		panelW1.add(lblW1T3);
-		lblW1T3.setIcon(wImg);
-		
-		lblW1T1 = new JLabel("");
-		panelW1.add(lblW1T1);
-		lblW1T1.setIcon(wImg);
-		
-		lblW1T34 = new JLabel("");
-		panelW1.add(lblW1T34);
-		lblW1T34.setIcon(wImg);
-		
-		lblW1T32 = new JLabel("");
-		panelW1.add(lblW1T32);
-		lblW1T32.setIcon(wImg);
-		
-		lblW1T30 = new JLabel("");
-		panelW1.add(lblW1T30);
-		lblW1T30.setIcon(wImg);
-		
-		lblW1T28 = new JLabel("");
-		panelW1.add(lblW1T28);
-		lblW1T28.setIcon(wImg);
-		
-		lblW1T26 = new JLabel("");
-		panelW1.add(lblW1T26);
-		lblW1T26.setIcon(wImg);
-		
-		lblW1T24 = new JLabel("");
-		panelW1.add(lblW1T24);
-		lblW1T24.setIcon(wImg);
-		
-		lblW1T22 = new JLabel("");
-		panelW1.add(lblW1T22);
-		lblW1T22.setIcon(wImg);
-		
-		lblW1T20 = new JLabel("");
-		panelW1.add(lblW1T20);
-		lblW1T20.setIcon(wImg);
-		
-		lblW1T18 = new JLabel("");
-		panelW1.add(lblW1T18);
-		lblW1T18.setIcon(wImg);
-		
-		lblW1T16 = new JLabel("");
-		panelW1.add(lblW1T16);
-		lblW1T16.setIcon(wImg);
-		
-		lblW1T14 = new JLabel("");
-		panelW1.add(lblW1T14);
-		lblW1T14.setIcon(wImg);
-		
-		lblW1T12 = new JLabel("");
-		panelW1.add(lblW1T12);
-		lblW1T12.setIcon(wImg);
-		
-		lblW1T10 = new JLabel("");
-		panelW1.add(lblW1T10);
-		lblW1T10.setIcon(wImg);
-		
-		lblW1T8 = new JLabel("");
-		panelW1.add(lblW1T8);
-		lblW1T8.setIcon(wImg);
-		
-		lblW1T6 = new JLabel("");
-		panelW1.add(lblW1T6);
-		lblW1T6.setIcon(wImg);
-		
-		lblW1T4 = new JLabel("");
-		panelW1.add(lblW1T4);
-		lblW1T4.setIcon(wImg);
-		
-		lblW1T2 = new JLabel("");
-		panelW1.add(lblW1T2);
-		lblW1T2.setIcon(wImg);
-		
-		
-		
-		
-		
-		panelW2 = new JPanel();
-		panelW2.setBounds(490, 76, TILE_SMALL_HEIGHT*2, TILE_SMALL_WIDTH*(SIZE_WALL/2));
-		panelW2.setBackground(COLOR_TRANSPARENT);
-		panelMidTable.add(panelW2);
-		panelW2.setLayout(new GridLayout(17, 2, 0, 0));
-		
-		lblW2T1 = new JLabel("");
-		panelW2.add(lblW2T1);
-		lblW2T1.setIcon(w2Img);
-		
-		lblW2T2 = new JLabel("");
-		panelW2.add(lblW2T2);
-		lblW2T2.setIcon(w2Img);
-		
-		lblW2T3 = new JLabel("");
-		panelW2.add(lblW2T3);
-		lblW2T3.setIcon(w2Img);
-		
-		lblW2T4 = new JLabel("");
-		panelW2.add(lblW2T4);
-		lblW2T4.setIcon(w2Img);
-		
-		lblW2T5 = new JLabel("");
-		panelW2.add(lblW2T5);
-		lblW2T5.setIcon(w2Img);
-		
-		lblW2T6 = new JLabel("");
-		panelW2.add(lblW2T6);
-		lblW2T6.setIcon(w2Img);
-		
-		lblW2T7 = new JLabel("");
-		panelW2.add(lblW2T7);
-		lblW2T7.setIcon(w2Img);
-		
-		lblW2T8 = new JLabel("");
-		panelW2.add(lblW2T8);
-		lblW2T8.setIcon(w2Img);
-		
-		lblW2T9 = new JLabel("");
-		panelW2.add(lblW2T9);
-		lblW2T9.setIcon(w2Img);
-		
-		lblW2T10 = new JLabel("");
-		panelW2.add(lblW2T10);
-		lblW2T10.setIcon(w2Img);
-		
-		lblW2T11 = new JLabel("");
-		panelW2.add(lblW2T11);
-		lblW2T11.setIcon(w2Img);
-		
-		lblW2T12 = new JLabel("");
-		panelW2.add(lblW2T12);
-		lblW2T12.setIcon(w2Img);
-		
-		lblW2T13 = new JLabel("");
-		panelW2.add(lblW2T13);
-		lblW2T13.setIcon(w2Img);
-		
-		lblW2T14 = new JLabel("");
-		panelW2.add(lblW2T14);
-		lblW2T14.setIcon(w2Img);
-		
-		lblW2T15 = new JLabel("");
-		panelW2.add(lblW2T15);
-		lblW2T15.setIcon(w2Img);
-		
-		lblW2T16 = new JLabel("");
-		panelW2.add(lblW2T16);
-		lblW2T16.setIcon(w2Img);
-		
-		lblW2T17 = new JLabel("");
-		panelW2.add(lblW2T17);
-		lblW2T17.setIcon(w2Img);
-		
-		lblW2T18 = new JLabel("");
-		panelW2.add(lblW2T18);
-		lblW2T18.setIcon(w2Img);
-		
-		lblW2T19 = new JLabel("");
-		panelW2.add(lblW2T19);
-		lblW2T19.setIcon(w2Img);
-		
-		lblW2T20 = new JLabel("");
-		panelW2.add(lblW2T20);
-		lblW2T20.setIcon(w2Img);
-		
-		lblW2T21 = new JLabel("");
-		panelW2.add(lblW2T21);
-		lblW2T21.setIcon(w2Img);
-		
-		lblW2T22 = new JLabel("");
-		panelW2.add(lblW2T22);
-		lblW2T22.setIcon(w2Img);
-		
-		lblW2T23 = new JLabel("");
-		panelW2.add(lblW2T23);
-		lblW2T23.setIcon(w2Img);
-		
-		lblW2T24 = new JLabel("");
-		panelW2.add(lblW2T24);
-		lblW2T24.setIcon(w2Img);
-		
-		lblW2T25 = new JLabel("");
-		panelW2.add(lblW2T25);
-		lblW2T25.setIcon(w2Img);
-		
-		lblW2T26 = new JLabel("");
-		panelW2.add(lblW2T26);
-		lblW2T26.setIcon(w2Img);
-		
-		lblW2T27 = new JLabel("");
-		panelW2.add(lblW2T27);
-		lblW2T27.setIcon(w2Img);
-		
-		lblW2T28 = new JLabel("");
-		panelW2.add(lblW2T28);
-		lblW2T28.setIcon(w2Img);
-		
-		lblW2T29 = new JLabel("");
-		panelW2.add(lblW2T29);
-		lblW2T29.setIcon(w2Img);
-		
-		lblW2T30 = new JLabel("");
-		panelW2.add(lblW2T30);
-		lblW2T30.setIcon(w2Img);
-		
-		lblW2T31 = new JLabel("");
-		panelW2.add(lblW2T31);
-		lblW2T31.setIcon(w2Img);
-		
-		lblW2T32 = new JLabel("");
-		panelW2.add(lblW2T32);
-		lblW2T32.setIcon(w2Img);
-		
-		lblW2T33 = new JLabel("");
-		panelW2.add(lblW2T33);
-		lblW2T33.setIcon(w2Img);
-		
-		lblW2T34 = new JLabel("");
-		panelW2.add(lblW2T34);
-		lblW2T34.setIcon(w2Img);
-		
-		
-		
-		
-		
-		
-		panelW3 = new JPanel();
-		panelW3.setBounds(81, 0, TILE_SMALL_WIDTH*(SIZE_WALL/2), TILE_SMALL_HEIGHT*2);
-		panelW3.setBackground(COLOR_TRANSPARENT);
-		panelMidTable.add(panelW3);
-		panelW3.setLayout(new GridLayout(2, 17, 0, 0));
-		
-		lblW3T2 = new JLabel("");
-		panelW3.add(lblW3T2);
-		lblW3T2.setIcon(w3Img);
-		
-		lblW3T4 = new JLabel("");
-		panelW3.add(lblW3T4);
-		lblW3T4.setIcon(w3Img);
-		
-		lblW3T6 = new JLabel("");
-		panelW3.add(lblW3T6);
-		lblW3T6.setIcon(w3Img);
-		
-		lblW3T8 = new JLabel("");
-		panelW3.add(lblW3T8);
-		lblW3T8.setIcon(w3Img);
-		
-		lblW3T10 = new JLabel("");
-		panelW3.add(lblW3T10);
-		lblW3T10.setIcon(w3Img);
-		
-		lblW3T12 = new JLabel("");
-		panelW3.add(lblW3T12);
-		lblW3T12.setIcon(w3Img);
-		
-		lblW3T14 = new JLabel("");
-		panelW3.add(lblW3T14);
-		lblW3T14.setIcon(w3Img);
-		
-		lblW3T16 = new JLabel("");
-		panelW3.add(lblW3T16);
-		lblW3T16.setIcon(w3Img);
-		
-		lblW3T18 = new JLabel("");
-		panelW3.add(lblW3T18);
-		lblW3T18.setIcon(w3Img);
-		
-		lblW3T20 = new JLabel("");
-		panelW3.add(lblW3T20);
-		lblW3T20.setIcon(w3Img);
-		
-		lblW3T22 = new JLabel("");
-		panelW3.add(lblW3T22);
-		lblW3T22.setIcon(w3Img);
-		
-		lblW3T24 = new JLabel("");
-		panelW3.add(lblW3T24);
-		lblW3T24.setIcon(w3Img);
-		
-		lblW3T26 = new JLabel("");
-		panelW3.add(lblW3T26);
-		lblW3T26.setIcon(w3Img);
-		
-		lblW3T28 = new JLabel("");
-		panelW3.add(lblW3T28);
-		lblW3T28.setIcon(w3Img);
-		
-		lblW3T30 = new JLabel("");
-		panelW3.add(lblW3T30);
-		lblW3T30.setIcon(w3Img);
-		
-		lblW3T32 = new JLabel("");
-		panelW3.add(lblW3T32);
-		lblW3T32.setIcon(w3Img);
-		
-		lblW3T34 = new JLabel("");
-		panelW3.add(lblW3T34);
-		lblW3T34.setIcon(w3Img);
-		
-		lblW3T1 = new JLabel("");
-		panelW3.add(lblW3T1);
-		lblW3T1.setIcon(w3Img);
-		
-		lblW3T3 = new JLabel("");
-		panelW3.add(lblW3T3);
-		lblW3T3.setIcon(w3Img);
-		
-		lblW3T5 = new JLabel("");
-		panelW3.add(lblW3T5);
-		lblW3T5.setIcon(w3Img);
-		
-		lblW3T7 = new JLabel("");
-		panelW3.add(lblW3T7);
-		lblW3T7.setIcon(w3Img);
-		
-		lblW3T9 = new JLabel("");
-		panelW3.add(lblW3T9);
-		lblW3T9.setIcon(w3Img);
-		
-		lblW3T11 = new JLabel("");
-		panelW3.add(lblW3T11);
-		lblW3T11.setIcon(w3Img);
-		
-		lblW3T13 = new JLabel("");
-		panelW3.add(lblW3T13);
-		lblW3T13.setIcon(w3Img);
-		
-		lblW3T15 = new JLabel("");
-		panelW3.add(lblW3T15);
-		lblW3T15.setIcon(w3Img);
-		
-		lblW3T17 = new JLabel("");
-		panelW3.add(lblW3T17);
-		lblW3T17.setIcon(w3Img);
-		
-		lblW3T19 = new JLabel("");
-		panelW3.add(lblW3T19);
-		lblW3T19.setIcon(w3Img);
-		
-		lblW3T21 = new JLabel("");
-		panelW3.add(lblW3T21);
-		lblW3T21.setIcon(w3Img);
-		
-		lblW3T23 = new JLabel("");
-		panelW3.add(lblW3T23);
-		lblW3T23.setIcon(w3Img);
-		
-		lblW3T25 = new JLabel("");
-		panelW3.add(lblW3T25);
-		lblW3T25.setIcon(w3Img);
-		
-		lblW3T27 = new JLabel("");
-		panelW3.add(lblW3T27);
-		lblW3T27.setIcon(w3Img);
-		
-		lblW3T29 = new JLabel("");
-		panelW3.add(lblW3T29);
-		lblW3T29.setIcon(w3Img);
-		
-		lblW3T31 = new JLabel("");
-		panelW3.add(lblW3T31);
-		lblW3T31.setIcon(w3Img);
-		
-		lblW3T33 = new JLabel("");
-		panelW3.add(lblW3T33);
-		lblW3T33.setIcon(w3Img);
-		
-		
-		
-		
-		
-		
-		panelW4 = new JPanel();
-		panelW4.setBounds(0, 76, TILE_SMALL_HEIGHT*2, TILE_SMALL_WIDTH*(SIZE_WALL/2));
-		panelW4.setBackground(COLOR_TRANSPARENT);
-		panelMidTable.add(panelW4);
-		panelW4.setLayout(new GridLayout(17, 2, 0, 0));
-		
-		lblW4T34 = new JLabel("");
-		panelW4.add(lblW4T34);
-		lblW4T34.setIcon(w4Img);
-		
-		lblW4T33 = new JLabel("");
-		panelW4.add(lblW4T33);
-		lblW4T33.setIcon(w4Img);
-		
-		lblW4T32 = new JLabel("");
-		panelW4.add(lblW4T32);
-		lblW4T32.setIcon(w4Img);
-		
-		lblW4T31 = new JLabel("");
-		panelW4.add(lblW4T31);
-		lblW4T31.setIcon(w4Img);
-		
-		lblW4T30 = new JLabel("");
-		panelW4.add(lblW4T30);
-		lblW4T30.setIcon(w4Img);
-		
-		lblW4T29 = new JLabel("");
-		panelW4.add(lblW4T29);
-		lblW4T29.setIcon(w4Img);
-		
-		lblW4T28 = new JLabel("");
-		panelW4.add(lblW4T28);
-		lblW4T28.setIcon(w4Img);
-		
-		lblW4T27 = new JLabel("");
-		panelW4.add(lblW4T27);
-		lblW4T27.setIcon(w4Img);
-		
-		lblW4T26 = new JLabel("");
-		panelW4.add(lblW4T26);
-		lblW4T26.setIcon(w4Img);
-		
-		lblW4T25 = new JLabel("");
-		panelW4.add(lblW4T25);
-		lblW4T25.setIcon(w4Img);
-		
-		lblW4T24 = new JLabel("");
-		panelW4.add(lblW4T24);
-		lblW4T24.setIcon(w4Img);
-		
-		lblW4T23 = new JLabel("");
-		panelW4.add(lblW4T23);
-		lblW4T23.setIcon(w4Img);
-		
-		lblW4T22 = new JLabel("");
-		panelW4.add(lblW4T22);
-		lblW4T22.setIcon(w4Img);
-		
-		lblW4T21 = new JLabel("");
-		panelW4.add(lblW4T21);
-		lblW4T21.setIcon(w4Img);
-		
-		lblW4T20 = new JLabel("");
-		panelW4.add(lblW4T20);
-		lblW4T20.setIcon(w4Img);
-		
-		lblW4T19 = new JLabel("");
-		panelW4.add(lblW4T19);
-		lblW4T19.setIcon(w4Img);
-		
-		lblW4T18 = new JLabel("");
-		panelW4.add(lblW4T18);
-		lblW4T18.setIcon(w4Img);
-		
-		lblW4T17 = new JLabel("");
-		panelW4.add(lblW4T17);
-		lblW4T17.setIcon(w4Img);
-		
-		lblW4T16 = new JLabel("");
-		panelW4.add(lblW4T16);
-		lblW4T16.setIcon(w4Img);
-		
-		lblW4T15 = new JLabel("");
-		panelW4.add(lblW4T15);
-		lblW4T15.setIcon(w4Img);
-		
-		lblW4T14 = new JLabel("");
-		panelW4.add(lblW4T14);
-		lblW4T14.setIcon(w4Img);
-		
-		lblW4T13 = new JLabel("");
-		panelW4.add(lblW4T13);
-		lblW4T13.setIcon(w4Img);
-		
-		lblW4T12 = new JLabel("");
-		panelW4.add(lblW4T12);
-		lblW4T12.setIcon(w4Img);
-		
-		lblW4T11 = new JLabel("");
-		panelW4.add(lblW4T11);
-		lblW4T11.setIcon(w4Img);
-		
-		lblW4T10 = new JLabel("");
-		panelW4.add(lblW4T10);
-		lblW4T10.setIcon(w4Img);
-		
-		lblW4T9 = new JLabel("");
-		panelW4.add(lblW4T9);
-		lblW4T9.setIcon(w4Img);
-		
-		lblW4T8 = new JLabel("");
-		panelW4.add(lblW4T8);
-		lblW4T8.setIcon(w4Img);
-		
-		lblW4T7 = new JLabel("");
-		panelW4.add(lblW4T7);
-		lblW4T7.setIcon(w4Img);
-		
-		lblW4T6 = new JLabel("");
-		panelW4.add(lblW4T6);
-		lblW4T6.setIcon(w4Img);
-		
-		lblW4T5 = new JLabel("");
-		panelW4.add(lblW4T5);
-		lblW4T5.setIcon(w4Img);
-		
-		lblW4T4 = new JLabel("");
-		panelW4.add(lblW4T4);
-		lblW4T4.setIcon(w4Img);
-		
-		lblW4T3 = new JLabel("");
-		panelW4.add(lblW4T3);
-		lblW4T3.setIcon(w4Img);
-		
-		lblW4T2 = new JLabel("");
-		panelW4.add(lblW4T2);
-		lblW4T2.setIcon(w4Img);
-		
-		lblW4T1 = new JLabel("");
-		panelW4.add(lblW4T1);
-		lblW4T1.setIcon(w4Img);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		panelRoundInfo = new JPanel();
-		panelRoundInfo.setBounds(193, 193, 166, 158);
+		panelRoundInfo.setBounds(131, 131, 166, 158);
 		panelMidTable.add(panelRoundInfo);
 		panelRoundInfo.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		panelRoundInfo.setBackground(COLOR_RINF_PANEL);
 		panelRoundInfo.setLayout(null);
-		
 		
 		
 		
@@ -2365,7 +1725,7 @@ public class TableViewer extends JFrame implements TableGUI{
 		
 		//exists only to color the background behind the round info
 		panelRndInfBackground = new JPanel();
-		panelRndInfBackground.setBounds(193, 193, 166, 158);
+		panelRndInfBackground.setBounds(131, 131, 166, 158);
 		panelMidTable.add(panelRndInfBackground);
 		panelRndInfBackground.setLayout(null);
 		
@@ -2376,7 +1736,7 @@ public class TableViewer extends JFrame implements TableGUI{
 		
 		
 		panelPlayer1 = new JPanel();
-		panelPlayer1.setBounds(167, 643, 667, 78);
+		panelPlayer1.setBounds(105, 544, 667, 78);
 		panelPlayer1.setBackground(COLOR_TRANSPARENT);
 		panelTable.add(panelPlayer1);
 		panelPlayer1.setLayout(null);
@@ -2511,7 +1871,7 @@ public class TableViewer extends JFrame implements TableGUI{
 		
 		
 		panelH1Ms = new JPanel();
-		panelH1Ms.setBounds(130, 47, 474, 31);
+		panelH1Ms.setBounds(100, 47, 474, 31);
 		panelH1Ms.setBackground(COLOR_TRANSPARENT);
 		panelPlayer1.add(panelH1Ms);
 		panelH1Ms.setLayout(null);
@@ -2637,7 +1997,7 @@ public class TableViewer extends JFrame implements TableGUI{
 		
 		
 		panelPlayer2 = new JPanel();
-		panelPlayer2.setBounds(730, -53, 78, 667);
+		panelPlayer2.setBounds(606, -90, 78, 667);
 		panelPlayer2.setBackground(COLOR_TRANSPARENT);
 		panelTable.add(panelPlayer2);
 		panelPlayer2.setLayout(null);
@@ -2720,7 +2080,7 @@ public class TableViewer extends JFrame implements TableGUI{
 		
 		
 		panelH2Ms = new JPanel();
-		panelH2Ms.setBounds(46, 64, 35, 474);
+		panelH2Ms.setBounds(46, 104, 35, 474);
 		panelH2Ms.setBackground(COLOR_TRANSPARENT);
 		panelPlayer2.add(panelH2Ms);
 		panelH2Ms.setLayout(null);
@@ -2830,7 +2190,7 @@ public class TableViewer extends JFrame implements TableGUI{
 		
 		
 		panelPlayer3 = new JPanel();
-		panelPlayer3.setBounds(5, 5, 667, 78);
+		panelPlayer3.setBounds(-32, 30, 667, 78);
 		panelPlayer3.setBackground(COLOR_TRANSPARENT);
 		panelTable.add(panelPlayer3);
 		panelPlayer3.setLayout(null);
@@ -2919,7 +2279,7 @@ public class TableViewer extends JFrame implements TableGUI{
 		
 		
 		panelH3Ms = new JPanel();
-		panelH3Ms.setBounds(64, 0, 474, 35);
+		panelH3Ms.setBounds(104, 0, 474, 35);
 		panelH3Ms.setBackground(COLOR_TRANSPARENT);
 		panelPlayer3.add(panelH3Ms);
 		panelH3Ms.setLayout(null);
@@ -3032,7 +2392,7 @@ public class TableViewer extends JFrame implements TableGUI{
 		
 		
 		panelPlayer4 = new JPanel();
-		panelPlayer4.setBounds(30, 109, 78, 667);
+		panelPlayer4.setBounds(30, 72, 78, 667);
 		panelPlayer4.setBackground(COLOR_TRANSPARENT);
 		panelTable.add(panelPlayer4);
 		panelPlayer4.setLayout(null);
@@ -3121,7 +2481,7 @@ public class TableViewer extends JFrame implements TableGUI{
 		
 		
 		panelH4Ms = new JPanel();
-		panelH4Ms.setBounds(0, 130, 35, 474);
+		panelH4Ms.setBounds(0, 100, 35, 474);
 		panelH4Ms.setBackground(COLOR_TRANSPARENT);
 		panelPlayer4.add(panelH4Ms);
 		panelH4Ms.setLayout(null);
@@ -3249,8 +2609,9 @@ public class TableViewer extends JFrame implements TableGUI{
 		panelSidebar.setLayout(null);
 		
 		lblWeHaveFun = new JLabel("");
+		lblWeHaveFun.setVerticalAlignment(SwingConstants.TOP);
 		lblWeHaveFun.setIcon(sheepImg);
-		lblWeHaveFun.setBounds(4, 5, 270, 345);
+		lblWeHaveFun.setBounds(4, 5, 270, 218);
 //		lblWeHaveFun.setBounds(-500, -500, 270, 345);
 		panelSidebar.add(lblWeHaveFun);
 		
@@ -3266,7 +2627,7 @@ public class TableViewer extends JFrame implements TableGUI{
 				blankEverything();
 			}
 		});
-		btnBlankAll.setBounds(204, 485, 68, 23);
+		btnBlankAll.setBounds(204, 358, 68, 23);
 		btnBlankAll.setVisible(DEBUG_BUTTONS_VISIBLE);
 		panelSidebar.add(btnBlankAll);
 		
@@ -3289,9 +2650,6 @@ public class TableViewer extends JFrame implements TableGUI{
 					l.setIcon(garryTiles[SEAT1][BIG][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP1)
 					l.setIcon(garryTiles[SEAT1][SMALL][randGen.nextInt(RANDLIMIT)]);
-				for (JLabel l: larryW1)
-					if (!DEFAULT_OPTION_REVEAL_WALL) l.setIcon(garryTiles[SEAT1][SMALL][0]); 
-					else l.setIcon(garryTiles[SEAT1][SMALL][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH1Ms)
 					for (JLabel l: lar)
 						if (randGen.nextInt(8) == 1) l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
@@ -3304,9 +2662,6 @@ public class TableViewer extends JFrame implements TableGUI{
 				for (JLabel l: larryP2)
 					if (randGen.nextInt(34) != 1) l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]);
 					else l.setIcon(garryTiles[SEAT2][SMALL][randGen.nextInt(RANDLIMIT)]);
-				for (JLabel l: larryW2)
-					if (!DEFAULT_OPTION_REVEAL_WALL) l.setIcon(garryTiles[SEAT2][SMALL][0]); 
-					else l.setIcon(garryTiles[SEAT2][SMALL][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH2Ms)
 					for (JLabel l: lar)
 						l.setIcon(garryTiles[SEAT2][SMALL][randGen.nextInt(RANDLIMIT)]);
@@ -3317,9 +2672,6 @@ public class TableViewer extends JFrame implements TableGUI{
 					else l.setIcon(garryTiles[SEAT3][BIG][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP3)
 					l.setIcon(garryTiles[SEAT3][SMALL][randGen.nextInt(RANDLIMIT)]);
-				for (JLabel l: larryW3)
-					if (!DEFAULT_OPTION_REVEAL_WALL) l.setIcon(garryTiles[2][1][0]); 
-					else l.setIcon(garryTiles[SEAT3][SMALL][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH3Ms)
 					for (JLabel l: lar)
 						l.setIcon(garryTiles[SEAT3][SMALL][randGen.nextInt(RANDLIMIT)]);
@@ -3330,9 +2682,6 @@ public class TableViewer extends JFrame implements TableGUI{
 					else l.setIcon(garryTiles[SEAT4][BIG][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP4)
 					l.setIcon(garryTiles[SEAT4][SMALL][randGen.nextInt(RANDLIMIT)]);
-				for (JLabel l: larryW4)
-					if (!DEFAULT_OPTION_REVEAL_WALL) l.setIcon(garryTiles[SEAT4][SMALL][0]); 
-					else l.setIcon(garryTiles[SEAT4][SMALL][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH4Ms)
 					for (JLabel l: lar)
 						l.setIcon(garryTiles[SEAT4][SMALL][randGen.nextInt(RANDLIMIT)]);
@@ -3380,7 +2729,7 @@ public class TableViewer extends JFrame implements TableGUI{
 				
 			}
 		});
-		btnRandAll.setBounds(204, 460, 65, 23);
+		btnRandAll.setBounds(204, 333, 65, 23);
 		btnRandAll.setVisible(DEBUG_BUTTONS_VISIBLE);
 		panelSidebar.add(btnRandAll);
 		
@@ -3390,7 +2739,7 @@ public class TableViewer extends JFrame implements TableGUI{
 		
 		
 		panelCalls = new JPanel();
-		panelCalls.setBounds(28, 567, 204, 147);
+		panelCalls.setBounds(28, 440, 204, 147);
 		panelCalls.setBackground(COLOR_CALL_PANEL);
 		panelSidebar.add(panelCalls);
 		panelCalls.setLayout(null);
@@ -3481,7 +2830,7 @@ public class TableViewer extends JFrame implements TableGUI{
 		panelWallSummary = new JPanel();
 		panelSidebar.add(panelWallSummary);
 		panelWallSummary.setLayout(null);
-		panelWallSummary.setBounds(10, 446, 161, 85);
+		panelWallSummary.setBounds(10, 319, 161, 85);
 		panelWallSummary.setOpaque(false);
 		
 
@@ -3681,7 +3030,7 @@ public class TableViewer extends JFrame implements TableGUI{
 		
 		
 		panelRoundResult = new JPanel();
-		panelRoundResult.setBounds(32, 361, 212, 66);
+		panelRoundResult.setBounds(32, 234, 212, 66);
 		panelSidebar.add(panelRoundResult);
 		panelRoundResult.setLayout(null);
 		panelRoundResult.setBackground(COLOR_CALL_PANEL);
@@ -3720,28 +3069,18 @@ public class TableViewer extends JFrame implements TableGUI{
 		larryH1[0] = lblH1T1;larryH1[1] = lblH1T2;larryH1[2] = lblH1T3;larryH1[3] = lblH1T4;larryH1[4] = lblH1T5;larryH1[5] = lblH1T6;larryH1[6] = lblH1T7;larryH1[7] = lblH1T8;larryH1[8] = lblH1T9;larryH1[9] = lblH1T10;larryH1[10] = lblH1T11;larryH1[11] = lblH1T12;larryH1[12] = lblH1T13;larryH1[13] = lblH1T14;
 		larryH1M1[0] = lblH1M1T1;larryH1M1[1] = lblH1M1T2;larryH1M1[2] = lblH1M1T3;larryH1M1[3] = lblH1M1T4;larryH1M2[0] = lblH1M2T1;larryH1M2[1] = lblH1M2T2;larryH1M2[2] = lblH1M2T3;larryH1M2[3] = lblH1M2T4;larryH1M3[0] = lblH1M3T1;larryH1M3[1] = lblH1M3T2;larryH1M3[2] = lblH1M3T3;larryH1M3[3] = lblH1M3T4;larryH1M4[0] = lblH1M4T1;larryH1M4[1] = lblH1M4T2;larryH1M4[2] = lblH1M4T3;larryH1M4[3] = lblH1M4T4;
 		larryP1[0] = lblP1T1;larryP1[1] = lblP1T2;larryP1[2] = lblP1T3;larryP1[3] = lblP1T4;larryP1[4] = lblP1T5;larryP1[5] = lblP1T6;larryP1[6] = lblP1T7;larryP1[7] = lblP1T8;larryP1[8] = lblP1T9;larryP1[9] = lblP1T10;larryP1[10] = lblP1T11;larryP1[11] = lblP1T12;larryP1[12] = lblP1T13;larryP1[13] = lblP1T14;larryP1[14] = lblP1T15;larryP1[15] = lblP1T16;larryP1[16] = lblP1T17;larryP1[17] = lblP1T18;larryP1[18] = lblP1T19;larryP1[19] = lblP1T20;larryP1[20] = lblP1T21;larryP1[21] = lblP1T22;larryP1[22] = lblP1T23;larryP1[23] = lblP1T24;
-		larryW1[0] = lblW1T1;larryW1[1] = lblW1T2;larryW1[2] = lblW1T3;larryW1[3] = lblW1T4;larryW1[4] = lblW1T5;larryW1[5] = lblW1T6;larryW1[6] = lblW1T7;larryW1[7] = lblW1T8;larryW1[8] = lblW1T9;larryW1[9] = lblW1T10;larryW1[10] = lblW1T11;larryW1[11] = lblW1T12;larryW1[12] = lblW1T13;larryW1[13] = lblW1T14;larryW1[14] = lblW1T15;larryW1[15] = lblW1T16;larryW1[16] = lblW1T17;larryW1[17] = lblW1T18;larryW1[18] = lblW1T19;larryW1[19] = lblW1T20;larryW1[20] = lblW1T21;larryW1[21] = lblW1T22;larryW1[22] = lblW1T23;larryW1[23] = lblW1T24;larryW1[24] = lblW1T25;larryW1[25] = lblW1T26;larryW1[26] = lblW1T27;larryW1[27] = lblW1T28;larryW1[28] = lblW1T29;larryW1[29] = lblW1T30;larryW1[30] = lblW1T31;larryW1[31] = lblW1T32;larryW1[32] = lblW1T33;larryW1[33] = lblW1T34;
 		
 		larryH2[0] = lblH2T1;
 		larryH2M1[0] = lblH2M1T1;larryH2M1[1] = lblH2M1T2;larryH2M1[2] = lblH2M1T3;larryH2M1[3] = lblH2M1T4;larryH2M2[0] = lblH2M2T1;larryH2M2[1] = lblH2M2T2;larryH2M2[2] = lblH2M2T3;larryH2M2[3] = lblH2M2T4;larryH2M3[0] = lblH2M3T1;larryH2M3[1] = lblH2M3T2;larryH2M3[2] = lblH2M3T3;larryH2M3[3] = lblH2M3T4;larryH2M4[0] = lblH2M4T1;larryH2M4[1] = lblH2M4T2;larryH2M4[2] = lblH2M4T3;larryH2M4[3] = lblH2M4T4;
 		larryP2[0] = lblP2T1;larryP2[1] = lblP2T2;larryP2[2] = lblP2T3;larryP2[3] = lblP2T4;larryP2[4] = lblP2T5;larryP2[5] = lblP2T6;larryP2[6] = lblP2T7;larryP2[7] = lblP2T8;larryP2[8] = lblP2T9;larryP2[9] = lblP2T10;larryP2[10] = lblP2T11;larryP2[11] = lblP2T12;larryP2[12] = lblP2T13;larryP2[13] = lblP2T14;larryP2[14] = lblP2T15;larryP2[15] = lblP2T16;larryP2[16] = lblP2T17;larryP2[17] = lblP2T18;larryP2[18] = lblP2T19;larryP2[19] = lblP2T20;larryP2[20] = lblP2T21;larryP2[21] = lblP2T22;larryP2[22] = lblP2T23;larryP2[23] = lblP2T24;
-		larryW2[0] = lblW2T1;larryW2[1] = lblW2T2;larryW2[2] = lblW2T3;larryW2[3] = lblW2T4;larryW2[4] = lblW2T5;larryW2[5] = lblW2T6;larryW2[6] = lblW2T7;larryW2[7] = lblW2T8;larryW2[8] = lblW2T9;larryW2[9] = lblW2T10;larryW2[10] = lblW2T11;larryW2[11] = lblW2T12;larryW2[12] = lblW2T13;larryW2[13] = lblW2T14;larryW2[14] = lblW2T15;larryW2[15] = lblW2T16;larryW2[16] = lblW2T17;larryW2[17] = lblW2T18;larryW2[18] = lblW2T19;larryW2[19] = lblW2T20;larryW2[20] = lblW2T21;larryW2[21] = lblW2T22;larryW2[22] = lblW2T23;larryW2[23] = lblW2T24;larryW2[24] = lblW2T25;larryW2[25] = lblW2T26;larryW2[26] = lblW2T27;larryW2[27] = lblW2T28;larryW2[28] = lblW2T29;larryW2[29] = lblW2T30;larryW2[30] = lblW2T31;larryW2[31] = lblW2T32;larryW2[32] = lblW2T33;larryW2[33] = lblW2T34;
 		
 		larryH3[0] = lblH3T1;larryH3[1] = lblH3T2;larryH3[2] = lblH3T3;larryH3[3] = lblH3T4;larryH3[4] = lblH3T5;larryH3[5] = lblH3T6;larryH3[6] = lblH3T7;larryH3[7] = lblH3T8;larryH3[8] = lblH3T9;larryH3[9] = lblH3T10;larryH3[10] = lblH3T11;larryH3[11] = lblH3T12;larryH3[12] = lblH3T13;larryH3[13] = lblH3T14;
 		larryH3M1[0] = lblH3M1T1;larryH3M1[1] = lblH3M1T2;larryH3M1[2] = lblH3M1T3;larryH3M1[3] = lblH3M1T4;larryH3M2[0] = lblH3M2T1;larryH3M2[1] = lblH3M2T2;larryH3M2[2] = lblH3M2T3;larryH3M2[3] = lblH3M2T4;larryH3M3[0] = lblH3M3T1;larryH3M3[1] = lblH3M3T2;larryH3M3[2] = lblH3M3T3;larryH3M3[3] = lblH3M3T4;larryH3M4[0] = lblH3M4T1;larryH3M4[1] = lblH3M4T2;larryH3M4[2] = lblH3M4T3;larryH3M4[3] = lblH3M4T4;
 		larryP3[0] = lblP3T1;larryP3[1] = lblP3T2;larryP3[2] = lblP3T3;larryP3[3] = lblP3T4;larryP3[4] = lblP3T5;larryP3[5] = lblP3T6;larryP3[6] = lblP3T7;larryP3[7] = lblP3T8;larryP3[8] = lblP3T9;larryP3[9] = lblP3T10;larryP3[10] = lblP3T11;larryP3[11] = lblP3T12;larryP3[12] = lblP3T13;larryP3[13] = lblP3T14;larryP3[14] = lblP3T15;larryP3[15] = lblP3T16;larryP3[16] = lblP3T17;larryP3[17] = lblP3T18;larryP3[18] = lblP3T19;larryP3[19] = lblP3T20;larryP3[20] = lblP3T21;larryP3[21] = lblP3T22;larryP3[22] = lblP3T23;larryP3[23] = lblP3T24;
-		larryW3[0] = lblW3T1;larryW3[1] = lblW3T2;larryW3[2] = lblW3T3;larryW3[3] = lblW3T4;larryW3[4] = lblW3T5;larryW3[5] = lblW3T6;larryW3[6] = lblW3T7;larryW3[7] = lblW3T8;larryW3[8] = lblW3T9;larryW3[9] = lblW3T10;larryW3[10] = lblW3T11;larryW3[11] = lblW3T12;larryW3[12] = lblW3T13;larryW3[13] = lblW3T14;larryW3[14] = lblW3T15;larryW3[15] = lblW3T16;larryW3[16] = lblW3T17;larryW3[17] = lblW3T18;larryW3[18] = lblW3T19;larryW3[19] = lblW3T20;larryW3[20] = lblW3T21;larryW3[21] = lblW3T22;larryW3[22] = lblW3T23;larryW3[23] = lblW3T24;larryW3[24] = lblW3T25;larryW3[25] = lblW3T26;larryW3[26] = lblW3T27;larryW3[27] = lblW3T28;larryW3[28] = lblW3T29;larryW3[29] = lblW3T30;larryW3[30] = lblW3T31;larryW3[31] = lblW3T32;larryW3[32] = lblW3T33;larryW3[33] = lblW3T34;
 		
 		larryH4[0] = lblH4T1;larryH4[1] = lblH4T2;larryH4[2] = lblH4T3;larryH4[3] = lblH4T4;larryH4[4] = lblH4T5;larryH4[5] = lblH4T6;larryH4[6] = lblH4T7;larryH4[7] = lblH4T8;larryH4[8] = lblH4T9;larryH4[9] = lblH4T10;larryH4[10] = lblH4T11;larryH4[11] = lblH4T12;larryH4[12] = lblH4T13;larryH4[13] = lblH4T14;
 		larryH4M1[0] = lblH4M1T1;larryH4M1[1] = lblH4M1T2;larryH4M1[2] = lblH4M1T3;larryH4M1[3] = lblH4M1T4;larryH4M2[0] = lblH4M2T1;larryH4M2[1] = lblH4M2T2;larryH4M2[2] = lblH4M2T3;larryH4M2[3] = lblH4M2T4;larryH4M3[0] = lblH4M3T1;larryH4M3[1] = lblH4M3T2;larryH4M3[2] = lblH4M3T3;larryH4M3[3] = lblH4M3T4;larryH4M4[0] = lblH4M4T1;larryH4M4[1] = lblH4M4T2;larryH4M4[2] = lblH4M4T3;larryH4M4[3] = lblH4M4T4;
 		larryP4[0] = lblP4T1;larryP4[1] = lblP4T2;larryP4[2] = lblP4T3;larryP4[3] = lblP4T4;larryP4[4] = lblP4T5;larryP4[5] = lblP4T6;larryP4[6] = lblP4T7;larryP4[7] = lblP4T8;larryP4[8] = lblP4T9;larryP4[9] = lblP4T10;larryP4[10] = lblP4T11;larryP4[11] = lblP4T12;larryP4[12] = lblP4T13;larryP4[13] = lblP4T14;larryP4[14] = lblP4T15;larryP4[15] = lblP4T16;larryP4[16] = lblP4T17;larryP4[17] = lblP4T18;larryP4[18] = lblP4T19;larryP4[19] = lblP4T20;larryP4[20] = lblP4T21;larryP4[21] = lblP4T22;larryP4[22] = lblP4T23;larryP4[23] = lblP4T24;		
-		larryW4[0] = lblW4T1;larryW4[1] = lblW4T2;larryW4[2] = lblW4T3;larryW4[3] = lblW4T4;larryW4[4] = lblW4T5;larryW4[5] = lblW4T6;larryW4[6] = lblW4T7;larryW4[7] = lblW4T8;larryW4[8] = lblW4T9;larryW4[9] = lblW4T10;larryW4[10] = lblW4T11;larryW4[11] = lblW4T12;larryW4[12] = lblW4T13;larryW4[13] = lblW4T14;larryW4[14] = lblW4T15;larryW4[15] = lblW4T16;larryW4[16] = lblW4T17;larryW4[17] = lblW4T18;larryW4[18] = lblW4T19;larryW4[19] = lblW4T20;larryW4[20] = lblW4T21;larryW4[21] = lblW4T22;larryW4[22] = lblW4T23;larryW4[23] = lblW4T24;larryW4[24] = lblW4T25;larryW4[25] = lblW4T26;larryW4[26] = lblW4T27;larryW4[27] = lblW4T28;larryW4[28] = lblW4T29;larryW4[29] = lblW4T30;larryW4[30] = lblW4T31;larryW4[31] = lblW4T32;larryW4[32] = lblW4T33;larryW4[33] = lblW4T34;
-		
-		//put wall labels in a single array of 136 tiles
-		int i = 0;
-		for (JLabel[] lar: larryWalls) 
-			for (JLabel l: lar)
-				larryWallAll[i++] = l;
 		
 		
 		//load Round Info labels into arrays
@@ -3781,22 +3120,18 @@ public class TableViewer extends JFrame implements TableGUI{
 		for (JButton b: barryCalls){
 			b.addActionListener(callListener);
 			
-	//		b.setBorderPainted(false);
 			b.setContentAreaFilled(false);
 			b.setRolloverEnabled(false);
 			b.setFocusPainted(false);
-//			b.setFocusPainted(false);
 			b.setOpaque(false);
 		}
 		TurnActionListener taListener = new TurnActionListener();
 		for (JButton b: barryTActions){
 			b.addActionListener(taListener);
 			
-	//		b.setBorderPainted(false);
 			b.setContentAreaFilled(false);
 			b.setRolloverEnabled(false);
 			b.setFocusPainted(false);
-//			b.setFocusPainted(false);
 			b.setOpaque(false);
 		}
 		

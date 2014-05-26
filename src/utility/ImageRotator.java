@@ -22,7 +22,7 @@ methods:
 */
 public class ImageRotator {
 	
-	int mAngle;
+	private int mAngle;
 	
 	//constructors, require an angle
 	public ImageRotator(int angle){mAngle = angle;}

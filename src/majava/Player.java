@@ -2,7 +2,7 @@ package majava;
 
 import java.util.ArrayList;
 
-import majava.graphics.TableViewer;
+import majava.graphics.TableGUI;
 import majava.tiles.Tile;
 
 /*
@@ -264,15 +264,13 @@ public class Player {
 		return null (no discard chosen)
 	end if
 	*/
-	public Tile takeTurn(TableViewer tviewer){
+	public Tile takeTurn(TableGUI tviewer){
 		
 		mLastDiscard = null;
 		mChosenDiscardIndex = NO_DISCARD_CHOSEN;
 		
 		//discard a tile
 		__chooseTurnAction(tviewer);
-		
-		
 		
 		if (turnActionChoseDiscard()){
 			
@@ -365,7 +363,7 @@ public class Player {
 	chosenDiscardIndex = ask self which tile to discard
 	return chosenDiscardIndex
 	*/
-	private int __chooseTurnAction(TableViewer tviewer){
+	private int __chooseTurnAction(TableGUI tviewer){
 		
 		//ask player for which tile to discard
 		int chosenAction = __askSelfForTurnAction(tviewer);
@@ -388,7 +386,7 @@ public class Player {
 	if (controller is human) ask human and return choice
 	else (controller is computer) ask computer and return choice
 	*/
-	private int __askSelfForTurnAction(TableViewer tviewer){
+	private int __askSelfForTurnAction(TableGUI tviewer){
 		if (controllerIsHuman()) return __askTurnActionHuman(tviewer);
 		else return __askTurnActionCom();
 	}
@@ -406,7 +404,7 @@ public class Player {
 	chosenDiscard = user clicks on tile through GUI
 	return chosenDiscard
 	*/
-	private int __askTurnActionHuman(TableViewer tviewer){
+	private int __askTurnActionHuman(TableGUI tviewer){
 		
 		ActionType chosenAction = ActionType.UNDECIDED;
 		int chosenDiscardIndex = NO_DISCARD_CHOSEN;
@@ -419,8 +417,10 @@ public class Player {
 		tviewer.getClickTurnAction();
 		
 		if (tviewer.resultClickTurnActionWasDiscard()){
+//		if (tviewer.resultClickTurnActionWasDiscard() || tviewer.resultClickTurnActionWasRiichi()){
 			mTurnAction = ActionType.DISCARD;
 			chosenDiscardIndex = tviewer.getResultClickedDiscard();
+//			if (tviewer.resultClickTurnActionWasRiichi()) chosenDiscardIndex = mHand.getSize();
 			mChosenDiscardIndex = chosenDiscardIndex - 1;	//adjust for index
 			return mChosenDiscardIndex;
 		}
@@ -431,6 +431,11 @@ public class Player {
 			if (tviewer.resultClickTurnActionWasTsumo()) chosenAction = ActionType.TSUMO;
 			mTurnAction = chosenAction;
 			return NO_DISCARD_CHOSEN;
+			
+//			if (mTurnAction != ActionType.RIICHI) return NO_DISCARD_CHOSEN;
+//			else{
+//				
+//			}
 		}
 	}
 	
@@ -565,7 +570,7 @@ public class Player {
 	end if
 	return call status
 	*/
-	public boolean reactToDiscard(Tile t, TableViewer tviewer){
+	public boolean reactToDiscard(Tile t, TableGUI tviewer){
 		mCallStatus = CallType.NONE;
 		
 		//if able to call the tile, ask self for reaction
@@ -605,7 +610,7 @@ public class Player {
 	end if
 	return call
 	*/
-	private CallType __askSelfForReaction(Tile t, TableViewer tviewer){
+	private CallType __askSelfForReaction(Tile t, TableGUI tviewer){
 		CallType call = CallType.NONE;
 		
 		if (controllerIsHuman()) call = __askReactionHuman(t, tviewer);
@@ -628,7 +633,7 @@ public class Player {
 	call = decide based on player's choice
 	return call
 	*/
-	private CallType __askReactionHuman(Tile t, TableViewer tviewer){
+	private CallType __askReactionHuman(Tile t, TableGUI tviewer){
 		
 		CallType call = CallType.NONE;
 		boolean called = false;

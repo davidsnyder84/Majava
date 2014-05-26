@@ -3,7 +3,7 @@ package majava;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import majava.graphics.TableViewer;
+import majava.graphics.TableGUI;
 import majava.tiles.Tile;
 
 
@@ -128,7 +128,7 @@ public class RoundTracker {
 	
 	
 	
-	public RoundTracker(TableViewer tviewer, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){
+	public RoundTracker(TableGUI tviewer, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){
 		
 		mRoundWind = roundWind;
 		mRoundNum = roundNum;
@@ -192,7 +192,7 @@ public class RoundTracker {
 		mPTrackers[numPlayersSynched].tilesP = pondTiles;
 	}
 	
-	private void __syncWithViewer(TableViewer viewer){
+	private void __syncWithViewer(TableGUI viewer){
 		
 		Player[] pPlayers = {mPTrackers[0].player, mPTrackers[1].player, mPTrackers[2].player, mPTrackers[3].player};
 		TileList[] pHandTiles = {mPTrackers[0].tilesH, mPTrackers[1].tilesH, mPTrackers[2].tilesH, mPTrackers[3].tilesH};

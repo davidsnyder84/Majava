@@ -2,6 +2,7 @@ package majava;
 
 import java.util.ArrayList;
 
+import majava.graphics.TableGUI;
 import majava.graphics.TableViewer;
 
 
@@ -76,7 +77,7 @@ public class Game {
 	private boolean mGameIsOver;
 	private ArrayList<String> mWinStrings;
 
-	private TableViewer mTviewer;
+	private TableGUI mTviewer;
 	
 	private boolean mDoFastGameplay;
 	
@@ -87,7 +88,7 @@ public class Game {
 	/*
 	initializes a game
 	*/
-	public Game(TableViewer tviewer, Player[] playerArray){
+	public Game(TableGUI tviewer, Player[] playerArray){
 
 		__setGameType(GAME_TYPE_DEFAULT);
 		

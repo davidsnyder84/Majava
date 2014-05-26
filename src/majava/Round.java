@@ -1,7 +1,7 @@
 package majava;
 
 import utility.Pauser;
-import majava.graphics.TableViewer;
+import majava.graphics.TableGUI;
 import majava.tiles.Tile;
 
 
@@ -17,7 +17,7 @@ data:
 	mWall - wall of tiles, includes the dead wall
 	
 	mRoundTracker - tracks and manages information on the round
-	mTviewer - TableViewer GUI to display the game and get input from the human player
+	mTviewer - TableGUI to display the game and get input from the human player
 	mPauser - used to pause (wait) after player actions
 	
 	mCurrentRoundWind, mCurrentRoundNum, mCurrentRoundBonusNum - information for the round
@@ -51,7 +51,7 @@ public class Round {
 	private static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
 	//for debug use
-	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	
 	
@@ -63,7 +63,7 @@ public class Round {
 	private Wall mWall;
 	
 	private RoundTracker mRoundTracker;
-	private TableViewer mTviewer;
+	private TableGUI mTviewer;
 	private Pauser mPauser;
 	
 	
@@ -84,7 +84,7 @@ public class Round {
 	creates the wall
 	initializes round and game info
 	*/
-	public Round(TableViewer tviewer, Player[] playerArray, Wind roundWind, int roundNum, int roundBonusNum){
+	public Round(TableGUI tviewer, Player[] playerArray, Wind roundWind, int roundNum, int roundBonusNum){
 		
 		mPlayerArray = playerArray;
 		p1 = mPlayerArray[0]; p2 = mPlayerArray[1]; p3 = mPlayerArray[2]; p4 = mPlayerArray[3];
@@ -110,8 +110,8 @@ public class Round {
 		
 		setOptionFastGameplay(DEFAULT_DO_FAST_GAMEPLAY);
 	}
-	public Round(TableViewer tviewer, Player[] playerArray, Wind roundWind, int roundNum){this(tviewer, playerArray, roundWind, roundNum, DEFAULT_ROUND_BONUS_NUM);}
-	public Round(TableViewer tviewer, Player[] playerArray){this(tviewer, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
+	public Round(TableGUI tviewer, Player[] playerArray, Wind roundWind, int roundNum){this(tviewer, playerArray, roundWind, roundNum, DEFAULT_ROUND_BONUS_NUM);}
+	public Round(TableGUI tviewer, Player[] playerArray){this(tviewer, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
 	
 	
 	

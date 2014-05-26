@@ -1228,7 +1228,8 @@ public class HandChecker {
 	//turn actions
 	public boolean ableToAnkan(){return mCanAnkan;}
 	public boolean ableToMinkan(){return mCanMinkan;}
-	public boolean ableToRiichi(){return mCanRiichi;}
+//	public boolean ableToRiichi(){return mCanRiichi;}
+	public boolean ableToRiichi(){return true;}
 	public boolean ableToTsumo(){return mCanTsumo;}
 	
 	

@@ -1,6 +1,8 @@
 package majava;
 
 
+import majava.graphics.TableGUI;
+import majava.graphics.TableViewSmall;
 import majava.graphics.TableViewer;
 import utility.Pauser;
 
@@ -16,7 +18,7 @@ data:
 	
 	mCurrentGame - the current game being played at the table
 	
-	mTviewer - TableViewer GUI to display the game and get input from the human player
+	mTviewer - TableGUI to display the game and get input from the human player
 	mDoFastGameplay - option, will do fast gameplay if true
 	mDoSinglePlayer - option, will do single player if true
 	
@@ -35,6 +37,7 @@ public class Table {
 	
 	//for debug use
 //	private static final boolean DEBUG_SHUFFLE_SEATS = false;
+	private static final boolean DEBUG_USE_SMALL_VIEWER = true;
 	
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	private static final boolean DEFAULT_DO_SINGLE_PLAYER = true;
@@ -46,7 +49,7 @@ public class Table {
 	private Player[] mPlayerArray;
 	
 	
-	private TableViewer mTviewer;
+	private TableGUI mTviewer;
 	
 	
 	//options
@@ -65,7 +68,7 @@ public class Table {
 	public Table(){
 		
 		//initialize Table Viewer
-		mTviewer = new TableViewer();
+		mTviewer = __generateTableGUI();
 		mTviewer.blankEverything();
 		
 		mDoSinglePlayer = DEFAULT_DO_SINGLE_PLAYER;
@@ -100,6 +103,12 @@ public class Table {
 		//close the window
 		Pauser.pauseFor(8000);
 		mTviewer.dispose();
+	}
+	
+	
+	private TableGUI __generateTableGUI(){
+		if (DEBUG_USE_SMALL_VIEWER) return new TableViewSmall();
+		else return new TableViewer();
 	}
 	
 	

@@ -149,7 +149,7 @@ public class Player {
 	
 
 	
-	private static final boolean DEBUG_SKIP_PLAYER_CALL = false;
+	private static final boolean DEBUG_ALLOW_PLAYER_CALLS = true;
 	private static final boolean DEBUG_COMPUTERS_MAKE_CALLS = true;
 	private static final boolean DEBUG_COMPUTERS_MAKE_ACTIONS = true;
 	
@@ -632,7 +632,7 @@ public class Player {
 		
 		CallType call = CallType.NONE;
 		boolean called = false;
-		if (DEBUG_SKIP_PLAYER_CALL) return call;
+		if (!DEBUG_ALLOW_PLAYER_CALLS) return call;
 		
 		//get user's choice through GUI
 		called = tviewer.getClickCall(mHand.ableToChiL(), mHand.ableToChiM(), mHand.ableToChiH(),

@@ -159,6 +159,45 @@ public class TileList implements Iterable<Tile>{
 	public TileList getMultiple(Integer... indices){return getMultiple(Arrays.asList(indices));}
 	
 	
+	
+	//remove multiple indices from the list
+	//returns true if the indices were removed, false if not
+	public boolean removeMultiple(List<Integer> removeIndices){
+		
+		//disallow more indices than the list has
+		if (removeIndices.size() > mTiles.size()) return false;
+		
+		ArrayList<Integer> seenSoFar = new ArrayList<Integer>();
+		for (Integer i: removeIndices){
+			
+			//disallow an index outside of the list's size
+			//disallow duplicate indices
+			if (i >= mTiles.size() || i < 0 || seenSoFar.contains(i)) return false;
+			
+			seenSoFar.add(i);
+		}
+		
+		//sort the indices in descending order
+		GenSort<Integer> sorter = new GenSort<Integer>(seenSoFar); sorter.sortDescending();
+		
+		
+		//remove the indices
+		for (Integer i: seenSoFar) mTiles.remove((int)i);
+		
+		return true;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 	

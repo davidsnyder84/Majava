@@ -7,8 +7,6 @@ import java.util.List;
 
 import majava.tiles.Tile;
 
-import utility.GenSort;
-
 
 /*
 Class: Hand
@@ -163,12 +161,14 @@ public class Hand implements Iterable<Tile>{
 	
 	//adds a tile to the hand (cannot add more than max hand size)
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand
-	public boolean addTile(Tile t){return __modifyHand(ModifyAction.ADD, t);}
-	public boolean addTile(int tileID){return addTile(new Tile(tileID));}
+//	public boolean addTile(Tile t){return __modifyHand(ModifyAction.ADD, t);}
+//	public boolean addTile(int tileID){return addTile(new Tile(tileID));}
 	
 	
 	//removes the tile at the given index
-	public boolean removeTile(int index){return __modifyHand(ModifyAction.REMOVE, index);}
+//	public boolean removeTile(int index){return __modifyHand(ModifyAction.REMOVE, index);}
+	
+	
 	
 	
 	/*
@@ -181,38 +181,106 @@ public class Hand implements Iterable<Tile>{
 	check if modifying the hand put the hand in tenpai
 	update what turn actions are possible after modifying the hand
 	*/
-	private boolean __modifyHand(ModifyAction modType, Tile addThisTile, int removeThisIndex){
+//	private boolean __modifyHand(ModifyAction modType, Tile addThisTile, int removeThisIndex){
+//		
+//		if (modType == ModifyAction.ADD && addThisTile != null){
+//			
+//			if (mTiles.size() < MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*mNumMeldsMade){
+//				addThisTile.setOwner(mOwnerSeatWind);
+//				mTiles.add(addThisTile);
+//			}
+//			else return false;
+//		}
+//		else if (modType == ModifyAction.REMOVE){
+//			
+//			if (removeThisIndex >= 0 && removeThisIndex < mTiles.size()){
+//				mTiles.remove(removeThisIndex);
+//				sortHand();
+//			}
+//			else return false;
+//		}
+//		else return false;
+//		
+//
+//		//check if modifying the hand put the hand in tenpai
+//		mChecker.updateTenpaiStatus();
+//		//update what turn actions are possible after modifying the hand
+//		mChecker.updateTurnActions();
+//		
+//		return true;
+//	}
+//	private boolean __modifyHand(ModifyAction modType, Tile addThisTile){return __modifyHand(ModifyAction.ADD, addThisTile, -1);}
+//	private boolean __modifyHand(ModifyAction modType, int removeThisIndex){return __modifyHand(ModifyAction.REMOVE, null, removeThisIndex);}
+	
+	
+	
+	
+	//adds a tile to the hand (cannot add more than max hand size)
+	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand
+	public boolean addTile(Tile addThisTile){
 		
-		if (modType == ModifyAction.ADD && addThisTile != null){
-			
-			if (mTiles.size() < MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*mNumMeldsMade){
-				addThisTile.setOwner(mOwnerSeatWind);
-				mTiles.add(addThisTile);
-			}
-			else return false;
-		}
-		else if (modType == ModifyAction.REMOVE){
-			
-			if (removeThisIndex >= 0 && removeThisIndex < mTiles.size()){
-				mTiles.remove(removeThisIndex);
-				sortHand();
-			}
-			else return false;
-		}
-		else return false;
+		if (mTiles.size() >= MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*mNumMeldsMade) return false;
 		
+		addThisTile.setOwner(mOwnerSeatWind);
+		mTiles.add(addThisTile);
+		
+		__updateChecker();
+		return true;
+		
+		
+//		if (mTiles.size() < MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*mNumMeldsMade){
+//			addThisTile.setOwner(mOwnerSeatWind);
+//			mTiles.add(addThisTile);
+//			
+//			__updateChecker();
+//			return true;
+//		}
+//		return false;
+	}
+	public boolean addTile(int tileID){return addTile(new Tile(tileID));}
+	
+	
+	//removes the tile at the given index
+	public boolean removeTile(int removeThisIndex){
+		
+		if (removeThisIndex < 0 || removeThisIndex >= mTiles.size()) return false;
 
-		//check if modifying the hand put the hand in tenpai
-		mChecker.updateTenpaiStatus();
-		//update what turn actions are possible after modifying the hand
-		mChecker.updateTurnActions();
+		mTiles.remove(removeThisIndex);
+		
+		sortHand();
+		return true;
+		
+//		if (removeThisIndex >= 0 && removeThisIndex < mTiles.size()){
+//			mTiles.remove(removeThisIndex);
+//			sortHand();
+//			
+//			__updateChecker();
+//			return true;
+//		}
+//		return false;
+	}
+	public boolean removeMultiple(List<Integer> removeIndices){
+		
+//		for (Integer i: removeIndices) if (i < 0 || i >= mTiles.size()) return false;
+//		for (Integer i: removeIndices) mTiles.remove(i);
+		
+		mTiles.removeMultiple(removeIndices);
+		
+		sortHand();
 		
 		return true;
 	}
-	private boolean __modifyHand(ModifyAction modType, Tile addThisTile){return __modifyHand(ModifyAction.ADD, addThisTile, -1);}
-	private boolean __modifyHand(ModifyAction modType, int removeThisIndex){return __modifyHand(ModifyAction.REMOVE, null, removeThisIndex);}
 	
 	
+	
+	private void __updateChecker(){
+		
+		//check if modifying the hand put the hand in tenpai
+		mChecker.updateTenpaiStatus();
+		
+		//update what turn actions are possible after modifying the hand
+		mChecker.updateTurnActions();
+	}
 	
 	
 	
@@ -223,10 +291,7 @@ public class Hand implements Iterable<Tile>{
 	public void sortHand(){
 		mTiles.sort();
 		
-		//check if modifying the hand put the hand in tenpai
-		mChecker.updateTenpaiStatus();
-		//update what turn actions are possible after modifying the hand
-		mChecker.updateTurnActions();
+		__updateChecker();
 	}
 	
 
@@ -355,7 +420,11 @@ public class Hand implements Iterable<Tile>{
 			candidate = mTiles.get(candidateIndex);
 			
 			partnerIndices = mTiles.findAllIndicesOf(candidate);
-			while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.remove(partnerIndices.size() - 1);
+//			while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.remove(partnerIndices.size() - 1);
+			while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.remove((new Integer(partnerIndices.size() - 1)).intValue());
+			
+			
+			
 			
 			handTiles = mTiles.getMultiple(partnerIndices);
 			
@@ -363,8 +432,16 @@ public class Hand implements Iterable<Tile>{
 			
 			//remove the tiles from the hand
 			partnerIndices.add(candidateIndex);
-			GenSort<Integer> sorter = new GenSort<Integer>(partnerIndices); sorter.sortDescending();
-			for (Integer i: partnerIndices) removeTile(i);
+			
+//			for (Integer i: partnerIndices) System.out.println(i);(new Scanner(System.in)).next();//////////////
+			
+//			GenSort<Integer> sorter = new GenSort<Integer>(partnerIndices); sorter.sortDescending();
+			
+//			for (Integer i: partnerIndices) System.out.println(i);(new Scanner(System.in)).next();///////////
+			
+			
+//			for (Integer i: partnerIndices) removeTile(i);
+			removeMultiple(partnerIndices);
 			
 
 			mNumMeldsMade++;

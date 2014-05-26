@@ -29,8 +29,10 @@ public class DemoHandGen {
 		random = new Random();
 //		runTenpaiSimulation(5000);
 //		runSimulationNoDisplay(25000);
-		runSumulationRandom(90000);
+//		runSumulationRandom(90000);
 //		runSpecificTest();
+		
+		runSimulation(20000);
 	}
 	
 	
@@ -51,13 +53,10 @@ public class DemoHandGen {
 	*/
 	public static void runSimulation(int howManyTimes){
 		
-		
 		Hand currentHand = null;
 		boolean success = true;
 		int numFailures = 0;
 		int totalNum = 0;
-		
-		
 		
 		for (int i = 0; i < howManyTimes; i++){
 			

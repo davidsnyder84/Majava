@@ -8,11 +8,10 @@ a smaller GUI
 */
 public class TableViewSmall extends TableGUI{
 	
-	private static final long serialVersionUID = 9210599763112170767L;
+	private static final long serialVersionUID = -4667970999762688255L;
 	
-	
+
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-	private static final int[][] EXCLAMATION_LOCS =  {{99, 564 + 30}, {584, 298}, {480, 6 + 30}, {3, 298}};
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~END CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	
 	
@@ -43,15 +42,7 @@ public class TableViewSmall extends TableGUI{
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^END MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	//launch the application TODO MAIN
 	public static void main(String[] args) {
 		

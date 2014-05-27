@@ -1140,7 +1140,8 @@ public abstract class TableGUI extends JFrame{
 		
 		
 		
-		lblExclamationLabel = new JLabel("TSUMO!");
+		lblExclamationLabel = new JLabel();
+		lblExclamationLabel.setText("TSUMO!");
 		lblExclamationLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblExclamationLabel.setFont(new Font("Maiandra GD", Font.BOLD, 28));
 //		lblExclamationLabel.setBounds(161, 688, 134, 34);
@@ -1615,7 +1616,8 @@ public abstract class TableGUI extends JFrame{
 		panelRInd.add(lblRIndWind);
 		lblRIndWind.setIcon(windRImg);
 		
-		lblRIndNum = new JLabel("4");
+		lblRIndNum = new JLabel();
+		lblRIndNum.setText("4");
 		lblRIndNum.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		lblRIndNum.setHorizontalAlignment(SwingConstants.LEFT);
 		lblRIndNum.setVerticalAlignment(SwingConstants.TOP);
@@ -1640,7 +1642,8 @@ public abstract class TableGUI extends JFrame{
 		lblInfoP1Wind.setIcon(wind1Img);
 		panelInfoP1.add(lblInfoP1Wind);
 		
-		lblInfoP1Points = new JLabel("128,000");
+		lblInfoP1Points = new JLabel();
+		lblInfoP1Points.setText("128,000");
 		lblInfoP1Points.setBounds(4, 25, 46, 14);
 		lblInfoP1Points.setBackground(COLOR_TRANSPARENT);
 		lblInfoP1Points.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1669,7 +1672,8 @@ public abstract class TableGUI extends JFrame{
 		lblInfoP2Wind.setIcon(wind2Img);
 		panelInfoP2.add(lblInfoP2Wind);
 		
-		lblInfoP2Points = new JLabel("128,000");
+		lblInfoP2Points = new JLabel();
+		lblInfoP2Points.setText("128,000");
 		lblInfoP2Points.setBounds(4, 25, 46, 14);
 		lblInfoP2Points.setBackground(COLOR_TRANSPARENT);
 		lblInfoP2Points.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1698,7 +1702,8 @@ public abstract class TableGUI extends JFrame{
 		lblInfoP3Wind.setIcon(wind3Img);
 		panelInfoP3.add(lblInfoP3Wind);
 		
-		lblInfoP3Points = new JLabel("128,000");
+		lblInfoP3Points = new JLabel();
+		lblInfoP3Points.setText("128,000");
 		lblInfoP3Points.setBounds(4, 25, 46, 14);
 		lblInfoP3Points.setBackground(COLOR_TRANSPARENT);
 		lblInfoP3Points.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1727,7 +1732,8 @@ public abstract class TableGUI extends JFrame{
 		lblInfoP4Wind.setIcon(wind4Img);
 		panelInfoP4.add(lblInfoP4Wind);
 		
-		lblInfoP4Points = new JLabel("128,000");
+		lblInfoP4Points = new JLabel();
+		lblInfoP4Points.setText("128,000");
 		lblInfoP4Points.setBounds(4, 25, 46, 14);
 		lblInfoP4Points.setBackground(COLOR_TRANSPARENT);
 		lblInfoP4Points.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1764,59 +1770,45 @@ public abstract class TableGUI extends JFrame{
 		panelH1.setLayout(new GridLayout(1, 14, 0, 0));
 		
 		lblH1T1 = new JLabel();
-		lblH1T1.setIcon(hImg);
 		panelH1.add(lblH1T1);
 		
 		lblH1T2 = new JLabel();
-		lblH1T2.setIcon(hImg);
 		panelH1.add(lblH1T2);
 		
 		lblH1T3 = new JLabel();
-		lblH1T3.setIcon(hImg);
 		panelH1.add(lblH1T3);
 		
 		lblH1T4 = new JLabel();
-		lblH1T4.setIcon(hImg);
 		panelH1.add(lblH1T4);
 		
 		lblH1T5 = new JLabel();
-		lblH1T5.setIcon(hImg);
 		panelH1.add(lblH1T5);
 		
 		lblH1T6 = new JLabel();
-		lblH1T6.setIcon(hImg);
 		panelH1.add(lblH1T6);
 		
 		lblH1T7 = new JLabel();
-		lblH1T7.setIcon(hImg);
 		panelH1.add(lblH1T7);
 		
 		lblH1T8 = new JLabel();
-		lblH1T8.setIcon(hImg);
 		panelH1.add(lblH1T8);
 		
 		lblH1T9 = new JLabel();
-		lblH1T9.setIcon(hImg);
 		panelH1.add(lblH1T9);
 		
 		lblH1T10 = new JLabel();
-		lblH1T10.setIcon(hImg);
 		panelH1.add(lblH1T10);
 		
 		lblH1T11 = new JLabel();
-		lblH1T11.setIcon(hImg);
 		panelH1.add(lblH1T11);
 		
 		lblH1T12 = new JLabel();
-		lblH1T12.setIcon(hImg);
 		panelH1.add(lblH1T12);
 		
 		lblH1T13 = new JLabel();
-		lblH1T13.setIcon(hImg);
 		panelH1.add(lblH1T13);
 		
 		lblH1T14 = new JLabel();
-		lblH1T14.setIcon(hImg);
 		panelH1.add(lblH1T14);
 		
 		
@@ -2027,67 +2019,67 @@ public abstract class TableGUI extends JFrame{
 		lblH2T14 = new JLabel();
 		lblH2T14.setIcon(h2Img);
 		panelH2.add(lblH2T14);
-		larryH2[13] = lblH2T14;
+		
 		
 		lblH2T13 = new JLabel();
 		lblH2T13.setIcon(h2Img);
 		panelH2.add(lblH2T13);
-		larryH2[12] = lblH2T13;
+		
 		
 		lblH2T12 = new JLabel();
 		lblH2T12.setIcon(h2Img);
 		panelH2.add(lblH2T12);
-		larryH2[11] = lblH2T12;
+		
 		
 		lblH2T11 = new JLabel();
 		lblH2T11.setIcon(h2Img);
 		panelH2.add(lblH2T11);
-		larryH2[10] = lblH2T11;
+		
 		
 		lblH2T10 = new JLabel();
 		lblH2T10.setIcon(h2Img);
 		panelH2.add(lblH2T10);
-		larryH2[9] = lblH2T10;
+		
 		
 		lblH2T9 = new JLabel();
 		lblH2T9.setIcon(h2Img);
 		panelH2.add(lblH2T9);
-		larryH2[8] = lblH2T9;
+		
 		
 		lblH2T8 = new JLabel();
 		lblH2T8.setIcon(h2Img);
 		panelH2.add(lblH2T8);
-		larryH2[7] = lblH2T8;
+		
 		
 		lblH2T7 = new JLabel();
 		lblH2T7.setIcon(h2Img);
 		panelH2.add(lblH2T7);
-		larryH2[6] = lblH2T7;
+		
 		
 		lblH2T6 = new JLabel();
 		lblH2T6.setIcon(h2Img);
 		panelH2.add(lblH2T6);
-		larryH2[5] = lblH2T6;
+		
 		
 		lblH2T5 = new JLabel();
 		lblH2T5.setIcon(h2Img);
 		panelH2.add(lblH2T5);
-		larryH2[4] = lblH2T5;
+		
 		
 		lblH2T4 = new JLabel();
 		lblH2T4.setIcon(h2Img);
 		panelH2.add(lblH2T4);
-		larryH2[3] = lblH2T4;
+		
 		
 		lblH2T3 = new JLabel();
 		lblH2T3.setIcon(h2Img);
 		panelH2.add(lblH2T3);
-		larryH2[2] = lblH2T3;
+		
 		
 		lblH2T2 = new JLabel();
 		lblH2T2.setIcon(h2Img);
 		panelH2.add(lblH2T2);
-		larryH2[1] = lblH2T2;
+		
 		
 		
 		lblH2T1 = new JLabel();
@@ -2222,72 +2214,58 @@ public abstract class TableGUI extends JFrame{
 		panelH3.setLayout(new GridLayout(1, 14, 0, 0));
 		
 		lblH3T14 = new JLabel();
-		lblH3T14.setBounds(0, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T14.setIcon(h3Img);
 		panelH3.add(lblH3T14);
 		
 		lblH3T13 = new JLabel();
-		lblH3T13.setBounds(36, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T13.setIcon(h3Img);
 		panelH3.add(lblH3T13);
 		
 		lblH3T12 = new JLabel();
-		lblH3T12.setBounds(72, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T12.setIcon(h3Img);
 		panelH3.add(lblH3T12);
 		
 		lblH3T11 = new JLabel();
-		lblH3T11.setBounds(108, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T11.setIcon(h3Img);
 		panelH3.add(lblH3T11);
 		
 		lblH3T10 = new JLabel();
-		lblH3T10.setBounds(144, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T10.setIcon(h3Img);
 		panelH3.add(lblH3T10);
 		
 		lblH3T9 = new JLabel();
-		lblH3T9.setBounds(180, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T9.setIcon(h3Img);
 		panelH3.add(lblH3T9);
 		
 		lblH3T8 = new JLabel();
-		lblH3T8.setBounds(216, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T8.setIcon(h3Img);
 		panelH3.add(lblH3T8);
 		
 		lblH3T7 = new JLabel();
-		lblH3T7.setBounds(252, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T7.setIcon(h3Img);
 		panelH3.add(lblH3T7);
 		
 		lblH3T6 = new JLabel();
-		lblH3T6.setBounds(288, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T6.setIcon(h3Img);
 		panelH3.add(lblH3T6);
 		
 		lblH3T5 = new JLabel();
-		lblH3T5.setBounds(324, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T5.setIcon(h3Img);
 		panelH3.add(lblH3T5);
 		
 		lblH3T4 = new JLabel();
-		lblH3T4.setBounds(360, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T4.setIcon(h3Img);
 		panelH3.add(lblH3T4);
 		
 		lblH3T3 = new JLabel();
-		lblH3T3.setBounds(396, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T3.setIcon(h3Img);
 		panelH3.add(lblH3T3);
 		
 		lblH3T2 = new JLabel();
-		lblH3T2.setBounds(432, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T2.setIcon(h3Img);
 		panelH3.add(lblH3T2);
 		
 		lblH3T1 = new JLabel();
-		lblH3T1.setBounds(468, 0, TILE_BIG_WIDTH, TILE_BIG_HEIGHT);
 		lblH3T1.setIcon(h3Img);
 		panelH3.add(lblH3T1);
 		
@@ -2423,72 +2401,58 @@ public abstract class TableGUI extends JFrame{
 		panelH4.setLayout(new GridLayout(14, 1, 0, 0));
 		
 		lblH4T1 = new JLabel();
-		lblH4T1.setBounds(0, 0, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T1.setIcon(h4Img);
 		panelH4.add(lblH4T1);
 		
 		lblH4T2 = new JLabel();
-		lblH4T2.setBounds(0, 36, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T2.setIcon(h4Img);
 		panelH4.add(lblH4T2);
 		
 		lblH4T3 = new JLabel();
-		lblH4T3.setBounds(0, 72, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T3.setIcon(h4Img);
 		panelH4.add(lblH4T3);
 		
 		lblH4T4 = new JLabel();
-		lblH4T4.setBounds(0, 108, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T4.setIcon(h4Img);
 		panelH4.add(lblH4T4);
 		
 		lblH4T5 = new JLabel();
-		lblH4T5.setBounds(0, 144, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T5.setIcon(h4Img);
 		panelH4.add(lblH4T5);
 		
 		lblH4T6 = new JLabel();
-		lblH4T6.setBounds(0, 180, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T6.setIcon(h4Img);
 		panelH4.add(lblH4T6);
 		
 		lblH4T7 = new JLabel();
-		lblH4T7.setBounds(0, 216, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T7.setIcon(h4Img);
 		panelH4.add(lblH4T7);
 		
 		lblH4T8 = new JLabel();
-		lblH4T8.setBounds(0, 252, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T8.setIcon(h4Img);
 		panelH4.add(lblH4T8);
 		
 		lblH4T9 = new JLabel();
-		lblH4T9.setBounds(0, 288, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T9.setIcon(h4Img);
 		panelH4.add(lblH4T9);
 		
 		lblH4T10 = new JLabel();
-		lblH4T10.setBounds(0, 324, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T10.setIcon(h4Img);
 		panelH4.add(lblH4T10);
 		
 		lblH4T11 = new JLabel();
-		lblH4T11.setBounds(0, 360, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T11.setIcon(h4Img);
 		panelH4.add(lblH4T11);
 		
 		lblH4T12 = new JLabel();
-		lblH4T12.setBounds(0, 396, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T12.setIcon(h4Img);
 		panelH4.add(lblH4T12);
 		
 		lblH4T13 = new JLabel();
-		lblH4T13.setBounds(0, 432, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T13.setIcon(h4Img);
 		panelH4.add(lblH4T13);
 		
 		lblH4T14 = new JLabel();
-		lblH4T14.setBounds(0, 468, TILE_BIG_HEIGHT, TILE_BIG_WIDTH);
 		lblH4T14.setIcon(h4Img);
 		panelH4.add(lblH4T14);
 		
@@ -2857,11 +2821,13 @@ public abstract class TableGUI extends JFrame{
 		panelWTL.setOpaque(false);
 		panelWTL.setLayout(new GridLayout(0, 2, 0, 0));
 		
-		lblWTLText = new JLabel("Left: ");
+		lblWTLText = new JLabel();
+		lblWTLText.setText("Left: ");
 		lblWTLText.setFont(new Font("Tahoma", Font.BOLD, 14));
 		panelWTL.add(lblWTLText);
 		
-		lblWallTilesLeftLabel = new JLabel("122");
+		lblWallTilesLeftLabel = new JLabel();
+		lblWallTilesLeftLabel.setText("122");
 		lblWallTilesLeftLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		panelWTL.add(lblWallTilesLeftLabel);
 		
@@ -3052,13 +3018,15 @@ public abstract class TableGUI extends JFrame{
 		panelRoundResult.setBackground(COLOR_CALL_PANEL);
 		panelRoundResult.setBorder(new LineBorder(new Color(0, 200, 0), 3, true));
 		
-		lblRoundOver = new JLabel("===ROUND OVER===");
+		lblRoundOver = new JLabel();
+		lblRoundOver.setText("===ROUND OVER===");
 		lblRoundOver.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblRoundOver.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRoundOver.setBounds(0, 0, 212, 33);
 		panelRoundResult.add(lblRoundOver);
 		
-		lblRoundResult = new JLabel("KATAOKA-SAN WINS");
+		lblRoundResult = new JLabel();
+		lblRoundResult.setText("KATAOKA-SAN WINS");
 		lblRoundResult.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRoundResult.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblRoundResult.setBounds(0, 33, 212, 33);
@@ -3086,7 +3054,7 @@ public abstract class TableGUI extends JFrame{
 		larryH1M1[0] = lblH1M1T1;larryH1M1[1] = lblH1M1T2;larryH1M1[2] = lblH1M1T3;larryH1M1[3] = lblH1M1T4;larryH1M2[0] = lblH1M2T1;larryH1M2[1] = lblH1M2T2;larryH1M2[2] = lblH1M2T3;larryH1M2[3] = lblH1M2T4;larryH1M3[0] = lblH1M3T1;larryH1M3[1] = lblH1M3T2;larryH1M3[2] = lblH1M3T3;larryH1M3[3] = lblH1M3T4;larryH1M4[0] = lblH1M4T1;larryH1M4[1] = lblH1M4T2;larryH1M4[2] = lblH1M4T3;larryH1M4[3] = lblH1M4T4;
 		larryP1[0] = lblP1T1;larryP1[1] = lblP1T2;larryP1[2] = lblP1T3;larryP1[3] = lblP1T4;larryP1[4] = lblP1T5;larryP1[5] = lblP1T6;larryP1[6] = lblP1T7;larryP1[7] = lblP1T8;larryP1[8] = lblP1T9;larryP1[9] = lblP1T10;larryP1[10] = lblP1T11;larryP1[11] = lblP1T12;larryP1[12] = lblP1T13;larryP1[13] = lblP1T14;larryP1[14] = lblP1T15;larryP1[15] = lblP1T16;larryP1[16] = lblP1T17;larryP1[17] = lblP1T18;larryP1[18] = lblP1T19;larryP1[19] = lblP1T20;larryP1[20] = lblP1T21;larryP1[21] = lblP1T22;larryP1[22] = lblP1T23;larryP1[23] = lblP1T24;
 		
-		larryH2[0] = lblH2T1;
+		larryH2[0] = lblH2T1;larryH2[1] = lblH2T2;larryH2[2] = lblH2T3;larryH2[3] = lblH2T4;larryH2[4] = lblH2T5;larryH2[5] = lblH2T6;larryH2[6] = lblH2T7;larryH2[7] = lblH2T8;larryH2[8] = lblH2T9;larryH2[9] = lblH2T10;larryH2[10] = lblH2T11;larryH2[11] = lblH2T12;larryH2[12] = lblH2T13;larryH2[13] = lblH2T14;
 		larryH2M1[0] = lblH2M1T1;larryH2M1[1] = lblH2M1T2;larryH2M1[2] = lblH2M1T3;larryH2M1[3] = lblH2M1T4;larryH2M2[0] = lblH2M2T1;larryH2M2[1] = lblH2M2T2;larryH2M2[2] = lblH2M2T3;larryH2M2[3] = lblH2M2T4;larryH2M3[0] = lblH2M3T1;larryH2M3[1] = lblH2M3T2;larryH2M3[2] = lblH2M3T3;larryH2M3[3] = lblH2M3T4;larryH2M4[0] = lblH2M4T1;larryH2M4[1] = lblH2M4T2;larryH2M4[2] = lblH2M4T3;larryH2M4[3] = lblH2M4T4;
 		larryP2[0] = lblP2T1;larryP2[1] = lblP2T2;larryP2[2] = lblP2T3;larryP2[3] = lblP2T4;larryP2[4] = lblP2T5;larryP2[5] = lblP2T6;larryP2[6] = lblP2T7;larryP2[7] = lblP2T8;larryP2[8] = lblP2T9;larryP2[9] = lblP2T10;larryP2[10] = lblP2T11;larryP2[11] = lblP2T12;larryP2[12] = lblP2T13;larryP2[13] = lblP2T14;larryP2[14] = lblP2T15;larryP2[15] = lblP2T16;larryP2[16] = lblP2T17;larryP2[17] = lblP2T18;larryP2[18] = lblP2T19;larryP2[19] = lblP2T20;larryP2[20] = lblP2T21;larryP2[21] = lblP2T22;larryP2[22] = lblP2T23;larryP2[23] = lblP2T24;
 		
@@ -3141,6 +3109,57 @@ public abstract class TableGUI extends JFrame{
 		btnBlank = btnBlankAll; btnRand = btnRandAll;
 		
 
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		lblH1T1.setIcon(hImg);lblH1T2.setIcon(hImg);lblH1T3.setIcon(hImg);lblH1T4.setIcon(hImg);lblH1T5.setIcon(hImg);lblH1T6.setIcon(hImg);lblH1T7.setIcon(hImg);lblH1T8.setIcon(hImg);lblH1T9.setIcon(hImg);lblH1T10.setIcon(hImg);lblH1T11.setIcon(hImg);lblH1T12.setIcon(hImg);lblH1T13.setIcon(hImg);lblH1T14.setIcon(hImg);
+		lblH2T1.setIcon(h2Img);lblH2T2.setIcon(h2Img);lblH2T3.setIcon(h2Img);lblH2T4.setIcon(h2Img);lblH2T5.setIcon(h2Img);lblH2T6.setIcon(h2Img);lblH2T7.setIcon(h2Img);lblH2T8.setIcon(h2Img);lblH2T9.setIcon(h2Img);lblH2T10.setIcon(h2Img);lblH2T11.setIcon(h2Img);lblH2T12.setIcon(h2Img);lblH2T13.setIcon(h2Img);lblH2T14.setIcon(h2Img);
+		lblH3T1.setIcon(h3Img);lblH3T2.setIcon(h3Img);lblH3T3.setIcon(h3Img);lblH3T4.setIcon(h3Img);lblH3T5.setIcon(h3Img);lblH3T6.setIcon(h3Img);lblH3T7.setIcon(h3Img);lblH3T8.setIcon(h3Img);lblH3T9.setIcon(h3Img);lblH3T10.setIcon(h3Img);lblH3T11.setIcon(h3Img);lblH3T12.setIcon(h3Img);lblH3T13.setIcon(h3Img);lblH3T14.setIcon(h3Img);
+		lblH4T1.setIcon(h4Img);lblH4T2.setIcon(h4Img);lblH4T3.setIcon(h4Img);lblH4T4.setIcon(h4Img);lblH4T5.setIcon(h4Img);lblH4T6.setIcon(h4Img);lblH4T7.setIcon(h4Img);lblH4T8.setIcon(h4Img);lblH4T9.setIcon(h4Img);lblH4T10.setIcon(h4Img);lblH4T11.setIcon(h4Img);lblH4T12.setIcon(h4Img);lblH4T13.setIcon(h4Img);lblH4T14.setIcon(h4Img);
+		
+		
+//		int i = 0;
+//		ImageIcon[] hicons = {hImg, h2Img, h3Img, h4Img};
+//		ImageIcon[] micons = {meldImg, meld2Img, meld3Img, meld4Img};
+//		for (i = 0; i < 4; i++){
+//			for (JLabel l: larryHands[i]) l.setIcon(hicons[i]);
+//			for (JLabel[] lar: larryHandMelds[i]) for (JLabel l: lar) l.setIcon(micons[i]);
+//		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//properties
 		
 		//set call button attributes
 		CallListener callListener = new CallListener();
@@ -3161,9 +3180,6 @@ public abstract class TableGUI extends JFrame{
 			b.setFocusPainted(false);
 			b.setOpaque(false);
 		}
-		
-		
-		
 		
 		for (JLabel l: larryP1) {l.setHorizontalAlignment(SwingConstants.CENTER);}
 		for (JLabel l: larryP3) {l.setHorizontalAlignment(SwingConstants.CENTER);}

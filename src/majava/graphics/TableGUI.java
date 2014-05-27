@@ -287,8 +287,7 @@ public abstract class TableGUI extends JFrame{
 	protected JPanel panCalls;
 	
 	protected JPanel panP1, panP2, panP3, panP4;
-	protected JPanel panRoundInfo;
-	protected JPanel panRndInfBackground;
+	protected JPanel panRoundInfoSquare, panRoundInfo, panRndInfBackground;
 	protected JPanel panMidTable;
 	
 	protected JPanel panPlayer1, panPlayer2, panPlayer3, panPlayer4;
@@ -864,20 +863,32 @@ public abstract class TableGUI extends JFrame{
 		TableViewSmall viewer = new TableViewSmall();
 		viewer.setVisible(true);
 		
-//		boolean canChiL = true;
-//		boolean canChiM = true; 
-//		boolean canChiH = true; 
-//		boolean canPon = true; 
-//		boolean canKan = true; 
-//		boolean canRon = true;
-//		
-//		while (true){
-//			System.out.println(viewer.getClickCall(canChiL, canChiM, canChiH, canPon, canKan, canRon));
-//			viewer.getClickTurnAction();
-//			System.out.println(viewer.getResultClickedDiscard());
-//			viewer.repaint();
-//		}
+		
 	}
+	
+	
+	
+	
+//	public class Hand1Panel extends JPanel{
+//		private static final long serialVersionUID = -8609586588007062065L;
+//
+//		public Hand1Panel(){
+//			super();
+//			
+//			ImageIcon h1Img = rotators[SEAT1].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/1.png")));
+//			
+//			JLabel lblH1T1 = new JLabel(), lblH1T2 = new JLabel(), lblH1T3 = new JLabel(), lblH1T4 = new JLabel(), lblH1T5 = new JLabel(), lblH1T6 = new JLabel(), lblH1T7 = new JLabel(), lblH1T8 = new JLabel(), lblH1T9 = new JLabel(), lblH1T10 = new JLabel(), lblH1T11 = new JLabel(), lblH1T12 = new JLabel(), lblH1T13 = new JLabel(), lblH1T14 = new JLabel();
+//			
+//			
+//			lblH1T1.setIcon(h1Img);lblH1T2.setIcon(h1Img);lblH1T3.setIcon(h1Img);lblH1T4.setIcon(h1Img);lblH1T5.setIcon(h1Img);lblH1T6.setIcon(h1Img);lblH1T7.setIcon(h1Img);lblH1T8.setIcon(h1Img);lblH1T9.setIcon(h1Img);lblH1T10.setIcon(h1Img);lblH1T11.setIcon(h1Img);lblH1T12.setIcon(h1Img);lblH1T13.setIcon(h1Img);lblH1T14.setIcon(h1Img);
+//			
+//			
+//			setBounds(42, 0, TILE_BIG_WIDTH*SIZE_HAND, TILE_BIG_HEIGHT);
+//			setBackground(COLOR_TRANSPARENT);
+//			setLayout(new GridLayout(1, 14, 0, 0));
+//			add(lblH1T1);add(lblH1T2);add(lblH1T3);add(lblH1T4);add(lblH1T5);add(lblH1T6);add(lblH1T7);add(lblH1T8);add(lblH1T9);add(lblH1T10);add(lblH1T11);add(lblH1T12);add(lblH1T13);add(lblH1T14);
+//		}
+//	}
 	
 	//TODO start of constructor
 	public TableGUI(){
@@ -928,7 +939,7 @@ public abstract class TableGUI extends JFrame{
 
 		JPanel panelMidTable = new JPanel();
 		JPanel panelP1 = new JPanel(), panelP2 = new JPanel(), panelP3 = new JPanel(), panelP4 = new JPanel();
-		JPanel panelRoundInfo = new JPanel(), panelRInd = new JPanel(), panelInfoP1 = new JPanel(), panelInfoP2 = new JPanel(), panelInfoP3 = new JPanel(), panelInfoP4 = new JPanel(), panelRndInfBackground = new JPanel();
+		JPanel panelRoundInfoSquare = new JPanel(), panelRoundInfo = new JPanel(), panelRInd = new JPanel(), panelInfoP1 = new JPanel(), panelInfoP2 = new JPanel(), panelInfoP3 = new JPanel(), panelInfoP4 = new JPanel(), panelRndInfBackground = new JPanel();
 		JPanel panelTurnInds = new JPanel();
 		JPanel panelTurnInd1 = new JPanel(); JPanel panelTurnInd2 = new JPanel(); JPanel panelTurnInd3 = new JPanel(); JPanel panelTurnInd4 = new JPanel();
 		
@@ -1001,29 +1012,28 @@ public abstract class TableGUI extends JFrame{
 		
 		/*................................................DEMO PURPOSES.......................................................*/
 		
-//		ImageIcon p1Img = garryTiles[SEAT1][SMALL][22];
-//		ImageIcon p2Img = garryTiles[SEAT2][SMALL][22];
-//		ImageIcon p3Img = garryTiles[SEAT3][SMALL][25];
-//		ImageIcon p4Img = garryTiles[SEAT4][SMALL][21];
-//		ImageIcon dwImg = garryTiles[SEAT1][SMALL][0];
-//		ImageIcon h1Img =  garryTiles[SEAT1][BIG][1];
-//		ImageIcon h2Img = garryTiles[SEAT2][BIG][1];
-//		ImageIcon h3Img = garryTiles[SEAT3][BIG][1];
-//		ImageIcon h4Img = garryTiles[SEAT4][BIG][1];
-//		ImageIcon meld1Img = garryTiles[SEAT1][SMALL][34];
-//		ImageIcon meld2Img = garryTiles[SEAT2][SMALL][34];
-//		ImageIcon meld3Img = garryTiles[SEAT3][SMALL][34];
-//		ImageIcon meld4Img = garryTiles[SEAT4][SMALL][34];
+		ImageIcon p1Img = garryTiles[SEAT1][SMALL][22];
+		ImageIcon p2Img = garryTiles[SEAT2][SMALL][22];
+		ImageIcon p3Img = garryTiles[SEAT3][SMALL][25];
+		ImageIcon p4Img = garryTiles[SEAT4][SMALL][21];
+		ImageIcon dwImg = garryTiles[SEAT1][SMALL][0];
+		ImageIcon h1Img =  garryTiles[SEAT1][BIG][1];
+		ImageIcon h2Img = garryTiles[SEAT2][BIG][1];
+		ImageIcon h3Img = garryTiles[SEAT3][BIG][1];
+		ImageIcon h4Img = garryTiles[SEAT4][BIG][1];
+		ImageIcon meld1Img = garryTiles[SEAT1][SMALL][34];
+		ImageIcon meld2Img = garryTiles[SEAT2][SMALL][34];
+		ImageIcon meld3Img = garryTiles[SEAT3][SMALL][34];
+		ImageIcon meld4Img = garryTiles[SEAT4][SMALL][34];
 		
-		ImageIcon p1Img = rotators[SEAT1].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/22.png")));ImageIcon p2Img = rotators[SEAT2].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/22.png")));ImageIcon p3Img = rotators[SEAT3].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/25.png")));ImageIcon p4Img = rotators[SEAT4].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/21.png")));
-		ImageIcon dwImg = rotators[SEAT1].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/0.png")));
-		ImageIcon h1Img = rotators[SEAT1].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/1.png")));ImageIcon h2Img = rotators[SEAT2].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/1.png")));ImageIcon h3Img = rotators[SEAT3].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/1.png")));ImageIcon h4Img = rotators[SEAT4].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/1.png")));
-		ImageIcon meld1Img = rotators[SEAT1].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/34.png")));ImageIcon meld2Img = rotators[SEAT2].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/34.png")));ImageIcon meld3Img = rotators[SEAT3].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/34.png")));ImageIcon meld4Img = rotators[SEAT4].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/34.png")));
+//		ImageIcon p1Img = rotators[SEAT1].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/22.png")));ImageIcon p2Img = rotators[SEAT2].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/22.png")));ImageIcon p3Img = rotators[SEAT3].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/25.png")));ImageIcon p4Img = rotators[SEAT4].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/21.png")));
+//		ImageIcon dwImg = rotators[SEAT1].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/0.png")));
+//		ImageIcon h1Img = rotators[SEAT1].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/1.png")));ImageIcon h2Img = rotators[SEAT2].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/1.png")));ImageIcon h3Img = rotators[SEAT3].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/1.png")));ImageIcon h4Img = rotators[SEAT4].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/1.png")));
+//		ImageIcon meld1Img = rotators[SEAT1].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/34.png")));ImageIcon meld2Img = rotators[SEAT2].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/34.png")));ImageIcon meld3Img = rotators[SEAT3].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/34.png")));ImageIcon meld4Img = rotators[SEAT4].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/34.png")));
 		ImageIcon windRImg = new ImageIcon(getClass().getResource("/res/img/winds/transE.png"));
 		ImageIcon wind1Img = new ImageIcon(getClass().getResource("/res/img/winds/small/transEs.png"));ImageIcon wind2Img = new ImageIcon(getClass().getResource("/res/img/winds/small/transSs.png"));ImageIcon wind3Img = new ImageIcon(getClass().getResource("/res/img/winds/small/transWs.png"));ImageIcon wind4Img = new ImageIcon(getClass().getResource("/res/img/winds/small/transNs.png"));
 		ImageIcon riichiImg = new ImageIcon(getClass().getResource("/res/img/other/riichiStick.png"));
 		ImageIcon sheepImg = new ImageIcon(getClass().getResource("/res/img/omake/birdClipart2.png"));
-		
 		
 		
 		lblRIndWind.setIcon(windRImg);lblInfoP1Wind.setIcon(wind1Img);lblInfoP2Wind.setIcon(wind2Img);lblInfoP3Wind.setIcon(wind3Img);lblInfoP4Wind.setIcon(wind4Img);
@@ -1037,8 +1047,8 @@ public abstract class TableGUI extends JFrame{
 		lblP4T1.setIcon(p4Img);lblP4T2.setIcon(p4Img);lblP4T3.setIcon(p4Img);lblP4T4.setIcon(p4Img);lblP4T5.setIcon(p4Img);lblP4T6.setIcon(p4Img);lblP4T7.setIcon(p4Img);lblP4T8.setIcon(p4Img);lblP4T9.setIcon(p4Img);lblP4T10.setIcon(p4Img);lblP4T11.setIcon(p4Img);lblP4T12.setIcon(p4Img);lblP4T13.setIcon(p4Img);lblP4T14.setIcon(p4Img);lblP4T15.setIcon(p4Img);lblP4T16.setIcon(p4Img);lblP4T17.setIcon(p4Img);lblP4T18.setIcon(p4Img);lblP4T19.setIcon(p4Img);lblP4T20.setIcon(p4Img);lblP4T21.setIcon(p4Img);lblP4T22.setIcon(p4Img);lblP4T23.setIcon(p4Img);lblP4T24.setIcon(p4Img);
 		lblH1M1T1.setIcon(meld1Img);lblH1M1T2.setIcon(meld1Img);lblH1M1T3.setIcon(meld1Img);lblH1M1T4.setIcon(meld1Img);lblH1M2T1.setIcon(meld1Img);lblH1M2T2.setIcon(meld1Img);lblH1M2T3.setIcon(meld1Img);lblH1M2T4.setIcon(meld1Img);lblH1M3T1.setIcon(meld1Img);lblH1M3T2.setIcon(meld1Img);lblH1M3T3.setIcon(meld1Img);lblH1M3T4.setIcon(meld1Img);lblH1M4T1.setIcon(meld1Img);lblH1M4T2.setIcon(meld1Img);lblH1M4T3.setIcon(meld1Img);lblH1M4T4.setIcon(meld1Img);
 		lblH2M1T1.setIcon(meld2Img);lblH2M1T2.setIcon(meld2Img);lblH2M1T3.setIcon(meld2Img);lblH2M1T4.setIcon(meld2Img);lblH2M2T1.setIcon(meld2Img);lblH2M2T2.setIcon(meld2Img);lblH2M2T3.setIcon(meld2Img);lblH2M2T4.setIcon(meld2Img);lblH2M3T1.setIcon(meld2Img);lblH2M3T2.setIcon(meld2Img);lblH2M3T3.setIcon(meld2Img);lblH2M3T4.setIcon(meld2Img);lblH2M4T1.setIcon(meld2Img);lblH2M4T2.setIcon(meld2Img);lblH2M4T3.setIcon(meld2Img);lblH2M4T4.setIcon(meld2Img);
-		lblH3M1T1.setIcon(meld1Img);lblH3M1T2.setIcon(meld1Img);lblH3M1T3.setIcon(meld1Img);lblH3M1T4.setIcon(meld1Img);lblH3M2T1.setIcon(meld1Img);lblH3M2T2.setIcon(meld1Img);lblH3M2T3.setIcon(meld1Img);lblH3M2T4.setIcon(meld1Img);lblH3M3T1.setIcon(meld1Img);lblH3M3T2.setIcon(meld1Img);lblH3M3T3.setIcon(meld1Img);lblH3M3T4.setIcon(meld1Img);lblH3M4T1.setIcon(meld1Img);lblH3M4T2.setIcon(meld1Img);lblH3M4T3.setIcon(meld1Img);lblH3M4T4.setIcon(meld1Img);
-		lblH4M1T1.setIcon(meld2Img);lblH4M1T2.setIcon(meld2Img);lblH4M1T3.setIcon(meld2Img);lblH4M1T4.setIcon(meld2Img);lblH4M2T1.setIcon(meld2Img);lblH4M2T2.setIcon(meld2Img);lblH4M2T3.setIcon(meld2Img);lblH4M2T4.setIcon(meld2Img);lblH4M3T1.setIcon(meld2Img);lblH4M3T2.setIcon(meld2Img);lblH4M3T3.setIcon(meld2Img);lblH4M3T4.setIcon(meld2Img);lblH4M4T1.setIcon(meld2Img);lblH4M4T2.setIcon(meld2Img);lblH4M4T3.setIcon(meld2Img);lblH4M4T4.setIcon(meld2Img);
+		lblH3M1T1.setIcon(meld3Img);lblH3M1T2.setIcon(meld3Img);lblH3M1T3.setIcon(meld3Img);lblH3M1T4.setIcon(meld3Img);lblH3M2T1.setIcon(meld3Img);lblH3M2T2.setIcon(meld3Img);lblH3M2T3.setIcon(meld3Img);lblH3M2T4.setIcon(meld3Img);lblH3M3T1.setIcon(meld3Img);lblH3M3T2.setIcon(meld3Img);lblH3M3T3.setIcon(meld3Img);lblH3M3T4.setIcon(meld3Img);lblH3M4T1.setIcon(meld3Img);lblH3M4T2.setIcon(meld3Img);lblH3M4T3.setIcon(meld3Img);lblH3M4T4.setIcon(meld3Img);
+		lblH4M1T1.setIcon(meld4Img);lblH4M1T2.setIcon(meld4Img);lblH4M1T3.setIcon(meld4Img);lblH4M1T4.setIcon(meld4Img);lblH4M2T1.setIcon(meld4Img);lblH4M2T2.setIcon(meld4Img);lblH4M2T3.setIcon(meld4Img);lblH4M2T4.setIcon(meld4Img);lblH4M3T1.setIcon(meld4Img);lblH4M3T2.setIcon(meld4Img);lblH4M3T3.setIcon(meld4Img);lblH4M3T4.setIcon(meld4Img);lblH4M4T1.setIcon(meld4Img);lblH4M4T2.setIcon(meld4Img);lblH4M4T3.setIcon(meld4Img);lblH4M4T4.setIcon(meld4Img);
 		lblDW1.setIcon(dwImg);lblDW3.setIcon(dwImg);lblDW5.setIcon(dwImg);lblDW7.setIcon(dwImg);lblDW9.setIcon(dwImg);lblDW11.setIcon(dwImg);lblDW13.setIcon(dwImg);lblDW2.setIcon(dwImg);lblDW4.setIcon(dwImg);lblDW6.setIcon(dwImg);lblDW8.setIcon(dwImg);lblDW10.setIcon(dwImg);lblDW12.setIcon(dwImg);lblDW14.setIcon(dwImg);
 		
 		windowIconImg = new ImageIcon(getClass().getResource("/res/img/winds/transE.png"));
@@ -1150,14 +1160,18 @@ public abstract class TableGUI extends JFrame{
 		
 
 		panelMidTable.add(panelP1);panelMidTable.add(panelP2);panelMidTable.add(panelP3);panelMidTable.add(panelP4);
-		panelMidTable.add(panelRoundInfo);
-		//exists only to color the background behind the round info
-		panelRndInfBackground.setBounds(131, 131, 166, 158);
-		panelMidTable.add(panelRndInfBackground);
+		panelMidTable.add(panelRoundInfoSquare);
 		
 		
 		
-		panelRoundInfo.setBounds(131, 131, 166, 158);
+		panelRoundInfoSquare.add(panelRoundInfo);
+		panelRoundInfoSquare.add(panelRndInfBackground);
+		panelRoundInfoSquare.setBounds(131, 131, 166, 158);
+		panelRoundInfoSquare.setLayout(null);
+		panelRoundInfoSquare.setBackground(COLOR_TRANSPARENT);
+		
+		
+		panelRoundInfo.setBounds(0, 0, panelRoundInfoSquare.getWidth(), panelRoundInfoSquare.getHeight());
 		panelRoundInfo.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		panelRoundInfo.setBackground(COLOR_RINF_PANEL);
 		panelRoundInfo.setLayout(null);
@@ -1166,6 +1180,8 @@ public abstract class TableGUI extends JFrame{
 		panelRoundInfo.add(panelInfoP1);panelRoundInfo.add(panelInfoP2);panelRoundInfo.add(panelInfoP3);panelRoundInfo.add(panelInfoP4);
 		panelRoundInfo.add(panelTurnInds);
 		
+		//exists only to color the background behind the round info
+		panelRndInfBackground.setBounds(panelRoundInfo.getBounds());
 		
 		
 		panelRInd.setBounds(54, 54, 58, 49);
@@ -1292,42 +1308,39 @@ public abstract class TableGUI extends JFrame{
 		panelPlayer1.setBounds(105, 544, 667, 78);
 		panelPlayer1.setBackground(COLOR_TRANSPARENT);
 		panelPlayer1.setLayout(null);
+		panelPlayer1.add(panelH1);panelPlayer1.add(panelH1Ms);
 		
 		panelH1.setBounds(42, 0, TILE_BIG_WIDTH*SIZE_HAND, TILE_BIG_HEIGHT);
 		panelH1.setBackground(COLOR_TRANSPARENT);
-		panelPlayer1.add(panelH1);
 		panelH1.setLayout(new GridLayout(1, 14, 0, 0));
 		panelH1.add(lblH1T1);panelH1.add(lblH1T2);panelH1.add(lblH1T3);panelH1.add(lblH1T4);panelH1.add(lblH1T5);panelH1.add(lblH1T6);panelH1.add(lblH1T7);panelH1.add(lblH1T8);panelH1.add(lblH1T9);panelH1.add(lblH1T10);panelH1.add(lblH1T11);panelH1.add(lblH1T12);panelH1.add(lblH1T13);panelH1.add(lblH1T14);
 		
 		
+		
 		panelH1Ms.setBounds(100, 47, 474, 31);
 		panelH1Ms.setBackground(COLOR_TRANSPARENT);
-		panelPlayer1.add(panelH1Ms);
 		panelH1Ms.setLayout(null);
+		panelH1Ms.add(panelH1M4);panelH1Ms.add(panelH1M3);panelH1Ms.add(panelH1M2);panelH1Ms.add(panelH1M1);
 		
 		panelH1M4.setBounds(0, 0, 108, 31);
 		panelH1M4.setBackground(COLOR_TRANSPARENT);
 		panelH1M4.setLayout(new GridLayout(1, 4, 0, 0));
 		panelH1M4.add(lblH1M4T1);panelH1M4.add(lblH1M4T2);panelH1M4.add(lblH1M4T3);panelH1M4.add(lblH1M4T4);
-		panelH1Ms.add(panelH1M4);
 		
 		panelH1M3.setBounds(120, 0, 108, 31);
 		panelH1M3.setBackground(COLOR_TRANSPARENT);
 		panelH1M3.setLayout(new GridLayout(1, 4, 0, 0));
 		panelH1M3.add(lblH1M3T1);panelH1M3.add(lblH1M3T2);panelH1M3.add(lblH1M3T3);panelH1M3.add(lblH1M3T4);
-		panelH1Ms.add(panelH1M3);
 		
 		panelH1M2.setBounds(240, 0, 108, 31);
 		panelH1M2.setBackground(COLOR_TRANSPARENT);
 		panelH1M2.setLayout(new GridLayout(1, 4, 0, 0));
 		panelH1M2.add(lblH1M2T1);panelH1M2.add(lblH1M2T2);panelH1M2.add(lblH1M2T3);panelH1M2.add(lblH1M2T4);
-		panelH1Ms.add(panelH1M2);
 		
 		panelH1M1.setBounds(360, 0, 108, 31);
 		panelH1M1.setBackground(COLOR_TRANSPARENT);
 		panelH1M1.setLayout(new GridLayout(1, 4, 0, 0));
 		panelH1M1.add(lblH1M1T1);panelH1M1.add(lblH1M1T2);panelH1M1.add(lblH1M1T3);panelH1M1.add(lblH1M1T4);
-		panelH1Ms.add(panelH1M1);
 		
 		
 		
@@ -1336,43 +1349,39 @@ public abstract class TableGUI extends JFrame{
 		panelPlayer2.setBounds(606, -90, 78, 667);
 		panelPlayer2.setBackground(COLOR_TRANSPARENT);
 		panelPlayer2.setLayout(null);
+		panelPlayer2.add(panelH2);panelPlayer2.add(panelH2Ms);
 		
 		
 		panelH2.setBounds(0, 203, TILE_BIG_HEIGHT, TILE_BIG_WIDTH*SIZE_HAND);
 		panelH2.setBackground(COLOR_TRANSPARENT);
-		panelPlayer2.add(panelH2);
 		panelH2.setLayout(new GridLayout(14, 1, 0, 0));
 		panelH2.add(lblH2T14);panelH2.add(lblH2T13);panelH2.add(lblH2T12);panelH2.add(lblH2T11);panelH2.add(lblH2T10);panelH2.add(lblH2T9);panelH2.add(lblH2T8);panelH2.add(lblH2T7);panelH2.add(lblH2T6);panelH2.add(lblH2T5);panelH2.add(lblH2T4);panelH2.add(lblH2T3);panelH2.add(lblH2T2);panelH2.add(lblH2T1);
 		
 		
 		panelH2Ms.setBounds(46, 104, 35, 474);
 		panelH2Ms.setBackground(COLOR_TRANSPARENT);
-		panelPlayer2.add(panelH2Ms);
 		panelH2Ms.setLayout(null);
+		panelH2Ms.add(panelH2M1);panelH2Ms.add(panelH2M2);panelH2Ms.add(panelH2M3);panelH2Ms.add(panelH2M4);
 		
 		panelH2M1.setBounds(0, 0, 35, 114);
 		panelH2M1.setBackground(COLOR_TRANSPARENT);
 		panelH2M1.setLayout(new GridLayout(4, 1, 0, 0));
 		panelH2M1.add(lblH2M1T4);panelH2M1.add(lblH2M1T3);panelH2M1.add(lblH2M1T2);panelH2M1.add(lblH2M1T1);
-		panelH2Ms.add(panelH2M1);
 		
 		panelH2M2.setBounds(0, 120, 35, 114);
 		panelH2M2.setBackground(COLOR_TRANSPARENT);
 		panelH2M2.setLayout(new GridLayout(4, 1, 0, 0));
 		panelH2M2.add(lblH2M2T4);panelH2M2.add(lblH2M2T3);panelH2M2.add(lblH2M2T2);panelH2M2.add(lblH2M2T1);
-		panelH2Ms.add(panelH2M2);
 		
 		panelH2M3.setBounds(0, 240, 35, 114);
 		panelH2M3.setBackground(COLOR_TRANSPARENT);
 		panelH2M3.setLayout(new GridLayout(4, 1, 0, 0));
 		panelH2M3.add(lblH2M3T4);panelH2M3.add(lblH2M3T3);panelH2M3.add(lblH2M3T2);panelH2M3.add(lblH2M3T1);
-		panelH2Ms.add(panelH2M3);
 		
 		panelH2M4.setBounds(0, 360, 35, 114);
 		panelH2M4.setBackground(COLOR_TRANSPARENT);
 		panelH2M4.setLayout(new GridLayout(4, 1, 0, 0));
 		panelH2M4.add(lblH2M4T4);panelH2M4.add(lblH2M4T3);panelH2M4.add(lblH2M4T2);panelH2M4.add(lblH2M4T1);
-		panelH2Ms.add(panelH2M4);
 		
 		
 		
@@ -1381,43 +1390,39 @@ public abstract class TableGUI extends JFrame{
 		panelPlayer3.setBounds(-32, 30, 667, 78);
 		panelPlayer3.setBackground(COLOR_TRANSPARENT);
 		panelPlayer3.setLayout(null);
+		panelPlayer3.add(panelH3);panelPlayer3.add(panelH3Ms);
 		
 		
 		panelH3.setBounds(203, 36, TILE_BIG_WIDTH*SIZE_HAND, TILE_BIG_HEIGHT);
 		panelH3.setBackground(COLOR_TRANSPARENT);
-		panelPlayer3.add(panelH3);
 		panelH3.setLayout(new GridLayout(1, 14, 0, 0));
 		panelH3.add(lblH3T14);panelH3.add(lblH3T13);panelH3.add(lblH3T12);panelH3.add(lblH3T11);panelH3.add(lblH3T10);panelH3.add(lblH3T9);panelH3.add(lblH3T8);panelH3.add(lblH3T7);panelH3.add(lblH3T6);panelH3.add(lblH3T5);panelH3.add(lblH3T4);panelH3.add(lblH3T3);panelH3.add(lblH3T2);panelH3.add(lblH3T1);
 		
 		
 		panelH3Ms.setBounds(104, 0, 474, 35);
 		panelH3Ms.setBackground(COLOR_TRANSPARENT);
-		panelPlayer3.add(panelH3Ms);
 		panelH3Ms.setLayout(null);
+		panelH3Ms.add(panelH3M1);panelH3Ms.add(panelH3M2);panelH3Ms.add(panelH3M3);panelH3Ms.add(panelH3M4);
 		
 		panelH3M1.setBounds(0, 0, 114, 35);
 		panelH3M1.setBackground(COLOR_TRANSPARENT);
 		panelH3M1.setLayout(new GridLayout(1, 4, 0, 0));
 		panelH3M1.add(lblH3M1T4);panelH3M1.add(lblH3M1T3);panelH3M1.add(lblH3M1T2);panelH3M1.add(lblH3M1T1);
-		panelH3Ms.add(panelH3M1);
 		
 		panelH3M2.setBounds(120, 0, 114, 35);
 		panelH3M2.setBackground(COLOR_TRANSPARENT);
 		panelH3M2.setLayout(new GridLayout(1, 4, 0, 0));
 		panelH3M2.add(lblH3M2T4);panelH3M2.add(lblH3M2T3);panelH3M2.add(lblH3M2T2);panelH3M2.add(lblH3M2T1);
-		panelH3Ms.add(panelH3M2);
 		
 		panelH3M3.setBounds(240, 0, 114, 35);
 		panelH3M3.setBackground(COLOR_TRANSPARENT);
 		panelH3M3.setLayout(new GridLayout(1, 4, 0, 0));
 		panelH3M3.add(lblH3M3T4);panelH3M3.add(lblH3M3T3);panelH3M3.add(lblH3M3T2);panelH3M3.add(lblH3M3T1);
-		panelH3Ms.add(panelH3M3);
 		
 		panelH3M4.setBounds(360, 0, 114, 35);
 		panelH3M4.setBackground(COLOR_TRANSPARENT);
 		panelH3M4.setLayout(new GridLayout(1, 4, 0, 0));
 		panelH3M4.add(lblH3M4T4);panelH3M4.add(lblH3M4T3);panelH3M4.add(lblH3M4T2);panelH3M4.add(lblH3M4T1);
-		panelH3Ms.add(panelH3M4);
 		
 		
 		
@@ -1427,44 +1432,40 @@ public abstract class TableGUI extends JFrame{
 		panelPlayer4.setBounds(30, 72, 78, 667);
 		panelPlayer4.setBackground(COLOR_TRANSPARENT);
 		panelPlayer4.setLayout(null);
+		panelPlayer4.add(panelH4);panelPlayer4.add(panelH4Ms);
 		
 		
 		panelH4.setBounds(36, 42, TILE_BIG_HEIGHT, TILE_BIG_WIDTH*SIZE_HAND);
 		panelH4.setBackground(COLOR_TRANSPARENT);
-		panelPlayer4.add(panelH4);
 		panelH4.setLayout(new GridLayout(14, 1, 0, 0));
 		panelH4.add(lblH4T1);panelH4.add(lblH4T2);panelH4.add(lblH4T3);panelH4.add(lblH4T4);panelH4.add(lblH4T5);panelH4.add(lblH4T6);panelH4.add(lblH4T7);panelH4.add(lblH4T8);panelH4.add(lblH4T9);panelH4.add(lblH4T10);panelH4.add(lblH4T11);panelH4.add(lblH4T12);panelH4.add(lblH4T13);panelH4.add(lblH4T14);
 		
 		
 		panelH4Ms.setBounds(0, 100, 35, 474);
 		panelH4Ms.setBackground(COLOR_TRANSPARENT);
-		panelPlayer4.add(panelH4Ms);
 		panelH4Ms.setLayout(null);
+		panelH4Ms.add(panelH4M1);panelH4Ms.add(panelH4M2);panelH4Ms.add(panelH4M3);panelH4Ms.add(panelH4M4);
 		
 		panelH4M1.setBounds(0, 360, 35, 114);
 		panelH4M1.setBackground(COLOR_TRANSPARENT);
 		panelH4M1.setLayout(new GridLayout(4, 1, 0, 0));
 		panelH4M1.add(lblH4M1T1);panelH4M1.add(lblH4M1T2);panelH4M1.add(lblH4M1T3);panelH4M1.add(lblH4M1T4);
-		panelH4Ms.add(panelH4M1);
 		
 		panelH4M2.setBounds(0, 240, 35, 114);
 		panelH4M2.setBackground(COLOR_TRANSPARENT);
 		panelH4M2.setLayout(new GridLayout(4, 1, 0, 0));
 		panelH4M2.add(lblH4M2T1);panelH4M2.add(lblH4M2T2);panelH4M2.add(lblH4M2T3);panelH4M2.add(lblH4M2T4);
-		panelH4Ms.add(panelH4M2);
 		
 		panelH4M3.setBounds(0, 120, 35, 114);
 		panelH4M3.setBackground(COLOR_TRANSPARENT);
 		panelH4M3.setLayout(new GridLayout(4, 1, 0, 0));
 		panelH4M3.add(lblH4M3T1);panelH4M3.add(lblH4M3T2);
 		lblH4M3T2.setIcon(meld4Img);panelH4M3.add(lblH4M3T3);panelH4M3.add(lblH4M3T4);lblH4M3T4.setIcon(meld4Img);
-		panelH4Ms.add(panelH4M3);
 		
 		panelH4M4.setBounds(0, 0, 35, 114);
 		panelH4M4.setBackground(COLOR_TRANSPARENT);
 		panelH4M4.setLayout(new GridLayout(4, 1, 0, 0));
 		panelH4M4.add(lblH4M4T1);panelH4M4.add(lblH4M4T2);panelH4M4.add(lblH4M4T3);panelH4M4.add(lblH4M4T4);
-		panelH4Ms.add(panelH4M4);
 		
 		
 		
@@ -1585,6 +1586,7 @@ public abstract class TableGUI extends JFrame{
 		panelCalls.setBackground(COLOR_CALL_PANEL);
 		panelCalls.setLayout(null);
 		panelCalls.add(btnCallNone);panelCalls.add(btnCallChi);panelCalls.add(btnCallChiL);panelCalls.add(btnCallChiM);panelCalls.add(btnCallChiH);panelCalls.add(btnCallPon);panelCalls.add(btnCallKan);panelCalls.add(btnCallRon);
+		panelCalls.add(panelTActions);
 		
 		btnCallNone.setText("No call");
 		btnCallNone.setActionCommand("None");
@@ -1621,11 +1623,8 @@ public abstract class TableGUI extends JFrame{
 		
 		
 		
-		
-		
 		panelTActions.setBounds(104, 0, 100, 147);
 		panelTActions.setOpaque(false);
-		panelCalls.add(panelTActions);
 		panelTActions.setLayout(null);
 		panelTActions.add(btnRiichi);panelTActions.add(btnAnkan);panelTActions.add(btnMinkan);panelTActions.add(btnTsumo);
 		
@@ -1791,7 +1790,7 @@ public abstract class TableGUI extends JFrame{
 		panP1 = panelP1;panP2 = panelP2;panP3 = panelP3;panP4 = panelP4;
 		panPlayer1 = panelPlayer1;panPlayer2 = panelPlayer2;panPlayer3 = panelPlayer3;panPlayer4 = panelPlayer4;
 		panCalls = panelCalls;
-		panRoundInfo = panelRoundInfo; panRndInfBackground = panelRndInfBackground;
+		panRoundInfoSquare = panelRoundInfoSquare; panRoundInfo = panelRoundInfo; panRndInfBackground = panelRndInfBackground;
 		panMidTable = panelMidTable;
 		panWallSummary = panelWallSummary;
 		btnBlank = btnBlankAll; btnRand = btnRandAll;

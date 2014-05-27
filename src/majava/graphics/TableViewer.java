@@ -182,6 +182,8 @@ public class TableViewer extends TableGUI{
 		
 		panTable.setBounds(0, 0, 844, WINDOW_HEIGHT);
 		lblExclamation.setBounds(161, 688, 134, 34);
+
+		panMidTable.setBounds(143, 91, 552, 544);
 		
 		//pond panels
 		panP1.setBounds(196, 352, POND_PANEL_WIDTH, POND_PANEL_HEIGHT);
@@ -189,10 +191,7 @@ public class TableViewer extends TableGUI{
 		panP3.setBounds(196, 68, POND_PANEL_WIDTH, POND_PANEL_HEIGHT);
 		panP4.setBounds(68, 191, POND_PANEL_HEIGHT, POND_PANEL_WIDTH);
 		
-
-		panMidTable.setBounds(143, 91, 552, 544);
-		panRoundInfo.setBounds(193, 193, 166, 158);
-		panRndInfBackground.setBounds(193, 193, 166, 158);
+		panRoundInfoSquare.setBounds(193, 193, 166, 158);
 		
 		
 		//player panels		

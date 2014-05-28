@@ -119,6 +119,8 @@ public abstract class TableGUI extends JFrame{
 	protected static final Color COLOR_RIND = new Color(0,155,155,35);
 	protected static final Color COLOR_TURN_INDICATOR = Color.YELLOW;
 	protected static final Color COLOR_CALL_PANEL = COLOR_PURPLISH;
+	protected static final Color COLOR_RESULT_PANEL = COLOR_PURPLISH;
+	protected static final Color COLOR_WALL_SUMMARY_PANEL = COLOR_PURPLISH;
 	protected static final Color COLOR_EXCLAMATION = new Color(210, 100, 210);
 	
 	protected static final Color COLOR_POND_CALLED_TILE = new Color(250, 0, 0, 250);
@@ -134,6 +136,7 @@ public abstract class TableGUI extends JFrame{
 	
 	protected static final int NUM_PLAYERS = 4;
 	protected static final int NUM_WINDS = 4;
+	private static final int NUMBER_OF_DIFFERENT_TILES = 34;
 	protected static final int SIZE_HAND = 14;
 	protected static final int SIZE_MELDPANEL = 4;
 	protected static final int SIZE_MELD = 4;
@@ -144,30 +147,22 @@ public abstract class TableGUI extends JFrame{
 	protected static final int SIZE_POND = 24;
 	protected static final int SIZE_LARRY_INFOPLAYER = 3;
 	protected static final int SIZE_LARRY_INFOROUND = 2;
+
 	
 	
 	private static final int SIZE_GARRY_TILES = 38;
 	private static final int SIZE_GARRY_OTHER = 1;
 	private static final int SIZE_GARRY_OMAKE = 5;
-	private static final int GARRYINDEX_RED5M = 35;
-	private static final int GARRYINDEX_RED5P = 36;
-	private static final int GARRYINDEX_RED5S = 37;
-	private static final int GARRYINDEX_TILEBACK = 0;
+	private static final int RED5M = 35,  RED5P = 36, RED5S = 37, TILEBACK = 0;
+	private static final int GARRYINDEX_OTHER_RIICHI = 0;
 	
 	
 
 	private static final int LARRY_INFOROUND_ROUNDWIND = 0, LARRY_INFOROUND_ROUNDNUM = 1, LARRY_INFOROUND_BONUSNUM = 2;
 	private static final int LARRY_INFOPLAYER_SEATWIND = 0, LARRY_INFOPLAYER_POINTS = 1, LARRY_INFOPLAYER_RIICHI = 2;
 	
-	private static final int BARRY_TACTIONS_RIICHI = 0;
-	private static final int BARRY_TACTIONS_ANKAN = 1;
-	private static final int BARRY_TACTIONS_MINKAN = 2;
-	private static final int BARRY_TACTIONS_TSUMO = 3;
+	private static final int BARRY_TACTIONS_RIICHI = 0, BARRY_TACTIONS_ANKAN = 1, BARRY_TACTIONS_MINKAN = 2, BARRY_TACTIONS_TSUMO = 3;
 
-	private static final int GARRYINDEX_OTHER_RIICHI = 0;
-	
-
-	private static final int NUMBER_OF_DIFFERENT_TILES = 34;
 	
 	
 	//click action constants
@@ -367,7 +362,7 @@ public abstract class TableGUI extends JFrame{
 	private ImageIcon __getImageIcon(TileList tList, int index, int seatNum, int tileSize, boolean reveal){
 		if (tList.size() <= index) return null;
 		
-		if (!reveal) return garryTiles[seatNum][tileSize][GARRYINDEX_TILEBACK];
+		if (!reveal) return garryTiles[seatNum][tileSize][TILEBACK];
 		
 		int id =__getImageID(tList.get(index));
 		if (id == NULL_TILE_IMAGE_ID) return null;
@@ -404,7 +399,7 @@ public abstract class TableGUI extends JFrame{
 		int id = __getImageID(tList[index]);
 		if (id == NULL_TILE_IMAGE_ID) return null;
 		
-		if (!reveal) id = GARRYINDEX_TILEBACK;
+		if (!reveal) id = TILEBACK;
 		return garryTiles[seatNum][SMALL][id];
 	}
 	protected ImageIcon __getImageIconWall(Tile[] tList, int index, int seatNum){return __getImageIconWall(tList, index, seatNum, true);}
@@ -1046,46 +1041,31 @@ public abstract class TableGUI extends JFrame{
 		final TableGUI thisguy = this;
 		btnRandAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Random randGen = new Random();final int RANDLIMIT = 38;
-				
+				final Random randGen = new Random();final int RANDLIMIT = 38;
 				for (JLabel l: larryH1) l.setIcon(garryTiles[SEAT1][BIG][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel l: larryP1) if (randGen.nextInt(24) != 1) l.setIcon(garryTiles[SEAT1][SMALL][randGen.nextInt(RANDLIMIT)]); else l.setIcon(garryTiles[SEAT1+1][SMALL][randGen.nextInt(RANDLIMIT)]);
 				for (JLabel[] lar: larryH1Ms) for (JLabel l: lar) if (randGen.nextInt(8) == 1) l.setIcon(garryTiles[1][1][randGen.nextInt(RANDLIMIT)]); else l.setIcon(garryTiles[SEAT1][SMALL][randGen.nextInt(RANDLIMIT)]);
 				
-				for (JLabel l: larryH2) l.setIcon(garryTiles[SEAT2][BIG][randGen.nextInt(RANDLIMIT)]);
-				for (JLabel l: larryP2) l.setIcon(garryTiles[SEAT2][SMALL][randGen.nextInt(RANDLIMIT)]);
-				for (JLabel[] lar: larryH2Ms) for (JLabel l: lar) l.setIcon(garryTiles[SEAT2][SMALL][randGen.nextInt(RANDLIMIT)]);
+				for (JLabel l: larryH2) l.setIcon(garryTiles[SEAT2][BIG][randGen.nextInt(RANDLIMIT)]);for (JLabel l: larryP2) l.setIcon(garryTiles[SEAT2][SMALL][randGen.nextInt(RANDLIMIT)]);for (JLabel[] lar: larryH2Ms) for (JLabel l: lar) l.setIcon(garryTiles[SEAT2][SMALL][randGen.nextInt(RANDLIMIT)]);
+				for (JLabel l: larryH3) l.setIcon(garryTiles[SEAT3][BIG][randGen.nextInt(RANDLIMIT)]);for (JLabel l: larryP3) l.setIcon(garryTiles[SEAT3][SMALL][randGen.nextInt(RANDLIMIT)]);for (JLabel[] lar: larryH3Ms) for (JLabel l: lar) l.setIcon(garryTiles[SEAT3][SMALL][randGen.nextInt(RANDLIMIT)]);
+				for (JLabel l: larryH4) l.setIcon(garryTiles[SEAT4][BIG][randGen.nextInt(RANDLIMIT)]);for (JLabel l: larryP4) l.setIcon(garryTiles[SEAT4][SMALL][randGen.nextInt(RANDLIMIT)]);for (JLabel[] lar: larryH4Ms) for (JLabel l: lar) l.setIcon(garryTiles[SEAT4][SMALL][randGen.nextInt(RANDLIMIT)]);
 				
-				for (JLabel l: larryH3) l.setIcon(garryTiles[SEAT3][BIG][randGen.nextInt(RANDLIMIT)]);
-				for (JLabel l: larryP3) l.setIcon(garryTiles[SEAT3][SMALL][randGen.nextInt(RANDLIMIT)]);
-				for (JLabel[] lar: larryH3Ms) for (JLabel l: lar) l.setIcon(garryTiles[SEAT3][SMALL][randGen.nextInt(RANDLIMIT)]);
+				for (JLabel l: larryDW) l.setIcon(garryTiles[SEAT1][SMALL][randGen.nextInt(RANDLIMIT)]); lblWallTilesLeft.setText(Integer.toString(1+randGen.nextInt(122)));
 				
-				for (JLabel l: larryH4) l.setIcon(garryTiles[SEAT4][BIG][randGen.nextInt(RANDLIMIT)]);
-				for (JLabel l: larryP4) l.setIcon(garryTiles[SEAT4][SMALL][randGen.nextInt(RANDLIMIT)]);
-				for (JLabel[] lar: larryH4Ms) for (JLabel l: lar) l.setIcon(garryTiles[SEAT4][SMALL][randGen.nextInt(RANDLIMIT)]);
+				larryInfoRound[LARRY_INFOROUND_ROUNDWIND].setIcon(garryWinds[BIG][randGen.nextInt(garryWinds[BIG].length)]);larryInfoRound[LARRY_INFOROUND_ROUNDNUM].setText(Integer.toString(1+randGen.nextInt(4)));	//randomize round info
 				
-				for (JLabel l: larryDW) l.setIcon(garryTiles[SEAT1][SMALL][randGen.nextInt(RANDLIMIT)]);
-				lblWallTilesLeft.setText(Integer.toString(1+randGen.nextInt(122)));
+				for (JLabel[] infoP: larryInfoPlayers)	//randomize player info
+					{infoP[LARRY_INFOPLAYER_SEATWIND].setIcon(garryWinds[SMALL][randGen.nextInt(garryWinds[SMALL].length)]); infoP[LARRY_INFOPLAYER_POINTS].setText(Integer.toString(100*randGen.nextInt(1280)));
+					if (randGen.nextBoolean()) infoP[LARRY_INFOPLAYER_RIICHI].setIcon(null); else infoP[LARRY_INFOPLAYER_RIICHI].setIcon(garryOther[GARRYINDEX_OTHER_RIICHI]);}
 				
-				//randomize round info
-				larryInfoRound[LARRY_INFOROUND_ROUNDWIND].setIcon(garryWinds[BIG][randGen.nextInt(garryWinds[BIG].length)]);larryInfoRound[LARRY_INFOROUND_ROUNDNUM].setText(Integer.toString(1+randGen.nextInt(4)));
-				
-				//randomize player info
-				for (JLabel[] infoP: larryInfoPlayers){
-					infoP[LARRY_INFOPLAYER_SEATWIND].setIcon(garryWinds[SMALL][randGen.nextInt(garryWinds[SMALL].length)]); infoP[LARRY_INFOPLAYER_POINTS].setText(Integer.toString(100*randGen.nextInt(1280)));
-					if (randGen.nextBoolean()) infoP[LARRY_INFOPLAYER_RIICHI].setIcon(null); else infoP[LARRY_INFOPLAYER_RIICHI].setIcon(garryOther[GARRYINDEX_OTHER_RIICHI]);
-				}
-				
-				int exclLoc = randGen.nextInt(EXCLAMATION_LOCS.length);lblExclamation.setVisible(true);lblExclamation.setBounds(EXCLAMATION_LOCS[exclLoc][0], EXCLAMATION_LOCS[exclLoc][1], lblExclamation.getWidth(), lblExclamation.getHeight());
+				int exclLoc = randGen.nextInt(EXCLAMATION_LOCS.length);lblExclamation.setVisible(true);lblExclamation.setLocation(EXCLAMATION_LOCS[exclLoc][X], EXCLAMATION_LOCS[exclLoc][Y]);
 				String[] results = {"Draw (Washout)", "Draw (Kyuushuu)", "Draw (4 kans)", "Draw (4 riichi)", "Draw (4 wind)", "East wins! (TSUMO)", "East wins! (RON)", "South wins! (TSUMO)", "South wins! (RON)", "West wins! (TSUMO)", "West wins! (RON)", "North wins! (TSUMO)", "North wins! (RON)" };panResult.setVisible(true);lblResult.setText(results[randGen.nextInt(results.length)]);
-				
 				for (JPanel p: parryTurnInds) p.setVisible(false);	parryTurnInds[randGen.nextInt(parryTurnInds.length)].setVisible(true); //randomize turn indicator
-				
 				lblFun.setIcon(garryOmake[randGen.nextInt(garryOmake.length)]);
+				
 				thisguy.repaint();
 			}
 		});
-		
 		
 		
 		
@@ -1158,12 +1138,11 @@ public abstract class TableGUI extends JFrame{
 		
 		
 		
-		
 
 		
 		panelRoundResult.setBounds(32, 234, 212, 66);
 		panelRoundResult.setLayout(null);
-		panelRoundResult.setBackground(COLOR_CALL_PANEL);
+		panelRoundResult.setBackground(COLOR_RESULT_PANEL);
 		panelRoundResult.setBorder(new LineBorder(new Color(0, 200, 0), 3, true));
 		panelRoundResult.add(lblRoundOver);panelRoundResult.add(lblRoundResult);
 		
@@ -1182,10 +1161,7 @@ public abstract class TableGUI extends JFrame{
 		
 		
 		
-		
-		
 		///////////
-		
 		
 		
 		
@@ -1288,14 +1264,14 @@ public abstract class TableGUI extends JFrame{
 			}
 			
 			//get red fives
-			garryTiles[seat][BIG][GARRYINDEX_RED5M] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/5r.png")));
-			garryTiles[seat][SMALL][GARRYINDEX_RED5M] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/5r.png")));
+			garryTiles[seat][BIG][RED5M] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/5r.png")));
+			garryTiles[seat][SMALL][RED5M] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/5r.png")));
 			
-			garryTiles[seat][BIG][GARRYINDEX_RED5P] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/14r.png")));
-			garryTiles[seat][SMALL][GARRYINDEX_RED5P] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/14r.png")));
+			garryTiles[seat][BIG][RED5P] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/14r.png")));
+			garryTiles[seat][SMALL][RED5P] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/14r.png")));
 
-			garryTiles[seat][BIG][GARRYINDEX_RED5S] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/23r.png")));
-			garryTiles[seat][SMALL][GARRYINDEX_RED5S] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/23r.png")));
+			garryTiles[seat][BIG][RED5S] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/23r.png")));
+			garryTiles[seat][SMALL][RED5S] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/23r.png")));
 		}
 		
 		
@@ -1333,14 +1309,15 @@ public abstract class TableGUI extends JFrame{
 		protected class HandPanel extends JPanel{
 			private static final long serialVersionUID = -1503172723884599289L;
 			
-			private static final int WIDTH = TILE_BIG_WIDTH*SIZE_HAND;
-			private static final int HEIGHT = TILE_BIG_HEIGHT;
+			private static final int WIDTH = TILE_BIG_WIDTH*SIZE_HAND, HEIGHT = TILE_BIG_HEIGHT;
 			
-			protected JLabel[] larryH = {new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel()};
+			protected JLabel[] larryH = new JLabel[SIZE_HAND];
 			
 			public HandPanel(int seat){
 				super();
-				ImageIcon h1Img = garryTiles[seat][BIG][1]; for (JLabel l: larryH) l.setIcon(h1Img);
+				for (int i = 0; i < larryH.length; i++) larryH[i] = new JLabel();
+				
+				for (JLabel l: larryH) l.setIcon(garryTiles[seat][BIG][1]);
 
 				setBounds(0, 0, WIDTH, HEIGHT);
 				setLayout(new GridLayout(1, 14, 0, 0));
@@ -1363,15 +1340,16 @@ public abstract class TableGUI extends JFrame{
 			protected class MeldPanel extends JPanel{
 				private static final long serialVersionUID = 2970579345629950616L;
 
-				private static final int WIDTH = 108;
-				private static final int HEIGHT = 31;
+				private static final int WIDTH = 108, HEIGHT = 31;
 				
-				protected JLabel[] larryHM = {new JLabel(), new JLabel(), new JLabel(), new JLabel()};
+				protected final JLabel[] larryHM = new JLabel[SIZE_MELD];
 				
 				public MeldPanel(int seat){
 					
 					super();
-					ImageIcon h1Img = garryTiles[seat][SMALL][34]; for (JLabel l: larryHM) l.setIcon(h1Img);
+					for (int i = 0; i < larryHM.length; i++) larryHM[i] = new JLabel();
+					
+					for (JLabel l: larryHM) l.setIcon(garryTiles[seat][SMALL][34]);
 					
 					setBounds(0, 0, WIDTH, HEIGHT);
 					setLayout(new GridLayout(1, 4, 0, 0));
@@ -1385,15 +1363,12 @@ public abstract class TableGUI extends JFrame{
 					if (seat == SEAT2 || seat == SEAT3) for (int i = larryHM.length-1; i >= 0; i--) add(larryHM[i]);
 					else for (int i = 0; i < larryHM.length; i++) add(larryHM[i]);
 				}
-				
 				public void getLabels(JLabel[] mLarry){for (int i = 0; i < larryHM.length; i++) mLarry[i] = larryHM[i];}
 			}
 			
-			private static final int WIDTH = 474;
-			private static final int HEIGHT = 31;
-			private static final int[][][] LOCS_MELDS = {{{360,0},{240,0},{120,0},{0,0}}, {{0,0},{0,120},{0,240},{0,360}}, {{0,0},{120,0},{240,0},{360,0}}, {{0,360},{0,240},{0,120},{0,0}}};
+			private static final int WIDTH = 474, HEIGHT = 31;
 			
-			protected MeldPanel panelHM1, panelHM2, panelHM3, panelHM4;
+			protected final MeldPanel[] panelHMs = new MeldPanel[SIZE_MELDPANEL];
 			
 			public MeldsPanel(int seat){
 				super();
@@ -1403,26 +1378,18 @@ public abstract class TableGUI extends JFrame{
 				
 				setBackground(COLOR_TRANSPARENT);
 				setLayout(null);
-				
-				panelHM1 = new MeldPanel(seat); panelHM2 = new MeldPanel(seat); panelHM3 = new MeldPanel(seat); panelHM4 = new MeldPanel(seat);
-				
-				panelHM1.setLocation(LOCS_MELDS[seat][0][X], LOCS_MELDS[seat][0][Y]);
-				panelHM2.setLocation(LOCS_MELDS[seat][1][X], LOCS_MELDS[seat][1][Y]);
-				panelHM3.setLocation(LOCS_MELDS[seat][2][X], LOCS_MELDS[seat][2][Y]);
-				panelHM4.setLocation(LOCS_MELDS[seat][3][X], LOCS_MELDS[seat][3][Y]);
-				
-				add(panelHM1);add(panelHM2);add(panelHM3);add(panelHM4);
+
+				final int[][][] LOCS_MELDS = {{{360,0},{240,0},{120,0},{0,0}}, {{0,0},{0,120},{0,240},{0,360}}, {{0,0},{120,0},{240,0},{360,0}}, {{0,360},{0,240},{0,120},{0,0}}};
+				for (int mnum = 0; mnum < panelHMs.length; mnum++){
+					panelHMs[mnum] = new MeldPanel(seat);
+					panelHMs[mnum].setLocation(LOCS_MELDS[seat][mnum][X], LOCS_MELDS[seat][mnum][Y]);
+				}
+				for (MeldPanel m: panelHMs) add(m);
 			}
-			public void getLabels(JLabel[][] msLarry){
-				panelHM1.getLabels(msLarry[0]);
-				panelHM2.getLabels(msLarry[1]);
-				panelHM3.getLabels(msLarry[2]);
-				panelHM4.getLabels(msLarry[3]);
-			}
+			public void getLabels(JLabel[][] msLarry){for (int mnum = 0; mnum < panelHMs.length; mnum++) panelHMs[mnum].getLabels(msLarry[mnum]);}
 		}
 
-		private static final int WIDTH = 667;
-		private static final int HEIGHT = 78;
+		private static final int WIDTH = 667, HEIGHT = 78;
 		private static final int[][] LOCS_H = {{42,0}, {0,203}, {203,36}, {36,72}};
 		private static final int[][] LOCS_M = {{100,47}, {46,104}, {104,0}, {0,100}};
 		
@@ -1440,10 +1407,10 @@ public abstract class TableGUI extends JFrame{
 			setLayout(null);
 			
 			panelH = new HandPanel(seat);
-			panelH.setLocation(LOCS_H[seat][0], LOCS_H[seat][1]);
+			panelH.setLocation(LOCS_H[seat][X], LOCS_H[seat][Y]);
 			
 			panelHMs = new MeldsPanel(seat);
-			panelHMs.setLocation(LOCS_M[seat][0], LOCS_M[seat][1]);
+			panelHMs.setLocation(LOCS_M[seat][X], LOCS_M[seat][Y]);
 			
 			add(panelH);
 			add(panelHMs);
@@ -1457,13 +1424,14 @@ public abstract class TableGUI extends JFrame{
 	protected class PondPanel extends JPanel{
 		private static final long serialVersionUID = -6135344462326116557L;
 		
-		private static final int WIDTH = POND_PANEL_WIDTH;
-		private static final int HEIGHT = POND_PANEL_HEIGHT;
+		private static final int WIDTH = POND_PANEL_WIDTH,  HEIGHT = POND_PANEL_HEIGHT;
 		
-		protected JLabel[] larryP = {new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel()};
+		protected final JLabel[] larryP = new JLabel[SIZE_POND];
 		
 		public PondPanel(int seat){
 			super();
+			for (int i = 0; i < larryP.length; i++) larryP[i] = new JLabel();
+			
 			for (JLabel l: larryP) l.setIcon(garryTiles[seat][SMALL][22+seat*3]);
 			
 			if (seat == SEAT2 || seat == SEAT4){
@@ -1667,14 +1635,16 @@ public abstract class TableGUI extends JFrame{
 		protected class DeadWallPanel extends JPanel{
 			private static final long serialVersionUID = 8920630209311855667L;
 			
-			protected JLabel[] larryDWtiles = {new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel()};
+			protected final JLabel[] larryDWtiles = new JLabel[SIZE_DEAD_WALL];
 			
 			public DeadWallPanel(){
 				super();
+				for (int i = 0; i < larryDWtiles.length; i++) larryDWtiles[i] = new JLabel();
+				
 				for (JLabel l: larryDWtiles) l.setIcon(garryTiles[SEAT1][SMALL][0]);
 				
 				setBounds(0, 0, 161, 62);
-				setBackground(COLOR_CALL_PANEL);
+				setBackground(COLOR_WALL_SUMMARY_PANEL);
 				setLayout(new GridLayout(2, 7, 0, 0));
 				
 				final int[] addOrder = {1,3,5,7,9,11,13,2,4,6,8,10,12,14};

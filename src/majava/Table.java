@@ -37,7 +37,8 @@ public class Table {
 	
 	//for debug use
 //	private static final boolean DEBUG_SHUFFLE_SEATS = false;
-	private static final boolean DEBUG_USE_SMALL_VIEWER = true;
+	private static final boolean DEBUG_USE_SMALL_VIEWER = false;
+//	private static final boolean DEBUG_USE_SMALL_VIEWER = true;
 	
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	private static final boolean DEFAULT_DO_SINGLE_PLAYER = true;

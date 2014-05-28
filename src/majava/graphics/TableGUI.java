@@ -230,7 +230,7 @@ public abstract class TableGUI extends JFrame{
 	
 
 	protected WallSummaryPanel panWallSummary;
-	protected JPanel panCalls;
+	protected PromptPanel panCalls;
 
 	protected JPanel panMidTable;
 	
@@ -286,7 +286,7 @@ public abstract class TableGUI extends JFrame{
 	protected static final int SEAT1 = 0, SEAT2 = 1, SEAT3 = 2, SEAT4 = 3;
 	protected static final int EAST = 0, SOUTH = 1, WEST = 2, NORTH = 3;
 	protected static final int BIG = 0, SMALL = 1;
-	protected final static int X = 0, Y = 1;
+	protected final static int X = 0, Y = 1, W = 2, H = 3;
 	
 	/*+++++++++++++++++++++++++++++++++++++++END IMAGE ARRAYS+++++++++++++++++++++++++++++++++++++++*/
 	
@@ -838,24 +838,8 @@ public abstract class TableGUI extends JFrame{
 		//panel declarations
 		JPanel panelTable = new JPanel();
 		JPanel panelSidebar = new JPanel();
-		
 		JPanel panelMidTable = new JPanel();
 		
-		JPanel panelCalls = new JPanel();
-		JPanel panelTActions = new JPanel();
-		
-		
-		
-		//button declarations
-		JButton btnCallNone = new JButton();
-		JButton btnCallChiL = new JButton(), btnCallChiM = new JButton(), btnCallChiH = new JButton();
-		JButton btnCallPon = new JButton(), btnCallKan = new JButton(), btnCallRon = new JButton();
-		JButton btnCallChi = new JButton();
-		
-		JButton btnRiichi = new JButton(), btnAnkan = new JButton(), btnMinkan = new JButton(), btnTsumo = new JButton();
-		
-		
-
 		
 		/*................................................DEMO PURPOSES.......................................................*/
 		/*................................................DEMO PURPOSES.......................................................*/
@@ -931,6 +915,8 @@ public abstract class TableGUI extends JFrame{
 		panDebugButtons = new DebugButtonsPanel();
 		lblFun = new FunLabel();
 		
+		panCalls = new PromptPanel();
+		
 		
 		
 		panelTable.addMouseListener(new MouseAdapter() {
@@ -970,6 +956,8 @@ public abstract class TableGUI extends JFrame{
 		
 		lblExclamation.setLocation(EXCLAMATION_LOCS[SEAT1][X], EXCLAMATION_LOCS[SEAT1][Y]);
 		
+		panCalls.setLocation(28, 440);
+		
 		
 		
 		
@@ -991,7 +979,7 @@ public abstract class TableGUI extends JFrame{
 		
 		panelSidebar.add(lblFun);
 		panelSidebar.add(panDebugButtons);
-		panelSidebar.add(panelCalls);
+		panelSidebar.add(panCalls);
 		panelSidebar.add(panWallSummary);
 		panelSidebar.add(panResult);
 		
@@ -1002,94 +990,14 @@ public abstract class TableGUI extends JFrame{
 		
 		
 		
-		panelCalls.setBounds(28, 440, 204, 147);
-		panelCalls.setBackground(COLOR_CALL_PANEL);
-		panelCalls.setLayout(null);
-		panelCalls.add(btnCallNone);panelCalls.add(btnCallChi);panelCalls.add(btnCallChiL);panelCalls.add(btnCallChiM);panelCalls.add(btnCallChiH);panelCalls.add(btnCallPon);panelCalls.add(btnCallKan);panelCalls.add(btnCallRon);
-		panelCalls.add(panelTActions);
-		
-		btnCallNone.setText("No call");
-		btnCallNone.setActionCommand("None");
-		btnCallNone.setBounds(0, 0, 89, 23);
-		
-		btnCallChi.setText("Chi");
-		btnCallChi.setActionCommand("Chi");
-		btnCallChi.setBounds(1, 24, 60, 23);
-		
-		btnCallChiL.setText("Chi-L");
-		btnCallChiL.setActionCommand("Chi-L");
-		btnCallChiL.setBounds(0, 48, 67, 23);
-		
-		btnCallChiM.setText("Chi-M");
-		btnCallChiM.setActionCommand("Chi-M");
-		btnCallChiM.setBounds(67, 48, 67, 23);
-		
-		btnCallChiH.setText("Chi-H");
-		btnCallChiH.setActionCommand("Chi-H");
-		btnCallChiH.setBounds(135, 48, 67, 23);
-		
-		btnCallPon.setText("Pon");
-		btnCallPon.setActionCommand("Pon");
-		btnCallPon.setBounds(1, 72, 64, 23);
-		
-		btnCallKan.setText("Kan");
-		btnCallKan.setActionCommand("Kan");
-		btnCallKan.setBounds(65, 72, 64, 23);
-		
-		btnCallRon.setText("Ron!!!");
-		btnCallRon.setActionCommand("Ron");
-		btnCallRon.setBounds(2, 96, 103, 51);
-		
-		
-		
-		
-		panelTActions.setBounds(104, 0, 100, 147);
-		panelTActions.setOpaque(false);
-		panelTActions.setLayout(null);
-		panelTActions.add(btnRiichi);panelTActions.add(btnAnkan);panelTActions.add(btnMinkan);panelTActions.add(btnTsumo);
-		
-		btnRiichi.setText("Riichi?");
-		btnRiichi.setBounds(11, 0, 89, 23);
-		btnRiichi.setActionCommand("Riichi");
-		
-		btnAnkan.setText("Ankan?");
-		btnAnkan.setBounds(11, 24, 89, 23);
-		btnAnkan.setActionCommand("Ankan");
-		
-		btnMinkan.setText("Minkan?");
-		btnMinkan.setBounds(11, 48, 89, 23);
-		btnMinkan.setActionCommand("Minkan");
-		
-		btnTsumo.setText("Tsumo!!!");
-		btnTsumo.setBounds(0, 96, 100, 51);
-		btnTsumo.setActionCommand("Tsumo");
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		///////////
 		
 		
 		
 		////////////////////////////////////////////////////////////
-		
-		//load call buttons into array
-		barryCalls[0] = btnCallNone;barryCalls[1] = btnCallChiL;barryCalls[2] = btnCallChiM;barryCalls[3] = btnCallChiH;barryCalls[4] = btnCallPon;barryCalls[5] = btnCallKan;barryCalls[6] = btnCallRon;
-		barryCalls[7] = btnCallChi;
-		
-		barryTActions[0] = btnRiichi;barryTActions[1] = btnAnkan;barryTActions[2] = btnMinkan;barryTActions[3] = btnTsumo;
-		
 		panTable = panelTable;
 		panSidebar = panelSidebar;
 		
-		
-		panCalls = panelCalls;
 		panMidTable = panelMidTable;
 		
 		
@@ -1114,33 +1022,14 @@ public abstract class TableGUI extends JFrame{
 		
 		lblResult = panResult.getLabelResult();
 		
+		panCalls.getButtonsCalls(barryCalls);
+		panCalls.getButtonsTurnActions(barryTActions);
+		
 		
 		
 		
 		
 		//properties
-		
-		//set call button attributes
-		CallListener callListener = new CallListener();
-		for (JButton b: barryCalls){
-			b.addActionListener(callListener);
-			
-			b.setContentAreaFilled(false);
-			b.setRolloverEnabled(false);
-			b.setFocusPainted(false);
-			b.setOpaque(false);
-		}
-		TurnActionListener taListener = new TurnActionListener();
-		for (JButton b: barryTActions){
-			b.addActionListener(taListener);
-			
-			b.setContentAreaFilled(false);
-			b.setRolloverEnabled(false);
-			b.setFocusPainted(false);
-			b.setOpaque(false);
-		}
-		
-		
 		
 		//add mouse listeners to hand tile labels
 		for (int i = 0; i < larryH1.length; i++){
@@ -1441,7 +1330,6 @@ public abstract class TableGUI extends JFrame{
 						setOpaque(false);
 						setLayout(null);
 						
-						final int W = 2, H = 3;
 						final int[][][] BOUNDS_LABELS = {{{1, 0, 55, 13}, {1, 1, 13, 52}, {1, 0, 55, 13}, {1, 1, 13, 51}},
 														{{110, 0, 55, 13}, {0, 105, 13, 52}, {110, 0, 55, 13}, {0, 105, 13, 51}}};
 						
@@ -1701,7 +1589,77 @@ public abstract class TableGUI extends JFrame{
 	}
 	
 	
-	
+	protected class PromptPanel extends JPanel{
+		private static final long serialVersionUID = -2942085357712026377L;
+		
+		protected class TurnActionPanel extends JPanel{
+			private static final long serialVersionUID = -4659522187187470904L;
+			
+			private static final int WIDTH = 100, HEIGHT = 147;
+			
+			protected final JButton[] barryTB = new JButton[4];
+			
+			public TurnActionPanel(){
+				super();
+				setBounds(0, 0, WIDTH, HEIGHT);
+				setOpaque(false);setLayout(null);
+				
+				String texts[] = {"Riichi?", "Ankan?", "Minkan?", "Tsumo!!!"};
+				String commands[] = {"Riichi", "Ankan", "Minkan", "Tsumo"};
+				int[][] BOUNDS_B = {{11, 0, 89, BUTON_HEIGHT}, {11, 24, 89, BUTON_HEIGHT}, {11, 48, 89, BUTON_HEIGHT}, {0, 96, 100, BIG_BUTON_HEIGHT}};
+				TurnActionListener taListener = new TurnActionListener();
+				for (int i = 0; i < barryTB.length; i++){
+					barryTB[i] = new JButton(texts[i]);
+					barryTB[i].setActionCommand(commands[i]);
+					barryTB[i].setBounds(BOUNDS_B[i][X], BOUNDS_B[i][Y], BOUNDS_B[i][W], BOUNDS_B[i][H]);
+
+					barryTB[i].addActionListener(taListener);
+					barryTB[i].setContentAreaFilled(false);
+					barryTB[i].setRolloverEnabled(false);
+					barryTB[i].setFocusPainted(false);
+					barryTB[i].setOpaque(false);
+					
+					add(barryTB[i]);
+				}
+			}
+			public void getButtons(JButton[] taBarry){for (int i = 0; i < barryTB.length; i++) taBarry[i] = barryTB[i];}
+		}
+		
+		private static final int WIDTH = 204, HEIGHT = 147;
+		private static final int BUTON_HEIGHT = 23, BIG_BUTON_HEIGHT = 51;
+		
+		protected final JButton[] barryCB = new JButton[8];
+		protected final TurnActionPanel panelTB = new TurnActionPanel();
+		
+		public PromptPanel(){
+			super();
+			setBounds(0, 0, WIDTH, HEIGHT);
+			setBackground(COLOR_CALL_PANEL);
+			setLayout(null);
+			
+			String texts[] = {"No call", "Chi-L", "Chi-M", "Chi-H", "Pon", "Kan", "Ron!!!", "Chi"};
+			String commands[] = {"None", "Chi-L", "Chi-M", "Chi-H", "Pon", "Kan", "Ron", "Chi"};
+			int[][] BOUNDS_B = {{0, 0, 89, BUTON_HEIGHT}, {0, 48, 67, BUTON_HEIGHT}, {67, 48, 67, BUTON_HEIGHT}, {135, 48, 67, BUTON_HEIGHT}, {1, 72, 64, BUTON_HEIGHT}, {65, 72, 64, BUTON_HEIGHT}, {2, 96, 103, BIG_BUTON_HEIGHT}, {1, 24, 60, BUTON_HEIGHT}};
+			CallListener callListener = new CallListener();
+			for (int i = 0; i < barryCB.length; i++){
+				barryCB[i] = new JButton(texts[i]);
+				barryCB[i].setActionCommand(commands[i]);
+				barryCB[i].setBounds(BOUNDS_B[i][X], BOUNDS_B[i][Y], BOUNDS_B[i][W], BOUNDS_B[i][H]);
+
+				barryCB[i].addActionListener(callListener);
+				barryCB[i].setContentAreaFilled(false);
+				barryCB[i].setRolloverEnabled(false);
+				barryCB[i].setFocusPainted(false);
+				barryCB[i].setOpaque(false);
+				
+				add(barryCB[i]);
+			}
+			panelTB.setLocation(104, 0);
+			add(panelTB);
+		}
+		public void getButtonsCalls(JButton[] cbBarry){for (int i = 0; i < barryCB.length; i++) cbBarry[i] = barryCB[i];}
+		public void getButtonsTurnActions(JButton[] taBarry){panelTB.getButtons(taBarry);}
+	}
 	
 	
 	

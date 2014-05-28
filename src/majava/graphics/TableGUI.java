@@ -69,7 +69,6 @@ methods:
 	syncWithRoundTracker - associates the viewer with the round tracker
 */
 public abstract class TableGUI extends JFrame{
-	
 	private static final long serialVersionUID = -4041211467460747162L;
 	
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -148,7 +147,6 @@ public abstract class TableGUI extends JFrame{
 	
 	
 	private static final int SIZE_GARRY_TILES = 38;
-	private static final int SIZE_GARRY_WINDS = 4;
 	private static final int SIZE_GARRY_OTHER = 1;
 	private static final int SIZE_GARRY_OMAKE = 5;
 	private static final int GARRYINDEX_RED5M = 35;
@@ -158,13 +156,8 @@ public abstract class TableGUI extends JFrame{
 	
 	
 
-	private static final int LARRY_INFOROUND_ROUNDWIND = 0;
-	private static final int LARRY_INFOROUND_ROUNDNUM = 1;
-	private static final int LARRY_INFOROUND_BONUSNUM = 2;
-	
-	private static final int LARRY_INFOPLAYER_SEATWIND = 0;
-	private static final int LARRY_INFOPLAYER_POINTS = 1;
-	private static final int LARRY_INFOPLAYER_RIICHI = 2;
+	private static final int LARRY_INFOROUND_ROUNDWIND = 0, LARRY_INFOROUND_ROUNDNUM = 1, LARRY_INFOROUND_BONUSNUM = 2;
+	private static final int LARRY_INFOPLAYER_SEATWIND = 0, LARRY_INFOPLAYER_POINTS = 1, LARRY_INFOPLAYER_RIICHI = 2;
 	
 	private static final int BARRY_TACTIONS_RIICHI = 0;
 	private static final int BARRY_TACTIONS_ANKAN = 1;
@@ -179,22 +172,11 @@ public abstract class TableGUI extends JFrame{
 	
 	//click action constants
 	protected static final int NO_CALL_CHOSEN = -1;
-	protected static final int CALL_NONE = 0;
-	protected static final int CALL_CHI_L = 1;
-	protected static final int CALL_CHI_M = 2;
-	protected static final int CALL_CHI_H = 3;
-	protected static final int CALL_PON = 4;
-	protected static final int CALL_KAN = 5;
-	protected static final int CALL_RON = 6;
-	protected static final int CALL_CHI = 7;
+	protected static final int CALL_NONE = 0, CALL_CHI_L = 1, CALL_CHI_M = 2, CALL_CHI_H = 3, CALL_PON = 4, CALL_KAN = 5, CALL_RON = 6, CALL_CHI = 7;
 	private static final int DEFAULT_CALL = CALL_NONE;
 	
 	protected static final int NO_ACTION_CHOSEN = -1;
-	protected static final int TURN_ACTION_DISCARD = -10;
-	protected static final int TURN_ACTION_ANKAN = -20;
-	protected static final int TURN_ACTION_MINKAN = -30;
-	protected static final int TURN_ACTION_RIICHI = -40;
-	protected static final int TURN_ACTION_TSUMO = -50;
+	protected static final int TURN_ACTION_DISCARD = -10, TURN_ACTION_ANKAN = -20, TURN_ACTION_MINKAN = -30, TURN_ACTION_RIICHI = -40, TURN_ACTION_TSUMO = -50;
 
 	protected static final int NO_DISCARD_CHOSEN = -1;
 	protected static final int DEFAULT_DISCARD = 0;
@@ -223,24 +205,22 @@ public abstract class TableGUI extends JFrame{
 	protected final JLabel[][] larryPonds = {larryP1, larryP2, larryP3, larryP4};
 	
 	
-	protected final JLabel[] larryInfoP1 = new JLabel[SIZE_LARRY_INFOPLAYER];
-	protected final JLabel[] larryInfoP2 = new JLabel[SIZE_LARRY_INFOPLAYER];
-	protected final JLabel[] larryInfoP3 = new JLabel[SIZE_LARRY_INFOPLAYER];
-	protected final JLabel[] larryInfoP4 = new JLabel[SIZE_LARRY_INFOPLAYER];
 	
 	//larryInfoPlayers[player number][0 = seatwind, 1 = points, 2 = riichiStick]
+	protected final JLabel[] larryInfoP1 = new JLabel[SIZE_LARRY_INFOPLAYER], larryInfoP2 = new JLabel[SIZE_LARRY_INFOPLAYER], larryInfoP3 = new JLabel[SIZE_LARRY_INFOPLAYER], larryInfoP4 = new JLabel[SIZE_LARRY_INFOPLAYER];
 	protected final JLabel[][] larryInfoPlayers = {larryInfoP1, larryInfoP2, larryInfoP3, larryInfoP4};
 	
 	//0 = roundWind, 1 = roundNumber
 	protected final JLabel[] larryInfoRound = new JLabel[SIZE_LARRY_INFOROUND];
-	
 	protected final JPanel[] parryTurnInds = new JPanel[NUM_PLAYERS];
 	
 	
 
 	protected JButton[] barryCalls = new JButton[8];
 	protected JButton[] barryTActions = new JButton[4];
+	
 	protected JLabel[] larryDW = new JLabel[SIZE_DEAD_WALL];
+	protected JLabel lblWallTilesLeft;
 	
 	protected JPanel panResult;
 	protected JLabel lblResult;
@@ -248,19 +228,18 @@ public abstract class TableGUI extends JFrame{
 	protected JLabel lblFun;
 	protected JLabel lblExclamation;
 	
-	protected JLabel lblWallTilesLeft;
-	
 	protected JPanel panTable;
 	protected JPanel panSidebar;
 	
 	
 	
 
-	protected JPanel panWallSummary;
+	protected WallSummaryPanel panWallSummary;
 	protected JPanel panCalls;
-	
-	protected JPanel panRoundInfoSquare, panRoundInfo, panRndInfBackground;
+
 	protected JPanel panMidTable;
+	
+	protected RoundInfoSquarePanel panRoundInfoSquare;
 	
 	protected PlayerPanel panPlayer1, panPlayer2, panPlayer3, panPlayer4;
 	protected PondPanel panP1, panP2, panP3, panP4;
@@ -295,8 +274,8 @@ public abstract class TableGUI extends JFrame{
 	
 	
 	
-	protected ImageIcon[] garryWindsBig = new ImageIcon[SIZE_GARRY_WINDS];
-	protected ImageIcon[] garryWindsSmall = new ImageIcon[SIZE_GARRY_WINDS];
+	protected ImageIcon[] garryWindsBig = new ImageIcon[NUM_WINDS];
+	protected ImageIcon[] garryWindsSmall = new ImageIcon[NUM_WINDS];
 	//garryWinds[0=big,1=small][E,S,W,N]
 	protected ImageIcon[][] garryWinds = {garryWindsBig, garryWindsSmall}; 
 	
@@ -331,9 +310,6 @@ public abstract class TableGUI extends JFrame{
 	protected boolean mOptionRevealHands;
 	protected boolean[] mRevealHands;
 	
-	
-	
-	
 
 	private static final int NUM_PLAYERS_TO_TRACK = 4;
 	private class PlayerTracker{
@@ -361,6 +337,8 @@ public abstract class TableGUI extends JFrame{
 	
 	private PlayerTracker[] mPTrackers;
 	protected RoundTracker mRoundTracker;
+	
+	private int mNewTurn = -1, mOldTurn = -1;
 
 	private int mChosenCall;
 	private int mChosenTurnAction;
@@ -454,30 +432,6 @@ public abstract class TableGUI extends JFrame{
 	
 	
 	
-	private int mNewTurn = -1;
-	private int mOldTurn = -1;
-	//highlights the most recent discard
-	private void __updateDiscardMarker(){
-		
-		mNewTurn = mRoundTracker.whoseTurn();
-		__discardMarkerErase();
-		__discardMarkerSet();
-		mOldTurn = mNewTurn;
-	}
-	private void __discardMarkerSet(){
-		if (!mPTrackers[mNewTurn].tilesP.isEmpty() && mPTrackers[mNewTurn].player.needsDraw()){
-			if (mNewTurn == mOldTurn &&  mPTrackers[mNewTurn].player.needsDrawRinshan()) return;
-			__getLastLabelInPond(mNewTurn).setOpaque(true);
-			__getLastLabelInPond(mNewTurn).setBackground(COLOR_POND_DISCARD_TILE);
-		}
-	}
-	private void __discardMarkerErase(){
-		if (mOldTurn >= 0 && !mPTrackers[mOldTurn].tilesP.isEmpty()){
-			__getLastLabelInPond(mOldTurn).setOpaque(false);
-			__getLastLabelInPond(mOldTurn).setBackground(COLOR_TRANSPARENT);
-		}
-	}
-	
 	public void updateEverything(){
 		
 		__updateDiscardMarker();
@@ -555,6 +509,32 @@ public abstract class TableGUI extends JFrame{
 		
 		
 		repaint();
+	}
+	
+	//highlights the most recent discard
+	private void __updateDiscardMarker(){
+		
+		mNewTurn = mRoundTracker.whoseTurn();
+		__discardMarkerErase();
+		__discardMarkerSet();
+		mOldTurn = mNewTurn;
+	}
+	private void __discardMarkerSet(){
+		if (!mPTrackers[mNewTurn].tilesP.isEmpty() && mPTrackers[mNewTurn].player.needsDraw()){
+			if (mNewTurn == mOldTurn &&  mPTrackers[mNewTurn].player.needsDrawRinshan()) return;
+			__getLastLabelInPond(mNewTurn).setOpaque(true);
+			__getLastLabelInPond(mNewTurn).setBackground(COLOR_POND_DISCARD_TILE);
+		}
+	}
+	private void __discardMarkerErase(){
+		if (mOldTurn >= 0 && !mPTrackers[mOldTurn].tilesP.isEmpty()){
+			__getLastLabelInPond(mOldTurn).setOpaque(false);
+			__getLastLabelInPond(mOldTurn).setBackground(COLOR_TRANSPARENT);
+		}
+	}
+	private JLabel __getLastLabelInPond(int seatNum){
+		if (mPTrackers[seatNum].tilesP.isEmpty()) return null;
+		else return larryPonds[seatNum][mPTrackers[seatNum].tilesP.size() - 1];
 	}
 	
 	
@@ -784,12 +764,6 @@ public abstract class TableGUI extends JFrame{
 	
 	
 	
-	private JLabel __getLastLabelInPond(int seatNum){
-		if (mPTrackers[seatNum].tilesP.isEmpty()) return null;
-		else return larryPonds[seatNum][mPTrackers[seatNum].tilesP.size() - 1];
-	}
-	
-	
 	
 	
 	
@@ -829,16 +803,7 @@ public abstract class TableGUI extends JFrame{
 		TableViewSmall viewer = new TableViewSmall();
 		viewer.setVisible(true);
 		
-		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	//TODO start of constructor
 	public TableGUI(){
@@ -886,14 +851,8 @@ public abstract class TableGUI extends JFrame{
 		//panel declarations
 		JPanel panelTable = new JPanel();
 		JPanel panelSidebar = new JPanel();
-
-		JPanel panelMidTable = new JPanel();
-		JPanel panelRoundInfoSquare = new JPanel(), panelRoundInfo = new JPanel(), panelRInd = new JPanel(), panelInfoP1 = new JPanel(), panelInfoP2 = new JPanel(), panelInfoP3 = new JPanel(), panelInfoP4 = new JPanel(), panelRndInfBackground = new JPanel();
-		JPanel panelTurnInds = new JPanel();
-		JPanel panelTurnInd1 = new JPanel(); JPanel panelTurnInd2 = new JPanel(); JPanel panelTurnInd3 = new JPanel(); JPanel panelTurnInd4 = new JPanel();
 		
-		JPanel panelDeadWall = new JPanel();
-		JPanel panelWallSummary = new JPanel(), panelWTL = new JPanel();
+		JPanel panelMidTable = new JPanel();
 		
 		JPanel panelCalls = new JPanel();
 		JPanel panelTActions = new JPanel();
@@ -902,22 +861,11 @@ public abstract class TableGUI extends JFrame{
 		
 		
 		//label declarations
-		JLabel lblRIndNum = new JLabel(), lblRIndWind = new JLabel();
-		JLabel lblInfoP1Points = new JLabel(), lblInfoP1Riichi = new JLabel(), lblInfoP1Wind = new JLabel();
-		JLabel lblInfoP2Points = new JLabel(), lblInfoP2Riichi = new JLabel(), lblInfoP2Wind = new JLabel();
-		JLabel lblInfoP3Points = new JLabel(), lblInfoP3Riichi = new JLabel(), lblInfoP3Wind = new JLabel();
-		JLabel lblInfoP4Points = new JLabel(), lblInfoP4Riichi = new JLabel(), lblInfoP4Wind = new JLabel();
-		
-		JLabel lblTurnInd11 = new JLabel(); JLabel lblTurnInd12 = new JLabel(); JLabel lblTurnInd21 = new JLabel(); JLabel lblTurnInd22 = new JLabel(); JLabel lblTurnInd31 = new JLabel(); JLabel lblTurnInd32 = new JLabel(); JLabel lblTurnInd41 = new JLabel(); JLabel lblTurnInd42 = new JLabel();
-		
 		JLabel lblWeHaveFun = new JLabel();
-		
-		JLabel lblDW1 = new JLabel(), lblDW2 = new JLabel(), lblDW3 = new JLabel(), lblDW4 = new JLabel(), lblDW5 = new JLabel(), lblDW6 = new JLabel(), lblDW7 = new JLabel(), lblDW8 = new JLabel(), lblDW9 = new JLabel(), lblDW10 = new JLabel(), lblDW11 = new JLabel(), lblDW12 = new JLabel(), lblDW13 = new JLabel(), lblDW14 = new JLabel();
 		
 		JLabel lblRoundOver = new JLabel(), lblRoundResult = new JLabel();
 		JLabel lblExclamationLabel = new JLabel();
 		
-		JLabel lblWTLText = new JLabel(), lblWallTilesLeftLabel = new JLabel();
 		
 		
 		
@@ -936,21 +884,10 @@ public abstract class TableGUI extends JFrame{
 		
 		
 		/*................................................DEMO PURPOSES.......................................................*/
-		
-//		ImageIcon dwImg = garryTiles[SEAT1][SMALL][0];
-		ImageIcon dwImg = rotators[SEAT1].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/0.png")));
-		ImageIcon windRImg = new ImageIcon(getClass().getResource("/res/img/winds/transE.png"));
-		ImageIcon wind1Img = new ImageIcon(getClass().getResource("/res/img/winds/small/transEs.png"));ImageIcon wind2Img = new ImageIcon(getClass().getResource("/res/img/winds/small/transSs.png"));ImageIcon wind3Img = new ImageIcon(getClass().getResource("/res/img/winds/small/transWs.png"));ImageIcon wind4Img = new ImageIcon(getClass().getResource("/res/img/winds/small/transNs.png"));
-		ImageIcon riichiImg = new ImageIcon(getClass().getResource("/res/img/other/riichiStick.png"));
 		ImageIcon sheepImg = new ImageIcon(getClass().getResource("/res/img/omake/birdClipart2.png"));
-		
-		
-		lblRIndWind.setIcon(windRImg);lblInfoP1Wind.setIcon(wind1Img);lblInfoP2Wind.setIcon(wind2Img);lblInfoP3Wind.setIcon(wind3Img);lblInfoP4Wind.setIcon(wind4Img);
-		lblDW1.setIcon(dwImg);lblDW3.setIcon(dwImg);lblDW5.setIcon(dwImg);lblDW7.setIcon(dwImg);lblDW9.setIcon(dwImg);lblDW11.setIcon(dwImg);lblDW13.setIcon(dwImg);lblDW2.setIcon(dwImg);lblDW4.setIcon(dwImg);lblDW6.setIcon(dwImg);lblDW8.setIcon(dwImg);lblDW10.setIcon(dwImg);lblDW12.setIcon(dwImg);lblDW14.setIcon(dwImg);
 		
 		windowIconImg = new ImageIcon(getClass().getResource("/res/img/winds/transE.png"));
 		setIconImage(windowIconImg.getImage());
-		
 		/*................................................DEMO PURPOSES.......................................................*/
 		
 		
@@ -1016,6 +953,7 @@ public abstract class TableGUI extends JFrame{
 		panP4 = new PondPanel(SEAT4);
 		
 		panRoundInfoSquare = new RoundInfoSquarePanel();
+		panWallSummary = new WallSummaryPanel();
 		
 		
 		
@@ -1052,6 +990,9 @@ public abstract class TableGUI extends JFrame{
 		panRoundInfoSquare.setLocation(131, 131);
 		
 		
+		panWallSummary.setLocation(10, 319);
+		
+		
 		
 		
 		
@@ -1072,145 +1013,9 @@ public abstract class TableGUI extends JFrame{
 		panelMidTable.setBackground(COLOR_MID_TABLE);
 		panelMidTable.setLayout(null);
 		
-		
-		
-
+		//mid table holds round info square and ponds
 		panelMidTable.add(panP1);panelMidTable.add(panP2);panelMidTable.add(panP3);panelMidTable.add(panP4);
 		panelMidTable.add(panRoundInfoSquare);
-//		panelMidTable.add(panelRoundInfoSquare);
-		
-		
-		
-//		panelRoundInfoSquare.add(panelRoundInfo);
-//		panelRoundInfoSquare.add(panelRndInfBackground);
-//		panelRoundInfoSquare.setBounds(131, 131, 166, 158);
-//		panelRoundInfoSquare.setLayout(null);
-//		panelRoundInfoSquare.setBackground(COLOR_TRANSPARENT);
-		
-		
-//		panelRoundInfo.setBounds(0, 0, panelRoundInfoSquare.getWidth(), panelRoundInfoSquare.getHeight());
-//		panelRoundInfo.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-//		panelRoundInfo.setBackground(COLOR_RINF_PANEL);
-//		panelRoundInfo.setLayout(null);
-//
-//		panelRoundInfo.add(panelRInd);
-//		panelRoundInfo.add(panelInfoP1);panelRoundInfo.add(panelInfoP2);panelRoundInfo.add(panelInfoP3);panelRoundInfo.add(panelInfoP4);
-//		panelRoundInfo.add(panelTurnInds);
-//		
-//		//exists only to color the background behind the round info
-//		panelRndInfBackground.setBounds(panelRoundInfo.getBounds());
-		
-		
-//		panelRInd.setBounds(54, 54, 58, 49);
-//		panelRInd.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-//		panelRInd.setBackground(COLOR_RIND);
-//		panelRInd.setLayout(null);
-//		panelRInd.add(lblRIndWind);panelRInd.add(lblRIndNum);
-	
-//		lblRIndWind.setBounds(3, 9, 31, 31);
-//		lblRIndNum.setText("4");
-//		lblRIndNum.setFont(new Font("Tahoma", Font.PLAIN, 30));
-//		lblRIndNum.setHorizontalAlignment(SwingConstants.LEFT);
-//		lblRIndNum.setVerticalAlignment(SwingConstants.TOP);
-//		lblRIndNum.setBounds(33, 6, 16, 37);
-		
-		
-		
-		
-		
-		
-//		panelInfoP1.setBounds(56, 103, 54, 54);
-//		panelInfoP1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-//		panelInfoP1.setBackground(COLOR_RINF_PANEL);
-//		panelInfoP1.setLayout(null);
-//		
-//		lblInfoP1Wind.setBounds(16, 2, 23, 23);
-//		lblInfoP1Wind.setHorizontalAlignment(SwingConstants.CENTER);
-//		panelInfoP1.add(lblInfoP1Wind);
-//		
-//		lblInfoP1Points.setText("128,000");
-//		lblInfoP1Points.setBounds(4, 25, 46, 14);
-//		lblInfoP1Points.setBackground(COLOR_TRANSPARENT);
-//		lblInfoP1Points.setHorizontalAlignment(SwingConstants.CENTER);
-//		panelInfoP1.add(lblInfoP1Points);
-//		
-//		lblInfoP1Riichi.setBounds(2, 40, 50, 8);
-//		lblInfoP1Riichi.setHorizontalAlignment(SwingConstants.CENTER);
-//		lblInfoP1Riichi.setIcon(riichiImg);
-//		panelInfoP1.add(lblInfoP1Riichi);
-//		
-//		
-//		
-//		
-//		
-//		panelInfoP2.setBounds(112, 52, 54, 54);
-//		panelInfoP2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-//		panelInfoP2.setBackground(COLOR_RINF_PANEL);
-//		panelInfoP2.setLayout(null);
-//		
-//		lblInfoP2Wind.setBounds(16, 2, 23, 23);
-//		lblInfoP2Wind.setHorizontalAlignment(SwingConstants.CENTER);
-//		panelInfoP2.add(lblInfoP2Wind);
-//		
-//		lblInfoP2Points.setText("128,000");
-//		lblInfoP2Points.setBounds(4, 25, 46, 14);
-//		lblInfoP2Points.setBackground(COLOR_TRANSPARENT);
-//		lblInfoP2Points.setHorizontalAlignment(SwingConstants.CENTER);
-//		panelInfoP2.add(lblInfoP2Points);
-//		
-//		lblInfoP2Riichi.setBounds(2, 40, 50, 8);
-//		lblInfoP2Riichi.setHorizontalAlignment(SwingConstants.CENTER);
-//		lblInfoP2Riichi.setIcon(riichiImg);
-//		panelInfoP2.add(lblInfoP2Riichi);
-//		
-//		
-//		
-//		
-//		
-//		panelInfoP3.setBounds(56, 0, 54, 54);
-//		panelInfoP3.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-//		panelInfoP3.setBackground(COLOR_RINF_PANEL);
-//		panelInfoP3.setLayout(null);
-//		
-//		lblInfoP3Wind.setBounds(16, 2, 23, 23);
-//		lblInfoP3Wind.setHorizontalAlignment(SwingConstants.CENTER);
-//		panelInfoP3.add(lblInfoP3Wind);
-//		
-//		lblInfoP3Points.setText("128,000");
-//		lblInfoP3Points.setBounds(4, 25, 46, 14);
-//		lblInfoP3Points.setBackground(COLOR_TRANSPARENT);
-//		lblInfoP3Points.setHorizontalAlignment(SwingConstants.CENTER);
-//		panelInfoP3.add(lblInfoP3Points);
-//		
-//		lblInfoP3Riichi.setBounds(2, 40, 50, 8);
-//		lblInfoP3Riichi.setHorizontalAlignment(SwingConstants.CENTER);
-//		lblInfoP3Riichi.setIcon(riichiImg);
-//		panelInfoP3.add(lblInfoP3Riichi);
-//		
-//		
-//		
-//		
-//		
-//		panelInfoP4.setBounds(0, 52, 54, 54);
-//		panelInfoP4.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-//		panelInfoP4.setBackground(COLOR_RINF_PANEL);
-//		panelInfoP4.setLayout(null);
-//		
-//		lblInfoP4Wind.setBounds(16, 2, 23, 23);
-//		lblInfoP4Wind.setHorizontalAlignment(SwingConstants.CENTER);
-//		panelInfoP4.add(lblInfoP4Wind);
-//		
-//		lblInfoP4Points.setText("128,000");
-//		lblInfoP4Points.setBounds(4, 25, 46, 14);
-//		lblInfoP4Points.setBackground(COLOR_TRANSPARENT);
-//		lblInfoP4Points.setHorizontalAlignment(SwingConstants.CENTER);
-//		panelInfoP4.add(lblInfoP4Points);
-//		
-//		lblInfoP4Riichi.setBounds(2, 40, 50, 8);
-//		lblInfoP4Riichi.setHorizontalAlignment(SwingConstants.CENTER);
-//		lblInfoP4Riichi.setIcon(riichiImg);
-//		panelInfoP4.add(lblInfoP4Riichi);
-		
 		
 		
 		
@@ -1222,7 +1027,7 @@ public abstract class TableGUI extends JFrame{
 		panelSidebar.add(lblWeHaveFun);
 		panelSidebar.add(btnBlankAll);panelSidebar.add(btnRandAll);
 		panelSidebar.add(panelCalls);
-		panelSidebar.add(panelWallSummary);
+		panelSidebar.add(panWallSummary);
 		panelSidebar.add(panelRoundResult);
 		
 		
@@ -1354,58 +1159,6 @@ public abstract class TableGUI extends JFrame{
 		
 		
 		
-		
-		
-		panelWallSummary.setLayout(null);
-		panelWallSummary.setBounds(10, 319, 161, 85);
-		panelWallSummary.setOpaque(false);
-		panelWallSummary.add(panelWTL);panelWallSummary.add(panelDeadWall);
-		
-		panelWTL.setBounds(1, 62, 78, 21);
-		panelWTL.setOpaque(false);
-		panelWTL.setLayout(new GridLayout(0, 2, 0, 0));
-		panelWTL.add(lblWTLText);panelWTL.add(lblWallTilesLeftLabel);
-		lblWTLText.setText("Left: ");
-		lblWTLText.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblWallTilesLeftLabel.setText("122");
-		lblWallTilesLeftLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
-		
-		
-		panelDeadWall.setBounds(0, 0, 161, 62);
-		panelDeadWall.setBackground(COLOR_CALL_PANEL);
-		panelDeadWall.setLayout(new GridLayout(2, 7, 0, 0));
-		panelDeadWall.add(lblDW1);panelDeadWall.add(lblDW3);panelDeadWall.add(lblDW5);panelDeadWall.add(lblDW7);panelDeadWall.add(lblDW9);panelDeadWall.add(lblDW11);panelDeadWall.add(lblDW13);panelDeadWall.add(lblDW2);panelDeadWall.add(lblDW4);panelDeadWall.add(lblDW6);panelDeadWall.add(lblDW8);panelDeadWall.add(lblDW10);panelDeadWall.add(lblDW12);panelDeadWall.add(lblDW14);
-		
-		
-		
-		
-		//turn indicators
-//		panelTurnInds.setBounds(0, 0, 166, 158);
-//		panelTurnInds.setLayout(null);
-//		panelTurnInds.setOpaque(false);
-//		panelTurnInds.add(panelTurnInd1);panelTurnInds.add(panelTurnInd2);panelTurnInds.add(panelTurnInd3);panelTurnInds.add(panelTurnInd4);
-//		
-//		panelTurnInd1.setBounds(0, 144, 166, 13);panelTurnInd1.setOpaque(false);panelTurnInd1.setLayout(null);
-//		panelTurnInd1.add(lblTurnInd11);panelTurnInd1.add(lblTurnInd12);
-//		lblTurnInd11.setBounds(1, 0, 55, 13);lblTurnInd11.setOpaque(true);lblTurnInd11.setBackground(COLOR_TURN_INDICATOR);
-//		lblTurnInd12.setBounds(110, 0, 55, 13);lblTurnInd12.setOpaque(true);lblTurnInd12.setBackground(COLOR_TURN_INDICATOR);
-//		panelTurnInd2.setBounds(152, 0, 13, 158);panelTurnInd2.setOpaque(false);panelTurnInd2.setLayout(null);
-//		panelTurnInd2.add(lblTurnInd21);panelTurnInd2.add(lblTurnInd22);
-//		lblTurnInd21.setBounds(1, 1, 13, 52);lblTurnInd21.setOpaque(true);lblTurnInd21.setBackground(COLOR_TURN_INDICATOR);
-//		lblTurnInd22.setBounds(0, 105, 13, 52);lblTurnInd22.setOpaque(true);lblTurnInd22.setBackground(COLOR_TURN_INDICATOR);
-//		panelTurnInd3.setBounds(0, 1, 166, 13);panelTurnInd3.setOpaque(false);panelTurnInd3.setLayout(null);
-//		panelTurnInd3.add(lblTurnInd31);panelTurnInd3.add(lblTurnInd32);
-//		lblTurnInd31.setBounds(1, 0, 55, 13);lblTurnInd31.setOpaque(true);lblTurnInd31.setBackground(COLOR_TURN_INDICATOR);
-//		lblTurnInd32.setBounds(110, 0, 55, 13);lblTurnInd32.setOpaque(true);lblTurnInd32.setBackground(COLOR_TURN_INDICATOR);
-//		panelTurnInd4.setBounds(1, 1, 13, 158);panelTurnInd4.setOpaque(false);panelTurnInd4.setLayout(null);
-//		panelTurnInd4.add(lblTurnInd41);panelTurnInd4.add(lblTurnInd42);
-//		lblTurnInd41.setBounds(1, 1, 13, 51);lblTurnInd41.setOpaque(true);lblTurnInd41.setBackground(COLOR_TURN_INDICATOR);
-//		lblTurnInd42.setBounds(0, 105, 13, 51);lblTurnInd42.setOpaque(true);lblTurnInd42.setBackground(COLOR_TURN_INDICATOR);
-//		
-//		
-		
-		
 
 		
 		panelRoundResult.setBounds(32, 234, 212, 66);
@@ -1438,29 +1191,11 @@ public abstract class TableGUI extends JFrame{
 		
 		////////////////////////////////////////////////////////////
 		
-		
-		
-		//load Round Info labels into arrays
-		larryInfoRound[0] = lblRIndWind;larryInfoRound[1] = lblRIndNum;
-		larryInfoP1[0] = lblInfoP1Wind;larryInfoP1[1] = lblInfoP1Points;larryInfoP1[2] = lblInfoP1Riichi;
-		larryInfoP2[0] = lblInfoP2Wind;larryInfoP2[1] = lblInfoP2Points;larryInfoP2[2] = lblInfoP2Riichi;
-		larryInfoP3[0] = lblInfoP3Wind;larryInfoP3[1] = lblInfoP3Points;larryInfoP3[2] = lblInfoP3Riichi;
-		larryInfoP4[0] = lblInfoP4Wind;larryInfoP4[1] = lblInfoP4Points;larryInfoP4[2] = lblInfoP4Riichi;
-		
-		//load turn indicator panels into arrays
-		parryTurnInds[0] = panelTurnInd1;parryTurnInds[1] = panelTurnInd2;parryTurnInds[2] = panelTurnInd3;parryTurnInds[3] = panelTurnInd4;
-		
 		//round results
 		panResult = panelRoundResult; lblResult = lblRoundResult;
 		
 		lblExclamation = lblExclamationLabel;
 		lblFun = lblWeHaveFun;
-		
-		
-		//load deadwall labels into arrays
-		larryDW[0] = lblDW1;larryDW[1] = lblDW2;larryDW[2] = lblDW3;larryDW[3] = lblDW4;larryDW[4] = lblDW5;larryDW[5] = lblDW6;larryDW[6] = lblDW7;larryDW[7] = lblDW8;larryDW[8] = lblDW9;larryDW[9] = lblDW10;larryDW[10] = lblDW11;larryDW[11] = lblDW12;larryDW[12] = lblDW13;larryDW[13] = lblDW14;
-		
-		lblWallTilesLeft = lblWallTilesLeftLabel; 
 		
 		
 		//load call buttons into array
@@ -1474,14 +1209,12 @@ public abstract class TableGUI extends JFrame{
 		
 		
 		panCalls = panelCalls;
-		panRoundInfoSquare = panelRoundInfoSquare; panRoundInfo = panelRoundInfo; panRndInfBackground = panelRndInfBackground;
 		panMidTable = panelMidTable;
-		panWallSummary = panelWallSummary;
 		btnBlank = btnBlankAll; btnRand = btnRandAll;
 		
 		
 		
-
+		//get labels
 		panPlayer1.getLabelsHand(larryH1);panPlayer1.getLabelsMelds(larryH1Ms);
 		panPlayer2.getLabelsHand(larryH2);panPlayer2.getLabelsMelds(larryH2Ms);
 		panPlayer3.getLabelsHand(larryH3);panPlayer3.getLabelsMelds(larryH3Ms);
@@ -1492,8 +1225,12 @@ public abstract class TableGUI extends JFrame{
 		panP3.getLabels(larryP3);
 		panP4.getLabels(larryP4);
 		
+		panRoundInfoSquare.getLabelsTurnIndicators(parryTurnInds);
+		panRoundInfoSquare.getLabelsPlayerInfo(larryInfoPlayers);
+		panRoundInfoSquare.getLabelsRoundInfo(larryInfoRound);
 		
-		
+		panWallSummary.getLabelsDeadWall(larryDW);
+		lblWallTilesLeft = panWallSummary.getLabelWallTilesLeft();
 		
 		
 		
@@ -1530,11 +1267,6 @@ public abstract class TableGUI extends JFrame{
 			final int discChoice = i + 1;
 			larryH1[i].addMouseListener(new MouseAdapter() {public void mouseClicked(MouseEvent arg0) {__setDiscardChosen(discChoice);}});
 		}
-		
-		
-		for (JLabel l: larryP1) {l.setHorizontalAlignment(SwingConstants.CENTER);}
-		for (JLabel l: larryP3) {l.setHorizontalAlignment(SwingConstants.CENTER);}
-		
 		
 	}
 	
@@ -1594,8 +1326,7 @@ public abstract class TableGUI extends JFrame{
 	
 	
 	
-	
-
+	//TODO start of panel classes
 	protected static class PlayerPanel extends JPanel{
 		private static final long serialVersionUID = 2890177422476419820L;
 
@@ -1761,7 +1492,6 @@ public abstract class TableGUI extends JFrame{
 	protected class RoundInfoSquarePanel extends JPanel{
 		private static final long serialVersionUID = -3845929576576899579L;
 		
-		
 		protected class RoundInfoPanel extends JPanel{
 			private static final long serialVersionUID = -3126252307107694820L;
 			
@@ -1789,6 +1519,9 @@ public abstract class TableGUI extends JFrame{
 					
 					add(lblRIndWind);add(lblRIndNum);
 				}
+				public void getLabels(JLabel[] rinfoParry){
+					rinfoParry[LARRY_INFOROUND_ROUNDWIND] = lblRIndWind; rinfoParry[LARRY_INFOROUND_ROUNDNUM] = lblRIndNum;
+				}
 			}
 			
 			protected class PlayerInfoPanel extends JPanel{
@@ -1798,7 +1531,6 @@ public abstract class TableGUI extends JFrame{
 				
 				public PlayerInfoPanel(){
 					super();
-//					lblInfoPWind.setIcon(garryWinds[SMALL][(new Random()).nextInt(garryWinds[SMALL].length)]);
 					lblInfoPWind.setIcon(garryWinds[SMALL][EAST]);lblInfoPPoints.setText("128,000");lblInfoPRiichi.setIcon(garryOther[GARRYINDEX_OTHER_RIICHI]);
 
 					setBounds(0, 0, 54, 54);
@@ -1818,6 +1550,9 @@ public abstract class TableGUI extends JFrame{
 					
 					add(lblInfoPWind);add(lblInfoPPoints);add(lblInfoPRiichi);
 				}
+				public void getLabels(JLabel[] pinfoLarry){
+					pinfoLarry[LARRY_INFOPLAYER_SEATWIND] = lblInfoPWind; pinfoLarry[LARRY_INFOPLAYER_POINTS] = lblInfoPPoints; pinfoLarry[LARRY_INFOPLAYER_RIICHI] = lblInfoPRiichi;
+				}
 			}
 			
 			protected class TurnIndicatorPanel extends JPanel{
@@ -1835,18 +1570,8 @@ public abstract class TableGUI extends JFrame{
 						setLayout(null);
 						
 						final int W = 2, H = 3;
-						final int[][][] BOUNDS_LABELS = {{{1, 0, 55, 13}, {1, 1, 13, 52}, {1, 0, 55, 13}, {1, 1, 13, 51}}, 
-														{{110, 0, 55, 13}, {0, 105, 13, 52}, {110, 0, 55, 13}, {0, 105, 13, 51}}}; 
-						
-//						final JLabel lblTurnInd1 = new JLabel(), lblTurnInd2 = new JLabel();
-//						final int LABEL1 = 0, LABEL2 = 1
-//						lblTurnInd1.setBounds(BOUNDS_LABELS[LABEL1][seat][X], BOUNDS_LABELS[LABEL1][seat][Y], BOUNDS_LABELS[LABEL1][seat][W], BOUNDS_LABELS[LABEL1][seat][H]);
-//						lblTurnInd2.setBounds(BOUNDS_LABELS[LABEL2][seat][X], BOUNDS_LABELS[LABEL2][seat][Y], BOUNDS_LABELS[LABEL2][seat][W], BOUNDS_LABELS[LABEL2][seat][H]);
-//						
-//						lblTurnInd1.setOpaque(true);lblTurnInd1.setBackground(COLOR_TURN_INDICATOR);
-//						lblTurnInd2.setOpaque(true);lblTurnInd2.setBackground(COLOR_TURN_INDICATOR);
-//						
-//						add(lblTurnInd1);add(lblTurnInd2);
+						final int[][][] BOUNDS_LABELS = {{{1, 0, 55, 13}, {1, 1, 13, 52}, {1, 0, 55, 13}, {1, 1, 13, 51}},
+														{{110, 0, 55, 13}, {0, 105, 13, 52}, {110, 0, 55, 13}, {0, 105, 13, 51}}};
 						
 						final JLabel[] turnIndLabels = {new JLabel(), new JLabel()};
 						for (int label = 0; label < turnIndLabels.length; label++){
@@ -1855,7 +1580,6 @@ public abstract class TableGUI extends JFrame{
 						}
 						for (JLabel l: turnIndLabels) add(l);
 					}
-					
 				}
 				
 				protected final TurnIndicatorSingle[] panelTurnIndSingles = new TurnIndicatorSingle[NUM_PLAYERS];
@@ -1873,6 +1597,9 @@ public abstract class TableGUI extends JFrame{
 						panelTurnIndSingles[seat].setLocation(LOCS_SINGLES[seat][X], LOCS_SINGLES[seat][Y]);
 					}
 					for (TurnIndicatorSingle pn: panelTurnIndSingles) add(pn);
+				}
+				public void getLabels(JPanel[] tindParry){
+					for (int i = 0; i < panelTurnIndSingles.length; i++) tindParry[i] = panelTurnIndSingles[i];
 				}
 			}
 			
@@ -1900,9 +1627,12 @@ public abstract class TableGUI extends JFrame{
 				for (PlayerInfoPanel pn: panelInfoPs) add(pn);
 				add(panelTurnInds);
 			}
+			public void getLabelsRoundInfo(JLabel[] rinfoLarry){panelRInd.getLabels(rinfoLarry);}
+			public void getLabelsTurnIndicators(JPanel[] tindParry){panelTurnInds.getLabels(tindParry);}
+			public void getLabelsPlayerInfo(JLabel[][] pinfoLarrys){
+				for (int i = 0; i < pinfoLarrys.length; i++) panelInfoPs[i].getLabels(pinfoLarrys[i]);
+			}
 		}
-		
-		
 		
 
 		private static final int WIDTH = 166;
@@ -1924,8 +1654,76 @@ public abstract class TableGUI extends JFrame{
 			add(panelRoundInfo);
 			add(panelRndInfBackground);
 		}
-		
+		public void getLabelsPlayerInfo(JLabel[][] pinfoLarrys){panelRoundInfo.getLabelsPlayerInfo(pinfoLarrys);}
+		public void getLabelsRoundInfo(JLabel[] rinfoLarry){panelRoundInfo.getLabelsRoundInfo(rinfoLarry);}
+		public void getLabelsTurnIndicators(JPanel[] tindParry){panelRoundInfo.getLabelsTurnIndicators(tindParry);}
 	}
+	
+	
+	
+	protected class WallSummaryPanel extends JPanel{
+		private static final long serialVersionUID = -9084400911185524132L;
+		
+		protected class DeadWallPanel extends JPanel{
+			private static final long serialVersionUID = 8920630209311855667L;
+			
+			protected JLabel[] larryDWtiles = {new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel(), new JLabel()};
+			
+			public DeadWallPanel(){
+				super();
+				for (JLabel l: larryDWtiles) l.setIcon(garryTiles[SEAT1][SMALL][0]);
+				
+				setBounds(0, 0, 161, 62);
+				setBackground(COLOR_CALL_PANEL);
+				setLayout(new GridLayout(2, 7, 0, 0));
+				
+				final int[] addOrder = {1,3,5,7,9,11,13,2,4,6,8,10,12,14};
+				for (int i: addOrder) add(larryDWtiles[i-1]);
+			}
+			public void getLabels(JLabel[] dwLarry){
+				for (int i = 0; i < larryDWtiles.length; i++) dwLarry[i] = larryDWtiles[i];
+			}
+		}
+		
+		protected class WallTilesLeftPanel extends JPanel{
+			private static final long serialVersionUID = 2296100666342215397L;
+			
+			protected final JLabel lblWallTilesLeftLabel = new JLabel();
+			
+			public WallTilesLeftPanel(){
+				super();
+				lblWallTilesLeftLabel.setText("122");
+				
+				setOpaque(false);
+				setLayout(new GridLayout(0, 2, 0, 0));
+				
+				JLabel lblWTLText = new JLabel("Left: "); lblWTLText.setFont(new Font("Tahoma", Font.BOLD, 14));
+				lblWallTilesLeftLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+				
+				add(lblWTLText);add(lblWallTilesLeftLabel);
+			}
+			public JLabel getLabel(){return lblWallTilesLeftLabel;}
+		}
+		
+		protected WallTilesLeftPanel panelWTL = new WallTilesLeftPanel();
+		protected DeadWallPanel panelDeadWall = new DeadWallPanel();
+		
+		public WallSummaryPanel(){
+			super();
+			
+			setLayout(null);
+			setBounds(0, 0, 161, 85);
+			setOpaque(false);
+			
+			panelWTL.setBounds(1, 62, 78, 21);
+			panelDeadWall.setLocation(0, 0);
+			
+			add(panelWTL);add(panelDeadWall);
+		}
+		public void getLabelsDeadWall(JLabel[] dwLarry){panelDeadWall.getLabels(dwLarry);}
+		public JLabel getLabelWallTilesLeft(){return panelWTL.getLabel();}
+	}
+	
 	
 	
 }

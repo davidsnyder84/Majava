@@ -139,6 +139,7 @@ public abstract class TableGUI extends JFrame{
 	protected static final int SIZE_MELDPANEL = 4;
 	protected static final int SIZE_MELD = 4;
 	protected static final int SIZE_WALL = 34;
+	protected static final int SIZE_NORMAL_WALL = 122;
 	protected static final int SIZE_DEAD_WALL = 14;
 	protected static final int SIZE_TINY_WALL = 69;
 	protected static final int OFFSET_DEAD_WALL = SIZE_WALL * 4 - SIZE_DEAD_WALL;
@@ -209,20 +210,21 @@ public abstract class TableGUI extends JFrame{
 	
 	
 
-	protected JButton[] barryCalls = new JButton[8], barryTActions = new JButton[4];
+	protected final JButton[] barryCalls = new JButton[8], barryTActions = new JButton[4];
 	
-	protected JLabel[] larryDW = new JLabel[SIZE_DEAD_WALL];
-	protected JLabel lblWallTilesLeft;
+	protected final JLabel[] larryDW = new JLabel[SIZE_DEAD_WALL];
+	protected final JLabel[] larryTinyW = new JLabel[SIZE_TINY_WALL];
+	protected final JLabel lblWallTilesLeft;
 	
-	protected RoundResultPanel panResult;
-	protected JLabel lblResult;
+	protected final RoundResultPanel panResult;
+	protected final JLabel lblResult;
 	
-	protected JLabel lblFun;
-	protected ExclamationLabel lblExclamation;
+	protected final JLabel lblFun;
+	protected final ExclamationLabel lblExclamation;
 	
-	protected JPanel panTable;
-	protected JPanel panSidebar;
-	protected JMenuBar menuBar; 
+	protected final JPanel panTable;
+	protected final JPanel panSidebar;
+	protected final JMenuBar menuBar; 
 	
 	
 
@@ -359,6 +361,16 @@ public abstract class TableGUI extends JFrame{
 	
 	private static final int NULL_TILE_IMAGE_ID = -1;
 	
+	private int __getImageIdOfTile(Tile t){
+		if (t == null) return 0;
+		if (!t.isRedDora()) return t.getId();
+		switch (t.getId()){
+		case 5: return RED5M;
+		case 14: return RED5P;
+		case 23: default: return RED5S;		
+		}
+	}
+	
 	private ImageIcon __getImageIcon(TileList tList, int index, int seatNum, int tileSize, boolean reveal){
 		if (tList.size() <= index) return null;
 		
@@ -461,7 +473,7 @@ public abstract class TableGUI extends JFrame{
 		}
 		
 		
-		//update dead wall
+		//update wall summary
 		for (currentTile = 0; currentTile < SIZE_DEAD_WALL; currentTile++){
 			larryDW[currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT1, mOptionRevealWall));
 		}
@@ -469,6 +481,13 @@ public abstract class TableGUI extends JFrame{
 			larryDW[currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT1));
 		}
 		lblWallTilesLeft.setText(Integer.toString(mRoundTracker.getNumTilesLeftInWall()));
+		currentTile = 0;
+		while (tilesW[SIZE_NORMAL_WALL-1-currentTile] != null){
+			if (mOptionRevealWall) larryTinyW[currentTile].setIcon(garryTilesTiny[__getImageIdOfTile(tilesW[SIZE_NORMAL_WALL-1-currentTile])]);
+			else larryTinyW[currentTile].setIcon(garryTilesTiny[TILEBACK]);
+			currentTile++;
+		}
+		if (currentTile < SIZE_TINY_WALL) larryTinyW[currentTile].setIcon(null);
 		
 		
 		//update melds
@@ -501,7 +520,6 @@ public abstract class TableGUI extends JFrame{
 		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
 			parryTurnInds[currentPlayer].setVisible(mRoundTracker.whoseTurn() == currentPlayer);
 		}
-		
 		
 		repaint();
 	}
@@ -581,10 +599,9 @@ public abstract class TableGUI extends JFrame{
 		for (JButton b: barryTActions)
 			b.setVisible(false);
 		
-		//dead wall
-		for (JLabel l: larryDW)
-			l.setIcon(null);
-		
+		//dead wall and tiny wall
+		for (JLabel l: larryDW)  l.setIcon(null);
+		for (JLabel l: larryTinyW)  l.setIcon(null);
 		lblWallTilesLeft.setText("0");
 		
 		repaint();
@@ -977,6 +994,7 @@ public abstract class TableGUI extends JFrame{
 		panRoundInfoSquare.getLabelsRoundInfo(larryInfoRound);
 		
 		panWallSummary.getLabelsDeadWall(larryDW);
+		panWallSummary.getLabelsTinyWall(larryTinyW);		
 		lblWallTilesLeft = panWallSummary.getLabelWallTilesLeft();
 		
 		lblResult = panResult.getLabelResult();
@@ -1384,8 +1402,8 @@ public abstract class TableGUI extends JFrame{
 		
 		protected class TinyWallPanel extends JPanel{
 			private static final long serialVersionUID = -4122759925808650141L;
-
-			protected final JLabel[] larryWtiles = new JLabel[SIZE_TINY_WALL];
+			
+			protected final JLabel[] larryTWtiles = new JLabel[SIZE_TINY_WALL];
 			
 			public TinyWallPanel(){
 				super();
@@ -1395,14 +1413,14 @@ public abstract class TableGUI extends JFrame{
 				setBackground(COLOR_TRANSPARENT);
 				
 //				for (int i = 0; i < larryWtiles.length; i++) larryWtiles[i] = new JLabel();
-				for (int i = 0; i < larryWtiles.length; i++){
-					larryWtiles[i] = new JLabel();
+				for (int i = 0; i < larryTWtiles.length; i++){
+					larryTWtiles[i] = new JLabel();
 //					larryWtiles[i].setIcon(garryTilesTiny[i%garryTilesTiny.length]);
-					larryWtiles[i].setIcon(garryTilesTiny[0]);
-					add(larryWtiles[i]);
+					larryTWtiles[i].setIcon(garryTilesTiny[0]);
+					add(larryTWtiles[i]);
 				}
 			}
-			public void getTiles(){}
+			public void getLabels(JLabel[] twLarry){for (int i = 0; i < larryTWtiles.length; i++)twLarry[i] = larryTWtiles[i];}
 		}
 		
 		
@@ -1425,9 +1443,7 @@ public abstract class TableGUI extends JFrame{
 				final int[] addOrder = {1,3,5,7,9,11,13,2,4,6,8,10,12,14};
 				for (int i: addOrder) add(larryDWtiles[i-1]);
 			}
-			public void getLabels(JLabel[] dwLarry){
-				for (int i = 0; i < larryDWtiles.length; i++) dwLarry[i] = larryDWtiles[i];
-			}
+			public void getLabels(JLabel[] dwLarry){for (int i = 0; i < larryDWtiles.length; i++) dwLarry[i] = larryDWtiles[i];}
 		}
 		
 		protected class WallTilesLeftPanel extends JPanel{
@@ -1468,7 +1484,9 @@ public abstract class TableGUI extends JFrame{
 			
 			add(panelWTL);add(panelDeadWall);add(panelTinyWall);
 		}
+		public void setTinyWallVisible(boolean b){panelTinyWall.setVisible(b);}
 		public void getLabelsDeadWall(JLabel[] dwLarry){panelDeadWall.getLabels(dwLarry);}
+		public void getLabelsTinyWall(JLabel[] twLarry){panelTinyWall.getLabels(twLarry);}
 		public JLabel getLabelWallTilesLeft(){return panelWTL.getLabel();}
 	}
 	
@@ -1552,7 +1570,7 @@ public abstract class TableGUI extends JFrame{
 					for (JLabel l: larryH2) l.setIcon(garryTiles[SEAT2][BIG][randGen.nextInt(RANDLIMIT)]);for (JLabel l: larryP2) l.setIcon(garryTiles[SEAT2][SMALL][randGen.nextInt(RANDLIMIT)]);for (JLabel[] lar: larryH2Ms) for (JLabel l: lar) l.setIcon(garryTiles[SEAT2][SMALL][randGen.nextInt(RANDLIMIT)]);
 					for (JLabel l: larryH3) l.setIcon(garryTiles[SEAT3][BIG][randGen.nextInt(RANDLIMIT)]);for (JLabel l: larryP3) l.setIcon(garryTiles[SEAT3][SMALL][randGen.nextInt(RANDLIMIT)]);for (JLabel[] lar: larryH3Ms) for (JLabel l: lar) l.setIcon(garryTiles[SEAT3][SMALL][randGen.nextInt(RANDLIMIT)]);
 					for (JLabel l: larryH4) l.setIcon(garryTiles[SEAT4][BIG][randGen.nextInt(RANDLIMIT)]);for (JLabel l: larryP4) l.setIcon(garryTiles[SEAT4][SMALL][randGen.nextInt(RANDLIMIT)]);for (JLabel[] lar: larryH4Ms) for (JLabel l: lar) l.setIcon(garryTiles[SEAT4][SMALL][randGen.nextInt(RANDLIMIT)]);
-					for (JLabel l: larryDW) l.setIcon(garryTiles[SEAT1][SMALL][randGen.nextInt(RANDLIMIT)]); lblWallTilesLeft.setText(Integer.toString(1+randGen.nextInt(122)));
+					for (JLabel l: larryDW) l.setIcon(garryTiles[SEAT1][SMALL][randGen.nextInt(RANDLIMIT)]); lblWallTilesLeft.setText(Integer.toString(1+randGen.nextInt(122))); for (JLabel l: larryTinyW) l.setIcon(garryTilesTiny[randGen.nextInt(RANDLIMIT)]);
 					larryInfoRound[LARRY_INFOROUND_ROUNDWIND].setIcon(garryWinds[BIG][randGen.nextInt(garryWinds[BIG].length)]);larryInfoRound[LARRY_INFOROUND_ROUNDNUM].setText(Integer.toString(1+randGen.nextInt(4)));	//randomize round info
 					for (JLabel[] infoP: larryInfoPlayers)	//randomize player info
 						{infoP[LARRY_INFOPLAYER_SEATWIND].setIcon(garryWinds[SMALL][randGen.nextInt(garryWinds[SMALL].length)]); infoP[LARRY_INFOPLAYER_POINTS].setText(Integer.toString(100*randGen.nextInt(1280)));

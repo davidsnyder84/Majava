@@ -202,8 +202,8 @@ public class TableViewer extends TableGUI{
 		
 		lblFun.setLocation(4, 5);lblFun.setSize(270, 345);
 		panResult.setLocation(32, 361);
-		panWallSummary.setLocation(10, 446);
-		panCalls.setLocation(28, 567);
+		panWallSummary.setLocation(10, 435);
+		panCalls.setLocation(28, 575);
 		
 		panDebugButtons.setLocation(204, 460);
 		

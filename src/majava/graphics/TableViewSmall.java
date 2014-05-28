@@ -7,7 +7,6 @@ Class: TableViewSmall
 a smaller GUI
 */
 public class TableViewSmall extends TableGUI{
-	
 	private static final long serialVersionUID = -4667970999762688255L;
 	
 

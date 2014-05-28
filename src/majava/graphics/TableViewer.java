@@ -51,7 +51,6 @@ Class: TableViewer
 a larger GUI for viewing the full wall
 */
 public class TableViewer extends TableGUI{
-	
 	private static final long serialVersionUID = 8352771291866988835L;
 	
 	
@@ -174,8 +173,6 @@ public class TableViewer extends TableGUI{
 		final int WINDOW_BOUND_WIDTH = WINDOW_WIDTH + 2*WINDOW_SIDE_BORDER_SIZE;
 		final int WINDOW_BOUND_HEIGHT = WINDOW_HEIGHT + WINDOW_TOP_BORDER_SIZE + WINDOW_MENU_SIZE;
 		
-		int i = 0;
-		
 		setSize(WINDOW_BOUND_WIDTH, WINDOW_BOUND_HEIGHT);
 		
 		
@@ -261,7 +258,7 @@ public class TableViewer extends TableGUI{
 		panWall4.getLabels(larryW4);
 		
 		//put wall labels in a single array of 136 tiles
-		for (JLabel[] lar: larryWalls) for (JLabel l: lar) larryWallAll[i++] = l;
+		int i = 0; for (JLabel[] lar: larryWalls) for (JLabel l: lar) larryWallAll[i++] = l;
 		
 	}
 	

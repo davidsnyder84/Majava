@@ -15,7 +15,6 @@ import utility.ImageRotator;
 
 import java.awt.Color;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -26,9 +25,6 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import java.awt.Font;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -40,7 +36,6 @@ import java.awt.event.MouseEvent;
 import java.awt.FlowLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JCheckBoxMenuItem;
 
 /*
@@ -200,7 +195,6 @@ public abstract class TableGUI extends JFrame{
 	protected final JLabel[][] larryPonds = {larryP1, larryP2, larryP3, larryP4};
 	
 	
-	
 	//larryInfoPlayers[player number][0 = seatwind, 1 = points, 2 = riichiStick]
 	protected final JLabel[] larryInfoP1 = new JLabel[SIZE_LARRY_INFOPLAYER], larryInfoP2 = new JLabel[SIZE_LARRY_INFOPLAYER], larryInfoP3 = new JLabel[SIZE_LARRY_INFOPLAYER], larryInfoP4 = new JLabel[SIZE_LARRY_INFOPLAYER];
 	protected final JLabel[][] larryInfoPlayers = {larryInfoP1, larryInfoP2, larryInfoP3, larryInfoP4};
@@ -211,8 +205,7 @@ public abstract class TableGUI extends JFrame{
 	
 	
 
-	protected JButton[] barryCalls = new JButton[8];
-	protected JButton[] barryTActions = new JButton[4];
+	protected JButton[] barryCalls = new JButton[8], barryTActions = new JButton[4];
 	
 	protected JLabel[] larryDW = new JLabel[SIZE_DEAD_WALL];
 	protected JLabel lblWallTilesLeft;
@@ -225,7 +218,7 @@ public abstract class TableGUI extends JFrame{
 	
 	protected JPanel panTable;
 	protected JPanel panSidebar;
-	
+	protected JMenuBar menuBar; 
 	
 	
 
@@ -826,14 +819,10 @@ public abstract class TableGUI extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, WINDOW_BOUND_WIDTH, WINDOW_BOUND_HEIGHT);
 		
+		menuBar = new TopMenuBar();
+		setJMenuBar(menuBar);
 		
 		
-		
-
-		//menus
-		JMenuBar menuBar;
-		JMenu menuCheats;
-		JCheckBoxMenuItem checkboxRevealWalls; JCheckBoxMenuItem checkboxRevealHands;
 		
 		//panel declarations
 		JPanel panelTable = new JPanel();
@@ -854,43 +843,6 @@ public abstract class TableGUI extends JFrame{
 
 		contentPane.add(panelTable);
 		contentPane.add(panelSidebar);
-		
-		
-		
-		
-		
-
-		menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		
-		menuCheats = new JMenu();
-		menuCheats.setText("Cheats");
-		
-		checkboxRevealWalls = new JCheckBoxMenuItem();
-		checkboxRevealWalls.setText("Reveal Walls");
-		checkboxRevealWalls.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				mOptionRevealWall = !mOptionRevealWall;
-				updateEverything();
-			}
-		});
-		checkboxRevealWalls.setSelected(DEFAULT_OPTION_REVEAL_WALL);
-		
-		checkboxRevealHands = new JCheckBoxMenuItem();
-		checkboxRevealHands.setText("Reveal Hands");
-		checkboxRevealHands.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				mOptionRevealHands = !mOptionRevealHands;
-				for (int i = 0; i < mRevealHands.length; i++) mRevealHands[i] = (mOptionRevealHands || mPTrackers[i].player.controllerIsHuman());
-				updateEverything();
-			}
-		});
-		checkboxRevealHands.setSelected(DEFAULT_OPTION_REVEAL_HANDS);
-
-		menuBar.add(menuCheats);
-		menuCheats.add(checkboxRevealWalls);menuCheats.add(checkboxRevealHands);
-		
-		
 		
 		
 		
@@ -1025,18 +977,6 @@ public abstract class TableGUI extends JFrame{
 		panCalls.getButtonsCalls(barryCalls);
 		panCalls.getButtonsTurnActions(barryTActions);
 		
-		
-		
-		
-		
-		//properties
-		
-		//add mouse listeners to hand tile labels
-		for (int i = 0; i < larryH1.length; i++){
-			final int discChoice = i + 1;
-			larryH1[i].addMouseListener(new MouseAdapter() {public void mouseClicked(MouseEvent arg0) {__setDiscardChosen(discChoice);}});
-		}
-		
 	}
 	
 	
@@ -1096,7 +1036,7 @@ public abstract class TableGUI extends JFrame{
 	
 	
 	//TODO start of panel classes
-	protected static class PlayerPanel extends JPanel{
+	protected class PlayerPanel extends JPanel{
 		private static final long serialVersionUID = 2890177422476419820L;
 
 		protected class HandPanel extends JPanel{
@@ -1123,11 +1063,17 @@ public abstract class TableGUI extends JFrame{
 				
 				if (seat == SEAT2 || seat == SEAT3) for (int i = larryH.length-1; i >= 0; i--) add(larryH[i]);
 				else for (int i = 0; i < larryH.length; i++) add(larryH[i]);
+				
+				//add mouse listeners to hand tile labels
+				if (seat == SEAT1) for (int i = 0; i < larryH.length; i++){
+					final int discChoice = i + 1;
+					larryH[i].addMouseListener(new MouseAdapter() {public void mouseClicked(MouseEvent arg0) {__setDiscardChosen(discChoice);}});
+				}
 			}
 			public void getLabels(JLabel[] hLarry){for (int i = 0; i < larryH.length; i++) hLarry[i] = larryH[i];}
 		}
 		
-		protected static class MeldsPanel extends JPanel{
+		protected class MeldsPanel extends JPanel{
 			private static final long serialVersionUID = -830267613586455835L;
 
 			protected class MeldPanel extends JPanel{
@@ -1183,8 +1129,6 @@ public abstract class TableGUI extends JFrame{
 		}
 
 		private static final int WIDTH = 667, HEIGHT = 78;
-		private static final int[][] LOCS_H = {{42,0}, {0,203}, {203,36}, {36,72}};
-		private static final int[][] LOCS_M = {{100,47}, {46,104}, {104,0}, {0,100}};
 		
 		protected HandPanel panelH;
 		protected MeldsPanel panelHMs;
@@ -1198,6 +1142,9 @@ public abstract class TableGUI extends JFrame{
 			
 			setBackground(COLOR_TRANSPARENT);
 			setLayout(null);
+			
+			final int[][] LOCS_H = {{42,0}, {0,203}, {203,36}, {36,72}};
+			final int[][] LOCS_M = {{100,47}, {46,104}, {104,0}, {0,100}};
 			
 			panelH = new HandPanel(seat);
 			panelH.setLocation(LOCS_H[seat][X], LOCS_H[seat][Y]);
@@ -1398,8 +1345,8 @@ public abstract class TableGUI extends JFrame{
 		private static final int WIDTH = 166;
 		private static final int HEIGHT = 158;
 		
-		protected JPanel panelRndInfBackground = new JPanel();
-		protected RoundInfoPanel panelRoundInfo = new RoundInfoPanel();
+		protected final JPanel panelRndInfBackground = new JPanel();
+		protected final RoundInfoPanel panelRoundInfo = new RoundInfoPanel();
 		
 		public RoundInfoSquarePanel(){
 			super();
@@ -1521,7 +1468,7 @@ public abstract class TableGUI extends JFrame{
 	protected class RoundResultPanel extends JPanel{
 		private static final long serialVersionUID = 1415387615431328822L;
 		
-		protected JLabel lblRoundResult = new JLabel();
+		protected final JLabel lblRoundResult = new JLabel();
 		
 		public RoundResultPanel(){
 			super();
@@ -1550,8 +1497,7 @@ public abstract class TableGUI extends JFrame{
 
 	protected class DebugButtonsPanel extends JPanel{
 		private static final long serialVersionUID = 1859926261989819869L;
-		
-		protected JButton btnBlankAll = new JButton("Blank"), btnRandAll = new JButton("Rand");
+		protected final JButton btnBlankAll = new JButton("Blank"), btnRandAll = new JButton("Rand");
 		public DebugButtonsPanel(){
 			super();
 			setBounds(0, 0, 68, 23*2);setVisible(DEBUG_BUTTONS_VISIBLE);setLayout(null);setBackground(COLOR_TRANSPARENT);
@@ -1567,20 +1513,15 @@ public abstract class TableGUI extends JFrame{
 					for (JLabel l: larryH2) l.setIcon(garryTiles[SEAT2][BIG][randGen.nextInt(RANDLIMIT)]);for (JLabel l: larryP2) l.setIcon(garryTiles[SEAT2][SMALL][randGen.nextInt(RANDLIMIT)]);for (JLabel[] lar: larryH2Ms) for (JLabel l: lar) l.setIcon(garryTiles[SEAT2][SMALL][randGen.nextInt(RANDLIMIT)]);
 					for (JLabel l: larryH3) l.setIcon(garryTiles[SEAT3][BIG][randGen.nextInt(RANDLIMIT)]);for (JLabel l: larryP3) l.setIcon(garryTiles[SEAT3][SMALL][randGen.nextInt(RANDLIMIT)]);for (JLabel[] lar: larryH3Ms) for (JLabel l: lar) l.setIcon(garryTiles[SEAT3][SMALL][randGen.nextInt(RANDLIMIT)]);
 					for (JLabel l: larryH4) l.setIcon(garryTiles[SEAT4][BIG][randGen.nextInt(RANDLIMIT)]);for (JLabel l: larryP4) l.setIcon(garryTiles[SEAT4][SMALL][randGen.nextInt(RANDLIMIT)]);for (JLabel[] lar: larryH4Ms) for (JLabel l: lar) l.setIcon(garryTiles[SEAT4][SMALL][randGen.nextInt(RANDLIMIT)]);
-					
 					for (JLabel l: larryDW) l.setIcon(garryTiles[SEAT1][SMALL][randGen.nextInt(RANDLIMIT)]); lblWallTilesLeft.setText(Integer.toString(1+randGen.nextInt(122)));
-					
 					larryInfoRound[LARRY_INFOROUND_ROUNDWIND].setIcon(garryWinds[BIG][randGen.nextInt(garryWinds[BIG].length)]);larryInfoRound[LARRY_INFOROUND_ROUNDNUM].setText(Integer.toString(1+randGen.nextInt(4)));	//randomize round info
-					
 					for (JLabel[] infoP: larryInfoPlayers)	//randomize player info
 						{infoP[LARRY_INFOPLAYER_SEATWIND].setIcon(garryWinds[SMALL][randGen.nextInt(garryWinds[SMALL].length)]); infoP[LARRY_INFOPLAYER_POINTS].setText(Integer.toString(100*randGen.nextInt(1280)));
 						if (randGen.nextBoolean()) infoP[LARRY_INFOPLAYER_RIICHI].setIcon(null); else infoP[LARRY_INFOPLAYER_RIICHI].setIcon(garryOther[GARRYINDEX_OTHER_RIICHI]);}
-					
 					int exclLoc = randGen.nextInt(EXCLAMATION_LOCS.length);lblExclamation.setVisible(true);lblExclamation.setLocation(EXCLAMATION_LOCS[exclLoc][X], EXCLAMATION_LOCS[exclLoc][Y]);
 					String[] results = {"Draw (Washout)", "Draw (Kyuushuu)", "Draw (4 kans)", "Draw (4 riichi)", "Draw (4 wind)", "East wins! (TSUMO)", "East wins! (RON)", "South wins! (TSUMO)", "South wins! (RON)", "West wins! (TSUMO)", "West wins! (RON)", "North wins! (TSUMO)", "North wins! (RON)" };panResult.setVisible(true);lblResult.setText(results[randGen.nextInt(results.length)]);
 					for (JPanel p: parryTurnInds) p.setVisible(false);	parryTurnInds[randGen.nextInt(parryTurnInds.length)].setVisible(true); //randomize turn indicator
 					lblFun.setIcon(garryOmake[randGen.nextInt(garryOmake.length)]);
-					
 					thisguy.repaint();
 				}
 			});
@@ -1662,6 +1603,41 @@ public abstract class TableGUI extends JFrame{
 	}
 	
 	
+	protected class TopMenuBar extends JMenuBar{
+		private static final long serialVersionUID = -2474321339954066458L;
+		
+		protected class CheatsMenu extends JMenu{
+			private static final long serialVersionUID = 5173870286829300289L;
+			
+			public CheatsMenu(){
+				super("Cheats");
+				JCheckBoxMenuItem checkboxRevealWalls = new JCheckBoxMenuItem("Reveal Walls"), checkboxRevealHands = new JCheckBoxMenuItem("Reveal Hands");
+				checkboxRevealWalls.setSelected(DEFAULT_OPTION_REVEAL_WALL);checkboxRevealHands.setSelected(DEFAULT_OPTION_REVEAL_HANDS);
+				
+				checkboxRevealWalls.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						mOptionRevealWall = !mOptionRevealWall;
+						updateEverything();
+					}
+				});
+				checkboxRevealHands.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						mOptionRevealHands = !mOptionRevealHands;
+						for (int i = 0; i < mRevealHands.length; i++) mRevealHands[i] = (mOptionRevealHands || mPTrackers[i].player.controllerIsHuman());
+						updateEverything();
+					}
+				});
+				add(checkboxRevealWalls);add(checkboxRevealHands);
+			}
+		}
+		
+		protected final CheatsMenu menuCheats = new CheatsMenu();
+		
+		public TopMenuBar(){
+			super();
+			add(menuCheats);
+		}
+	}
 	
 	
 	

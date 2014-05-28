@@ -208,8 +208,7 @@ public class TableViewer extends TableGUI{
 		panWallSummary.setLocation(10, 446);
 		panCalls.setLocation(28, 567);
 		
-		btnBlank.setLocation(204, 485);
-		btnRand.setLocation(204, 460);
+		panDebugButtons.setLocation(204, 460);
 		
 		
 		
@@ -239,7 +238,7 @@ public class TableViewer extends TableGUI{
 		
 		
 		//add random walls to random button
-		btnRand.addActionListener(new ActionListener(){
+		panDebugButtons.btnBlankAll.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				Random randGen = new Random();final int RANDLIMIT = 38;
 				int[] s = {0,3,2,1}; for (int seat = SEAT1; seat <= SEAT4; seat++) for (int j = 0; j < larryWalls[SEAT1].length; j++) larryWalls[seat][j].setIcon(garryTiles[s[seat]][SMALL][randGen.nextInt(RANDLIMIT)]);

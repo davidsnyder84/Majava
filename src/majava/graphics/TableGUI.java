@@ -129,7 +129,7 @@ public abstract class TableGUI extends JFrame{
 	
 	private static final double SCALER_SMALL = .775, SCALER_TINY = .3;
 	protected static final ImageRotator[] rotators = {new ImageRotator(0), new ImageRotator(-90), new ImageRotator(180), new ImageRotator(90)};
-	protected static final ImageResizer[] resizers = {new ImageResizer(1), new ImageResizer(.5), new ImageResizer(SCALER_TINY)};
+	protected static final ImageResizer[] resizers = {new ImageResizer(1), new ImageResizer(SCALER_SMALL), new ImageResizer(SCALER_TINY)};
 	
 	
 	protected static final int NUM_PLAYERS = 4;
@@ -146,7 +146,7 @@ public abstract class TableGUI extends JFrame{
 	protected static final int POS_DORA_1 = 8;
 	protected static final int SIZE_POND = 24;
 	protected static final int SIZE_LARRY_INFOPLAYER = 3;
-	protected static final int SIZE_LARRY_INFOROUND = 2;
+	protected static final int SIZE_LARRY_INFOROUND = 3;
 
 	
 	
@@ -204,7 +204,7 @@ public abstract class TableGUI extends JFrame{
 	protected final JLabel[] larryInfoP1 = new JLabel[SIZE_LARRY_INFOPLAYER], larryInfoP2 = new JLabel[SIZE_LARRY_INFOPLAYER], larryInfoP3 = new JLabel[SIZE_LARRY_INFOPLAYER], larryInfoP4 = new JLabel[SIZE_LARRY_INFOPLAYER];
 	protected final JLabel[][] larryInfoPlayers = {larryInfoP1, larryInfoP2, larryInfoP3, larryInfoP4};
 	
-	//0 = roundWind, 1 = roundNumber
+	//0 = roundWind, 1 = roundNumber, 2 = roundBonusNumber
 	protected final JLabel[] larryInfoRound = new JLabel[SIZE_LARRY_INFOROUND];
 	protected final JPanel[] parryTurnInds = new JPanel[NUM_PLAYERS];
 	
@@ -515,6 +515,7 @@ public abstract class TableGUI extends JFrame{
 		//update round info
 		larryInfoRound[LARRY_INFOROUND_ROUNDWIND].setIcon(__getImageIconWind(mRoundTracker.getRoundWind(), BIG));
 		larryInfoRound[LARRY_INFOROUND_ROUNDNUM].setText(Integer.toString(mRoundTracker.getRoundNum()));
+		larryInfoRound[LARRY_INFOROUND_BONUSNUM].setText(Integer.toString(mRoundTracker.getRoundBonusNum()));
 		
 		//update turn indicators
 		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
@@ -574,8 +575,7 @@ public abstract class TableGUI extends JFrame{
 					l.setIcon(null);
 		
 		//round info
-		larryInfoRound[0].setIcon(null);
-		larryInfoRound[1].setText(null);
+		larryInfoRound[LARRY_INFOROUND_ROUNDWIND].setIcon(null);larryInfoRound[LARRY_INFOROUND_ROUNDNUM].setText(null);larryInfoRound[LARRY_INFOROUND_BONUSNUM].setText(null);
 		
 		//turn indicators
 		for (JPanel p: parryTurnInds)
@@ -1034,6 +1034,7 @@ public abstract class TableGUI extends JFrame{
 		
 		//load tiny tile images
 		for (int i = 0; i < garryTiles[BIG][SEAT1].length; i++) garryTilesTiny[i] = resizers[TINY].resizeImage(garryTiles[BIG][SEAT1][i]);
+//		for (int seat = SEAT1; seat <= SEAT4; seat++) for (int i = 0; i < garryTiles[BIG][SEAT1].length; i++) garryTiles[seat][SMALL][i] = resizers[SMALL].resizeImage(garryTiles[seat][BIG][i]);
 		
 		
 		//load Wind images into array
@@ -1234,7 +1235,7 @@ public abstract class TableGUI extends JFrame{
 			protected class RoundIndicatorPanel extends JPanel{
 				private static final long serialVersionUID = -8999599492268781636L;
 				
-				protected JLabel lblRIndWind = new JLabel(), lblRIndNum = new JLabel();
+				protected JLabel lblRIndWind = new JLabel(), lblRIndNum = new JLabel(), lblRIndBonusNum = new JLabel();
 				
 				public RoundIndicatorPanel(){
 					super();
@@ -1252,11 +1253,18 @@ public abstract class TableGUI extends JFrame{
 					lblRIndNum.setFont(new Font("Tahoma", Font.PLAIN, 30));
 					lblRIndNum.setHorizontalAlignment(SwingConstants.LEFT);
 					lblRIndNum.setVerticalAlignment(SwingConstants.TOP);
+
+//					lblRIndBonusNum.setBounds(40, 35, 16, 37);
+					lblRIndBonusNum.setBounds(50, 36, 16, 37);
+					lblRIndBonusNum.setText("1");
+					lblRIndBonusNum.setFont(new Font("Tahoma", Font.PLAIN, 10));
+					lblRIndBonusNum.setHorizontalAlignment(SwingConstants.LEFT);
+					lblRIndBonusNum.setVerticalAlignment(SwingConstants.TOP);
 					
-					add(lblRIndWind);add(lblRIndNum);
+					add(lblRIndWind);add(lblRIndNum);add(lblRIndBonusNum);
 				}
 				public void getLabels(JLabel[] rinfoParry){
-					rinfoParry[LARRY_INFOROUND_ROUNDWIND] = lblRIndWind; rinfoParry[LARRY_INFOROUND_ROUNDNUM] = lblRIndNum;
+					rinfoParry[LARRY_INFOROUND_ROUNDWIND] = lblRIndWind; rinfoParry[LARRY_INFOROUND_ROUNDNUM] = lblRIndNum; rinfoParry[LARRY_INFOROUND_BONUSNUM] = lblRIndBonusNum;
 				}
 			}
 			
@@ -1571,7 +1579,7 @@ public abstract class TableGUI extends JFrame{
 					for (JLabel l: larryH3) l.setIcon(garryTiles[SEAT3][BIG][randGen.nextInt(RANDLIMIT)]);for (JLabel l: larryP3) l.setIcon(garryTiles[SEAT3][SMALL][randGen.nextInt(RANDLIMIT)]);for (JLabel[] lar: larryH3Ms) for (JLabel l: lar) l.setIcon(garryTiles[SEAT3][SMALL][randGen.nextInt(RANDLIMIT)]);
 					for (JLabel l: larryH4) l.setIcon(garryTiles[SEAT4][BIG][randGen.nextInt(RANDLIMIT)]);for (JLabel l: larryP4) l.setIcon(garryTiles[SEAT4][SMALL][randGen.nextInt(RANDLIMIT)]);for (JLabel[] lar: larryH4Ms) for (JLabel l: lar) l.setIcon(garryTiles[SEAT4][SMALL][randGen.nextInt(RANDLIMIT)]);
 					for (JLabel l: larryDW) l.setIcon(garryTiles[SEAT1][SMALL][randGen.nextInt(RANDLIMIT)]); lblWallTilesLeft.setText(Integer.toString(1+randGen.nextInt(122))); for (JLabel l: larryTinyW) l.setIcon(garryTilesTiny[randGen.nextInt(RANDLIMIT)]);
-					larryInfoRound[LARRY_INFOROUND_ROUNDWIND].setIcon(garryWinds[BIG][randGen.nextInt(garryWinds[BIG].length)]);larryInfoRound[LARRY_INFOROUND_ROUNDNUM].setText(Integer.toString(1+randGen.nextInt(4)));	//randomize round info
+					larryInfoRound[LARRY_INFOROUND_ROUNDWIND].setIcon(garryWinds[BIG][randGen.nextInt(garryWinds[BIG].length)]);larryInfoRound[LARRY_INFOROUND_ROUNDNUM].setText(Integer.toString(1+randGen.nextInt(4))); larryInfoRound[LARRY_INFOROUND_BONUSNUM].setText(Integer.toString(1+randGen.nextInt(4)));	//randomize round info
 					for (JLabel[] infoP: larryInfoPlayers)	//randomize player info
 						{infoP[LARRY_INFOPLAYER_SEATWIND].setIcon(garryWinds[SMALL][randGen.nextInt(garryWinds[SMALL].length)]); infoP[LARRY_INFOPLAYER_POINTS].setText(Integer.toString(100*randGen.nextInt(1280)));
 						if (randGen.nextBoolean()) infoP[LARRY_INFOPLAYER_RIICHI].setIcon(null); else infoP[LARRY_INFOPLAYER_RIICHI].setIcon(garryOther[GARRYINDEX_OTHER_RIICHI]);}

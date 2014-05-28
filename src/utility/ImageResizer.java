@@ -88,6 +88,8 @@ public class ImageResizer {
 	}
 	
 	
+	
+	
 	public static void main(String[] args) {
 		
 //		final double DEMO_SCALER_1 = .270588;

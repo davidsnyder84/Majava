@@ -192,6 +192,7 @@ public class RoundResult {
 	
 	
 	public String getWinTypeString(){return mWinType.toString();}
+	public Wind getWindOfWinner(){if (isOver() && isVictory()) return mWinningPlayer.getSeatWind(); return null;}
 	
 	
 	

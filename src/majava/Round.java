@@ -51,7 +51,7 @@ public class Round {
 	private static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
 	//for debug use
-	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	
 	
@@ -559,7 +559,10 @@ public class Round {
 	
 	public boolean roundIsOver(){return mRoundTracker.roundIsOver();}
 	public boolean endedWithVictory(){return mRoundTracker.roundEndedWithVictory();}
+	public boolean endedWithDealerVictory(){return mRoundTracker.roundEndedWithDealerVictory();}
 	public String getWinningHandString(){return mRoundTracker.getWinningHandString();}
+	
+	public boolean qualifiesForRenchan(){return mRoundTracker.qualifiesForRenchan();}
 	
 	
 	
@@ -603,11 +606,13 @@ public class Round {
 
 		final int DEAFULT_SLEEPTIME = 400;
 		final int DEAFULT_SLEEPTIME_EXCLAMATION = 1500;
-		final int DEAFULT_SLEEPTIME_ROUND_END = 5000;
+		final int DEAFULT_SLEEPTIME_ROUND_END = 2000;
+//		final int DEAFULT_SLEEPTIME_ROUND_END = 5000;
 		
 		final int FAST_SLEEPTIME = 0;
 		final int FAST_SLEEPTIME_EXCLAMATION = 0;
 		final int FAST_SLEEPTIME_ROUND_END = 0;
+//		final int FAST_SLEEPTIME_ROUND_END = DEAFULT_SLEEPTIME_ROUND_END;
 		
 		
 		if (mDoFastGameplay){

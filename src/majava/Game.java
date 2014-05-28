@@ -3,7 +3,6 @@ package majava;
 import java.util.ArrayList;
 
 import majava.graphics.TableGUI;
-import majava.graphics.TableViewer;
 
 
 
@@ -14,7 +13,7 @@ data:
 	p1, p2, p3, p4 - the game's four players
 	mPlayerArray - an array containing the four players
 	
-	mGameType - the type of game being played (single, tonpuusen, or hanchan)
+	mGameType - the type of game being played (single, tonpuusen, hanchan. or simulation)
 	
 	mCurrentRound - the current round being played
 	mCurrentRoundWind, mCurrentRoundNum, mCurrentRoundBonusNum - information for the current round
@@ -22,7 +21,7 @@ data:
 	mGameIsOver - will be true if the game is over, false if not
 	mWinStrings - a string containing the winning hands of each round in the game
 	
-	mTviewer - TableViewer GUI window for the game
+	mTviewer - TableGUI window for the game
 	mDoFastGameplay - option, will do fast gameplay if true
 	
 methods:
@@ -43,23 +42,35 @@ methods:
 public class Game {
 	
 	private static final int NUM_PLAYERS = 4;
+	private static final int MAX_NUM_ROUNDS = NUM_PLAYERS;
 	private static final Wind DEFAULT_ROUND_WIND = Wind.EAST;
 	
 	private enum GameType{
-		SINGLE, TONPUUSEN, HANCHAN;
+		SINGLE, TONPUUSEN, HANCHAN, SIMULATION;
 		@Override
 		public String toString(){
 			switch (this){
 			case SINGLE: return "Single";
 			case TONPUUSEN: return "Tonpuusen";
 			case HANCHAN: return "Hanchan";
+			case SIMULATION: return "Simulation";
 			default: return "unknown";
 			}
 		}
+		public Wind lastWind(){
+			switch (this){
+			case TONPUUSEN: return Wind.EAST;
+			case HANCHAN: return Wind.SOUTH;
+			default: return Wind.UNKNOWN;
+			}
+		}
 	}
-	public static final GameType GAME_TYPE_DEFAULT = GameType.SINGLE;
+//	public static final GameType GAME_TYPE_DEFAULT = GameType.SINGLE;
+//	public static final GameType GAME_TYPE_DEFAULT = GameType.HANCHAN;
+	public static final GameType GAME_TYPE_DEFAULT = GameType.TONPUUSEN;
 
-	public static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
+	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
+	private static final int NUM_SIMULATIONS_TO_RUN = 500;
 	
 	
 	
@@ -75,6 +86,7 @@ public class Game {
 	
 	private GameType mGameType;
 	private boolean mGameIsOver;
+	private int mNumRoundsPlayed;
 	private ArrayList<String> mWinStrings;
 
 	private TableGUI mTviewer;
@@ -104,6 +116,7 @@ public class Game {
 		
 		mTviewer = tviewer;
 		mDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
+		mNumRoundsPlayed = 0;
 	}
 	
 	
@@ -115,6 +128,7 @@ public class Game {
 	public void setGameTypeSingle(){__setGameType(GameType.SINGLE);}
 	public void setGameTypeTonpuusen(){__setGameType(GameType.TONPUUSEN);}
 	public void setGameTypeHanchan(){__setGameType(GameType.HANCHAN);}
+	public void setGameTypeSimulation(){__setGameType(GameType.SIMULATION);}
 	
 	
 	
@@ -126,61 +140,55 @@ public class Game {
 	
 	/*
 	method: play
-	plays a new game of mahjong
-	
-	play round
+	plays a full game of mahjong
 	*/
 	public void play(){
 		
-		if (mDoFastGameplay && p1.controllerIsComputer() && p2.controllerIsComputer() && p3.controllerIsComputer() && p4.controllerIsComputer()) runSimulation();
+		if (mDoFastGameplay && p1.controllerIsComputer() && p2.controllerIsComputer() && p3.controllerIsComputer() && p4.controllerIsComputer()) setGameTypeSimulation();
 		
 		
-		//play one round
-		mCurrentRound = new Round(mTviewer, mPlayerArray);
-		mCurrentRound.setOptionFastGameplay(mDoFastGameplay);
-		mCurrentRound.play();
-		
-		if (mCurrentRound.endedWithVictory()){
-			mWinStrings.add(mCurrentRound.getWinningHandString());
-		}
-		
-		mGameIsOver = true;
-		
-		displayGameResult();
-	}
-	
-	
-	/*
-	method: runSimulation
-	runs a simulation
-	*/
-	public void runSimulation(){
-		
-		final int NUM_ROUNDS_TO_PLAY = 500;
-
-		
-		
-		//play a bunch of rounds
-		for (mCurrentRoundNum = 1; mCurrentRoundNum <= NUM_ROUNDS_TO_PLAY; mCurrentRoundNum++){
-			mCurrentRound = new Round(mTviewer, mPlayerArray);
-			mCurrentRound.setOptionFastGameplay(true);
+		//play rounds until the game is over
+		while (!gameIsOver()){
+			
+			//play a round
+			mCurrentRound = new Round(mTviewer, mPlayerArray, mCurrentRoundWind, mCurrentRoundNum, mCurrentRoundBonusNum);
+			mCurrentRound.setOptionFastGameplay(mDoFastGameplay);
 			mCurrentRound.play();
 			
+			mNumRoundsPlayed++;
 			if (mCurrentRound.endedWithVictory()){
-				if (mCurrentRound.getWinningHandString().charAt(16) != ',')
 				mWinStrings.add(mCurrentRound.getWinningHandString());
 			}
 			
-			__rotateSeats();
+			
+			//move to the next round, or do a bonus round if the dealer won
+			if (mCurrentRound.qualifiesForRenchan()){
+				mCurrentRoundBonusNum++;
+			}
+			else{
+				
+				//move to the next round
+				mCurrentRoundNum++;
+				mCurrentRoundBonusNum = 0;
+				
+				//rotate seats
+				__rotateSeats();
+				
+				//advance to the next wind if all rounds are finished
+				if (mCurrentRoundNum > MAX_NUM_ROUNDS){
+					mCurrentRoundNum = 1;
+					mCurrentRoundWind = mCurrentRoundWind.next();
+				}
+			}
 		}
-		
-		mGameIsOver = true;
 		
 		displayGameResult();
 	}
 	
 	
 	
+	
+	//rotates seats
 	private void __rotateSeats(){
 		for (Player p: mPlayerArray)
 			p.rotateSeat();
@@ -205,7 +213,16 @@ public class Game {
 	
 	
 	//accessors
-	public boolean gameIsOver(){return mGameIsOver;}
+	public boolean gameIsOver(){
+		if (mGameIsOver) return true;
+		
+		switch (mGameType){
+		case SINGLE: return mGameIsOver = (mCurrentRoundNum > 1 || mCurrentRoundBonusNum > 0);
+		case TONPUUSEN: case HANCHAN: return mGameIsOver = (mCurrentRoundWind == mGameType.lastWind().next());
+		case SIMULATION: return mGameIsOver = (mNumRoundsPlayed > NUM_SIMULATIONS_TO_RUN);
+		default: return false;
+		}
+	}
 	
 	
 	

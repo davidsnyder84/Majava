@@ -134,6 +134,7 @@ public abstract class TableGUI extends JFrame{
 	
 	
 	protected static final int NUM_PLAYERS = 4;
+	protected static final int NUM_WINDS = 4;
 	protected static final int SIZE_HAND = 14;
 	protected static final int SIZE_MELDPANEL = 4;
 	protected static final int SIZE_MELD = 4;
@@ -307,17 +308,10 @@ public abstract class TableGUI extends JFrame{
 	protected ImageIcon[] garryOmake = new ImageIcon[SIZE_GARRY_OMAKE];
 	
 	
-	
-	protected static final int SEAT1 = 0;
-	protected static final int SEAT2 = 1;
-	protected static final int SEAT3 = 2;
-	protected static final int SEAT4 = 3;
-	protected static final int EAST = 0;
-	protected static final int SOUTH = 1;
-	protected static final int WEST = 2;
-	protected static final int NORTH = 3;
-	protected static final int BIG = 0;
-	protected static final int SMALL = 1;
+	protected static final int SEAT1 = 0, SEAT2 = 1, SEAT3 = 2, SEAT4 = 3;
+	protected static final int EAST = 0, SOUTH = 1, WEST = 2, NORTH = 3;
+	protected static final int BIG = 0, SMALL = 1;
+	protected final static int X = 0, Y = 1;
 	
 	/*+++++++++++++++++++++++++++++++++++++++END IMAGE ARRAYS+++++++++++++++++++++++++++++++++++++++*/
 	
@@ -774,7 +768,7 @@ public abstract class TableGUI extends JFrame{
 		
 		//show a label
 		lblExclamation.setText(exclamation);
-		lblExclamation.setBounds(x, y, lblExclamation.getWidth(), lblExclamation.getHeight());
+		lblExclamation.setLocation(x, y);
 		lblExclamation.setVisible(true);
 		
 		//pause
@@ -783,7 +777,7 @@ public abstract class TableGUI extends JFrame{
 		//get rid of label
 		lblExclamation.setVisible(false);
 	}
-	public void showExclamation(String exclamation, int seatNum, int sleepTime){showExclamation(exclamation, EXCLAMATION_LOCS[seatNum][0], EXCLAMATION_LOCS[seatNum][1], sleepTime);}
+	public void showExclamation(String exclamation, int seatNum, int sleepTime){showExclamation(exclamation, EXCLAMATION_LOCS[seatNum][X], EXCLAMATION_LOCS[seatNum][Y], sleepTime);}
 	public void showExclamation(String exclamation, int seatNum){showExclamation(exclamation, seatNum, DEFAULT_SLEEP_TIME_EXCLAMATION);}
 	
 	
@@ -1021,6 +1015,8 @@ public abstract class TableGUI extends JFrame{
 		panP3 = new PondPanel(SEAT3);
 		panP4 = new PondPanel(SEAT4);
 		
+		panRoundInfoSquare = new RoundInfoSquarePanel();
+		
 		
 		
 		panelTable.addMouseListener(new MouseAdapter() {
@@ -1053,6 +1049,9 @@ public abstract class TableGUI extends JFrame{
 		panP3.setLocation(134, 6);
 		panP4.setLocation(6, 129);
 		
+		panRoundInfoSquare.setLocation(131, 131);
+		
+		
 		
 		
 		
@@ -1077,139 +1076,140 @@ public abstract class TableGUI extends JFrame{
 		
 
 		panelMidTable.add(panP1);panelMidTable.add(panP2);panelMidTable.add(panP3);panelMidTable.add(panP4);
-		panelMidTable.add(panelRoundInfoSquare);
+		panelMidTable.add(panRoundInfoSquare);
+//		panelMidTable.add(panelRoundInfoSquare);
 		
 		
 		
-		panelRoundInfoSquare.add(panelRoundInfo);
-		panelRoundInfoSquare.add(panelRndInfBackground);
-		panelRoundInfoSquare.setBounds(131, 131, 166, 158);
-		panelRoundInfoSquare.setLayout(null);
-		panelRoundInfoSquare.setBackground(COLOR_TRANSPARENT);
+//		panelRoundInfoSquare.add(panelRoundInfo);
+//		panelRoundInfoSquare.add(panelRndInfBackground);
+//		panelRoundInfoSquare.setBounds(131, 131, 166, 158);
+//		panelRoundInfoSquare.setLayout(null);
+//		panelRoundInfoSquare.setBackground(COLOR_TRANSPARENT);
 		
 		
-		panelRoundInfo.setBounds(0, 0, panelRoundInfoSquare.getWidth(), panelRoundInfoSquare.getHeight());
-		panelRoundInfo.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelRoundInfo.setBackground(COLOR_RINF_PANEL);
-		panelRoundInfo.setLayout(null);
-
-		panelRoundInfo.add(panelRInd);
-		panelRoundInfo.add(panelInfoP1);panelRoundInfo.add(panelInfoP2);panelRoundInfo.add(panelInfoP3);panelRoundInfo.add(panelInfoP4);
-		panelRoundInfo.add(panelTurnInds);
+//		panelRoundInfo.setBounds(0, 0, panelRoundInfoSquare.getWidth(), panelRoundInfoSquare.getHeight());
+//		panelRoundInfo.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+//		panelRoundInfo.setBackground(COLOR_RINF_PANEL);
+//		panelRoundInfo.setLayout(null);
+//
+//		panelRoundInfo.add(panelRInd);
+//		panelRoundInfo.add(panelInfoP1);panelRoundInfo.add(panelInfoP2);panelRoundInfo.add(panelInfoP3);panelRoundInfo.add(panelInfoP4);
+//		panelRoundInfo.add(panelTurnInds);
+//		
+//		//exists only to color the background behind the round info
+//		panelRndInfBackground.setBounds(panelRoundInfo.getBounds());
 		
-		//exists only to color the background behind the round info
-		panelRndInfBackground.setBounds(panelRoundInfo.getBounds());
 		
-		
-		panelRInd.setBounds(54, 54, 58, 49);
-		panelRInd.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelRInd.setBackground(COLOR_RIND);
-		panelRInd.setLayout(null);
-		panelRInd.add(lblRIndWind);panelRInd.add(lblRIndNum);
+//		panelRInd.setBounds(54, 54, 58, 49);
+//		panelRInd.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+//		panelRInd.setBackground(COLOR_RIND);
+//		panelRInd.setLayout(null);
+//		panelRInd.add(lblRIndWind);panelRInd.add(lblRIndNum);
 	
-		lblRIndWind.setBounds(3, 9, 31, 31);
-		lblRIndNum.setText("4");
-		lblRIndNum.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblRIndNum.setHorizontalAlignment(SwingConstants.LEFT);
-		lblRIndNum.setVerticalAlignment(SwingConstants.TOP);
-		lblRIndNum.setBounds(33, 6, 16, 37);
+//		lblRIndWind.setBounds(3, 9, 31, 31);
+//		lblRIndNum.setText("4");
+//		lblRIndNum.setFont(new Font("Tahoma", Font.PLAIN, 30));
+//		lblRIndNum.setHorizontalAlignment(SwingConstants.LEFT);
+//		lblRIndNum.setVerticalAlignment(SwingConstants.TOP);
+//		lblRIndNum.setBounds(33, 6, 16, 37);
 		
 		
 		
 		
 		
 		
-		panelInfoP1.setBounds(56, 103, 54, 54);
-		panelInfoP1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelInfoP1.setBackground(COLOR_RINF_PANEL);
-		panelInfoP1.setLayout(null);
-		
-		lblInfoP1Wind.setBounds(16, 2, 23, 23);
-		lblInfoP1Wind.setHorizontalAlignment(SwingConstants.CENTER);
-		panelInfoP1.add(lblInfoP1Wind);
-		
-		lblInfoP1Points.setText("128,000");
-		lblInfoP1Points.setBounds(4, 25, 46, 14);
-		lblInfoP1Points.setBackground(COLOR_TRANSPARENT);
-		lblInfoP1Points.setHorizontalAlignment(SwingConstants.CENTER);
-		panelInfoP1.add(lblInfoP1Points);
-		
-		lblInfoP1Riichi.setBounds(2, 40, 50, 8);
-		lblInfoP1Riichi.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInfoP1Riichi.setIcon(riichiImg);
-		panelInfoP1.add(lblInfoP1Riichi);
-		
-		
-		
-		
-		
-		panelInfoP2.setBounds(112, 52, 54, 54);
-		panelInfoP2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelInfoP2.setBackground(COLOR_RINF_PANEL);
-		panelInfoP2.setLayout(null);
-		
-		lblInfoP2Wind.setBounds(16, 2, 23, 23);
-		lblInfoP2Wind.setHorizontalAlignment(SwingConstants.CENTER);
-		panelInfoP2.add(lblInfoP2Wind);
-		
-		lblInfoP2Points.setText("128,000");
-		lblInfoP2Points.setBounds(4, 25, 46, 14);
-		lblInfoP2Points.setBackground(COLOR_TRANSPARENT);
-		lblInfoP2Points.setHorizontalAlignment(SwingConstants.CENTER);
-		panelInfoP2.add(lblInfoP2Points);
-		
-		lblInfoP2Riichi.setBounds(2, 40, 50, 8);
-		lblInfoP2Riichi.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInfoP2Riichi.setIcon(riichiImg);
-		panelInfoP2.add(lblInfoP2Riichi);
-		
-		
-		
-		
-		
-		panelInfoP3.setBounds(56, 0, 54, 54);
-		panelInfoP3.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelInfoP3.setBackground(COLOR_RINF_PANEL);
-		panelInfoP3.setLayout(null);
-		
-		lblInfoP3Wind.setBounds(16, 2, 23, 23);
-		lblInfoP3Wind.setHorizontalAlignment(SwingConstants.CENTER);
-		panelInfoP3.add(lblInfoP3Wind);
-		
-		lblInfoP3Points.setText("128,000");
-		lblInfoP3Points.setBounds(4, 25, 46, 14);
-		lblInfoP3Points.setBackground(COLOR_TRANSPARENT);
-		lblInfoP3Points.setHorizontalAlignment(SwingConstants.CENTER);
-		panelInfoP3.add(lblInfoP3Points);
-		
-		lblInfoP3Riichi.setBounds(2, 40, 50, 8);
-		lblInfoP3Riichi.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInfoP3Riichi.setIcon(riichiImg);
-		panelInfoP3.add(lblInfoP3Riichi);
-		
-		
-		
-		
-		
-		panelInfoP4.setBounds(0, 52, 54, 54);
-		panelInfoP4.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelInfoP4.setBackground(COLOR_RINF_PANEL);
-		panelInfoP4.setLayout(null);
-		
-		lblInfoP4Wind.setBounds(16, 2, 23, 23);
-		lblInfoP4Wind.setHorizontalAlignment(SwingConstants.CENTER);
-		panelInfoP4.add(lblInfoP4Wind);
-		
-		lblInfoP4Points.setText("128,000");
-		lblInfoP4Points.setBounds(4, 25, 46, 14);
-		lblInfoP4Points.setBackground(COLOR_TRANSPARENT);
-		lblInfoP4Points.setHorizontalAlignment(SwingConstants.CENTER);
-		panelInfoP4.add(lblInfoP4Points);
-		
-		lblInfoP4Riichi.setBounds(2, 40, 50, 8);
-		lblInfoP4Riichi.setHorizontalAlignment(SwingConstants.CENTER);
-		lblInfoP4Riichi.setIcon(riichiImg);
-		panelInfoP4.add(lblInfoP4Riichi);
+//		panelInfoP1.setBounds(56, 103, 54, 54);
+//		panelInfoP1.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+//		panelInfoP1.setBackground(COLOR_RINF_PANEL);
+//		panelInfoP1.setLayout(null);
+//		
+//		lblInfoP1Wind.setBounds(16, 2, 23, 23);
+//		lblInfoP1Wind.setHorizontalAlignment(SwingConstants.CENTER);
+//		panelInfoP1.add(lblInfoP1Wind);
+//		
+//		lblInfoP1Points.setText("128,000");
+//		lblInfoP1Points.setBounds(4, 25, 46, 14);
+//		lblInfoP1Points.setBackground(COLOR_TRANSPARENT);
+//		lblInfoP1Points.setHorizontalAlignment(SwingConstants.CENTER);
+//		panelInfoP1.add(lblInfoP1Points);
+//		
+//		lblInfoP1Riichi.setBounds(2, 40, 50, 8);
+//		lblInfoP1Riichi.setHorizontalAlignment(SwingConstants.CENTER);
+//		lblInfoP1Riichi.setIcon(riichiImg);
+//		panelInfoP1.add(lblInfoP1Riichi);
+//		
+//		
+//		
+//		
+//		
+//		panelInfoP2.setBounds(112, 52, 54, 54);
+//		panelInfoP2.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+//		panelInfoP2.setBackground(COLOR_RINF_PANEL);
+//		panelInfoP2.setLayout(null);
+//		
+//		lblInfoP2Wind.setBounds(16, 2, 23, 23);
+//		lblInfoP2Wind.setHorizontalAlignment(SwingConstants.CENTER);
+//		panelInfoP2.add(lblInfoP2Wind);
+//		
+//		lblInfoP2Points.setText("128,000");
+//		lblInfoP2Points.setBounds(4, 25, 46, 14);
+//		lblInfoP2Points.setBackground(COLOR_TRANSPARENT);
+//		lblInfoP2Points.setHorizontalAlignment(SwingConstants.CENTER);
+//		panelInfoP2.add(lblInfoP2Points);
+//		
+//		lblInfoP2Riichi.setBounds(2, 40, 50, 8);
+//		lblInfoP2Riichi.setHorizontalAlignment(SwingConstants.CENTER);
+//		lblInfoP2Riichi.setIcon(riichiImg);
+//		panelInfoP2.add(lblInfoP2Riichi);
+//		
+//		
+//		
+//		
+//		
+//		panelInfoP3.setBounds(56, 0, 54, 54);
+//		panelInfoP3.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+//		panelInfoP3.setBackground(COLOR_RINF_PANEL);
+//		panelInfoP3.setLayout(null);
+//		
+//		lblInfoP3Wind.setBounds(16, 2, 23, 23);
+//		lblInfoP3Wind.setHorizontalAlignment(SwingConstants.CENTER);
+//		panelInfoP3.add(lblInfoP3Wind);
+//		
+//		lblInfoP3Points.setText("128,000");
+//		lblInfoP3Points.setBounds(4, 25, 46, 14);
+//		lblInfoP3Points.setBackground(COLOR_TRANSPARENT);
+//		lblInfoP3Points.setHorizontalAlignment(SwingConstants.CENTER);
+//		panelInfoP3.add(lblInfoP3Points);
+//		
+//		lblInfoP3Riichi.setBounds(2, 40, 50, 8);
+//		lblInfoP3Riichi.setHorizontalAlignment(SwingConstants.CENTER);
+//		lblInfoP3Riichi.setIcon(riichiImg);
+//		panelInfoP3.add(lblInfoP3Riichi);
+//		
+//		
+//		
+//		
+//		
+//		panelInfoP4.setBounds(0, 52, 54, 54);
+//		panelInfoP4.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+//		panelInfoP4.setBackground(COLOR_RINF_PANEL);
+//		panelInfoP4.setLayout(null);
+//		
+//		lblInfoP4Wind.setBounds(16, 2, 23, 23);
+//		lblInfoP4Wind.setHorizontalAlignment(SwingConstants.CENTER);
+//		panelInfoP4.add(lblInfoP4Wind);
+//		
+//		lblInfoP4Points.setText("128,000");
+//		lblInfoP4Points.setBounds(4, 25, 46, 14);
+//		lblInfoP4Points.setBackground(COLOR_TRANSPARENT);
+//		lblInfoP4Points.setHorizontalAlignment(SwingConstants.CENTER);
+//		panelInfoP4.add(lblInfoP4Points);
+//		
+//		lblInfoP4Riichi.setBounds(2, 40, 50, 8);
+//		lblInfoP4Riichi.setHorizontalAlignment(SwingConstants.CENTER);
+//		lblInfoP4Riichi.setIcon(riichiImg);
+//		panelInfoP4.add(lblInfoP4Riichi);
 		
 		
 		
@@ -1237,7 +1237,6 @@ public abstract class TableGUI extends JFrame{
 		
 		
 		btnBlankAll.setText("Blank");btnBlankAll.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent arg0) {blankEverything();}});btnBlankAll.setBounds(204, 358, 68, 23);btnBlankAll.setVisible(DEBUG_BUTTONS_VISIBLE);
-		
 		btnRandAll.setText("Rand");btnRandAll.setBounds(204, 333, 65, 23);btnRandAll.setVisible(DEBUG_BUTTONS_VISIBLE);
 		final TableGUI thisguy = this;
 		btnRandAll.addActionListener(new ActionListener() {
@@ -1382,29 +1381,29 @@ public abstract class TableGUI extends JFrame{
 		
 		
 		//turn indicators
-		panelTurnInds.setBounds(0, 0, 166, 158);
-		panelTurnInds.setLayout(null);
-		panelTurnInds.setOpaque(false);
-		panelTurnInds.add(panelTurnInd1);panelTurnInds.add(panelTurnInd2);panelTurnInds.add(panelTurnInd3);panelTurnInds.add(panelTurnInd4);
-		
-		panelTurnInd1.setBounds(0, 144, 166, 13);panelTurnInd1.setOpaque(false);panelTurnInd1.setLayout(null);
-		panelTurnInd1.add(lblTurnInd11);panelTurnInd1.add(lblTurnInd12);
-		lblTurnInd11.setBounds(1, 0, 55, 13);lblTurnInd11.setOpaque(true);lblTurnInd11.setBackground(COLOR_TURN_INDICATOR);
-		lblTurnInd12.setBounds(110, 0, 55, 13);lblTurnInd12.setOpaque(true);lblTurnInd12.setBackground(COLOR_TURN_INDICATOR);
-		panelTurnInd2.setBounds(152, 0, 13, 158);panelTurnInd2.setOpaque(false);panelTurnInd2.setLayout(null);
-		panelTurnInd2.add(lblTurnInd21);panelTurnInd2.add(lblTurnInd22);
-		lblTurnInd21.setBounds(1, 1, 13, 52);lblTurnInd21.setOpaque(true);lblTurnInd21.setBackground(COLOR_TURN_INDICATOR);
-		lblTurnInd22.setBounds(0, 105, 13, 52);lblTurnInd22.setOpaque(true);lblTurnInd22.setBackground(COLOR_TURN_INDICATOR);
-		panelTurnInd3.setBounds(0, 1, 166, 13);panelTurnInd3.setOpaque(false);panelTurnInd3.setLayout(null);
-		panelTurnInd3.add(lblTurnInd31);panelTurnInd3.add(lblTurnInd32);
-		lblTurnInd31.setBounds(1, 0, 55, 13);lblTurnInd31.setOpaque(true);lblTurnInd31.setBackground(COLOR_TURN_INDICATOR);
-		lblTurnInd32.setBounds(110, 0, 55, 13);lblTurnInd32.setOpaque(true);lblTurnInd32.setBackground(COLOR_TURN_INDICATOR);
-		panelTurnInd4.setBounds(1, 1, 13, 158);panelTurnInd4.setOpaque(false);panelTurnInd4.setLayout(null);
-		panelTurnInd4.add(lblTurnInd41);panelTurnInd4.add(lblTurnInd42);
-		lblTurnInd41.setBounds(1, 1, 13, 51);lblTurnInd41.setOpaque(true);lblTurnInd41.setBackground(COLOR_TURN_INDICATOR);
-		lblTurnInd42.setBounds(0, 105, 13, 51);lblTurnInd42.setOpaque(true);lblTurnInd42.setBackground(COLOR_TURN_INDICATOR);
-		
-		
+//		panelTurnInds.setBounds(0, 0, 166, 158);
+//		panelTurnInds.setLayout(null);
+//		panelTurnInds.setOpaque(false);
+//		panelTurnInds.add(panelTurnInd1);panelTurnInds.add(panelTurnInd2);panelTurnInds.add(panelTurnInd3);panelTurnInds.add(panelTurnInd4);
+//		
+//		panelTurnInd1.setBounds(0, 144, 166, 13);panelTurnInd1.setOpaque(false);panelTurnInd1.setLayout(null);
+//		panelTurnInd1.add(lblTurnInd11);panelTurnInd1.add(lblTurnInd12);
+//		lblTurnInd11.setBounds(1, 0, 55, 13);lblTurnInd11.setOpaque(true);lblTurnInd11.setBackground(COLOR_TURN_INDICATOR);
+//		lblTurnInd12.setBounds(110, 0, 55, 13);lblTurnInd12.setOpaque(true);lblTurnInd12.setBackground(COLOR_TURN_INDICATOR);
+//		panelTurnInd2.setBounds(152, 0, 13, 158);panelTurnInd2.setOpaque(false);panelTurnInd2.setLayout(null);
+//		panelTurnInd2.add(lblTurnInd21);panelTurnInd2.add(lblTurnInd22);
+//		lblTurnInd21.setBounds(1, 1, 13, 52);lblTurnInd21.setOpaque(true);lblTurnInd21.setBackground(COLOR_TURN_INDICATOR);
+//		lblTurnInd22.setBounds(0, 105, 13, 52);lblTurnInd22.setOpaque(true);lblTurnInd22.setBackground(COLOR_TURN_INDICATOR);
+//		panelTurnInd3.setBounds(0, 1, 166, 13);panelTurnInd3.setOpaque(false);panelTurnInd3.setLayout(null);
+//		panelTurnInd3.add(lblTurnInd31);panelTurnInd3.add(lblTurnInd32);
+//		lblTurnInd31.setBounds(1, 0, 55, 13);lblTurnInd31.setOpaque(true);lblTurnInd31.setBackground(COLOR_TURN_INDICATOR);
+//		lblTurnInd32.setBounds(110, 0, 55, 13);lblTurnInd32.setOpaque(true);lblTurnInd32.setBackground(COLOR_TURN_INDICATOR);
+//		panelTurnInd4.setBounds(1, 1, 13, 158);panelTurnInd4.setOpaque(false);panelTurnInd4.setLayout(null);
+//		panelTurnInd4.add(lblTurnInd41);panelTurnInd4.add(lblTurnInd42);
+//		lblTurnInd41.setBounds(1, 1, 13, 51);lblTurnInd41.setOpaque(true);lblTurnInd41.setBackground(COLOR_TURN_INDICATOR);
+//		lblTurnInd42.setBounds(0, 105, 13, 51);lblTurnInd42.setOpaque(true);lblTurnInd42.setBackground(COLOR_TURN_INDICATOR);
+//		
+//		
 		
 		
 
@@ -1676,7 +1675,6 @@ public abstract class TableGUI extends JFrame{
 				
 				panelHM1 = new MeldPanel(seat); panelHM2 = new MeldPanel(seat); panelHM3 = new MeldPanel(seat); panelHM4 = new MeldPanel(seat);
 				
-				final int X = 0, Y = 1;
 				panelHM1.setLocation(LOCS_MELDS[seat][0][X], LOCS_MELDS[seat][0][Y]);
 				panelHM2.setLocation(LOCS_MELDS[seat][1][X], LOCS_MELDS[seat][1][Y]);
 				panelHM3.setLocation(LOCS_MELDS[seat][2][X], LOCS_MELDS[seat][2][Y]);
@@ -1725,7 +1723,7 @@ public abstract class TableGUI extends JFrame{
 	
 	
 	
-	public class PondPanel extends JPanel{
+	protected class PondPanel extends JPanel{
 		private static final long serialVersionUID = -6135344462326116557L;
 		
 		private static final int WIDTH = POND_PANEL_WIDTH;
@@ -1753,6 +1751,180 @@ public abstract class TableGUI extends JFrame{
 			for (int i: addOrders[seat]) add(larryP[i-1]);
 		}
 		public void getLabels(JLabel[] pLarry){for (int i = 0; i < larryP.length; i++) pLarry[i] = larryP[i];}
+	}
+	
+	
+	
+	
+	
+	
+	protected class RoundInfoSquarePanel extends JPanel{
+		private static final long serialVersionUID = -3845929576576899579L;
+		
+		
+		protected class RoundInfoPanel extends JPanel{
+			private static final long serialVersionUID = -3126252307107694820L;
+			
+			protected class RoundIndicatorPanel extends JPanel{
+				private static final long serialVersionUID = -8999599492268781636L;
+				
+				protected JLabel lblRIndWind = new JLabel(), lblRIndNum = new JLabel();
+				
+				public RoundIndicatorPanel(){
+					super();
+					lblRIndWind.setIcon(garryWinds[BIG][EAST]);
+					lblRIndNum.setText("4");
+					
+					setBounds(0, 0, 58, 49);
+					setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+					setBackground(COLOR_RIND);
+					setLayout(null);
+					
+					lblRIndWind.setBounds(3, 9, 31, 31);
+
+					lblRIndNum.setBounds(33, 6, 16, 37);
+					lblRIndNum.setFont(new Font("Tahoma", Font.PLAIN, 30));
+					lblRIndNum.setHorizontalAlignment(SwingConstants.LEFT);
+					lblRIndNum.setVerticalAlignment(SwingConstants.TOP);
+					
+					add(lblRIndWind);add(lblRIndNum);
+				}
+			}
+			
+			protected class PlayerInfoPanel extends JPanel{
+				private static final long serialVersionUID = -8220269097110427156L;
+				
+				protected final JLabel lblInfoPWind = new JLabel(), lblInfoPPoints = new JLabel(), lblInfoPRiichi = new JLabel();
+				
+				public PlayerInfoPanel(){
+					super();
+//					lblInfoPWind.setIcon(garryWinds[SMALL][(new Random()).nextInt(garryWinds[SMALL].length)]);
+					lblInfoPWind.setIcon(garryWinds[SMALL][EAST]);lblInfoPPoints.setText("128,000");lblInfoPRiichi.setIcon(garryOther[GARRYINDEX_OTHER_RIICHI]);
+
+					setBounds(0, 0, 54, 54);
+					setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+					setBackground(COLOR_RINF_PANEL);
+					setLayout(null);
+					
+					lblInfoPWind.setBounds(16, 2, 23, 23);
+					lblInfoPWind.setHorizontalAlignment(SwingConstants.CENTER);
+					
+					lblInfoPPoints.setBounds(4, 25, 46, 14);
+					lblInfoPPoints.setBackground(COLOR_TRANSPARENT);
+					lblInfoPPoints.setHorizontalAlignment(SwingConstants.CENTER);
+					
+					lblInfoPRiichi.setBounds(2, 40, 50, 8);
+					lblInfoPRiichi.setHorizontalAlignment(SwingConstants.CENTER);
+					
+					add(lblInfoPWind);add(lblInfoPPoints);add(lblInfoPRiichi);
+				}
+			}
+			
+			protected class TurnIndicatorPanel extends JPanel{
+				private static final long serialVersionUID = -3814763309281234952L;
+
+				protected class TurnIndicatorSingle extends JPanel{
+					private static final long serialVersionUID = 4876759595860219518L;
+					
+					public TurnIndicatorSingle(int seat){
+						super();
+						
+						setBounds(0, 0, 166, 13);
+						if (seat == SEAT2 || seat == SEAT4) setSize(13, 158);
+						setOpaque(false);
+						setLayout(null);
+						
+						final int W = 2, H = 3;
+						final int[][][] BOUNDS_LABELS = {{{1, 0, 55, 13}, {1, 1, 13, 52}, {1, 0, 55, 13}, {1, 1, 13, 51}}, 
+														{{110, 0, 55, 13}, {0, 105, 13, 52}, {110, 0, 55, 13}, {0, 105, 13, 51}}}; 
+						
+//						final JLabel lblTurnInd1 = new JLabel(), lblTurnInd2 = new JLabel();
+//						final int LABEL1 = 0, LABEL2 = 1
+//						lblTurnInd1.setBounds(BOUNDS_LABELS[LABEL1][seat][X], BOUNDS_LABELS[LABEL1][seat][Y], BOUNDS_LABELS[LABEL1][seat][W], BOUNDS_LABELS[LABEL1][seat][H]);
+//						lblTurnInd2.setBounds(BOUNDS_LABELS[LABEL2][seat][X], BOUNDS_LABELS[LABEL2][seat][Y], BOUNDS_LABELS[LABEL2][seat][W], BOUNDS_LABELS[LABEL2][seat][H]);
+//						
+//						lblTurnInd1.setOpaque(true);lblTurnInd1.setBackground(COLOR_TURN_INDICATOR);
+//						lblTurnInd2.setOpaque(true);lblTurnInd2.setBackground(COLOR_TURN_INDICATOR);
+//						
+//						add(lblTurnInd1);add(lblTurnInd2);
+						
+						final JLabel[] turnIndLabels = {new JLabel(), new JLabel()};
+						for (int label = 0; label < turnIndLabels.length; label++){
+							turnIndLabels[label].setBounds(BOUNDS_LABELS[label][seat][X], BOUNDS_LABELS[label][seat][Y], BOUNDS_LABELS[label][seat][W], BOUNDS_LABELS[label][seat][H]);
+							turnIndLabels[label].setOpaque(true);turnIndLabels[label].setBackground(COLOR_TURN_INDICATOR);
+						}
+						for (JLabel l: turnIndLabels) add(l);
+					}
+					
+				}
+				
+				protected final TurnIndicatorSingle[] panelTurnIndSingles = new TurnIndicatorSingle[NUM_PLAYERS];
+				
+				public TurnIndicatorPanel(){
+					super();
+					
+					setBounds(0, 0, 166, 158);
+					setLayout(null);
+					setOpaque(false);
+
+					final int[][] LOCS_SINGLES = {{0, 144}, {152, 0}, {0, 1}, {1, 1}};
+					for (int seat = SEAT1; seat <= SEAT4; seat++){
+						panelTurnIndSingles[seat] = new TurnIndicatorSingle(seat);
+						panelTurnIndSingles[seat].setLocation(LOCS_SINGLES[seat][X], LOCS_SINGLES[seat][Y]);
+					}
+					for (TurnIndicatorSingle pn: panelTurnIndSingles) add(pn);
+				}
+			}
+			
+			protected final RoundIndicatorPanel panelRInd = new RoundIndicatorPanel();
+			protected final PlayerInfoPanel[] panelInfoPs = new PlayerInfoPanel[NUM_PLAYERS];
+			protected final TurnIndicatorPanel panelTurnInds = new TurnIndicatorPanel();
+			
+			public RoundInfoPanel(){
+				super();
+				
+				setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+				setBackground(COLOR_RINF_PANEL);
+				setLayout(null);
+				
+				panelRInd.setLocation(54, 54);
+				panelTurnInds.setLocation(0,0);
+				
+				final int[][] LOCS_PLAYER_PANELS = {{56, 103}, {112, 52}, {56, 0}, {0, 52}};
+				for (int seat = SEAT1; seat <= SEAT4; seat++){
+					panelInfoPs[seat] = new PlayerInfoPanel();
+					panelInfoPs[seat].setLocation(LOCS_PLAYER_PANELS[seat][X], LOCS_PLAYER_PANELS[seat][Y]);
+				}
+				
+				add(panelRInd);
+				for (PlayerInfoPanel pn: panelInfoPs) add(pn);
+				add(panelTurnInds);
+			}
+		}
+		
+		
+		
+
+		private static final int WIDTH = 166;
+		private static final int HEIGHT = 158;
+		
+		protected JPanel panelRndInfBackground = new JPanel();
+		protected RoundInfoPanel panelRoundInfo = new RoundInfoPanel();
+		
+		public RoundInfoSquarePanel(){
+			super();
+			
+			setBounds(0, 0, WIDTH, HEIGHT);
+			setLayout(null);
+			setBackground(COLOR_TRANSPARENT);
+			
+			panelRoundInfo.setBounds(0, 0, WIDTH, HEIGHT);
+			panelRndInfBackground.setBounds(panelRoundInfo.getBounds());
+			
+			add(panelRoundInfo);
+			add(panelRndInfBackground);
+		}
+		
 	}
 	
 	

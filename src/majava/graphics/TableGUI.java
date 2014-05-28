@@ -10,6 +10,7 @@ import majava.Wind;
 import majava.tiles.Tile;
 import majava.TileList;
 import majava.tiles.PondTile;
+import utility.ImageResizer;
 import utility.Pauser;
 import utility.ImageRotator;
 
@@ -126,7 +127,9 @@ public abstract class TableGUI extends JFrame{
 	protected static final int DEFAULT_SLEEP_TIME_EXCLAMATION = 1500;
 	private static final int[][] EXCLAMATION_LOCS =  {{99, 594}, {570, 298}, {480, 36}, {3, 298}};
 	
-	protected static final ImageRotator rotators[] = {new ImageRotator(0), new ImageRotator(-90), new ImageRotator(180), new ImageRotator(90)};
+	private static final double SCALER_SMALL = .775, SCALER_TINY = .3;
+	protected static final ImageRotator[] rotators = {new ImageRotator(0), new ImageRotator(-90), new ImageRotator(180), new ImageRotator(90)};
+	protected static final ImageResizer[] resizers = {new ImageResizer(1), new ImageResizer(.5), new ImageResizer(SCALER_TINY)};
 	
 	
 	protected static final int NUM_PLAYERS = 4;
@@ -137,6 +140,7 @@ public abstract class TableGUI extends JFrame{
 	protected static final int SIZE_MELD = 4;
 	protected static final int SIZE_WALL = 34;
 	protected static final int SIZE_DEAD_WALL = 14;
+	protected static final int SIZE_TINY_WALL = 69;
 	protected static final int OFFSET_DEAD_WALL = SIZE_WALL * 4 - SIZE_DEAD_WALL;
 	protected static final int POS_DORA_1 = 8;
 	protected static final int SIZE_POND = 24;
@@ -242,24 +246,25 @@ public abstract class TableGUI extends JFrame{
 	
 	/*+++++++++++++++++++++++++++++++++++++++BEGIN IMAGE ARRAYS+++++++++++++++++++++++++++++++++++++++*/
 	
-	protected static ImageIcon[] garryTileS1big = new ImageIcon[SIZE_GARRY_TILES];
-	protected static ImageIcon[] garryTileS1small = new ImageIcon[SIZE_GARRY_TILES];
-	protected static ImageIcon[][] garryTileS1 = {garryTileS1big, garryTileS1small};
+	protected ImageIcon[] garryTileS1big = new ImageIcon[SIZE_GARRY_TILES];
+	protected ImageIcon[] garryTileS1small = new ImageIcon[SIZE_GARRY_TILES];
+	protected ImageIcon[][] garryTileS1 = {garryTileS1big, garryTileS1small};
 	
-	protected static ImageIcon[] garryTileS2big = new ImageIcon[SIZE_GARRY_TILES];
-	protected static ImageIcon[] garryTileS2small = new ImageIcon[SIZE_GARRY_TILES];
-	protected static ImageIcon[][] garryTileS2 = {garryTileS2big, garryTileS2small};
+	protected ImageIcon[] garryTileS2big = new ImageIcon[SIZE_GARRY_TILES];
+	protected ImageIcon[] garryTileS2small = new ImageIcon[SIZE_GARRY_TILES];
+	protected ImageIcon[][] garryTileS2 = {garryTileS2big, garryTileS2small};
 	
-	protected static ImageIcon[] garryTileS3big = new ImageIcon[SIZE_GARRY_TILES];
-	protected static ImageIcon[] garryTileS3small = new ImageIcon[SIZE_GARRY_TILES];
-	protected static ImageIcon[][] garryTileS3 = {garryTileS3big, garryTileS3small};
+	protected ImageIcon[] garryTileS3big = new ImageIcon[SIZE_GARRY_TILES];
+	protected ImageIcon[] garryTileS3small = new ImageIcon[SIZE_GARRY_TILES];
+	protected ImageIcon[][] garryTileS3 = {garryTileS3big, garryTileS3small};
 	
-	protected static ImageIcon[] garryTileS4big = new ImageIcon[SIZE_GARRY_TILES];
-	protected static ImageIcon[] garryTileS4small = new ImageIcon[SIZE_GARRY_TILES];
-	protected static ImageIcon[][] garryTileS4 = {garryTileS4big, garryTileS4small};
+	protected ImageIcon[] garryTileS4big = new ImageIcon[SIZE_GARRY_TILES];
+	protected ImageIcon[] garryTileS4small = new ImageIcon[SIZE_GARRY_TILES];
+	protected ImageIcon[][] garryTileS4 = {garryTileS4big, garryTileS4small};
 	
 	//garryTiles[seat number][0=big,1=small][tile number]
-	protected static ImageIcon[][][] garryTiles = {garryTileS1, garryTileS2, garryTileS3, garryTileS4};
+	protected ImageIcon[][][] garryTiles = {garryTileS1, garryTileS2, garryTileS3, garryTileS4};
+	protected ImageIcon[] garryTilesTiny = new ImageIcon[SIZE_GARRY_TILES];
 	
 	
 	
@@ -278,7 +283,7 @@ public abstract class TableGUI extends JFrame{
 	
 	protected static final int SEAT1 = 0, SEAT2 = 1, SEAT3 = 2, SEAT4 = 3;
 	protected static final int EAST = 0, SOUTH = 1, WEST = 2, NORTH = 3;
-	protected static final int BIG = 0, SMALL = 1;
+	protected static final int BIG = 0, SMALL = 1, TINY = 2;
 	protected final static int X = 0, Y = 1, W = 2, H = 3;
 	
 	/*+++++++++++++++++++++++++++++++++++++++END IMAGE ARRAYS+++++++++++++++++++++++++++++++++++++++*/
@@ -908,7 +913,7 @@ public abstract class TableGUI extends JFrame{
 		
 		lblExclamation.setLocation(EXCLAMATION_LOCS[SEAT1][X], EXCLAMATION_LOCS[SEAT1][Y]);
 		
-		panCalls.setLocation(28, 440);
+		panCalls.setLocation(28, 475);
 		
 		
 		
@@ -951,6 +956,8 @@ public abstract class TableGUI extends JFrame{
 		panSidebar = panelSidebar;
 		
 		panMidTable = panelMidTable;
+		
+//		panTable.add(panWallSummary.panelTinyWall);
 		
 		
 		
@@ -1006,6 +1013,9 @@ public abstract class TableGUI extends JFrame{
 			garryTiles[seat][BIG][RED5S] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/23r.png")));
 			garryTiles[seat][SMALL][RED5S] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/23r.png")));
 		}
+		
+		//load tiny tile images
+		for (int i = 0; i < garryTiles[BIG][SEAT1].length; i++) garryTilesTiny[i] = resizers[TINY].resizeImage(garryTiles[BIG][SEAT1][i]);
 		
 		
 		//load Wind images into array
@@ -1368,8 +1378,34 @@ public abstract class TableGUI extends JFrame{
 	
 	
 	
+	
 	protected class WallSummaryPanel extends JPanel{
 		private static final long serialVersionUID = -9084400911185524132L;
+		
+		protected class TinyWallPanel extends JPanel{
+			private static final long serialVersionUID = -4122759925808650141L;
+
+			protected final JLabel[] larryWtiles = new JLabel[SIZE_TINY_WALL];
+			
+			public TinyWallPanel(){
+				super();
+				
+				setBounds(0, 0, 162, 50);
+				setLayout(new GridLayout(4,18,0,0));
+				setBackground(COLOR_TRANSPARENT);
+				
+//				for (int i = 0; i < larryWtiles.length; i++) larryWtiles[i] = new JLabel();
+				for (int i = 0; i < larryWtiles.length; i++){
+					larryWtiles[i] = new JLabel();
+//					larryWtiles[i].setIcon(garryTilesTiny[i%garryTilesTiny.length]);
+					larryWtiles[i].setIcon(garryTilesTiny[0]);
+					add(larryWtiles[i]);
+				}
+			}
+			public void getTiles(){}
+		}
+		
+		
 		
 		protected class DeadWallPanel extends JPanel{
 			private static final long serialVersionUID = 8920630209311855667L;
@@ -1402,7 +1438,8 @@ public abstract class TableGUI extends JFrame{
 			public WallTilesLeftPanel(){
 				super();
 				lblWallTilesLeftLabel.setText("122");
-				
+
+				setBounds(0, 0, 78, 21);
 				setOpaque(false);
 				setLayout(new GridLayout(0, 2, 0, 0));
 				
@@ -1416,18 +1453,20 @@ public abstract class TableGUI extends JFrame{
 		
 		protected WallTilesLeftPanel panelWTL = new WallTilesLeftPanel();
 		protected DeadWallPanel panelDeadWall = new DeadWallPanel();
+		protected TinyWallPanel panelTinyWall = new TinyWallPanel();
 		
 		public WallSummaryPanel(){
 			super();
 			
 			setLayout(null);
-			setBounds(0, 0, 161, 85);
+			setBounds(0, 0, 161, 83 + 13*4);
 			setOpaque(false);
 			
-			panelWTL.setBounds(1, 62, 78, 21);
+			panelWTL.setLocation(1, 62);
 			panelDeadWall.setLocation(0, 0);
+			panelTinyWall.setLocation(0, 83);
 			
-			add(panelWTL);add(panelDeadWall);
+			add(panelWTL);add(panelDeadWall);add(panelTinyWall);
 		}
 		public void getLabelsDeadWall(JLabel[] dwLarry){panelDeadWall.getLabels(dwLarry);}
 		public JLabel getLabelWallTilesLeft(){return panelWTL.getLabel();}

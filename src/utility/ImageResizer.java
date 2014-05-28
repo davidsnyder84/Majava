@@ -1,6 +1,7 @@
 package utility;
 
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
@@ -89,13 +90,14 @@ public class ImageResizer {
 	
 	public static void main(String[] args) {
 		
-		final double DEMO_SCALER_1 = .8;
-		final double DEMO_SCALER_2 = 3.8;
+//		final double DEMO_SCALER_1 = .270588;
+		final double DEMO_SCALER_1 = .54117647;
+		final double DEMO_SCALER_2 = 2.8;
 		
 		
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 600, 300);
+		frame.setBounds(100, 100, 600, 600);
 		JPanel contentPane = new JPanel();
 		frame.setContentPane(contentPane);
 		
@@ -112,7 +114,47 @@ public class ImageResizer {
 		contentPane.add(addLabel1);
 		contentPane.add(addLabel2);
 		
+		contentPane.add(wallz(.54117647));
+		contentPane.add(wallz(.270588));
+		contentPane.add(wallsmallz(.35));
+		contentPane.add(wallsmallz(.3));
+		
 		frame.setVisible(true);
+	}
+	
+	
+	public static JPanel wallsmallz(double scaler){
+		
+		JPanel panel = new JPanel();
+		ImageResizer resizer1 = new ImageResizer(scaler);
+		
+		panel.setLayout(new GridLayout(4,34,0,0));
+		
+		
+		for (int i = 1; i <= 69; i++){
+//			for (int j = 0; j < 4; j++)
+			panel.add(new JLabel(resizer1.resizeImage(new ImageIcon(ImageResizer.class.getResource("/res/img/tiles/" + (i%35) + ".png")))));
+//			panel.add(new JLabel(resizer1.resizeImage(new ImageIcon(ImageResizer.class.getResource("/res/img/tiles/0.png")))));
+		}
+		
+		return panel;
+	}
+	
+	
+	public static JPanel wallz(double scaler){
+		
+		JPanel panel = new JPanel();
+		ImageResizer resizer1 = new ImageResizer(scaler);
+		
+		panel.setLayout(new GridLayout(4,34,0,0));
+		
+		
+		for (int i = 1; i <= 34; i++){
+			for (int j = 0; j < 4; j++)
+			panel.add(new JLabel(resizer1.resizeImage(new ImageIcon(ImageResizer.class.getResource("/res/img/tiles/" + i + ".png")))));
+		}
+		
+		return panel;
 	}
 
 }

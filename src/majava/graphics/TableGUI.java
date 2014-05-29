@@ -132,7 +132,7 @@ public abstract class TableGUI extends JFrame{
 	protected static final ImageResizer[] resizers = {new ImageResizer(1), new ImageResizer(SCALER_SMALL), new ImageResizer(SCALER_TINY)};
 	
 	
-	protected static final int NUM_PLAYERS = 4;
+	protected static final int NUM_PLAYERS = 4, NUM_SEATS = NUM_PLAYERS;
 	protected static final int NUM_WINDS = 4;
 	private static final int NUMBER_OF_DIFFERENT_TILES = 34;
 	protected static final int SIZE_HAND = 14;
@@ -150,9 +150,7 @@ public abstract class TableGUI extends JFrame{
 
 	
 	
-	private static final int SIZE_GARRY_TILES = 38;
-	private static final int SIZE_GARRY_OTHER = 1;
-	private static final int SIZE_GARRY_OMAKE = 5;
+	private static final int SIZE_GARRY_TILES = 38, SIZE_GARRY_OTHER = 1, SIZE_GARRY_OMAKE = 5;
 	private static final int RED5M = 35,  RED5P = 36, RED5S = 37, TILEBACK = 0;
 	private static final int GARRYINDEX_OTHER_RIICHI = 0;
 	
@@ -216,7 +214,9 @@ public abstract class TableGUI extends JFrame{
 	protected final JLabel[] larryTinyW = new JLabel[SIZE_TINY_WALL];
 	protected final JLabel lblWallTilesLeft;
 	
-	protected final RoundResultPanel panResult;
+	
+	protected final ResultPanel panResult;
+	protected final RoundResultLabelPanel panRoundResultLabel;
 	protected final JLabel lblResult;
 	
 	protected final JLabel lblFun;
@@ -450,7 +450,7 @@ public abstract class TableGUI extends JFrame{
 		//show end of round result if round is over
 		if (mRoundTracker.roundIsOver()){
 			lblResult.setText(mRoundTracker.getRoundResultString());
-			panResult.setVisible(true);
+			panRoundResultLabel.setVisible(true);
 			
 			for (int i = 0; i < mRevealHands.length; i++) mRevealHands[i] = true;
 		}
@@ -582,6 +582,7 @@ public abstract class TableGUI extends JFrame{
 			p.setVisible(false);
 		
 		//round result
+		panRoundResultLabel.setVisible(false);
 		panResult.setVisible(false);
 		
 		//player info
@@ -756,11 +757,11 @@ public abstract class TableGUI extends JFrame{
 	
 	
 	
-	protected void showExclamation(String exclamation, int x, int y, int sleepTime){
+	public void showExclamation(String exclamation, int seat, int sleepTime){
 		
-		//show a label
+		//show the label
 		lblExclamation.setText(exclamation);
-		lblExclamation.setLocation(x, y);
+		lblExclamation.setLocation(seat);
 		lblExclamation.setVisible(true);
 		
 		//pause
@@ -769,10 +770,13 @@ public abstract class TableGUI extends JFrame{
 		//get rid of label
 		lblExclamation.setVisible(false);
 	}
-	public void showExclamation(String exclamation, int seatNum, int sleepTime){showExclamation(exclamation, EXCLAMATION_LOCS[seatNum][X], EXCLAMATION_LOCS[seatNum][Y], sleepTime);}
 	public void showExclamation(String exclamation, int seatNum){showExclamation(exclamation, seatNum, DEFAULT_SLEEP_TIME_EXCLAMATION);}
 	
 	
+	public void showResult(){
+		
+		panResult.setVisible(true);
+	}
 	
 	
 	
@@ -815,6 +819,7 @@ public abstract class TableGUI extends JFrame{
 		TableViewSmall viewer = new TableViewSmall();
 		viewer.setVisible(true);
 		
+		viewer.showResult();
 	}
 	
 	//TODO start of constructor
@@ -862,13 +867,10 @@ public abstract class TableGUI extends JFrame{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-		contentPane.add(panelTable);
-		contentPane.add(panelSidebar);
 		
 		
 		
-
+		panResult = new ResultPanel();
 		
 		panPlayer1 = new PlayerPanel(SEAT1);
 		panPlayer2 = new PlayerPanel(SEAT2);
@@ -885,12 +887,18 @@ public abstract class TableGUI extends JFrame{
 		
 		lblExclamation = new ExclamationLabel();
 		
-		panResult = new RoundResultPanel();
+		panRoundResultLabel = new RoundResultLabelPanel();
 		panDebugButtons = new DebugButtonsPanel();
 		lblFun = new FunLabel();
 		
 		panCalls = new PromptPanel();
 		
+		
+		
+		contentPane.add(panResult);
+		
+		contentPane.add(panelTable);
+		contentPane.add(panelSidebar);
 		
 		
 		panelTable.addMouseListener(new MouseAdapter() {
@@ -926,9 +934,11 @@ public abstract class TableGUI extends JFrame{
 		panRoundInfoSquare.setLocation(131, 131);
 		
 		panWallSummary.setLocation(10, 319);
-		panResult.setLocation(32, 234);
+		panRoundResultLabel.setLocation(32, 234);
+		panResult.setLocation(107,75); panResult.setVisible(false);
 		
-		lblExclamation.setLocation(EXCLAMATION_LOCS[SEAT1][X], EXCLAMATION_LOCS[SEAT1][Y]);
+		lblExclamation.setSeatCoordinates(EXCLAMATION_LOCS);
+		lblExclamation.setLocation(SEAT1);
 		
 		panCalls.setLocation(28, 475);
 		
@@ -955,7 +965,7 @@ public abstract class TableGUI extends JFrame{
 		panelSidebar.add(panDebugButtons);
 		panelSidebar.add(panCalls);
 		panelSidebar.add(panWallSummary);
-		panelSidebar.add(panResult);
+		panelSidebar.add(panRoundResultLabel);
 		
 		lblFun.setLocation(4, 5);
 		panDebugButtons.setLocation(204, 333);
@@ -973,8 +983,6 @@ public abstract class TableGUI extends JFrame{
 		panSidebar = panelSidebar;
 		
 		panMidTable = panelMidTable;
-		
-//		panTable.add(panWallSummary.panelTinyWall);
 		
 		
 		
@@ -997,7 +1005,7 @@ public abstract class TableGUI extends JFrame{
 		panWallSummary.getLabelsTinyWall(larryTinyW);		
 		lblWallTilesLeft = panWallSummary.getLabelWallTilesLeft();
 		
-		lblResult = panResult.getLabelResult();
+		lblResult = panRoundResultLabel.getLabelResult();
 		
 		panCalls.getButtonsCalls(barryCalls);
 		panCalls.getButtonsTurnActions(barryTActions);
@@ -1014,8 +1022,7 @@ public abstract class TableGUI extends JFrame{
 		
 		//load Tile images into array
 		for(int seat = SEAT1; seat <= SEAT4; seat++){
-			//get tileback and each of the 34 tiles
-			//garryTiles[seat number][0=big,1=small][tile number]
+			//get tileback and each of the 34 tiles, garryTiles[seat number][0=big,1=small][tile number]
 			for (int tile = 0; tile < NUM_TILES_PLUS_TILEBACK; tile++){
 				garryTiles[seat][BIG][tile] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/" + tile + ".png")));
 				garryTiles[seat][SMALL][tile] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/" + tile + ".png")));
@@ -1420,11 +1427,9 @@ public abstract class TableGUI extends JFrame{
 				setLayout(new GridLayout(4,18,0,0));
 				setBackground(COLOR_TRANSPARENT);
 				
-//				for (int i = 0; i < larryWtiles.length; i++) larryWtiles[i] = new JLabel();
 				for (int i = 0; i < larryTWtiles.length; i++){
 					larryTWtiles[i] = new JLabel();
-//					larryWtiles[i].setIcon(garryTilesTiny[i%garryTilesTiny.length]);
-					larryTWtiles[i].setIcon(garryTilesTiny[0]);
+					larryTWtiles[i].setIcon(garryTilesTiny[TILEBACK]);
 					add(larryTWtiles[i]);
 				}
 			}
@@ -1501,9 +1506,10 @@ public abstract class TableGUI extends JFrame{
 	
 	
 	
-	protected class ExclamationLabel extends JLabel{
+	protected static class ExclamationLabel extends JLabel{
 		private static final long serialVersionUID = 1642040936441297909L;
 		
+		private final int[][] LOCS =  {{0,0}, {0,0}, {0,0}, {0,0}};
 		public ExclamationLabel(){
 			super();
 			setText("TSUMO!");setLocation(EXCLAMATION_LOCS[SEAT1][0], EXCLAMATION_LOCS[SEAT1][1]);
@@ -1513,6 +1519,11 @@ public abstract class TableGUI extends JFrame{
 			setFont(new Font("Maiandra GD", Font.BOLD, 28));
 			setBorder(new LineBorder(new Color(0, 0, 200), 3, true));
 			setOpaque(true); setBackground(COLOR_EXCLAMATION);
+		}
+		public void setLocation(int seat){setLocation(LOCS[seat][X], LOCS[seat][Y]);}
+		public void setSeatCoordinates(int[][] seatLocs){
+			if (seatLocs == null || seatLocs.length != NUM_SEATS) return; for (int iarr[]: seatLocs) if (iarr == null || iarr.length != 2) return;
+			for (int seat = 0; seat < 4; seat++) for (int XorY = 0; XorY < 2; XorY++) LOCS[seat][XorY] = seatLocs[seat][XorY];
 		}
 	}
 	
@@ -1530,14 +1541,19 @@ public abstract class TableGUI extends JFrame{
 	
 	
 	
-	protected class RoundResultPanel extends JPanel{
+	protected static class RoundResultLabelPanel extends JPanel{
 		private static final long serialVersionUID = 1415387615431328822L;
 		
 		protected final JLabel lblRoundResult = new JLabel();
 		
-		public RoundResultPanel(){
+		public RoundResultLabelPanel(){
 			super();
 			lblRoundResult.setText("KATAOKA-SAN WINS");
+			
+			setBounds(0, 0, 212, 66);
+			setLayout(null);
+			setBackground(COLOR_RESULT_PANEL);
+			setBorder(new LineBorder(new Color(0, 200, 0), 3, true));
 			
 			JLabel lblRoundOver = new JLabel("===ROUND OVER===");
 			lblRoundOver.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -1547,11 +1563,6 @@ public abstract class TableGUI extends JFrame{
 			lblRoundResult.setHorizontalAlignment(SwingConstants.CENTER);
 			lblRoundResult.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			lblRoundResult.setBounds(0, 33, 212, 33);
-			
-			setBounds(0, 0, 212, 66);
-			setLayout(null);
-			setBackground(COLOR_RESULT_PANEL);
-			setBorder(new LineBorder(new Color(0, 200, 0), 3, true));
 			
 			add(lblRoundOver);add(lblRoundResult);
 		}
@@ -1583,8 +1594,8 @@ public abstract class TableGUI extends JFrame{
 					for (JLabel[] infoP: larryInfoPlayers)	//randomize player info
 						{infoP[LARRY_INFOPLAYER_SEATWIND].setIcon(garryWinds[SMALL][randGen.nextInt(garryWinds[SMALL].length)]); infoP[LARRY_INFOPLAYER_POINTS].setText(Integer.toString(100*randGen.nextInt(1280)));
 						if (randGen.nextBoolean()) infoP[LARRY_INFOPLAYER_RIICHI].setIcon(null); else infoP[LARRY_INFOPLAYER_RIICHI].setIcon(garryOther[GARRYINDEX_OTHER_RIICHI]);}
-					int exclLoc = randGen.nextInt(EXCLAMATION_LOCS.length);lblExclamation.setVisible(true);lblExclamation.setLocation(EXCLAMATION_LOCS[exclLoc][X], EXCLAMATION_LOCS[exclLoc][Y]);
-					String[] results = {"Draw (Washout)", "Draw (Kyuushuu)", "Draw (4 kans)", "Draw (4 riichi)", "Draw (4 wind)", "East wins! (TSUMO)", "East wins! (RON)", "South wins! (TSUMO)", "South wins! (RON)", "West wins! (TSUMO)", "West wins! (RON)", "North wins! (TSUMO)", "North wins! (RON)" };panResult.setVisible(true);lblResult.setText(results[randGen.nextInt(results.length)]);
+					lblExclamation.setVisible(true);lblExclamation.setLocation(randGen.nextInt(NUM_SEATS));
+					String[] results = {"Draw (Washout)", "Draw (Kyuushuu)", "Draw (4 kans)", "Draw (4 riichi)", "Draw (4 wind)", "East wins! (TSUMO)", "East wins! (RON)", "South wins! (TSUMO)", "South wins! (RON)", "West wins! (TSUMO)", "West wins! (RON)", "North wins! (TSUMO)", "North wins! (RON)" };panRoundResultLabel.setVisible(true);lblResult.setText(results[randGen.nextInt(results.length)]);
 					for (JPanel p: parryTurnInds) p.setVisible(false);	parryTurnInds[randGen.nextInt(parryTurnInds.length)].setVisible(true); //randomize turn indicator
 					lblFun.setIcon(garryOmake[randGen.nextInt(garryOmake.length)]);
 					thisguy.repaint();

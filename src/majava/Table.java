@@ -94,7 +94,7 @@ public class Table {
 		__decideSeats();
 		
 		//show table window
-		mTviewer.setVisible(true);
+//		mTviewer.setVisible(true);
 		
 		//play one game
 		mCurrentGame = new Game(mTviewer, mPlayerArray);
@@ -102,7 +102,7 @@ public class Table {
 		mCurrentGame.play();
 		
 		//close the window
-		Pauser.pauseFor(8000);
+		Pauser.pauseFor(5000);
 		mTviewer.dispose();
 	}
 	

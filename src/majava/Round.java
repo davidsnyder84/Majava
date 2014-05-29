@@ -576,6 +576,8 @@ public class Round {
 
 		mRoundTracker.printRoundResult();
 		
+		mTviewer.showResult();////
+		
 		__updateWindow();
 		
 		Pauser.pauseFor(sleepTimeRoundEnd);
@@ -606,8 +608,8 @@ public class Round {
 
 		final int DEAFULT_SLEEPTIME = 400;
 		final int DEAFULT_SLEEPTIME_EXCLAMATION = 1500;
-		final int DEAFULT_SLEEPTIME_ROUND_END = 2000;
-//		final int DEAFULT_SLEEPTIME_ROUND_END = 5000;
+//		final int DEAFULT_SLEEPTIME_ROUND_END = 2000;
+		final int DEAFULT_SLEEPTIME_ROUND_END = 5000;
 		
 		final int FAST_SLEEPTIME = 0;
 		final int FAST_SLEEPTIME_EXCLAMATION = 0;

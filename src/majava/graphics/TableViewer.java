@@ -131,24 +131,11 @@ public class TableViewer extends TableGUI{
 	
 	//replaces all imageicons with null
 	public void blankEverything(){
-		
 		//walls
-		for (JLabel[] lar: larryWalls)	
-			for (JLabel l: lar) l.setIcon(null);
+		for (JLabel[] lar: larryWalls) for (JLabel l: lar) l.setIcon(null);
 		
 		super.blankEverything();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public void showExclamation(String exclamation, int seatNum, int sleepTime){showExclamation(exclamation, EXCLAMATION_LOCS[seatNum][0], EXCLAMATION_LOCS[seatNum][1], sleepTime);}
-	public void showExclamation(String exclamation, int seatNum){showExclamation(exclamation, seatNum, DEFAULT_SLEEP_TIME_EXCLAMATION);}
 	
 	
 	
@@ -181,7 +168,10 @@ public class TableViewer extends TableGUI{
 		panSidebar.setBounds(panTable.getWidth(), 0, 276, WINDOW_HEIGHT);
 
 		panMidTable.setBounds(143, 91, 552, 544);
-		lblExclamation.setLocation(161, 688);
+		
+		lblExclamation.setSeatCoordinates(EXCLAMATION_LOCS);
+		lblExclamation.setLocation(SEAT1);
+		
 		
 		//pond panels
 		panP1.setLocation(196, 352);
@@ -201,7 +191,7 @@ public class TableViewer extends TableGUI{
 		
 		
 		lblFun.setLocation(4, 5);lblFun.setSize(270, 345);
-		panResult.setLocation(32, 361);
+		panRoundResultLabel.setLocation(32, 361);
 		panWallSummary.setLocation(10, 435);
 		panCalls.setLocation(28, 575);
 		

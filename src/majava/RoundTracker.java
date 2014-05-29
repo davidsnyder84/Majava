@@ -122,15 +122,14 @@ public class RoundTracker {
 	private Tile mMostRecentDiscard;
 	
 	
-	private RoundResult mRoundResult;
+	private final RoundResult mRoundResult;
 	
 	
 	
 	
 	
 	
-	
-	public RoundTracker(TextualUI textinterface, TableGUI tviewer, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){
+	public RoundTracker(TextualUI textinterface, TableGUI tviewer, RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){
 		
 		mRoundWind = roundWind;
 		mRoundNum = roundNum;
@@ -139,7 +138,7 @@ public class RoundTracker {
 		mWhoseTurn = 0;
 		mMostRecentDiscard = null;
 		
-		mRoundResult = new RoundResult();
+		mRoundResult = result;
 		
 		__syncWithWall(wall);
 		__setupPlayerTrackers(p1,p2,p3,p4);
@@ -147,9 +146,9 @@ public class RoundTracker {
 		if (tviewer != null) __syncWithViewer(tviewer);
 		if (textinterface != null) __syncWithTextUI(textinterface);
 	}
-	public RoundTracker(TextualUI textinterface, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){this(textinterface, null, roundWind, roundNum, roundBonus, wall, p1, p2, p3, p4);}
-	public RoundTracker(TableGUI tviewer, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){this(null, tviewer, roundWind, roundNum, roundBonus, wall, p1, p2, p3, p4);}
-	public RoundTracker(Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){this(null, null, roundWind, roundNum, roundBonus, wall, p1, p2, p3, p4);}
+	public RoundTracker(TextualUI textinterface, RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){this(textinterface, null, result, roundWind, roundNum, roundBonus, wall, p1, p2, p3, p4);}
+	public RoundTracker(TableGUI tviewer, RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){this(null, tviewer, result, roundWind, roundNum, roundBonus, wall, p1, p2, p3, p4);}
+	public RoundTracker(RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){this(null, null, result, roundWind, roundNum, roundBonus, wall, p1, p2, p3, p4);}
 	
 	
 	private void __syncWithWall(Wall wall){
@@ -296,6 +295,8 @@ public class RoundTracker {
 	
 	
 	public String getWinningHandString(){return mRoundResult.getWinningHandString();}
+	public Player getWinningPlayer(){return mRoundResult.getWinningPlayer();}
+	public Player getFurikondaPlayer(){return mRoundResult.getFurikondaPlayer();}
 	
 	public void printRoundResult(){
 		if (roundIsOver())

@@ -56,31 +56,31 @@ public class Round{
 	private static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
 	//for debug use
-	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	
 	
 	
 	
-	private Player p1, p2, p3, p4;
-	private Player[] mPlayerArray;
+	private final Player p1, p2, p3, p4;
+	private final Player[] mPlayerArray;
 	
-	private Wall mWall;
+	private final Wall mWall;
 	
-	private RoundTracker mRoundTracker;
-	private TableGUI mTviewer;
-	private TextualUI mTextinterface;
-	private Pauser mPauser;
+	private final RoundTracker mRoundTracker;
+	private final RoundResult mRoundResult;
+	private final TableGUI mTviewer;
+	private final TextualUI mTextinterface;
 	
 	
-	private Wind mRoundWind;
-	private int mRoundNum;
-	private int mRoundBonusNum;
+	private final Wind mRoundWind;
+	private final int mRoundNum, mRoundBonusNum;
 	
 	
 	//options
 	private boolean mDoFastGameplay;
 	private int sleepTime, sleepTimeExclamation, sleepTimeRoundEnd;
+	private Pauser mPauser;
 	
 	
 	/*
@@ -115,7 +115,8 @@ public class Round{
 		
 		//initialize Round Tracker
 //		mTviewer = null; mTextinterface = null;
-		mRoundTracker = new RoundTracker(mTextinterface, mTviewer, mRoundWind,mRoundNum,mRoundBonusNum,  mWall,  p1,p2,p3,p4);
+		mRoundResult = new RoundResult();
+		mRoundTracker = new RoundTracker(mTextinterface, mTviewer, mRoundResult, mRoundWind,mRoundNum,mRoundBonusNum,  mWall,  p1,p2,p3,p4);
 		
 		setOptionFastGameplay(DEFAULT_DO_FAST_GAMEPLAY);
 	}
@@ -169,8 +170,60 @@ public class Round{
 					__handleReaction();
 		}
 		
+		//handle end of round
+		__handleRoundEnd();
+	}
+	
+	
+	private void __handleRoundEnd(){
+		
+		__doPointPayments();
+		
+		
 		//display end of round result
 		displayRoundResult();
+	}
+	
+	
+	private void __doPointPayments(){
+		
+		final int PAYMENT_DUE = 8000;
+		final double DEALER_RON_MULTIPLIER = 1.5;
+		final double DEALER_TSUMO_MULTIPLIER = 2;
+		
+		int paymentDue = PAYMENT_DUE;
+		int tsumoPointsNonDealer, tsumoPointsDealer;
+		
+		
+		if (mRoundTracker.roundEndedWithDraw()) return;
+		
+		
+		//find who the winner is
+		Player winner;
+		winner = mRoundResult.getWinningPlayer();
+		
+		
+		tsumoPointsNonDealer = paymentDue / 4;
+		tsumoPointsDealer = (int) (DEALER_TSUMO_MULTIPLIER * tsumoPointsNonDealer);
+		
+		if (winner.isDealer()) paymentDue *= DEALER_RON_MULTIPLIER;
+		
+		
+		//find who has to pay
+		if (mRoundResult.isVictoryRon()){
+			Player furikonda = mRoundResult.getFurikondaPlayer();
+			furikonda.pointsDecrease(paymentDue);
+		}
+		else{//tsumo
+			
+			Player[] losers = {mRoundTracker.neighborShimochaOf(winner), mRoundTracker.neighborToimenOf(winner), mRoundTracker.neighborKamichaOf(winner)};
+			
+			for (Player p: losers){
+				if (p.isDealer() || winner.isDealer()) p.pointsDecrease(tsumoPointsDealer);
+				else p.pointsDecrease(tsumoPointsNonDealer);
+			}
+		}
+		winner.pointsIncrease(paymentDue);
 	}
 	
 	
@@ -466,31 +519,7 @@ public class Round{
 			return callingPlayer;
 		}
 		else {
-			
 			//else, if more than one player called, figure out who has more priority
-			/*
-			can 2 players call pon?: no, not enough tiles
-			can 2 players call kan?: no, not enough tiles
-			can 2 players call chi?: no, only shimocha can chi
-			1 chi, 1 pon?: yes
-			1 chi, 1 kan?: yes
-			
-			can 2 players call ron?: yes
-			can 3 players call ron?: yes
-			1 chi, 1 ron?: yes
-			1 chi, 2 ron?: yes
-			1 chi, 1 pon, 1 ron?: yes
-			
-			ron > pon/kan > chi
-			pon/kan > chi
-			
-			2 rons: decide by closest seat order
-			
-			if >1 players called, and one of them called chi, the chi caller will NEVER have higher priority
-			//if 1 chi and 1 pon/kan, or 1 chi and 1 ron, the pon/kan/ron always gets higher priority
-			//so the chi is not even considered
-			*/
-
 			//if p called something other than a chi...
 				//if he called pon/kan, he is the pon caller (there can't be 2 pon callers, not enough tiles in the game)
 				//if he called ron, he is the ron caller (if there is already a ron caller, do nothing, because that caller has seat order priority)

@@ -189,11 +189,15 @@ public class RoundResult {
 	public boolean isOver(){return mRoundIsOver;}
 	public boolean isDraw(){return mResult.isDraw();}
 	public boolean isVictory(){return mResult.isVictory();}
+	public boolean isVictoryRon(){return mWinType.isRon();}
+	public boolean isVictoryTsumo(){return mWinType.isTsumo();}
 	
 	
 	
 	public String getWinTypeString(){return mWinType.toString();}
 	public Wind getWindOfWinner(){if (isOver() && isVictory()) return mWinningPlayer.getSeatWind(); return null;}
+	public Player getWinningPlayer(){return mWinningPlayer;}
+	public Player getFurikondaPlayer(){return mFurikondaPlayer;}
 	
 	
 	

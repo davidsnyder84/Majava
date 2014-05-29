@@ -800,6 +800,7 @@ public class Player {
 	//accessors
 	public int getHandSize(){return mHand.getSize();}
 	public Wind getSeatWind(){return mSeatWind;}
+	public boolean isDealer(){return mSeatWind == Wind.EAST;}
 	
 	public String getPlayerName(){return mPlayerName;}
 	

@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import majava.graphics.TableGUI.PlayerPanel;
+
 public class ResultPanel extends JPanel{
 	private static final long serialVersionUID = -5392789088556649589L;
 	
@@ -30,6 +32,15 @@ public class ResultPanel extends JPanel{
 		JPanel res = new TableGUI.RoundResultLabelPanel();
 		res.setLocation(120,20);
 		add(res);
+		
+//		JPanel playp = (new TableViewSmall()).PlayerPanel(TableGUI.SEAT1);
+//		JPanel playp = new TableGUI.PlayerPanel(TableGUI.SEAT1);
+//		JPanel playp = new (new TableViewer()).PlayerPanel();
+		
+		
+//		JPanel playp = (new TableViewer()).new PlayerPanel(TableGUI.SEAT1);
+//		playp.setLocation(120,20);
+//		add(playp);
 	}
 	
 	

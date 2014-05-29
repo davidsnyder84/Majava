@@ -83,8 +83,7 @@ public class Game {
 	
 	private Round mCurrentRound;
 	private Wind mCurrentRoundWind;
-	private int mCurrentRoundNum;
-	private int mCurrentRoundBonusNum;
+	private int mCurrentRoundNum, mCurrentRoundBonusNum;
 	
 	private GameType mGameType;
 	private boolean mGameIsOver;
@@ -226,6 +225,8 @@ public class Game {
 	//accessors
 	public boolean gameIsOver(){
 		if (mGameIsOver) return true;
+		
+		for (Player p: mPlayerArray) if (p.getPoints() < 0) return mGameIsOver = true;
 		
 		switch (mGameType){
 		case SINGLE: return mGameIsOver = (mCurrentRoundNum > 1 || mCurrentRoundBonusNum > 0);

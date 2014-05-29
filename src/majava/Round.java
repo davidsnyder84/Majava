@@ -113,7 +113,6 @@ public class Round {
 		mTviewer = tviewer;
 		mTextinterface = textinterface;
 		
-		
 		//initialize Round Tracker
 //		mTviewer = null; mTextinterface = null;
 		mRoundTracker = new RoundTracker(mTextinterface, mTviewer, mRoundWind,mRoundNum,mRoundBonusNum,  mWall,  p1,p2,p3,p4);
@@ -159,21 +158,12 @@ public class Round {
 		
 		//------------------------------------------------DEBUG INFO
 		if (DEBUG_LOAD_DEBUG_WALL) mWall.DEMOloadDebugWall();
-//		mTextinterface.printWall();mTextinterface.printDoraIndicators();
 		//------------------------------------------------DEBUG INFO
-		
 		
 		
 		
 		//deal starting hands
 		__dealHands();
-		
-
-		//------------------------------------------------DEBUG INFO
-//		mTextinterface.printWall();mTextinterface.printDoraIndicators();mTextinterface.showHandsOfAllPlayers();
-//		System.out.println("\n\n\n");
-		//------------------------------------------------DEBUG INFO
-		
 		
 		
 		//game loop, loop until the round is over
@@ -187,7 +177,6 @@ public class Round {
 			if (!mRoundTracker.roundIsOver())
 				if (mRoundTracker.callWasMadeOnDiscard())
 					__handleReaction();
-			
 		}
 		
 		//display end of round result
@@ -215,7 +204,6 @@ public class Round {
 		
 		//sort the players' hands
 		p1.sortHand(); p2.sortHand(); p3.sortHand(); p4.sortHand();
-//		__updateWindow();
 		__updateUIs(GameplayEvent.START_OF_ROUND);
 	}
 	
@@ -249,7 +237,6 @@ public class Round {
 		if (p.needsDraw()){
 			__givePlayerTile(p);
 		}
-//		else __updateWindow();
 		else __updateUIs(GameplayEvent.PLACEHOLDER);
 		
 		
@@ -266,9 +253,11 @@ public class Round {
 			
 			//if the player made an ankan or minkan, they need a rinshan draw
 			if (p.needsDrawRinshan()){
-				
-				__showExclamation(Exclamation.OWN_KAN, p);
-//				__updateWindow();
+
+				GameplayEvent kanEvent = GameplayEvent.DECLARED_OWN_KAN;
+				kanEvent.setExclamation(Exclamation.OWN_KAN, mRoundTracker.getSeatNumber(p));
+				__updateUIs(kanEvent);
+//				__showExclamation(Exclamation.OWN_KAN, p);
 				__updateUIs(GameplayEvent.MADE_OWN_KAN);
 				
 				//give player a rinshan draw
@@ -277,7 +266,10 @@ public class Round {
 			}
 			
 			if (p.turnActionCalledTsumo()){
-				__showExclamation(Exclamation.TSUMO, p);
+				GameplayEvent tsumoEvent = GameplayEvent.DECLARED_TSUMO;
+				tsumoEvent.setExclamation(Exclamation.TSUMO, mRoundTracker.getSeatNumber(p));
+				__updateUIs(tsumoEvent);
+//				__showExclamation(Exclamation.TSUMO, p);
 				mRoundTracker.setResultVictory(p);
 			}
 			
@@ -287,19 +279,12 @@ public class Round {
 		
 		
 		
-		
 		//return early if the round is over (tsumo or 4kan or 4riichi or kyuushu)
 		if (mRoundTracker.roundIsOver()) return;
 		
 		
-		
-		
 		//show the human player their hand, show the discarded tile and the discarder's pond
-//		mTextinterface.showDiscardedTile();
 		__updateUIs(GameplayEvent.DISCARDED_TILE);
-//		__updateWindow();
-		
-		
 		
 		
 		//~~~~~~get reactions from the other players
@@ -331,8 +316,6 @@ public class Round {
 		Tile drawnTile = null;
 		if (!p.needsDraw()) return;
 		
-//		mWall.printWall(); //debug
-		
 		//draw from wall or dead wall, depending on what player needs
 		if (p.needsDrawNormal()){
 			
@@ -360,7 +343,6 @@ public class Round {
 		
 		//add the tile to the player's hand
 		p.addTileToHand(drawnTile);
-//		__updateWindow();
 		__updateUIs(GameplayEvent.DREW_TILE);
 	}
 	
@@ -412,30 +394,24 @@ public class Round {
 		
 		
 		
-		//show who called the tile
-//		println("\n*********************************************************" + 
-//							"\n**********" + priorityCaller.getSeatWind() + " Player called the tile (" + discardedTile.toString() + ")! " + priorityCaller.getCallStatusString() + "!!!**********" + 
-//							"\n*********************************************************");
 		//show the call
-		__showExclamation(priorityCaller.getCallStatusExclamation(), priorityCaller);
-		
-		
+		GameplayEvent callEvent = GameplayEvent.CALLED_TILE;
+		callEvent.setExclamation(priorityCaller.getCallStatusExclamation(), mRoundTracker.getSeatNumber(priorityCaller));
+		__updateUIs(callEvent);
+//		__showExclamation(priorityCaller.getCallStatusExclamation(), priorityCaller);
 		
 		
 		//give the caller the discarded tile so they can make their meld
 		//if the caller called Ron, handle that instead
 		if (priorityCaller.calledRon()){
 			
-//			println("\n*****RON! RON RON! RON! RON! ROOOOOOOOOOOOOOOOOOOOOON!");
 			mRoundTracker.setResultVictory(priorityCaller);
-			
 			
 		}
 		else{
 			
 			//make the meld
 			priorityCaller.makeMeld(discardedTile);
-//			__updateWindow();
 			__updateUIs(GameplayEvent.MADE_OPEN_MELD);
 			//meld has been made
 		}
@@ -549,15 +525,6 @@ public class Round {
 	
 	
 	
-	//prints the hands of each player
-//	private void __showHandsOfAllPlayers(){for (Player p: mPlayerArray) p.showHand();}
-	
-	
-	
-	
-	
-	
-	
 	//accessors
 	public Wind getRoundWind(){return mRoundWind;}
 	public int getRoundNum(){return mRoundNum;}
@@ -578,13 +545,6 @@ public class Round {
 	*/
 	public void displayRoundResult(){
 		
-//		for (Player p: mPlayerArray) p.showHand();
-
-//		mRoundTracker.printRoundResult();
-		
-//		mTviewer.showResult();////
-		
-//		__updateWindow();
 		__updateUIs(GameplayEvent.END_OF_ROUND);
 		
 		Pauser.pauseFor(sleepTimeRoundEnd);
@@ -594,24 +554,17 @@ public class Round {
 	
 	
 	private void __updateUIs(GameplayEvent event){
-//		mTviewer.updateEverything();
-		if (mTviewer != null) mTviewer.displayEvent(event);
 		if (mTextinterface != null) mTextinterface.displayEvent(event);
+		if (mTviewer != null) mTviewer.displayEvent(event);
 		
-		mPauser.pauseWait();
+		if (!event.isExclamation()) mPauser.pauseWait();
 	}
 	
-//	private void __updateWindow(){
-//		mTviewer.updateEverything();
-//		//pause for dramatic effect
-//		mPauser.pauseWait();
+	
+//	private void __showExclamation(Exclamation exclamation, Player p){
+//		if (mTviewer != null) mTviewer.showExclamation(exclamation, mRoundTracker.getSeatNumber(p), sleepTimeExclamation);
+//		if (mTextinterface != null) mTextinterface.showExclamation(exclamation, mRoundTracker.getSeatNumber(p), 0);
 //	}
-	
-	
-	private void __showExclamation(Exclamation exclamation, Player p){
-		if (mTviewer != null) mTviewer.showExclamation(exclamation, mRoundTracker.getSeatNumber(p), sleepTimeExclamation);
-		if (mTextinterface != null) mTextinterface.showExclamation(exclamation, p.getSeatWind(), 0);
-	}
 	
 	
 	
@@ -645,6 +598,8 @@ public class Round {
 		}
 		
 		mPauser = new Pauser(sleepTime);
+		if (mTviewer != null) mTviewer.setSleepTimeExclamation(sleepTimeExclamation);
+		if (mTextinterface != null) mTextinterface.setSleepTimeExclamation(0);
 	}
 	
 	

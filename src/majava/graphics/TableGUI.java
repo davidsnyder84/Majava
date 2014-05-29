@@ -9,6 +9,7 @@ import majava.RoundTracker;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 import majava.enums.Wind;
+import majava.graphics.userinterface.GameUI;
 import majava.tiles.Tile;
 import majava.TileList;
 import majava.tiles.PondTile;
@@ -69,7 +70,7 @@ methods:
 	other:
 	syncWithRoundTracker - associates the viewer with the round tracker
 */
-public abstract class TableGUI extends JFrame{
+public abstract class TableGUI extends JFrame implements GameUI{
 	private static final long serialVersionUID = -4041211467460747162L;
 	
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -319,6 +320,7 @@ public abstract class TableGUI extends JFrame{
 	protected boolean mOptionRevealWall;
 	protected boolean mOptionRevealHands;
 	protected boolean[] mRevealHands;
+	protected int mSleepTimeExclamation;
 	
 
 	private static final int NUM_PLAYERS_TO_TRACK = 4;
@@ -462,6 +464,12 @@ public abstract class TableGUI extends JFrame{
 		case DREW_TILE: updateEverything(); break;
 		case MADE_OPEN_MELD: updateEverything(); break;
 		case END_OF_ROUND: showResult(); updateEverything(); break;
+		
+
+		case CALLED_TILE: showExclamation(event.getExclamation(), event.getSeat()); break;
+		case DECLARED_RIICHI: showExclamation(event.getExclamation(), event.getSeat()); break;
+		case DECLARED_OWN_KAN: showExclamation(event.getExclamation(), event.getSeat()); break;
+		case DECLARED_TSUMO: showExclamation(event.getExclamation(), event.getSeat()); break;
 		
 		case NEW_DORA_INDICATOR: break;
 		default: break;
@@ -788,7 +796,7 @@ public abstract class TableGUI extends JFrame{
 	}
 	
 	
-	public void showExclamation(Exclamation exclamation, int seat, int sleepTime){
+	public void showExclamation(Exclamation exclamation, int seat){
 		
 		//show the label
 		lblExclamation.setText(exclamationToString.get(exclamation));
@@ -796,12 +804,12 @@ public abstract class TableGUI extends JFrame{
 		lblExclamation.setVisible(true);
 		
 		//pause
-		Pauser.pauseFor(sleepTime);
+		Pauser.pauseFor(mSleepTimeExclamation);
 		
 		//get rid of label
 		lblExclamation.setVisible(false);
 	}
-	public void showExclamation(Exclamation exclamation, int seatNum){showExclamation(exclamation, seatNum, DEFAULT_SLEEP_TIME_EXCLAMATION);}
+	public void setSleepTimeExclamation(int sleepTime){mSleepTimeExclamation = sleepTime;};
 	
 	
 	
@@ -860,6 +868,7 @@ public abstract class TableGUI extends JFrame{
 		
 		mOptionRevealWall = DEFAULT_OPTION_REVEAL_WALL;
 		mOptionRevealHands = DEFAULT_OPTION_REVEAL_HANDS;
+		mSleepTimeExclamation = DEFAULT_SLEEP_TIME_EXCLAMATION;
 
 
 		//load image icons into arrays

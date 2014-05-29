@@ -5,6 +5,7 @@ import majava.Meld;
 import majava.Player;
 import majava.Pond;
 import majava.RoundTracker;
+import majava.enums.Exclamation;
 import majava.enums.Wind;
 import majava.tiles.Tile;
 import majava.TileList;
@@ -286,7 +287,6 @@ public class TableViewer extends TableGUI{
 		}
 		public void getLabels(JLabel[] wLarry){for (int i = 0; i < larryW.length; i++) wLarry[i] = larryW[i];}
 	}
-	
 	
 	
 }

@@ -105,19 +105,19 @@ public class DetailedTextualUI extends TextualUI{
 	
 	
 	@Override
-	public void showExclamation(Exclamation exclamation, Wind playerWind, int sleepTime){
+	public void showExclamation(Exclamation exclamation, int seat){
 		
 		if (exclamation.isCall())
 			mOutStream.println("\n*********************************************************" + 
-							"\n**********" + playerWind + " Player called the tile (" + mRoundTracker.getMostRecentDiscard().toString() + ")! " + exclamationToString.get(exclamation) + "!!!**********" + 
+							"\n**********" + mRoundTracker.getWindOfSeat(seat) + " Player called the tile (" + mRoundTracker.getMostRecentDiscard().toString() + ")! " + exclamationToString.get(exclamation) + "!!!**********" + 
 							"\n*********************************************************");
 		else
 			mOutStream.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
-							"\n~~~~~~~~~~~" + playerWind + " Player declared " + exclamationToString.get(exclamation) + "!!!~~~~~~~~~~~" + 
+							"\n~~~~~~~~~~~" + mRoundTracker.getWindOfSeat(seat) + " Player declared " + exclamationToString.get(exclamation) + "!!!~~~~~~~~~~~" + 
 							"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		
 		//pause
-		Pauser.pauseFor(sleepTime);
+		Pauser.pauseFor(mSleepTimeExclamation);
 	}
 	
 	

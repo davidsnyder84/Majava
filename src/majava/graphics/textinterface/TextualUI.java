@@ -16,8 +16,11 @@ import majava.Wall;
 import majava.enums.Exclamation;
 import majava.enums.Wind;
 import majava.enums.GameplayEvent;
+import majava.graphics.userinterface.GameUI;
 
-public class TextualUI {
+
+
+public class TextualUI implements GameUI{
 	
 	protected static final int DEFAULT_SLEEP_TIME_EXCLAMATION = 1500;
 	protected static final int NUM_PLAYERS_TO_TRACK = 4;
@@ -33,6 +36,7 @@ public class TextualUI {
 	
 	protected final PrintStream mOutStream;
 	
+	protected int mSleepTimeExclamation = DEFAULT_SLEEP_TIME_EXCLAMATION;
 	
 	
 	protected class PlayerTracker{
@@ -113,6 +117,11 @@ public class TextualUI {
 		case MADE_OWN_KAN: showMadeOwnKan(); break;
 		case NEW_DORA_INDICATOR: showDeadWall(); break;
 		
+		case CALLED_TILE: showExclamation(event.getExclamation(), event.getSeat()); break;
+		case DECLARED_RIICHI: showExclamation(event.getExclamation(), event.getSeat()); break;
+		case DECLARED_OWN_KAN: showExclamation(event.getExclamation(), event.getSeat()); break;
+		case DECLARED_TSUMO: showExclamation(event.getExclamation(), event.getSeat()); break;
+		
 		
 		case START_OF_ROUND: printWall(); printDoraIndicators(); break;
 		case PLACEHOLDER: break;
@@ -124,7 +133,7 @@ public class TextualUI {
 	
 	
 	
-	public void showExclamation(Exclamation exclamation, Wind playerWind, int sleepTime){
+	public void showExclamation(Exclamation exclamation, int seat){
 		mOutStream.println("Hi bob.");
 //		//if multiple players called, show if someone got bumped by priority 
 //		for (Player p: mPlayerArray)
@@ -132,7 +141,7 @@ public class TextualUI {
 //				System.out.println("~~~~~~~~~~" + p.getSeatWind() + " Player tried to call " + p.getCallStatusString() + ", but got bumped by " + priorityCaller.getSeatWind() + "!");
 //		System.out.println();
 	}
-	public void showExclamation(Exclamation exclamation, Wind playerWind){showExclamation(exclamation, playerWind, DEFAULT_SLEEP_TIME_EXCLAMATION);}
+	public void setSleepTimeExclamation(int sleepTime){mSleepTimeExclamation = sleepTime;};
 	
 	
 	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, Pond[] pPonds, Wall wall){

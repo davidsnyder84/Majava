@@ -417,10 +417,18 @@ public class RoundTracker {
 	
 	
 	
-	public int getSeatNumber(Player p) {
+	public int getSeatNumber(Player p){
 //		return Arrays.asList(mPTrackers).indexOf(p);
 		for (int i = 0; i < mPTrackers.length; i++) if (p == mPTrackers[i].player) return i;
 		return -1;
+	}
+//	public int getSeatNumber(Wind seatwind){
+//		for (int i = 0; i < mPTrackers.length; i++) if (seatwind == mPTrackers[i].player.getSeatWind()) return i;
+//		return -1;
+//	}
+	public Wind getWindOfSeat(int seat){
+		if (seat < 0 || seat > 4) return null;
+		return mPTrackers[seat].player.getSeatWind();
 	}
 	
 	

@@ -492,15 +492,11 @@ public class Wall {
 	
 	
 	
-	public void printDoraIndicators(){
-		TileList t = getDoraIndicators();
-		System.out.println("Dora Indicators: " + t.toString() + "\n\n");
-	}
 	
 	
-
-	public void printWall(){System.out.println(toString());}
-	public void printDeadWall(){System.out.println(toStringDeadWall());}
+	
+//	public void printWall(){System.out.println(toString());}
+//	public void printDeadWall(){System.out.println(toStringDeadWall());}
 	
 	//tostring
 	@Override

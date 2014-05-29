@@ -12,6 +12,8 @@ public enum GameplayEvent{
 	CALLED_TILE(Exclamation.UNKNOWN),
 	DECLARED_RIICHI(Exclamation.RIICHI), DECLARED_OWN_KAN(Exclamation.OWN_KAN), DECLARED_TSUMO(Exclamation.TSUMO),
 	
+	HUMAN_PLAYER_TURN_START,
+	
 	UNKNOWN, PLACEHOLDER;
 	
 	

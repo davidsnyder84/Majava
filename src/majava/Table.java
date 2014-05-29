@@ -5,6 +5,7 @@ import majava.graphics.TableGUI;
 import majava.graphics.TableViewSmall;
 import majava.graphics.TableViewer;
 import majava.graphics.textinterface.DetailedTextualUI;
+import majava.graphics.textinterface.SparseTextualUI;
 import majava.graphics.textinterface.TextualUI;
 import utility.Pauser;
 
@@ -74,6 +75,8 @@ public class Table {
 		//initialize GUI and text interfaces
 		mTviewer = __generateTableGUI();
 		mTextinterface = __generateTextInterface();
+//		mTviewer = null;
+//		mTextinterface = null;
 		
 		mDoSinglePlayer = DEFAULT_DO_SINGLE_PLAYER;
 		mDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
@@ -96,9 +99,6 @@ public class Table {
 		//decide seats
 		__decideSeats();
 		
-		//show table window
-		mTviewer.setVisible(true);
-		
 		//play one game
 		mCurrentGame = new Game(mTextinterface, mTviewer, mPlayerArray);
 		mCurrentGame.setOptionFastGameplay(mDoFastGameplay);
@@ -106,7 +106,7 @@ public class Table {
 		
 		//close the window
 		Pauser.pauseFor(5000);
-		mTviewer.dispose();
+		if (mTviewer != null) mTviewer.dispose();
 	}
 	
 	
@@ -116,10 +116,12 @@ public class Table {
 		else g = new TableViewer();
 		
 		g.blankEverything();
+		g.setVisible(true);
 		return g;
 	}
 	private TextualUI __generateTextInterface(){
-		return new DetailedTextualUI();
+//		return new DetailedTextualUI();
+		return new SparseTextualUI();
 	}
 	
 	

@@ -1,26 +1,22 @@
 package majava.graphics.textinterface;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import majava.Hand;
-import majava.Meld;
 import majava.Player;
 import majava.Pond;
 import majava.RoundTracker;
-import majava.TileList;
 import majava.Wall;
 import majava.enums.Exclamation;
-import majava.enums.Wind;
 import majava.enums.GameplayEvent;
 import majava.graphics.userinterface.GameUI;
 
 
 
-public class TextualUI implements GameUI{
+public abstract class TextualUI implements GameUI{
 	
 	protected static final int DEFAULT_SLEEP_TIME_EXCLAMATION = 1500;
 	protected static final int NUM_PLAYERS_TO_TRACK = 4;
@@ -34,32 +30,21 @@ public class TextualUI implements GameUI{
 		exclamationToString = Collections.unmodifiableMap(aMap);
 	}
 	
-	protected final PrintStream mOutStream;
-	
-	protected int mSleepTimeExclamation = DEFAULT_SLEEP_TIME_EXCLAMATION;
-	
 	
 	protected class PlayerTracker{
 		protected Player player;
-		
-//		private Wind seatWind;
-//		private int points;
-//		private boolean riichiStatus;
-//		private String playerName;
-		
 		protected Hand hand;
 		protected Pond pond;
 		
-//		private ArrayList<Meld> melds = new ArrayList<Meld>();
-		
 		public PlayerTracker(Player p, Hand tH, Pond tP){player = p;hand = tH;pond = tP;}
 	}
+	
+	
+	protected final PrintStream mOutStream;
+	protected int mSleepTimeExclamation = DEFAULT_SLEEP_TIME_EXCLAMATION;
+	
 	protected PlayerTracker[] mPTrackers;
 	protected Wall mWall;
-	
-	
-	
-	
 	protected RoundTracker mRoundTracker;
 	
 	
@@ -73,76 +58,61 @@ public class TextualUI implements GameUI{
 	
 	
 	
-	
-	public void showDiscardedTile(){}
-	public void showMadeOpenMeld(){}
-	public void showDrewTile(){}
-	public void showMadeOwnKan(){}
-	
-	public void showDeadWall(){
-		printDoraIndicators();
-		mWall.printDeadWall();
-	}
-	
-	public void showDrewTileRinshan(){
-		mWall.printDeadWall();
-		mWall.printDoraIndicators();	//debug
-	}
-	
-	
-	public void showHandsOfAllPlayers(){
-		//prints the hands of each player
-		for (PlayerTracker pt: mPTrackers) pt.player.showHand();
-	}
-	
-	public void printWall(){
-		mWall.printWall();
-	}
-	public void printDoraIndicators(){
-		mWall.printDoraIndicators();
-	}
-	
-	
-	public void showRoundResult(){
-		mRoundTracker.printRoundResult();
-	}
+
 	
 	
 	public void displayEvent(GameplayEvent event){
-		
 		switch(event){
-		case DISCARDED_TILE: showDiscardedTile(); break;
-		case MADE_OPEN_MELD: showMadeOpenMeld(); break;
-		case DREW_TILE: showDrewTile(); break;
-		case MADE_OWN_KAN: showMadeOwnKan(); break;
-		case NEW_DORA_INDICATOR: showDeadWall(); break;
+		case DISCARDED_TILE: __displayEventDiscardedTile(); return;
+		case MADE_OPEN_MELD: __displayEventMadeOpenMeld(); return;
+		case DREW_TILE: __displayEventDrewTile(); return;
+		case MADE_OWN_KAN: __displayEventMadeOwnKan(); return;
+		case NEW_DORA_INDICATOR: __displayEventNewDoraIndicator(); return;
 		
-		case CALLED_TILE: showExclamation(event.getExclamation(), event.getSeat()); break;
-		case DECLARED_RIICHI: showExclamation(event.getExclamation(), event.getSeat()); break;
-		case DECLARED_OWN_KAN: showExclamation(event.getExclamation(), event.getSeat()); break;
-		case DECLARED_TSUMO: showExclamation(event.getExclamation(), event.getSeat()); break;
+		case HUMAN_PLAYER_TURN_START: __displayEventHumanTurnStart(); return;
 		
-		
-		case START_OF_ROUND: printWall(); printDoraIndicators(); break;
+		case START_OF_ROUND: __displayEventStartOfRound(); return;
 		case PLACEHOLDER: break;
-		case END_OF_ROUND: showHandsOfAllPlayers(); showRoundResult(); break;
+		case END_OF_ROUND: __displayEventEndOfRound(); return;
 		default: break;
 		}
+		
+		if (event.isExclamation()) __showExclamation(event.getExclamation(), event.getSeat());
 	}
 	
+	protected abstract void __displayEventDiscardedTile();
+	protected abstract void __displayEventMadeOpenMeld();
+	protected abstract void __displayEventDrewTile();
+	protected abstract void __displayEventMadeOwnKan();
+	protected abstract void __displayEventNewDoraIndicator();
+	protected abstract void __displayEventHumanTurnStart();
+	
+	protected abstract void __displayEventStartOfRound();
+	protected abstract void __displayEventEndOfRound();
+	
+	protected abstract void __showExclamation(Exclamation exclamation, int seat);
+	
+	
+
+	
+	
+	protected abstract void __showHandsOfAllPlayers();
+	
+	protected abstract void __showWall();
+	protected abstract void __showDeadWall();
+	protected abstract void __showDoraIndicators();
+	
+	protected abstract void __showRoundResult();
 	
 	
 	
-	public void showExclamation(Exclamation exclamation, int seat){
-		mOutStream.println("Hi bob.");
-//		//if multiple players called, show if someone got bumped by priority 
-//		for (Player p: mPlayerArray)
-//			if (p.called() && p != priorityCaller)
-//				System.out.println("~~~~~~~~~~" + p.getSeatWind() + " Player tried to call " + p.getCallStatusString() + ", but got bumped by " + priorityCaller.getSeatWind() + "!");
-//		System.out.println();
-	}
+	
+	
+	
+	
+	
+	
 	public void setSleepTimeExclamation(int sleepTime){mSleepTimeExclamation = sleepTime;};
-	
 	
 	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, Pond[] pPonds, Wall wall){
 		
@@ -154,19 +124,13 @@ public class TextualUI implements GameUI{
 		
 		mWall = wall;
 	}
-
 	
 	
-	public void printErrorRoundAlreadyOver(){mOutStream.println("----Error: Round is already over, cannot play");}
+	public void println(String printString){mOutStream.println(printString);}
+	public void println(){println("");}
+	
+	public void printErrorRoundAlreadyOver(){println("----Error: Round is already over, cannot play");}
 	
 	
 	
-	
-	public static void main(String[] args) {
-		
-		
-	}
-
-
-
 }

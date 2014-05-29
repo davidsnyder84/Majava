@@ -1,6 +1,5 @@
 package majava.graphics.userinterface;
 
-import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 
 public interface GameUI {
@@ -9,4 +8,5 @@ public interface GameUI {
 	
 	void setSleepTimeExclamation(int sleepTime);
 	
+	void printErrorRoundAlreadyOver();
 }

@@ -3,8 +3,10 @@ package majava;
 import java.util.ArrayList;
 
 import majava.enums.Exclamation;
+import majava.enums.GameplayEvent;
 import majava.enums.Wind;
 import majava.graphics.TableGUI;
+import majava.graphics.textinterface.TextualUI;
 import majava.tiles.Tile;
 
 /*
@@ -201,6 +203,8 @@ public class Player {
 	
 	
 	private RoundTracker mRoundTracker;
+	private TableGUI mTviewer;
+	private TextualUI mTextinterface;
 	
 	
 	
@@ -276,13 +280,13 @@ public class Player {
 		return null (no discard chosen)
 	end if
 	*/
-	public Tile takeTurn(TableGUI tviewer){
+	public Tile takeTurn(){
 		
 		mLastDiscard = null;
 		mChosenDiscardIndex = NO_DISCARD_CHOSEN;
 		
 		//discard a tile
-		__chooseTurnAction(tviewer);
+		__chooseTurnAction();
 		
 		if (turnActionChoseDiscard()){
 			
@@ -385,7 +389,7 @@ public class Player {
 	if (controller is human) ask human and return choice
 	else (controller is computer) ask computer and return choice
 	*/
-	private int __chooseTurnAction(TableGUI tviewer){
+	private int __chooseTurnAction(){
 		
 		//auto discard if in riichi (if unable to tsumo/kan)
 		if (mRiichiStatus && (!ableToTsumo() && !ableToAnkan())){
@@ -397,7 +401,7 @@ public class Player {
 		
 		
 		//ask self for turn action
-		if (controllerIsHuman()) return __askTurnActionHuman(tviewer);
+		if (controllerIsHuman()) return __askTurnActionHuman();
 		else return __askTurnActionCom();
 	}
 	
@@ -414,32 +418,33 @@ public class Player {
 	chosenDiscard = user clicks on tile through GUI
 	return chosenDiscard
 	*/
-	private int __askTurnActionHuman(TableGUI tviewer){
+	private int __askTurnActionHuman(){
 		
 		ActionType chosenAction = ActionType.UNDECIDED;
 		int chosenDiscardIndex = NO_DISCARD_CHOSEN;
 		
 		//show hand
-		showHand();
-		tviewer.updateEverything();
+//		showHand();
+//		tviewer.updateEverything();
+		__updateUIs(GameplayEvent.HUMAN_PLAYER_TURN_START);
 
 		//get the player's desired action
-		tviewer.getClickTurnAction(getHandSize(), ableToRiichi(), ableToAnkan(), ableToMinkan(), ableToTsumo());
+		mTviewer.getClickTurnAction(getHandSize(), ableToRiichi(), ableToAnkan(), ableToMinkan(), ableToTsumo());
 		
 		
 		
 		
-		if (tviewer.resultClickTurnActionWasDiscard()){
+		if (mTviewer.resultClickTurnActionWasDiscard()){
 			mTurnAction = ActionType.DISCARD;
-			chosenDiscardIndex = tviewer.getResultClickedDiscard();
+			chosenDiscardIndex = mTviewer.getResultClickedDiscard();
 			mChosenDiscardIndex = chosenDiscardIndex - 1;	//adjust for index
 			return mChosenDiscardIndex;
 		}
 		else{
-			if (tviewer.resultClickTurnActionWasAnkan()) chosenAction = ActionType.ANKAN;
-			if (tviewer.resultClickTurnActionWasMinkan()) chosenAction = ActionType.MINKAN;
-			if (tviewer.resultClickTurnActionWasRiichi()) chosenAction = ActionType.RIICHI;
-			if (tviewer.resultClickTurnActionWasTsumo()) chosenAction = ActionType.TSUMO;
+			if (mTviewer.resultClickTurnActionWasAnkan()) chosenAction = ActionType.ANKAN;
+			if (mTviewer.resultClickTurnActionWasMinkan()) chosenAction = ActionType.MINKAN;
+			if (mTviewer.resultClickTurnActionWasRiichi()) chosenAction = ActionType.RIICHI;
+			if (mTviewer.resultClickTurnActionWasTsumo()) chosenAction = ActionType.TSUMO;
 			mTurnAction = chosenAction;
 			
 			//riichi
@@ -984,7 +989,11 @@ public class Player {
 	
 	
 	
-	
+	private void __updateUIs(GameplayEvent event){
+		if (mTextinterface != null) mTextinterface.displayEvent(event);
+		if (mTviewer != null) mTviewer.displayEvent(event);
+	}
+	public void setUIs(TextualUI textinterface, TableGUI tviewer){mTextinterface = textinterface; mTviewer = tviewer;}
 	
 	
 	//sync player's hand and pond with tracker

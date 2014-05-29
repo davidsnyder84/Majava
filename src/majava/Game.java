@@ -120,6 +120,7 @@ public class Game {
 		
 		mTviewer = tviewer;
 		mTextinterface = textinterface;
+		__setUIs();
 		
 		mDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
 	}
@@ -161,6 +162,7 @@ public class Game {
 			mCurrentRound.play();
 			
 			mNumRoundsPlayed++;
+			System.out.println(mNumRoundsPlayed);
 			if (mCurrentRound.endedWithVictory()){
 				mWinStrings.add(mCurrentRound.getWinningHandString());
 			}
@@ -199,6 +201,10 @@ public class Game {
 			p.rotateSeat();
 	}
 	
+	private void __setUIs(){
+		for (Player p: mPlayerArray) p.setUIs(mTextinterface, mTviewer);
+	}
+	
 	
 	
 	
@@ -224,7 +230,7 @@ public class Game {
 		switch (mGameType){
 		case SINGLE: return mGameIsOver = (mCurrentRoundNum > 1 || mCurrentRoundBonusNum > 0);
 		case TONPUUSEN: case HANCHAN: return mGameIsOver = (mCurrentRoundWind == mGameType.lastWind().next());
-		case SIMULATION: return mGameIsOver = (mNumRoundsPlayed > NUM_SIMULATIONS_TO_RUN);
+		case SIMULATION: return mGameIsOver = (mNumRoundsPlayed >= NUM_SIMULATIONS_TO_RUN);
 		default: return false;
 		}
 	}

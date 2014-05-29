@@ -49,7 +49,7 @@ methods:
 	 	getWinningHandString - return a string repesentation of the round's winning hand
 	 	displayRoundResult - displays the round's end result
 */
-public class Round {
+public class Round{
 	
 	private static final Wind DEFAULT_ROUND_WIND = Wind.EAST;
 	private static final int DEFAULT_ROUND_NUM = 1;
@@ -150,17 +150,7 @@ public class Round {
 	*/
 	public void play(){
 		
-		if (mRoundTracker.roundIsOver()){
-			mTextinterface.printErrorRoundAlreadyOver();
-			return;
-		}
-		
-		
-		//------------------------------------------------DEBUG INFO
-		if (DEBUG_LOAD_DEBUG_WALL) mWall.DEMOloadDebugWall();
-		//------------------------------------------------DEBUG INFO
-		
-		
+		if (mRoundTracker.roundIsOver()){mTextinterface.printErrorRoundAlreadyOver();return;}
 		
 		//deal starting hands
 		__dealHands();
@@ -191,7 +181,9 @@ public class Round {
 	deals players their starting hands
 	*/
 	private void __dealHands(){
-
+		
+		if (DEBUG_LOAD_DEBUG_WALL) mWall.DEMOloadDebugWall();	//DEBUG
+		
 		//get starting hands (as lists of tiles)
 		TileList tilesE = new TileList(), tilesS = new TileList(), tilesW = new TileList(), tilesN = new TileList();
 		mWall.getStartingHands(tilesE, tilesS, tilesW, tilesN);
@@ -248,7 +240,7 @@ public class Round {
 		//loop until the player has chosen a discard
 		//loop until the player stops making kans
 		do{
-			Tile discardedTile = p.takeTurn(mTviewer);
+			Tile discardedTile = p.takeTurn();
 			mRoundTracker.setMostRecentDiscard(discardedTile);
 			
 			//if the player made an ankan or minkan, they need a rinshan draw
@@ -257,7 +249,6 @@ public class Round {
 				GameplayEvent kanEvent = GameplayEvent.DECLARED_OWN_KAN;
 				kanEvent.setExclamation(Exclamation.OWN_KAN, mRoundTracker.getSeatNumber(p));
 				__updateUIs(kanEvent);
-//				__showExclamation(Exclamation.OWN_KAN, p);
 				__updateUIs(GameplayEvent.MADE_OWN_KAN);
 				
 				//give player a rinshan draw
@@ -269,13 +260,11 @@ public class Round {
 				GameplayEvent tsumoEvent = GameplayEvent.DECLARED_TSUMO;
 				tsumoEvent.setExclamation(Exclamation.TSUMO, mRoundTracker.getSeatNumber(p));
 				__updateUIs(tsumoEvent);
-//				__showExclamation(Exclamation.TSUMO, p);
 				mRoundTracker.setResultVictory(p);
 			}
 			
 		}
 		while (p.turnActionChoseDiscard() == false && mRoundTracker.roundIsOver() == false);
-//		while (p.turnActionMadeKan());
 		
 		
 		
@@ -398,7 +387,6 @@ public class Round {
 		GameplayEvent callEvent = GameplayEvent.CALLED_TILE;
 		callEvent.setExclamation(priorityCaller.getCallStatusExclamation(), mRoundTracker.getSeatNumber(priorityCaller));
 		__updateUIs(callEvent);
-//		__showExclamation(priorityCaller.getCallStatusExclamation(), priorityCaller);
 		
 		
 		//give the caller the discarded tile so they can make their meld
@@ -557,16 +545,8 @@ public class Round {
 		if (mTextinterface != null) mTextinterface.displayEvent(event);
 		if (mTviewer != null) mTviewer.displayEvent(event);
 		
-		if (!event.isExclamation()) mPauser.pauseWait();
+		if (!event.isExclamation() && event != GameplayEvent.PLACEHOLDER) mPauser.pauseWait();
 	}
-	
-	
-//	private void __showExclamation(Exclamation exclamation, Player p){
-//		if (mTviewer != null) mTviewer.showExclamation(exclamation, mRoundTracker.getSeatNumber(p), sleepTimeExclamation);
-//		if (mTextinterface != null) mTextinterface.showExclamation(exclamation, mRoundTracker.getSeatNumber(p), 0);
-//	}
-	
-	
 	
 	
 	

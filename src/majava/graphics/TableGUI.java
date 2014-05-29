@@ -457,26 +457,23 @@ public abstract class TableGUI extends JFrame implements GameUI{
 	public void displayEvent(GameplayEvent event){
 		
 		switch(event){
-		case START_OF_ROUND: updateEverything(); break;
-		case PLACEHOLDER: updateEverything(); break;
-		case MADE_OWN_KAN: updateEverything(); break;
-		case DISCARDED_TILE: updateEverything(); break;
-		case DREW_TILE: updateEverything(); break;
-		case MADE_OPEN_MELD: updateEverything(); break;
-		case END_OF_ROUND: showResult(); updateEverything(); break;
+		case START_OF_ROUND: updateEverything(); return;
+		case PLACEHOLDER: updateEverything(); return;
+		case MADE_OWN_KAN: updateEverything(); return;
+		case DISCARDED_TILE: updateEverything(); return;
+		case DREW_TILE: updateEverything(); return;
+		case MADE_OPEN_MELD: updateEverything(); return;
+		case END_OF_ROUND: showResult(); updateEverything(); return;
 		
-
-		case CALLED_TILE: showExclamation(event.getExclamation(), event.getSeat()); break;
-		case DECLARED_RIICHI: showExclamation(event.getExclamation(), event.getSeat()); break;
-		case DECLARED_OWN_KAN: showExclamation(event.getExclamation(), event.getSeat()); break;
-		case DECLARED_TSUMO: showExclamation(event.getExclamation(), event.getSeat()); break;
+		case HUMAN_PLAYER_TURN_START: updateEverything(); return;
 		
 		case NEW_DORA_INDICATOR: break;
 		default: break;
 		}
+		
+		if (event.isExclamation()) __showExclamation(event.getExclamation(), event.getSeat());
 	}
-	
-	
+	public void printErrorRoundAlreadyOver(){System.out.println("----Error: Round is already over, cannot play");}
 	
 	
 	
@@ -796,7 +793,7 @@ public abstract class TableGUI extends JFrame implements GameUI{
 	}
 	
 	
-	public void showExclamation(Exclamation exclamation, int seat){
+	protected void __showExclamation(Exclamation exclamation, int seat){
 		
 		//show the label
 		lblExclamation.setText(exclamationToString.get(exclamation));

@@ -2,6 +2,7 @@ package majava;
 
 import java.util.ArrayList;
 
+import majava.enums.Exclamation;
 import majava.enums.Wind;
 import majava.graphics.TableGUI;
 import majava.tiles.Tile;
@@ -127,6 +128,16 @@ public class Player {
 			case KAN: return "Kan";
 			case RON: return "Ron";
 			default: return "None";
+			}
+		}
+		public Exclamation toExclamation(){
+			switch (this){
+			case CHI_L: case CHI_M: case CHI_H: return Exclamation.CHI;
+			case PON: return Exclamation.PON;
+			case KAN: return Exclamation.KAN;
+			case RON: return Exclamation.RON;
+			case NONE: return Exclamation.NONE;
+			default: return Exclamation.UNKNOWN;
 			}
 		}
 	}
@@ -281,10 +292,10 @@ public class Player {
 		}
 		else{
 			
-			if (turnActionMadeAnkan()) System.out.println("\n\n!!!!!OOOOOHBOY ANKAN\n!!!!");
-			if (turnActionMadeMinkan()) System.out.println("\n\n!!!!!OOOOOHBOY MINKAN\n!!!!");
-			if (turnActionRiichi()) System.out.println("\n\n!!!!!OOOOOHBOY RIICHI\n!!!!");
-			if (turnActionCalledTsumo()) System.out.println("\n\n!!!!!OOOOOHBOY TSUMO\n!!!!");
+//			if (turnActionMadeAnkan()) System.out.println("\n\n!!!!!OOOOOHBOY ANKAN\n!!!!");
+//			if (turnActionMadeMinkan()) System.out.println("\n\n!!!!!OOOOOHBOY MINKAN\n!!!!");
+//			if (turnActionRiichi()) System.out.println("\n\n!!!!!OOOOOHBOY RIICHI\n!!!!");
+//			if (turnActionCalledTsumo()) System.out.println("\n\n!!!!!OOOOOHBOY TSUMO\n!!!!");
 			
 			
 			
@@ -811,6 +822,7 @@ public class Player {
 	
 	//returns call status as a string
 	public String getCallStatusString(){return mCallStatus.toString();}
+	public Exclamation getCallStatusExclamation(){return mCallStatus.toExclamation();}
 	
 	//returns true if the player called a tile
 	public boolean called(){return (mCallStatus != CallType.NONE);}

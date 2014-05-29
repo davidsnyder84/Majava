@@ -3,6 +3,7 @@ package majava;
 import java.util.ArrayList;
 
 import majava.graphics.TableGUI;
+import majava.graphics.textinterface.TextualUI;
 import majava.enums.Wind;
 
 
@@ -91,6 +92,7 @@ public class Game {
 	private ArrayList<String> mWinStrings;
 
 	private TableGUI mTviewer;
+	private TextualUI mTextinterface;
 	
 	private boolean mDoFastGameplay;
 	
@@ -101,23 +103,25 @@ public class Game {
 	/*
 	initializes a game
 	*/
-	public Game(TableGUI tviewer, Player[] playerArray){
+	public Game(TextualUI textinterface, TableGUI tviewer, Player[] playerArray){
 
 		__setGameType(GAME_TYPE_DEFAULT);
 		
 		mPlayerArray = playerArray;
 		p1 = mPlayerArray[0]; p2 = mPlayerArray[1]; p3 = mPlayerArray[2]; p4 = mPlayerArray[3];
 		
-		
 		//initializes round info
 		mCurrentRoundWind = DEFAULT_ROUND_WIND;mCurrentRoundNum = 1;mCurrentRoundBonusNum = 0;
-
+		mNumRoundsPlayed = 0;
+		
 		mGameIsOver = false;
 		mWinStrings = new ArrayList<String>();
 		
+		
 		mTviewer = tviewer;
+		mTextinterface = textinterface;
+		
 		mDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
-		mNumRoundsPlayed = 0;
 	}
 	
 	
@@ -152,7 +156,7 @@ public class Game {
 		while (!gameIsOver()){
 			
 			//play a round
-			mCurrentRound = new Round(mTviewer, mPlayerArray, mCurrentRoundWind, mCurrentRoundNum, mCurrentRoundBonusNum);
+			mCurrentRound = new Round(mTextinterface, mTviewer, mPlayerArray, mCurrentRoundWind, mCurrentRoundNum, mCurrentRoundBonusNum);
 			mCurrentRound.setOptionFastGameplay(mDoFastGameplay);
 			mCurrentRound.play();
 			

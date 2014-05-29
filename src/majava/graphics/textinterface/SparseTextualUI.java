@@ -1,7 +1,9 @@
 package majava.graphics.textinterface;
 
-public class SparseTextUI extends TextUI{
+public class SparseTextualUI extends TextualUI{
 	
+	public SparseTextualUI(){
+	}
 	
 	
 	public static void main(String[] args) {

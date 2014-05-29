@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import majava.graphics.TableGUI;
+import majava.graphics.textinterface.TextualUI;
 import majava.tiles.Tile;
 import majava.enums.Wind;
 
@@ -88,7 +89,7 @@ public class RoundTracker {
 	private class PlayerTracker{
 		private Player player;
 		
-		private Wind seatWind;
+//		private Wind seatWind;
 //		private int points;
 //		private boolean riichiStatus;
 //		private String playerName;
@@ -129,7 +130,7 @@ public class RoundTracker {
 	
 	
 	
-	public RoundTracker(TableGUI tviewer, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){
+	public RoundTracker(TextualUI textinterface, TableGUI tviewer, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){
 		
 		mRoundWind = roundWind;
 		mRoundNum = roundNum;
@@ -143,8 +144,12 @@ public class RoundTracker {
 		__syncWithWall(wall);
 		__setupPlayerTrackers(p1,p2,p3,p4);
 		
-		__syncWithViewer(tviewer);
+		if (tviewer != null) __syncWithViewer(tviewer);
+		if (textinterface != null) __syncWithTextUI(textinterface);
 	}
+	public RoundTracker(TextualUI textinterface, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){this(textinterface, null, roundWind, roundNum, roundBonus, wall, p1, p2, p3, p4);}
+	public RoundTracker(TableGUI tviewer, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){this(null, tviewer, roundWind, roundNum, roundBonus, wall, p1, p2, p3, p4);}
+	public RoundTracker(Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){this(null, null, roundWind, roundNum, roundBonus, wall, p1, p2, p3, p4);}
 	
 	
 	private void __syncWithWall(Wall wall){
@@ -179,7 +184,7 @@ public class RoundTracker {
 		mPTrackers[numPlayersSynched].pond = p;
 		
 //		mPTrackers[numPlayersSynched].playerName = mPTrackers[numPlayersSynched].player.getPlayerName();	//NOT LINK
-		mPTrackers[numPlayersSynched].seatWind = mPTrackers[numPlayersSynched].player.getSeatWind();	//NOT LINK, but it won't change
+//		mPTrackers[numPlayersSynched].seatWind = mPTrackers[numPlayersSynched].player.getSeatWind();	//NOT LINK, but it won't change
 //		mPTrackers[numPlayersSynched].points = mPTrackers[numPlayersSynched].player.getPoints();	//NOT LINK
 //		mPTrackers[numPlayersSynched].riichiStatus = mPTrackers[numPlayersSynched].player.getRiichiStatus();	//NOT LINK
 	}
@@ -194,13 +199,17 @@ public class RoundTracker {
 	}
 	
 	private void __syncWithViewer(TableGUI viewer){
-		
 		Player[] pPlayers = {mPTrackers[0].player, mPTrackers[1].player, mPTrackers[2].player, mPTrackers[3].player};
 		TileList[] pHandTiles = {mPTrackers[0].tilesH, mPTrackers[1].tilesH, mPTrackers[2].tilesH, mPTrackers[3].tilesH};
 		TileList[] pPondTiles = {mPTrackers[0].tilesP, mPTrackers[1].tilesP, mPTrackers[2].tilesP, mPTrackers[3].tilesP};
 //		Pond[] pPonds = {mPTrackers[0].pond, mPTrackers[1].pond, mPTrackers[2].pond, mPTrackers[3].pond};
-		
 		viewer.syncWithRoundTracker(this, pPlayers, pHandTiles, pPondTiles, tilesW);
+	}
+	private void __syncWithTextUI(TextualUI textinterface){
+		Player[] pPlayers = {mPTrackers[0].player, mPTrackers[1].player, mPTrackers[2].player, mPTrackers[3].player};
+		Hand[] pHands = {mPTrackers[0].hand, mPTrackers[1].hand, mPTrackers[2].hand, mPTrackers[3].hand};
+		Pond[] pPonds = {mPTrackers[0].pond, mPTrackers[1].pond, mPTrackers[2].pond, mPTrackers[3].pond};
+		textinterface.syncWithRoundTracker(this, pPlayers, pHands, pPonds, mWall);
 	}
 	
 	

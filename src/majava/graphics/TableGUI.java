@@ -6,6 +6,8 @@ import majava.Meld;
 import majava.Player;
 import majava.Pond;
 import majava.RoundTracker;
+import majava.enums.Exclamation;
+import majava.enums.GameplayEvent;
 import majava.enums.Wind;
 import majava.tiles.Tile;
 import majava.TileList;
@@ -27,6 +29,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import javax.swing.JButton;
@@ -126,6 +131,14 @@ public abstract class TableGUI extends JFrame{
 	
 	protected static final int DEFAULT_SLEEP_TIME_EXCLAMATION = 1500;
 	private static final int[][] EXCLAMATION_LOCS =  {{99, 594}, {570, 298}, {480, 36}, {3, 298}};
+	protected static final Map<Exclamation, String> exclamationToString;
+	static {
+		Map<Exclamation, String> aMap = new HashMap<Exclamation, String>();
+		aMap.put(Exclamation.CHI, "Chi");aMap.put(Exclamation.PON, "Pon");aMap.put(Exclamation.KAN, "Kan");aMap.put(Exclamation.RON, "Ron");
+		aMap.put(Exclamation.RIICHI, "Riichi");aMap.put(Exclamation.OWN_KAN, "Kan~!");aMap.put(Exclamation.TSUMO, "Tsumo");
+		aMap.put(Exclamation.NONE, Exclamation.NONE.toString());aMap.put(Exclamation.UNKNOWN, Exclamation.UNKNOWN.toString());
+		exclamationToString = Collections.unmodifiableMap(aMap);
+	}
 	
 	private static final double SCALER_SMALL = .775, SCALER_TINY = .3;
 	protected static final ImageRotator[] rotators = {new ImageRotator(0), new ImageRotator(-90), new ImageRotator(180), new ImageRotator(90)};
@@ -436,6 +449,26 @@ public abstract class TableGUI extends JFrame{
 		
 		return garryWinds[windSize][windNum];
 	}
+	
+	
+	
+	public void displayEvent(GameplayEvent event){
+		
+		switch(event){
+		case START_OF_ROUND: updateEverything(); break;
+		case PLACEHOLDER: updateEverything(); break;
+		case MADE_OWN_KAN: updateEverything(); break;
+		case DISCARDED_TILE: updateEverything(); break;
+		case DREW_TILE: updateEverything(); break;
+		case MADE_OPEN_MELD: updateEverything(); break;
+		case END_OF_ROUND: showResult(); updateEverything(); break;
+		
+		case NEW_DORA_INDICATOR: break;
+		default: break;
+		}
+	}
+	
+	
 	
 	
 	
@@ -755,12 +788,10 @@ public abstract class TableGUI extends JFrame{
 	}
 	
 	
-	
-	
-	public void showExclamation(String exclamation, int seat, int sleepTime){
+	public void showExclamation(Exclamation exclamation, int seat, int sleepTime){
 		
 		//show the label
-		lblExclamation.setText(exclamation);
+		lblExclamation.setText(exclamationToString.get(exclamation));
 		lblExclamation.setLocation(seat);
 		lblExclamation.setVisible(true);
 		
@@ -770,7 +801,8 @@ public abstract class TableGUI extends JFrame{
 		//get rid of label
 		lblExclamation.setVisible(false);
 	}
-	public void showExclamation(String exclamation, int seatNum){showExclamation(exclamation, seatNum, DEFAULT_SLEEP_TIME_EXCLAMATION);}
+	public void showExclamation(Exclamation exclamation, int seatNum){showExclamation(exclamation, seatNum, DEFAULT_SLEEP_TIME_EXCLAMATION);}
+	
 	
 	
 	public void showResult(){

@@ -540,7 +540,6 @@ public class Round{
 	
 	
 	
-	
 	private void __updateUIs(GameplayEvent event){
 		if (mTextinterface != null) mTextinterface.displayEvent(event);
 		if (mTviewer != null) mTviewer.displayEvent(event);

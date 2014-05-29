@@ -389,20 +389,19 @@ public class Player {
 	if (controller is human) ask human and return choice
 	else (controller is computer) ask computer and return choice
 	*/
-	private int __chooseTurnAction(){
+	private void __chooseTurnAction(){
 		
 		//auto discard if in riichi (if unable to tsumo/kan)
 		if (mRiichiStatus && (!ableToTsumo() && !ableToAnkan())){
 			mTurnAction = ActionType.DISCARD;
 			mChosenDiscardIndex = mHand.getSize() - 1;
-			return mChosenDiscardIndex;
+			return;
 		}
 		
 		
-		
 		//ask self for turn action
-		if (controllerIsHuman()) return __askTurnActionHuman();
-		else return __askTurnActionCom();
+		if (controllerIsHuman()) __askTurnActionHuman();
+		else __askTurnActionCom();
 	}
 	
 	
@@ -418,14 +417,12 @@ public class Player {
 	chosenDiscard = user clicks on tile through GUI
 	return chosenDiscard
 	*/
-	private int __askTurnActionHuman(){
+	private void __askTurnActionHuman(){
 		
 		ActionType chosenAction = ActionType.UNDECIDED;
 		int chosenDiscardIndex = NO_DISCARD_CHOSEN;
 		
 		//show hand
-//		showHand();
-//		tviewer.updateEverything();
 		__updateUIs(GameplayEvent.HUMAN_PLAYER_TURN_START);
 
 		//get the player's desired action
@@ -433,12 +430,10 @@ public class Player {
 		
 		
 		
-		
 		if (mTviewer.resultClickTurnActionWasDiscard()){
 			mTurnAction = ActionType.DISCARD;
 			chosenDiscardIndex = mTviewer.getResultClickedDiscard();
 			mChosenDiscardIndex = chosenDiscardIndex - 1;	//adjust for index
-			return mChosenDiscardIndex;
 		}
 		else{
 			if (mTviewer.resultClickTurnActionWasAnkan()) chosenAction = ActionType.ANKAN;
@@ -448,14 +443,11 @@ public class Player {
 			mTurnAction = chosenAction;
 			
 			//riichi
-			if (mTurnAction != ActionType.RIICHI) return NO_DISCARD_CHOSEN;
-			else{
-				
+			if (mTurnAction == ActionType.RIICHI){
 				mRiichiStatus = true;
 				
 				mTurnAction = ActionType.DISCARD;
 				mChosenDiscardIndex = getHandSize() - 1;
-				return mChosenDiscardIndex;
 			}
 		}
 	}
@@ -466,7 +458,7 @@ public class Player {
 	private method: __askDiscardCom
 	asks a computer player which tile they want to discard, returns their choice
 	*/
-	private int __askTurnActionCom(){
+	private void __askTurnActionCom(){
 		
 		ActionType chosenAction = ActionType.UNDECIDED;
 		int chosenDiscardIndex = NO_DISCARD_CHOSEN;
@@ -486,12 +478,10 @@ public class Player {
 		
 		if (chosenAction != ActionType.UNDECIDED){
 			mTurnAction = chosenAction;
-			return NO_DISCARD_CHOSEN;
 		}
 		else{
 			mTurnAction = ActionType.DISCARD;
 			mChosenDiscardIndex = chosenDiscardIndex;
-			return mChosenDiscardIndex;
 		}
 	}
 	

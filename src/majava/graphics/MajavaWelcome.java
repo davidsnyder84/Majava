@@ -71,8 +71,7 @@ public class MajavaWelcome extends JFrame implements ActionListener {
 	
 	
 	public void waitForChoice(){
-		while (mChosenOption == Option.UNDECIDED)
-			;//intentionally blank
+		while (mChosenOption == Option.UNDECIDED);//intentionally blank
 		this.dispose();
 	}
 	
@@ -184,7 +183,6 @@ public class MajavaWelcome extends JFrame implements ActionListener {
 		
 		if (arg0.getActionCommand().equals(COMMAND_FAST_GAMEPLAY)) mFastGameplay = !mFastGameplay;
 		
-		if (arg0.getActionCommand().equals(COMMAND_QUIT))
-			System.exit(0);
+		if (arg0.getActionCommand().equals(COMMAND_QUIT)) System.exit(0);
 	}
 }

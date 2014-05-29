@@ -14,6 +14,7 @@ public class SparseTextualUI extends TextualUI{
 	}
 	
 	
+	
 	protected void __displayEventDiscardedTile(){
 		
 		//show the discarded tile
@@ -70,15 +71,8 @@ public class SparseTextualUI extends TextualUI{
 	}
 	
 	protected void __showWall(){println(mWall.toString());}
-	
-	protected void __showDoraIndicators(){
-		println(",,,New Dora Indicator: " + mWall.getDoraIndicators().getLast());
-	}
-	
-	protected void __showDeadWall(){
-		__showDoraIndicators();
-//		println(mWall.toStringDeadWall() + "\n");
-	}
+	protected void __showDoraIndicators(){println(",,,New Dora Indicator: " + mWall.getDoraIndicators().getLast());}
+	protected void __showDeadWall(){__showDoraIndicators();}
 	
 	protected void __showRoundResult(){
 		mRoundTracker.printRoundResult();

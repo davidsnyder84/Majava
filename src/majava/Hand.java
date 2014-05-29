@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import majava.tiles.Tile;
+import majava.enums.Wind;
+import majava.enums.MeldType;
 
 
 /*

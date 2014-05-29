@@ -2,6 +2,7 @@ package majava;
 
 import java.util.ArrayList;
 
+import majava.enums.Wind;
 import majava.graphics.TableGUI;
 import majava.tiles.Tile;
 

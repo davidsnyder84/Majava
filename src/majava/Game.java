@@ -3,6 +3,7 @@ package majava;
 import java.util.ArrayList;
 
 import majava.graphics.TableGUI;
+import majava.enums.Wind;
 
 
 

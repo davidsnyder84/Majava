@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import majava.Hand;
-import majava.MeldType;
-import majava.Wind;
+import majava.enums.MeldType;
+import majava.enums.Wind;
 import majava.tiles.Tile;
 import majava.TileList;
 

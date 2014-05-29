@@ -1,7 +1,7 @@
 package majava.tiles;
 
 import java.util.Arrays;
-import majava.Wind;
+import majava.enums.Wind;
 
 
 

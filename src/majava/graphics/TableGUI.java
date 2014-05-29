@@ -6,7 +6,7 @@ import majava.Meld;
 import majava.Player;
 import majava.Pond;
 import majava.RoundTracker;
-import majava.Wind;
+import majava.enums.Wind;
 import majava.tiles.Tile;
 import majava.TileList;
 import majava.tiles.PondTile;

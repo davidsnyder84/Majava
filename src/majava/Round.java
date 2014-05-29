@@ -3,6 +3,7 @@ package majava;
 import utility.Pauser;
 import majava.graphics.TableGUI;
 import majava.tiles.Tile;
+import majava.enums.Wind;
 
 
 

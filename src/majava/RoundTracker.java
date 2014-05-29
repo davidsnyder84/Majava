@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import majava.graphics.TableGUI;
 import majava.tiles.Tile;
+import majava.enums.Wind;
 
 
 

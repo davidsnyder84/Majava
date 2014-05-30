@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import majava.enums.Wind;
+import majava.summary.PlayerSummary;
 import majava.tiles.Tile;
 
 
@@ -35,6 +36,50 @@ methods:
 	 	getWinTypeString - returns the win type as a string (tsumo, ron)
 */
 public class RoundResult {
+	
+	
+//	public class RoundResultSummary {
+//		
+//		private final boolean pRoundIsOver;
+//		
+//		private final Result pResult;
+//		private final WinType pWinType;
+//
+//
+//		private final PlayerSummary pWinningPlayer;
+//		private final PlayerSummary pFurikondaPlayer;
+//		
+//		private final Tile pWinningTile;
+//		
+//		
+//		private final TileList mWinnerHand;
+//		private final ArrayList<Meld> mWinnerMelds;
+//		
+//		private final Map<PlayerSummary,Integer> mPayments;
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		public RoundResultSummary(boolean roundIsOver, Result result, WinType winType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, Tile winningTile, TileList winnerHand, ArrayList<Meld> winnerMelds, Map<PlayerSummary,Integer> payments){
+//			pRoundIsOver = roundIsOver;
+//			pResult = result;
+//			pWinType = winType;
+//			pWinningPlayer = winningPlayer;
+//			pFurikondaPlayer = furikondaPlayer;
+//			pWinningTile = winningTile;
+////			mWinnerHand = 
+////			mWinnerMelds = 
+////			mPayments = 
+//		}
+//		
+//		
+//		
+//	}
 	
 	
 	private enum Result{

@@ -64,7 +64,10 @@ public class MajaPlay {
 		
 //		playFinishingMelds();
 		
-		playShowRoundResultInfo();
+		
+//		playShowRoundResultInfo();
+		
+		playTileClone();
 		
 	}
 	public static void println(String prints){System.out.println(prints);}public static void println(){println("");}
@@ -675,6 +678,24 @@ public class MajaPlay {
 	
 	
 	
+
+	public static void playTileClone(){
+		Tile t1, t2;
+		t1 = new Tile(7);
+		println("t1: " + t1.toString() + "\n");
+		
+		t2 = t1.clone();
+		println("t1: " + t1.toString() + ", owner: " + t1.getOrignalOwner());
+		println("t2: " + t2.toString() + ", owner: " + t2.getOrignalOwner() + "\n");
+		
+		t1.setOwner(Wind.WEST);
+		println("t1: " + t1.toString() + ", owner: " + t1.getOrignalOwner());
+		println("t2: " + t2.toString() + ", owner: " + t2.getOrignalOwner() + "\n");
+		
+		t2.setOwner(Wind.SOUTH);
+		println("t1: " + t1.toString() + ", owner: " + t1.getOrignalOwner());
+		println("t2: " + t2.toString() + ", owner: " + t2.getOrignalOwner() + "\n");
+	}
 	
 	
 	

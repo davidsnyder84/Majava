@@ -43,13 +43,12 @@ methods:
 		equals - returns true if both tiles have the same ID, false otherwise
 		toString - returns string representation of a tile's suit/face
 */
-public class Tile implements Comparable<Tile> {
+public class Tile implements Cloneable, Comparable<Tile> {
 	
 	private static final int NUMBER_OF_DIFFERENT_TILES = 34;
 	private static final int ID_FIRST_HONOR_TILE = 28;
 	
 	private static final String FACE_FOR_RED_DORA = "%";
-
 	
 	private static final String[] STR_REPS = {"O0", 
 											  "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9",
@@ -59,12 +58,12 @@ public class Tile implements Comparable<Tile> {
 											  "DW", "DG", "DR"};
 	
 	
-	private int mID;
-	private char mSuit;
-	private char mFace;
-	private String mSuitfaceString;
+	private final int mID;
+	private final char mSuit;
+	private final char mFace;
+	private final String mSuitfaceString;
+	private final boolean mRedDora;
 	
-	private boolean mRedDora;
 	private Wind mOriginalOwner;
 	
 	
@@ -74,15 +73,15 @@ public class Tile implements Comparable<Tile> {
 		
 		if (id < 1 || id > NUMBER_OF_DIFFERENT_TILES) id = 0;
 		mID = id;
-		
-		mSuitfaceString = STR_REPS[mID];
-		mSuit = mSuitfaceString.charAt(0);
-		mFace = mSuitfaceString.charAt(1);
 
 		mOriginalOwner = Wind.UNKNOWN;
 		
-		mRedDora = false;
-		if (isRed) __setRedDora();
+		mRedDora = isRed && STR_REPS[mID].charAt(1) == '5';
+		if (mRedDora) mSuitfaceString = STR_REPS[mID].charAt(0) + FACE_FOR_RED_DORA;
+		else mSuitfaceString = STR_REPS[mID];
+		
+		mSuit = mSuitfaceString.charAt(0);
+		mFace = mSuitfaceString.charAt(1);
 	}
 	//1-arg Constructor, takes tile ID
 	public Tile(int id){this(id, false);}
@@ -99,9 +98,14 @@ public class Tile implements Comparable<Tile> {
 		mOriginalOwner = other.mOriginalOwner;
 		mRedDora = other.mRedDora;
 	}
+	public Tile clone(){
+		try{return (Tile) super.clone();}
+		catch (CloneNotSupportedException e){System.out.println(e.getMessage()); return null;}
+	}
+	
 
 	//makes the tile a red dora tile
-	private void __setRedDora(){if (mFace == '5'){mRedDora = true; mSuitfaceString = mSuit + FACE_FOR_RED_DORA;}}
+//	private void __setRedDora(){if (mFace == '5'){mRedDora = true; mSuitfaceString = mSuit + FACE_FOR_RED_DORA;}}
 	
 	
 	

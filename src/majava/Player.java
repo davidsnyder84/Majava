@@ -854,7 +854,7 @@ public class Player {
 	
 	
 	public boolean holdingRinshan(){return mHoldingRinshanTile;}
-	public Tile getTsumoTile(){return mHand.getTile(mHand.size());}
+	public Tile getTsumoTile(){return mHand.getTile(mHand.size() - 1);}
 	
 	
 	public boolean handIsFullyConcealed(){return mHand.isClosed();}

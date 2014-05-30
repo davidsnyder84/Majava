@@ -6,6 +6,7 @@ import java.util.Map;
 import utility.Pauser;
 import majava.graphics.TableGUI;
 import majava.graphics.textinterface.TextualUI;
+import majava.summary.RoundResultSummary;
 import majava.tiles.Tile;
 import majava.util.TileList;
 import majava.enums.GameplayEvent;
@@ -154,21 +155,21 @@ public class Round{
 	*/
 	public void play(){
 		
-		if (mRoundTracker.roundIsOver()){mTextinterface.printErrorRoundAlreadyOver();return;}
+		if (roundIsOver()){mTextinterface.printErrorRoundAlreadyOver();return;}
 		
 		//deal starting hands
 		__dealHands();
 		
 		
 		//game loop, loop until the round is over
-		while (!mRoundResult.isOver()){
+		while (!roundIsOver()){
 
 			//handle player turns
 			__doPlayerTurn(mRoundTracker.currentPlayer());
 			
 
 			//handle reactions here
-			if (!mRoundResult.isOver())
+			if (!roundIsOver())
 				if (mRoundTracker.callWasMadeOnDiscard())
 					__handleReaction();
 		}
@@ -267,6 +268,7 @@ public class Round{
 	
 	
 	
+	
 	/*
 	private method: __dealHands
 	deals players their starting hands
@@ -324,7 +326,7 @@ public class Round{
 		
 		
 		//return early if the round is over (4kan or washout)
-		if (mRoundResult.isOver()) return;
+		if (roundIsOver()) return;
 		
 		
 		//~~~~~~get player's discard (ankans, riichi, and such are handled inside here)
@@ -360,7 +362,7 @@ public class Round{
 		
 		
 		//return early if the round is over (tsumo or 4kan or 4riichi or kyuushu)
-		if (mRoundTracker.roundIsOver()) return;
+		if (roundIsOver()) return;
 		
 		
 		//show the human player their hand, show the discarded tile and the discarder's pond
@@ -496,7 +498,7 @@ public class Round{
 		
 		
 		//it is now the calling player's turn (if the round isn't over)
-		if (!mRoundResult.isOver())
+		if (!roundIsOver())
 			mRoundTracker.setTurn(priorityCaller);
 	}
 	
@@ -578,10 +580,10 @@ public class Round{
 	public int getRoundNum(){return mRoundNum;}
 	public int getRoundBonusNum(){return mRoundBonusNum;}
 	
-	public boolean roundIsOver(){return mRoundTracker.roundIsOver();}
-	public boolean endedWithVictory(){return mRoundTracker.roundEndedWithVictory();}
-	public boolean endedWithDealerVictory(){return mRoundTracker.roundEndedWithDealerVictory();}
-	public String getWinningHandString(){return mRoundTracker.getWinningHandString();}
+	public boolean roundIsOver(){return mRoundResult.isOver();}
+	public boolean endedWithVictory(){return mRoundResult.isVictory();}
+	public String getWinningHandString(){return mRoundResult.getAsStringWinningHand();}
+	public RoundResultSummary getResultSummary(){return mRoundResult.getSummary();}
 	
 	public boolean qualifiesForRenchan(){return mRoundTracker.qualifiesForRenchan();}
 	

@@ -5,6 +5,7 @@ import java.util.List;
 
 import majava.graphics.TableGUI;
 import majava.graphics.textinterface.TextualUI;
+import majava.summary.RoundResultSummary;
 import majava.enums.Wind;
 
 
@@ -69,10 +70,11 @@ public class Game {
 		}
 	}
 //	public static final GameType GAME_TYPE_DEFAULT = GameType.SINGLE;
-//	public static final GameType GAME_TYPE_DEFAULT = GameType.HANCHAN;
-	public static final GameType GAME_TYPE_DEFAULT = GameType.TONPUUSEN;
+	public static final GameType GAME_TYPE_DEFAULT = GameType.HANCHAN;
+//	public static final GameType GAME_TYPE_DEFAULT = GameType.TONPUUSEN;
 
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
+	private static final boolean DEFAULT_FAST_COMS_MEAN_SIMULATION = true;
 	private static final int NUM_SIMULATIONS_TO_RUN = 500;
 	
 	
@@ -90,6 +92,7 @@ public class Game {
 	private boolean mGameIsOver;
 	private int mNumRoundsPlayed;
 	private List<String> mWinStrings;
+	private List<RoundResultSummary> mRoundResults;
 
 	private TableGUI mTviewer;
 	private TextualUI mTextinterface;
@@ -116,6 +119,7 @@ public class Game {
 		
 		mGameIsOver = false;
 		mWinStrings = new ArrayList<String>();
+		mRoundResults = new ArrayList<RoundResultSummary>();
 		
 		
 		mTviewer = tviewer;
@@ -150,7 +154,8 @@ public class Game {
 	*/
 	public void play(){
 		
-		if (mDoFastGameplay && p1.controllerIsComputer() && p2.controllerIsComputer() && p3.controllerIsComputer() && p4.controllerIsComputer()) setGameTypeSimulation();
+		if (DEFAULT_FAST_COMS_MEAN_SIMULATION)
+			if (mDoFastGameplay && p1.controllerIsComputer() && p2.controllerIsComputer() && p3.controllerIsComputer() && p4.controllerIsComputer()) setGameTypeSimulation();
 		
 		
 		//play rounds until the game is over
@@ -166,6 +171,7 @@ public class Game {
 			if (mCurrentRound.endedWithVictory()){
 				mWinStrings.add(mCurrentRound.getWinningHandString());
 			}
+			mRoundResults.add(mCurrentRound.getResultSummary());
 			
 			
 			//move to the next round, or do a bonus round if the dealer won
@@ -216,6 +222,13 @@ public class Game {
 		
 		for (int i = 0; i < mWinStrings.size(); i++)
 			System.out.printf("%3d: %s\n", i+1, mWinStrings.get(i));
+		
+		RoundResultSummary cr = null;
+		for (int i = 0; i < mRoundResults.size(); i++){
+			cr = mRoundResults.get(i);
+//			cr.getAsStringResultType();
+			System.out.printf("%3d: %s\n", i+1, cr.getAsStringResultType());
+		}
 	}
 	
 	

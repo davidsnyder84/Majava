@@ -14,8 +14,6 @@ import majava.tiles.Tile;
 
 public class RoundResultSummary {
 	
-	private final boolean pRoundIsOver;
-	
 	private final ResultType pResultType;
 
 	private final PlayerSummary pWinningPlayer;
@@ -31,35 +29,47 @@ public class RoundResultSummary {
 	
 	
 	
-	public RoundResultSummary(boolean roundIsOver, ResultType resType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, Tile winningTile, TileList winnerHand, List<Meld> winnerMelds, Map<PlayerSummary,Integer> payments){
-		pRoundIsOver = roundIsOver;
+	public RoundResultSummary(ResultType resType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, Tile winningTile, TileList winnerHand, List<Meld> winnerMelds, Map<PlayerSummary,Integer> payments){
 		
 		pResultType = resType;
 		
-		pWinningPlayer = winningPlayer;
-		pFurikondaPlayer = furikondaPlayer;
-		pWinningTile = winningTile.clone();
-		
-		pWinnerHand = winnerHand.makeCopy();
-		pWinnerMelds = winnerMelds;
+		if (pResultType.isVictory()){
+			pWinningPlayer = winningPlayer;
+			pFurikondaPlayer = furikondaPlayer;
+			pWinningTile = winningTile.clone();
+			
+			pWinnerHand = winnerHand.makeCopy();
+			pWinnerMelds = winnerMelds;
+		}
+		else{
+			pWinningPlayer = null;
+			pFurikondaPlayer = null;
+			pWinningTile = null;
+			
+			pWinnerHand = null;
+			pWinnerMelds = null;
+		}
 		
 		pPayments = null;
 	}
 	
 	
- 	public boolean isOver(){return pRoundIsOver;}
-	public boolean isDraw(){return isOver() && pResultType.isDraw();}
-	public boolean isVictory(){return isOver() && pResultType.isVictory();}
-	public boolean isVictoryRon(){return isOver() && pResultType.isVictoryRon();}
-	public boolean isVictoryTsumo(){return isOver() && pResultType.isVictoryTsumo();}
+	public boolean isDraw(){return pResultType.isDraw();}
+	public boolean isVictory(){return pResultType.isVictory();}
+	public boolean isVictoryRon(){return pResultType.isVictoryRon();}
+	public boolean isVictoryTsumo(){return pResultType.isVictoryTsumo();}
 	
-	public boolean isDealerVictory(){return (isOver() && isVictory() && pWinningPlayer.isDealer());}
-	public Wind getWindOfWinner(){if (isOver() && isVictory()) return pWinningPlayer.getSeatWind(); return null;}
+	public boolean isDealerVictory(){return (isVictory() && pWinningPlayer.isDealer());}
 	
-	public String getWinTypeString(){return pResultType.getAsStringWinType();}
+	
+	
+	public String getAsStringWinType(){return pResultType.getAsStringWinType();}
 	public String getAsStringResultType(){return pResultType.getAsStringResultType();}
 	
-	public Tile getWinningTile(){return pWinningTile.clone();}
+	
 	public PlayerSummary getWinningPlayer(){return pWinningPlayer;}
 	public PlayerSummary getFurikondaPlayer(){return pFurikondaPlayer;}
+	
+	public Wind getWindOfWinner(){if (isVictory()) return pWinningPlayer.getSeatWind(); return null;}
+	public Tile getWinningTile(){if (isVictory()) return pWinningTile.clone(); return null;}
 }

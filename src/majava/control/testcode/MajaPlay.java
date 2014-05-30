@@ -84,7 +84,7 @@ public class MajaPlay {
 		
 		println(res + "\n");
 		
-		println(res.getWinningHandString());
+		println(res.getAsStringWinningHand());
 		
 		println("Winner: " + res.getWinningPlayer());
 		if (res.isVictoryRon()){
@@ -97,7 +97,7 @@ public class MajaPlay {
 		
 		println("\nWinning Tile: " + res.getWinningTile());
 		
-		println("\n" + res.getPaymentsString());
+		println("\n" + res.getAsStringPayments());
 	}
 	
 	

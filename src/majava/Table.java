@@ -76,8 +76,8 @@ public class Table {
 		//initialize GUI and text interfaces
 		mTviewer = __generateTableGUI();
 		mTextinterface = __generateTextInterface();
-//		mTviewer = null;
-//		mTextinterface = null;
+		mTviewer = null;
+		mTextinterface = null;
 		
 		mDoSinglePlayer = DEFAULT_DO_SINGLE_PLAYER;
 		mDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;

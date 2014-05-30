@@ -296,9 +296,8 @@ public class RoundTracker {
 	
 	
 	
-	public String getWinningHandString(){return mRoundResult.getWinningHandString();}
-	public Player getWinningPlayer(){return mRoundResult.getWinningPlayer();}
-	public Player getFurikondaPlayer(){return mRoundResult.getFurikondaPlayer();}
+//	public Player getWinningPlayer(){return mRoundResult.getWinningPlayer();}
+//	public Player getFurikondaPlayer(){return mRoundResult.getFurikondaPlayer();}
 	
 	public void printRoundResult(){
 		if (roundIsOver())
@@ -310,15 +309,15 @@ public class RoundTracker {
 		 String resultStr = "Result: " + getRoundResultString();
 		 System.out.println(resultStr);
 		 
-		 if (mRoundResult.isVictory()) System.out.println(getWinningHandString());
+		 if (mRoundResult.isVictory()) System.out.println(mRoundResult.getAsStringWinningHand());
 	}
 	//returns the round result as a string
 	public String getRoundResultString(){return mRoundResult.toString();}
 	
 	
 	public boolean roundIsOver(){return mRoundResult.isOver();}
-	public boolean roundEndedWithDraw(){return mRoundResult.isDraw();}
-	public boolean roundEndedWithVictory(){return mRoundResult.isVictory();}
+//	public boolean roundEndedWithDraw(){return mRoundResult.isDraw();}
+//	public boolean roundEndedWithVictory(){return mRoundResult.isVictory();}
 	public boolean roundEndedWithDealerVictory(){return mRoundResult.isDealerVictory();}
 	
 	public boolean qualifiesForRenchan(){return roundEndedWithDealerVictory();}	//or if the dealer is in tenpai, or a certain ryuukyoku happens

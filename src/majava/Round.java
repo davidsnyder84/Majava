@@ -161,14 +161,14 @@ public class Round{
 		
 		
 		//game loop, loop until the round is over
-		while (!mRoundTracker.roundIsOver()){
+		while (!mRoundResult.isOver()){
 
 			//handle player turns
 			__doPlayerTurn(mRoundTracker.currentPlayer());
 			
 
 			//handle reactions here
-			if (!mRoundTracker.roundIsOver())
+			if (!mRoundResult.isOver())
 				if (mRoundTracker.callWasMadeOnDiscard())
 					__handleReaction();
 		}
@@ -186,6 +186,7 @@ public class Round{
 		//display end of round result
 		displayRoundResult();
 	}
+	
 	
 	
 	private void __doPointPayments(){
@@ -206,14 +207,12 @@ public class Round{
 		//record payments in the result
 		mRoundResult.recordPayments(playerPaymentMap);
 	}
+
 	
-	private Map<Player, Integer> __mapPaymentsDraw(){
-		Map<Player, Integer> playerPaymentMap = new HashMap<Player, Integer>();
-		
-		for (Player p: mPlayerArray) playerPaymentMap.put(p, 0);
-		return playerPaymentMap;
-	}
-	
+	/*
+	private method: __mapPaymentsWin
+	maps payments to players, in the case of a win
+	*/
 	private Map<Player, Integer> __mapPaymentsWin(int handValue){
 		
 		Map<Player, Integer> playerPaymentMap = new HashMap<Player, Integer>();
@@ -251,6 +250,17 @@ public class Round{
 			}
 		}
 		///////add in riichi sticks here
+		return playerPaymentMap;
+	}
+	
+	/*
+	private method: __mapPaymentsDraw
+	maps payments to players, in the case of a draw
+	*/
+	private Map<Player, Integer> __mapPaymentsDraw(){
+		Map<Player, Integer> playerPaymentMap = new HashMap<Player, Integer>();
+		
+		for (Player p: mPlayerArray) playerPaymentMap.put(p, 0);
 		return playerPaymentMap;
 	}
 	
@@ -314,7 +324,7 @@ public class Round{
 		
 		
 		//return early if the round is over (4kan or washout)
-		if (mRoundTracker.roundIsOver()) return;
+		if (mRoundResult.isOver()) return;
 		
 		
 		//~~~~~~get player's discard (ankans, riichi, and such are handled inside here)
@@ -345,7 +355,7 @@ public class Round{
 			}
 			
 		}
-		while (p.turnActionChoseDiscard() == false && mRoundTracker.roundIsOver() == false);
+		while (p.turnActionChoseDiscard() == false && mRoundResult.isOver() == false);
 		
 		
 		
@@ -482,12 +492,11 @@ public class Round{
 			//make the meld
 			priorityCaller.makeMeld(discardedTile);
 			__updateUIs(GameplayEvent.MADE_OPEN_MELD);
-			//meld has been made
 		}
 		
 		
 		//it is now the calling player's turn (if the round isn't over)
-		if (!mRoundTracker.roundIsOver())
+		if (!mRoundResult.isOver())
 			mRoundTracker.setTurn(priorityCaller);
 	}
 	
@@ -528,22 +537,16 @@ public class Round{
 		Player callingPlayer = null;
 		Player callerPon = null, callerRon = null;
 		
-		boolean onlyOnePlayerCalled = true;	//this is set to true by default, because we know at LEAST one player called
-		boolean alreadyFoundACall = false;	//this is false until a call is found
-		
-		
-		for (Player p: mPlayerArray){
+		int numCallers = 0;
+		for (Player p: mPlayerArray)
 			if (p.called()){
-				if (alreadyFoundACall) onlyOnePlayerCalled = false;
-				
 				callingPlayer = p;
-				alreadyFoundACall = true;
+				numCallers++;
 			}
-		}
 		
 		
 		//if only one player called, return that player
-		if (onlyOnePlayerCalled){
+		if (numCallers == 1){
 			return callingPlayer;
 		}
 		else {
@@ -561,7 +564,7 @@ public class Round{
 			
 			//return the first ron caller, or return the pon caller if there was no ron caller
 			if (callerRon != null) return callerRon;
-			else return callerPon;
+			return callerPon;
 		}
 	}
 	

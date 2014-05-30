@@ -1,6 +1,5 @@
 package majava.graphics.textinterface;
 
-import majava.TileList;
 import majava.enums.Exclamation;
 import majava.tiles.Tile;
 import utility.Pauser;

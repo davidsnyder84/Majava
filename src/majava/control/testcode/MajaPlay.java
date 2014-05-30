@@ -10,7 +10,7 @@ import majava.enums.MeldType;
 import majava.Player;
 import majava.enums.Wind;
 import majava.tiles.Tile;
-import majava.TileList;
+import majava.util.TileList;
 
 import utility.GenSort;
 

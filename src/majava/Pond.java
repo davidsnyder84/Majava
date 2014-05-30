@@ -2,6 +2,7 @@ package majava;
 
 import majava.tiles.PondTile;
 import majava.tiles.Tile;
+import majava.util.TileList;
 
 /*
 Class: Pond

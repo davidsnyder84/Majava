@@ -1,4 +1,4 @@
-package majava;
+package majava.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;

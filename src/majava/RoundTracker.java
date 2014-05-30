@@ -8,6 +8,7 @@ import majava.graphics.TableGUI;
 import majava.graphics.textinterface.TextualUI;
 import majava.tiles.Tile;
 import majava.enums.Wind;
+import majava.util.TileList;
 
 
 

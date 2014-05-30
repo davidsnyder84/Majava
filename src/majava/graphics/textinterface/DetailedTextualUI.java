@@ -3,7 +3,7 @@ package majava.graphics.textinterface;
 
 import utility.Pauser;
 import majava.Player;
-import majava.TileList;
+import majava.util.TileList;
 import majava.enums.Exclamation;
 import majava.tiles.Tile;
 

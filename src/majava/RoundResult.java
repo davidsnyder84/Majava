@@ -8,7 +8,9 @@ import java.util.Map;
 import majava.enums.Wind;
 import majava.summary.PlayerSummary;
 import majava.summary.ResultType;
+import majava.summary.RoundResultSummary;
 import majava.tiles.Tile;
+import majava.util.TileList;
 
 
 
@@ -41,116 +43,24 @@ methods:
 public class RoundResult {
 	
 	
-//	public class RoundResultSummary {
-//		
-//		private final boolean pRoundIsOver;
-//		
-//		private final ResultIC pResult;
-//		private final WinType pWinType;
-//
-//
-//		private final PlayerSummary pWinningPlayer;
-//		private final PlayerSummary pFurikondaPlayer;
-//		
-//		private final Tile pWinningTile;
-//		
-//		
-//		private final TileList pWinnerHand;
-//		private final List<Meld> pWinnerMelds;
-//		
-//		private final Map<PlayerSummary,Integer> pPayments;
-//		
-//		
-//		
-//		public RoundResultSummary(boolean roundIsOver, ResultIC result, WinType winType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, Tile winningTile, TileList winnerHand, List<Meld> winnerMelds, Map<PlayerSummary,Integer> payments){
-//			pRoundIsOver = roundIsOver;
-//			
-//			pResult = result;
-//			pWinType = winType;
-//			
-//			pWinningPlayer = winningPlayer;
-//			pFurikondaPlayer = furikondaPlayer;
-//			pWinningTile = winningTile.clone();
-//			
-//			pWinnerHand = winnerHand.makeCopy();
-//			pWinnerMelds = winnerMelds;
-//			
-//			pPayments = null;
-//		}
-//		
-//		
-//	 	public boolean isOver(){return pRoundIsOver;}
-//		public boolean isDraw(){return pResult.isDraw();}
-//		public boolean isVictory(){return pResult.isVictory();}
-//		public boolean isVictoryRon(){return pWinType.isRon();}
-//		public boolean isVictoryTsumo(){return pWinType.isTsumo();}
-//		
-////		public boolean isDealerVictory(){return (isOver() && isVictory() && pWinningPlayer.isDealer());}
-////		public Wind getWindOfWinner(){if (isOver() && isVictory()) return mWinningPlayer.getSeatWind(); return null;}
-//		
-//		public String getWinTypeString(){return pWinType.toString();}
-//		
-//		public Tile getWinningTile(){return pWinningTile.clone();}
-//		public PlayerSummary getWinningPlayer(){return pWinningPlayer;}
-//		public PlayerSummary getFurikondaPlayer(){return pFurikondaPlayer;}
-//	}
-//	
-//	public RoundResultSummary getSummary(){
-//		RoundResultSummary sum = null;
-//		
-//		PlayerSummary winnerSummary = mWinningPlayer.getPlayerSummary();
-//		PlayerSummary furikonSummary = mFurikondaPlayer.getPlayerSummary();
-//		
-//		Map<PlayerSummary,Integer> payments = new HashMap<PlayerSummary,Integer>();
-//		for (Player p: mPayments.keySet()) payments.put(p.getPlayerSummary(), mPayments.get(p));
-//		
-//		
-//		sum = new RoundResultSummary(mRoundIsOver, mResult, mWinType, winnerSummary, furikonSummary, mWinningTile, mWinnerHand, mWinnerMelds, payments);
-//		return sum;
-//	}
+	
+	public RoundResultSummary getSummary(){
+		RoundResultSummary sum = null;
+		
+		PlayerSummary winnerSummary = mWinningPlayer.getPlayerSummary();
+		PlayerSummary furikonSummary = mFurikondaPlayer.getPlayerSummary();
+		
+		Map<PlayerSummary,Integer> payments = new HashMap<PlayerSummary,Integer>();
+		for (Player p: mPayments.keySet()) payments.put(p.getPlayerSummary(), mPayments.get(p));
+		
+		sum = new RoundResultSummary(mRoundIsOver, mResultType, winnerSummary, furikonSummary, mWinningTile, mWinnerHand, mWinnerMelds, payments);
+		return sum;
+	}
 	
 	
 	
 	
 	
-	
-	
-//	private static enum ResultIC{
-//		UNDECIDED,
-//		DRAW_WASHOUT, DRAW_KYUUSHU, DRAW_4KAN, DRAW_4RIICHI, DRAW_4WIND,
-//		VICTORY_E, VICTORY_S, VICTORY_W, VICTORY_N;
-//		
-//		public boolean isDraw(){return (this == DRAW_WASHOUT || this == DRAW_KYUUSHU || this == DRAW_4KAN || this == DRAW_4RIICHI || this == DRAW_4WIND);}
-//		public boolean isVictory(){return (this == VICTORY_E || this == VICTORY_S || this == VICTORY_W || this == VICTORY_N);}
-//		
-//		public String toString(){
-//			switch (this){
-//			case DRAW_WASHOUT: return "Draw (Washout)";
-//			case DRAW_KYUUSHU: return "Draw (Kyuushuu)";
-//			case DRAW_4KAN: return "Draw (4 kans)";
-//			case DRAW_4RIICHI: return "Draw (4 riichi)";
-//			case DRAW_4WIND: return "Draw (4 wind)";
-//			
-//			case VICTORY_E: return "East wins!";
-//			case VICTORY_S: return "South wins!";
-//			case VICTORY_W: return "West wins!";
-//			case VICTORY_N: return "North wins!";
-//			default: return "??Undecided??";
-//			}
-//		}
-//	}
-//	private static enum WinType{
-//		UNDECIDED, TSUMO, RON;
-//		public String toString(){
-//			switch (this){
-//			case TSUMO: return "TSUMO";
-//			case RON: return "RON";
-//			default: return "undecided";
-//			}
-//		}
-//		public boolean isTsumo(){return this == TSUMO;}
-//		public boolean isRon(){return this == RON;}
-//	}
 	
 	
 	
@@ -158,9 +68,6 @@ public class RoundResult {
 	private boolean mRoundIsOver;
 	
 	private ResultType mResultType;
-	
-//	private ResultIC mResult;
-//	private WinType mWinType;
 
 
 	private Player mWinningPlayer;
@@ -181,8 +88,6 @@ public class RoundResult {
 	
 	
 	public RoundResult(){
-//		mResult = ResultIC.UNDECIDED;
-//		mWinType = WinType.UNDECIDED;
 		mResultType = null;
 		mWinningPlayer = mFurikondaPlayer = null;
 		mWinningTile = null;
@@ -193,7 +98,6 @@ public class RoundResult {
 
 	private void __setRoundOver(ResultType result){
 		mResultType = result;
-//		mResult = result;
 		mRoundIsOver = true;
 	}
 	

@@ -978,7 +978,7 @@ public class Player {
 	
 	
 	public PlayerSummary getPlayerSummary(){
-		PlayerSummary summary = new PlayerSummary(mPlayerName, mPlayerID, mController.toString(), mSeatWind, mPoints);
+		PlayerSummary summary = new PlayerSummary(mPlayerName, mPlayerID, mController.toString(), mPlayerNum, mSeatWind, mPoints);
 		return summary;
 	}
 	

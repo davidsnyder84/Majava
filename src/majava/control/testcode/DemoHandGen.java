@@ -9,7 +9,7 @@ import majava.Hand;
 import majava.enums.MeldType;
 import majava.enums.Wind;
 import majava.tiles.Tile;
-import majava.TileList;
+import majava.util.TileList;
 
 
 
@@ -191,7 +191,7 @@ public class DemoHandGen {
 		Hand hand = new Hand(OWNER_SEAT);
 		
 		
-		TileList tiles = new TileList();
+		TileList tiles = new majava.util.TileList();
 		Tile currentTile = null;
 		
 		

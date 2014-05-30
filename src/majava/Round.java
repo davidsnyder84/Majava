@@ -7,6 +7,7 @@ import utility.Pauser;
 import majava.graphics.TableGUI;
 import majava.graphics.textinterface.TextualUI;
 import majava.tiles.Tile;
+import majava.util.TileList;
 import majava.enums.GameplayEvent;
 import majava.enums.Wind;
 import majava.enums.Exclamation;

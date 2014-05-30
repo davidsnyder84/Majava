@@ -11,7 +11,7 @@ import majava.enums.GameplayEvent;
 import majava.enums.Wind;
 import majava.graphics.userinterface.GameUI;
 import majava.tiles.Tile;
-import majava.TileList;
+import majava.util.TileList;
 import majava.tiles.PondTile;
 import utility.ImageResizer;
 import utility.Pauser;

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import majava.tiles.Tile;
+import majava.util.TileList;
 
 
 

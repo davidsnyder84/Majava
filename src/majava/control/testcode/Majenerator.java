@@ -10,7 +10,7 @@ import java.util.Random;
 import majava.Meld;
 import majava.Player;
 import majava.RoundResult;
-import majava.TileList;
+import majava.util.TileList;
 import majava.enums.MeldType;
 import majava.tiles.Tile;
 

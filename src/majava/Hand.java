@@ -8,6 +8,7 @@ import java.util.List;
 import majava.tiles.Tile;
 import majava.enums.Wind;
 import majava.enums.MeldType;
+import majava.util.TileList;
 
 
 /*

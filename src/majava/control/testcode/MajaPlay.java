@@ -65,9 +65,9 @@ public class MajaPlay {
 //		playFinishingMelds();
 		
 		
-//		playShowRoundResultInfo();
+		playShowRoundResultInfo();
 		
-		playTileClone();
+//		playTileClone();
 		
 	}
 	public static void println(String prints){System.out.println(prints);}public static void println(){println("");}

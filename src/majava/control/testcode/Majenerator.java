@@ -141,9 +141,9 @@ public class Majenerator {
 	
 	
 	
-	public static Player generatePlayer(int num){
+	public static Player generatePlayer(int playernum){
 		
-		if (num < 0 || num >= 4) num = 0;
+		if (playernum < 0 || playernum >= 4) playernum = 0;
 		Player player = new Player();
 
 		String[] names = {"Suwado", "Albert", "Brenda", "Carl", "Dick", "Eddie", "Geromy", "Halbert", "Little King John"};
@@ -151,13 +151,15 @@ public class Majenerator {
 		player.setControllerComputer();
 		player.setPlayerName(names[randGen.nextInt(names.length)]);
 		
-		switch(num){
+		switch(playernum){
 		case 0: player.setSeatWindEast(); break;
 		case 1: player.setSeatWindSouth(); break;
 		case 2: player.setSeatWindWest(); break;
 		case 3: player.setSeatWindNorth(); break;
 		default: break;
 		}
+		
+		player.setPlayerNumber(playernum);
 		
 		player.DEMOfillHand();
 		

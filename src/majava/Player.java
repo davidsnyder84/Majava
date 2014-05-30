@@ -172,7 +172,8 @@ public class Player {
 	
 	private static final Wind SEAT_DEFAULT = Wind.UNKNOWN;
 	private static final Controller CONTROLLER_DEFAULT = Controller.UNDECIDED;
-	private static final String PLAYERNAME_DEFAULT = "Kyoutarou";
+	private static final String DEFAULT_PLAYERNAME = "Kyoutarou";
+	private static final int DEFAULT_PLAYERNUM = 0;
 	private static final ComBehavior COM_BEHAVIOR = COM_BEHAVIOR_DEFAULT;
 	
 	private static final int POINTS_STARTING_AMOUNT_DEFAULT = 25000;
@@ -190,6 +191,7 @@ public class Player {
 	private int mPoints;
 	
 	private Wind mSeatWind;
+	private int mPlayerNum;
 	private Controller mController;
 	private String mPlayerName;
 	private int mPlayerID;
@@ -217,20 +219,23 @@ public class Player {
 	
 	
 	
-	public Player(String pName){
+	public Player(int playerNum, String pName){
 		
 		mSeatWind = SEAT_DEFAULT;
 		mController = CONTROLLER_DEFAULT;
 		
-		if (pName == null) pName = PLAYERNAME_DEFAULT;
+		if (pName == null) pName = DEFAULT_PLAYERNAME;
 		setPlayerName(pName);
 		mPlayerID = (new Random()).nextInt();
 		
 		mPoints = POINTS_STARTING_AMOUNT_DEFAULT;
 		
+		mPlayerNum = 0;
 		prepareForNewRound();
 	}
-	public Player(){this(PLAYERNAME_DEFAULT);}
+	public Player(int playerNum){this(playerNum, DEFAULT_PLAYERNAME);}
+	public Player(String pName){this(DEFAULT_PLAYERNUM, pName);}
+	public Player(){this(DEFAULT_PLAYERNUM);}
 	
 	
 	
@@ -803,7 +808,7 @@ public class Player {
 	
 	
 	//accessors
-	public int getHandSize(){return mHand.size();}
+	public int getPlayerNumber(){return mPlayerNum;}
 	public Wind getSeatWind(){return mSeatWind;}
 	public boolean isDealer(){return mSeatWind == Wind.EAST;}
 	
@@ -812,7 +817,7 @@ public class Player {
 	
 	
 
-	
+	public int getHandSize(){return mHand.size();}
 	public boolean getRiichiStatus(){return mRiichiStatus;}
 	public boolean checkFuriten(){return mFuritenStatus;}
 	public boolean checkTenpai(){return mHand.getTenpaiStatus();}
@@ -877,6 +882,8 @@ public class Player {
 	public void setSeatWindSouth(){__setSeatWind(Wind.SOUTH);}
 	public void setSeatWindWest(){__setSeatWind(Wind.WEST);}
 	public void setSeatWindNorth(){__setSeatWind(Wind.NORTH);}
+	
+	public void setPlayerNumber(int playerNum){if (playerNum >= 0 && playerNum < 4) mPlayerNum = playerNum;}
 	
 	
 	

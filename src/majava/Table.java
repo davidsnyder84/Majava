@@ -185,6 +185,8 @@ public class Table {
 		p2.setSeatWindSouth();
 		p3.setSeatWindWest();
 		p4.setSeatWindNorth();
+		
+		for (int playerNum = 0; playerNum < mPlayerArray.length; playerNum++) mPlayerArray[playerNum].setPlayerNumber(playerNum);
 	}
 	
 	

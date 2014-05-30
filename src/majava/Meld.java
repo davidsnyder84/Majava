@@ -29,6 +29,10 @@ methods:
 	copy constructor
 	
 	public:
+		mutators:
+		upgradeToMinkan - uses the given tile to upgrade an open pon to a minkan
+		
+		
 	 	accessors:
 	 	calculateFu - returns the amount of fu points the meld is worth
 	 	isClosed - returns true if the meld is closed
@@ -40,10 +44,6 @@ methods:
 	 	getAllTiles - returns a list of all tiles in the meld
 		getSize - returns how many tiles are in the meld
 		isChi, isPon, isKan - returns true if the meld is of the corresponding type
-		
-		
-		mutators:
-		upgradeToMinkan - uses the given tile to upgrade an open pon to a minkan
 */
 public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	

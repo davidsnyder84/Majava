@@ -1,6 +1,7 @@
 package majava;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
@@ -21,6 +22,7 @@ data:
 	mSeatWind - the player's seat wind
 	mController - who is controlling the player (human or computer)
 	mPlayerName - the player's name as a string
+	mPlayerID - unique player ID, used to identify the player
 	
 	mCallStatus - the player's call (reaction) to the most recent disacrd (chi, pon, kan, ron, or none)
 	mDrawNeeded - the type of draw the player needs for their next turn (normal draw, rinshan draw, or no draw)
@@ -189,6 +191,7 @@ public class Player {
 	private Wind mSeatWind;
 	private Controller mController;
 	private String mPlayerName;
+	private int mPlayerID;
 	
 	private CallType mCallStatus;
 	private DrawType mDrawNeeded;
@@ -220,6 +223,7 @@ public class Player {
 		
 		if (pName == null) pName = PLAYERNAME_DEFAULT;
 		setPlayerName(pName);
+		mPlayerID = (new Random()).nextInt();
 		
 		mPoints = POINTS_STARTING_AMOUNT_DEFAULT;
 		
@@ -803,6 +807,7 @@ public class Player {
 	public boolean isDealer(){return mSeatWind == Wind.EAST;}
 	
 	public String getPlayerName(){return mPlayerName;}
+	public int getPlayerID(){return mPlayerID;}
 	
 	
 
@@ -973,6 +978,9 @@ public class Player {
 	
 	@Override
 	public boolean equals(Object other){return (this == other);}
+	
+	@Override
+	public String toString(){return (mPlayerName + " (" + mSeatWind.toChar() +" player) ");}
 	
 	
 	

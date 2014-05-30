@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import majava.Hand;
+import majava.RoundResult;
 import majava.enums.MeldType;
 import majava.Player;
 import majava.enums.Wind;
@@ -61,10 +62,42 @@ public class MajaPlay {
 //		chiitoiTenpaiTest();
 		
 		
-		playFinishingMelds();
+//		playFinishingMelds();
 		
-		System.out.println();
+		playShowRoundResultInfo();
+		
 	}
+	public static void println(String prints){System.out.println(prints);}public static void println(){println("");}
+	
+	
+	
+	
+	
+
+	public static void playShowRoundResultInfo(){
+		
+		RoundResult res;
+		res = Majenerator.generateRoundResult();
+		
+		println(res + "\n");
+		
+		println(res.getWinningHandString());
+		
+		println("Winner: " + res.getWinningPlayer());
+		if (res.isVictoryRon()){
+			println("---Ron!");
+			println("---Furikon: " + res.getFurikondaPlayer());
+		}
+		else if (res.isVictoryTsumo()){
+			println("---Tsumo!");
+		}
+		
+		println("\nWinning Tile: " + res.getWinningTile());
+		
+		println("\n" + res.getPaymentsString());
+	}
+	
+	
 	
 	
 	
@@ -77,8 +110,8 @@ public class MajaPlay {
 			h = new Hand(ownerSeat);
 			h.DEMOfillChuuren(i);
 			
-			System.out.println("\n\n\n" + h.toString());
-			System.out.println("Complete?: " + h.DEMOgetChecker().isCompleteNormal());
+			println("\n\n\n" + h.toString());
+			println("Complete?: " + h.DEMOgetChecker().isCompleteNormal());
 			h.DEMOgetChecker().DEMOprintFinishingMelds();
 		}
 		
@@ -107,10 +140,10 @@ public class MajaPlay {
 		h.sortHand();
 		
 
-		System.out.println(h.toString());
+		println(h.toString());
 		
 
-		System.out.println("\nHand is complete normal?: " + h.DEMOgetChecker().isCompleteNormal());
+		println("\nHand is complete normal?: " + h.DEMOgetChecker().isCompleteNormal());
 		
 	}
 	
@@ -125,17 +158,17 @@ public class MajaPlay {
 		for (Tile t: handTiles) h.addTile(t);
 		
 		
-		System.out.println(h.toString());
+		println(h.toString());
 		
 
-		System.out.println("\nIn tenpai for chiitoi?: " + h.DEMOgetChecker().DEMOchiitoitsuInTenpai());
+		println("\nIn tenpai for chiitoi?: " + h.DEMOgetChecker().DEMOchiitoitsuInTenpai());
 		waits = h.DEMOgetChecker().getTenpaiWaits();
 		if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.getFirst().toString());
-		System.out.println("\n\n\n");
+		println("\n\n\n");
 		
 
 		//chiitoi tenpai hands (should show true)
-		System.out.println("\n\nGOOD TENPAIS=====================\n");
+		println("\n\nGOOD TENPAIS=====================\n");
 		ArrayList<TileList> tlists = new ArrayList<TileList>(8);
 		tlists.add(new TileList(1,1,3,3,5,5,7,7,9,9,11,11,13));
 		tlists.add(new TileList(1,1,3,3,5,5,7,7,9,9,11,13,13));
@@ -149,18 +182,18 @@ public class MajaPlay {
 			h = new Hand(ownerSeat);
 			for (Tile t: tl) h.addTile(t);
 
-			System.out.println(h.toString());
+			println(h.toString());
 
-			System.out.println("\nIn tenpai for chiitoi?: " + h.DEMOgetChecker().DEMOchiitoitsuInTenpai());
+			println("\nIn tenpai for chiitoi?: " + h.DEMOgetChecker().DEMOchiitoitsuInTenpai());
 			waits = h.DEMOgetChecker().getTenpaiWaits();
 			if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.getFirst().toString());
-			System.out.println("\n\n\n");
+			println("\n\n\n");
 		}
 		
 		
 		
 		//NOT chiitoi tenpai hands (should show false)
-		System.out.println("\n\nBAD TENPAIS=====================\n");
+		println("\n\nBAD TENPAIS=====================\n");
 		ArrayList<TileList> badtlists = new ArrayList<TileList>(8);
 		badtlists.add(new TileList(1,1,1,1,5,5,7,7,9,9,11,11,13));
 		badtlists.add(new TileList(1,1,1,1,5,6,7,7,9,9,11,11,13,13));
@@ -173,17 +206,17 @@ public class MajaPlay {
 			h = new Hand(ownerSeat);
 			for (Tile t: tl) h.addTile(t);
 
-			System.out.println(h.toString());
+			println(h.toString());
 
-			System.out.println("\nIn tenpai for chiitoi?: " + h.DEMOgetChecker().DEMOchiitoitsuInTenpai());
+			println("\nIn tenpai for chiitoi?: " + h.DEMOgetChecker().DEMOchiitoitsuInTenpai());
 			waits = h.DEMOgetChecker().getTenpaiWaits();
 			if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.getFirst().toString());
-			System.out.println("\n\n\n");
+			println("\n\n\n");
 		}
 		
 		
 		
-//		System.out.println("\n\nChiitoi complete?: " + h.mChecker.chiitoitsuIsComplete());
+//		println("\n\nChiitoi complete?: " + h.mChecker.chiitoitsuIsComplete());
 		
 	}
 	
@@ -211,17 +244,17 @@ public class MajaPlay {
 //		h.addTile(new Tile("DR"));	//extra tile
 		h.sortHand();
 		
-		System.out.println(h.toString());
+		println(h.toString());
 		
 
-		System.out.println("\nIn tenpai for kokushi musou?: " + h.DEMOgetChecker().isTenpaiKokushi());
+		println("\nIn tenpai for kokushi musou?: " + h.DEMOgetChecker().isTenpaiKokushi());
 		
 		waits = h.DEMOgetChecker().DEMOgetKokushiWaits();
 		System.out.print(waits.size() + "-sided wait: ");
 		for (Tile t: waits)
 			System.out.print(t.toString() + ", ");
 		
-		System.out.println("\n\nKokushi musou complete?: " + h.DEMOgetChecker().isCompleteKokushi());
+		println("\n\nKokushi musou complete?: " + h.DEMOgetChecker().isCompleteKokushi());
 	}
 	
 	
@@ -253,8 +286,8 @@ public class MajaPlay {
 			q.setOwner(ownerSeat.kamichaWind());
 			h.checkCallableTile(q);
 			
-			System.out.println(h.toString());
-			System.out.println("\nDiscarded tile: " + q.toString());
+			println(h.toString());
+			println("\nDiscarded tile: " + q.toString());
 			
 			System.out.print("\n\tChi-L?: " + h.ableToChiL());
 			if (h.ableToChiL())	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.CHI_L, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.CHI_L));
@@ -273,7 +306,7 @@ public class MajaPlay {
 			
 			System.out.print("\n\tPair? : " + h.ableToPair());
 			if (h.ableToPair())	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.PAIR, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.PAIR));
-			System.out.println("\n\n\n\n");
+			println("\n\n\n\n");
 		}
 		
 	}
@@ -288,13 +321,13 @@ public class MajaPlay {
 		h.addTile(3);
 		h.addTile(3);
 
-		System.out.println(h.toString());
+		println(h.toString());
 		
 		
 		q = new Tile(1);
 		q.setOwner(ownerSeat.kamichaWind());
-//		System.out.println("\nDiscarded tile: " + q.toStringAllInfo());
-		System.out.println("\nDiscarded tile: " + q.toString());
+//		println("\nDiscarded tile: " + q.toStringAllInfo());
+		println("\nDiscarded tile: " + q.toString());
 		h.checkCallableTile(q);
 		
 		
@@ -307,7 +340,7 @@ public class MajaPlay {
 		if (h.ableToKan()) count++;
 		if (h.ableToRon()) count++;
 		
-		System.out.println("Number of calls possible: " + count);
+		println("Number of calls possible: " + count);
 		
 		
 	}
@@ -323,7 +356,7 @@ public class MajaPlay {
 		h.addTile(3);
 		
 
-		System.out.println(h.toString());
+		println(h.toString());
 		
 		
 		
@@ -333,9 +366,9 @@ public class MajaPlay {
 		q.setOwner(Wind.WEST);
 		
 
-//		System.out.println("\nDiscarded tile: " + q.toStringAllInfo());
-		System.out.println("\nDiscarded tile: " + q.toString());
-		System.out.println("Callable?: " + h.checkCallableTile(q));
+//		println("\nDiscarded tile: " + q.toStringAllInfo());
+		println("\nDiscarded tile: " + q.toString());
+		println("Callable?: " + h.checkCallableTile(q));
 		
 	}
 	
@@ -372,7 +405,7 @@ public class MajaPlay {
 		*/
 		
 
-		System.out.println(h.toString());
+		println(h.toString());
 		
 		ArrayList<Integer> hots = h.DEMOfindAllHotTiles();
 		ArrayList<Integer> callables = h.DEMOfindAllCallableTiles();
@@ -384,13 +417,13 @@ public class MajaPlay {
 		sorter = new GenSort<Integer>(callables);sorter.sort();
 		
 
-		System.out.println("\nHot Tiles: ");
+		println("\nHot Tiles: ");
 		for (Integer i: hots)
 //			System.out.print(Tile.repr_stringReprOfId(i) + ", ");
 			System.out.print((new Tile(i)).toString() + ", ");
 		
 		
-		System.out.println("\n\nCallable Tiles: ");
+		println("\n\nCallable Tiles: ");
 		for (Integer i: callables)
 //			System.out.print(Tile.repr_stringReprOfId(i) + ", ");
 			System.out.print((new Tile(i)).toString() + ", ");
@@ -419,7 +452,7 @@ public class MajaPlay {
 		tiles.add(new Tile("WW"));
 		
 		for (Tile t: tiles)
-			System.out.println(t.toString() + ", next tile: " + t.nextTile().toString());
+			println(t.toString() + ", next tile: " + t.nextTile().toString());
 	}
 	
 	
@@ -467,10 +500,10 @@ public class MajaPlay {
 			q = discards.get(0);
 			discards.remove(0);
 
-			System.out.println();
+			println();
 			p.showHand();
 			p.showMelds();
-			System.out.println("\nDiscarded tile: " + q.toString() + "\n");
+			println("\nDiscarded tile: " + q.toString() + "\n");
 			
 
 			//broke this when clickable discards were implemented
@@ -495,7 +528,7 @@ public class MajaPlay {
 //				whatCalled = "Kan";
 //			else if (status == Player.CALLED_RON)
 //				whatCalled = "Ron";
-//			System.out.println("Player's call status: " + whatCalled + " (status: " + status + ")");
+//			println("Player's call status: " + whatCalled + " (status: " + status + ")");
 			
 			
 			//broke this when clickable discards were implemented
@@ -503,7 +536,7 @@ public class MajaPlay {
 			
 		}
 
-		System.out.println();
+		println();
 		p.showHand();
 		p.showMelds();
 
@@ -534,7 +567,7 @@ public class MajaPlay {
 		q = new Tile(4);
 		
 		p.showHand();
-		System.out.println("\nDiscarded tile: " + q.toString() + "\n");
+		println("\nDiscarded tile: " + q.toString() + "\n");
 		
 
 		//broke this when clickable discards were implemented
@@ -559,7 +592,7 @@ public class MajaPlay {
 //		else if (status == Player.CALLED_RON)
 //			whatCalled = "Ron";
 //		
-//		System.out.println("Player's call status: " + whatCalled + " (status: " + status + ")");
+//		println("Player's call status: " + whatCalled + " (status: " + status + ")");
 		
 	}
 	
@@ -578,15 +611,15 @@ public class MajaPlay {
 		q = new Tile(11);
 		
 
-		System.out.println(h.toString());
-		System.out.println("\nDiscarded tile: " + q.toString() + "\n");
+		println(h.toString());
+		println("\nDiscarded tile: " + q.toString() + "\n");
 		
 		
-//		System.out.println("Chi-L?: " + h.canChiL(q));
-//		System.out.println("Chi-M?: " + h.canChiM(q));
-//		System.out.println("Chi-H?: " + h.canChiH(q));
-//		System.out.println("Pon?  : " + h.canPon(q));
-//		System.out.println("Kan?  : " + h.canKan(q));
+//		println("Chi-L?: " + h.canChiL(q));
+//		println("Chi-M?: " + h.canChiM(q));
+//		println("Chi-H?: " + h.canChiH(q));
+//		println("Pon?  : " + h.canPon(q));
+//		println("Kan?  : " + h.canKan(q));
 		
 		
 	}
@@ -599,7 +632,7 @@ public class MajaPlay {
 	
 	public static void testContains(){
 		
-		ArrayList<Tile> tiles = new ArrayList<Tile>(0);
+		ArrayList<Tile> tiles = new ArrayList<Tile>();
 		
 		Tile t2 = new Tile(2);
 		
@@ -607,13 +640,13 @@ public class MajaPlay {
 		tiles.add(new Tile(2));
 		tiles.add(new Tile(3));
 		
-		//System.out.println("\nt2 == M2?: ");
-		//System.out.println(t2.equals(new Tile(2)));
+		//println("\nt2 == M2?: ");
+		//println(t2.equals(new Tile(2)));
 		
-//		System.out.println(t2.toStringAllInfo());
+//		println(t2.toStringAllInfo());
 		
-		System.out.println("\nHand contains t22?: ");
-		System.out.println(tiles.contains(t2));
+		println("\nHand contains t22?: ");
+		println(tiles.contains(t2) + "");
 	}
 	
 	
@@ -629,13 +662,13 @@ public class MajaPlay {
 		ArrayList<Integer> hots = new ArrayList<Integer>(0);
 		hots = h.DEMOfindAllHotTiles();
 		
-		System.out.println(h.toString());
+		println(h.toString());
 		
-		System.out.println("\nhots:");
+		println("\nhots:");
 		
 		for (Integer i: hots)
 		{
-			System.out.println((new Tile(i)).toString());
+			println((new Tile(i)).toString());
 		}
 	}
 	
@@ -659,15 +692,15 @@ public class MajaPlay {
 //		oddTiles.get(1).setRedDora();
 		oddTiles.get(2).setOwner(Wind.NORTH);
 		
-		System.out.println("List1: " + evenTiles.toString());
-		System.out.println("List2: " + oddTiles.toString());
-		System.out.println("List1 equals List2?: " + evenTiles.equals(oddTiles));
+		println("List1: " + evenTiles.toString());
+		println("List2: " + oddTiles.toString());
+		println("List1 equals List2?: " + evenTiles.equals(oddTiles));
 		
 
 		TileList dupes = new TileList(2,2,2,3,4,4,5,6,6,6,7);
 		TileList noDupes = dupes.makeCopyNoDuplicates();
-		System.out.println("\n\nYedupes: " + dupes.toString());
-		System.out.println("Nodupes: " + noDupes.toString());
+		println("\n\nYedupes: " + dupes.toString());
+		println("Nodupes: " + noDupes.toString());
 	}
 	
 	

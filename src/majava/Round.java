@@ -1,5 +1,8 @@
 package majava;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import utility.Pauser;
 import majava.graphics.TableGUI;
 import majava.graphics.textinterface.TextualUI;
@@ -56,7 +59,7 @@ public class Round{
 	private static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
 	//for debug use
-	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	
 	
@@ -188,42 +191,67 @@ public class Round{
 	private void __doPointPayments(){
 		
 		final int PAYMENT_DUE = 8000;
-		final double DEALER_RON_MULTIPLIER = 1.5;
-		final double DEALER_TSUMO_MULTIPLIER = 2;
-		
 		int paymentDue = PAYMENT_DUE;
-		int tsumoPointsNonDealer, tsumoPointsDealer;
 		
+		Map<Player, Integer> playerPaymentMap = null;
 		
-		if (mRoundTracker.roundEndedWithDraw()) return;
+
+		//find who has to pay what
+		if (mRoundResult.isDraw()) playerPaymentMap = __mapPaymentsDraw();
+		else playerPaymentMap = __mapPaymentsWin(paymentDue);
+		
+		//carry out payments
+		for (Player p: mPlayerArray) p.pointsIncrease(playerPaymentMap.get(p));
+		
+		//record payments in the result
+		mRoundResult.recordPayments(playerPaymentMap);
+	}
+	
+	private Map<Player, Integer> __mapPaymentsDraw(){
+		Map<Player, Integer> playerPaymentMap = new HashMap<Player, Integer>();
+		
+		for (Player p: mPlayerArray) playerPaymentMap.put(p, 0);
+		return playerPaymentMap;
+	}
+	
+	private Map<Player, Integer> __mapPaymentsWin(int handValue){
+		
+		Map<Player, Integer> playerPaymentMap = new HashMap<Player, Integer>();
+		
+		final double DEALER_WIN_MULTIPLIER = 1.5, DEALER_TSUMO_MULTIPLIER = 2;
+		
+		int paymentDue = handValue;
+		int tsumoPointsNonDealer = paymentDue / 4;
+		int tsumoPointsDealer = (int) (DEALER_TSUMO_MULTIPLIER * tsumoPointsNonDealer);
 		
 		
 		//find who the winner is
-		Player winner;
-		winner = mRoundResult.getWinningPlayer();
+		Player winner = mRoundResult.getWinningPlayer();
+		Player[] losers = {mRoundTracker.neighborShimochaOf(winner), mRoundTracker.neighborToimenOf(winner), mRoundTracker.neighborKamichaOf(winner)};
+		Player furikonda = null;
 		
+		if (winner.isDealer()) paymentDue *= DEALER_WIN_MULTIPLIER;
 		
-		tsumoPointsNonDealer = paymentDue / 4;
-		tsumoPointsDealer = (int) (DEALER_TSUMO_MULTIPLIER * tsumoPointsNonDealer);
+		///////add in honba here
 		
-		if (winner.isDealer()) paymentDue *= DEALER_RON_MULTIPLIER;
+		playerPaymentMap.put(winner, paymentDue);
 		
 		
 		//find who has to pay
 		if (mRoundResult.isVictoryRon()){
-			Player furikonda = mRoundResult.getFurikondaPlayer();
-			furikonda.pointsDecrease(paymentDue);
+			furikonda = mRoundResult.getFurikondaPlayer();
+			for (Player p: losers)
+				if (p == furikonda) playerPaymentMap.put(p, -paymentDue);
+				else playerPaymentMap.put(p, 0);
 		}
 		else{//tsumo
-			
-			Player[] losers = {mRoundTracker.neighborShimochaOf(winner), mRoundTracker.neighborToimenOf(winner), mRoundTracker.neighborKamichaOf(winner)};
-			
 			for (Player p: losers){
-				if (p.isDealer() || winner.isDealer()) p.pointsDecrease(tsumoPointsDealer);
-				else p.pointsDecrease(tsumoPointsNonDealer);
+				if (p.isDealer() || winner.isDealer()) playerPaymentMap.put(p, -tsumoPointsDealer);
+				else  playerPaymentMap.put(p, -tsumoPointsNonDealer);
 			}
 		}
-		winner.pointsIncrease(paymentDue);
+		///////add in riichi sticks here
+		return playerPaymentMap;
 	}
 	
 	

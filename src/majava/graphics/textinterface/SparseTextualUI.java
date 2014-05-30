@@ -65,7 +65,7 @@ public class SparseTextualUI extends TextualUI{
 	//prints the hands of each player
 	protected void __showHandsOfAllPlayers(){println(); for (int seatNum = 0; seatNum < 4; seatNum++) __showPlayerHand(seatNum); println();}
 	protected void __showPlayerHand(int seatNum){
-		String handString = mPTrackers[seatNum].player.getSeatWind() + " hand: ";
+		String handString = mPTrackers[seatNum].player.getSeatWind().toChar() + " hand: ";
 		for (Tile t: mPTrackers[seatNum].hand) handString += t + " ";
 		println(handString);
 	}

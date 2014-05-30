@@ -1,6 +1,7 @@
 package majava;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import majava.enums.Wind;
 import majava.tiles.Tile;
@@ -96,6 +97,8 @@ public class RoundResult {
 	private TileList mWinnerHand;
 	private ArrayList<Meld> mWinnerMelds;
 	
+	private Map<Player,Integer> mPayments;
+	
 	
 	
 	
@@ -158,8 +161,21 @@ public class RoundResult {
 	public void setWinningHand(TileList handTiles, ArrayList<Meld> melds, Tile winningTile){
 		mWinnerHand = handTiles;
 		mWinnerMelds = melds;
-		mWinningTile = winningTile;
+		setWinningTile(winningTile);
 	}
+	public void setWinningTile(Tile winningTile){mWinningTile = winningTile;}
+	
+	
+	public void recordPayments(Map<Player,Integer> playerPaymentsMap){
+		mPayments = playerPaymentsMap;
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -178,11 +194,14 @@ public class RoundResult {
 		return winString;
 	}
 	
-	
-	
-	
-	
-	
+	public String getPaymentsString(){
+		String ps = "";
+		
+		ps += "Winner: " + mWinningPlayer + ": +" + mPayments.get(mWinningPlayer);
+		for (Player p: mPayments.keySet()) if (p != mWinningPlayer) ps += "\n" + p + ": " + mPayments.get(p);
+		
+		return ps;
+	}
 	
 	
 	
@@ -192,10 +211,14 @@ public class RoundResult {
 	public boolean isVictoryRon(){return mWinType.isRon();}
 	public boolean isVictoryTsumo(){return mWinType.isTsumo();}
 	
+	public boolean isDealerVictory(){return (isOver() && isVictory() && mWinningPlayer.isDealer());}
+	
 	
 	
 	public String getWinTypeString(){return mWinType.toString();}
 	public Wind getWindOfWinner(){if (isOver() && isVictory()) return mWinningPlayer.getSeatWind(); return null;}
+	
+	public Tile getWinningTile(){return mWinningTile;}
 	public Player getWinningPlayer(){return mWinningPlayer;}
 	public Player getFurikondaPlayer(){return mFurikondaPlayer;}
 	

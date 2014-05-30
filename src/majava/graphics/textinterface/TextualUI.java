@@ -31,7 +31,7 @@ public abstract class TextualUI implements GameUI{
 	}
 	
 	
-	protected class PlayerTracker{
+	protected static class PlayerTracker{
 		protected Player player;
 		protected Hand hand;
 		protected Pond pond;

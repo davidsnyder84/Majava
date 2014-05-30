@@ -910,10 +910,10 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		
 		panResult = new ResultPanel();
 		
-		panPlayer1 = new PlayerPanel(SEAT1);
-		panPlayer2 = new PlayerPanel(SEAT2);
-		panPlayer3 = new PlayerPanel(SEAT3);
-		panPlayer4 = new PlayerPanel(SEAT4);
+		panPlayer1 = new PlayerPanelClickable(SEAT1);
+		panPlayer2 = new PlayerPanelClickable(SEAT2);
+		panPlayer3 = new PlayerPanelClickable(SEAT3);
+		panPlayer4 = new PlayerPanelClickable(SEAT4);
 		
 		panP1 = new PondPanel(SEAT1);
 		panP2 = new PondPanel(SEAT2);
@@ -973,7 +973,7 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		
 		panWallSummary.setLocation(10, 319);
 		panRoundResultLabel.setLocation(32, 234);
-		panResult.setLocation(107,75); panResult.setVisible(false);
+		panResult.setLocation(57,75); panResult.setVisible(false);
 		
 		lblExclamation.setSeatCoordinates(EXCLAMATION_LOCS);
 		lblExclamation.setLocation(SEAT1);
@@ -1110,10 +1110,10 @@ public abstract class TableGUI extends JFrame implements GameUI{
 	
 	
 	//TODO start of panel classes
-	protected class PlayerPanel extends JPanel{
+	protected static class PlayerPanel extends JPanel{
 		private static final long serialVersionUID = 2890177422476419820L;
 
-		protected class HandPanel extends JPanel{
+		protected static class HandPanel extends JPanel{
 			private static final long serialVersionUID = -1503172723884599289L;
 			
 			private static final int WIDTH = TILE_BIG_WIDTH*SIZE_HAND, HEIGHT = TILE_BIG_HEIGHT;
@@ -1124,7 +1124,7 @@ public abstract class TableGUI extends JFrame implements GameUI{
 				super();
 				for (int i = 0; i < larryH.length; i++) larryH[i] = new JLabel();
 				
-				for (JLabel l: larryH) l.setIcon(garryTiles[seat][BIG][1]);
+//				for (JLabel l: larryH) l.setIcon(garryTiles[seat][BIG][1]);
 
 				setBounds(0, 0, WIDTH, HEIGHT);
 				setLayout(new GridLayout(1, 14, 0, 0));
@@ -1138,31 +1138,29 @@ public abstract class TableGUI extends JFrame implements GameUI{
 				if (seat == SEAT2 || seat == SEAT3) for (int i = larryH.length-1; i >= 0; i--) add(larryH[i]);
 				else for (int i = 0; i < larryH.length; i++) add(larryH[i]);
 				
-				//add mouse listeners to hand tile labels
-				if (seat == SEAT1) for (int i = 0; i < larryH.length; i++){
-					final int discChoice = i + 1;
-					larryH[i].addMouseListener(new MouseAdapter() {public void mouseClicked(MouseEvent arg0) {__setDiscardChosen(discChoice);}});
-				}
+//				//add mouse listeners to hand tile labels
+//				if (seat == SEAT1) for (int i = 0; i < larryH.length; i++){
+//					final int discChoice = i + 1;
+//					larryH[i].addMouseListener(new MouseAdapter() {public void mouseClicked(MouseEvent arg0) {__setDiscardChosen(discChoice);}});
+//				}
 			}
 			public void getLabels(JLabel[] hLarry){for (int i = 0; i < larryH.length; i++) hLarry[i] = larryH[i];}
 		}
 		
-		protected class MeldsPanel extends JPanel{
+		protected static class MeldsPanel extends JPanel{
 			private static final long serialVersionUID = -830267613586455835L;
 
-			protected class MeldPanel extends JPanel{
+			protected static class MeldPanel extends JPanel{
 				private static final long serialVersionUID = 2970579345629950616L;
-
 				private static final int WIDTH = 108, HEIGHT = 31;
 				
 				protected final JLabel[] larryHM = new JLabel[SIZE_MELD];
 				
 				public MeldPanel(int seat){
-					
 					super();
 					for (int i = 0; i < larryHM.length; i++) larryHM[i] = new JLabel();
 					
-					for (JLabel l: larryHM) l.setIcon(garryTiles[seat][SMALL][34]);
+//					for (JLabel l: larryHM) l.setIcon(garryTiles[seat][SMALL][34]);
 					
 					setBounds(0, 0, WIDTH, HEIGHT);
 					setLayout(new GridLayout(1, 4, 0, 0));
@@ -1180,7 +1178,6 @@ public abstract class TableGUI extends JFrame implements GameUI{
 			}
 			
 			private static final int WIDTH = 474, HEIGHT = 31;
-			
 			protected final MeldPanel[] panelHMs = new MeldPanel[SIZE_MELDPANEL];
 			
 			public MeldsPanel(int seat){
@@ -1205,10 +1202,9 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		private static final int WIDTH = 667, HEIGHT = 78;
 		
 		protected HandPanel panelH;
-		protected MeldsPanel panelHMs;
+		protected MeldsPanel panelMs;
 		
 		public PlayerPanel(int seat){
-			
 			super();
 			
 			if (seat == SEAT2 || seat == SEAT4) setBounds(0, 0, HEIGHT, WIDTH);
@@ -1223,15 +1219,38 @@ public abstract class TableGUI extends JFrame implements GameUI{
 			panelH = new HandPanel(seat);
 			panelH.setLocation(LOCS_H[seat][X], LOCS_H[seat][Y]);
 			
-			panelHMs = new MeldsPanel(seat);
-			panelHMs.setLocation(LOCS_M[seat][X], LOCS_M[seat][Y]);
+			panelMs = new MeldsPanel(seat);
+			panelMs.setLocation(LOCS_M[seat][X], LOCS_M[seat][Y]);
 			
 			add(panelH);
-			add(panelHMs);
+			add(panelMs);
 		}
 		public void getLabelsHand(JLabel[] hLarry){panelH.getLabels(hLarry);}
-		public void getLabelsMelds(JLabel[][] msLarry){panelHMs.getLabels(msLarry);}
+		public void getLabelsMelds(JLabel[][] msLarry){panelMs.getLabels(msLarry);}
 	}
+	
+	
+	
+	
+	protected class PlayerPanelClickable extends PlayerPanel{
+		private static final long serialVersionUID = -8026283033946280711L;
+		
+		public PlayerPanelClickable(int seat){
+			super(seat);
+			
+			//add mouse listeners to hand tile labels
+			if (seat == SEAT1) for (int i = 0; i < this.panelH.larryH.length; i++){
+				final int discChoice = i + 1;
+				panelH.larryH[i].addMouseListener(new MouseAdapter() {public void mouseClicked(MouseEvent arg0) {__setDiscardChosen(discChoice);}});
+			}
+			
+			for (JLabel l: panelH.larryH) l.setIcon(garryTiles[seat][BIG][1]);
+			for (PlayerPanel.MeldsPanel.MeldPanel mp: panelMs.panelHMs) for (JLabel l: mp.larryHM) l.setIcon(garryTiles[seat][SMALL][34]);
+		}
+	}
+	
+	
+	
 	
 	
 	
@@ -1580,6 +1599,23 @@ public abstract class TableGUI extends JFrame implements GameUI{
 	
 	
 	protected static class RoundResultLabelPanel extends JPanel{
+		
+		
+		protected class GayLabel extends JLabel{
+			private static final long serialVersionUID = -464042607L;
+
+			public GayLabel(){
+				super();
+				setText("HIIIIII");
+				setBounds(0, 0, 270, 218);
+				setVerticalAlignment(SwingConstants.TOP);
+			}
+		}
+		
+		
+		
+		
+		
 		private static final long serialVersionUID = 1415387615431328822L;
 		
 		protected final JLabel lblRoundResult = new JLabel();

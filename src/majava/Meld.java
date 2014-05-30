@@ -92,8 +92,8 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	public Meld(Meld other){
 		
 		mTiles = new TileList();
-		
 		for (Tile t: other.mTiles) mTiles.add(t);
+		
 		mOwnerSeatWind = other.mOwnerSeatWind;
 		
 		mClosed = other.mClosed;
@@ -101,7 +101,6 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 		
 		mCompletedTile = other.mCompletedTile;
 		mPlayerResponsible = other.mPlayerResponsible;
-		
 	}
 	
 	

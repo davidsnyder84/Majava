@@ -1,6 +1,6 @@
 package majava;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import majava.enums.Exclamation;
@@ -858,7 +858,7 @@ public class Player {
 	public int getNumMeldsMade(){return mHand.getNumMeldsMade();}
 	
 	//returns a list of the melds that have been made (copy of actual melds), returns an empty list if no melds made
-	public ArrayList<Meld> getMelds(){return mHand.getMelds();}
+	public List<Meld> getMelds(){return mHand.getMelds();}
 	
 	
 	public int getNumKansMade(){return mHand.getNumKansMade();}

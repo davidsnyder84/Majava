@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import majava.Player;
 import majava.enums.Exclamation;
-import majava.graphics.textinterface.TextualUI.PlayerTracker;
 import majava.tiles.Tile;
 import utility.Pauser;
 

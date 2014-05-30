@@ -13,16 +13,16 @@ import utility.GenSort;
 
 /*
 Class: TileList
-a wrapper class for an ArrayList of Tiles. adds extra functionalities
+a wrapper class for an List of Tiles. adds extra functionalities
 
 data:
-	mTiles - an arraylist that holds the list of tiles
+	mTiles - a list that holds the list of tiles
 	mSorter - used to sort the list
 	
 methods:
 	
 	constructors:
-	ArrayList / Takes initial capacity / Takes Array or Var args
+	Takes List / Takes initial capacity / Takes Array or Var args
 	
 	public:
 		mutators:
@@ -34,13 +34,13 @@ methods:
 		getFirst, getLast - returns a tile in the list, returns null if the list is empty
 		subList - returns a sublist, as a TileList from fromIndex (inclusive) to toIndex (exclusive)
 		
-		findAllIndicesOf - searches the list for all occurences of Tile t, returns an ArrayList of integer indices of where that tile occurred
+		findAllIndicesOf - searches the list for all occurences of Tile t, returns a List of integer indices of where that tile occurred
 		makeCopy - returns a copy of the list
 		makeCopyNoDuplicates - returns a copy of the list with no duplicate tiles
 		makeCopyWithCheckers - makes a copy of the list with checkers
 		
 		
-		methods from ArrayList:
+		methods from List:
 		add, remove, size, get, contains, isEmpty, indexOf, lastIndexOf, set, clear, trimToSize, ensureCapacity, iterator
 */
 public class TileList implements Iterable<Tile>{
@@ -49,12 +49,12 @@ public class TileList implements Iterable<Tile>{
 	private static final int DEFAULT_CAPACITY = 10;
 	
 	
-	private final ArrayList<Tile> mTiles;
+	private final List<Tile> mTiles;
 	private final GenSort<Tile> mSorter;
 	
 	
-	//takes an arrayList
-	public TileList(ArrayList<Tile> tiles){
+	//takes a List
+	public TileList(List<Tile> tiles){
 		mTiles = tiles;
 		mSorter = new GenSort<Tile>(mTiles);
 	}
@@ -123,7 +123,7 @@ public class TileList implements Iterable<Tile>{
 	
 	
 	//returns a sublist, as a TileList from fromIndex (inclusive) to toIndex (exclusive)
-	public TileList subList(int fromIndex, int toIndex){return new TileList(new ArrayList<Tile>(mTiles.subList(fromIndex, toIndex)));}
+	public TileList subList(int fromIndex, int toIndex){return new TileList(mTiles.subList(fromIndex, toIndex));}
 	
 	//returns a sublist of the entire list, minus the last tile
 	public TileList getAllExceptLast(){return subList(0, mTiles.size() - 1);}
@@ -168,19 +168,15 @@ public class TileList implements Iterable<Tile>{
 		//disallow more indices than the list has
 		if (removeIndices.size() > mTiles.size()) return false;
 		
-		ArrayList<Integer> seenSoFar = new ArrayList<Integer>();
+		List<Integer> seenSoFar = new ArrayList<Integer>();
 		for (Integer i: removeIndices){
-			
-			//disallow an index outside of the list's size
-			//disallow duplicate indices
+			//disallow an index outside of the list's size, disallow duplicate indices
 			if (i >= mTiles.size() || i < 0 || seenSoFar.contains(i)) return false;
-			
-			seenSoFar.add(i);
+			else seenSoFar.add(i);
 		}
 		
 		//sort the indices in descending order
 		GenSort<Integer> sorter = new GenSort<Integer>(seenSoFar); sorter.sortDescending();
-		
 		
 		//remove the indices
 		for (Integer i: seenSoFar) mTiles.remove((int)i);
@@ -202,9 +198,9 @@ public class TileList implements Iterable<Tile>{
 
 	
 	
-	//finds all indices where a tile occurs in the list, returns the indices as an arraylist of integers
-	public ArrayList<Integer> findAllIndicesOf(Tile t, boolean allowCountingItself){
-		ArrayList<Integer> indices = new ArrayList<Integer>(2);
+	//finds all indices where a tile occurs in the list, returns the indices as a list of integers
+	public List<Integer> findAllIndicesOf(Tile t, boolean allowCountingItself){
+		List<Integer> indices = new ArrayList<Integer>(2);
 		for (int i = 0; i < mTiles.size(); i++)
 			if (mTiles.get(i).equals(t)){
 				if (mTiles.get(i) != t)
@@ -215,7 +211,7 @@ public class TileList implements Iterable<Tile>{
 		return indices;
 	}
 	//overloaded, omitting allowCountingItself will default to false (do not count itself)
-	public ArrayList<Integer> findAllIndicesOf(Tile tile){return findAllIndicesOf(tile, false);}
+	public List<Integer> findAllIndicesOf(Tile tile){return findAllIndicesOf(tile, false);}
 	
 	
 	//allow counting itself
@@ -241,7 +237,7 @@ public class TileList implements Iterable<Tile>{
 	
 	
 	//***************************************************************************************************
-	//****BEGIN ARRAYLIST FUNCS
+	//****BEGIN LIST FUNCS
 	//***************************************************************************************************
 	//add
 	public boolean add(Tile t){return mTiles.add(t);}
@@ -267,9 +263,9 @@ public class TileList implements Iterable<Tile>{
 //	public void ensureCapacity(int minCapacity){mTiles.ensureCapacity(minCapacity);}
 	
 	@Override
-	public Iterator<Tile> iterator(){return mTiles.iterator();}	//returns the arrayList's iterator
+	public Iterator<Tile> iterator(){return mTiles.iterator();}	//returns the List's iterator
 	//***************************************************************************************************
-	//****END ARRAYLIST FUNCS
+	//****END LIST FUNCS
 	//***************************************************************************************************
 	
 	

@@ -6,7 +6,6 @@ import java.util.Map;
 import utility.Pauser;
 import majava.graphics.TableGUI;
 import majava.graphics.textinterface.TextualUI;
-import majava.graphics.textinterface.DetailedTextualUI;
 import majava.tiles.Tile;
 import majava.enums.GameplayEvent;
 import majava.enums.Wind;

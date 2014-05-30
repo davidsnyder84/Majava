@@ -3,6 +3,7 @@ package majava.control.testcode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -40,7 +41,7 @@ public class Majenerator {
 		
 		Player winner = players[windex];
 		Player furi = players[losedex];
-		ArrayList<Meld> winMelds = null;
+		List<Meld> winMelds = null;
 		TileList winHandTiles = null;
 		
 		winHandTiles = new TileList(3+18,4+18,5+18,6+18);

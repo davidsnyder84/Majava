@@ -2,14 +2,15 @@ package utility;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 
 /*
 Class: MahStack
-a wrapper class for ArrayList to simulate stack operations
+a wrapper class for a List to simulate stack operations
 
 data:
-	mList - an arraylist that holds the elements of the stack
+	mList - a list that holds the elements of the stack
 	
 methods:
 	
@@ -30,14 +31,14 @@ methods:
 		
 		
 		other:
-		iterator - the ArrayList's iterator
+		iterator - the List's iterator
 */
 public class MahStack <T extends Comparable<T> > implements Iterable<T>{
 	
 	protected static final int DEFAULT_CAPACITY = 10;
 	
 	
-	private ArrayList<T> mList;
+	private List<T> mList;
 	
 	
 	
@@ -89,7 +90,7 @@ public class MahStack <T extends Comparable<T> > implements Iterable<T>{
 	
 	
 	@Override
-	public Iterator<T> iterator(){return mList.iterator();}	//returns the arrayList's iterator
+	public Iterator<T> iterator(){return mList.iterator();}	//returns the List's iterator
 	
 	
 	

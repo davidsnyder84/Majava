@@ -2,6 +2,7 @@ package majava;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import majava.graphics.TableGUI;
 import majava.graphics.textinterface.TextualUI;
@@ -100,7 +101,7 @@ public class RoundTracker {
 		private TileList tilesH;
 		private TileList tilesP;
 		
-		private ArrayList<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
+		private List<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
 	}
 	
 	private PlayerTracker[] mPTrackers;
@@ -187,7 +188,7 @@ public class RoundTracker {
 //		mPTrackers[numPlayersSynched].points = mPTrackers[numPlayersSynched].player.getPoints();	//NOT LINK
 //		mPTrackers[numPlayersSynched].riichiStatus = mPTrackers[numPlayersSynched].player.getRiichiStatus();	//NOT LINK
 	}
-	public void syncHand(TileList handTiles, ArrayList<Meld> handMelds){
+	public void syncHand(TileList handTiles, List<Meld> handMelds){
 		if (numPlayersSynched > NUM_PLAYERS_TO_TRACK) return;
 		mPTrackers[numPlayersSynched].tilesH = handTiles;
 		mPTrackers[numPlayersSynched].melds = handMelds;

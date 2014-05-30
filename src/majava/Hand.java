@@ -77,7 +77,7 @@ public class Hand implements Iterable<Tile>{
 	
 	
 	private final TileList mTiles;
-	private final ArrayList<Meld> mMelds;
+	private final List<Meld> mMelds;
 	private final HandChecker mChecker;
 	
 	private final Wind mOwnerSeatWind;
@@ -112,8 +112,8 @@ public class Hand implements Iterable<Tile>{
 	}
 	
 	//returns a list of the melds that have been made (copy of actual melds), returns an empty list if no melds made
-	public ArrayList<Meld> getMelds(){
-		ArrayList<Meld> meldList = new ArrayList<Meld>(0); 
+	public List<Meld> getMelds(){
+		List<Meld> meldList = new ArrayList<Meld>(mNumMeldsMade); 
 		for (int i = 0; i < mNumMeldsMade; i++)
 			meldList.add(new Meld(mMelds.get(i)));
 		
@@ -218,7 +218,7 @@ public class Hand implements Iterable<Tile>{
 
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	//~~~~BEGIN MELD CHEKCERS
+	//~~~~BEGIN MELD CHECKERS
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
 	/*
@@ -253,7 +253,7 @@ public class Hand implements Iterable<Tile>{
 //	public int numberOfCallsPossible(){return mChecker.numberOfCallsPossible();}
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	//~~~~END MELD CHEKCERS
+	//~~~~END MELD CHECKERS
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
 	
@@ -322,7 +322,7 @@ public class Hand implements Iterable<Tile>{
 		TileList handTiles = new TileList();
 		Tile candidate;
 		int candidateIndex;
-		ArrayList<Integer> partnerIndices;
+		List<Integer> partnerIndices;
 		
 		final int NUM_PARTNERS_NEEDED_TO_KAN = 3;
 		
@@ -423,7 +423,7 @@ public class Hand implements Iterable<Tile>{
 	public String DEMOpartnerIndicesString(MeldType meldType, boolean wantActualTiles){
 		
 		String partnersString = "";
-		ArrayList<Integer> wantedIndices = null;
+		List<Integer> wantedIndices = null;
 		wantedIndices = mChecker.getPartnerIndices(meldType);
 		
 		for (Integer i: wantedIndices)
@@ -436,9 +436,9 @@ public class Hand implements Iterable<Tile>{
 	public String DEMOpartnerIndicesString(MeldType meldType){return DEMOpartnerIndicesString(meldType, false);}
 	
 	//returns a list of hot tile IDs for ALL tiles in the hand
-	public ArrayList<Integer> DEMOfindAllHotTiles(){return mChecker.DEMOfindAllHotTiles();}
+	public List<Integer> DEMOfindAllHotTiles(){return mChecker.DEMOfindAllHotTiles();}
 	//returns a list of callable tile IDs for ALL tiles in the hand
-	public ArrayList<Integer> DEMOfindAllCallableTiles(){return mChecker.DEMOfindAllCallableTiles();}
+	public List<Integer> DEMOfindAllCallableTiles(){return mChecker.DEMOfindAllCallableTiles();}
 	
 	public HandChecker DEMOgetChecker(){return mChecker;}
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

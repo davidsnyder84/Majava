@@ -1,7 +1,6 @@
 package majava.graphics.textinterface;
 
 import java.io.PrintStream;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +13,6 @@ import majava.Wall;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 import majava.graphics.userinterface.GameUI;
-import majava.tiles.Tile;
 
 
 

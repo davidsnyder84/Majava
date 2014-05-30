@@ -87,7 +87,7 @@ public class HandChecker {
 	
 	private Hand mHand;
 	private TileList mHandTiles;
-	private ArrayList<Meld> mHandMelds;
+	private List<Meld> mHandMelds;
 	
 	private boolean mClosed;
 	private boolean mTenpaiStatus;
@@ -95,7 +95,7 @@ public class HandChecker {
 	
 	//call flags and partner index lists
 	private boolean mCanChiL, mCanChiM, mCanChiH, mCanPon, mCanKan, mCanRon, mCanPair;
-	private ArrayList<Integer> mPartnerIndicesChiL, mPartnerIndicesChiM, mPartnerIndicesChiH, mPartnerIndicesPon, mPartnerIndicesKan, mPartnerIndicesPair;
+	private List<Integer> mPartnerIndicesChiL, mPartnerIndicesChiM, mPartnerIndicesChiH, mPartnerIndicesPon, mPartnerIndicesKan, mPartnerIndicesPair;
 	private Tile mCallCandidate;
 	
 	private boolean mCanAnkan, mCanMinkan, mCanRiichi, mCanTsumo;
@@ -105,14 +105,14 @@ public class HandChecker {
 	
 	
 	private boolean pairHasBeenChosen = false;
-	private ArrayList<Meld> mFinishingMelds;
+	private List<Meld> mFinishingMelds;
 	
 	private TileList mTenpaiWaits;
 	
 	
 	
 	//creates a LINK between this and the hand's tiles/melds
-	public HandChecker(Hand hand, TileList handTiles, ArrayList<Meld> handMelds){
+	public HandChecker(Hand hand, TileList handTiles, List<Meld> handMelds){
 		mHand = hand;
 		mHandTiles = handTiles;
 		mHandMelds = handMelds;
@@ -170,7 +170,7 @@ public class HandChecker {
 	
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	//~~~~BEGIN MELD CHEKCERS
+	//~~~~BEGIN MELD CHECKERS
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
 	/*
@@ -447,7 +447,7 @@ public class HandChecker {
 	
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	//~~~~END MELD CHEKCERS
+	//~~~~END MELD CHECKERS
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
 	
@@ -482,10 +482,10 @@ public class HandChecker {
 	//---------------------------------------------------------------------------------------------------
 	
 	//returns a list of hot tile IDs for ALL tiles in the hand
-	private ArrayList<Integer> __findAllHotTiles(){
+	private List<Integer> __findAllHotTiles(){
 
-		ArrayList<Integer> allHotTileIds = new ArrayList<Integer>(16);
-		ArrayList<Integer> singleTileHotTiles = null;
+		List<Integer> allHotTileIds = new ArrayList<Integer>(16);
+		List<Integer> singleTileHotTiles = null;
 		
 		//get hot tiles for each tile in the hand
 		for (Tile t: mHandTiles){
@@ -504,9 +504,9 @@ public class HandChecker {
 	if (t is not honor): add all possible chi partners to the list
 	return list
 	*/
-	private static ArrayList<Integer> __findHotTilesOfTile(Tile t){
+	private static List<Integer> __findHotTilesOfTile(Tile t){
 		
-		ArrayList<Integer> hotTileIds = new ArrayList<Integer>(1); 
+		List<Integer> hotTileIds = new ArrayList<Integer>(5); 
 		int id = t.getId(); char face = t.getFace();
 		
 		//a tile is always its own hot tile (pon/kan/pair)
@@ -519,7 +519,6 @@ public class HandChecker {
 			if (face != '9') hotTileIds.add(id + 1);
 			if (face != '8' && face != '9') hotTileIds.add(id + 2);
 		}
-		
 		//return list of integer IDs
 		return hotTileIds;
 	}
@@ -530,10 +529,10 @@ public class HandChecker {
 	//xxxxBEGIN DEMO METHODS
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	//returns a list of callable tile IDs for ALL tiles in the hand
-	private ArrayList<Integer> __findAllCallableTiles(){
+	private List<Integer> __findAllCallableTiles(){
 		
-		ArrayList<Integer> allCallableTileIds = new  ArrayList<Integer>(4);
-		ArrayList<Integer> hotTileIds = new ArrayList<Integer>(34);
+		List<Integer> allCallableTileIds = new  ArrayList<Integer>(4);
+		List<Integer> hotTileIds = new ArrayList<Integer>(34);
 		
 		final boolean TEST_ALL_TILES = false;
 		
@@ -549,8 +548,8 @@ public class HandChecker {
 		
 		return allCallableTileIds;
 	}
-	public ArrayList<Integer> DEMOfindAllCallableTiles(){return __findAllCallableTiles();}
-	public ArrayList<Integer> DEMOfindAllHotTiles(){return __findAllHotTiles();}
+	public List<Integer> DEMOfindAllCallableTiles(){return __findAllCallableTiles();}
+	public List<Integer> DEMOfindAllHotTiles(){return __findAllHotTiles();}
 	public void findAllMachis(){}
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	//xxxxEND DEMO METHODS
@@ -1198,19 +1197,16 @@ public class HandChecker {
 	
 	
 	//returns the partner indices list for a given meld type
-	public ArrayList<Integer> getPartnerIndices(MeldType meldType){
-		
-		ArrayList<Integer> wantedIndices = null;
+	public List<Integer> getPartnerIndices(MeldType meldType){
 		switch (meldType){
-		case CHI_L: wantedIndices = mPartnerIndicesChiL; break;
-		case CHI_M: wantedIndices = mPartnerIndicesChiM; break;
-		case CHI_H: wantedIndices = mPartnerIndicesChiH; break;
-		case PON: wantedIndices = mPartnerIndicesPon; break;
-		case KAN: wantedIndices = mPartnerIndicesKan; break;
-		case PAIR: wantedIndices = mPartnerIndicesPair; break;
-		default: break;
+		case CHI_L: return mPartnerIndicesChiL;
+		case CHI_M: return mPartnerIndicesChiM;
+		case CHI_H: return mPartnerIndicesChiH;
+		case PON: return mPartnerIndicesPon;
+		case KAN: return mPartnerIndicesKan;
+		case PAIR: return mPartnerIndicesPair;
+		default: return null;
 		}
-		return wantedIndices;
 	}
 	
 	//returns mCallCandidate

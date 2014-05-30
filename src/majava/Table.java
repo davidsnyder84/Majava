@@ -42,6 +42,7 @@ public class Table {
 //	private static final boolean DEBUG_SHUFFLE_SEATS = false;
 //	private static final boolean DEBUG_USE_SMALL_VIEWER = false;
 	private static final boolean DEBUG_USE_SMALL_VIEWER = true;
+	private static final boolean DEBUG_USE_SPARSE_TEXT = true;
 	
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	private static final boolean DEFAULT_DO_SINGLE_PLAYER = true;
@@ -120,8 +121,10 @@ public class Table {
 		return g;
 	}
 	private TextualUI __generateTextInterface(){
-		return new DetailedTextualUI();
-//		return new SparseTextualUI();
+		TextualUI u;
+		if (DEBUG_USE_SPARSE_TEXT) u = new SparseTextualUI();
+		else u = new DetailedTextualUI();
+		return u;
 	}
 	
 	

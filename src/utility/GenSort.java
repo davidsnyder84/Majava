@@ -1,18 +1,18 @@
 package utility;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
 
 /*
 Class: GenSort
-contains operations for sorting an ArrayList in various ways
+contains operations for sorting a List in various ways
 
 methods:
 	
 	constructors:
-	Requires an arraylist, associates this sorter with the arraylist
+	Requires a list, associates this sorter with the list
 	
 	public:
 		mutators:
@@ -24,11 +24,11 @@ public class GenSort <T extends Comparable<T> > {
 	private static final int INVALID_LIST_LENGTH = -1;
 	
 	
-	private ArrayList<T> mListToSort;
+	private List<T> mListToSort;
 	private int mListLength;
 	
-	//1-arg constructor, takes an arraylist
-	public GenSort(ArrayList<T> list){
+	//takes a list
+	public GenSort(List<T> list){
 		
 		if (list != null){
 			mListToSort = list;
@@ -115,7 +115,6 @@ public class GenSort <T extends Comparable<T> > {
 			mListToSort.set(swapIndex, temp);
 		}
 	}
-	
 	
 	
 	//checks the list length (must be done before a sort)

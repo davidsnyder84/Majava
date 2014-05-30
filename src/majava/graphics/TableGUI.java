@@ -32,6 +32,7 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -335,7 +336,7 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		//private boolean riichiStatus;
 		//private String playerName;
 		
-		//private ArrayList<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
+		//private List<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
 		
 		public PlayerTracker(Player p, TileList tH, TileList tP){
 			player = p;
@@ -529,7 +530,7 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		
 		
 		//update melds
-		ArrayList<Meld> meldList = null;
+		List<Meld> meldList = null;
 		TileList tList = null;
 		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
 			meldList = mPTrackers[currentPlayer].player.getMelds();

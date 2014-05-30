@@ -1,6 +1,7 @@
 package majava;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import majava.graphics.TableGUI;
 import majava.graphics.textinterface.TextualUI;
@@ -88,7 +89,7 @@ public class Game {
 	private GameType mGameType;
 	private boolean mGameIsOver;
 	private int mNumRoundsPlayed;
-	private ArrayList<String> mWinStrings;
+	private List<String> mWinStrings;
 
 	private TableGUI mTviewer;
 	private TextualUI mTextinterface;

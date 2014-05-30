@@ -1,6 +1,7 @@
 package majava.tiles;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import majava.enums.MeldType;
 import utility.MahStack;
@@ -54,9 +55,9 @@ public class HandCheckerTile extends Tile {
 	public boolean mstackIsEmpty(){return mMeldTypeStack.isEmpty();}
 	
 	//returns a list of the partner IDs for the top meldType on the stack
-	public ArrayList<Integer> mstackTopParterIDs(){
+	public List<Integer> mstackTopParterIDs(){
 		
-		ArrayList<Integer> partnerIDs = new ArrayList<Integer>(2);
+		List<Integer> partnerIDs = new ArrayList<Integer>(2);
 		
 		int id = getId();
 		switch(mMeldTypeStack.top()){

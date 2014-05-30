@@ -1,6 +1,7 @@
 package majava;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import majava.enums.Wind;
@@ -38,48 +39,44 @@ methods:
 public class RoundResult {
 	
 	
-//	public class RoundResultSummary {
-//		
-//		private final boolean pRoundIsOver;
-//		
-//		private final Result pResult;
-//		private final WinType pWinType;
-//
-//
-//		private final PlayerSummary pWinningPlayer;
-//		private final PlayerSummary pFurikondaPlayer;
-//		
-//		private final Tile pWinningTile;
-//		
-//		
-//		private final TileList mWinnerHand;
-//		private final ArrayList<Meld> mWinnerMelds;
-//		
-//		private final Map<PlayerSummary,Integer> mPayments;
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		public RoundResultSummary(boolean roundIsOver, Result result, WinType winType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, Tile winningTile, TileList winnerHand, ArrayList<Meld> winnerMelds, Map<PlayerSummary,Integer> payments){
-//			pRoundIsOver = roundIsOver;
-//			pResult = result;
-//			pWinType = winType;
-//			pWinningPlayer = winningPlayer;
-//			pFurikondaPlayer = furikondaPlayer;
-//			pWinningTile = winningTile;
-////			mWinnerHand = 
-////			mWinnerMelds = 
-////			mPayments = 
-//		}
-//		
-//		
-//		
-//	}
+	public class RoundResultSummary {
+		
+		private final boolean pRoundIsOver;
+		
+		private final Result pResult;
+		private final WinType pWinType;
+
+
+		private final PlayerSummary pWinningPlayer;
+		private final PlayerSummary pFurikondaPlayer;
+		
+		private final Tile pWinningTile;
+		
+		
+		private final TileList pWinnerHand;
+		private final List<Meld> pWinnerMelds;
+		
+		private final Map<PlayerSummary,Integer> pPayments;
+		
+		
+		
+		public RoundResultSummary(boolean roundIsOver, Result result, WinType winType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, Tile winningTile, TileList winnerHand, List<Meld> winnerMelds, Map<PlayerSummary,Integer> payments){
+			pRoundIsOver = roundIsOver;
+			pResult = result;
+			pWinType = winType;
+			pWinningPlayer = winningPlayer;
+			pFurikondaPlayer = furikondaPlayer;
+			pWinningTile = winningTile.clone();
+			pWinnerHand = mWinnerHand.makeCopy();
+			pWinnerMelds = mWinnerMelds;
+			pPayments = null;
+		}
+	}
+	
+	
+	
+	
+	
 	
 	
 	private enum Result{
@@ -140,7 +137,7 @@ public class RoundResult {
 
 	
 	private TileList mWinnerHand;
-	private ArrayList<Meld> mWinnerMelds;
+	private List<Meld> mWinnerMelds;
 	
 	private Map<Player,Integer> mPayments;
 	
@@ -157,11 +154,6 @@ public class RoundResult {
 		
 		mRoundIsOver = false;
 	}
-	
-	
-	
-	
-	
 	
 
 	private void __setRoundOver(Result result){
@@ -203,7 +195,7 @@ public class RoundResult {
 	}
 	
 	
-	public void setWinningHand(TileList handTiles, ArrayList<Meld> melds, Tile winningTile){
+	public void setWinningHand(TileList handTiles, List<Meld> melds, Tile winningTile){
 		mWinnerHand = handTiles;
 		mWinnerMelds = melds;
 		setWinningTile(winningTile);

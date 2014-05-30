@@ -2,6 +2,7 @@ package majava.control.testcode;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import majava.Hand;
@@ -198,7 +199,7 @@ public class DemoHandGen {
 		
 		int meldWhich = -1;
 		MeldType chosenMeld;
-		ArrayList<MeldType> validMelds = null;
+		List<MeldType> validMelds = null;
 		
 		int howManyOfThisInHand = -1;
 		

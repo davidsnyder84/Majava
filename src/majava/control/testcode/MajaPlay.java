@@ -172,7 +172,7 @@ public class MajaPlay {
 
 		//chiitoi tenpai hands (should show true)
 		println("\n\nGOOD TENPAIS=====================\n");
-		ArrayList<TileList> tlists = new ArrayList<TileList>(8);
+		List<TileList> tlists = new ArrayList<TileList>(8);
 		tlists.add(new TileList(1,1,3,3,5,5,7,7,9,9,11,11,13));
 		tlists.add(new TileList(1,1,3,3,5,5,7,7,9,9,11,13,13));
 		tlists.add(new TileList(1,1,3,3,5,5,7,7,9,11,11,13,13));
@@ -197,7 +197,7 @@ public class MajaPlay {
 		
 		//NOT chiitoi tenpai hands (should show false)
 		println("\n\nBAD TENPAIS=====================\n");
-		ArrayList<TileList> badtlists = new ArrayList<TileList>(8);
+		List<TileList> badtlists = new ArrayList<TileList>(8);
 		badtlists.add(new TileList(1,1,1,1,5,5,7,7,9,9,11,11,13));
 		badtlists.add(new TileList(1,1,1,1,5,6,7,7,9,9,11,11,13,13));
 		badtlists.add(new TileList(1,1,5,5,7,7,9,9,11,11,13));
@@ -410,8 +410,8 @@ public class MajaPlay {
 
 		println(h.toString());
 		
-		ArrayList<Integer> hots = h.DEMOfindAllHotTiles();
-		ArrayList<Integer> callables = h.DEMOfindAllCallableTiles();
+		List<Integer> hots = h.DEMOfindAllHotTiles();
+		List<Integer> callables = h.DEMOfindAllCallableTiles();
 		
 		
 		
@@ -441,7 +441,7 @@ public class MajaPlay {
 
 	public static void nextTileTest(){
 		
-		ArrayList<Tile> tiles = new ArrayList<Tile>(10);
+		List<Tile> tiles = new ArrayList<Tile>(10);
 
 		tiles.add(new Tile("S2"));
 		tiles.add(new Tile("P6"));
@@ -486,7 +486,7 @@ public class MajaPlay {
 		Tile q = null;
 		q = new Tile(4);
 		
-		ArrayList<Tile> discards = new ArrayList<Tile>(10);
+		List<Tile> discards = new ArrayList<Tile>(10);
 		discards.add(new Tile(12));
 		discards.add(new Tile(34));
 		discards.add(new Tile(7));
@@ -635,7 +635,7 @@ public class MajaPlay {
 	
 	public static void testContains(){
 		
-		ArrayList<Tile> tiles = new ArrayList<Tile>();
+		List<Tile> tiles = new ArrayList<Tile>();
 		
 		Tile t2 = new Tile(2);
 		
@@ -662,7 +662,7 @@ public class MajaPlay {
 		h.addTile(new Tile(2));
 		
 		
-		ArrayList<Integer> hots = new ArrayList<Integer>(0);
+		List<Integer> hots = new ArrayList<Integer>(0);
 		hots = h.DEMOfindAllHotTiles();
 		
 		println(h.toString());

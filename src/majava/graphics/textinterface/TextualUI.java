@@ -1,6 +1,7 @@
 package majava.graphics.textinterface;
 
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,7 @@ import majava.Wall;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 import majava.graphics.userinterface.GameUI;
+import majava.tiles.Tile;
 
 
 
@@ -93,10 +95,11 @@ public abstract class TextualUI implements GameUI{
 	protected abstract void __showExclamation(Exclamation exclamation, int seat);
 	
 	
+	
 
-	
-	
-	protected abstract void __showHandsOfAllPlayers();
+	protected void __showHandsOfAllPlayers(){println(); for (PlayerTracker pt: mPTrackers) __showPlayerHand(pt.player); println();}
+	protected void __showPlayerHand(int seatNum){__showPlayerHand(mPTrackers[seatNum].player);}
+	protected abstract void __showPlayerHand(Player p);
 	
 	protected abstract void __showWall();
 	protected abstract void __showDeadWall();
@@ -112,12 +115,11 @@ public abstract class TextualUI implements GameUI{
 	
 	
 	
-	public void setSleepTimeExclamation(int sleepTime){mSleepTimeExclamation = sleepTime;};
+	public final void setSleepTimeExclamation(int sleepTime){mSleepTimeExclamation = sleepTime;};
 	
 	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, Pond[] pPonds, Wall wall){
 		
 		mRoundTracker = rTracker;
-		
 		
 		mPTrackers = new PlayerTracker[NUM_PLAYERS_TO_TRACK];
 		for (int i = 0; i < NUM_PLAYERS_TO_TRACK; i++) mPTrackers[i] = new PlayerTracker(pPlayers[i], pHands[i], pPonds[i]);
@@ -126,8 +128,8 @@ public abstract class TextualUI implements GameUI{
 	}
 	
 	
-	public void println(String printString){mOutStream.println(printString);}
-	public void println(){println("");}
+	public void println(String printString){mOutStream.println(printString);}public void println(){println("");}
+	public void print(String printString){mOutStream.print(printString);}public void print(){print("");}
 	
 	public void printErrorRoundAlreadyOver(){println("----Error: Round is already over, cannot play");}
 	

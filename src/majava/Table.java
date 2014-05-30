@@ -120,8 +120,8 @@ public class Table {
 		return g;
 	}
 	private TextualUI __generateTextInterface(){
-//		return new DetailedTextualUI();
-		return new SparseTextualUI();
+		return new DetailedTextualUI();
+//		return new SparseTextualUI();
 	}
 	
 	

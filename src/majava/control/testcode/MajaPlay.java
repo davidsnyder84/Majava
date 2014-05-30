@@ -501,8 +501,8 @@ public class MajaPlay {
 			discards.remove(0);
 
 			println();
-			p.showHand();
-			p.showMelds();
+			println(p.getAsStringHand());
+//			p.showMelds();
 			println("\nDiscarded tile: " + q.toString() + "\n");
 			
 
@@ -537,8 +537,8 @@ public class MajaPlay {
 		}
 
 		println();
-		p.showHand();
-		p.showMelds();
+		println(p.getAsStringHand());
+//		p.showMelds();
 
 		
 	}
@@ -566,7 +566,7 @@ public class MajaPlay {
 		Tile q = null;
 		q = new Tile(4);
 		
-		p.showHand();
+		println(p.getAsStringHand());
 		println("\nDiscarded tile: " + q.toString() + "\n");
 		
 

@@ -65,7 +65,7 @@ public class DemoHandGen {
 			System.out.println(currentHand.toString() + "\n");
 			
 			success = currentHand.DEMOgetChecker().DEMOisComplete();
-			currentHand.showMeldsCompact();
+			System.out.println(currentHand.getAsStringMeldsCompact());
 			System.out.println("Hand is complete normal?: " + success);
 			
 			if (success == false){
@@ -177,7 +177,7 @@ public class DemoHandGen {
 		
 		Hand hand = generateCompleteHand();
 
-		int removeIndex = random.nextInt(hand.getSize());
+		int removeIndex = random.nextInt(hand.size());
 		hand.removeTile(removeIndex);
 		
 		return hand; 

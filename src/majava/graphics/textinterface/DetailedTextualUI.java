@@ -2,8 +2,10 @@ package majava.graphics.textinterface;
 
 
 import utility.Pauser;
+import majava.Player;
 import majava.TileList;
 import majava.enums.Exclamation;
+import majava.tiles.Tile;
 
 public class DetailedTextualUI extends TextualUI{
 	
@@ -27,7 +29,7 @@ public class DetailedTextualUI extends TextualUI{
 		//show the discarded tile and the discarder's pond
 		println("\n\n\tTiles left: " + mRoundTracker.getNumTilesLeftInWall());
 		println("\t" + mRoundTracker.currentPlayer().getSeatWind() + " Player's discard: ^^^^^" + mRoundTracker.getMostRecentDiscard().toString() + "^^^^^");
-		mRoundTracker.currentPlayer().showPond();
+		println("\t" + mRoundTracker.currentPlayer().getAsStringPond());
 	}
 	
 	
@@ -45,7 +47,7 @@ public class DetailedTextualUI extends TextualUI{
 	}
 
 	protected void __displayEventHumanTurnStart(){
-		mRoundTracker.currentPlayer().showHand();
+		__showPlayerHand(mRoundTracker.currentPlayer());
 	}
 	
 	protected void __displayEventStartOfRound(){
@@ -70,8 +72,8 @@ public class DetailedTextualUI extends TextualUI{
 	
 	
 	
-	//prints the hands of each player
-	protected void __showHandsOfAllPlayers(){for (PlayerTracker pt: mPTrackers) pt.player.showHand();}
+	//prints the hand of a player
+	protected void __showPlayerHand(Player p){println(p.getAsStringHand());}
 	
 	protected void __showWall(){println(mWall.toString());}
 	

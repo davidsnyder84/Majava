@@ -8,6 +8,7 @@ import majava.enums.GameplayEvent;
 import majava.enums.Wind;
 import majava.graphics.TableGUI;
 import majava.graphics.textinterface.TextualUI;
+import majava.summary.PlayerSummary;
 import majava.tiles.Tile;
 
 /*
@@ -398,7 +399,7 @@ public class Player {
 		//auto discard if in riichi (if unable to tsumo/kan)
 		if (mRiichiStatus && (!ableToTsumo() && !ableToAnkan())){
 			mTurnAction = ActionType.DISCARD;
-			mChosenDiscardIndex = mHand.getSize() - 1;
+			mChosenDiscardIndex = mHand.size() - 1;
 			return;
 		}
 		
@@ -470,7 +471,7 @@ public class Player {
 		//choose the first tile in the hand
 		if (COM_BEHAVIOR == ComBehavior.DISCARD_FIRST) chosenDiscardIndex = 0;
 		//choose the last tile in the hand (most recently drawn one)
-		if (COM_BEHAVIOR == ComBehavior.DISCARD_LAST) chosenDiscardIndex = mHand.getSize() - 1;
+		if (COM_BEHAVIOR == ComBehavior.DISCARD_LAST) chosenDiscardIndex = mHand.size() - 1;
 		
 		
 //		if (mSeatWind == Wind.NORTH)chosenDiscardIndex = mHand.getSize() - 1;
@@ -802,7 +803,7 @@ public class Player {
 	
 	
 	//accessors
-	public int getHandSize(){return mHand.getSize();}
+	public int getHandSize(){return mHand.size();}
 	public Wind getSeatWind(){return mSeatWind;}
 	public boolean isDealer(){return mSeatWind == Wind.EAST;}
 	
@@ -821,8 +822,7 @@ public class Player {
 	
 	
 	
-	//returns call status as a string
-	public String getCallStatusString(){return mCallStatus.toString();}
+	//returns call status as an exclamation
 	public Exclamation getCallStatusExclamation(){return mCallStatus.toExclamation();}
 	
 	//returns true if the player called a tile
@@ -849,6 +849,7 @@ public class Player {
 	
 	
 	public boolean holdingRinshan(){return mHoldingRinshanTile;}
+	public Tile getTsumoTile(){return mHand.getTile(mHand.size());}
 	
 	
 	public boolean handIsFullyConcealed(){return mHand.isClosed();}
@@ -869,10 +870,9 @@ public class Player {
 	
 	
 	//mutator for seat wind
-//	public void setSeatWind(Wind wind){mSeatWind = wind;}
 	private void __setSeatWind(Wind wind){mSeatWind = wind;}
-	
 	public void rotateSeat(){__setSeatWind(mSeatWind.prev());}
+	
 	public void setSeatWindEast(){__setSeatWind(Wind.EAST);}
 	public void setSeatWindSouth(){__setSeatWind(Wind.SOUTH);}
 	public void setSeatWindWest(){__setSeatWind(Wind.WEST);}
@@ -948,28 +948,32 @@ public class Player {
 	
 	
 	
-
-	//show the player's hand
-	public void showHand(){
-		System.out.print("\n" + mSeatWind + " Player's hand (controller: " + getControllerAsString() + ", " + mPlayerName + "):");
-		if (mHand.getTenpaiStatus() == true) System.out.print("     $$$$!Tenpai!$$$$");
-		System.out.println("\n" + mHand.toString());
-	}
-	//show player's melds
-	public void showMelds(){mHand.showMelds();}
-	
-	//show pond
-	public void showPond(){
-		System.out.println("\t" + mSeatWind + " Player's pond " + mController + ":\n" + mPond.toString());
-	}
-	public String getPondAsString(){
+	//get pond as string
+	public String getAsStringPond(){
 		return (mSeatWind + " Player's pond:\n" + mPond.toString());
 	}
+	//get hand as string
+	public String getAsStringHand(){
+		String hs = "";
+		hs += mSeatWind + " Player's hand (controller: " + getControllerAsString() + ", " + mPlayerName + "):";
+		if (mHand.getTenpaiStatus()) hs += "     $$$$!Tenpai!$$$$";
+		hs += "\n" + mHand.toString();
+		return hs;
+	}
+	public String getAsStringHandCompact(){
+		String hs = "";
+		hs += mSeatWind.toChar() + " hand: ";
+		for (Tile t: mHand) hs += t + " ";
+		return hs;
+	}
 	
 	
 	
 	
-	
+	public PlayerSummary getPlayerSummary(){
+		PlayerSummary summary = new PlayerSummary(mPlayerName, mPlayerID, mController.toString(), mSeatWind, mPoints);
+		return summary;
+	}
 	
 	
 	

@@ -243,28 +243,21 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	//toString
 	@Override
 	public String toString(){
-		
 		String meldString = "";
 		
-		//add the tiles to the string
-		for (Tile t: mTiles)
-			meldString += t.toString() + " ";
+		for (Tile t: mTiles) meldString += t.toString() + " ";
 		
 		//show closed or open
-		if (mClosed == true)
-			meldString += "  [Closed]";
-		else
-			meldString += "  [Open, called from: " + mPlayerResponsible + "'s " + mCompletedTile.toString() + "]";
+		if (mClosed == true) meldString += "  [Closed]";
+		else meldString += "  [Open, called from: " + mPlayerResponsible + "'s " + mCompletedTile.toString() + "]";
 		
 		return meldString;
 	}
 	public String toStringCompact(){
-		
 		String meldString = "";
-		//add the tiles to the string
-		for (Tile t: mTiles) meldString += t.toString() + " ";
-		if (meldString != "") meldString = meldString.substring(0, meldString.length() - 1);
+		for (Tile t: mTiles) meldString += t + " ";
 		
+		if (meldString != "") meldString = meldString.substring(0, meldString.length() - 1);
 		return meldString;
 	}
 	

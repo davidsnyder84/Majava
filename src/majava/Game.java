@@ -226,7 +226,7 @@ public class Game {
 	public boolean gameIsOver(){
 		if (mGameIsOver) return true;
 		
-		for (Player p: mPlayerArray) if (p.getPoints() < 0) return mGameIsOver = true;
+		for (Player p: mPlayerArray) if (mGameType != GameType.SIMULATION && p.getPoints() < 0) return mGameIsOver = true;
 		
 		switch (mGameType){
 		case SINGLE: return mGameIsOver = (mCurrentRoundNum > 1 || mCurrentRoundBonusNum > 0);

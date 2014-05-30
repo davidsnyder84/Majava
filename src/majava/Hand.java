@@ -122,7 +122,7 @@ public class Hand implements Iterable<Tile>{
 	
 	
 	
-	public int getSize(){return mTiles.size();}
+	public int size(){return mTiles.size();}
 	public boolean isClosed(){return mChecker.getClosedStatus();}
 	public int getNumMeldsMade(){return mNumMeldsMade;}
 	
@@ -459,20 +459,17 @@ public class Hand implements Iterable<Tile>{
 	
 	
 	
-	//prints all melds to the screen
-	public void showMelds(){
-		for (int i = 0; i < mMelds.size(); i++)
-			System.out.println("+++Meld " + (i+1) + ": " + mMelds.get(i).toString());
+	//string representation of all melds
+	public String getAsStringMelds(){
+		String ms = ""; int mnum = 0;
+		for (Meld m: mMelds) ms += "+++Meld " + (++mnum) + ": " + m;
+		return ms;
 	}
-	
-	//prints all melds to the screen
-	public void showMeldsCompact(){
-		
-		String meldsString = "";
-		for (Meld m: mMelds)
-			meldsString += "[" + m.toStringCompact() + "] ";
-		
-		System.out.println(meldsString);
+	//compact string representation of all melds
+	public String getAsStringMeldsCompact(){
+		String ms = "";
+		for (Meld m: mMelds) ms += "[" + m.toStringCompact() + "] ";
+		return ms;
 	}
 	
 	

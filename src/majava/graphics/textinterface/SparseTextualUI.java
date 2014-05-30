@@ -1,6 +1,10 @@
 package majava.graphics.textinterface;
 
+import java.util.Arrays;
+
+import majava.Player;
 import majava.enums.Exclamation;
+import majava.graphics.textinterface.TextualUI.PlayerTracker;
 import majava.tiles.Tile;
 import utility.Pauser;
 
@@ -17,7 +21,7 @@ public class SparseTextualUI extends TextualUI{
 	protected void __displayEventDiscardedTile(){
 		
 		//show the discarded tile
-		println("\t" + mRoundTracker.currentPlayer().getSeatWind().toChar() + " Player discard: " + mRoundTracker.getMostRecentDiscard().toString());
+		println("\t" + mRoundTracker.currentPlayer().getSeatWind().toChar() + " discard: " + mRoundTracker.getMostRecentDiscard().toString());
 //		mRoundTracker.currentPlayer().showPond();
 	}
 	
@@ -26,7 +30,9 @@ public class SparseTextualUI extends TextualUI{
 	
 	
 	protected void __displayEventMadeOpenMeld(){}
-	protected void __displayEventDrewTile(){}
+	protected void __displayEventDrewTile(){
+		print("\t" + mRoundTracker.currentPlayer().getSeatWind().toChar() + " draw: " + mRoundTracker.currentPlayer().getTsumoTile());
+	}
 	protected void __displayEventMadeOwnKan(){}
 	
 	
@@ -36,7 +42,7 @@ public class SparseTextualUI extends TextualUI{
 	}
 	
 	protected void __displayEventHumanTurnStart(){
-		__showPlayerHand(mRoundTracker.whoseTurn());
+		println();__showPlayerHand(mRoundTracker.whoseTurn());
 	}
 	
 	protected void __displayEventStartOfRound(){
@@ -60,14 +66,9 @@ public class SparseTextualUI extends TextualUI{
 	
 	
 	
-	
-	//prints the hands of each player
-	protected void __showHandsOfAllPlayers(){println(); for (int seatNum = 0; seatNum < 4; seatNum++) __showPlayerHand(seatNum); println();}
-	protected void __showPlayerHand(int seatNum){
-		String handString = mPTrackers[seatNum].player.getSeatWind().toChar() + " hand: ";
-		for (Tile t: mPTrackers[seatNum].hand) handString += t + " ";
-		println(handString);
-	}
+	//prints the hands of a player
+	protected void __showPlayerHand(int seatNum){__showPlayerHand(mPTrackers[seatNum].player);}
+	protected void __showPlayerHand(Player p){println(p.getAsStringHandCompact());}
 	
 	protected void __showWall(){println(mWall.toString());}
 	protected void __showDoraIndicators(){println(",,,New Dora Indicator: " + mWall.getDoraIndicators().getLast());}
@@ -95,12 +96,6 @@ public class SparseTextualUI extends TextualUI{
 			println("..." + mRoundTracker.getWindOfSeat(seat) + " Player called " + exclamationToString.get(exclamation).toUpperCase() + " on the tile (" + mRoundTracker.getMostRecentDiscard().toString() + ")");
 		else
 			println(",,," + mRoundTracker.getWindOfSeat(seat) + " Player declared " + exclamationToString.get(exclamation).toUpperCase());
-		
-//		//if multiple players called, show if someone got bumped by priority 
-//		for (Player p: mPlayerArray)
-//			if (p.called() && p != priorityCaller)
-//				System.out.println("~~~~~~~~~~" + p.getSeatWind() + " Player tried to call " + p.getCallStatusString() + ", but got bumped by " + priorityCaller.getSeatWind() + "!");
-//		System.out.println();
 		
 		//pause
 		Pauser.pauseFor(mSleepTimeExclamation);

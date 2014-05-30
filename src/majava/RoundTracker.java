@@ -277,7 +277,7 @@ public class RoundTracker {
 		
 		if (winner == currentPlayer()){
 			mRoundResult.setVictoryTsumo(winner);
-			winningTile = mPTrackers[getSeatNumber(winner)].tilesH.getLast();
+			winningTile = winner.getTsumoTile();
 		}
 		else{ 
 			mRoundResult.setVictoryRon(winner, currentPlayer());
@@ -317,7 +317,6 @@ public class RoundTracker {
 	public boolean roundIsOver(){return mRoundResult.isOver();}
 	public boolean roundEndedWithDraw(){return mRoundResult.isDraw();}
 	public boolean roundEndedWithVictory(){return mRoundResult.isVictory();}
-//	public boolean roundEndedWithDealerVictory(){return (mRoundResult.getWindOfWinner() == Wind.EAST);}
 	public boolean roundEndedWithDealerVictory(){return mRoundResult.isDealerVictory();}
 	
 	public boolean qualifiesForRenchan(){return roundEndedWithDealerVictory();}	//or if the dealer is in tenpai, or a certain ryuukyoku happens

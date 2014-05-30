@@ -30,6 +30,7 @@ public class Pond {
 	
 	
 	private static final int SIZE_DEFAULT = 30;
+//	private static final int SIZE_MAX = 30;
 	
 	
 	
@@ -94,10 +95,9 @@ public class Pond {
 			
 			pondString += "\t";
 			for (j = 0; j < TILES_PER_LINE && (j + TILES_PER_LINE*i < mTiles.size()); j++)
-				pondString += mTiles.get(TILES_PER_LINE*i + j).toString() + " ";
+				pondString += mTiles.get(TILES_PER_LINE*i + j) + " ";
 			
-			if (TILES_PER_LINE*i < mTiles.size())
-				pondString += "\n";
+			if (TILES_PER_LINE*i < mTiles.size()) pondString += "\n";
 		}
 		
 		return pondString;

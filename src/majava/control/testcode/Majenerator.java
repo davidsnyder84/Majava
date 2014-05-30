@@ -24,7 +24,6 @@ public class Majenerator {
 	public static void main(String[] args){
 		println(generateRoundResult().toString());
 	}
-	
 	public static void println(String prints){System.out.println(prints);}public static void println(){System.out.println("");}
 	
 	

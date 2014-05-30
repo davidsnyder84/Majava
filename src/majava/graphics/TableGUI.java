@@ -325,7 +325,7 @@ public abstract class TableGUI extends JFrame implements GameUI{
 	
 
 	private static final int NUM_PLAYERS_TO_TRACK = 4;
-	private class PlayerTracker{
+	private static class PlayerTracker{
 		private Player player;
 		
 		private TileList tilesH;

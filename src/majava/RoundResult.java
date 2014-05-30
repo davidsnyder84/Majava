@@ -1,6 +1,7 @@
 package majava;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +44,7 @@ public class RoundResult {
 		
 		private final boolean pRoundIsOver;
 		
-		private final Result pResult;
+		private final ResultIC pResult;
 		private final WinType pWinType;
 
 
@@ -60,17 +61,51 @@ public class RoundResult {
 		
 		
 		
-		public RoundResultSummary(boolean roundIsOver, Result result, WinType winType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, Tile winningTile, TileList winnerHand, List<Meld> winnerMelds, Map<PlayerSummary,Integer> payments){
+		public RoundResultSummary(boolean roundIsOver, ResultIC result, WinType winType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, Tile winningTile, TileList winnerHand, List<Meld> winnerMelds, Map<PlayerSummary,Integer> payments){
 			pRoundIsOver = roundIsOver;
+			
 			pResult = result;
 			pWinType = winType;
+			
 			pWinningPlayer = winningPlayer;
 			pFurikondaPlayer = furikondaPlayer;
 			pWinningTile = winningTile.clone();
-			pWinnerHand = mWinnerHand.makeCopy();
-			pWinnerMelds = mWinnerMelds;
+			
+			pWinnerHand = winnerHand.makeCopy();
+			pWinnerMelds = winnerMelds;
+			
 			pPayments = null;
 		}
+		
+		
+	 	public boolean isOver(){return pRoundIsOver;}
+		public boolean isDraw(){return pResult.isDraw();}
+		public boolean isVictory(){return pResult.isVictory();}
+		public boolean isVictoryRon(){return pWinType.isRon();}
+		public boolean isVictoryTsumo(){return pWinType.isTsumo();}
+		
+//		public boolean isDealerVictory(){return (isOver() && isVictory() && pWinningPlayer.isDealer());}
+//		public Wind getWindOfWinner(){if (isOver() && isVictory()) return mWinningPlayer.getSeatWind(); return null;}
+		
+		public String getWinTypeString(){return pWinType.toString();}
+		
+		public Tile getWinningTile(){return pWinningTile.clone();}
+		public PlayerSummary getWinningPlayer(){return pWinningPlayer;}
+		public PlayerSummary getFurikondaPlayer(){return pFurikondaPlayer;}
+	}
+	
+	public RoundResultSummary getSummary(){
+		RoundResultSummary sum = null;
+		
+		PlayerSummary winnerSummary = mWinningPlayer.getPlayerSummary();
+		PlayerSummary furikonSummary = mFurikondaPlayer.getPlayerSummary();
+		
+		Map<PlayerSummary,Integer> payments = new HashMap<PlayerSummary,Integer>();
+		for (Player p: mPayments.keySet()) payments.put(p.getPlayerSummary(), mPayments.get(p));
+		
+		
+		sum = new RoundResultSummary(mRoundIsOver, mResult, mWinType, winnerSummary, furikonSummary, mWinningTile, mWinnerHand, mWinnerMelds, payments);
+		return sum;
 	}
 	
 	
@@ -79,7 +114,7 @@ public class RoundResult {
 	
 	
 	
-	private enum Result{
+	private static enum ResultIC{
 		UNDECIDED,
 		DRAW_WASHOUT, DRAW_KYUUSHU, DRAW_4KAN, DRAW_4RIICHI, DRAW_4WIND,
 		VICTORY_E, VICTORY_S, VICTORY_W, VICTORY_N;
@@ -87,7 +122,6 @@ public class RoundResult {
 		public boolean isDraw(){return (this == DRAW_WASHOUT || this == DRAW_KYUUSHU || this == DRAW_4KAN || this == DRAW_4RIICHI || this == DRAW_4WIND);}
 		public boolean isVictory(){return (this == VICTORY_E || this == VICTORY_S || this == VICTORY_W || this == VICTORY_N);}
 		
-		@Override
 		public String toString(){
 			switch (this){
 			case DRAW_WASHOUT: return "Draw (Washout)";
@@ -104,10 +138,8 @@ public class RoundResult {
 			}
 		}
 	}
-	private enum WinType{
+	private static enum WinType{
 		UNDECIDED, TSUMO, RON;
-		
-		@Override
 		public String toString(){
 			switch (this){
 			case TSUMO: return "TSUMO";
@@ -115,7 +147,6 @@ public class RoundResult {
 			default: return "undecided";
 			}
 		}
-		
 		public boolean isTsumo(){return this == TSUMO;}
 		public boolean isRon(){return this == RON;}
 	}
@@ -125,7 +156,7 @@ public class RoundResult {
 	
 	private boolean mRoundIsOver;
 	
-	private Result mResult;
+	private ResultIC mResult;
 	private WinType mWinType;
 
 
@@ -147,7 +178,7 @@ public class RoundResult {
 	
 	
 	public RoundResult(){
-		mResult = Result.UNDECIDED;
+		mResult = ResultIC.UNDECIDED;
 		mWinType = WinType.UNDECIDED;
 		mWinningPlayer = mFurikondaPlayer = null;
 		mWinningTile = null;
@@ -156,16 +187,16 @@ public class RoundResult {
 	}
 	
 
-	private void __setRoundOver(Result result){
+	private void __setRoundOver(ResultIC result){
 		mResult = result;
 		mRoundIsOver = true;
 	}
 	
-	public void setResultRyuukyokuWashout(){__setRoundOver(Result.DRAW_WASHOUT);}
-	public void setResultRyuukyokuKyuushu(){__setRoundOver(Result.DRAW_KYUUSHU);}
-	public void setResultRyuukyoku4Kan(){__setRoundOver(Result.DRAW_4KAN);}
-	public void setResultRyuukyoku4Riichi(){__setRoundOver(Result.DRAW_4RIICHI);}
-	public void setResultRyuukyoku4Wind(){__setRoundOver(Result.DRAW_4WIND);}
+	public void setResultRyuukyokuWashout(){__setRoundOver(ResultIC.DRAW_WASHOUT);}
+	public void setResultRyuukyokuKyuushu(){__setRoundOver(ResultIC.DRAW_KYUUSHU);}
+	public void setResultRyuukyoku4Kan(){__setRoundOver(ResultIC.DRAW_4KAN);}
+	public void setResultRyuukyoku4Riichi(){__setRoundOver(ResultIC.DRAW_4RIICHI);}
+	public void setResultRyuukyoku4Wind(){__setRoundOver(ResultIC.DRAW_4WIND);}
 	
 	
 	
@@ -173,10 +204,10 @@ public class RoundResult {
 	private void __setResultVictory(Player winner, WinType winType){
 		
 		switch(winner.getSeatWind()){
-		case EAST: __setRoundOver(Result.VICTORY_E); break;
-		case SOUTH: __setRoundOver(Result.VICTORY_S); break;
-		case WEST: __setRoundOver(Result.VICTORY_W); break;
-		case NORTH: __setRoundOver(Result.VICTORY_N); break;
+		case EAST: __setRoundOver(ResultIC.VICTORY_E); break;
+		case SOUTH: __setRoundOver(ResultIC.VICTORY_S); break;
+		case WEST: __setRoundOver(ResultIC.VICTORY_W); break;
+		case NORTH: __setRoundOver(ResultIC.VICTORY_N); break;
 		default: break;
 		}
 		

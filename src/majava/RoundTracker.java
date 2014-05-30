@@ -87,7 +87,7 @@ public class RoundTracker {
 	
 	
 	//tracks information for a player
-	private class PlayerTracker{
+	private static class PlayerTracker{
 		private Player player;
 		
 //		private Wind seatWind;

@@ -21,5 +21,6 @@ public class PlayerSummary{
 		public int getPlayerID(){return pPlayerID;}
 		public String getControllerAsString(){return pControllerString;}
 		public Wind getSeatWind(){return pSeatWind;}
+		public boolean isDealer(){return pSeatWind == Wind.EAST;}
 		public int getPoints(){return pPoints;}
 }

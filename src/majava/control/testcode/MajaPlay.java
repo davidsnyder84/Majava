@@ -669,10 +669,7 @@ public class MajaPlay {
 		
 		println("\nhots:");
 		
-		for (Integer i: hots)
-		{
-			println((new Tile(i)).toString());
-		}
+		for (Integer i: hots) println((new Tile(i)).toString());
 	}
 	
 	

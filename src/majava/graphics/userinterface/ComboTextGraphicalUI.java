@@ -63,21 +63,21 @@ public class ComboTextGraphicalUI implements GameUI{
 	
 	
 	//user interaction (sends to the GUI)
-	public void getClickTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){mGraphicalUI.getClickTurnAction(handSize, canRiichi, canAnkan, canMinkan, canTsumo);}
-	public boolean resultClickTurnActionWasDiscard(){return mGraphicalUI.resultClickTurnActionWasDiscard();}
-	public boolean resultClickTurnActionWasAnkan(){return mGraphicalUI.resultClickTurnActionWasAnkan();}
-	public boolean resultClickTurnActionWasMinkan(){return mGraphicalUI.resultClickTurnActionWasMinkan();}
-	public boolean resultClickTurnActionWasRiichi(){return mGraphicalUI.resultClickTurnActionWasRiichi();}
-	public boolean resultClickTurnActionWasTsumo(){return mGraphicalUI.resultClickTurnActionWasTsumo();}
-	public int getResultClickedDiscard(){return mGraphicalUI.getResultClickedDiscard();}
-	public boolean getClickCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){return mGraphicalUI.getClickCall(canChiL, canChiM, canChiH, canPon, canKan, canRon);}
-	public boolean resultClickCallWasNone(){return mGraphicalUI.resultClickCallWasNone();}
-	public boolean resultClickCallWasChiL(){return mGraphicalUI.resultClickCallWasChiL();}
-	public boolean resultClickCallWasChiM(){return mGraphicalUI.resultClickCallWasChiM();}
-	public boolean resultClickCallWasChiH(){return mGraphicalUI.resultClickCallWasChiH();}
-	public boolean resultClickCallWasPon(){return mGraphicalUI.resultClickCallWasPon();}
-	public boolean resultClickCallWasKan(){return mGraphicalUI.resultClickCallWasKan();}
-	public boolean resultClickCallWasRon(){return mGraphicalUI.resultClickCallWasRon();}
+	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){mGraphicalUI.askUserInputTurnAction(handSize, canRiichi, canAnkan, canMinkan, canTsumo);}
+	public boolean resultChosenTurnActionWasDiscard(){return mGraphicalUI.resultChosenTurnActionWasDiscard();}
+	public boolean resultChosenTurnActionWasAnkan(){return mGraphicalUI.resultChosenTurnActionWasAnkan();}
+	public boolean resultChosenTurnActionWasMinkan(){return mGraphicalUI.resultChosenTurnActionWasMinkan();}
+	public boolean resultChosenTurnActionWasRiichi(){return mGraphicalUI.resultChosenTurnActionWasRiichi();}
+	public boolean resultChosenTurnActionWasTsumo(){return mGraphicalUI.resultChosenTurnActionWasTsumo();}
+	public int resultChosenDiscardIndex(){return mGraphicalUI.resultChosenDiscardIndex();}
+	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){return mGraphicalUI.askUserInputCall(canChiL, canChiM, canChiH, canPon, canKan, canRon);}
+	public boolean resultChosenCallWasNone(){return mGraphicalUI.resultChosenCallWasNone();}
+	public boolean resultChosenCallWasChiL(){return mGraphicalUI.resultChosenCallWasChiL();}
+	public boolean resultChosenCallWasChiM(){return mGraphicalUI.resultChosenCallWasChiM();}
+	public boolean resultChosenCallWasChiH(){return mGraphicalUI.resultChosenCallWasChiH();}
+	public boolean resultChosenCallWasPon(){return mGraphicalUI.resultChosenCallWasPon();}
+	public boolean resultChosenCallWasKan(){return mGraphicalUI.resultChosenCallWasKan();}
+	public boolean resultChosenCallWasRon(){return mGraphicalUI.resultChosenCallWasRon();}
 	
 	
 	

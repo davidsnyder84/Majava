@@ -29,12 +29,6 @@ public interface GameUI {
 	
 	
 	
-	
-//	public void syncWithRoundTracker(RoundTracker rTracker,
-//			  Player[] pPlayers, 
-//			  Hand[] pHands, TileList[] pHandTiles, 
-//			  Pond[] pPonds, TileList[] pPondTiles,
-//			  Wall wall, Tile[] trackerTilesW);
 	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] trackerTilesW);
 	
 	
@@ -51,53 +45,24 @@ public interface GameUI {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	public void getClickTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo);
-	public boolean resultClickTurnActionWasDiscard();
-	public boolean resultClickTurnActionWasAnkan();
-	public boolean resultClickTurnActionWasMinkan();
-	public boolean resultClickTurnActionWasRiichi();
-	public boolean resultClickTurnActionWasTsumo();
+	//user input
+	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo);
+	public boolean resultChosenTurnActionWasDiscard();
+	public boolean resultChosenTurnActionWasAnkan();
+	public boolean resultChosenTurnActionWasMinkan();
+	public boolean resultChosenTurnActionWasRiichi();
+	public boolean resultChosenTurnActionWasTsumo();
 	//returns the index of the clicked discard. returns negative if no discard chosen.
-	public int getResultClickedDiscard();
+	public int resultChosenDiscardIndex();
 	
-	
-	public boolean getClickCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon);
-	public boolean resultClickCallWasNone();
-	public boolean resultClickCallWasChiL();
-	public boolean resultClickCallWasChiM();
-	public boolean resultClickCallWasChiH();
-	public boolean resultClickCallWasPon();
-	public boolean resultClickCallWasKan();
-	public boolean resultClickCallWasRon();
-	
-	
-	
-	
-	
-//	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo);
-//	public boolean resultChosenTurnActionWasDiscard();
-//	public boolean resultChosenTurnActionWasAnkan();
-//	public boolean resultChosenTurnActionWasMinkan();
-//	public boolean resultChosenTurnActionWasRiichi();
-//	public boolean resultChosenTurnActionWasTsumo();
-//	//returns the index of the clicked discard. returns negative if no discard chosen.
-//	public int getResultChosenDiscard();
-//	
-//	
-//	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon);
-//	public boolean resultChosenCallWasNone();
-//	public boolean resultChosenCallWasChiL();
-//	public boolean resultChosenCallWasChiM();
-//	public boolean resultChosenCallWasChiH();
-//	public boolean resultChosenCallWasPon();
-//	public boolean resultChosenCallWasKan();
-//	public boolean resultChosenCallWasRon();
+	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon);
+	public boolean resultChosenCallWasNone();
+	public boolean resultChosenCallWasChiL();
+	public boolean resultChosenCallWasChiM();
+	public boolean resultChosenCallWasChiH();
+	public boolean resultChosenCallWasPon();
+	public boolean resultChosenCallWasKan();
+	public boolean resultChosenCallWasRon();
 //	
 	
 }

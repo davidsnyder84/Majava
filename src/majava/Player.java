@@ -434,21 +434,21 @@ public class Player {
 		//show hand
 		__updateUI(GameplayEvent.HUMAN_PLAYER_TURN_START);
 
-		//get the player's desired action
-		mUI.getClickTurnAction(getHandSize(), ableToRiichi(), ableToAnkan(), ableToMinkan(), ableToTsumo());
+		//get the player's desired action through the UI
+		mUI.askUserInputTurnAction(getHandSize(), ableToRiichi(), ableToAnkan(), ableToMinkan(), ableToTsumo());
 		
 		
 		
-		if (mUI.resultClickTurnActionWasDiscard()){
+		if (mUI.resultChosenTurnActionWasDiscard()){
 			mTurnAction = ActionType.DISCARD;
-			chosenDiscardIndex = mUI.getResultClickedDiscard();
+			chosenDiscardIndex = mUI.resultChosenDiscardIndex();
 			mChosenDiscardIndex = chosenDiscardIndex - 1;	//adjust for index
 		}
 		else{
-			if (mUI.resultClickTurnActionWasAnkan()) chosenAction = ActionType.ANKAN;
-			if (mUI.resultClickTurnActionWasMinkan()) chosenAction = ActionType.MINKAN;
-			if (mUI.resultClickTurnActionWasRiichi()) chosenAction = ActionType.RIICHI;
-			if (mUI.resultClickTurnActionWasTsumo()) chosenAction = ActionType.TSUMO;
+			if (mUI.resultChosenTurnActionWasAnkan()) chosenAction = ActionType.ANKAN;
+			if (mUI.resultChosenTurnActionWasMinkan()) chosenAction = ActionType.MINKAN;
+			if (mUI.resultChosenTurnActionWasRiichi()) chosenAction = ActionType.RIICHI;
+			if (mUI.resultChosenTurnActionWasTsumo()) chosenAction = ActionType.TSUMO;
 			mTurnAction = chosenAction;
 			
 			//riichi
@@ -660,16 +660,16 @@ public class Player {
 		if (!DEBUG_ALLOW_PLAYER_CALLS) return call;
 		
 		//get user's choice through UI
-		called = mUI.getClickCall(ableToCallChiL(), ableToCallChiM(), ableToCallChiH(), ableToCallPon(), ableToCallKan(), ableToCallRon());
+		called = mUI.askUserInputCall(ableToCallChiL(), ableToCallChiM(), ableToCallChiH(), ableToCallPon(), ableToCallKan(), ableToCallRon());
 		
 		//decide call based on player's choice
 		if (called){
-			if (mUI.resultClickCallWasChiL()) call = CallType.CHI_L;
-			else if (mUI.resultClickCallWasChiM()) call = CallType.CHI_M;
-			else if (mUI.resultClickCallWasChiH()) call = CallType.CHI_H;
-			else if (mUI.resultClickCallWasPon()) call = CallType.PON;
-			else if (mUI.resultClickCallWasKan()) call = CallType.KAN;
-			else if (mUI.resultClickCallWasRon()) call = CallType.RON;
+			if (mUI.resultChosenCallWasChiL()) call = CallType.CHI_L;
+			else if (mUI.resultChosenCallWasChiM()) call = CallType.CHI_M;
+			else if (mUI.resultChosenCallWasChiH()) call = CallType.CHI_H;
+			else if (mUI.resultChosenCallWasPon()) call = CallType.PON;
+			else if (mUI.resultChosenCallWasKan()) call = CallType.KAN;
+			else if (mUI.resultChosenCallWasRon()) call = CallType.RON;
 		}
 		
 		return call;

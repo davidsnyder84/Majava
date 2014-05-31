@@ -119,21 +119,21 @@ public abstract class TextualUI implements GameUI{
 	
 	
 	//user interaction (not yet implemented)
-	public void getClickTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){}
-	public boolean resultClickTurnActionWasDiscard(){return false;}
-	public boolean resultClickTurnActionWasAnkan(){return false;}
-	public boolean resultClickTurnActionWasMinkan(){return false;}
-	public boolean resultClickTurnActionWasRiichi(){return false;}
-	public boolean resultClickTurnActionWasTsumo(){return false;}
-	public int getResultClickedDiscard(){return -1;}
-	public boolean getClickCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){return false;}
-	public boolean resultClickCallWasNone(){return false;}
-	public boolean resultClickCallWasChiL(){return false;}
-	public boolean resultClickCallWasChiM(){return false;}
-	public boolean resultClickCallWasChiH(){return false;}
-	public boolean resultClickCallWasPon(){return false;}
-	public boolean resultClickCallWasKan(){return false;}
-	public boolean resultClickCallWasRon(){return false;}
+	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){}
+	public boolean resultChosenTurnActionWasDiscard(){return false;}
+	public boolean resultChosenTurnActionWasAnkan(){return false;}
+	public boolean resultChosenTurnActionWasMinkan(){return false;}
+	public boolean resultChosenTurnActionWasRiichi(){return false;}
+	public boolean resultChosenTurnActionWasTsumo(){return false;}
+	public int resultChosenDiscardIndex(){return -1;}
+	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){return false;}
+	public boolean resultChosenCallWasNone(){return false;}
+	public boolean resultChosenCallWasChiL(){return false;}
+	public boolean resultChosenCallWasChiM(){return false;}
+	public boolean resultChosenCallWasChiH(){return false;}
+	public boolean resultChosenCallWasPon(){return false;}
+	public boolean resultChosenCallWasKan(){return false;}
+	public boolean resultChosenCallWasRon(){return false;}
 	
 	
 	

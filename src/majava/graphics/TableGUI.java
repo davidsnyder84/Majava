@@ -498,7 +498,7 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		
 		
 		//update hands
-		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
+		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_HAND; currentTile++){
 				larryHands[currentPlayer][currentTile].setIcon(__getImageIcon(mPTrackers[currentPlayer].tilesH, currentTile, currentPlayer, BIG, mRevealHands[currentPlayer]));
 			}
@@ -506,7 +506,7 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		
 		
 		//update ponds
-		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
+		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_POND; currentTile++){
 				larryPonds[currentPlayer][currentTile].setIcon(__getImageIconPond(mPTrackers[currentPlayer].tilesP, currentTile, currentPlayer));
 			}
@@ -544,7 +544,7 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		
 		
 		//update player info
-		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
+		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
 			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_SEATWIND].setIcon(__getImageIconWind(mPTrackers[currentPlayer].player.getSeatWind(), SMALL));
 			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_POINTS].setText(Integer.toString(mPTrackers[currentPlayer].player.getPoints()));
 			if (mPTrackers[currentPlayer].player.getRiichiStatus())
@@ -558,7 +558,7 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		larryInfoRound[LARRY_INFOROUND_BONUSNUM].setText(Integer.toString(mRoundTracker.getRoundBonusNum()));
 		
 		//update turn indicators
-		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
+		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
 			parryTurnInds[currentPlayer].setVisible(mRoundTracker.whoseTurn() == currentPlayer);
 		}
 		
@@ -665,7 +665,7 @@ public abstract class TableGUI extends JFrame implements GameUI{
 	
 	
 
-	public boolean getClickCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
+	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
 		
 		mChosenCall = NO_CALL_CHOSEN;
 		boolean onlyOneChiPossible = ((canChiL ^ canChiM ^ canChiH) ^ (canChiL && canChiM && canChiH));
@@ -705,13 +705,13 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		for (JButton b: barryCalls) b.setVisible(false);
 		return (mChosenCall != NO_CALL_CHOSEN);
 	}
-	public boolean resultClickCallWasNone(){return (mChosenCall == NO_CALL_CHOSEN);}
-	public boolean resultClickCallWasChiL(){return (mChosenCall == CALL_CHI_L);}
-	public boolean resultClickCallWasChiM(){return (mChosenCall == CALL_CHI_M);}
-	public boolean resultClickCallWasChiH(){return (mChosenCall == CALL_CHI_H);}
-	public boolean resultClickCallWasPon(){return (mChosenCall == CALL_PON);}
-	public boolean resultClickCallWasKan(){return (mChosenCall == CALL_KAN);}
-	public boolean resultClickCallWasRon(){return (mChosenCall == CALL_RON);}
+	public boolean resultChosenCallWasNone(){return (mChosenCall == NO_CALL_CHOSEN);}
+	public boolean resultChosenCallWasChiL(){return (mChosenCall == CALL_CHI_L);}
+	public boolean resultChosenCallWasChiM(){return (mChosenCall == CALL_CHI_M);}
+	public boolean resultChosenCallWasChiH(){return (mChosenCall == CALL_CHI_H);}
+	public boolean resultChosenCallWasPon(){return (mChosenCall == CALL_PON);}
+	public boolean resultChosenCallWasKan(){return (mChosenCall == CALL_KAN);}
+	public boolean resultChosenCallWasRon(){return (mChosenCall == CALL_RON);}
 	
 	
 	
@@ -761,7 +761,7 @@ public abstract class TableGUI extends JFrame implements GameUI{
 	}
 	
 	
-	public void getClickTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){
+	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){
 		
 		mChosenTurnAction = NO_ACTION_CHOSEN;
 		mChosenDiscard = NO_DISCARD_CHOSEN;
@@ -782,15 +782,15 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		
 		for (JButton b: barryTActions) b.setVisible(false);
 	}
-	public boolean resultClickTurnActionWasDiscard(){return (mChosenTurnAction == TURN_ACTION_DISCARD);}
-	public boolean resultClickTurnActionWasAnkan(){return (mChosenTurnAction == TURN_ACTION_ANKAN);}
-	public boolean resultClickTurnActionWasMinkan(){return (mChosenTurnAction == TURN_ACTION_MINKAN);}
-	public boolean resultClickTurnActionWasRiichi(){return (mChosenTurnAction == TURN_ACTION_RIICHI);}
-	public boolean resultClickTurnActionWasTsumo(){return (mChosenTurnAction == TURN_ACTION_TSUMO);}
+	public boolean resultChosenTurnActionWasDiscard(){return (mChosenTurnAction == TURN_ACTION_DISCARD);}
+	public boolean resultChosenTurnActionWasAnkan(){return (mChosenTurnAction == TURN_ACTION_ANKAN);}
+	public boolean resultChosenTurnActionWasMinkan(){return (mChosenTurnAction == TURN_ACTION_MINKAN);}
+	public boolean resultChosenTurnActionWasRiichi(){return (mChosenTurnAction == TURN_ACTION_RIICHI);}
+	public boolean resultChosenTurnActionWasTsumo(){return (mChosenTurnAction == TURN_ACTION_TSUMO);}
 	
 	//returns the index of the clicked discard. returns negative if no discard chosen.
-	public int getResultClickedDiscard(){
-		if (resultClickTurnActionWasDiscard()) return mChosenDiscard;
+	public int resultChosenDiscardIndex(){
+		if (resultChosenTurnActionWasDiscard()) return mChosenDiscard;
 		else return NO_DISCARD_CHOSEN;
 	}
 	

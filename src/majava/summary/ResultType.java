@@ -4,7 +4,6 @@ public class ResultType {
 	
 	private static enum ResType{
 		UNDECIDED,
-//		DRAW_WASHOUT, DRAW_KYUUSHU, DRAW_4KAN, DRAW_4RIICHI, DRAW_4WIND,
 		DRAW,
 		VICTORY;
 		
@@ -19,30 +18,7 @@ public class ResultType {
 			}
 		}
 	}
-//	private static enum ResType{
-//		UNDECIDED,
-//		DRAW_WASHOUT, DRAW_KYUUSHU, DRAW_4KAN, DRAW_4RIICHI, DRAW_4WIND,
-//		VICTORY_E, VICTORY_S, VICTORY_W, VICTORY_N;
-//		
-//		public boolean isDraw(){return (this == DRAW_WASHOUT || this == DRAW_KYUUSHU || this == DRAW_4KAN || this == DRAW_4RIICHI || this == DRAW_4WIND);}
-//		public boolean isVictory(){return (this == VICTORY_E || this == VICTORY_S || this == VICTORY_W || this == VICTORY_N);}
-//		
-//		public String toString(){
-//			switch (this){
-//			case DRAW_WASHOUT: return "Draw (Washout)";
-//			case DRAW_KYUUSHU: return "Draw (Kyuushuu)";
-//			case DRAW_4KAN: return "Draw (4 kans)";
-//			case DRAW_4RIICHI: return "Draw (4 riichi)";
-//			case DRAW_4WIND: return "Draw (4 wind)";
-//			
-//			case VICTORY_E: return "East wins!";
-//			case VICTORY_S: return "South wins!";
-//			case VICTORY_W: return "West wins!";
-//			case VICTORY_N: return "North wins!";
-//			default: return "??Undecided??";
-//			}
-//		}
-//	}
+	
 	private static enum WinType{
 		UNDECIDED, TSUMO, RON;
 		public String toString(){
@@ -69,7 +45,6 @@ public class ResultType {
 		}
 	}
 	
-	
 
 	private static final int NO_WINNING_SEAT = -2;
 	private static final int NO_FURIKONDA_SEAT = -1;
@@ -85,7 +60,7 @@ public class ResultType {
 	private final DrawType mDrawType;
 	
 	
-	//wins
+	//win constructor
 	private ResultType(WinType winType, int winnerSeat, int loserSeat){
 		mResultType = ResType.VICTORY;
 		
@@ -97,7 +72,7 @@ public class ResultType {
 	private ResultType(WinType winType, int winnerSeat){
 		this(winType, winnerSeat, NO_FURIKONDA_SEAT);
 	}
-	//draws
+	//draw constructor
 	private ResultType(DrawType drawType){
 		mResultType = ResType.DRAW;
 		
@@ -109,8 +84,9 @@ public class ResultType {
 	
 	
 	public boolean isDraw(){return (mResultType.isDraw());}
-	public boolean isVictory(){return mResultType.isVictory();}
+	public boolean isDrawWashout(){return mDrawType == DrawType.DRAW_WASHOUT;}
 	
+	public boolean isVictory(){return mResultType.isVictory();}
 	public boolean isVictoryTsumo(){return isVictory() && mWinType.isTsumo();}
 	public boolean isVictoryRon(){return isVictory() && mWinType.isRon();}
 	
@@ -125,36 +101,6 @@ public class ResultType {
 		else if (mResultType.isVictory()) return "Player " + (mWinningSeat+1) + " wins!";
 		return "undecided result";
 	}
-	
-	
-//	private void __setResultVictory(Player winner, WinType winType){
-//		
-//		switch(winner.getSeatWind()){
-//		case EAST: __setRoundOver(ResultIC.VICTORY_E); break;
-//		case SOUTH: __setRoundOver(ResultIC.VICTORY_S); break;
-//		case WEST: __setRoundOver(ResultIC.VICTORY_W); break;
-//		case NORTH: __setRoundOver(ResultIC.VICTORY_N); break;
-//		default: break;
-//		}
-//		
-//		mWinType = winType;
-//		
-//		mWinningPlayer = winner;
-////		__setWinningHand();
-//	}
-//	public void setVictoryRon(Player winner, Player discarder){
-//		
-//		mFurikondaPlayer = discarder;
-//		__setResultVictory(winner, WinType.RON);
-//	}
-//	public void setVictoryTsumo(Player winner){
-//		__setResultVictory(winner, WinType.TSUMO);
-//	}
-	
-	
-	
-	
-	
 	
 	
 	

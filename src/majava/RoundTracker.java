@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import majava.graphics.TableGUI;
-import majava.graphics.textinterface.TextualUI;
+import majava.graphics.userinterface.GameUI;
 import majava.tiles.Tile;
 import majava.enums.Wind;
 import majava.util.TileList;
@@ -131,7 +130,7 @@ public class RoundTracker {
 	
 	
 	
-	public RoundTracker(TextualUI textinterface, TableGUI tviewer, RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){
+	public RoundTracker(GameUI ui, RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){
 		
 		mRoundWind = roundWind;
 		mRoundNum = roundNum;
@@ -145,12 +144,9 @@ public class RoundTracker {
 		__syncWithWall(wall);
 		__setupPlayerTrackers(p1,p2,p3,p4);
 		
-		if (tviewer != null) __syncWithViewer(tviewer);
-		if (textinterface != null) __syncWithTextUI(textinterface);
+		__syncWithUI(ui);
 	}
-	public RoundTracker(TextualUI textinterface, RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){this(textinterface, null, result, roundWind, roundNum, roundBonus, wall, p1, p2, p3, p4);}
-	public RoundTracker(TableGUI tviewer, RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){this(null, tviewer, result, roundWind, roundNum, roundBonus, wall, p1, p2, p3, p4);}
-	public RoundTracker(RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){this(null, null, result, roundWind, roundNum, roundBonus, wall, p1, p2, p3, p4);}
+	public RoundTracker(RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){this(null, result, roundWind, roundNum, roundBonus, wall, p1, p2, p3, p4);}
 	
 	
 	private void __syncWithWall(Wall wall){
@@ -199,19 +195,17 @@ public class RoundTracker {
 		mPTrackers[numPlayersSynched].tilesP = pondTiles;
 	}
 	
-	private void __syncWithViewer(TableGUI viewer){
+	
+	private void __syncWithUI(GameUI ui){
+		if (ui == null) return;
 		Player[] pPlayers = {mPTrackers[0].player, mPTrackers[1].player, mPTrackers[2].player, mPTrackers[3].player};
 		TileList[] pHandTiles = {mPTrackers[0].tilesH, mPTrackers[1].tilesH, mPTrackers[2].tilesH, mPTrackers[3].tilesH};
 		TileList[] pPondTiles = {mPTrackers[0].tilesP, mPTrackers[1].tilesP, mPTrackers[2].tilesP, mPTrackers[3].tilesP};
-//		Pond[] pPonds = {mPTrackers[0].pond, mPTrackers[1].pond, mPTrackers[2].pond, mPTrackers[3].pond};
-		viewer.syncWithRoundTracker(this, pPlayers, pHandTiles, pPondTiles, tilesW);
-	}
-	private void __syncWithTextUI(TextualUI textinterface){
-		Player[] pPlayers = {mPTrackers[0].player, mPTrackers[1].player, mPTrackers[2].player, mPTrackers[3].player};
 		Hand[] pHands = {mPTrackers[0].hand, mPTrackers[1].hand, mPTrackers[2].hand, mPTrackers[3].hand};
 		Pond[] pPonds = {mPTrackers[0].pond, mPTrackers[1].pond, mPTrackers[2].pond, mPTrackers[3].pond};
-		textinterface.syncWithRoundTracker(this, pPlayers, pHands, pPonds, mWall);
+		ui.syncWithRoundTracker(this, pPlayers, pHands, pHandTiles, pPonds, pPondTiles, mWall, tilesW);
 	}
+	
 	
 	
 	

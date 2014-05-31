@@ -3,8 +3,7 @@ package majava;
 import java.util.ArrayList;
 import java.util.List;
 
-import majava.graphics.TableGUI;
-import majava.graphics.textinterface.TextualUI;
+import majava.graphics.userinterface.GameUI;
 import majava.summary.RoundResultSummary;
 import majava.enums.Wind;
 
@@ -75,7 +74,10 @@ public class Game {
 
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	private static final boolean DEFAULT_FAST_COMS_MEAN_SIMULATION = true;
-	private static final int NUM_SIMULATIONS_TO_RUN = 500;
+//	private static final boolean DEFAULT_FAST_COMS_MEAN_SIMULATION = false;
+//	private static final int NUM_SIMULATIONS_TO_RUN = 500;
+//	private static final int NUM_SIMULATIONS_TO_RUN = 5000;
+	private static final int NUM_SIMULATIONS_TO_RUN = 100;
 	
 	
 	
@@ -94,8 +96,9 @@ public class Game {
 	private List<String> mWinStrings;
 	private List<RoundResultSummary> mRoundResults;
 
-	private TableGUI mTviewer;
-	private TextualUI mTextinterface;
+//	private TableGUI mTviewer;
+//	private TextualUI mTextinterface;
+	private GameUI mUI;
 	
 	private boolean mDoFastGameplay;
 	
@@ -106,7 +109,7 @@ public class Game {
 	/*
 	initializes a game
 	*/
-	public Game(TextualUI textinterface, TableGUI tviewer, Player[] playerArray){
+	public Game(GameUI ui, Player[] playerArray){
 
 		__setGameType(GAME_TYPE_DEFAULT);
 		
@@ -121,9 +124,7 @@ public class Game {
 		mWinStrings = new ArrayList<String>();
 		mRoundResults = new ArrayList<RoundResultSummary>();
 		
-		
-		mTviewer = tviewer;
-		mTextinterface = textinterface;
+		mUI = ui;
 		__setUIs();
 		
 		mDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
@@ -162,7 +163,7 @@ public class Game {
 		while (!gameIsOver()){
 			
 			//play a round
-			mCurrentRound = new Round(mTextinterface, mTviewer, mPlayerArray, mCurrentRoundWind, mCurrentRoundNum, mCurrentRoundBonusNum);
+			mCurrentRound = new Round(mUI, mPlayerArray, mCurrentRoundWind, mCurrentRoundNum, mCurrentRoundBonusNum);
 			mCurrentRound.setOptionFastGameplay(mDoFastGameplay);
 			mCurrentRound.play();
 			
@@ -195,7 +196,14 @@ public class Game {
 			}
 		}
 		
+		__handleEndGame();
+	}
+	
+	
+	
+	private void __handleEndGame(){
 		displayGameResult();
+		printReportCard();
 	}
 	
 	
@@ -208,7 +216,7 @@ public class Game {
 	}
 	
 	private void __setUIs(){
-		for (Player p: mPlayerArray) p.setUIs(mTextinterface, mTviewer);
+		for (Player p: mPlayerArray) p.setUI(mUI);
 	}
 	
 	
@@ -226,9 +234,31 @@ public class Game {
 		RoundResultSummary cr = null;
 		for (int i = 0; i < mRoundResults.size(); i++){
 			cr = mRoundResults.get(i);
-//			cr.getAsStringResultType();
-			System.out.printf("%3d: %s\n", i+1, cr.getAsStringResultType());
+			if (!cr.isDrawWashout())
+				System.out.printf("%3d: %s\n", i+1, cr.getAsStringResultType());
 		}
+	}
+	
+	public void printReportCard(){
+		int numWins = 0;
+		int numWinsByPlayer[] = new int[4];
+		
+		for (RoundResultSummary cr: mRoundResults){
+			if (cr.isVictory()){
+				numWins++;
+				numWinsByPlayer[cr.getWinningPlayer().getPlayerNumber()]++;
+			}
+		}
+		
+		System.out.println("\n\n");
+		
+
+		System.out.println("Wins by player:");
+		int j = 0;
+		for (int i: numWinsByPlayer) System.out.println("\tPlayer " + (++j) + ": " + i + " wins");
+		System.out.printf("Win to draw ratio: %.6f", ((double) numWins) / ((double) mRoundResults.size()));
+		
+		System.out.println("\n\n");
 	}
 	
 	

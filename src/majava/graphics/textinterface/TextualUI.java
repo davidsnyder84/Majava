@@ -13,6 +13,8 @@ import majava.Wall;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 import majava.graphics.userinterface.GameUI;
+import majava.tiles.Tile;
+import majava.util.TileList;
 
 
 
@@ -113,10 +115,55 @@ public abstract class TextualUI implements GameUI{
 	
 	
 	
+	
+	
+	
+	//user interaction (not yet implemented)
+	public void getClickTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){}
+	public boolean resultClickTurnActionWasDiscard(){return false;}
+	public boolean resultClickTurnActionWasAnkan(){return false;}
+	public boolean resultClickTurnActionWasMinkan(){return false;}
+	public boolean resultClickTurnActionWasRiichi(){return false;}
+	public boolean resultClickTurnActionWasTsumo(){return false;}
+	public int getResultClickedDiscard(){return -1;}
+	public boolean getClickCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){return false;}
+	public boolean resultClickCallWasNone(){return false;}
+	public boolean resultClickCallWasChiL(){return false;}
+	public boolean resultClickCallWasChiM(){return false;}
+	public boolean resultClickCallWasChiH(){return false;}
+	public boolean resultClickCallWasPon(){return false;}
+	public boolean resultClickCallWasKan(){return false;}
+	public boolean resultClickCallWasRon(){return false;}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void startUI(){/*intentionally blank*/}
+	public void endUI(){/*intentionally blank*/}
+	
+	
+	
+	
 	public final void setSleepTimeExclamation(int sleepTime){mSleepTimeExclamation = sleepTime;};
 	
-	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, Pond[] pPonds, Wall wall){
-		
+	
+	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] trackerTilesW){		
 		mRoundTracker = rTracker;
 		
 		mPTrackers = new PlayerTracker[NUM_PLAYERS_TO_TRACK];

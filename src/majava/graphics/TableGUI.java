@@ -6,6 +6,7 @@ import majava.Meld;
 import majava.Player;
 import majava.Pond;
 import majava.RoundTracker;
+import majava.Wall;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 import majava.enums.Wind;
@@ -825,11 +826,13 @@ public abstract class TableGUI extends JFrame implements GameUI{
 	
 	
 	
+	public void startUI(){blankEverything(); setVisible(true);}
+	public void endUI(){dispose();}
 	
 	
 	
 	
-	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, TileList[] pHandTiles, TileList[] pPondTiles, Tile[] trackerTilesW){
+	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] trackerTilesW){
 		
 		mRoundTracker = rTracker;
 		

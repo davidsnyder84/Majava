@@ -28,7 +28,7 @@ public class RoundResultSummary {
 	private final Map<PlayerSummary,Integer> pPayments;
 	
 	
-	
+	//win constructor
 	public RoundResultSummary(ResultType resType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, Tile winningTile, TileList winnerHand, List<Meld> winnerMelds, Map<PlayerSummary,Integer> payments){
 		
 		pResultType = resType;
@@ -52,9 +52,15 @@ public class RoundResultSummary {
 		
 		pPayments = null;
 	}
+	//draw constructor
+	public RoundResultSummary(ResultType resType, Map<PlayerSummary,Integer> payments){
+		this(resType, null, null, null, null, null, payments);
+	}
 	
 	
 	public boolean isDraw(){return pResultType.isDraw();}
+	public boolean isDrawWashout(){return pResultType.isDrawWashout();}
+	
 	public boolean isVictory(){return pResultType.isVictory();}
 	public boolean isVictoryRon(){return pResultType.isVictoryRon();}
 	public boolean isVictoryTsumo(){return pResultType.isVictoryTsumo();}

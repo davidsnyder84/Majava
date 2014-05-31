@@ -125,6 +125,7 @@ public class RoundResult {
 	
 	public boolean isOver(){return mRoundIsOver;}
 	public boolean isDraw(){return isOver() && mResultType.isDraw();}
+	public boolean isDrawWashout(){return isOver() && mResultType.isDrawWashout();}
 	public boolean isVictory(){return isOver() && mResultType.isVictory();}
 	public boolean isVictoryRon(){return isOver() && mResultType.isVictoryRon();}
 	public boolean isVictoryTsumo(){return isOver() && mResultType.isVictoryTsumo();}

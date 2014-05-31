@@ -6,8 +6,7 @@ import java.util.Random;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 import majava.enums.Wind;
-import majava.graphics.TableGUI;
-import majava.graphics.textinterface.TextualUI;
+import majava.graphics.userinterface.GameUI;
 import majava.summary.PlayerSummary;
 import majava.tiles.Tile;
 
@@ -209,9 +208,9 @@ public class Player {
 	
 	
 	private RoundTracker mRoundTracker;
-	private TableGUI mTviewer;
-	private TextualUI mTextinterface;
-	
+//	private TableGUI mTviewer;
+//	private TextualUI mTextinterface;
+	private GameUI mUI;
 	
 	
 	
@@ -433,23 +432,23 @@ public class Player {
 		int chosenDiscardIndex = NO_DISCARD_CHOSEN;
 		
 		//show hand
-		__updateUIs(GameplayEvent.HUMAN_PLAYER_TURN_START);
+		__updateUI(GameplayEvent.HUMAN_PLAYER_TURN_START);
 
 		//get the player's desired action
-		mTviewer.getClickTurnAction(getHandSize(), ableToRiichi(), ableToAnkan(), ableToMinkan(), ableToTsumo());
+		mUI.getClickTurnAction(getHandSize(), ableToRiichi(), ableToAnkan(), ableToMinkan(), ableToTsumo());
 		
 		
 		
-		if (mTviewer.resultClickTurnActionWasDiscard()){
+		if (mUI.resultClickTurnActionWasDiscard()){
 			mTurnAction = ActionType.DISCARD;
-			chosenDiscardIndex = mTviewer.getResultClickedDiscard();
+			chosenDiscardIndex = mUI.getResultClickedDiscard();
 			mChosenDiscardIndex = chosenDiscardIndex - 1;	//adjust for index
 		}
 		else{
-			if (mTviewer.resultClickTurnActionWasAnkan()) chosenAction = ActionType.ANKAN;
-			if (mTviewer.resultClickTurnActionWasMinkan()) chosenAction = ActionType.MINKAN;
-			if (mTviewer.resultClickTurnActionWasRiichi()) chosenAction = ActionType.RIICHI;
-			if (mTviewer.resultClickTurnActionWasTsumo()) chosenAction = ActionType.TSUMO;
+			if (mUI.resultClickTurnActionWasAnkan()) chosenAction = ActionType.ANKAN;
+			if (mUI.resultClickTurnActionWasMinkan()) chosenAction = ActionType.MINKAN;
+			if (mUI.resultClickTurnActionWasRiichi()) chosenAction = ActionType.RIICHI;
+			if (mUI.resultClickTurnActionWasTsumo()) chosenAction = ActionType.TSUMO;
 			mTurnAction = chosenAction;
 			
 			//riichi
@@ -591,7 +590,7 @@ public class Player {
 	end if
 	return call status
 	*/
-	public boolean reactToDiscard(Tile t, TableGUI tviewer){
+	public boolean reactToDiscard(Tile t){
 		mCallStatus = CallType.NONE;
 		
 		//if able to call the tile, ask self for reaction
@@ -599,7 +598,7 @@ public class Player {
 			
 			//ask self for reaction
 			//update call status
-			mCallStatus = __askSelfForReaction(t, tviewer);
+			mCallStatus = __askSelfForReaction(t);
 		}
 		
 		////////////////////WATCH THIS MOTHERFUCKER
@@ -631,10 +630,10 @@ public class Player {
 	end if
 	return call
 	*/
-	private CallType __askSelfForReaction(Tile t, TableGUI tviewer){
+	private CallType __askSelfForReaction(Tile t){
 		CallType call = CallType.NONE;
 		
-		if (controllerIsHuman()) call = __askReactionHuman(t, tviewer);
+		if (controllerIsHuman()) call = __askReactionHuman(t);
 		else call = __askReactionCom(t);
 		
 		return call;
@@ -654,23 +653,23 @@ public class Player {
 	call = decide based on player's choice
 	return call
 	*/
-	private CallType __askReactionHuman(Tile t, TableGUI tviewer){
+	private CallType __askReactionHuman(Tile t){
 		
 		CallType call = CallType.NONE;
 		boolean called = false;
 		if (!DEBUG_ALLOW_PLAYER_CALLS) return call;
 		
 		//get user's choice through GUI
-		called = tviewer.getClickCall(ableToCallChiL(), ableToCallChiM(), ableToCallChiH(), ableToCallPon(), ableToCallKan(), ableToCallRon());
+		called = mUI.getClickCall(ableToCallChiL(), ableToCallChiM(), ableToCallChiH(), ableToCallPon(), ableToCallKan(), ableToCallRon());
 		
 		//decide call based on player's choice
 		if (called){
-			if (tviewer.resultClickCallWasChiL()) call = CallType.CHI_L;
-			else if (tviewer.resultClickCallWasChiM()) call = CallType.CHI_M;
-			else if (tviewer.resultClickCallWasChiH()) call = CallType.CHI_H;
-			else if (tviewer.resultClickCallWasPon()) call = CallType.PON;
-			else if (tviewer.resultClickCallWasKan()) call = CallType.KAN;
-			else if (tviewer.resultClickCallWasRon()) call = CallType.RON;
+			if (mUI.resultClickCallWasChiL()) call = CallType.CHI_L;
+			else if (mUI.resultClickCallWasChiM()) call = CallType.CHI_M;
+			else if (mUI.resultClickCallWasChiH()) call = CallType.CHI_H;
+			else if (mUI.resultClickCallWasPon()) call = CallType.PON;
+			else if (mUI.resultClickCallWasKan()) call = CallType.KAN;
+			else if (mUI.resultClickCallWasRon()) call = CallType.RON;
 		}
 		
 		return call;
@@ -999,11 +998,12 @@ public class Player {
 	
 	
 	
-	private void __updateUIs(GameplayEvent event){
-		if (mTextinterface != null) mTextinterface.displayEvent(event);
-		if (mTviewer != null) mTviewer.displayEvent(event);
+	private void __updateUI(GameplayEvent event){
+		if (mUI != null) mUI.displayEvent(event);
+//		if (mTextinterface != null) mTextinterface.displayEvent(event);
+//		if (mTviewer != null) mTviewer.displayEvent(event);
 	}
-	public void setUIs(TextualUI textinterface, TableGUI tviewer){mTextinterface = textinterface; mTviewer = tviewer;}
+	public void setUI(GameUI ui){mUI = ui;}
 	
 	
 	//sync player's hand and pond with tracker

@@ -7,6 +7,8 @@ import majava.graphics.TableViewer;
 import majava.graphics.textinterface.DetailedTextualUI;
 import majava.graphics.textinterface.SparseTextualUI;
 import majava.graphics.textinterface.TextualUI;
+import majava.graphics.userinterface.ComboTextGraphicalUI;
+import majava.graphics.userinterface.GameUI;
 import utility.Pauser;
 
 
@@ -53,9 +55,7 @@ public class Table {
 	private Player p1, p2, p3, p4;
 	private Player[] mPlayerArray;
 	
-	
-	private TableGUI mTviewer;
-	private TextualUI mTextinterface;
+	private GameUI mGameUI;
 	
 	
 	//options
@@ -73,11 +73,9 @@ public class Table {
 	*/
 	public Table(){
 		
-		//initialize GUI and text interfaces
-		mTviewer = __generateTableGUI();
-		mTextinterface = __generateTextInterface();
-		mTviewer = null;
-		mTextinterface = null;
+		//initialize UI
+		mGameUI = null;
+		mGameUI = __generateGameUI();
 		
 		mDoSinglePlayer = DEFAULT_DO_SINGLE_PLAYER;
 		mDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
@@ -100,32 +98,41 @@ public class Table {
 		//decide seats
 		__decideSeats();
 		
+
+		if (mGameUI != null) mGameUI.startUI();
+		
 		//play one game
-		mCurrentGame = new Game(mTextinterface, mTviewer, mPlayerArray);
+		mCurrentGame = new Game(mGameUI, mPlayerArray);
 		mCurrentGame.setOptionFastGameplay(mDoFastGameplay);
 		mCurrentGame.play();
 		
 		//close the window
 		Pauser.pauseFor(5000);
-		if (mTviewer != null) mTviewer.dispose();
+		if (mGameUI != null) mGameUI.endUI();
 	}
 	
-	
-	private TableGUI __generateTableGUI(){
-		TableGUI g;
-		if (DEBUG_USE_SMALL_VIEWER) g = new TableViewSmall();
-		else g = new TableViewer();
+	private GameUI __generateGameUI(){
+		GameUI ui = null;
 		
-		g.blankEverything();
-		g.setVisible(true);
-		return g;
+//		ui = new TableViewSmall();
+//		ui = new TableViewer();
+//		ui = new SparseTextualUI();
+//		ui = new DetailedTextualUI();
+		ui = new ComboTextGraphicalUI();
+		return ui;
 	}
-	private TextualUI __generateTextInterface(){
-		TextualUI u;
-		if (DEBUG_USE_SPARSE_TEXT) u = new SparseTextualUI();
-		else u = new DetailedTextualUI();
-		return u;
-	}
+//	private TableGUI __generateTableGUI(){
+//		TableGUI g;
+//		if (DEBUG_USE_SMALL_VIEWER) g = new TableViewSmall();
+//		else g = new TableViewer();
+//		return g;
+//	}
+//	private TextualUI __generateTextInterface(){
+//		TextualUI u;
+//		if (DEBUG_USE_SPARSE_TEXT) u = new SparseTextualUI();
+//		else u = new DetailedTextualUI();
+//		return u;
+//	}
 	
 	
 	

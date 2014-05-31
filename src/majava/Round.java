@@ -4,8 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import utility.Pauser;
-import majava.graphics.TableGUI;
-import majava.graphics.textinterface.TextualUI;
+import majava.graphics.userinterface.GameUI;
 import majava.summary.RoundResultSummary;
 import majava.tiles.Tile;
 import majava.util.TileList;
@@ -73,8 +72,9 @@ public class Round{
 	
 	private final RoundTracker mRoundTracker;
 	private final RoundResult mRoundResult;
-	private final TableGUI mTviewer;
-	private final TextualUI mTextinterface;
+	private final GameUI mUI;
+//	private final TableGUI mTviewer;
+//	private final TextualUI mTextinterface;
 	
 	
 	private final Wind mRoundWind;
@@ -94,8 +94,8 @@ public class Round{
 	creates the wall
 	initializes round and game info
 	*/
-	//two ui constructor
-	public Round(TextualUI textinterface, TableGUI tviewer, Player[] playerArray, Wind roundWind, int roundNum, int roundBonusNum){
+	//constructor
+	public Round(GameUI ui, Player[] playerArray, Wind roundWind, int roundNum, int roundBonusNum){
 		
 		mPlayerArray = playerArray;
 		p1 = mPlayerArray[0]; p2 = mPlayerArray[1]; p3 = mPlayerArray[2]; p4 = mPlayerArray[3];
@@ -113,26 +113,22 @@ public class Round{
 		mRoundNum = roundNum;
 		mRoundBonusNum = roundBonusNum;
 		
-		
-		mTviewer = tviewer;
-		mTextinterface = textinterface;
+		mUI = ui;
+//		mTviewer = tviewer;
+//		mTextinterface = textinterface;
 		
 		//initialize Round Tracker
 //		mTviewer = null; mTextinterface = null;
 		mRoundResult = new RoundResult();
-		mRoundTracker = new RoundTracker(mTextinterface, mTviewer, mRoundResult, mRoundWind,mRoundNum,mRoundBonusNum,  mWall,  p1,p2,p3,p4);
+		mRoundTracker = new RoundTracker(mUI, mRoundResult, mRoundWind,mRoundNum,mRoundBonusNum,  mWall,  p1,p2,p3,p4);
+//		mRoundTracker = new RoundTracker(mTextinterface, mTviewer, mRoundResult, mRoundWind,mRoundNum,mRoundBonusNum,  mWall,  p1,p2,p3,p4);
 		
 		setOptionFastGameplay(DEFAULT_DO_FAST_GAMEPLAY);
 	}
-	//only one ui
-	public Round(TableGUI tviewer, Player[] playerArray, Wind roundWind, int roundNum, int roundBonusNum){this(null, tviewer, playerArray, roundWind, roundNum, DEFAULT_ROUND_BONUS_NUM);}
-	public Round(TextualUI textinterface, Player[] playerArray, Wind roundWind, int roundNum, int roundBonusNum){this(textinterface, null, playerArray, roundWind, roundNum, DEFAULT_ROUND_BONUS_NUM);}
 	//no bonus round info
-	public Round(TableGUI tviewer, Player[] playerArray, Wind roundWind, int roundNum){this(tviewer, playerArray, roundWind, roundNum, DEFAULT_ROUND_BONUS_NUM);}
-	public Round(TextualUI textinterface, Player[] playerArray, Wind roundWind, int roundNum){this(textinterface, playerArray, roundWind, roundNum, DEFAULT_ROUND_BONUS_NUM);}
+	public Round(GameUI ui, Player[] playerArray, Wind roundWind, int roundNum){this(ui, playerArray, roundWind, roundNum, DEFAULT_ROUND_BONUS_NUM);}
 	//no round info
-	public Round(TextualUI textinterface, Player[] playerArray){this(textinterface, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
-	public Round(TableGUI tviewer, Player[] playerArray){this(tviewer, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
+	public Round(GameUI ui, Player[] playerArray){this(ui, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
 	
 	
 	
@@ -155,7 +151,7 @@ public class Round{
 	*/
 	public void play(){
 		
-		if (roundIsOver()){mTextinterface.printErrorRoundAlreadyOver();return;}
+		if (roundIsOver()){mUI.printErrorRoundAlreadyOver();return;}
 		
 		//deal starting hands
 		__dealHands();
@@ -289,7 +285,7 @@ public class Round{
 		
 		//sort the players' hands
 		p1.sortHand(); p2.sortHand(); p3.sortHand(); p4.sortHand();
-		__updateUIs(GameplayEvent.START_OF_ROUND);
+		__updateUI(GameplayEvent.START_OF_ROUND);
 	}
 	
 	
@@ -322,7 +318,7 @@ public class Round{
 		if (p.needsDraw()){
 			__givePlayerTile(p);
 		}
-		else __updateUIs(GameplayEvent.PLACEHOLDER);
+		else __updateUI(GameplayEvent.PLACEHOLDER);
 		
 		
 		//return early if the round is over (4kan or washout)
@@ -341,8 +337,8 @@ public class Round{
 
 				GameplayEvent kanEvent = GameplayEvent.DECLARED_OWN_KAN;
 				kanEvent.setExclamation(Exclamation.OWN_KAN, mRoundTracker.getSeatNumber(p));
-				__updateUIs(kanEvent);
-				__updateUIs(GameplayEvent.MADE_OWN_KAN);
+				__updateUI(kanEvent);
+				__updateUI(GameplayEvent.MADE_OWN_KAN);
 				
 				//give player a rinshan draw
 				__givePlayerTile(p);
@@ -352,7 +348,7 @@ public class Round{
 			if (p.turnActionCalledTsumo()){
 				GameplayEvent tsumoEvent = GameplayEvent.DECLARED_TSUMO;
 				tsumoEvent.setExclamation(Exclamation.TSUMO, mRoundTracker.getSeatNumber(p));
-				__updateUIs(tsumoEvent);
+				__updateUI(tsumoEvent);
 				mRoundTracker.setResultVictory(p);
 			}
 			
@@ -366,13 +362,13 @@ public class Round{
 		
 		
 		//show the human player their hand, show the discarded tile and the discarder's pond
-		__updateUIs(GameplayEvent.DISCARDED_TILE);
+		__updateUI(GameplayEvent.DISCARDED_TILE);
 		
 		
 		//~~~~~~get reactions from the other players
-		mRoundTracker.neighborShimochaOf(p).reactToDiscard(mRoundTracker.getMostRecentDiscard(), mTviewer);
-		mRoundTracker.neighborToimenOf(p).reactToDiscard(mRoundTracker.getMostRecentDiscard(), mTviewer);
-		mRoundTracker.neighborKamichaOf(p).reactToDiscard(mRoundTracker.getMostRecentDiscard(), mTviewer);
+		mRoundTracker.neighborShimochaOf(p).reactToDiscard(mRoundTracker.getMostRecentDiscard());
+		mRoundTracker.neighborToimenOf(p).reactToDiscard(mRoundTracker.getMostRecentDiscard());
+		mRoundTracker.neighborKamichaOf(p).reactToDiscard(mRoundTracker.getMostRecentDiscard());
 		
 		
 		
@@ -418,14 +414,14 @@ public class Round{
 			}
 			else{
 				drawnTile = mWall.takeTileFromDeadWall();
-				__updateUIs(GameplayEvent.NEW_DORA_INDICATOR);
+				__updateUI(GameplayEvent.NEW_DORA_INDICATOR);
 			}			
 		}
 		
 		
 		//add the tile to the player's hand
 		p.addTileToHand(drawnTile);
-		__updateUIs(GameplayEvent.DREW_TILE);
+		__updateUI(GameplayEvent.DREW_TILE);
 	}
 	
 	
@@ -479,7 +475,7 @@ public class Round{
 		//show the call
 		GameplayEvent callEvent = GameplayEvent.CALLED_TILE;
 		callEvent.setExclamation(priorityCaller.getCallStatusExclamation(), mRoundTracker.getSeatNumber(priorityCaller));
-		__updateUIs(callEvent);
+		__updateUI(callEvent);
 		
 		
 		//give the caller the discarded tile so they can make their meld
@@ -493,7 +489,7 @@ public class Round{
 			
 			//make the meld
 			priorityCaller.makeMeld(discardedTile);
-			__updateUIs(GameplayEvent.MADE_OPEN_MELD);
+			__updateUI(GameplayEvent.MADE_OPEN_MELD);
 		}
 		
 		
@@ -595,16 +591,15 @@ public class Round{
 	*/
 	public void displayRoundResult(){
 		
-		__updateUIs(GameplayEvent.END_OF_ROUND);
+		__updateUI(GameplayEvent.END_OF_ROUND);
 		
 		Pauser.pauseFor(sleepTimeRoundEnd);
 	}
 	
 	
 	
-	private void __updateUIs(GameplayEvent event){
-		if (mTextinterface != null) mTextinterface.displayEvent(event);
-		if (mTviewer != null) mTviewer.displayEvent(event);
+	private void __updateUI(GameplayEvent event){
+		if (mUI != null) mUI.displayEvent(event);
 		
 		if (!event.isExclamation() && event != GameplayEvent.PLACEHOLDER) mPauser.pauseWait();
 	}
@@ -639,8 +634,9 @@ public class Round{
 		}
 		
 		mPauser = new Pauser(sleepTime);
-		if (mTviewer != null) mTviewer.setSleepTimeExclamation(sleepTimeExclamation);
-		if (mTextinterface != null) mTextinterface.setSleepTimeExclamation(0);
+		if (mUI != null) mUI.setSleepTimeExclamation(sleepTimeExclamation);
+//		if (mTviewer != null) mTviewer.setSleepTimeExclamation(sleepTimeExclamation);
+//		if (mTextinterface != null) mTextinterface.setSleepTimeExclamation(0);
 	}
 	
 	

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import majava.userinterface.GameUI;
+import majava.summary.entity.RoundEntities;
 import majava.tiles.Tile;
 import majava.enums.Wind;
 import majava.util.TileList;
@@ -87,43 +88,261 @@ public class RoundTracker {
 	
 	
 	//tracks information for a player
-	private static class PlayerTracker{
-		private Player player;
-		
-//		private Wind seatWind;
-//		private int points;
-//		private boolean riichiStatus;
-//		private String playerName;
-		
-		private Hand hand;
-		private Pond pond;
-		
-		private TileList tilesH;
-		private TileList tilesP;
-		
-		private List<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
-	}
+//	private static class PlayerTracker{
+//		private Player player;
+//		
+////		private Wind seatWind;
+////		private int points;
+////		private boolean riichiStatus;
+////		private String playerName;
+//		
+//		private Hand hand;
+//		private Pond pond;
+//		
+//		private TileList tilesH;
+//		private TileList tilesP;
+//		
+//		private List<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
+//	}
 	
-	private PlayerTracker[] mPTrackers;
+	private RoundEntities.PlayerTracker[] mPTrackers;
 	private int numPlayersSynched;
 	private boolean wallSynched;
 
-	private Wall mWall;
-	private Tile[] tilesW;
+	private final Wall mWall;
+	private final Tile[] tilesW;
+	
+	
+	private final Player[] mPlayerArray;
+	private final RoundEntities mRoundEntities;
 	
 	
 	
 	
+	private final Wind mRoundWind;
+	private final int mRoundNum;
+	private final int mRoundBonusNum;
 	
-	private Wind mRoundWind;
-	private int mRoundNum;
-	private int mRoundBonusNum;
+	private final RoundResult mRoundResult;
 	
 	private int mWhoseTurn;
 	private Tile mMostRecentDiscard;
 	
 	
-	private final RoundResult mRoundResult;
+	
+	
+	
+	
+	
+//	public RoundTracker(GameUI ui, RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){
+//		
+//		mRoundWind = roundWind;
+//		mRoundNum = roundNum;
+//		mRoundBonusNum = roundBonus;
+//		
+//		mWhoseTurn = 0;
+//		mMostRecentDiscard = null;
+//		
+//		mRoundResult = result;
+//		
+//		__syncWithWall(wall);
+//		__setupPlayerTrackers(p1,p2,p3,p4);
+//		
+//		__syncWithUI(ui);
+//	}
+//	public RoundTracker(RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){this(null, result, roundWind, roundNum, roundBonus, wall, p1, p2, p3, p4);}
+	
+	
+//	private void __syncWithWall(Wall wall){
+//		mWall = wall;
+//		tilesW = mWall.syncWithTracker(this);
+//	}
+//	public void syncWall(Tile[] wallTiles){
+//		if (wallSynched) return;
+//		tilesW = wallTiles;
+//	}
+	
+	
+	//sets up the tracker to track players
+//	private void __setupPlayerTrackers(Player... players){
+//		
+//		numPlayersSynched = 0;
+//		mPTrackers = new RoundEntities.PlayerTracker[NUM_PLAYERS];
+//		
+//		
+//		for (numPlayersSynched = 0; numPlayersSynched < NUM_PLAYERS; numPlayersSynched++){
+//			
+//			mPTrackers[numPlayersSynched] = new PlayerTracker();
+//			
+//			mPTrackers[numPlayersSynched].player = players[numPlayersSynched];	//link
+//			mPTrackers[numPlayersSynched].player.syncWithRoundTracker(this);
+//			mPTrackers[numPlayersSynched].hand.syncWithRoundTracker(this);
+//			mPTrackers[numPlayersSynched].pond.syncWithRoundTracker(this);
+//		}
+//	}
+//	public void syncPlayer(Hand h, Pond p){
+//		if (numPlayersSynched > NUM_PLAYERS) return;
+//		mPTrackers[numPlayersSynched].hand = h;
+//		mPTrackers[numPlayersSynched].pond = p;
+//		
+////		mPTrackers[numPlayersSynched].playerName = mPTrackers[numPlayersSynched].player.getPlayerName();	//NOT LINK
+////		mPTrackers[numPlayersSynched].seatWind = mPTrackers[numPlayersSynched].player.getSeatWind();	//NOT LINK, but it won't change
+////		mPTrackers[numPlayersSynched].points = mPTrackers[numPlayersSynched].player.getPoints();	//NOT LINK
+////		mPTrackers[numPlayersSynched].riichiStatus = mPTrackers[numPlayersSynched].player.getRiichiStatus();	//NOT LINK
+//	}
+//	public void syncHand(TileList handTiles, List<Meld> handMelds){
+//		if (numPlayersSynched > NUM_PLAYERS) return;
+//		mPTrackers[numPlayersSynched].tilesH = handTiles;
+//		mPTrackers[numPlayersSynched].melds = handMelds;
+//	}
+//	public void syncPond(TileList pondTiles){
+//		if (numPlayersSynched > NUM_PLAYERS) return;
+//		mPTrackers[numPlayersSynched].tilesP = pondTiles;
+//	}
+	
+	
+	private void __syncWithUI(GameUI ui){
+		if (ui == null) return;
+		
+		Player[] pPlayers = {mPTrackers[0].player, mPTrackers[1].player, mPTrackers[2].player, mPTrackers[3].player};
+		TileList[] pHandTiles = {mPTrackers[0].tilesH, mPTrackers[1].tilesH, mPTrackers[2].tilesH, mPTrackers[3].tilesH};
+		TileList[] pPondTiles = {mPTrackers[0].tilesP, mPTrackers[1].tilesP, mPTrackers[2].tilesP, mPTrackers[3].tilesP};
+		Hand[] pHands = {mPTrackers[0].hand, mPTrackers[1].hand, mPTrackers[2].hand, mPTrackers[3].hand};
+		Pond[] pPonds = {mPTrackers[0].pond, mPTrackers[1].pond, mPTrackers[2].pond, mPTrackers[3].pond};
+		List<List<Meld>> pMelds = Arrays.asList(mPTrackers[0].melds, mPTrackers[1].melds, mPTrackers[2].melds, mPTrackers[3].melds);
+		
+		ui.syncWithRoundTracker(this, pPlayers, pHands, pHandTiles, pPonds, pPondTiles, mWall, tilesW);
+	}
+	
+	
+	
+	
+	
+	
+//	public RoundTracker(GameUI ui, RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4, boolean b){
+//		
+//		
+//		RoundTracker rTracker;
+//		Player[] pPlayers;
+//		Hand[] pHands;
+//		TileList[] pHandTiles;
+//		Pond[] pPonds;
+//		TileList[] pPondTiles;
+////		Wall wall;
+//		Tile[] tilesW;
+//		
+//		mRoundWind = roundWind;
+//		mRoundNum = roundNum;
+//		mRoundBonusNum = roundBonus;
+//		
+//		mWhoseTurn = 0;
+//		mMostRecentDiscard = null;
+//		
+//		mRoundResult = result;
+//		
+//		
+//		
+//		
+//		
+//		
+//
+//		
+//		
+//		
+//		rTracker = this;
+//		pPlayers = new Player[]{p1, p2, p3, p4};
+//		
+//		
+//		
+//		__syncWithWall(wall);
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		__setupPlayerTrackers(p1,p2,p3,p4);
+//		
+//		numPlayersSynched = 0;
+//		mPTrackers = new PlayerTracker[NUM_PLAYERS];
+//		
+//		
+//		Player currentPlayer; Hand currentHand; Pond currentPond;
+//		
+//		for (numPlayersSynched = 0; numPlayersSynched < NUM_PLAYERS; numPlayersSynched++){
+//			
+////			mPTrackers[numPlayersSynched] = new PlayerTracker();
+//			
+//			currentPlayer = pPlayers[numPlayersSynched];	//link
+//			
+//			mPTrackers[numPlayersSynched].player.syncWithRoundTracker(this);
+//			
+//			mPTrackers[numPlayersSynched].hand.syncWithRoundTracker(this);
+//			
+//			mPTrackers[numPlayersSynched].pond.syncWithRoundTracker(this);
+//			
+//			
+//			
+//			
+//			
+//			
+////			mPTrackers[numPlayersSynched] = new PlayerTracker();
+////			
+////			mPTrackers[numPlayersSynched].player = pPlayers[numPlayersSynched];	//link
+////			mPTrackers[numPlayersSynched].player.syncWithRoundTracker(this);
+////			mPTrackers[numPlayersSynched].hand.syncWithRoundTracker(this);
+////			mPTrackers[numPlayersSynched].pond.syncWithRoundTracker(this);
+//		}
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		__syncWithUI(ui);
+//	}
+	
+	
+	
+	
+	
+//	Player tempSyncPlayer = null;
+//	TileList tempSyncHandTiles = null;
+//	TileList tempSyncPondTiles = null;
+//	Hand tempSyncHand = null;
+//	Pond tempSyncPond = null;
+//	List<Meld> tempSyncMelds = null;
+//	Player tempSyncPlayer = null;
+//	TileList tempSyncHandTiles = null;
+//	TileList tempSyncPondTiles = null;
+//	Hand tempSyncHand = null;
+//	Pond tempSyncPond = null;
+//	List<List<Meld>> tempSyncMelds = null;
+	
+	
+	{
+		tempSyncPlayer = null;
+		tempSyncHandTiles = null;
+		tempSyncPondTiles = null;
+		tempSyncHand = null;
+		tempSyncPond = null;
+		tempSyncMelds = null;
+		tempSyncWallTiles = null;
+
+//		tempSyncPlayers = new Player[NUM_PLAYERS];
+//		tempSyncHandTiles = new TileList[NUM_PLAYERS];
+//		tempSyncPondTiles = new TileList[NUM_PLAYERS];
+//		tempSyncHands = new Hand[NUM_PLAYERS];
+//		tempSyncPonds = new Pond[NUM_PLAYERS];
+//		tempSyncMelds = new ArrayList<List<Meld>>(NUM_PLAYERS);
+	}
 	
 	
 	
@@ -132,53 +351,66 @@ public class RoundTracker {
 	
 	public RoundTracker(GameUI ui, RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){
 		
-		mRoundWind = roundWind;
-		mRoundNum = roundNum;
-		mRoundBonusNum = roundBonus;
+		mRoundWind = roundWind; mRoundNum = roundNum; mRoundBonusNum = roundBonus;
 		
 		mWhoseTurn = 0;
 		mMostRecentDiscard = null;
 		
 		mRoundResult = result;
 		
-		__syncWithWall(wall);
-		__setupPlayerTrackers(p1,p2,p3,p4);
+		
+		mWall = wall;
+		__syncWithWall(mWall);
+		tilesW = tempSyncWallTiles;
+		
+		mPlayerArray = new Player[]{p1,p2,p3,p4};
+		__setupPlayerTrackers();
+		mRoundEntities = new RoundEntities(this, __setupPlayerTrackers(), mWall, tilesW);
 		
 		__syncWithUI(ui);
 	}
 	public RoundTracker(RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){this(null, result, roundWind, roundNum, roundBonus, wall, p1, p2, p3, p4);}
 	
 	
+	
+	
 	private void __syncWithWall(Wall wall){
-		mWall = wall;
 		mWall.syncWithTracker(this);
 	}
 	public void syncWall(Tile[] wallTiles){
 		if (wallSynched) return;
-		tilesW = wallTiles;
+		tempSyncWallTiles = wallTiles;
 	}
 	
-	//sets up the tracker to track players
-	private void __setupPlayerTrackers(Player... players){
+	
+	private Tile[] tempSyncWallTiles = null;
+	private Player tempSyncPlayer = null; private TileList tempSyncHandTiles = null; private TileList tempSyncPondTiles = null; private Hand tempSyncHand = null; private Pond tempSyncPond = null; private List<Meld> tempSyncMelds = null;
+	private RoundEntities.PlayerTracker[] __setupPlayerTrackers(){
+		if (numPlayersSynched > NUM_PLAYERS) return null;
 		
 		numPlayersSynched = 0;
-		mPTrackers = new PlayerTracker[NUM_PLAYERS_TO_TRACK];
+		RoundEntities.PlayerTracker[] trackers = new RoundEntities.PlayerTracker[NUM_PLAYERS];
 		
-		
-		for (numPlayersSynched = 0; numPlayersSynched < NUM_PLAYERS_TO_TRACK; numPlayersSynched++){
+		for (numPlayersSynched = 0; numPlayersSynched < NUM_PLAYERS; numPlayersSynched++){
 			
-			mPTrackers[numPlayersSynched] = new PlayerTracker();
+			tempSyncPlayer = mPlayerArray[numPlayersSynched];	//link
+			tempSyncPlayer.syncWithRoundTracker(this);
+			tempSyncHand.syncWithRoundTracker(this);
+			tempSyncPond.syncWithRoundTracker(this);
 			
-			mPTrackers[numPlayersSynched].player = players[numPlayersSynched];	//link
-			mPTrackers[numPlayersSynched].player.syncWithRoundTracker(this);
-			mPTrackers[numPlayersSynched].hand.syncWithRoundTracker(this);
-			mPTrackers[numPlayersSynched].pond.syncWithRoundTracker(this);
+//			mPTrackers[numPlayersSynched] = new RoundEntities.PlayerTracker(tempSyncPlayer, tempSyncHand, tempSyncHandTiles, tempSyncPond, tempSyncPondTiles, tempSyncMelds);
+			trackers[numPlayersSynched] = new RoundEntities.PlayerTracker(tempSyncPlayer, tempSyncHand, tempSyncHandTiles, tempSyncPond, tempSyncPondTiles, tempSyncMelds);
 		}
+		tempSyncPlayer = null;tempSyncHandTiles = null;tempSyncPondTiles = null;tempSyncHand = null;tempSyncPond = null;tempSyncMelds = null;
+		
+		mPTrackers = trackers;	/////////TEMP DEBUG USE
+		return trackers;
 	}
+	
 	public void syncPlayer(Hand h, Pond p){
-		if (numPlayersSynched > NUM_PLAYERS_TO_TRACK) return;
-		mPTrackers[numPlayersSynched].hand = h;
-		mPTrackers[numPlayersSynched].pond = p;
+		if (numPlayersSynched > NUM_PLAYERS) return;
+		tempSyncHand = h;
+		tempSyncPond = p;
 		
 //		mPTrackers[numPlayersSynched].playerName = mPTrackers[numPlayersSynched].player.getPlayerName();	//NOT LINK
 //		mPTrackers[numPlayersSynched].seatWind = mPTrackers[numPlayersSynched].player.getSeatWind();	//NOT LINK, but it won't change
@@ -186,24 +418,27 @@ public class RoundTracker {
 //		mPTrackers[numPlayersSynched].riichiStatus = mPTrackers[numPlayersSynched].player.getRiichiStatus();	//NOT LINK
 	}
 	public void syncHand(TileList handTiles, List<Meld> handMelds){
-		if (numPlayersSynched > NUM_PLAYERS_TO_TRACK) return;
-		mPTrackers[numPlayersSynched].tilesH = handTiles;
-		mPTrackers[numPlayersSynched].melds = handMelds;
+		if (numPlayersSynched > NUM_PLAYERS) return;
+		tempSyncHandTiles = handTiles;
+		tempSyncMelds = handMelds;
 	}
 	public void syncPond(TileList pondTiles){
-		if (numPlayersSynched > NUM_PLAYERS_TO_TRACK) return;
-		mPTrackers[numPlayersSynched].tilesP = pondTiles;
+		if (numPlayersSynched > NUM_PLAYERS) return;
+		tempSyncPondTiles = pondTiles;
 	}
 	
 	
-	private void __syncWithUI(GameUI ui){
+	private void __syncWithUIX(GameUI ui){
 		if (ui == null) return;
+		
 		Player[] pPlayers = {mPTrackers[0].player, mPTrackers[1].player, mPTrackers[2].player, mPTrackers[3].player};
 		TileList[] pHandTiles = {mPTrackers[0].tilesH, mPTrackers[1].tilesH, mPTrackers[2].tilesH, mPTrackers[3].tilesH};
 		TileList[] pPondTiles = {mPTrackers[0].tilesP, mPTrackers[1].tilesP, mPTrackers[2].tilesP, mPTrackers[3].tilesP};
 		Hand[] pHands = {mPTrackers[0].hand, mPTrackers[1].hand, mPTrackers[2].hand, mPTrackers[3].hand};
 		Pond[] pPonds = {mPTrackers[0].pond, mPTrackers[1].pond, mPTrackers[2].pond, mPTrackers[3].pond};
-		ui.syncWithRoundTracker(this, pPlayers, pHands, pHandTiles, pPonds, pPondTiles, mWall, tilesW);
+		List<List<Meld>> pMelds = Arrays.asList(mPTrackers[0].melds, mPTrackers[1].melds, mPTrackers[2].melds, mPTrackers[3].melds);
+		
+		ui.syncWithRoundTracker(mRoundEntities);
 	}
 	
 	
@@ -324,8 +559,8 @@ public class RoundTracker {
 	private boolean __multiplePlayersHaveMadeKans(){
 		//count the number of players who have made kans
 		int count = 0;
-		for (PlayerTracker pt: mPTrackers){
-			if (pt.player.hasMadeAKan())
+		for (Player p: mPlayerArray){
+			if (p.hasMadeAKan())
 				count++;
 		}
 		return (count > 1);
@@ -345,7 +580,7 @@ public class RoundTracker {
 	//returns the number of kans made on the table
 	public int getNumKansMade(){
 		int count = 0;
-		for (PlayerTracker pt: mPTrackers) count += pt.player.getNumKansMade();
+		for (Player p: mPlayerArray) count += p.getNumKansMade();
 		return count;
 	}
 	

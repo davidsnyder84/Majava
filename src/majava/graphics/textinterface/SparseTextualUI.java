@@ -50,6 +50,7 @@ public class SparseTextualUI extends TextualUI{
 	
 	protected void __displayEventEndOfRound(){
 		__showRoundResult();__showHandsOfAllPlayers();
+		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeRoundEnd);
 	}
 	
 	
@@ -97,7 +98,7 @@ public class SparseTextualUI extends TextualUI{
 			println(",,," + mPTrackers[seat].player.getSeatWind() + " Player declared " + exclamationToString.get(exclamation).toUpperCase());
 		
 		//pause
-		Pauser.pauseFor(mSleepTimeExclamation);
+		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);
 	}
 	
 }

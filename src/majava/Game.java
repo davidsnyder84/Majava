@@ -48,7 +48,7 @@ public class Game {
 	private static final int MAX_NUM_ROUNDS = NUM_PLAYERS;
 	private static final Wind DEFAULT_ROUND_WIND = Wind.EAST;
 	
-	private enum GameType{
+	private static enum GameType{
 		SINGLE, TONPUUSEN, HANCHAN, SIMULATION;
 		@Override
 		public String toString(){
@@ -75,16 +75,16 @@ public class Game {
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	private static final boolean DEFAULT_FAST_COMS_MEAN_SIMULATION = true;
 //	private static final boolean DEFAULT_FAST_COMS_MEAN_SIMULATION = false;
-//	private static final int NUM_SIMULATIONS_TO_RUN = 500;
+	private static final int NUM_SIMULATIONS_TO_RUN = 500;
 //	private static final int NUM_SIMULATIONS_TO_RUN = 5000;
-	private static final int NUM_SIMULATIONS_TO_RUN = 100;
+//	private static final int NUM_SIMULATIONS_TO_RUN = 100;
 	
 	
 	
 	
 	
-	private Player p1, p2, p3, p4;
-	private Player[] mPlayerArray;
+	private final Player p1, p2, p3, p4;
+	private final Player[] mPlayerArray;
 	
 	private Round mCurrentRound;
 	private Wind mCurrentRoundWind;
@@ -93,12 +93,10 @@ public class Game {
 	private GameType mGameType;
 	private boolean mGameIsOver;
 	private int mNumRoundsPlayed;
-	private List<String> mWinStrings;
-	private List<RoundResultSummary> mRoundResults;
-
-//	private TableGUI mTviewer;
-//	private TextualUI mTextinterface;
-	private GameUI mUI;
+	private final List<String> mWinStrings;
+	private final List<RoundResultSummary> mRoundResults;
+	
+	private final GameUI mUI;
 	
 	private boolean mDoFastGameplay;
 	
@@ -234,7 +232,7 @@ public class Game {
 		RoundResultSummary cr = null;
 		for (int i = 0; i < mRoundResults.size(); i++){
 			cr = mRoundResults.get(i);
-			if (!cr.isDrawWashout())
+			if (cr != null && !cr.isDrawWashout())
 				System.out.printf("%3d: %s\n", i+1, cr.getAsStringResultType());
 		}
 	}
@@ -244,7 +242,7 @@ public class Game {
 		int numWinsByPlayer[] = new int[4];
 		
 		for (RoundResultSummary cr: mRoundResults){
-			if (cr.isVictory()){
+			if (cr != null && cr.isVictory()){
 				numWins++;
 				numWinsByPlayer[cr.getWinningPlayer().getPlayerNumber()]++;
 			}

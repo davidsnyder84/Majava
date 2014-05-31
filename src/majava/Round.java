@@ -53,7 +53,8 @@ methods:
 	 	displayRoundResult - displays the round's end result
 */
 public class Round{
-	
+
+	private static final int NUM_PLAYERS = 4;
 	private static final Wind DEFAULT_ROUND_WIND = Wind.EAST;
 	private static final int DEFAULT_ROUND_NUM = 1;
 	private static final int DEFAULT_ROUND_BONUS_NUM = 0;
@@ -73,8 +74,6 @@ public class Round{
 	private final RoundTracker mRoundTracker;
 	private final RoundResult mRoundResult;
 	private final GameUI mUI;
-//	private final TableGUI mTviewer;
-//	private final TextualUI mTextinterface;
 	
 	
 	private final Wind mRoundWind;
@@ -84,7 +83,7 @@ public class Round{
 	//options
 	private boolean mDoFastGameplay;
 	private int sleepTime, sleepTimeExclamation, sleepTimeRoundEnd;
-	private Pauser mPauser;
+//	private Pauser mPauser;
 	
 	
 	/*
@@ -114,14 +113,10 @@ public class Round{
 		mRoundBonusNum = roundBonusNum;
 		
 		mUI = ui;
-//		mTviewer = tviewer;
-//		mTextinterface = textinterface;
 		
 		//initialize Round Tracker
-//		mTviewer = null; mTextinterface = null;
 		mRoundResult = new RoundResult();
 		mRoundTracker = new RoundTracker(mUI, mRoundResult, mRoundWind,mRoundNum,mRoundBonusNum,  mWall,  p1,p2,p3,p4);
-//		mRoundTracker = new RoundTracker(mTextinterface, mTviewer, mRoundResult, mRoundWind,mRoundNum,mRoundBonusNum,  mWall,  p1,p2,p3,p4);
 		
 		setOptionFastGameplay(DEFAULT_DO_FAST_GAMEPLAY);
 	}
@@ -367,9 +362,12 @@ public class Round{
 		
 		
 		//~~~~~~get reactions from the other players
-		mRoundTracker.neighborShimochaOf(p).reactToDiscard(discardedTile);
-		mRoundTracker.neighborToimenOf(p).reactToDiscard(discardedTile);
-		mRoundTracker.neighborKamichaOf(p).reactToDiscard(discardedTile);
+		mPlayerArray[(p.getPlayerNumber() + 1) % NUM_PLAYERS].reactToDiscard(discardedTile);
+		mPlayerArray[(p.getPlayerNumber() + 2) % NUM_PLAYERS].reactToDiscard(discardedTile);
+		mPlayerArray[(p.getPlayerNumber() + 3) % NUM_PLAYERS].reactToDiscard(discardedTile);
+//		mRoundTracker.neighborShimochaOf(p).reactToDiscard(discardedTile);
+//		mRoundTracker.neighborToimenOf(p).reactToDiscard(discardedTile);
+//		mRoundTracker.neighborKamichaOf(p).reactToDiscard(discardedTile);
 		
 		
 		
@@ -593,15 +591,16 @@ public class Round{
 		
 		__updateUI(GameplayEvent.END_OF_ROUND);
 		
-		Pauser.pauseFor(sleepTimeRoundEnd);
+//		Pauser.pauseFor(sleepTimeRoundEnd);
 	}
 	
 	
 	
 	private void __updateUI(GameplayEvent event){
-		if (mUI != null) mUI.displayEvent(event);
+		if (mUI == null) return;
 		
-		if (!event.isExclamation() && event != GameplayEvent.PLACEHOLDER) mPauser.pauseWait();
+		mUI.displayEvent(event);
+//		if (sleepTime > 0 && !event.isExclamation() && event != GameplayEvent.PLACEHOLDER) mPauser.pauseWait();
 	}
 	
 	
@@ -633,10 +632,8 @@ public class Round{
 			sleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
 		}
 		
-		mPauser = new Pauser(sleepTime);
-		if (mUI != null) mUI.setSleepTimeExclamation(sleepTimeExclamation);
-//		if (mTviewer != null) mTviewer.setSleepTimeExclamation(sleepTimeExclamation);
-//		if (mTextinterface != null) mTextinterface.setSleepTimeExclamation(0);
+//		mPauser = new Pauser(sleepTime);
+		if (mUI != null) mUI.setSleepTimes(sleepTime, sleepTimeExclamation, sleepTimeRoundEnd);
 	}
 	
 	

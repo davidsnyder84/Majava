@@ -161,7 +161,7 @@ public class Majenerator {
 		
 		player.setPlayerNumber(playernum);
 		
-		player.DEMOfillHand();
+		player.DEMOfillHandNoTsumo();
 		
 		return player;
 	}

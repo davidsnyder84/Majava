@@ -33,7 +33,8 @@ public interface GameUI {
 	
 	
 	
-	void setSleepTimeExclamation(int sleepTime);
+//	void setSleepTimeExclamation(int sleepTime);
+	void setSleepTimes(int sleepTime, int sleepTimeExclamation, int sleepTimeRoundEnd);
 	
 	void printErrorRoundAlreadyOver();
 	

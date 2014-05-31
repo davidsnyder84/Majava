@@ -104,7 +104,7 @@ public class Player {
 	
 
 	//used to indicate who is controlling the player
-	private enum Controller{
+	private static enum Controller{
 		HUMAN, COM, UNDECIDED;
 		
 		@Override
@@ -121,7 +121,7 @@ public class Player {
 	}
 
 	//used to indicate what call a player wants to make on another player's discard
-	private enum CallType{
+	private static enum CallType{
 		NONE, CHI_L, CHI_M, CHI_H, PON, KAN, RON, CHI, UNDECIDED;
 		
 		@Override
@@ -147,17 +147,17 @@ public class Player {
 	}
 	
 	//used to indicate what type of draw a player needs
-	private enum DrawType{
+	private static enum DrawType{
 		NONE, NORMAL, RINSHAN;
 	}
 
 	//used to indicate what action the player wants to do on their turn
-	private enum ActionType{
+	private static enum ActionType{
 		DISCARD, ANKAN, MINKAN, RIICHI, TSUMO, UNDECIDED;
 	}
 	
 	//used to dictate how the com chooses its discards
-	private enum ComBehavior{DISCARD_LAST, DISCARD_FIRST, DISCARD_RANDOM}
+	private static enum ComBehavior{DISCARD_LAST, DISCARD_FIRST, DISCARD_RANDOM}
 	private static final ComBehavior COM_BEHAVIOR_DEFAULT = ComBehavior.DISCARD_LAST;
 	
 	
@@ -939,7 +939,9 @@ public class Player {
 	//////BEGIN DEMO METHODS
 	////////////////////////////////////////////////////////////////////////////////////
 	//fill hand with demo values
-	public void DEMOfillHand(){mHand.DEMOfillChuuren();}
+//	public void DEMOfillHand(){mHand.DEMOfillChuuren();}
+	public void DEMOfillHand(){mHand.DEMOfillHelter();}
+	public void DEMOfillHandNoTsumo(){DEMOfillHand(); mHand.removeTile(mHand.size()-1);}
 	////////////////////////////////////////////////////////////////////////////////////
 	//////END DEMO METHODS
 	////////////////////////////////////////////////////////////////////////////////////

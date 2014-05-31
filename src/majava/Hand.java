@@ -413,6 +413,10 @@ public class Hand implements Iterable<Tile>{
 	//xxxxBEGIN DEMO METHODS
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	//demo values
+	public void DEMOfillHelter(){
+		int[] ids = {2,4,6,8,10,12,14,16,18,20,22,24,26,28};
+		for (int i: ids) addTile(i);
+	}
 	public void DEMOfillChuuren(int lastTile){
 		int[] ids = {1,1,1,2,3,4,5,6,7,8,9,9,9,lastTile};
 		for (int i: ids) addTile(i);

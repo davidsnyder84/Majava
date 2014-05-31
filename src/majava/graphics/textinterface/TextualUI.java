@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import utility.Pauser;
+
 import majava.Hand;
 import majava.Player;
 import majava.Pond;
@@ -20,7 +22,7 @@ import majava.util.TileList;
 
 public abstract class TextualUI implements GameUI{
 	
-	protected static final int DEFAULT_SLEEP_TIME_EXCLAMATION = 1500;
+	protected static final int DEAFULT_SLEEPTIME = 400, DEAFULT_SLEEPTIME_EXCLAMATION = 1500, DEAFULT_SLEEPTIME_ROUND_END = 2000;
 	protected static final int NUM_PLAYERS_TO_TRACK = 4;
 	
 	protected static final Map<Exclamation, String> exclamationToString;
@@ -43,7 +45,7 @@ public abstract class TextualUI implements GameUI{
 	
 	
 	protected final PrintStream mOutStream;
-	protected int mSleepTimeExclamation = DEFAULT_SLEEP_TIME_EXCLAMATION;
+	protected int mSleepTime = DEAFULT_SLEEPTIME, mSleepTimeExclamation = DEAFULT_SLEEPTIME_EXCLAMATION, mSleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
 	
 	protected PlayerTracker[] mPTrackers;
 	protected Wall mWall;
@@ -80,6 +82,9 @@ public abstract class TextualUI implements GameUI{
 		}
 		
 		if (event.isExclamation()) __showExclamation(event.getExclamation(), event.getSeat());
+		
+		
+		if (mSleepTime > 0 && !event.isExclamation() && event != GameplayEvent.PLACEHOLDER) Pauser.pauseFor(mSleepTime);
 	}
 	
 	protected abstract void __displayEventDiscardedTile();
@@ -160,7 +165,11 @@ public abstract class TextualUI implements GameUI{
 	
 	
 	
-	public final void setSleepTimeExclamation(int sleepTime){mSleepTimeExclamation = sleepTime;};
+	public final void setSleepTimes(int sleepTime, int sleepTimeExclamation, int sleepTimeRoundEnd){
+		mSleepTime = sleepTime;
+		mSleepTimeExclamation = sleepTimeExclamation;
+		mSleepTimeRoundEnd = sleepTimeRoundEnd;
+	}
 	
 	
 	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] trackerTilesW){		

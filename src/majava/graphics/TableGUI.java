@@ -131,8 +131,8 @@ public abstract class TableGUI extends JFrame implements GameUI{
 	protected static final Color COLOR_POND_RIICHI_TILE = new Color(0, 0, 250, 250);
 	protected static final Color COLOR_POND_DISCARD_TILE = Color.YELLOW;
 
-	
-	protected static final int DEFAULT_SLEEP_TIME_EXCLAMATION = 1500;
+
+	protected static final int DEAFULT_SLEEPTIME = 400, DEAFULT_SLEEPTIME_EXCLAMATION = 1500, DEAFULT_SLEEPTIME_ROUND_END = 2000;
 	private static final int[][] EXCLAMATION_LOCS =  {{99, 594}, {570, 298}, {480, 36}, {3, 298}};
 	protected static final Map<Exclamation, String> exclamationToString;
 	static {
@@ -322,7 +322,8 @@ public abstract class TableGUI extends JFrame implements GameUI{
 	protected boolean mOptionRevealWall;
 	protected boolean mOptionRevealHands;
 	protected boolean[] mRevealHands;
-	protected int mSleepTimeExclamation;
+	
+	protected int mSleepTime = DEAFULT_SLEEPTIME, mSleepTimeExclamation = DEAFULT_SLEEPTIME_EXCLAMATION, mSleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
 	
 
 	private static final int NUM_PLAYERS_TO_TRACK = 4;
@@ -465,7 +466,7 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		case DISCARDED_TILE: updateEverything(); return;
 		case DREW_TILE: updateEverything(); return;
 		case MADE_OPEN_MELD: updateEverything(); return;
-		case END_OF_ROUND: showResult(); updateEverything(); return;
+		case END_OF_ROUND: showResult(); updateEverything(); if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeRoundEnd); return;
 		
 		case HUMAN_PLAYER_TURN_START: updateEverything(); return;
 		
@@ -474,8 +475,22 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		}
 		
 		if (event.isExclamation()) __showExclamation(event.getExclamation(), event.getSeat());
+		
+
+		if (mSleepTime > 0 && !event.isExclamation() && event != GameplayEvent.PLACEHOLDER) Pauser.pauseFor(mSleepTime);
 	}
 	public void printErrorRoundAlreadyOver(){System.out.println("----Error: Round is already over, cannot play");}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -803,12 +818,16 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		lblExclamation.setVisible(true);
 		
 		//pause
-		Pauser.pauseFor(mSleepTimeExclamation);
+		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);
 		
 		//get rid of label
 		lblExclamation.setVisible(false);
 	}
-	public void setSleepTimeExclamation(int sleepTime){mSleepTimeExclamation = sleepTime;};
+	public final void setSleepTimes(int sleepTime, int sleepTimeExclamation, int sleepTimeRoundEnd){
+		mSleepTime = sleepTime;
+		mSleepTimeExclamation = sleepTimeExclamation;
+		mSleepTimeRoundEnd = sleepTimeRoundEnd;
+	}
 	
 	
 	
@@ -869,7 +888,6 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		
 		mOptionRevealWall = DEFAULT_OPTION_REVEAL_WALL;
 		mOptionRevealHands = DEFAULT_OPTION_REVEAL_HANDS;
-		mSleepTimeExclamation = DEFAULT_SLEEP_TIME_EXCLAMATION;
 
 
 		//load image icons into arrays

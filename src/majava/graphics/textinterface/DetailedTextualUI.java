@@ -56,6 +56,7 @@ public class DetailedTextualUI extends TextualUI{
 	
 	protected void __displayEventEndOfRound(){
 		__showRoundResult();__showHandsOfAllPlayers();
+		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeRoundEnd);
 	}
 	
 	
@@ -122,7 +123,7 @@ public class DetailedTextualUI extends TextualUI{
 //		System.out.println();
 		
 		//pause
-		Pauser.pauseFor(mSleepTimeExclamation);
+		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);
 	}
 	
 	

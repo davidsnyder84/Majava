@@ -14,6 +14,7 @@ import majava.userinterface.graphicalinterface.window.TableViewer;
 import majava.userinterface.textinterface.DetailedTextualUI;
 import majava.userinterface.textinterface.SparseTextualUI;
 import majava.userinterface.textinterface.TextualUI;
+import majava.summary.entity.RoundEntities;
 import majava.tiles.Tile;
 import majava.util.TileList;
 
@@ -60,10 +61,10 @@ public class ComboTextGraphicalUI extends GameUI{
 		mGraphicalUI.printErrorRoundAlreadyOver();
 	}
 	
-	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] tilesW){
-		super.syncWithRoundTracker(rTracker, pPlayers, pHands, pHandTiles, pPonds, pPondTiles, wall, tilesW);
-		mTextualUI.syncWithRoundTracker(rTracker, pPlayers, pHands, pHandTiles, pPonds, pPondTiles, wall, tilesW);
-		mGraphicalUI.syncWithRoundTracker(rTracker, pPlayers, pHands, pHandTiles, pPonds, pPondTiles, wall, tilesW);
+//	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] tilesW){
+	public void syncWithRoundTracker(RoundEntities roundEntities){
+		mTextualUI.syncWithRoundTracker(roundEntities);
+		mGraphicalUI.syncWithRoundTracker(roundEntities);
 	}
 	
 	

@@ -15,34 +15,7 @@ public class RoundEntities {
 	
 	private static final int NUM_PLAYERS = 4;
 	
-	public static final class PlayerTracker{
-		public final Player player;
-		
-		public final Hand hand;
-		public final TileList tilesH;
-		
-		public final Pond pond;
-		public final TileList tilesP;
-		
-		public final List<Meld> melds;
-		
-		//private Wind seatWind;
-		//private int points;
-		//private boolean riichiStatus;
-		//private String playerName;
-		
-		//private List<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
-		
-		public PlayerTracker(Player p, Hand ha, TileList tH, Pond po, TileList tP, List<Meld> ms){
-			player = p;
-			hand = ha; tilesH = tH;
-			pond = po; tilesP = tP;
-			melds = ms;
-		}
-		public PlayerTracker(Player p, Hand ha, TileList tH, Pond po, TileList tP){
-			this(p,ha,tH,po,tP,null);
-		}
-	}
+	
 	public final PlayerTracker[] mPTrackers;
 	public final Tile[] mTilesW;
 	public final Wall mWall;

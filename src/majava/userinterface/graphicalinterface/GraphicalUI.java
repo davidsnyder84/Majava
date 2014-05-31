@@ -11,6 +11,7 @@ import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 import majava.userinterface.GameUI;
 import majava.userinterface.graphicalinterface.window.TableViewBase;
+import majava.summary.entity.RoundEntities;
 import majava.tiles.Tile;
 import majava.util.TileList;
 
@@ -179,9 +180,9 @@ public class GraphicalUI extends GameUI{
 	
 	
 	
-	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] tilesW){
-		super.syncWithRoundTracker(rTracker, pPlayers, pHands, pHandTiles, pPonds, pPondTiles, wall, tilesW);
-		mTableWindow.syncWithRoundTracker(rTracker, pPlayers, pHands, pHandTiles, pPonds, pPondTiles, wall, tilesW);
+	public void syncWithRoundTracker(RoundEntities roundEntities){
+		super.syncWithRoundTracker(roundEntities);
+		mTableWindow.syncWithRoundTracker(roundEntities);
 	}
 	
 	

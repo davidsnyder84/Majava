@@ -8,6 +8,7 @@ import majava.RoundTracker;
 import majava.Wall;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
+import majava.summary.entity.RoundEntities;
 import majava.tiles.Tile;
 import majava.util.TileList;
 
@@ -29,33 +30,35 @@ public abstract class GameUI {
 //		public PlayerTracker(Player p, Hand tH, Pond tP){player = p;hand = tH;pond = tP;}
 //	}
 	
-	protected static final class PlayerTracker{
-		public Player player;
-
-		public Hand hand;
-		public TileList tilesH;
-		
-		public Pond pond;
-		public TileList tilesP;
-
-		//private Wind seatWind;
-		//private int points;
-		//private boolean riichiStatus;
-		//private String playerName;
-		
-		//private List<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
-		
-		public PlayerTracker(Player p, Hand ha, TileList tH, Pond po, TileList tP){
-			player = p;
-			hand = ha; tilesH = tH;
-			pond = po; tilesP = tP;
-		}
-	}
-	protected PlayerTracker[] mPTrackers;
-	protected Tile[] mTilesW;
-	protected Wall mWall;
+//	protected static final class PlayerTracker{
+//		public Player player;
+//
+//		public Hand hand;
+//		public TileList tilesH;
+//		
+//		public Pond pond;
+//		public TileList tilesP;
+//
+//		//private Wind seatWind;
+//		//private int points;
+//		//private boolean riichiStatus;
+//		//private String playerName;
+//		
+//		//private List<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
+//		
+//		public PlayerTracker(Player p, Hand ha, TileList tH, Pond po, TileList tP){
+//			player = p;
+//			hand = ha; tilesH = tH;
+//			pond = po; tilesP = tP;
+//		}
+//	}
+//	protected PlayerTracker[] mPTrackers;
+//	protected Tile[] mTilesW;
+//	protected Wall mWall;
+//	
+//	protected RoundTracker mRoundTracker;
 	
-	protected RoundTracker mRoundTracker;
+	protected RoundEntities mRoundEntities;
 	
 	
 	
@@ -79,20 +82,19 @@ public abstract class GameUI {
 	
 	
 	
-	
-	public void displayEvent(GameplayEvent event){
+	public void displayEvent(final GameplayEvent event){
 		switch(event){
-		case DISCARDED_TILE: __displayEventDiscardedTile(); return;
-		case MADE_OPEN_MELD: __displayEventMadeOpenMeld(); return;
-		case DREW_TILE: __displayEventDrewTile(); return;
-		case MADE_OWN_KAN: __displayEventMadeOwnKan(); return;
-		case NEW_DORA_INDICATOR: __displayEventNewDoraIndicator(); return;
+		case DISCARDED_TILE: __displayEventDiscardedTile(); break;
+		case MADE_OPEN_MELD: __displayEventMadeOpenMeld(); break;
+		case DREW_TILE: __displayEventDrewTile(); break;
+		case MADE_OWN_KAN: __displayEventMadeOwnKan(); break;
+		case NEW_DORA_INDICATOR: __displayEventNewDoraIndicator(); break;
 		
-		case HUMAN_PLAYER_TURN_START: __displayEventHumanTurnStart(); return;
+		case HUMAN_PLAYER_TURN_START: __displayEventHumanTurnStart(); break;
 		
-		case START_OF_ROUND: __displayEventStartOfRound(); return;
-		case PLACEHOLDER: __displayEventPlaceholder(); return;
-		case END_OF_ROUND: __displayEventEndOfRound(); return;
+		case START_OF_ROUND: __displayEventStartOfRound(); break;
+		case PLACEHOLDER: __displayEventPlaceholder(); break;
+		case END_OF_ROUND: __displayEventEndOfRound(); break;
 		default: break;
 		}
 		
@@ -120,14 +122,19 @@ public abstract class GameUI {
 	
 	
 	
-	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] tilesW){
-		mRoundTracker = rTracker;
-
-		mPTrackers = new PlayerTracker[NUM_PLAYERS];
-		for (int i = 0; i < NUM_PLAYERS; i++) mPTrackers[i] = new PlayerTracker(pPlayers[i], pHands[i], pHandTiles[i], pPonds[i], pPondTiles[i]);
-		
-		mWall = wall;mTilesW = tilesW;
+	public void syncWithRoundTracker(RoundEntities roundEntities){
+		mRoundEntities = roundEntities;
 	}
+	
+//	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] tilesW){
+//		
+//		mRoundTracker = rTracker;
+//
+//		mPTrackers = new PlayerTracker[NUM_PLAYERS];
+//		for (int i = 0; i < NUM_PLAYERS; i++) mPTrackers[i] = new PlayerTracker(pPlayers[i], pHands[i], pHandTiles[i], pPonds[i], pPondTiles[i]);
+//		
+//		mWall = wall;mTilesW = tilesW;
+//	}
 	
 	
 	

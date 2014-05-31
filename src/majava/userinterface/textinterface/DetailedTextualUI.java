@@ -27,9 +27,9 @@ public class DetailedTextualUI extends TextualUI{
 		__showHandsOfAllPlayers();
 		
 		//show the discarded tile and the discarder's pond
-		println("\n\n\tTiles left: " + mRoundTracker.getNumTilesLeftInWall());
-		println("\t" + mRoundTracker.currentPlayer().getSeatWind() + " Player's discard: ^^^^^" + mRoundTracker.getMostRecentDiscard().toString() + "^^^^^");
-		println("\t" + mRoundTracker.currentPlayer().getAsStringPond());
+		println("\n\n\tTiles left: " + mRoundEntities.mRoundTracker.getNumTilesLeftInWall());
+		println("\t" + mRoundEntities.mRoundTracker.currentPlayer().getSeatWind() + " Player's discard: ^^^^^" + mRoundEntities.mRoundTracker.getMostRecentDiscard().toString() + "^^^^^");
+		println("\t" + mRoundEntities.mRoundTracker.currentPlayer().getAsStringPond());
 	}
 	
 	
@@ -47,7 +47,7 @@ public class DetailedTextualUI extends TextualUI{
 	}
 
 	protected void __displayEventHumanTurnStart(){
-		__showPlayerHand(mRoundTracker.currentPlayer());
+		__showPlayerHand(mRoundEntities.mRoundTracker.currentPlayer());
 	}
 	
 	protected void __displayEventStartOfRound(){
@@ -77,20 +77,20 @@ public class DetailedTextualUI extends TextualUI{
 	//prints the hand of a player
 	protected void __showPlayerHand(Player p){println(p.getAsStringHand());}
 	
-	protected void __showWall(){println(mWall.toString());}
+	protected void __showWall(){println(mRoundEntities.mWall.toString());}
 	
 	protected void __showDoraIndicators(){
-		TileList t = mWall.getDoraIndicators();
+		TileList t = mRoundEntities.mWall.getDoraIndicators();
 		println("Dora Indicators: " + t.toString() + "\n\n");
 	}
 	
 	protected void __showDeadWall(){
 		__showDoraIndicators();
-		println(mWall.toStringDeadWall());
+		println(mRoundEntities.mWall.toStringDeadWall());
 	}
 	
 	protected void __showRoundResult(){
-		mRoundTracker.printRoundResult();
+		mRoundEntities.mRoundTracker.printRoundResult();
 	}
 	
 	
@@ -109,11 +109,11 @@ public class DetailedTextualUI extends TextualUI{
 		
 		if (exclamation.isCall())
 			println("\n*********************************************************" + 
-					"\n**********" + mPTrackers[seat].player.getSeatWind() + " Player called the tile (" + mRoundTracker.getMostRecentDiscard().toString() + ")! " + exclamationToString.get(exclamation) + "!!!**********" + 
+					"\n**********" + mRoundEntities.mPTrackers[seat].player.getSeatWind() + " Player called the tile (" + mRoundEntities.mRoundTracker.getMostRecentDiscard().toString() + ")! " + exclamationToString.get(exclamation) + "!!!**********" + 
 					"\n*********************************************************");
 		else
 			println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
-					"\n~~~~~~~~~~~" + mPTrackers[seat].player.getSeatWind() + " Player declared " + exclamationToString.get(exclamation) + "!!!~~~~~~~~~~~" + 
+					"\n~~~~~~~~~~~" + mRoundEntities.mPTrackers[seat].player.getSeatWind() + " Player declared " + exclamationToString.get(exclamation) + "!!!~~~~~~~~~~~" + 
 					"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		
 

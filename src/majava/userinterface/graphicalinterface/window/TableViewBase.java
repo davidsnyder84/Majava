@@ -10,12 +10,12 @@ import majava.Wall;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 import majava.enums.Wind;
-import majava.userinterface.GameUI;
+import majava.summary.entity.PlayerTracker;
+import majava.summary.entity.RoundEntities;
 import majava.tiles.Tile;
 import majava.util.TileList;
 import majava.tiles.PondTile;
 import utility.ImageResizer;
-import utility.Pauser;
 import utility.ImageRotator;
 
 import java.awt.Color;
@@ -323,45 +323,12 @@ public class TableViewBase extends JFrame{
 	protected boolean mOptionRevealHands;
 	protected boolean[] mRevealHands;
 	
-//	protected int mSleepTime = DEAFULT_SLEEPTIME, mSleepTimeExclamation = DEAFULT_SLEEPTIME_EXCLAMATION, mSleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
 	
-	
-	
-	protected static final class PlayerTracker{
-		public Player player;
-
-		public Hand hand;
-		public TileList tilesH;
-		
-		public Pond pond;
-		public TileList tilesP;
-
-		//private Wind seatWind;
-		//private int points;
-		//private boolean riichiStatus;
-		//private String playerName;
-		
-		//private List<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
-		
-		public PlayerTracker(Player p, Hand ha, TileList tH, Pond po, TileList tP){
-			player = p;
-			hand = ha; tilesH = tH;
-			pond = po; tilesP = tP;
-		}
-	}
+	protected RoundEntities mRoundEntities;
 	protected PlayerTracker[] mPTrackers;
 	protected Tile[] mTilesW;
 	protected Wall mWall;
-	
 	protected RoundTracker mRoundTracker;
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -785,17 +752,16 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] tilesW){
-		mRoundTracker = rTracker;
-
-		mRevealHands = new boolean[NUM_PLAYERS];
-		mPTrackers = new PlayerTracker[NUM_PLAYERS];
-		for (int i = 0; i < NUM_PLAYERS; i++){
-			mPTrackers[i] = new PlayerTracker(pPlayers[i], pHands[i], pHandTiles[i], pPonds[i], pPondTiles[i]);
-			mRevealHands[i] = (mOptionRevealHands || mPTrackers[i].player.controllerIsHuman());
-		}
+	public void syncWithRoundTracker(RoundEntities roundEntities){
 		
-		mWall = wall;mTilesW = tilesW;
+		mRoundEntities = roundEntities;
+		mRoundTracker = mRoundEntities.mRoundTracker;
+		mPTrackers = mRoundEntities.mPTrackers;
+		mWall = mRoundEntities.mWall;mTilesW = mRoundEntities.mTilesW;
+		
+		//hand revealing options
+		mRevealHands = new boolean[NUM_PLAYERS];
+		for (int i = 0; i < NUM_PLAYERS; i++) mRevealHands[i] = (mOptionRevealHands || mPTrackers[i].player.controllerIsHuman());
 		
 		blankEverything();
 	}

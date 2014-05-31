@@ -545,10 +545,6 @@ public class Wall {
 	
 	
 	
-//	public Tile[] syncWithTracker(RoundTracker tracker){
-//		mRoundTracker = tracker; 
-//		return mTiles;
-//	}
 	public void syncWithTracker(RoundTracker tracker){
 		mRoundTracker = tracker; 
 		mRoundTracker.syncWall(mTiles);

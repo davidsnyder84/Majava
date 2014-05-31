@@ -92,9 +92,9 @@ public class SparseTextualUI extends TextualUI{
 	protected void __showExclamation(Exclamation exclamation, int seat){
 		
 		if (exclamation.isCall())
-			println("..." + mRoundTracker.getWindOfSeat(seat) + " Player called " + exclamationToString.get(exclamation).toUpperCase() + " on the tile (" + mRoundTracker.getMostRecentDiscard().toString() + ")");
+			println("..." + mPTrackers[seat].player.getSeatWind() + " Player called " + exclamationToString.get(exclamation).toUpperCase() + " on the tile (" + mRoundTracker.getMostRecentDiscard().toString() + ")");
 		else
-			println(",,," + mRoundTracker.getWindOfSeat(seat) + " Player declared " + exclamationToString.get(exclamation).toUpperCase());
+			println(",,," + mPTrackers[seat].player.getSeatWind() + " Player declared " + exclamationToString.get(exclamation).toUpperCase());
 		
 		//pause
 		Pauser.pauseFor(mSleepTimeExclamation);

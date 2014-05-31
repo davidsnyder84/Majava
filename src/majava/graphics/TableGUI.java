@@ -533,7 +533,7 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		//update melds
 		List<Meld> meldList = null;
 		TileList tList = null;
-		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
+		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
 			meldList = mPTrackers[currentPlayer].player.getMelds();
 			for (currentMeld = 0; currentMeld < meldList.size(); currentMeld++){
 				tList = meldList.get(currentMeld).getAllTiles();

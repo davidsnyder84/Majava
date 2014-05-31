@@ -328,15 +328,16 @@ public class Round{
 		//~~~~~~get player's discard (ankans, riichi, and such are handled inside here)
 		//loop until the player has chosen a discard
 		//loop until the player stops making kans
+		Tile discardedTile = null;
 		do{
-			Tile discardedTile = p.takeTurn();
+			discardedTile = p.takeTurn();
 			mRoundTracker.setMostRecentDiscard(discardedTile);
 			
 			//if the player made an ankan or minkan, they need a rinshan draw
 			if (p.needsDrawRinshan()){
-
+				
 				GameplayEvent kanEvent = GameplayEvent.DECLARED_OWN_KAN;
-				kanEvent.setExclamation(Exclamation.OWN_KAN, mRoundTracker.getSeatNumber(p));
+				kanEvent.setExclamation(Exclamation.OWN_KAN, p.getPlayerNumber());
 				__updateUI(kanEvent);
 				__updateUI(GameplayEvent.MADE_OWN_KAN);
 				
@@ -347,13 +348,13 @@ public class Round{
 			
 			if (p.turnActionCalledTsumo()){
 				GameplayEvent tsumoEvent = GameplayEvent.DECLARED_TSUMO;
-				tsumoEvent.setExclamation(Exclamation.TSUMO, mRoundTracker.getSeatNumber(p));
+				tsumoEvent.setExclamation(Exclamation.TSUMO, p.getPlayerNumber());
 				__updateUI(tsumoEvent);
 				mRoundTracker.setResultVictory(p);
 			}
 			
 		}
-		while (p.turnActionChoseDiscard() == false && mRoundResult.isOver() == false);
+		while (!p.turnActionChoseDiscard() && !roundIsOver());
 		
 		
 		
@@ -366,14 +367,13 @@ public class Round{
 		
 		
 		//~~~~~~get reactions from the other players
-		mRoundTracker.neighborShimochaOf(p).reactToDiscard(mRoundTracker.getMostRecentDiscard());
-		mRoundTracker.neighborToimenOf(p).reactToDiscard(mRoundTracker.getMostRecentDiscard());
-		mRoundTracker.neighborKamichaOf(p).reactToDiscard(mRoundTracker.getMostRecentDiscard());
+		mRoundTracker.neighborShimochaOf(p).reactToDiscard(discardedTile);
+		mRoundTracker.neighborToimenOf(p).reactToDiscard(discardedTile);
+		mRoundTracker.neighborKamichaOf(p).reactToDiscard(discardedTile);
 		
 		
 		
 		if (!mRoundTracker.callWasMadeOnDiscard()){
-			
 			//update turn indicator
 			if (!mRoundTracker.checkIfWallIsEmpty())
 				mRoundTracker.nextTurn();
@@ -474,7 +474,7 @@ public class Round{
 		
 		//show the call
 		GameplayEvent callEvent = GameplayEvent.CALLED_TILE;
-		callEvent.setExclamation(priorityCaller.getCallStatusExclamation(), mRoundTracker.getSeatNumber(priorityCaller));
+		callEvent.setExclamation(priorityCaller.getCallStatusExclamation(), priorityCaller.getPlayerNumber());
 		__updateUI(callEvent);
 		
 		

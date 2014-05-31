@@ -46,7 +46,7 @@ public class ComboTextGraphicalUI implements GameUI{
 	}
 	
 	public void setSleepTimeExclamation(int sleepTime){
-		mTextualUI.setSleepTimeExclamation(sleepTime);
+		mTextualUI.setSleepTimeExclamation(0);
 		mGraphicalUI.setSleepTimeExclamation(sleepTime);
 	}
 	

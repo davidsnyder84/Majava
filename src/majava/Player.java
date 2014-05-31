@@ -659,7 +659,7 @@ public class Player {
 		boolean called = false;
 		if (!DEBUG_ALLOW_PLAYER_CALLS) return call;
 		
-		//get user's choice through GUI
+		//get user's choice through UI
 		called = mUI.getClickCall(ableToCallChiL(), ableToCallChiM(), ableToCallChiH(), ableToCallPon(), ableToCallKan(), ableToCallRon());
 		
 		//decide call based on player's choice

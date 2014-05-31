@@ -217,11 +217,9 @@ public class RoundTracker {
 	
 	
 	
-	public void nextTurn(){
-		mWhoseTurn = (mWhoseTurn + 1) % 4;
-	}
+	public void nextTurn(){mWhoseTurn = (mWhoseTurn + 1) % 4;}
 	public void setTurn(int turn){if (turn < NUM_PLAYERS) mWhoseTurn = turn;}
-	public void setTurn(Player p){setTurn(getSeatNumber(p));}	//overloaded to accept a player
+	public void setTurn(Player p){setTurn(p.getPlayerNumber());}	//overloaded to accept a player
 	
 	public int whoseTurn(){return mWhoseTurn;}
 	
@@ -233,11 +231,7 @@ public class RoundTracker {
 	
 	
 	private Player __neighborOffsetOf(Player p, int offset){
-		int positionOfP = -1;
-		for (int i = 0; i < mPTrackers.length; i++)
-			if (mPTrackers[i].player == p) positionOfP = i;
-		
-		return mPTrackers[(positionOfP + offset) % 4].player;
+		return mPTrackers[(p.getPlayerNumber() + offset) % NUM_PLAYERS].player;
 	}
 	public Player neighborShimochaOf(Player p){return __neighborOffsetOf(p, 1);}
 	public Player neighborToimenOf(Player p){return __neighborOffsetOf(p, 2);}
@@ -247,9 +241,7 @@ public class RoundTracker {
 	
 	
 	public boolean callWasMadeOnDiscard(){
-		for (int i = 1; i < 4; i++)
-			if (mPTrackers[(mWhoseTurn + i) % 4].player.called())
-				return true;
+		for (int i = 1; i < 4; i++) if (mPTrackers[(mWhoseTurn + i) % 4].player.called()) return true;
 		return false;
 	}
 	
@@ -280,7 +272,7 @@ public class RoundTracker {
 			winningTile = mMostRecentDiscard;
 		}
 		
-		mRoundResult.setWinningHand(mPTrackers[getSeatNumber(winner)].tilesH, mPTrackers[getSeatNumber(winner)].melds, winningTile); 
+		mRoundResult.setWinningHand(mPTrackers[winner.getPlayerNumber()].tilesH, mPTrackers[winner.getPlayerNumber()].melds, winningTile); 
 	}
 	public void setResultRyuukyokuWashout(){mRoundResult.setResultRyuukyokuWashout();}
 	public void setResultRyuukyokuKyuushu(){mRoundResult.setResultRyuukyokuKyuushu();}
@@ -413,17 +405,8 @@ public class RoundTracker {
 	
 	
 	
-	public int getSeatNumber(Player p){
-//		return Arrays.asList(mPTrackers).indexOf(p);
-		for (int i = 0; i < mPTrackers.length; i++) if (p == mPTrackers[i].player) return i;
-		return -1;
-	}
-//	public int getSeatNumber(Wind seatwind){
-//		for (int i = 0; i < mPTrackers.length; i++) if (seatwind == mPTrackers[i].player.getSeatWind()) return i;
-//		return -1;
-//	}
 	public Wind getWindOfSeat(int seat){
-		if (seat < 0 || seat > 4) return null;
+		if (seat < 0 || seat >= NUM_PLAYERS) return null;
 		return mPTrackers[seat].player.getSeatWind();
 	}
 	

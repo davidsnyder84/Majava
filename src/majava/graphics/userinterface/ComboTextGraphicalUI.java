@@ -5,8 +5,10 @@ import majava.Player;
 import majava.Pond;
 import majava.RoundTracker;
 import majava.Wall;
+import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
-import majava.graphics.TableGUI;
+import majava.graphics.GraphicalUI;
+import majava.graphics.TableViewBase;
 import majava.graphics.TableViewSmall;
 import majava.graphics.TableViewer;
 import majava.graphics.textinterface.DetailedTextualUI;
@@ -16,10 +18,10 @@ import majava.tiles.Tile;
 import majava.util.TileList;
 
 
-public class ComboTextGraphicalUI implements GameUI{
+public class ComboTextGraphicalUI extends GameUI{
 
 	private TextualUI mTextualUI;
-	private TableGUI mGraphicalUI;
+	private GraphicalUI mGraphicalUI;
 	
 	
 	public ComboTextGraphicalUI(){
@@ -27,8 +29,9 @@ public class ComboTextGraphicalUI implements GameUI{
 		mGraphicalUI = __generateGraphicalUI();
 	}
 
-	private TableGUI __generateGraphicalUI(){
-		return new TableViewSmall();
+	private GraphicalUI __generateGraphicalUI(){
+		return new GraphicalUI();
+//		return new TableViewSmall();
 //		return new TableViewer();
 	}
 	private TextualUI __generateTextualUI(){
@@ -44,6 +47,8 @@ public class ComboTextGraphicalUI implements GameUI{
 		mTextualUI.displayEvent(e);
 		mGraphicalUI.displayEvent(e);
 	}
+	
+	
 	
 	public final void setSleepTimes(int sleepTime, int sleepTimeExclamation, int sleepTimeRoundEnd){
 		mTextualUI.setSleepTimes(0,0,0);
@@ -90,4 +95,11 @@ public class ComboTextGraphicalUI implements GameUI{
 		mGraphicalUI.endUI();
 	}
 	
+	
+	
+
+	
+	/*intentionally blank*/
+	protected void __displayEventDiscardedTile(){}protected void __displayEventMadeOpenMeld(){}protected void __displayEventDrewTile(){}protected void __displayEventMadeOwnKan(){}protected void __displayEventNewDoraIndicator(){}protected void __displayEventHumanTurnStart(){}
+	protected void __displayEventStartOfRound(){}protected void __displayEventEndOfRound(){}protected void __displayEventPlaceholder(){}protected void __showExclamation(Exclamation exclamation, int seat){}
 }

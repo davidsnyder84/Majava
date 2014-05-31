@@ -59,6 +59,7 @@ public class DetailedTextualUI extends TextualUI{
 		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeRoundEnd);
 	}
 	
+	protected void __displayEventPlaceholder(){/*blank*/}
 	
 	
 	

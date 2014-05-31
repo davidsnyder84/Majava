@@ -1,7 +1,7 @@
 package majava;
 
 
-import majava.graphics.TableGUI;
+import majava.graphics.GraphicalUI;
 import majava.graphics.TableViewSmall;
 import majava.graphics.TableViewer;
 import majava.graphics.textinterface.DetailedTextualUI;
@@ -119,6 +119,7 @@ public class Table {
 //		ui = new SparseTextualUI();
 //		ui = new DetailedTextualUI();
 //		ui = new ComboTextGraphicalUI();
+		ui = new GraphicalUI();
 		return ui;
 	}
 //	private TableGUI __generateTableGUI(){

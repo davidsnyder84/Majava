@@ -72,7 +72,7 @@ methods:
 	other:
 	syncWithRoundTracker - associates the viewer with the round tracker
 */
-public abstract class TableGUI extends JFrame implements GameUI{
+public class TableViewBase extends JFrame{
 	private static final long serialVersionUID = -4041211467460747162L;
 	
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -316,7 +316,7 @@ public abstract class TableGUI extends JFrame implements GameUI{
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^BEGIN MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 	
 	protected JPanel contentPane;
-	protected TableGUI thisguy = this;
+	protected TableViewBase thisguy = this;
 	
 	
 	protected boolean mOptionRevealWall;
@@ -325,13 +325,16 @@ public abstract class TableGUI extends JFrame implements GameUI{
 	
 	protected int mSleepTime = DEAFULT_SLEEPTIME, mSleepTimeExclamation = DEAFULT_SLEEPTIME_EXCLAMATION, mSleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
 	
+	
+	
+	protected static final class PlayerTracker{
+		public Player player;
 
-	private static final int NUM_PLAYERS_TO_TRACK = 4;
-	private static class PlayerTracker{
-		private Player player;
+		public Hand hand;
+		public TileList tilesH;
 		
-		private TileList tilesH;
-		private TileList tilesP;
+		public Pond pond;
+		public TileList tilesP;
 
 		//private Wind seatWind;
 		//private int points;
@@ -340,18 +343,29 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		
 		//private List<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
 		
-		public PlayerTracker(Player p, TileList tH, TileList tP){
+		public PlayerTracker(Player p, Hand ha, TileList tH, Pond po, TileList tP){
 			player = p;
-			tilesH = tH;
-			tilesP = tP;
+			hand = ha; tilesH = tH;
+			pond = po; tilesP = tP;
 		}
 	}
-
-	protected Tile[] tilesW;
+	protected PlayerTracker[] mPTrackers;
+	protected Tile[] mTilesW;
+	protected Wall mWall;
 	
-	
-	private PlayerTracker[] mPTrackers;
 	protected RoundTracker mRoundTracker;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	private int mNewTurn = -1, mOldTurn = -1;
 
@@ -457,31 +471,55 @@ public abstract class TableGUI extends JFrame implements GameUI{
 	
 	
 	
+	
+	
+	public void printErrorRoundAlreadyOver(){System.out.println("----Error: Round is already over, cannot play");}
+	
 	public void displayEvent(GameplayEvent event){
-		
 		switch(event){
-		case START_OF_ROUND: updateEverything(); return;
-		case PLACEHOLDER: updateEverything(); return;
-		case MADE_OWN_KAN: updateEverything(); return;
-		case DISCARDED_TILE: updateEverything(); return;
-		case DREW_TILE: updateEverything(); return;
-		case MADE_OPEN_MELD: updateEverything(); return;
-		case END_OF_ROUND: showResult(); updateEverything(); if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeRoundEnd); return;
+		case DISCARDED_TILE: __displayEventDiscardedTile(); return;
+		case MADE_OPEN_MELD: __displayEventMadeOpenMeld(); return;
+		case DREW_TILE: __displayEventDrewTile(); return;
+		case MADE_OWN_KAN: __displayEventMadeOwnKan(); return;
+		case NEW_DORA_INDICATOR: __displayEventNewDoraIndicator(); return;
 		
-		case HUMAN_PLAYER_TURN_START: updateEverything(); return;
+		case HUMAN_PLAYER_TURN_START: __displayEventHumanTurnStart(); return;
 		
-		case NEW_DORA_INDICATOR: break;
+		case START_OF_ROUND: __displayEventStartOfRound(); return;
+		case PLACEHOLDER: __displayEventPlaceholder(); return;
+		case END_OF_ROUND: __displayEventEndOfRound(); return;
 		default: break;
 		}
 		
 		if (event.isExclamation()) __showExclamation(event.getExclamation(), event.getSeat());
 		
-
+		
 		if (mSleepTime > 0 && !event.isExclamation() && event != GameplayEvent.PLACEHOLDER) Pauser.pauseFor(mSleepTime);
 	}
-	public void printErrorRoundAlreadyOver(){System.out.println("----Error: Round is already over, cannot play");}
+	protected void __displayEventDiscardedTile(){updateEverything();}
+	protected void __displayEventMadeOpenMeld(){updateEverything();}
+	protected void __displayEventDrewTile(){updateEverything();}
+	protected void __displayEventMadeOwnKan(){updateEverything();}
+	protected void __displayEventNewDoraIndicator(){/*blank*/}
+	protected void __displayEventHumanTurnStart(){updateEverything();}
+	protected void __displayEventPlaceholder(){updateEverything();}
 	
+	protected void __displayEventStartOfRound(){updateEverything();}
+	protected void __displayEventEndOfRound(){showResult(); updateEverything(); if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeRoundEnd);}
 	
+	protected void __showExclamation(Exclamation exclamation, int seat){
+		
+		//show the label
+		lblExclamation.setText(exclamationToString.get(exclamation));
+		lblExclamation.setLocation(seat);
+		lblExclamation.setVisible(true);
+		
+		//pause
+		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);
+		
+		//get rid of label
+		lblExclamation.setVisible(false);
+	}
 	
 	
 	
@@ -530,15 +568,15 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		
 		//update wall summary
 		for (currentTile = 0; currentTile < SIZE_DEAD_WALL; currentTile++){
-			larryDW[currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT1, mOptionRevealWall));
+			larryDW[currentTile].setIcon(__getImageIconWall(mTilesW, currentTile + OFFSET_DEAD_WALL, SEAT1, mOptionRevealWall));
 		}
 		for (currentTile = POS_DORA_1; currentTile >= 2*(4 - mRoundTracker.getNumKansMade()); currentTile -= 2){
-			larryDW[currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT1));
+			larryDW[currentTile].setIcon(__getImageIconWall(mTilesW, currentTile + OFFSET_DEAD_WALL, SEAT1));
 		}
 		lblWallTilesLeft.setText(Integer.toString(mRoundTracker.getNumTilesLeftInWall()));
 		currentTile = 0;
-		while (tilesW[SIZE_NORMAL_WALL-1-currentTile] != null){
-			if (mOptionRevealWall) larryTinyW[currentTile].setIcon(garryTilesTiny[__getImageIdOfTile(tilesW[SIZE_NORMAL_WALL-1-currentTile])]);
+		while (mTilesW[SIZE_NORMAL_WALL-1-currentTile] != null){
+			if (mOptionRevealWall) larryTinyW[currentTile].setIcon(garryTilesTiny[__getImageIdOfTile(mTilesW[SIZE_NORMAL_WALL-1-currentTile])]);
 			else larryTinyW[currentTile].setIcon(garryTilesTiny[TILEBACK]);
 			currentTile++;
 		}
@@ -810,19 +848,7 @@ public abstract class TableGUI extends JFrame implements GameUI{
 	}
 	
 	
-	protected void __showExclamation(Exclamation exclamation, int seat){
-		
-		//show the label
-		lblExclamation.setText(exclamationToString.get(exclamation));
-		lblExclamation.setLocation(seat);
-		lblExclamation.setVisible(true);
-		
-		//pause
-		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);
-		
-		//get rid of label
-		lblExclamation.setVisible(false);
-	}
+	
 	public final void setSleepTimes(int sleepTime, int sleepTimeExclamation, int sleepTimeRoundEnd){
 		mSleepTime = sleepTime;
 		mSleepTimeExclamation = sleepTimeExclamation;
@@ -851,19 +877,20 @@ public abstract class TableGUI extends JFrame implements GameUI{
 	
 	
 	
+	
+	
+	
 	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] trackerTilesW){
-		
 		mRoundTracker = rTracker;
+
+		mRevealHands = new boolean[NUM_PLAYERS];
+		mPTrackers = new PlayerTracker[NUM_PLAYERS];
+		for (int i = 0; i < NUM_PLAYERS; i++){
+			mPTrackers[i] = new PlayerTracker(pPlayers[i], pHands[i], pHandTiles[i], pPonds[i], pPondTiles[i]);
+			mRevealHands[i] = (mOptionRevealHands || mPTrackers[i].player.controllerIsHuman());
+		}
 		
-		mPTrackers = new PlayerTracker[NUM_PLAYERS_TO_TRACK];
-		for (int i = 0; i < NUM_PLAYERS_TO_TRACK; i++)
-			mPTrackers[i] = new PlayerTracker(pPlayers[i], pHandTiles[i], pPondTiles[i]);
-		
-		
-		mRevealHands = new boolean[NUM_PLAYERS_TO_TRACK];
-		for (int i = 0; i < mRevealHands.length; i++) mRevealHands[i] = (mOptionRevealHands || mPTrackers[i].player.controllerIsHuman());
-		
-		tilesW = trackerTilesW;
+		mWall = wall;mTilesW = trackerTilesW;
 		
 		blankEverything();
 	}
@@ -876,14 +903,15 @@ public abstract class TableGUI extends JFrame implements GameUI{
 	//launch the application TODO MAIN
 	public static void main(String[] args) {
 		
-		TableViewSmall viewer = new TableViewSmall();
+//		TableViewSmall viewer = new TableViewSmall();
+		TableViewBase viewer = new TableViewBase();
 		viewer.setVisible(true);
 		
 		viewer.showResult();
 	}
 	
 	//TODO start of constructor
-	public TableGUI(){
+	public TableViewBase(){
 		
 		
 		mOptionRevealWall = DEFAULT_OPTION_REVEAL_WALL;
@@ -1124,6 +1152,31 @@ public abstract class TableGUI extends JFrame implements GameUI{
 		garryOmake[3] = new ImageIcon(getClass().getResource("/res/img/omake/birdClipart3.png"));
 		garryOmake[4] = new ImageIcon(getClass().getResource("/res/img/omake/sounotori.png"));
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

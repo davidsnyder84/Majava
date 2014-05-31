@@ -3,7 +3,6 @@ package majava;
 import java.util.HashMap;
 import java.util.Map;
 
-import utility.Pauser;
 import majava.graphics.userinterface.GameUI;
 import majava.summary.RoundResultSummary;
 import majava.tiles.Tile;
@@ -26,7 +25,6 @@ data:
 	
 	mRoundTracker - tracks and manages information on the round
 	mTviewer - TableGUI to display the game and get input from the human player
-	mPauser - used to pause (wait) after player actions
 	
 	mCurrentRoundWind, mCurrentRoundNum, mCurrentRoundBonusNum - information for the round
 	
@@ -83,7 +81,6 @@ public class Round{
 	//options
 	private boolean mDoFastGameplay;
 	private int sleepTime, sleepTimeExclamation, sleepTimeRoundEnd;
-//	private Pauser mPauser;
 	
 	
 	/*

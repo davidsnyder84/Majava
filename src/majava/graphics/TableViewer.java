@@ -51,7 +51,7 @@ import javax.swing.JCheckBoxMenuItem;
 Class: TableViewer
 a larger GUI for viewing the full wall
 */
-public class TableViewer extends TableGUI{
+public class TableViewer extends TableViewBase{
 	private static final long serialVersionUID = 8352771291866988835L;
 	
 	
@@ -116,11 +116,11 @@ public class TableViewer extends TableGUI{
 		//update wall(s)
 		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_WALL; currentTile++)
-				larryWalls[currentPlayer][currentTile].setIcon(__getImageIconWall(tilesW, currentTile + currentPlayer*SIZE_WALL, currentPlayer, mOptionRevealWall));
+				larryWalls[currentPlayer][currentTile].setIcon(__getImageIconWall(mTilesW, currentTile + currentPlayer*SIZE_WALL, currentPlayer, mOptionRevealWall));
 		}
 		//deal wall portion of wall
 		for (currentTile = POS_DORA_1; currentTile >= 2*(4 - mRoundTracker.getNumKansMade()); currentTile -= 2){
-			larryWallAll[OFFSET_DEAD_WALL + currentTile].setIcon(__getImageIconWall(tilesW, currentTile + OFFSET_DEAD_WALL, SEAT4));
+			larryWallAll[OFFSET_DEAD_WALL + currentTile].setIcon(__getImageIconWall(mTilesW, currentTile + OFFSET_DEAD_WALL, SEAT4));
 		}
 		
 		super.updateEverything();

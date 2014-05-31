@@ -20,10 +20,7 @@ import majava.util.TileList;
 
 
 
-public abstract class TextualUI implements GameUI{
-	
-	protected static final int DEAFULT_SLEEPTIME = 400, DEAFULT_SLEEPTIME_EXCLAMATION = 1500, DEAFULT_SLEEPTIME_ROUND_END = 2000;
-	protected static final int NUM_PLAYERS_TO_TRACK = 4;
+public abstract class TextualUI extends GameUI{
 	
 	protected static final Map<Exclamation, String> exclamationToString;
 	static {
@@ -35,21 +32,8 @@ public abstract class TextualUI implements GameUI{
 	}
 	
 	
-	protected static class PlayerTracker{
-		protected Player player;
-		protected Hand hand;
-		protected Pond pond;
-		
-		public PlayerTracker(Player p, Hand tH, Pond tP){player = p;hand = tH;pond = tP;}
-	}
-	
-	
 	protected final PrintStream mOutStream;
-	protected int mSleepTime = DEAFULT_SLEEPTIME, mSleepTimeExclamation = DEAFULT_SLEEPTIME_EXCLAMATION, mSleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
 	
-	protected PlayerTracker[] mPTrackers;
-	protected Wall mWall;
-	protected RoundTracker mRoundTracker;
 	
 	
 	public TextualUI(){
@@ -62,30 +46,6 @@ public abstract class TextualUI implements GameUI{
 	
 	
 	
-
-	
-	
-	public void displayEvent(GameplayEvent event){
-		switch(event){
-		case DISCARDED_TILE: __displayEventDiscardedTile(); return;
-		case MADE_OPEN_MELD: __displayEventMadeOpenMeld(); return;
-		case DREW_TILE: __displayEventDrewTile(); return;
-		case MADE_OWN_KAN: __displayEventMadeOwnKan(); return;
-		case NEW_DORA_INDICATOR: __displayEventNewDoraIndicator(); return;
-		
-		case HUMAN_PLAYER_TURN_START: __displayEventHumanTurnStart(); return;
-		
-		case START_OF_ROUND: __displayEventStartOfRound(); return;
-		case PLACEHOLDER: break;
-		case END_OF_ROUND: __displayEventEndOfRound(); return;
-		default: break;
-		}
-		
-		if (event.isExclamation()) __showExclamation(event.getExclamation(), event.getSeat());
-		
-		
-		if (mSleepTime > 0 && !event.isExclamation() && event != GameplayEvent.PLACEHOLDER) Pauser.pauseFor(mSleepTime);
-	}
 	
 	protected abstract void __displayEventDiscardedTile();
 	protected abstract void __displayEventMadeOpenMeld();
@@ -93,6 +53,7 @@ public abstract class TextualUI implements GameUI{
 	protected abstract void __displayEventMadeOwnKan();
 	protected abstract void __displayEventNewDoraIndicator();
 	protected abstract void __displayEventHumanTurnStart();
+	protected abstract void __displayEventPlaceholder();
 	
 	protected abstract void __displayEventStartOfRound();
 	protected abstract void __displayEventEndOfRound();
@@ -149,41 +110,18 @@ public abstract class TextualUI implements GameUI{
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public void startUI(){/*intentionally blank*/}
 	public void endUI(){/*intentionally blank*/}
 	
 	
 	
 	
-	public final void setSleepTimes(int sleepTime, int sleepTimeExclamation, int sleepTimeRoundEnd){
-		mSleepTime = sleepTime;
-		mSleepTimeExclamation = sleepTimeExclamation;
-		mSleepTimeRoundEnd = sleepTimeRoundEnd;
-	}
 	
-	
-	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] trackerTilesW){		
-		mRoundTracker = rTracker;
-		
-		mPTrackers = new PlayerTracker[NUM_PLAYERS_TO_TRACK];
-		for (int i = 0; i < NUM_PLAYERS_TO_TRACK; i++) mPTrackers[i] = new PlayerTracker(pPlayers[i], pHands[i], pPonds[i]);
-		
-		mWall = wall;
-	}
 	
 	
 	public void println(String printString){mOutStream.println(printString);}public void println(){println("");}
 	public void print(String printString){mOutStream.print(printString);}public void print(){print("");}
+	
 	
 	public void printErrorRoundAlreadyOver(){println("----Error: Round is already over, cannot play");}
 	

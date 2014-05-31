@@ -3,7 +3,7 @@ package majava;
 import java.util.HashMap;
 import java.util.Map;
 
-import majava.graphics.userinterface.GameUI;
+import majava.userinterface.GameUI;
 import majava.summary.RoundResultSummary;
 import majava.tiles.Tile;
 import majava.util.TileList;

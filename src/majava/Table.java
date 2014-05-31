@@ -1,16 +1,17 @@
 package majava;
 
 
-import majava.graphics.GraphicalUI;
-import majava.graphics.TableViewSmall;
-import majava.graphics.TableViewer;
-import majava.graphics.textinterface.DetailedTextualUI;
-import majava.graphics.textinterface.SparseTextualUI;
-import majava.graphics.textinterface.TextualUI;
-import majava.graphics.userinterface.ComboTextGraphicalUI;
-import majava.graphics.userinterface.GameUI;
-import utility.Pauser;
 
+import majava.userinterface.ComboTextGraphicalUI;
+import majava.userinterface.GameUI;
+import majava.userinterface.graphicalinterface.GraphicalUI;
+import majava.userinterface.graphicalinterface.window.TableViewBase;
+import majava.userinterface.graphicalinterface.window.TableViewSmall;
+import majava.userinterface.graphicalinterface.window.TableViewer;
+import majava.userinterface.textinterface.DetailedTextualUI;
+import majava.userinterface.textinterface.SparseTextualUI;
+import majava.userinterface.textinterface.TextualUI;
+import utility.Pauser;
 
 
 
@@ -118,8 +119,8 @@ public class Table {
 //		ui = new TableViewer();
 //		ui = new SparseTextualUI();
 //		ui = new DetailedTextualUI();
-//		ui = new ComboTextGraphicalUI();
-		ui = new GraphicalUI();
+		ui = new ComboTextGraphicalUI();
+//		ui = new GraphicalUI();
 		return ui;
 	}
 //	private TableGUI __generateTableGUI(){

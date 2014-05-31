@@ -1,5 +1,5 @@
 
-package majava.graphics;
+package majava.userinterface.graphicalinterface;
 
 import majava.Hand;
 import majava.Meld;
@@ -9,7 +9,8 @@ import majava.RoundTracker;
 import majava.Wall;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
-import majava.graphics.userinterface.GameUI;
+import majava.userinterface.GameUI;
+import majava.userinterface.graphicalinterface.window.TableViewBase;
 import majava.tiles.Tile;
 import majava.util.TileList;
 

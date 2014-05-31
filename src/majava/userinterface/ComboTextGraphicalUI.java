@@ -1,4 +1,4 @@
-package majava.graphics.userinterface;
+package majava.userinterface;
 
 import majava.Hand;
 import majava.Player;
@@ -7,13 +7,13 @@ import majava.RoundTracker;
 import majava.Wall;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
-import majava.graphics.GraphicalUI;
-import majava.graphics.TableViewBase;
-import majava.graphics.TableViewSmall;
-import majava.graphics.TableViewer;
-import majava.graphics.textinterface.DetailedTextualUI;
-import majava.graphics.textinterface.SparseTextualUI;
-import majava.graphics.textinterface.TextualUI;
+import majava.userinterface.graphicalinterface.GraphicalUI;
+import majava.userinterface.graphicalinterface.window.TableViewBase;
+import majava.userinterface.graphicalinterface.window.TableViewSmall;
+import majava.userinterface.graphicalinterface.window.TableViewer;
+import majava.userinterface.textinterface.DetailedTextualUI;
+import majava.userinterface.textinterface.SparseTextualUI;
+import majava.userinterface.textinterface.TextualUI;
 import majava.tiles.Tile;
 import majava.util.TileList;
 

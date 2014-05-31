@@ -1,22 +1,14 @@
-package majava.graphics.textinterface;
+package majava.userinterface.textinterface;
 
 import java.io.PrintStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import utility.Pauser;
-
-import majava.Hand;
 import majava.Player;
-import majava.Pond;
-import majava.RoundTracker;
-import majava.Wall;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
-import majava.graphics.userinterface.GameUI;
-import majava.tiles.Tile;
-import majava.util.TileList;
+import majava.userinterface.GameUI;
 
 
 

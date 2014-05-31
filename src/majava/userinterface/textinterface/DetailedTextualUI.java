@@ -1,4 +1,4 @@
-package majava.graphics.textinterface;
+package majava.userinterface.textinterface;
 
 
 import utility.Pauser;

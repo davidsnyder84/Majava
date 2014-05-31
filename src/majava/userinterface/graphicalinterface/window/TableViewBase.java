@@ -1,5 +1,5 @@
 
-package majava.graphics;
+package majava.userinterface.graphicalinterface.window;
 
 import majava.Hand;
 import majava.Meld;
@@ -10,7 +10,7 @@ import majava.Wall;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 import majava.enums.Wind;
-import majava.graphics.userinterface.GameUI;
+import majava.userinterface.GameUI;
 import majava.tiles.Tile;
 import majava.util.TileList;
 import majava.tiles.PondTile;
@@ -496,18 +496,18 @@ public class TableViewBase extends JFrame{
 		
 		if (mSleepTime > 0 && !event.isExclamation() && event != GameplayEvent.PLACEHOLDER) Pauser.pauseFor(mSleepTime);
 	}
-	protected void __displayEventDiscardedTile(){updateEverything();}
-	protected void __displayEventMadeOpenMeld(){updateEverything();}
-	protected void __displayEventDrewTile(){updateEverything();}
-	protected void __displayEventMadeOwnKan(){updateEverything();}
-	protected void __displayEventNewDoraIndicator(){/*blank*/}
-	protected void __displayEventHumanTurnStart(){updateEverything();}
-	protected void __displayEventPlaceholder(){updateEverything();}
+	public void __displayEventDiscardedTile(){updateEverything();}
+	public void __displayEventMadeOpenMeld(){updateEverything();}
+	public void __displayEventDrewTile(){updateEverything();}
+	public void __displayEventMadeOwnKan(){updateEverything();}
+	public void __displayEventNewDoraIndicator(){/*blank*/}
+	public void __displayEventHumanTurnStart(){updateEverything();}
+	public void __displayEventPlaceholder(){updateEverything();}
 	
-	protected void __displayEventStartOfRound(){updateEverything();}
-	protected void __displayEventEndOfRound(){showResult(); updateEverything(); if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeRoundEnd);}
+	public void __displayEventStartOfRound(){updateEverything();}
+	public void __displayEventEndOfRound(){showResult(); updateEverything(); if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeRoundEnd);}
 	
-	protected void __showExclamation(Exclamation exclamation, int seat){
+	public void __showExclamation(Exclamation exclamation, int seat){
 		
 		//show the label
 		lblExclamation.setText(exclamationToString.get(exclamation));

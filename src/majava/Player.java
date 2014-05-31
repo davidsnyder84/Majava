@@ -6,7 +6,7 @@ import java.util.Random;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 import majava.enums.Wind;
-import majava.graphics.userinterface.GameUI;
+import majava.userinterface.GameUI;
 import majava.summary.PlayerSummary;
 import majava.tiles.Tile;
 

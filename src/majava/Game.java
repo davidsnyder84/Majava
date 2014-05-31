@@ -3,7 +3,7 @@ package majava;
 import java.util.ArrayList;
 import java.util.List;
 
-import majava.graphics.userinterface.GameUI;
+import majava.userinterface.GameUI;
 import majava.summary.RoundResultSummary;
 import majava.enums.Wind;
 

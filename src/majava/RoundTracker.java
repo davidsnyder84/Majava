@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import majava.graphics.userinterface.GameUI;
+import majava.userinterface.GameUI;
 import majava.tiles.Tile;
 import majava.enums.Wind;
 import majava.util.TileList;

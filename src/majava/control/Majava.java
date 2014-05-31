@@ -1,7 +1,7 @@
 package majava.control;
 
 import majava.Table;
-import majava.graphics.MajavaWelcome;
+import majava.userinterface.graphicalinterface.window.MajavaWelcome;
 
 
 

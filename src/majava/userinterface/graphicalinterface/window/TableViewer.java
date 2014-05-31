@@ -1,4 +1,4 @@
-package majava.graphics;
+package majava.userinterface.graphicalinterface.window;
 
 import majava.Hand;
 import majava.Meld;

@@ -1,4 +1,4 @@
-package majava.graphics.userinterface;
+package majava.userinterface;
 
 import utility.Pauser;
 import majava.Hand;

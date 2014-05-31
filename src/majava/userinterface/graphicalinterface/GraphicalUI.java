@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import utility.Pauser;
+
 /*
 Class: GraphicalUI
 a GUI for viewing and interacting with the game
@@ -34,7 +36,6 @@ methods:
 	syncWithRoundTracker - associates the viewer with the round tracker
 */
 public class GraphicalUI extends GameUI{
-	private static final long serialVersionUID = -4041211467460747162L;
 	
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	
@@ -50,15 +51,6 @@ public class GraphicalUI extends GameUI{
 
 
 	protected static final int DEAFULT_SLEEPTIME = 400, DEAFULT_SLEEPTIME_EXCLAMATION = 1500, DEAFULT_SLEEPTIME_ROUND_END = 2000;
-	private static final int[][] EXCLAMATION_LOCS =  {{99, 594}, {570, 298}, {480, 36}, {3, 298}};
-	protected static final Map<Exclamation, String> exclamationToString;
-	static {
-		Map<Exclamation, String> aMap = new HashMap<Exclamation, String>();
-		aMap.put(Exclamation.CHI, "Chi");aMap.put(Exclamation.PON, "Pon");aMap.put(Exclamation.KAN, "Kan");aMap.put(Exclamation.RON, "Ron");
-		aMap.put(Exclamation.RIICHI, "Riichi");aMap.put(Exclamation.OWN_KAN, "Kan~!");aMap.put(Exclamation.TSUMO, "Tsumo");
-		aMap.put(Exclamation.NONE, Exclamation.NONE.toString());aMap.put(Exclamation.UNKNOWN, Exclamation.UNKNOWN.toString());
-		exclamationToString = Collections.unmodifiableMap(aMap);
-	}
 	
 	
 	
@@ -89,41 +81,11 @@ public class GraphicalUI extends GameUI{
 	
 	
 	
-	
-	
-	
-	
-	
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^BEGIN MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 	
 //	protected boolean mOptionRevealWall;
 //	protected boolean mOptionRevealHands;
 //	protected boolean[] mRevealHands;
-	
-
-//	private static final int NUM_PLAYERS_TO_TRACK = 4;
-//	private static class PlayerTracker{
-//		private Player player;
-//		
-//		private TileList tilesH;
-//		private TileList tilesP;
-//
-//		//private Wind seatWind;
-//		//private int points;
-//		//private boolean riichiStatus;
-//		//private String playerName;
-//		
-//		//private List<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
-//		
-//		public PlayerTracker(Player p, TileList tH, TileList tP){
-//			player = p;
-//			tilesH = tH;
-//			tilesP = tP;
-//		}
-//	}
-//	protected Tile[] tilesW;
-//	private PlayerTracker[] mPTrackers;
-//	protected RoundTracker mRoundTracker;
 	
 
 //	private int mChosenCall;
@@ -147,50 +109,34 @@ public class GraphicalUI extends GameUI{
 	
 	
 	
+	protected void __displayEventDiscardedTile(){mTableWindow.updateEverything();}
+	protected void __displayEventMadeOpenMeld(){mTableWindow.updateEverything();}
+	protected void __displayEventDrewTile(){mTableWindow.updateEverything();}
+	protected void __displayEventMadeOwnKan(){mTableWindow.updateEverything();}
+	protected void __displayEventNewDoraIndicator(){/*blank*/}
+	protected void __displayEventHumanTurnStart(){mTableWindow.updateEverything();}
+	protected void __displayEventPlaceholder(){mTableWindow.updateEverything();}
+	
+	protected void __displayEventStartOfRound(){mTableWindow.updateEverything();}
+	protected void __displayEventEndOfRound(){mTableWindow.showResult(); mTableWindow.updateEverything(); if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeRoundEnd);}
 	
 	
 	
-	
-	protected void __displayEventDiscardedTile(){mTableWindow.__displayEventDiscardedTile();}
-	protected void __displayEventMadeOpenMeld(){mTableWindow.__displayEventMadeOpenMeld();}
-	protected void __displayEventDrewTile(){mTableWindow.__displayEventDrewTile();}
-	protected void __displayEventMadeOwnKan(){mTableWindow.__displayEventMadeOwnKan();}
-	protected void __displayEventNewDoraIndicator(){mTableWindow.__displayEventNewDoraIndicator();}
-	protected void __displayEventHumanTurnStart(){mTableWindow.__displayEventHumanTurnStart();}
-	protected void __displayEventPlaceholder(){mTableWindow.__displayEventPlaceholder();}
-	
-	protected void __displayEventStartOfRound(){mTableWindow.__displayEventStartOfRound();}
-	protected void __displayEventEndOfRound(){mTableWindow.__displayEventEndOfRound();}
-	
-	protected void __showExclamation(Exclamation exclamation, int seat){mTableWindow.__showExclamation(exclamation, seat);}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-//	public void updateEverything(){
-//		mTableWindow.updateEverything();
-//	}
-	
-//	//replaces all imageicons with null
-//	public void blankEverything(){
-//		mTableWindow.blankEverything();
-//	}
+	protected void __showExclamation(Exclamation exclamation, int seat){
+		//show the label
+		mTableWindow.exclamationShow(exclamation, seat);
+		//pause
+		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);
+		//get rid of label
+		mTableWindow.exclamationErase();
+	}
 	
 	
 	
 	
 	
 	
-	
-	
-	
-
+	//get user input from window
 	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
 		return mTableWindow.askUserInputCall(canChiL, canChiM, canChiH, canPon, canKan, canRon);
 	}
@@ -202,7 +148,6 @@ public class GraphicalUI extends GameUI{
 	public boolean resultChosenCallWasKan(){return mTableWindow.resultChosenCallWasKan();}
 	public boolean resultChosenCallWasRon(){return mTableWindow.resultChosenCallWasRon();}
 	
-	
 	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){
 		mTableWindow.askUserInputTurnAction(handSize, canRiichi, canAnkan, canMinkan, canTsumo);
 	}
@@ -211,19 +156,12 @@ public class GraphicalUI extends GameUI{
 	public boolean resultChosenTurnActionWasMinkan(){return mTableWindow.resultChosenTurnActionWasMinkan();}
 	public boolean resultChosenTurnActionWasRiichi(){return mTableWindow.resultChosenTurnActionWasRiichi();}
 	public boolean resultChosenTurnActionWasTsumo(){return mTableWindow.resultChosenTurnActionWasTsumo();}
-	
 	//returns the index of the clicked discard. returns negative if no discard chosen.
 	public int resultChosenDiscardIndex(){return mTableWindow.resultChosenDiscardIndex();}
 	
 	
 	
 	
-	
-	
-	public final void setSleepTimes(int sleepTime, int sleepTimeExclamation, int sleepTimeRoundEnd){
-		super.setSleepTimes(sleepTime, sleepTimeExclamation, sleepTimeRoundEnd);
-		mTableWindow.setSleepTimes(sleepTime, sleepTimeExclamation, sleepTimeRoundEnd);
-	}
 	
 	
 	
@@ -235,21 +173,15 @@ public class GraphicalUI extends GameUI{
 	
 	
 	
-	
-	
-	
-	public void startUI(){mTableWindow.startUI();}
-	public void endUI(){mTableWindow.endUI();}
-//	public void startUI(){blankEverything(); setVisible(true);}
-//	public void endUI(){dispose();}
+	public void startUI(){mTableWindow.blankEverything(); mTableWindow.setVisible(true);}
+	public void endUI(){mTableWindow.dispose();}
 	
 	
 	
 	
-	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] trackerTilesW){
-		
-		mTableWindow.syncWithRoundTracker(rTracker, pPlayers, pHands, pHandTiles, pPonds, pPondTiles, wall, trackerTilesW);
-//		blankEverything();
+	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] tilesW){
+		super.syncWithRoundTracker(rTracker, pPlayers, pHands, pHandTiles, pPonds, pPondTiles, wall, tilesW);
+		mTableWindow.syncWithRoundTracker(rTracker, pPlayers, pHands, pHandTiles, pPonds, pPondTiles, wall, tilesW);
 	}
 	
 	
@@ -272,9 +204,6 @@ public class GraphicalUI extends GameUI{
 		mTableWindow = new TableViewBase();
 		
 		
-		
-//		mOptionRevealWall = DEFAULT_OPTION_REVEAL_WALL;
-//		mOptionRevealHands = DEFAULT_OPTION_REVEAL_HANDS;
 		
 		
 		

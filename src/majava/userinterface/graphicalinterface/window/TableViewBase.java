@@ -167,7 +167,7 @@ public class TableViewBase extends JFrame{
 	
 	
 	private static final int SIZE_GARRY_TILES = 38, SIZE_GARRY_OTHER = 1, SIZE_GARRY_OMAKE = 5;
-	private static final int RED5M = 35,  RED5P = 36, RED5S = 37, TILEBACK = 0;
+	private static final int RED5M = 35,  RED5P = 36, RED5S = 37, TILEBACK = 0, NULL_TILE_IMAGE_ID = -1;
 	private static final int GARRYINDEX_OTHER_RIICHI = 0;
 	
 	
@@ -323,7 +323,7 @@ public class TableViewBase extends JFrame{
 	protected boolean mOptionRevealHands;
 	protected boolean[] mRevealHands;
 	
-	protected int mSleepTime = DEAFULT_SLEEPTIME, mSleepTimeExclamation = DEAFULT_SLEEPTIME_EXCLAMATION, mSleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
+//	protected int mSleepTime = DEAFULT_SLEEPTIME, mSleepTimeExclamation = DEAFULT_SLEEPTIME_EXCLAMATION, mSleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
 	
 	
 	
@@ -388,10 +388,6 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	
-	
-	
-	private static final int NULL_TILE_IMAGE_ID = -1;
 	
 	private int __getImageIdOfTile(Tile t){
 		if (t == null) return 0;
@@ -473,53 +469,15 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	public void printErrorRoundAlreadyOver(){System.out.println("----Error: Round is already over, cannot play");}
 	
-	public void displayEvent(GameplayEvent event){
-		switch(event){
-		case DISCARDED_TILE: __displayEventDiscardedTile(); return;
-		case MADE_OPEN_MELD: __displayEventMadeOpenMeld(); return;
-		case DREW_TILE: __displayEventDrewTile(); return;
-		case MADE_OWN_KAN: __displayEventMadeOwnKan(); return;
-		case NEW_DORA_INDICATOR: __displayEventNewDoraIndicator(); return;
-		
-		case HUMAN_PLAYER_TURN_START: __displayEventHumanTurnStart(); return;
-		
-		case START_OF_ROUND: __displayEventStartOfRound(); return;
-		case PLACEHOLDER: __displayEventPlaceholder(); return;
-		case END_OF_ROUND: __displayEventEndOfRound(); return;
-		default: break;
-		}
-		
-		if (event.isExclamation()) __showExclamation(event.getExclamation(), event.getSeat());
-		
-		
-		if (mSleepTime > 0 && !event.isExclamation() && event != GameplayEvent.PLACEHOLDER) Pauser.pauseFor(mSleepTime);
-	}
-	public void __displayEventDiscardedTile(){updateEverything();}
-	public void __displayEventMadeOpenMeld(){updateEverything();}
-	public void __displayEventDrewTile(){updateEverything();}
-	public void __displayEventMadeOwnKan(){updateEverything();}
-	public void __displayEventNewDoraIndicator(){/*blank*/}
-	public void __displayEventHumanTurnStart(){updateEverything();}
-	public void __displayEventPlaceholder(){updateEverything();}
 	
-	public void __displayEventStartOfRound(){updateEverything();}
-	public void __displayEventEndOfRound(){showResult(); updateEverything(); if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeRoundEnd);}
-	
-	public void __showExclamation(Exclamation exclamation, int seat){
-		
+	public void exclamationShow(Exclamation exclamation, int seat){
 		//show the label
 		lblExclamation.setText(exclamationToString.get(exclamation));
 		lblExclamation.setLocation(seat);
 		lblExclamation.setVisible(true);
-		
-		//pause
-		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);
-		
-		//get rid of label
-		lblExclamation.setVisible(false);
 	}
+	public void exclamationErase(){lblExclamation.setVisible(false);}
 	
 	
 	
@@ -769,44 +727,6 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-
-	
-	
-	
-	
-	private class CallListener implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String command = e.getActionCommand();
-			if (command.equals("Chi-L")) mChosenCall = CALL_CHI_L;
-			else if (command.equals("Chi-M")) mChosenCall = CALL_CHI_M;
-			else if (command.equals("Chi-H")) mChosenCall = CALL_CHI_H;
-			else if (command.equals("Pon")) mChosenCall = CALL_PON;
-			else if (command.equals("Kan")) mChosenCall = CALL_KAN;
-			else if (command.equals("Ron")) mChosenCall = CALL_RON;
-			else if (command.equals("None")) mChosenCall = CALL_NONE;
-			else if (command.equals("Chi")) mChosenCall = CALL_CHI;
-		}		
-	}
-	
-	
-	
-	
-	
-	private class TurnActionListener implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String command = e.getActionCommand();
-			if (command.equals("Ankan")) mChosenTurnAction = TURN_ACTION_ANKAN;
-			else if (command.equals("Minkan")) mChosenTurnAction = TURN_ACTION_MINKAN;
-			else if (command.equals("Riichi")) mChosenTurnAction = TURN_ACTION_RIICHI;
-			else if (command.equals("Tsumo")) mChosenTurnAction = TURN_ACTION_TSUMO;
-		}		
-	}
-	
-	
-
-	
 	
 	private void __setDiscardChosen(int discardIndex){
 		mChosenTurnAction = TURN_ACTION_DISCARD;
@@ -849,15 +769,10 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	public final void setSleepTimes(int sleepTime, int sleepTimeExclamation, int sleepTimeRoundEnd){
-		mSleepTime = sleepTime;
-		mSleepTimeExclamation = sleepTimeExclamation;
-		mSleepTimeRoundEnd = sleepTimeRoundEnd;
-	}
-	
 	
 	
 	public void showResult(){
+		
 		
 		panResult.setVisible(true);
 	}
@@ -870,17 +785,7 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	
-	public void startUI(){blankEverything(); setVisible(true);}
-	public void endUI(){dispose();}
-	
-	
-	
-	
-	
-	
-	
-	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] trackerTilesW){
+	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] tilesW){
 		mRoundTracker = rTracker;
 
 		mRevealHands = new boolean[NUM_PLAYERS];
@@ -890,7 +795,7 @@ public class TableViewBase extends JFrame{
 			mRevealHands[i] = (mOptionRevealHands || mPTrackers[i].player.controllerIsHuman());
 		}
 		
-		mWall = wall;mTilesW = trackerTilesW;
+		mWall = wall;mTilesW = tilesW;
 		
 		blankEverything();
 	}
@@ -1180,7 +1085,29 @@ public class TableViewBase extends JFrame{
 	
 	
 	
+	private class CallListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			String command = e.getActionCommand();
+			if (command.equals("Chi-L")) mChosenCall = CALL_CHI_L;
+			else if (command.equals("Chi-M")) mChosenCall = CALL_CHI_M;
+			else if (command.equals("Chi-H")) mChosenCall = CALL_CHI_H;
+			else if (command.equals("Pon")) mChosenCall = CALL_PON;
+			else if (command.equals("Kan")) mChosenCall = CALL_KAN;
+			else if (command.equals("Ron")) mChosenCall = CALL_RON;
+			else if (command.equals("None")) mChosenCall = CALL_NONE;
+			else if (command.equals("Chi")) mChosenCall = CALL_CHI;
+		}		
+	}
 	
+	private class TurnActionListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			String command = e.getActionCommand();
+			if (command.equals("Ankan")) mChosenTurnAction = TURN_ACTION_ANKAN;
+			else if (command.equals("Minkan")) mChosenTurnAction = TURN_ACTION_MINKAN;
+			else if (command.equals("Riichi")) mChosenTurnAction = TURN_ACTION_RIICHI;
+			else if (command.equals("Tsumo")) mChosenTurnAction = TURN_ACTION_TSUMO;
+		}		
+	}
 	
 	
 	
@@ -1198,8 +1125,6 @@ public class TableViewBase extends JFrame{
 			public HandPanel(int seat){
 				super();
 				for (int i = 0; i < larryH.length; i++) larryH[i] = new JLabel();
-				
-//				for (JLabel l: larryH) l.setIcon(garryTiles[seat][BIG][1]);
 
 				setBounds(0, 0, WIDTH, HEIGHT);
 				setLayout(new GridLayout(1, 14, 0, 0));
@@ -1212,12 +1137,6 @@ public class TableViewBase extends JFrame{
 				
 				if (seat == SEAT2 || seat == SEAT3) for (int i = larryH.length-1; i >= 0; i--) add(larryH[i]);
 				else for (int i = 0; i < larryH.length; i++) add(larryH[i]);
-				
-//				//add mouse listeners to hand tile labels
-//				if (seat == SEAT1) for (int i = 0; i < larryH.length; i++){
-//					final int discChoice = i + 1;
-//					larryH[i].addMouseListener(new MouseAdapter() {public void mouseClicked(MouseEvent arg0) {__setDiscardChosen(discChoice);}});
-//				}
 			}
 			public void getLabels(JLabel[] hLarry){for (int i = 0; i < larryH.length; i++) hLarry[i] = larryH[i];}
 		}
@@ -1234,8 +1153,6 @@ public class TableViewBase extends JFrame{
 				public MeldPanel(int seat){
 					super();
 					for (int i = 0; i < larryHM.length; i++) larryHM[i] = new JLabel();
-					
-//					for (JLabel l: larryHM) l.setIcon(garryTiles[seat][SMALL][34]);
 					
 					setBounds(0, 0, WIDTH, HEIGHT);
 					setLayout(new GridLayout(1, 4, 0, 0));

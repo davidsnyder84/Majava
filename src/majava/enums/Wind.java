@@ -29,8 +29,10 @@ public enum Wind {
 	public Wind kamichaWind(){return prev();}
 	
 	
-	
-	@Override
+	public int getNum(){
+		if (this == UNKNOWN) return -1;
+		return ordinal();
+	}
 	public String toString(){
 		switch (this){
 		case EAST: return "East";
@@ -40,15 +42,7 @@ public enum Wind {
 		default: return "Unknown";
 		}
 	}
-	public char toChar(){return this.toString().charAt(0);}
-	public int getNum(){
-		switch(this){
-		case EAST: return 0;
-		case SOUTH: return 1;
-		case WEST: return 2;
-		case NORTH: return 3;
-		default: return -1;
-		}
-	}
-
+	public char toChar(){return toString().charAt(0);}
+	
+	
 }

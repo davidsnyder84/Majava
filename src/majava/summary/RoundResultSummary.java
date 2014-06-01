@@ -1,5 +1,7 @@
 package majava.summary;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +15,9 @@ import majava.tiles.Tile;
 
 
 public class RoundResultSummary {
+	
+	private static final int NUM_PLAYERS = 4;
+	
 	
 	private final ResultType pResultType;
 
@@ -50,7 +55,8 @@ public class RoundResultSummary {
 			pWinnerMelds = null;
 		}
 		
-		pPayments = null;
+		pPayments = new HashMap<PlayerSummary,Integer>(NUM_PLAYERS);
+		pPayments.putAll(payments);
 	}
 	//draw constructor
 	public RoundResultSummary(ResultType resType, Map<PlayerSummary,Integer> payments){
@@ -76,6 +82,23 @@ public class RoundResultSummary {
 	public PlayerSummary getWinningPlayer(){return pWinningPlayer;}
 	public PlayerSummary getFurikondaPlayer(){return pFurikondaPlayer;}
 	
-	public Wind getWindOfWinner(){if (isVictory()) return pWinningPlayer.getSeatWind(); return null;}
-	public Tile getWinningTile(){if (isVictory()) return pWinningTile.clone(); return null;}
+	public Wind getWindOfWinner(){if (!isVictory()) return null; return pWinningPlayer.getSeatWind();}
+	public Tile getWinningTile(){if (!isVictory()) return null; return pWinningTile.clone();}
+	
+	
+	
+	public TileList getWinnerHandTiles(){if (!isVictory()) return null; return pWinnerHand.makeCopy();}
+	public List<Meld> getWinnerMelds(){
+		if (!isVictory()) return null; 
+		List<Meld> meldsCopy = new ArrayList<Meld>();
+		for (Meld m: pWinnerMelds) meldsCopy.add(m);
+		return meldsCopy;
+	}
+	
+	public Map<PlayerSummary,Integer> getPayments(){
+		Map<PlayerSummary,Integer> paymentsCopy = new HashMap<PlayerSummary,Integer>(NUM_PLAYERS);
+		paymentsCopy.putAll(pPayments);
+		
+		return paymentsCopy;
+	}
 }

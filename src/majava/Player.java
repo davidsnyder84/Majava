@@ -853,7 +853,7 @@ public class Player {
 	
 	
 	public boolean holdingRinshan(){return mHoldingRinshanTile;}
-	public Tile getTsumoTile(){return mHand.getTile(mHand.size() - 1);}
+	public Tile getTsumoTile(){return mHand.getTile(mHand.size() - 1).clone();}
 	
 	
 	public boolean handIsFullyConcealed(){return mHand.isClosed();}
@@ -893,7 +893,7 @@ public class Player {
 	public void setControllerHuman(){__setController(Controller.HUMAN);}
 	public void setControllerComputer(){__setController(Controller.COM);}
 	
-	public String getControllerAsString(){return mController.toString();}
+	public String getAsStringController(){return mController.toString();}
 	
 	public boolean controllerIsHuman(){return mController.isHuman();}
 	public boolean controllerIsComputer(){return mController.isComputer();}
@@ -963,7 +963,7 @@ public class Player {
 	//get hand as string
 	public String getAsStringHand(){
 		String hs = "";
-		hs += mSeatWind + " Player's hand (controller: " + getControllerAsString() + ", " + mPlayerName + "):";
+		hs += mSeatWind + " Player's hand (controller: " + getAsStringController() + ", " + mPlayerName + "):";
 		if (mHand.getTenpaiStatus()) hs += "     $$$$!Tenpai!$$$$";
 		hs += "\n" + mHand.toString();
 		return hs;

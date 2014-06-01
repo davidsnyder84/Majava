@@ -95,12 +95,17 @@ public class ResultType {
 	
 	
 	
-	public String getAsStringWinType(){return mWinType.toString();}
+	public String getAsStringWinType(){if (!isVictory()) return null; return mWinType.toString();}
 	public String getAsStringResultType(){
 		if (mResultType.isDraw()) return mDrawType.toString();
 		else if (mResultType.isVictory()) return "Player " + (mWinningSeat+1) + " wins!";
 		return "undecided result";
 	}
+	
+	
+	
+	
+	
 	
 	
 	

@@ -1,12 +1,23 @@
 package majava.userinterface.graphicalinterface.window;
 
 import java.awt.Color;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
+
+import majava.Meld;
+import majava.control.testcode.Majenerator;
+import majava.enums.Wind;
+import majava.summary.PlayerSummary;
+import majava.summary.RoundResultSummary;
+import majava.tiles.Tile;
+import majava.util.TileList;
 
 public class ResultPanel extends JPanel{
 	private static final long serialVersionUID = -5392789088556649589L;
@@ -16,6 +27,8 @@ public class ResultPanel extends JPanel{
 	private static final Color COLOR_BASE = Color.GRAY;
 	private static final int ALPHA = 245;
 	private static final Color COLOR_PANEL = new Color(COLOR_BASE.getRed(), COLOR_BASE.getGreen(), COLOR_BASE.getBlue(), ALPHA);
+	
+	private static final int NUM_PLAYERS = 4;
 	
 	
 	public ResultPanel(){
@@ -51,13 +64,183 @@ public class ResultPanel extends JPanel{
 	
 	
 	
+	/*
+	I need this
 	
+	***result label (Player 1 wins!, Draw!, etc)
+	
+	***winning hand/melds panel
+	dora indicators panel (and ura if necessary)
+	
+	***panel/list of yaku
+	
+	***hand score label
+	
+	***payments per player panel
+		*wind
+		*name
+		*points (before payment)
+		*payment amount
+	
+	
+	ok button
+	*/
+//	RoundResultSummary resum;
+//	//for win
+//	{
+//		//***result label (Player 1 wins!, Draw!, etc)
+//		String resultLabel = resum.getAsStringResultType();
+//		
+//		
+//		//***payments per player panel
+//		PlayerPointsBlock[] playerPointBlocks = new PlayerPointsBlock[NUM_PLAYERS];
+//		
+//		Map<PlayerSummary, Integer> payments = resum.getPayments();
+//		
+//		int i = 0;
+//		for (PlayerSummary ps: payments.keySet())
+//			playerPointBlocks[++i] = new PlayerPointsBlock(ps.getSeatWind(), ps.getPlayerName(), ps.getPoints(), payments.get(ps));
+//		
+//		
+//		if (resum.isVictory()){
+//			//***winning hand/melds panel
+//			TileList winnerHandTiles = resum.getWinnerHandTiles();	
+//			List<Meld> winnerMelds = resum.getWinnerMelds();
+//			Tile winningTile = resum.getWinningTile();
+//			
+//			//***panel/list of yaku
+//			List<String> yakuList = Arrays.asList("Riichi", "Ippatsu", "Tsumo", "Dora 1");
+//			
+//			//***hand score label
+//			String handScore = payments.get(resum.getWinningPlayer()).toString();
+//		}
+//	}
+	
+	
+	
+	public static void DEMOthis(){
+		
+		RoundResultSummary resum = Majenerator.generateRoundResultSummary();
+		
+		//for all
+		String resultLabel = null; PlayerPointsBlock[] pointsBlocks = null; Map<PlayerSummary, Integer> payments = null;
+		//for win
+		PlayerSummary winner = null, furikon = null;
+		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; Tile winningTile = null;
+		List<String> yakuList = null; int yakuWorth = 1; int handScore = 0; 
+		
+		
+		
+		//***result label (Player 1 wins!, Draw!, etc)
+		resultLabel = resum.getAsStringResultType();
+		
+		
+		//***payments per player panel
+		pointsBlocks = new PlayerPointsBlock[NUM_PLAYERS];
+		
+		payments = resum.getPayments();
+		
+		int i = 0;
+		for (PlayerSummary ps: payments.keySet())
+			pointsBlocks[i++] = new PlayerPointsBlock(ps, payments.get(ps));
+//			pointsBlocks[i++] = new PlayerPointsBlock(ps.getPlayerNumber(), ps.getSeatWind(), ps.getPlayerName(), ps.getPoints(), payments.get(ps));
+		
+		
+		if (resum.isVictory()){
+			winner = resum.getWinningPlayer();
+			furikon = resum.getFurikondaPlayer();
+			
+			//***winning hand/melds panel
+			winnerHandTiles = resum.getWinnerHandTiles();	
+			winnerMelds = resum.getWinnerMelds();
+			winningTile = resum.getWinningTile();
+			
+			//***panel/list of yaku
+			yakuList = Arrays.asList("Riichi", "Ippatsu", "Tsumo", "Dora 1");
+			
+			//***hand score label
+//			System.out.println(payments.get(winner));
+//			System.out.println(winner.toString());
+			handScore = payments.get(winner);
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		System.out.println("Result: " + resultLabel);
+		if (resum.isVictory()){
+			System.out.print(resum.getAsStringWinType() + "!");
+			if (resum.isVictoryRon()) System.out.print(" (from Player " + furikon.getPlayerNumber() + ")");
+			System.out.println();
+		}
+		
+		
+		System.out.println("\nPayments:");
+		for (PlayerPointsBlock pb: pointsBlocks){
+			System.out.print("\tPlayer " + pb.playerNum + " (" + pb.playerName + ", " + pb.playerWind.toChar() + ")... Points:" + pb.origPoints + " (");
+			if (pb.paymentAmt > 0) System.out.print("+");
+			System.out.println(pb.paymentAmt + ")");
+		}
+		
+		if (resum.isVictory()){
+			//***winning hand/melds panel
+			System.out.println("\nWinner's hand: " + winnerHandTiles);
+			System.out.println("Winner's melds:");
+			for (Meld m: winnerMelds) System.out.println("\t" + m);
+			System.out.println("Winning tile: " + winningTile);
+			
+			//***panel/list of yaku
+			System.out.println("\nList of Yaku:");
+			for (String s: yakuList) System.out.println("\t" + s + " (" + yakuWorth + ")");
+			
+			//***hand score label
+			System.out.println("Hand score: " + handScore);
+		}
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	private static class PlayerPointsBlock{
+		private final int playerNum;
+		private final Wind playerWind;
+		private final String playerName;
+		private final int origPoints;
+		private final int paymentAmt;
+		public PlayerPointsBlock(int playernum, Wind wind, String name, int pointsBeforePayment, int payment){
+			playerNum = playernum;
+			playerWind = wind;
+			playerName = name;
+//			origPoints = pointsBeforePayment - payment;
+			origPoints = pointsBeforePayment;
+			paymentAmt = payment;
+		}
+		public PlayerPointsBlock(PlayerSummary ps, int payment){
+			this(ps.getPlayerNumber(), ps.getSeatWind(), ps.getPlayerName(), ps.getPoints(), payment);
+		}
+	}
 	
 	
 
 	
 	
 	public static void main(String[] args) {
+		
+		for (int i = 0; i < 200; i++) DEMOthis();
+//		DEMOthis();
 		
 		final int WINDOW_WIDTH = 1120 + (-62*2 - 6) + 2*2;
 		final int WINDOW_HEIGHT = 726 + 6 + (-62*2 + 25 + 18) + 26 + 23;
@@ -74,7 +257,7 @@ public class ResultPanel extends JPanel{
 		resPan.setLocation(57,75);
 		contentPane.add(resPan);
 		
-		frame.setVisible(true);
+//		frame.setVisible(true);
 	}
 
 }

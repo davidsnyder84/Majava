@@ -46,6 +46,7 @@ public class RoundResult {
 	private boolean mRoundIsOver;
 	
 	private ResultType mResultType;
+	private RoundResultSummary mResultSummary;
 
 
 	private Player mWinningPlayer;
@@ -181,6 +182,7 @@ public class RoundResult {
 	
 	public RoundResultSummary getSummary(){
 		if (!mRoundIsOver) return null;
+		if (mResultSummary != null) return mResultSummary;
 		
 		RoundResultSummary sum = null;
 		PlayerSummary winnerSummary = null, furikonSummary = null;
@@ -204,7 +206,8 @@ public class RoundResult {
 		
 		sum = new RoundResultSummary(mResultType, winnerSummary, furikonSummary, winningTile, winnerHand, winnerMelds, payments);
 //		sum = new RoundResultSummary(mResultType, payments);
-		return sum;
+		mResultSummary = sum;
+		return mResultSummary;
 	}
 
 }

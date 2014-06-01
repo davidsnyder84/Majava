@@ -12,6 +12,7 @@ import majava.Player;
 import majava.RoundResult;
 import majava.util.TileList;
 import majava.enums.MeldType;
+import majava.summary.RoundResultSummary;
 import majava.tiles.Tile;
 
 
@@ -30,21 +31,25 @@ public class Majenerator {
 	
 	
 	
-	
-	
+
+	public static RoundResultSummary generateRoundResultSummary(){
+		return generateRoundResult().getSummary();
+	}
 	public static RoundResult generateRoundResult(){
 		
 		RoundResult res = new RoundResult();
 		
 		Player[] players = {generatePlayer(0), generatePlayer(1), generatePlayer(2), generatePlayer(3)};
-		int windex = randGen.nextInt(4), losedex; do{losedex = randGen.nextInt(4);}while(losedex == windex);
+		int windex = randGen.nextInt(NUM_PLAYERS), losedex; do{losedex = randGen.nextInt(NUM_PLAYERS);}while(losedex == windex);
 		
 		Player winner = players[windex];
 		Player furi = players[losedex];
 		List<Meld> winMelds = null;
 		TileList winHandTiles = null;
+		Tile winningTile = null;
 		
 		winHandTiles = new TileList(3+18,4+18,5+18,6+18);
+		winningTile = new Tile(6+18);
 		winMelds = new ArrayList<Meld>();
 		winMelds.add(generateMeld());winMelds.add(generateMeld());winMelds.add(generateMeld());
 		
@@ -52,7 +57,7 @@ public class Majenerator {
 		if (randGen.nextBoolean()) res.setVictoryRon(winner, furi);
 		else res.setVictoryTsumo(winner);
 		
-		res.setWinningHand(winHandTiles, winMelds, new Tile(7+18));
+		res.setWinningHand(winHandTiles, winMelds, winningTile);
 		
 		
 		Map<Player, Integer> payments = generatePaymentsMap(players, res);

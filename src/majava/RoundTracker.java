@@ -129,12 +129,12 @@ public class RoundTracker {
 		
 		
 		mWall = wall;
-		__syncWithWall(mWall);
+		mWall.syncWithTracker(this);
 		mTilesW = tempSyncWallTiles;
 		
 		mPlayerArray = new Player[]{p1,p2,p3,p4};
-//		__setupPlayerTrackers();
 		mRoundEntities = new RoundEntities(this, __setupPlayerTrackers(), mWall, mTilesW);
+		tempSyncWallTiles = null;
 		
 		__syncWithUI(ui);
 	}
@@ -146,9 +146,6 @@ public class RoundTracker {
 	private Tile[] tempSyncWallTiles = null;
 	private Player tempSyncPlayer = null; private TileList tempSyncHandTiles = null; private TileList tempSyncPondTiles = null; private Hand tempSyncHand = null; private Pond tempSyncPond = null; private List<Meld> tempSyncMelds = null;
 	
-	private void __syncWithWall(Wall wall){
-		mWall.syncWithTracker(this);
-	}
 	public void syncWall(Tile[] wallTiles){
 		if (wallSynched) return;
 		tempSyncWallTiles = wallTiles;

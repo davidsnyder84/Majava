@@ -3,7 +3,8 @@ package majava.summary;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class PaymentSummary{
+
+public class PaymentSummary implements Iterable<PlayerSummary>{
 	
 	private static final int NUM_PLAYERS = 4;
 	
@@ -15,6 +16,11 @@ public class PaymentSummary{
 		mPlayers = new PlayerSummary[NUM_PLAYERS];
 		mPayments = new int[NUM_PLAYERS];
 	}
+
+	public PaymentSummary(PaymentSummary other){
+		this();
+		putAll(other);
+	}
 	
 	
 	
@@ -23,6 +29,12 @@ public class PaymentSummary{
 		if (player == null) return;
 		mPlayers[player.getPlayerNumber()] = player;
 		mPayments[player.getPlayerNumber()] = paymt;
+	}
+	public void putAll(PaymentSummary other){
+		for (int i = 0; i < NUM_PLAYERS; i++){
+			mPlayers[i] = other.mPlayers[i];
+			mPayments[i] = other.mPayments[i];
+		}
 	}
 	
 	

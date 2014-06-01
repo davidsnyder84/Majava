@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import majava.enums.Wind;
+import majava.summary.PaymentSummary;
 import majava.summary.PlayerSummary;
 import majava.summary.ResultType;
 import majava.summary.RoundResultSummary;
@@ -186,7 +187,7 @@ public class RoundResult {
 		
 		RoundResultSummary sum = null;
 		PlayerSummary winnerSummary = null, furikonSummary = null;
-		Map<PlayerSummary,Integer> payments = null;
+		PaymentSummary payments = null;
 		Tile winningTile = null;
 		TileList winnerHand = null;
 		List<Meld> winnerMelds = null;
@@ -201,7 +202,7 @@ public class RoundResult {
 		}
 		
 		//get payments
-		payments = new HashMap<PlayerSummary,Integer>();
+		payments = new PaymentSummary();
 		for (Player p: mPayments.keySet()) payments.put(p.getPlayerSummary(), mPayments.get(p));
 		
 		sum = new RoundResultSummary(mResultType, winnerSummary, furikonSummary, winningTile, winnerHand, winnerMelds, payments);
@@ -209,5 +210,34 @@ public class RoundResult {
 		mResultSummary = sum;
 		return mResultSummary;
 	}
+//	public RoundResultSummary getSummary(){
+//		if (!mRoundIsOver) return null;
+//		if (mResultSummary != null) return mResultSummary;
+//		
+//		RoundResultSummary sum = null;
+//		PlayerSummary winnerSummary = null, furikonSummary = null;
+//		Map<PlayerSummary,Integer> payments = null;
+//		Tile winningTile = null;
+//		TileList winnerHand = null;
+//		List<Meld> winnerMelds = null;
+//		
+//		//get winning, losing player summaries
+//		if (mResultType.isVictory()){
+//			winnerSummary = mWinningPlayer.getPlayerSummary();
+//			if (mResultType.isVictoryRon()) furikonSummary = mFurikondaPlayer.getPlayerSummary();
+//			winningTile = mWinningTile;
+//			winnerHand = mWinnerHand;
+//			winnerMelds = mWinnerMelds;
+//		}
+//		
+//		//get payments
+//		payments = new HashMap<PlayerSummary,Integer>();
+//		for (Player p: mPayments.keySet()) payments.put(p.getPlayerSummary(), mPayments.get(p));
+//		
+//		sum = new RoundResultSummary(mResultType, winnerSummary, furikonSummary, winningTile, winnerHand, winnerMelds, payments);
+////		sum = new RoundResultSummary(mResultType, payments);
+//		mResultSummary = sum;
+//		return mResultSummary;
+//	}
 
 }

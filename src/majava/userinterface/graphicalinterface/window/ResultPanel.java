@@ -14,6 +14,7 @@ import javax.swing.border.LineBorder;
 import majava.Meld;
 import majava.control.testcode.Majenerator;
 import majava.enums.Wind;
+import majava.summary.PaymentSummary;
 import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;
 import majava.tiles.Tile;
@@ -123,7 +124,7 @@ public class ResultPanel extends JPanel{
 		RoundResultSummary resum = Majenerator.generateRoundResultSummary();
 		
 		//for all
-		String resultLabel = null; PlayerPointsBlock[] pointsBlocks = null; Map<PlayerSummary, Integer> payments = null;
+		String resultLabel = null; PlayerPointsBlock[] pointsBlocks = null; PaymentSummary payments = null;
 		//for win
 		PlayerSummary winner = null, furikon = null;
 		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; Tile winningTile = null;
@@ -141,8 +142,8 @@ public class ResultPanel extends JPanel{
 		payments = resum.getPayments();
 		
 		int i = 0;
-		for (PlayerSummary ps: payments.keySet())
-			pointsBlocks[i++] = new PlayerPointsBlock(ps, payments.get(ps));
+		for (PlayerSummary player: payments)
+			pointsBlocks[i++] = new PlayerPointsBlock(player, payments.get(player));
 //			pointsBlocks[i++] = new PlayerPointsBlock(ps.getPlayerNumber(), ps.getSeatWind(), ps.getPlayerName(), ps.getPoints(), payments.get(ps));
 		
 		
@@ -159,8 +160,6 @@ public class ResultPanel extends JPanel{
 			yakuList = Arrays.asList("Riichi", "Ippatsu", "Tsumo", "Dora 1");
 			
 			//***hand score label
-//			System.out.println(payments.get(winner));
-//			System.out.println(winner.toString());
 			handScore = payments.get(winner);
 		}
 		
@@ -177,14 +176,14 @@ public class ResultPanel extends JPanel{
 		System.out.println("Result: " + resultLabel);
 		if (resum.isVictory()){
 			System.out.print(resum.getAsStringWinType() + "!");
-			if (resum.isVictoryRon()) System.out.print(" (from Player " + furikon.getPlayerNumber() + ")");
+			if (resum.isVictoryRon()) System.out.print(" (from Player " + (furikon.getPlayerNumber()+1) + ")");
 			System.out.println();
 		}
 		
 		
 		System.out.println("\nPayments:");
 		for (PlayerPointsBlock pb: pointsBlocks){
-			System.out.print("\tPlayer " + pb.playerNum + " (" + pb.playerName + ", " + pb.playerWind.toChar() + ")... Points:" + pb.origPoints + " (");
+			System.out.print("\tPlayer " + (pb.playerNum+1) + " (" + pb.playerName + ", " + pb.playerWind.toChar() + ")... Points:" + pb.origPoints + " (");
 			if (pb.paymentAmt > 0) System.out.print("+");
 			System.out.println(pb.paymentAmt + ")");
 		}
@@ -239,8 +238,8 @@ public class ResultPanel extends JPanel{
 	
 	public static void main(String[] args) {
 		
-		for (int i = 0; i < 200; i++) DEMOthis();
-//		DEMOthis();
+//		for (int i = 0; i < 200; i++) DEMOthis();
+		DEMOthis();
 		
 		final int WINDOW_WIDTH = 1120 + (-62*2 - 6) + 2*2;
 		final int WINDOW_HEIGHT = 726 + 6 + (-62*2 + 25 + 18) + 26 + 23;

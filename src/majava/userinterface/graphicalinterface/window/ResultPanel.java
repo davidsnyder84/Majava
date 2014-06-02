@@ -203,10 +203,6 @@ public class ResultPanel extends JPanel{
 			System.out.println("Hand score: " + handScore);
 		}
 		
-		
-		
-		
-		
 	}
 	
 	

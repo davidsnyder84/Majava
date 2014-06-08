@@ -1,9 +1,7 @@
 package majava;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import majava.userinterface.GameUI;
+import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
 import majava.tiles.Tile;
 import majava.util.TileList;
@@ -183,18 +181,18 @@ public class Round{
 		final int PAYMENT_DUE = 8000;
 		int paymentDue = PAYMENT_DUE;
 		
-		Map<Player, Integer> playerPaymentMap = null;
+		PaymentMap payments = null;
 		
 
 		//find who has to pay what
-		if (mRoundResult.isDraw()) playerPaymentMap = __mapPaymentsDraw();
-		else playerPaymentMap = __mapPaymentsWin(paymentDue);
+		if (mRoundResult.isDraw()) payments = __mapPaymentsDraw();
+		else payments = __mapPaymentsWin(paymentDue);
 		
 		//carry out payments
-		for (Player p: mPlayerArray) p.pointsIncrease(playerPaymentMap.get(p));
+		for (Player p: mPlayerArray) p.pointsIncrease(payments.get(p.getPlayerNumber()));
 		
 		//record payments in the result
-		mRoundResult.recordPayments(playerPaymentMap);
+		mRoundResult.recordPayments(payments);
 	}
 
 	
@@ -202,9 +200,9 @@ public class Round{
 	private method: __mapPaymentsWin
 	maps payments to players, in the case of a win
 	*/
-	private Map<Player, Integer> __mapPaymentsWin(int handValue){
+	private PaymentMap __mapPaymentsWin(int handValue){
 		
-		Map<Player, Integer> playerPaymentMap = new HashMap<Player, Integer>();
+		PaymentMap payments = new PaymentMap();
 		
 		final double DEALER_WIN_MULTIPLIER = 1.5, DEALER_TSUMO_MULTIPLIER = 2;
 		
@@ -222,36 +220,38 @@ public class Round{
 		
 		///////add in honba here
 		
-		playerPaymentMap.put(winner, paymentDue);
+		payments.put(winner.getPlayerSummary(), paymentDue);
 		
 		
 		//find who has to pay
 		if (mRoundResult.isVictoryRon()){
 			furikonda = mRoundResult.getFurikondaPlayer();
 			for (Player p: losers)
-				if (p == furikonda) playerPaymentMap.put(p, -paymentDue);
-				else playerPaymentMap.put(p, 0);
+				if (p == furikonda) payments.put(p.getPlayerSummary(), -paymentDue);
+				else payments.put(p.getPlayerSummary(), 0);
 		}
 		else{//tsumo
 			for (Player p: losers){
-				if (p.isDealer() || winner.isDealer()) playerPaymentMap.put(p, -tsumoPointsDealer);
-				else  playerPaymentMap.put(p, -tsumoPointsNonDealer);
+				if (p.isDealer() || winner.isDealer()) payments.put(p.getPlayerSummary(), -tsumoPointsDealer);
+				else  payments.put(p.getPlayerSummary(), -tsumoPointsNonDealer);
 			}
 		}
 		///////add in riichi sticks here
-		return playerPaymentMap;
+		return payments;
 	}
 	
 	/*
 	private method: __mapPaymentsDraw
 	maps payments to players, in the case of a draw
 	*/
-	private Map<Player, Integer> __mapPaymentsDraw(){
-		Map<Player, Integer> playerPaymentMap = new HashMap<Player, Integer>();
+	private PaymentMap __mapPaymentsDraw(){
+		PaymentMap payments = new PaymentMap();
 		
-		for (Player p: mPlayerArray) playerPaymentMap.put(p, 0);
-		return playerPaymentMap;
+		for (Player p: mPlayerArray) payments.put(p.getPlayerSummary(), 0);
+		return payments;
 	}
+	
+	
 	
 	
 	

@@ -64,6 +64,7 @@ public class DetailedTextualUI extends TextualUI{
 	protected void __displayEventEndOfRound(){
 		__showRoundResult();
 		__showHandsOfAllPlayers();
+		println("\n\n");
 		
 		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeRoundEnd);
 	}
@@ -98,8 +99,8 @@ public class DetailedTextualUI extends TextualUI{
 		println(mRoundEntities.mWall.toStringDeadWall());
 	}
 	
-	protected void __showRoundResult(){
-		if (mRoundEntities.mRoundTracker.roundIsOver()) return;
+	protected void __showRoundResultOLD(){
+		if (!mRoundEntities.mRoundTracker.roundIsOver()) return;
 		
 		System.out.println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 		 					"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
@@ -114,17 +115,17 @@ public class DetailedTextualUI extends TextualUI{
 //			System.out.println(mRoundResult.getAsStringWinningHand());
 	}
 	
-	protected void __showRoundResultZZZ(){
-		if (mRoundEntities.mRoundTracker.roundIsOver()) return;
+	protected void __showRoundResult(){
+		if (!mRoundEntities.mRoundTracker.roundIsOver()) return;
 		
-		System.out.println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
-		 					"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
-				 			"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
+		 		"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
+				"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		
 		RoundResultSummary result = mRoundEntities.mRoundTracker.getResultSummary();
 		
-		String resultStr = "Result: " + mRoundEntities.mRoundTracker.getRoundResultString();
-		System.out.println(resultStr);
+//		String resultStr = "Result: " + mRoundEntities.mRoundTracker.getRoundResultString();
+//		System.out.println(resultStr);
 		
 //		if (result.isVictory()) System.out.println(mRoundResult.getAsStringWinningHand());
 //		mRoundEntities.mRoundTracker.printRoundResult();
@@ -174,38 +175,36 @@ public class DetailedTextualUI extends TextualUI{
 		
 		System.out.println("Result: " + resultLabel);
 		if (result.isVictory()){
-			System.out.print(result.getAsStringWinType() + "!");
-			if (result.isVictoryRon()) System.out.print(" (from Player " + (furikon.getPlayerNumber()+1) + ")");
-			System.out.println();
+			print(result.getAsStringWinType() + "!");
+			if (result.isVictoryRon()) print(" (from Player " + (furikon.getPlayerNumber()+1) + ")");
+			println();
 		}
 		
 		
 		System.out.println("\nPayments:");
 		for (PlayerSummary ps: payments){
-			System.out.print("\tPlayer " + (ps.getPlayerNumber()+1) + " (" + ps.getPlayerName() + ", " + ps.getSeatWind().toChar() + ")... Points:" + ps.getPoints() + " (");
-			if (payments.get(ps) > 0) System.out.print("+");
-			System.out.println(payments.get(ps) + ")");
+			print("\tPlayer " + (ps.getPlayerNumber()+1) + " (" + ps.getPlayerName() + ", " + ps.getSeatWind().toChar() + ")... Points:" + ps.getPoints() + " (");
+			if (payments.get(ps) > 0) print("+");
+			println(payments.get(ps) + ")");
 		}
 		
 		if (result.isVictory()){
 			//***winning hand/melds panel
-			System.out.println("\nWinner's hand: " + winnerHandTiles);
-			System.out.println("Winner's melds:");
+			println("\nWinner's hand: " + winnerHandTiles);
+			println("Winner's melds:");
 			for (Meld m: winnerMelds) System.out.println("\t" + m);
-			System.out.println("Winning tile: " + winningTile);
+			println("Winning tile: " + winningTile);
 			
 			//***panel/list of yaku
 			System.out.println("\nList of Yaku:");
-			for (String s: yakuList) System.out.println("\t" + s + " (" + yakuWorth + ")");
+			for (String s: yakuList) println("\t" + s + " (" + yakuWorth + ")");
 			
 			//***hand score label
-			System.out.println("Hand score: " + handScore);
+			println("Hand score: " + handScore);
 		}
 		
 		
-		
-		
-		
+		println("\n\n\n");
 	}
 	
 	

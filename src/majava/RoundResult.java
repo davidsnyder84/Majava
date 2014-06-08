@@ -1,9 +1,6 @@
 package majava;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import majava.enums.Wind;
 import majava.summary.PaymentMap;
@@ -59,7 +56,7 @@ public class RoundResult {
 	private TileList mWinnerHand;
 	private List<Meld> mWinnerMelds;
 	
-	private Map<Player,Integer> mPayments;
+	private PaymentMap mPayments;
 	
 	
 	
@@ -111,8 +108,8 @@ public class RoundResult {
 	public void setWinningTile(Tile winningTile){mWinningTile = winningTile;}
 	
 	
-	public void recordPayments(Map<Player,Integer> playerPaymentsMap){
-		mPayments = playerPaymentsMap;
+	public void recordPayments(PaymentMap payments){
+		mPayments = payments;
 	}
 	
 	
@@ -151,12 +148,14 @@ public class RoundResult {
 		return winString;
 	}
 	public String getAsStringPayments(){
-		String ps = "";
+		String pstring = "";
 		
-		ps += "Winner: " + mWinningPlayer + ": +" + mPayments.get(mWinningPlayer);
-		for (Player p: mPayments.keySet()) if (p != mWinningPlayer) ps += "\n" + p + ": " + mPayments.get(p);
+		pstring += "Winner: " + mWinningPlayer + ": +" + mPayments.get(mWinningPlayer.getPlayerNumber());
+		for (PlayerSummary ps: mPayments) if (ps.getPlayerNumber() != mWinningPlayer.getPlayerNumber()) pstring += "\n" + ps + ": " + mPayments.get(ps.getPlayerNumber());
+//		ps += "Winner: " + mWinningPlayer + ": +" + mPayments.get(mWinningPlayer);
+//		for (Player p: mPayments.keySet()) if (p != mWinningPlayer) ps += "\n" + p + ": " + mPayments.get(p);
 		
-		return ps;
+		return pstring;
 	}
 	
 	
@@ -202,8 +201,7 @@ public class RoundResult {
 		}
 		
 		//get payments
-		payments = new PaymentMap();
-		for (Player p: mPayments.keySet()) payments.put(p.getPlayerSummary(), mPayments.get(p));
+		payments = new PaymentMap(mPayments);
 		
 		sum = new RoundResultSummary(mResultType, winnerSummary, furikonSummary, winningTile, winnerHand, winnerMelds, payments);
 //		sum = new RoundResultSummary(mResultType, payments);

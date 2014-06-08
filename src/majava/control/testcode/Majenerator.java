@@ -12,6 +12,7 @@ import majava.Player;
 import majava.RoundResult;
 import majava.util.TileList;
 import majava.enums.MeldType;
+import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
 import majava.tiles.Tile;
 
@@ -60,13 +61,13 @@ public class Majenerator {
 		res.setWinningHand(winHandTiles, winMelds, winningTile);
 		
 		
-		Map<Player, Integer> payments = generatePaymentsMap(players, res);
+		PaymentMap payments = generatePaymentsMap(players, res);
 		res.recordPayments(payments);
 		
 		return res;
 	}
-	public static Map<Player,Integer> generatePaymentsMap(Player[] players, RoundResult res){
-		Map<Player, Integer> playerPaymentMap = new HashMap<Player, Integer>();
+	public static PaymentMap generatePaymentsMap(Player[] players, RoundResult res){
+		PaymentMap playerPaymentMap = new PaymentMap();
 		
 		final double DEALER_WIN_MULTIPLIER = 1.5, DEALER_TSUMO_MULTIPLIER = 2;
 		
@@ -83,20 +84,20 @@ public class Majenerator {
 		
 		///////add in honba here
 		
-		playerPaymentMap.put(winner, paymentDue);
+		playerPaymentMap.put(winner.getPlayerSummary(), paymentDue);
 		
 		
 		//find who has to pay
 		if (res.isVictoryRon()){
 			furikonda = res.getFurikondaPlayer();
 			for (Player p: losers)
-				if (p == furikonda) playerPaymentMap.put(p, -paymentDue);
-				else playerPaymentMap.put(p, 0);
+				if (p == furikonda) playerPaymentMap.put(p.getPlayerSummary(), -paymentDue);
+				else playerPaymentMap.put(p.getPlayerSummary(), 0);
 		}
 		else{//tsumo
 			for (Player p: losers){
-				if (p.isDealer() || winner.isDealer()) playerPaymentMap.put(p, -tsumoPointsDealer);
-				else  playerPaymentMap.put(p, -tsumoPointsNonDealer);
+				if (p.isDealer() || winner.isDealer()) playerPaymentMap.put(p.getPlayerSummary(), -tsumoPointsDealer);
+				else  playerPaymentMap.put(p.getPlayerSummary(), -tsumoPointsNonDealer);
 			}
 		}
 		///////add in riichi sticks here

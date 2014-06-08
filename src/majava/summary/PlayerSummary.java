@@ -2,7 +2,7 @@ package majava.summary;
 
 import majava.enums.Wind;
 
-//represents a summary of a player's information
+//represents an immutable summary of a player's information
 public class PlayerSummary{
 		private final String pPlayerName;
 		private final int pPlayerID;

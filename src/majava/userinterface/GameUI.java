@@ -82,6 +82,8 @@ public abstract class GameUI {
 	
 	
 	
+	
+	
 	public void displayEvent(final GameplayEvent event){
 		switch(event){
 		case DISCARDED_TILE: __displayEventDiscardedTile(); break;
@@ -116,6 +118,8 @@ public abstract class GameUI {
 	protected abstract void __displayEventEndOfRound();
 	
 	protected abstract void __showExclamation(Exclamation exclamation, int seat);
+	
+	
 	
 	
 	
@@ -180,6 +184,9 @@ public abstract class GameUI {
 	public abstract boolean resultChosenCallWasPon();
 	public abstract boolean resultChosenCallWasKan();
 	public abstract boolean resultChosenCallWasRon();
+	
+	
+	
 	
 	
 	

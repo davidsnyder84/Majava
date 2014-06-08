@@ -49,7 +49,9 @@ public class SparseTextualUI extends TextualUI{
 	}
 	
 	protected void __displayEventEndOfRound(){
-		__showRoundResult();__showHandsOfAllPlayers();
+		__showRoundResult();
+		__showHandsOfAllPlayers();
+		
 		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeRoundEnd);
 	}
 

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import majava.userinterface.GameUI;
+import majava.summary.RoundResultSummary;
 import majava.summary.entity.PlayerTracker;
 import majava.summary.entity.RoundEntities;
 import majava.tiles.Tile;
@@ -274,6 +275,8 @@ public class RoundTracker {
 	
 //	public Player getWinningPlayer(){return mRoundResult.getWinningPlayer();}
 //	public Player getFurikondaPlayer(){return mRoundResult.getFurikondaPlayer();}
+	
+	public RoundResultSummary getResultSummary(){return mRoundResult.getSummary();}
 	
 	public void printRoundResult(){
 		if (roundIsOver())

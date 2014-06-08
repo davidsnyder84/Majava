@@ -1,10 +1,17 @@
 package majava.userinterface.textinterface;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 import utility.Pauser;
+import majava.Meld;
 import majava.Player;
 import majava.util.TileList;
 import majava.enums.Exclamation;
+import majava.summary.PaymentSummary;
+import majava.summary.PlayerSummary;
+import majava.summary.RoundResultSummary;
 import majava.tiles.Tile;
 
 public class DetailedTextualUI extends TextualUI{
@@ -55,7 +62,9 @@ public class DetailedTextualUI extends TextualUI{
 	}
 	
 	protected void __displayEventEndOfRound(){
-		__showRoundResult();__showHandsOfAllPlayers();
+		__showRoundResult();
+		__showHandsOfAllPlayers();
+		
 		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeRoundEnd);
 	}
 	
@@ -90,9 +99,114 @@ public class DetailedTextualUI extends TextualUI{
 	}
 	
 	protected void __showRoundResult(){
-		mRoundEntities.mRoundTracker.printRoundResult();
+		if (mRoundEntities.mRoundTracker.roundIsOver()) return;
+		
+		System.out.println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
+		 					"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
+				 			"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		
+		RoundResultSummary result = mRoundEntities.mRoundTracker.getResultSummary();
+		
+		String resultStr = "Result: " + mRoundEntities.mRoundTracker.getRoundResultString();
+		System.out.println(resultStr);
+		
+		if (result.isVictory());
+//			System.out.println(mRoundResult.getAsStringWinningHand());
 	}
 	
+	protected void __showRoundResultZZZ(){
+		if (mRoundEntities.mRoundTracker.roundIsOver()) return;
+		
+		System.out.println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
+		 					"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
+				 			"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		
+		RoundResultSummary result = mRoundEntities.mRoundTracker.getResultSummary();
+		
+		String resultStr = "Result: " + mRoundEntities.mRoundTracker.getRoundResultString();
+		System.out.println(resultStr);
+		
+//		if (result.isVictory()) System.out.println(mRoundResult.getAsStringWinningHand());
+//		mRoundEntities.mRoundTracker.printRoundResult();
+		
+		
+		
+		
+		
+		
+		
+		
+		//for all
+		String resultLabel = null;
+		PaymentSummary payments = null;
+		//for win
+		PlayerSummary winner = null, furikon = null;
+		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; Tile winningTile = null;
+		List<String> yakuList = null; int yakuWorth = 1; int handScore = 0; 
+		
+		
+		
+		//***result label (Player 1 wins!, Draw!, etc)
+		resultLabel = result.getAsStringResultType();
+		
+		
+		//***payments per player panel
+		payments = result.getPayments();
+		
+		if (result.isVictory()){
+			winner = result.getWinningPlayer();
+			furikon = result.getFurikondaPlayer();
+			
+			//***winning hand/melds panel
+			winnerHandTiles = result.getWinnerHandTiles();	
+			winnerMelds = result.getWinnerMelds();
+			winningTile = result.getWinningTile();
+			
+			//***panel/list of yaku
+			yakuList = Arrays.asList("Riichi", "Ippatsu", "Tsumo", "Dora 1");
+			
+			//***hand score label
+			handScore = payments.get(winner);
+		}
+		
+		
+		
+		
+		System.out.println("Result: " + resultLabel);
+		if (result.isVictory()){
+			System.out.print(result.getAsStringWinType() + "!");
+			if (result.isVictoryRon()) System.out.print(" (from Player " + (furikon.getPlayerNumber()+1) + ")");
+			System.out.println();
+		}
+		
+		
+		System.out.println("\nPayments:");
+		for (PlayerSummary ps: payments){
+			System.out.print("\tPlayer " + (ps.getPlayerNumber()+1) + " (" + ps.getPlayerName() + ", " + ps.getSeatWind().toChar() + ")... Points:" + ps.getPoints() + " (");
+			if (payments.get(ps) > 0) System.out.print("+");
+			System.out.println(payments.get(ps) + ")");
+		}
+		
+		if (result.isVictory()){
+			//***winning hand/melds panel
+			System.out.println("\nWinner's hand: " + winnerHandTiles);
+			System.out.println("Winner's melds:");
+			for (Meld m: winnerMelds) System.out.println("\t" + m);
+			System.out.println("Winning tile: " + winningTile);
+			
+			//***panel/list of yaku
+			System.out.println("\nList of Yaku:");
+			for (String s: yakuList) System.out.println("\t" + s + " (" + yakuWorth + ")");
+			
+			//***hand score label
+			System.out.println("Hand score: " + handScore);
+		}
+		
+		
+		
+		
+		
+	}
 	
 	
 	

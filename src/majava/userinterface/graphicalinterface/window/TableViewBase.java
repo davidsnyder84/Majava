@@ -438,6 +438,7 @@ public class TableViewBase extends JFrame{
 	
 	
 	
+	
 	public void exclamationShow(Exclamation exclamation, int seat){
 		//show the label
 		lblExclamation.setText(exclamationToString.get(exclamation));

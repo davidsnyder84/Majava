@@ -119,7 +119,14 @@ public class GraphicalUI extends GameUI{
 	protected void __displayEventPlaceholder(){mTableWindow.updateEverything();}
 	
 	protected void __displayEventStartOfRound(){mTableWindow.updateEverything();}
-	protected void __displayEventEndOfRound(){mTableWindow.showResult(); mTableWindow.updateEverything(); if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeRoundEnd);}
+	
+	protected void __displayEventEndOfRound(){
+		mTableWindow.showResult();
+		mTableWindow.updateEverything();
+		
+		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeRoundEnd);
+	}
+	
 	
 	
 	
@@ -206,38 +213,6 @@ public class GraphicalUI extends GameUI{
 		
 		
 		
-		
-		
-		
-		
-		///////////
-		
-		////////////////////////////////////////////////////////////
-		
-		//get labels
-//		panPlayer1.getLabelsHand(larryH1);panPlayer1.getLabelsMelds(larryH1Ms);
-//		panPlayer2.getLabelsHand(larryH2);panPlayer2.getLabelsMelds(larryH2Ms);
-//		panPlayer3.getLabelsHand(larryH3);panPlayer3.getLabelsMelds(larryH3Ms);
-//		panPlayer4.getLabelsHand(larryH4);panPlayer4.getLabelsMelds(larryH4Ms);
-//
-//		panP1.getLabels(larryP1);
-//		panP2.getLabels(larryP2);
-//		panP3.getLabels(larryP3);
-//		panP4.getLabels(larryP4);
-//		
-//		panRoundInfoSquare.getLabelsTurnIndicators(parryTurnInds);
-//		panRoundInfoSquare.getLabelsPlayerInfo(larryInfoPlayers);
-//		panRoundInfoSquare.getLabelsRoundInfo(larryInfoRound);
-//		
-//		panWallSummary.getLabelsDeadWall(larryDW);
-//		panWallSummary.getLabelsTinyWall(larryTinyW);		
-//		lblWallTilesLeft = panWallSummary.getLabelWallTilesLeft();
-//		
-//		lblResult = panRoundResultLabel.getLabelResult();
-//		
-//		panCalls.getButtonsCalls(barryCalls);
-//		panCalls.getButtonsTurnActions(barryTActions);
-//		
 	}
 	
 	

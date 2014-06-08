@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 
-public class PaymentSummary implements Iterable<PlayerSummary>{
+public class PaymentMap implements Iterable<PlayerSummary>{
 	
 	private static final int NUM_PLAYERS = 4;
 	
@@ -12,12 +12,12 @@ public class PaymentSummary implements Iterable<PlayerSummary>{
 	private final PlayerSummary[] mPlayers;
 	private final int[] mPayments;
 	
-	public PaymentSummary(){
+	public PaymentMap(){
 		mPlayers = new PlayerSummary[NUM_PLAYERS];
 		mPayments = new int[NUM_PLAYERS];
 	}
 
-	public PaymentSummary(PaymentSummary other){
+	public PaymentMap(PaymentMap other){
 		this();
 		putAll(other);
 	}
@@ -30,7 +30,7 @@ public class PaymentSummary implements Iterable<PlayerSummary>{
 		mPlayers[player.getPlayerNumber()] = player;
 		mPayments[player.getPlayerNumber()] = paymt;
 	}
-	public void putAll(PaymentSummary other){
+	public void putAll(PaymentMap other){
 		for (int i = 0; i < NUM_PLAYERS; i++){
 			mPlayers[i] = other.mPlayers[i];
 			mPayments[i] = other.mPayments[i];

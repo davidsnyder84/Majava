@@ -30,12 +30,12 @@ public class RoundResultSummary {
 	private final TileList pWinnerHand;
 	private final List<Meld> pWinnerMelds;
 	
-	private final PaymentSummary pPayments;
+	private final PaymentMap pPayments;
 //	private final Map<PlayerSummary,Integer> pPayments;
 	
 	
 	//win constructor
-	public RoundResultSummary(ResultType resType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, Tile winningTile, TileList winnerHand, List<Meld> winnerMelds, PaymentSummary payments){
+	public RoundResultSummary(ResultType resType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, Tile winningTile, TileList winnerHand, List<Meld> winnerMelds, PaymentMap payments){
 		
 		pResultType = resType;
 		
@@ -56,11 +56,11 @@ public class RoundResultSummary {
 			pWinnerMelds = null;
 		}
 		
-		pPayments = new PaymentSummary();
+		pPayments = new PaymentMap();
 		pPayments.putAll(payments);
 	}
 	//draw constructor
-	public RoundResultSummary(ResultType resType, PaymentSummary payments){
+	public RoundResultSummary(ResultType resType, PaymentMap payments){
 		this(resType, null, null, null, null, null, payments);
 	}
 	
@@ -96,5 +96,5 @@ public class RoundResultSummary {
 		return meldsCopy;
 	}
 	
-	public PaymentSummary getPayments(){return new PaymentSummary(pPayments);}
+	public PaymentMap getPayments(){return new PaymentMap(pPayments);}
 }

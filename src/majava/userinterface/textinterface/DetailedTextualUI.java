@@ -9,7 +9,7 @@ import majava.Meld;
 import majava.Player;
 import majava.util.TileList;
 import majava.enums.Exclamation;
-import majava.summary.PaymentSummary;
+import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;
 import majava.tiles.Tile;
@@ -138,7 +138,7 @@ public class DetailedTextualUI extends TextualUI{
 		
 		//for all
 		String resultLabel = null;
-		PaymentSummary payments = null;
+		PaymentMap payments = null;
 		//for win
 		PlayerSummary winner = null, furikon = null;
 		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; Tile winningTile = null;

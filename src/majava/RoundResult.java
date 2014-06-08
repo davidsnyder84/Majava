@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import majava.enums.Wind;
-import majava.summary.PaymentSummary;
+import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;
 import majava.summary.ResultType;
 import majava.summary.RoundResultSummary;
@@ -187,7 +187,7 @@ public class RoundResult {
 		
 		RoundResultSummary sum = null;
 		PlayerSummary winnerSummary = null, furikonSummary = null;
-		PaymentSummary payments = null;
+		PaymentMap payments = null;
 		Tile winningTile = null;
 		TileList winnerHand = null;
 		List<Meld> winnerMelds = null;
@@ -202,7 +202,7 @@ public class RoundResult {
 		}
 		
 		//get payments
-		payments = new PaymentSummary();
+		payments = new PaymentMap();
 		for (Player p: mPayments.keySet()) payments.put(p.getPlayerSummary(), mPayments.get(p));
 		
 		sum = new RoundResultSummary(mResultType, winnerSummary, furikonSummary, winningTile, winnerHand, winnerMelds, payments);

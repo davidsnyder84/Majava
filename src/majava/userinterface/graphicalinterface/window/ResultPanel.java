@@ -14,7 +14,7 @@ import javax.swing.border.LineBorder;
 import majava.Meld;
 import majava.control.testcode.Majenerator;
 import majava.enums.Wind;
-import majava.summary.PaymentSummary;
+import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;
 import majava.tiles.Tile;
@@ -124,7 +124,7 @@ public class ResultPanel extends JPanel{
 		RoundResultSummary resum = Majenerator.generateRoundResultSummary();
 		
 		//for all
-		String resultLabel = null; PlayerPointsBlock[] pointsBlocks = null; PaymentSummary payments = null;
+		String resultLabel = null; PlayerPointsBlock[] pointsBlocks = null; PaymentMap payments = null;
 		//for win
 		PlayerSummary winner = null, furikon = null;
 		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; Tile winningTile = null;
@@ -213,7 +213,7 @@ public class ResultPanel extends JPanel{
 		
 		//for all
 		String resultLabel = null;
-		PaymentSummary payments = null;
+		PaymentMap payments = null;
 		//for win
 		PlayerSummary winner = null, furikon = null;
 		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; Tile winningTile = null;

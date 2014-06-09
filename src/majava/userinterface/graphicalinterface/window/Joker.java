@@ -44,7 +44,7 @@ public class Joker extends ResultPanel{
 	
 	public static void main(String[] args){
 //		for (int i = 0; i < 200; i++) DEMOthis();
-		DEMOthisNoPBS();
+//		DEMOthisNoPBS();
 		
 		final int WINDOW_WIDTH = 1120 + (-62*2 - 6) + 2*2;
 		final int WINDOW_HEIGHT = 726 + 6 + (-62*2 + 25 + 18) + 26 + 23;

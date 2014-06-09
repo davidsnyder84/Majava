@@ -23,6 +23,7 @@ import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;
 import majava.tiles.Tile;
 import majava.util.TileList;
+import majava.yaku.Yaku;
 
 public class ResultPanel extends JPanel{
 	private static final long serialVersionUID = -5392789088556649589L;
@@ -46,6 +47,7 @@ public class ResultPanel extends JPanel{
 	protected PaymentsPanel mPaymentsPanel;
 	protected YakuPanel mYakuPanel;
 	
+//	protected List<Yaku> yakuList;
 	
 	
 	public ResultPanel(RoundResultSummary resum){
@@ -104,7 +106,7 @@ public class ResultPanel extends JPanel{
 		//for win
 		PlayerSummary winner = null, furikon = null;
 		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; Tile winningTile = null;
-		List<String> yakuList = null; int yakuWorth = 1; int handScore = 0;
+		List<Yaku> yakuList = null; int yakuWorth = 1; int handScore = 0;
 		
 		//***result label (Player 1 wins!, Draw!, etc)
 		resultLabel = resum.getAsStringResultType();
@@ -123,7 +125,7 @@ public class ResultPanel extends JPanel{
 			winningTile = resum.getWinningTile();
 			
 			//***panel/list of yaku
-			yakuList = Arrays.asList("Riichi", "Ippatsu", "Tsumo", "Dora 1");
+			yakuList = Majenerator.generateYakuList();
 			yakuWorth = 1;
 			
 			//***hand score label
@@ -210,77 +212,77 @@ public class ResultPanel extends JPanel{
 	
 	ok button
 	*/
-	public static void DEMOthisNoPBS(){
-		
-		RoundResultSummary resum = Majenerator.generateRoundResultSummary();
-		
-		//for all
-		String resultLabel = null;
-		PaymentMap payments = null;
-		//for win
-		PlayerSummary winner = null, furikon = null;
-		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; Tile winningTile = null;
-		List<String> yakuList = null; int yakuWorth = 1; int handScore = 0; 
-		
-		
-		
-		//***result label (Player 1 wins!, Draw!, etc)
-		resultLabel = resum.getAsStringResultType();
-		
-		
-		//***payments per player panel
-		payments = resum.getPayments();
-		
-		if (resum.isVictory()){
-			winner = resum.getWinningPlayer();
-			furikon = resum.getFurikondaPlayer();
-			
-			//***winning hand/melds panel
-			winnerHandTiles = resum.getWinnerHandTiles();	
-			winnerMelds = resum.getWinnerMelds();
-			winningTile = resum.getWinningTile();
-			
-			//***panel/list of yaku
-			yakuList = Arrays.asList("Riichi", "Ippatsu", "Tsumo", "Dora 1");
-			
-			//***hand score label
-			handScore = payments.get(winner);
-		}
-		
-		
-		
-		
-		System.out.println("Result: " + resultLabel);
-		if (resum.isVictory()){
-			System.out.print(resum.getAsStringWinType() + "!");
-			if (resum.isVictoryRon()) System.out.print(" (from Player " + (furikon.getPlayerNumber()+1) + ")");
-			System.out.println();
-		}
-		
-		
-		System.out.println("\nPayments:");
-		for (PlayerSummary ps: payments){
-			System.out.print("\tPlayer " + (ps.getPlayerNumber()+1) + " (" + ps.getPlayerName() + ", " + ps.getSeatWind().toChar() + ")... Points:" + ps.getPoints() + " (");
-			if (payments.get(ps) > 0) System.out.print("+");
-			System.out.println(payments.get(ps) + ")");
-		}
-		
-		if (resum.isVictory()){
-			//***winning hand/melds panel
-			System.out.println("\nWinner's hand: " + winnerHandTiles);
-			System.out.println("Winner's melds:");
-			for (Meld m: winnerMelds) System.out.println("\t" + m);
-			System.out.println("Winning tile: " + winningTile);
-			
-			//***panel/list of yaku
-			System.out.println("\nList of Yaku:");
-			for (String s: yakuList) System.out.println("\t" + s + " (" + yakuWorth + ")");
-			
-			//***hand score label
-			System.out.println("Hand score: " + handScore);
-		}
-		
-	}
+//	public static void DEMOthisNoPBS(){
+//		
+//		RoundResultSummary resum = Majenerator.generateRoundResultSummary();
+//		
+//		//for all
+//		String resultLabel = null;
+//		PaymentMap payments = null;
+//		//for win
+//		PlayerSummary winner = null, furikon = null;
+//		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; Tile winningTile = null;
+//		List<String> yakuList = null; int yakuWorth = 1; int handScore = 0; 
+//		
+//		
+//		
+//		//***result label (Player 1 wins!, Draw!, etc)
+//		resultLabel = resum.getAsStringResultType();
+//		
+//		
+//		//***payments per player panel
+//		payments = resum.getPayments();
+//		
+//		if (resum.isVictory()){
+//			winner = resum.getWinningPlayer();
+//			furikon = resum.getFurikondaPlayer();
+//			
+//			//***winning hand/melds panel
+//			winnerHandTiles = resum.getWinnerHandTiles();	
+//			winnerMelds = resum.getWinnerMelds();
+//			winningTile = resum.getWinningTile();
+//			
+//			//***panel/list of yaku
+//			yakuList = Arrays.asList("Riichi", "Ippatsu", "Tsumo", "Dora 1");
+//			
+//			//***hand score label
+//			handScore = payments.get(winner);
+//		}
+//		
+//		
+//		
+//		
+//		System.out.println("Result: " + resultLabel);
+//		if (resum.isVictory()){
+//			System.out.print(resum.getAsStringWinType() + "!");
+//			if (resum.isVictoryRon()) System.out.print(" (from Player " + (furikon.getPlayerNumber()+1) + ")");
+//			System.out.println();
+//		}
+//		
+//		
+//		System.out.println("\nPayments:");
+//		for (PlayerSummary ps: payments){
+//			System.out.print("\tPlayer " + (ps.getPlayerNumber()+1) + " (" + ps.getPlayerName() + ", " + ps.getSeatWind().toChar() + ")... Points:" + ps.getPoints() + " (");
+//			if (payments.get(ps) > 0) System.out.print("+");
+//			System.out.println(payments.get(ps) + ")");
+//		}
+//		
+//		if (resum.isVictory()){
+//			//***winning hand/melds panel
+//			System.out.println("\nWinner's hand: " + winnerHandTiles);
+//			System.out.println("Winner's melds:");
+//			for (Meld m: winnerMelds) System.out.println("\t" + m);
+//			System.out.println("Winning tile: " + winningTile);
+//			
+//			//***panel/list of yaku
+//			System.out.println("\nList of Yaku:");
+//			for (String s: yakuList) System.out.println("\t" + s + " (" + yakuWorth + ")");
+//			
+//			//***hand score label
+//			System.out.println("Hand score: " + handScore);
+//		}
+//		
+//	}
 	
 	
 	
@@ -421,7 +423,7 @@ public class ResultPanel extends JPanel{
 	public static void main(String[] args) {
 		
 //		for (int i = 0; i < 200; i++) DEMOthis();
-		DEMOthisNoPBS();
+//		DEMOthisNoPBS();
 		
 		final int WINDOW_WIDTH = 1120 + (-62*2 - 6) + 2*2;
 		final int WINDOW_HEIGHT = 726 + 6 + (-62*2 + 25 + 18) + 26 + 23;

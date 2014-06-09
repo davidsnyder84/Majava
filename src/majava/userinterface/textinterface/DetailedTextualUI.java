@@ -8,6 +8,7 @@ import utility.Pauser;
 import majava.Meld;
 import majava.Player;
 import majava.util.TileList;
+import majava.yaku.Yaku;
 import majava.enums.Exclamation;
 import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;
@@ -143,7 +144,7 @@ public class DetailedTextualUI extends TextualUI{
 		//for win
 		PlayerSummary winner = null, furikon = null;
 		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; Tile winningTile = null;
-		List<String> yakuList = null; int yakuWorth = 1; int handScore = 0; 
+		List<Yaku> yakuList = null; int yakuWorth = 1; int handScore = 0; 
 		
 		
 		
@@ -164,7 +165,7 @@ public class DetailedTextualUI extends TextualUI{
 			winningTile = result.getWinningTile();
 			
 			//***panel/list of yaku
-			yakuList = Arrays.asList("Riichi", "Ippatsu", "Tsumo", "Dora 1");
+			yakuList = Arrays.asList(Yaku.RIICHI, Yaku.RIICHI_IPPATSU, Yaku.TSUMO, Yaku.DORA);
 			
 			//***hand score label
 			handScore = payments.get(winner);
@@ -197,7 +198,7 @@ public class DetailedTextualUI extends TextualUI{
 			
 			//***panel/list of yaku
 			System.out.println("\nList of Yaku:");
-			for (String s: yakuList) println("\t" + s + " (" + yakuWorth + ")");
+			for (Yaku y: yakuList) println("\t" + y + " (" + yakuWorth + ")");
 			
 			//***hand score label
 			println("Hand score: " + handScore);

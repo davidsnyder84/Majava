@@ -77,7 +77,13 @@ public class RoundResultSummary {
 	
 	
 	public String getAsStringWinType(){return pResultType.getAsStringWinType();}
-	public String getAsStringResultType(){return pResultType.getAsStringResultType();}
+	public String getAsStringResultType(){
+		String resString = "";
+		resString += pResultType.getAsStringResultType();
+		
+		if (isVictory()) resString += " (" + getAsStringWinType() + ")";
+		return resString;
+	}
 	
 	
 	public PlayerSummary getWinningPlayer(){return pWinningPlayer;}

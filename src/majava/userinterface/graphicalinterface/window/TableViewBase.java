@@ -10,6 +10,7 @@ import majava.Wall;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 import majava.enums.Wind;
+import majava.summary.RoundResultSummary;
 import majava.summary.entity.PlayerTracker;
 import majava.summary.entity.RoundEntities;
 import majava.tiles.Tile;
@@ -130,9 +131,8 @@ public class TableViewBase extends JFrame{
 	protected static final Color COLOR_POND_CALLED_TILE = new Color(250, 0, 0, 250);
 	protected static final Color COLOR_POND_RIICHI_TILE = new Color(0, 0, 250, 250);
 	protected static final Color COLOR_POND_DISCARD_TILE = Color.YELLOW;
-
-
-	protected static final int DEAFULT_SLEEPTIME = 400, DEAFULT_SLEEPTIME_EXCLAMATION = 1500, DEAFULT_SLEEPTIME_ROUND_END = 2000;
+	
+	
 	private static final int[][] EXCLAMATION_LOCS =  {{99, 594}, {570, 298}, {480, 36}, {3, 298}};
 	protected static final Map<Exclamation, String> exclamationToString;
 	static {
@@ -738,11 +738,11 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	
-	public void showResult(){
+	public void showResult(RoundResultSummary resum){
 		
 		
 		panResult.setVisible(true);
+		panResult.showResult(resum);
 	}
 	
 	
@@ -779,7 +779,7 @@ public class TableViewBase extends JFrame{
 		TableViewBase viewer = new TableViewBase();
 		viewer.setVisible(true);
 		
-		viewer.showResult();
+//		viewer.showResult();
 	}
 	
 	//TODO start of constructor

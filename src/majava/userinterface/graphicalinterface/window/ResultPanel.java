@@ -1,7 +1,9 @@
 package majava.userinterface.graphicalinterface.window;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import majava.Meld;
@@ -32,36 +35,171 @@ public class ResultPanel extends JPanel{
 	private static final int NUM_PLAYERS = 4;
 	
 	
-	public ResultPanel(){
+	
+	
+	
+	
+	
+	protected TableViewBase.PlayerPanel mWinningPlayerPanel;
+	protected TableViewBase.RoundResultLabelPanel mResultLabelPanel;
+	protected PaymentsPanel mPaymentsPanel;
+	
+	
+	
+	public ResultPanel(RoundResultSummary resum){
 		super();
+		
 		
 		setBounds(0,0,WIDTH,HEIGHT);
 		setLayout(null);
 		setBorder(new LineBorder(new Color(0, 0, 0), 8));
-		
 		setBackground(COLOR_PANEL);
 		
-//		JPanel res = new TableGUI.RoundResultLabelPanel();
-//		res.setLocation(120,20);
-//		add(res);
-		
-//		JPanel playp = (new TableViewSmall()).PlayerPanel(TableGUI.SEAT1);
-//		JPanel playp = new TableGUI.PlayerPanel(TableGUI.SEAT1);
-//		JPanel playp = new (new TableViewer()).PlayerPanel();
 		
 		
-//		JPanel playp = (new TableViewer()).new PlayerPanel(TableGUI.SEAT1);
-		TableViewBase.PlayerPanel playp = new TableViewBase.PlayerPanel(TableViewBase.SEAT1);
-		playp.setLocation(0,300);
+		mResultLabelPanel = new TableViewBase.RoundResultLabelPanel();
+		mResultLabelPanel.setLocation(200,15);
+		mResultLabelPanel.setBackground(TableViewBase.COLOR_TRANSPARENT);
+		add(mResultLabelPanel);
 		
 		
-		for (JLabel l: playp.panelH.larryH) l.setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/5.png")));
-		for (TableViewBase.PlayerPanel.MeldsPanel.MeldPanel mp: playp.panelMs.panelHMs) for (JLabel l: mp.larryHM) l.setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/small/15.png")));
-//		garryTiles[seat][BIG][RED5M] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/5r.png")));
-//		garryTiles[seat][SMALL][RED5M] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/5r.png")));
 		
-		add(playp);
+		mWinningPlayerPanel = new TableViewBase.PlayerPanel(TableViewBase.SEAT1);
+		mWinningPlayerPanel.setLocation(10, 88);
+		add(mWinningPlayerPanel);
+		
+		
+		mPaymentsPanel = new PaymentsPanel();
+		mPaymentsPanel.setLocation(142, 352);
+		add(mPaymentsPanel);
+		
+		
+		showResult(resum);
+		
 	}
+	public ResultPanel(){
+		this(Majenerator.generateRoundResultSummary());
+	}
+	
+	
+	
+	
+	
+	
+	public void showResult(RoundResultSummary resum){
+		
+		
+		//for all
+		String resultLabel = null;
+		PaymentMap payments = null;
+		//for win
+		PlayerSummary winner = null, furikon = null;
+		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; Tile winningTile = null;
+		List<String> yakuList = null; int yakuWorth = 1; int handScore = 0;
+		
+		//***result label (Player 1 wins!, Draw!, etc)
+		resultLabel = resum.getAsStringResultType();
+		
+		//***payments per player panel
+		payments = resum.getPayments();
+		
+		
+		if (resum.isVictory()){
+			winner = resum.getWinningPlayer();
+			furikon = resum.getFurikondaPlayer();
+			
+			//***winning hand/melds panel
+			winnerHandTiles = resum.getWinnerHandTiles();	
+			winnerMelds = resum.getWinnerMelds();
+			winningTile = resum.getWinningTile();
+			
+			//***panel/list of yaku
+			yakuList = Arrays.asList("Riichi", "Ippatsu", "Tsumo", "Dora 1");
+			yakuWorth = 1;
+			
+			//***hand score label
+			handScore = payments.get(winner);
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//reuslt label
+		mResultLabelPanel.getLabelResult().setText(resultLabel);
+		
+		mPaymentsPanel.setPayments(payments);
+		
+		
+		if (resum.isVictory()){
+			//winning hand
+			int currentTile = 0, currentMeld = 0;
+			for (currentTile = 0; currentTile < winnerHandTiles.size(); currentTile++)
+				mWinningPlayerPanel.panelH.larryH[currentTile].setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/" + winnerHandTiles.get(currentTile).getId() + ".png")));
+			
+			//winning melds
+			for (currentMeld = 0; currentMeld < winnerMelds.size(); currentMeld++)
+				for (currentTile = 0; currentTile < winnerMelds.get(currentMeld).size(); currentTile++)
+					mWinningPlayerPanel.panelMs.panelHMs[currentMeld].larryHM[currentTile].setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/small/" + winnerMelds.get(currentMeld).getTile(currentTile).getId() + ".png")));
+			
+		}
+	}
+	
+	
+	
+	
+	
+	
+//	public void setInfo(RoundResultSummary resum){
+//		//***result label (Player 1 wins!, Draw!, etc)
+//		mResultLabel = resum.getAsStringResultType();
+//		
+//		//***payments per player panel
+//		mPayments = resum.getPayments();
+//		
+//		
+//		if (resum.isVictory()){
+//			mWinner = resum.getWinningPlayer();
+//			mFurikon = resum.getFurikondaPlayer();
+//			
+//			//***winning hand/melds panel
+//			mWinnerHandTiles = resum.getWinnerHandTiles();	
+//			mWinnerMelds = resum.getWinnerMelds();
+//			mWinningTile = resum.getWinningTile();
+//			
+//			//***panel/list of yaku
+//			mYakuList = Arrays.asList("Riichi", "Ippatsu", "Tsumo", "Dora 1");
+//			mYakuWorth = 1;
+//			
+//			//***hand score label
+//			mHandScore = mPayments.get(mWinner);
+//		}
+//	}
+//	public void setInfo(){setInfo(mResultSummary);}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -86,127 +224,6 @@ public class ResultPanel extends JPanel{
 	
 	ok button
 	*/
-//	RoundResultSummary resum;
-//	//for win
-//	{
-//		//***result label (Player 1 wins!, Draw!, etc)
-//		String resultLabel = resum.getAsStringResultType();
-//		
-//		
-//		//***payments per player panel
-//		PlayerPointsBlock[] playerPointBlocks = new PlayerPointsBlock[NUM_PLAYERS];
-//		
-//		Map<PlayerSummary, Integer> payments = resum.getPayments();
-//		
-//		int i = 0;
-//		for (PlayerSummary ps: payments.keySet())
-//			playerPointBlocks[++i] = new PlayerPointsBlock(ps.getSeatWind(), ps.getPlayerName(), ps.getPoints(), payments.get(ps));
-//		
-//		
-//		if (resum.isVictory()){
-//			//***winning hand/melds panel
-//			TileList winnerHandTiles = resum.getWinnerHandTiles();	
-//			List<Meld> winnerMelds = resum.getWinnerMelds();
-//			Tile winningTile = resum.getWinningTile();
-//			
-//			//***panel/list of yaku
-//			List<String> yakuList = Arrays.asList("Riichi", "Ippatsu", "Tsumo", "Dora 1");
-//			
-//			//***hand score label
-//			String handScore = payments.get(resum.getWinningPlayer()).toString();
-//		}
-//	}
-	
-	
-	
-	public static void DEMOthis(){
-		
-		RoundResultSummary resum = Majenerator.generateRoundResultSummary();
-		
-		//for all
-		String resultLabel = null; PlayerPointsBlock[] pointsBlocks = null; PaymentMap payments = null;
-		//for win
-		PlayerSummary winner = null, furikon = null;
-		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; Tile winningTile = null;
-		List<String> yakuList = null; int yakuWorth = 1; int handScore = 0; 
-		
-		
-		
-		//***result label (Player 1 wins!, Draw!, etc)
-		resultLabel = resum.getAsStringResultType();
-		
-		
-		//***payments per player panel
-		pointsBlocks = new PlayerPointsBlock[NUM_PLAYERS];
-		
-		payments = resum.getPayments();
-		
-		int i = 0;
-		for (PlayerSummary player: payments)
-			pointsBlocks[i++] = new PlayerPointsBlock(player, payments.get(player));
-//			pointsBlocks[i++] = new PlayerPointsBlock(ps.getPlayerNumber(), ps.getSeatWind(), ps.getPlayerName(), ps.getPoints(), payments.get(ps));
-		
-		
-		if (resum.isVictory()){
-			winner = resum.getWinningPlayer();
-			furikon = resum.getFurikondaPlayer();
-			
-			//***winning hand/melds panel
-			winnerHandTiles = resum.getWinnerHandTiles();	
-			winnerMelds = resum.getWinnerMelds();
-			winningTile = resum.getWinningTile();
-			
-			//***panel/list of yaku
-			yakuList = Arrays.asList("Riichi", "Ippatsu", "Tsumo", "Dora 1");
-			
-			//***hand score label
-			handScore = payments.get(winner);
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		System.out.println("Result: " + resultLabel);
-		if (resum.isVictory()){
-			System.out.print(resum.getAsStringWinType() + "!");
-			if (resum.isVictoryRon()) System.out.print(" (from Player " + (furikon.getPlayerNumber()+1) + ")");
-			System.out.println();
-		}
-		
-		
-		System.out.println("\nPayments:");
-		for (PlayerPointsBlock pb: pointsBlocks){
-			System.out.print("\tPlayer " + (pb.playerNum+1) + " (" + pb.playerName + ", " + pb.playerWind.toChar() + ")... Points:" + pb.origPoints + " (");
-			if (pb.paymentAmt > 0) System.out.print("+");
-			System.out.println(pb.paymentAmt + ")");
-		}
-		
-		if (resum.isVictory()){
-			//***winning hand/melds panel
-			System.out.println("\nWinner's hand: " + winnerHandTiles);
-			System.out.println("Winner's melds:");
-			for (Meld m: winnerMelds) System.out.println("\t" + m);
-			System.out.println("Winning tile: " + winningTile);
-			
-			//***panel/list of yaku
-			System.out.println("\nList of Yaku:");
-			for (String s: yakuList) System.out.println("\t" + s + " (" + yakuWorth + ")");
-			
-			//***hand score label
-			System.out.println("Hand score: " + handScore);
-		}
-		
-	}
-	
-	
-	
 	public static void DEMOthisNoPBS(){
 		
 		RoundResultSummary resum = Majenerator.generateRoundResultSummary();
@@ -243,11 +260,6 @@ public class ResultPanel extends JPanel{
 			//***hand score label
 			handScore = payments.get(winner);
 		}
-		
-		
-		
-		
-		
 		
 		
 		
@@ -289,27 +301,117 @@ public class ResultPanel extends JPanel{
 	
 	
 	
-	private static class PlayerPointsBlock{
-		private final int playerNum;
-		private final Wind playerWind;
-		private final String playerName;
-		private final int origPoints;
-		private final int paymentAmt;
-		public PlayerPointsBlock(int playernum, Wind wind, String name, int pointsBeforePayment, int payment){
-			playerNum = playernum;
-			playerWind = wind;
-			playerName = name;
-//			origPoints = pointsBeforePayment - payment;
-			origPoints = pointsBeforePayment;
-			paymentAmt = payment;
+	
+	
+	
+	
+	protected static class PaymentsPanel extends JPanel{
+		private static final long serialVersionUID = -3188452904507674217L;
+		
+		public static class PlayerPaymentPanel extends JPanel{
+			private static final long serialVersionUID = -1732543659928397387L;
+			
+			
+			private static final Color COLOR_NEGATIVE = Color.RED;
+			private static final Color COLOR_POSITIVE = Color.BLUE;
+			
+			private JPanel panPayment = new JPanel();
+			private JLabel lblPoints = new JLabel(), lblPayment = new JLabel();
+			private JLabel lblPlayerName = new JLabel(), lblPlayerWind = new JLabel(), lblPlayerNum = new JLabel();
+			
+			public PlayerPaymentPanel(){
+				super();
+				
+				setBounds(0,0,131,35);
+				setBackground(Color.LIGHT_GRAY);
+				setLayout(null);
+				
+
+				
+				panPayment.setBounds(30,17,100,14);
+				panPayment.setOpaque(false);
+				panPayment.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+				panPayment.add(lblPoints);
+				panPayment.add(lblPayment);
+				
+				lblPoints.setHorizontalAlignment(SwingConstants.CENTER);
+				lblPoints.setSize(48, 14);
+				lblPoints.setLocation(0, 0);
+				
+				lblPayment.setForeground(COLOR_POSITIVE);
+				lblPayment.setHorizontalAlignment(SwingConstants.LEFT);
+				lblPayment.setSize(48, 14);
+				lblPayment.setLocation(52, 0);
+				
+				
+				
+				lblPlayerName.setHorizontalAlignment(SwingConstants.CENTER);
+				lblPlayerName.setLocation(30, 3);
+				lblPlayerName.setSize(89, 14);
+				
+				lblPlayerWind.setLocation(3, 5);
+				lblPlayerWind.setSize(23, 23);
+				
+				
+				//demo vals
+				lblPoints.setText("128000");lblPayment.setText("+48000");lblPlayerName.setText("Suwado");lblPlayerWind.setIcon(new ImageIcon(getClass().getResource("/res/img/winds/small/transEs.png")));lblPlayerNum.setText("1");
+				
+				add(panPayment);
+				add(lblPlayerName);
+				add(lblPlayerWind);
+//				add(lblPlayerNum);
+			}
+			
+			public void setPayment(PlayerSummary player, int payment){
+				lblPlayerName.setText(player.getPlayerName());
+				
+				lblPlayerWind.setIcon(new ImageIcon(getClass().getResource("/res/img/winds/small/trans" + player.getSeatWind().toChar() + "s.png")));
+				
+				lblPoints.setText(player.getPoints() + "  ");
+				
+				
+				if (payment >= 0){
+					lblPayment.setForeground(PlayerPaymentPanel.COLOR_POSITIVE);
+					lblPayment.setText("+" + payment);
+					if (payment == 0) lblPayment.setText(null);
+				}
+				else{
+					lblPayment.setForeground(PlayerPaymentPanel.COLOR_NEGATIVE);
+					lblPayment.setText(Integer.toString(payment));
+				}
+			}
 		}
-		public PlayerPointsBlock(PlayerSummary ps, int payment){
-			this(ps.getPlayerNumber(), ps.getSeatWind(), ps.getPlayerName(), ps.getPoints(), payment);
+		
+		
+		private PlayerPaymentPanel panelPlayerPayments[] = new PlayerPaymentPanel[NUM_PLAYERS];
+		
+		public PaymentsPanel(){
+			super();
+			
+			setBounds(0,0,315,107);
+			setLayout(null);
+			setOpaque(false);
+			
+			
+			int[][] locs = {{92,72}, {184,36}, {92,0}, {0,36}};
+			for (int i = 0; i < panelPlayerPayments.length; i++){
+				panelPlayerPayments[i] = new PlayerPaymentPanel();
+				panelPlayerPayments[i].setLocation(locs[i][0], locs[i][1]);
+				add(panelPlayerPayments[i]);
+			}
+		}
+		
+		
+		public void setPayments(PaymentMap payments){
+			for (int playerNum = 0; playerNum < NUM_PLAYERS; playerNum++)
+				panelPlayerPayments[playerNum].setPayment(payments.getPlayer(playerNum), payments.get(playerNum));
 		}
 	}
 	
 	
-
+	
+	
+	
 	
 	
 	public static void main(String[] args) {
@@ -332,7 +434,6 @@ public class ResultPanel extends JPanel{
 		resPan.setLocation(57,75);
 		contentPane.add(resPan);
 		
-//		frame.setVisible(true);
+		frame.setVisible(true);
 	}
-
 }

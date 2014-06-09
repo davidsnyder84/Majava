@@ -131,6 +131,8 @@ public class Majenerator {
 	public static Meld generateMeld(){final MeldType[] mts = {MeldType.CHI_L, MeldType.CHI_M, MeldType.CHI_H, MeldType.PON, MeldType.KAN};return generateMeld(mts[randGen.nextInt(mts.length)], true);}
 	public static boolean tileCanMeldMeldType(Tile tile, MeldType mt){
 		if (tile.getFace() == '0') return false;
+		if (tile.getId() > 27 && (mt == MeldType.CHI_L || mt == MeldType.CHI_M || mt == MeldType.CHI_H)) return false;
+		
 		switch (mt){
 		case CHI_L: return tile.getFace() != '8' && tile.getFace() != '9';
 		case CHI_M: return tile.getFace() != '1' && tile.getFace() != '9';

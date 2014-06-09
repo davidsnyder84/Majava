@@ -170,6 +170,8 @@ public class Round{
 		__doPointPayments();
 		
 		
+		mUI.setRoundResult(mRoundResult.getSummary());
+		
 		//display end of round result
 		displayRoundResult();
 	}
@@ -608,14 +610,14 @@ public class Round{
 
 		final int DEAFULT_SLEEPTIME = 400;
 		final int DEAFULT_SLEEPTIME_EXCLAMATION = 1500;
-//		final int DEAFULT_SLEEPTIME_ROUND_END = 2000;
-		final int DEAFULT_SLEEPTIME_ROUND_END = 5000;
+		final int DEAFULT_SLEEPTIME_ROUND_END = 2000;
+//		final int DEAFULT_SLEEPTIME_ROUND_END = 7000;
 		
 		final int FAST_SLEEPTIME = 0;
 		final int FAST_SLEEPTIME_EXCLAMATION = 0;
 //		final int FAST_SLEEPTIME_EXCLAMATION = DEAFULT_SLEEPTIME_EXCLAMATION;
-		final int FAST_SLEEPTIME_ROUND_END = 0;
-//		final int FAST_SLEEPTIME_ROUND_END = DEAFULT_SLEEPTIME_ROUND_END;
+//		final int FAST_SLEEPTIME_ROUND_END = 0;
+		final int FAST_SLEEPTIME_ROUND_END = DEAFULT_SLEEPTIME_ROUND_END;
 		
 		
 		if (mDoFastGameplay){

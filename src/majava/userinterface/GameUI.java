@@ -8,6 +8,7 @@ import majava.RoundTracker;
 import majava.Wall;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
+import majava.summary.RoundResultSummary;
 import majava.summary.entity.RoundEntities;
 import majava.tiles.Tile;
 import majava.util.TileList;
@@ -58,7 +59,9 @@ public abstract class GameUI {
 //	
 //	protected RoundTracker mRoundTracker;
 	
-	protected RoundEntities mRoundEntities;
+	protected RoundEntities mRoundEntities = null;
+	
+	protected RoundResultSummary mResultSummary = null;
 	
 	
 	
@@ -145,9 +148,9 @@ public abstract class GameUI {
 	
 	
 	
-	
-	
-	
+	public void setRoundResult(RoundResultSummary resum){
+		mResultSummary = resum;
+	}
 	
 	
 	public void setSleepTimes(int sleepTime, int sleepTimeExclamation, int sleepTimeRoundEnd){

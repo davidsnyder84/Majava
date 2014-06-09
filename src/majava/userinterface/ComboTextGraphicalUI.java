@@ -14,6 +14,7 @@ import majava.userinterface.graphicalinterface.window.TableViewer;
 import majava.userinterface.textinterface.DetailedTextualUI;
 import majava.userinterface.textinterface.SparseTextualUI;
 import majava.userinterface.textinterface.TextualUI;
+import majava.summary.RoundResultSummary;
 import majava.summary.entity.RoundEntities;
 import majava.tiles.Tile;
 import majava.util.TileList;
@@ -49,6 +50,10 @@ public class ComboTextGraphicalUI extends GameUI{
 		mGraphicalUI.displayEvent(e);
 	}
 	
+	public void setRoundResult(RoundResultSummary resum){
+		mTextualUI.setRoundResult(resum);
+		mGraphicalUI.setRoundResult(resum);
+	}
 	
 	
 	public final void setSleepTimes(int sleepTime, int sleepTimeExclamation, int sleepTimeRoundEnd){

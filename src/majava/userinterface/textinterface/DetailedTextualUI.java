@@ -66,7 +66,7 @@ public class DetailedTextualUI extends TextualUI{
 		__showHandsOfAllPlayers();
 		println("\n\n");
 		
-		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeRoundEnd);
+		if (mSleepTimeRoundEnd > 0) Pauser.pauseFor(mSleepTimeRoundEnd);
 	}
 	
 	protected void __displayEventPlaceholder(){/*blank*/}

@@ -11,6 +11,7 @@ import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 import majava.userinterface.GameUI;
 import majava.userinterface.graphicalinterface.window.TableViewBase;
+import majava.summary.RoundResultSummary;
 import majava.summary.entity.RoundEntities;
 import majava.tiles.Tile;
 import majava.util.TileList;
@@ -121,10 +122,10 @@ public class GraphicalUI extends GameUI{
 	protected void __displayEventStartOfRound(){mTableWindow.updateEverything();}
 	
 	protected void __displayEventEndOfRound(){
-		mTableWindow.showResult();
+		mTableWindow.showResult(mResultSummary);
 		mTableWindow.updateEverything();
 		
-		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeRoundEnd);
+		if (mSleepTimeRoundEnd > 0) Pauser.pauseFor(mSleepTimeRoundEnd);
 	}
 	
 	
@@ -171,9 +172,6 @@ public class GraphicalUI extends GameUI{
 	
 	
 	
-	
-	
-	public void showResult(){mTableWindow.showResult();}
 	
 	
 	

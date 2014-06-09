@@ -218,7 +218,7 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	
 	
 	//returns how many tiles are in the meld
-	public int getSize(){return mTiles.size();}
+	public int size(){return mTiles.size();}
 	
 	
 	

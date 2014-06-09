@@ -8,6 +8,7 @@ import utility.Pauser;
 import majava.Meld;
 import majava.Player;
 import majava.util.TileList;
+import majava.util.YakuList;
 import majava.yaku.Yaku;
 import majava.enums.Exclamation;
 import majava.summary.PaymentMap;
@@ -144,7 +145,7 @@ public class DetailedTextualUI extends TextualUI{
 		//for win
 		PlayerSummary winner = null, furikon = null;
 		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; Tile winningTile = null;
-		List<Yaku> yakuList = null; int yakuWorth = 1; int handScore = 0; 
+		YakuList yakuList = null; int yakuWorth = -1; int handScore = -1; 
 		
 		
 		
@@ -165,7 +166,8 @@ public class DetailedTextualUI extends TextualUI{
 			winningTile = result.getWinningTile();
 			
 			//***panel/list of yaku
-			yakuList = Arrays.asList(Yaku.RIICHI, Yaku.RIICHI_IPPATSU, Yaku.TSUMO, Yaku.DORA);
+			yakuList = new YakuList(Yaku.RIICHI, Yaku.RIICHI_IPPATSU, Yaku.TSUMO, Yaku.DORA);
+			yakuWorth = yakuList.totalHan();
 			
 			//***hand score label
 			handScore = payments.get(winner);

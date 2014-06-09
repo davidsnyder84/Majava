@@ -1,14 +1,16 @@
 package majava.userinterface.graphicalinterface.window;
 
 import java.awt.Color;
-import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.Arrays;
-import java.util.Iterator;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,6 +25,7 @@ import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;
 import majava.tiles.Tile;
 import majava.util.TileList;
+import majava.util.YakuList;
 import majava.yaku.Yaku;
 
 public class ResultPanel extends JPanel{
@@ -50,7 +53,7 @@ public class ResultPanel extends JPanel{
 //	protected List<Yaku> yakuList;
 	
 	
-	public ResultPanel(RoundResultSummary resum){
+	public ResultPanel(){
 		super();
 		
 		
@@ -82,11 +85,10 @@ public class ResultPanel extends JPanel{
 		mYakuPanel = new YakuPanel();
 		add(mYakuPanel);
 		
-		showResult(resum);
 		
-	}
-	public ResultPanel(){
-		this(Majenerator.generateRoundResultSummary());
+		
+		showResult(Majenerator.generateRoundResultSummary());
+		
 	}
 	
 	
@@ -106,7 +108,7 @@ public class ResultPanel extends JPanel{
 		//for win
 		PlayerSummary winner = null, furikon = null;
 		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; Tile winningTile = null;
-		List<Yaku> yakuList = null; int yakuWorth = 1; int handScore = 0;
+		YakuList yakuList = null; int yakuWorth = 1; int handScore = 0;
 		
 		//***result label (Player 1 wins!, Draw!, etc)
 		resultLabel = resum.getAsStringResultType();
@@ -126,7 +128,7 @@ public class ResultPanel extends JPanel{
 			
 			//***panel/list of yaku
 			yakuList = Majenerator.generateYakuList();
-			yakuWorth = 1;
+			yakuWorth = yakuList.totalHan();
 			
 			//***hand score label
 			handScore = payments.get(winner);
@@ -168,7 +170,12 @@ public class ResultPanel extends JPanel{
 				for (currentTile = 0; currentTile < winnerMelds.get(currentMeld).size(); currentTile++)
 					mWinningPlayerPanel.panelMs.panelHMs[currentMeld].larryHM[currentTile].setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/small/" + winnerMelds.get(currentMeld).getTile(currentTile).getId() + ".png")));
 			
+			//yaku list
+			mYakuPanel.setVisible(true);
+			mYakuPanel.setYaku(yakuList);
 		}
+		
+//		repaint();
 	}
 	
 	
@@ -179,16 +186,9 @@ public class ResultPanel extends JPanel{
 		
 		mWinningPlayerPanel.blankAll();
 		mWinningPlayerPanel.setVisible(false);
+		
+		mYakuPanel.setVisible(false);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	/*
@@ -212,77 +212,9 @@ public class ResultPanel extends JPanel{
 	
 	ok button
 	*/
-//	public static void DEMOthisNoPBS(){
-//		
-//		RoundResultSummary resum = Majenerator.generateRoundResultSummary();
-//		
-//		//for all
-//		String resultLabel = null;
-//		PaymentMap payments = null;
-//		//for win
-//		PlayerSummary winner = null, furikon = null;
-//		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; Tile winningTile = null;
-//		List<String> yakuList = null; int yakuWorth = 1; int handScore = 0; 
-//		
-//		
-//		
-//		//***result label (Player 1 wins!, Draw!, etc)
-//		resultLabel = resum.getAsStringResultType();
-//		
-//		
-//		//***payments per player panel
-//		payments = resum.getPayments();
-//		
-//		if (resum.isVictory()){
-//			winner = resum.getWinningPlayer();
-//			furikon = resum.getFurikondaPlayer();
-//			
-//			//***winning hand/melds panel
-//			winnerHandTiles = resum.getWinnerHandTiles();	
-//			winnerMelds = resum.getWinnerMelds();
-//			winningTile = resum.getWinningTile();
-//			
-//			//***panel/list of yaku
-//			yakuList = Arrays.asList("Riichi", "Ippatsu", "Tsumo", "Dora 1");
-//			
-//			//***hand score label
-//			handScore = payments.get(winner);
-//		}
-//		
-//		
-//		
-//		
-//		System.out.println("Result: " + resultLabel);
-//		if (resum.isVictory()){
-//			System.out.print(resum.getAsStringWinType() + "!");
-//			if (resum.isVictoryRon()) System.out.print(" (from Player " + (furikon.getPlayerNumber()+1) + ")");
-//			System.out.println();
-//		}
-//		
-//		
-//		System.out.println("\nPayments:");
-//		for (PlayerSummary ps: payments){
-//			System.out.print("\tPlayer " + (ps.getPlayerNumber()+1) + " (" + ps.getPlayerName() + ", " + ps.getSeatWind().toChar() + ")... Points:" + ps.getPoints() + " (");
-//			if (payments.get(ps) > 0) System.out.print("+");
-//			System.out.println(payments.get(ps) + ")");
-//		}
-//		
-//		if (resum.isVictory()){
-//			//***winning hand/melds panel
-//			System.out.println("\nWinner's hand: " + winnerHandTiles);
-//			System.out.println("Winner's melds:");
-//			for (Meld m: winnerMelds) System.out.println("\t" + m);
-//			System.out.println("Winning tile: " + winningTile);
-//			
-//			//***panel/list of yaku
-//			System.out.println("\nList of Yaku:");
-//			for (String s: yakuList) System.out.println("\t" + s + " (" + yakuWorth + ")");
-//			
-//			//***hand score label
-//			System.out.println("Hand score: " + handScore);
-//		}
-//		
-//	}
+	
+	
+	
 	
 	
 	
@@ -294,17 +226,35 @@ public class ResultPanel extends JPanel{
 		private static final long serialVersionUID = 3133779361407012033L;
 		
 		
+		YakuList yakuList;
+		List<JLabel> yakuLabels = new ArrayList<JLabel>();
+		
 		public YakuPanel(){
 			super();
-			setBounds(20,180,300,300);
-			
-			String[] ss = {"Riichi", "Ippatsu", "Tsumo", "Dora 1", "Pinfu", "Tanyao", "Sanshiki", "Iipeikou"};
-			for (int i = 0; i < 8; i++){
-				add(new JLabel(ss[i]));
-			}
-			
+			setBounds(79, 177, 129, 138);
+			setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		}
 		
+		public void setYaku(YakuList ylist){
+			blankAll();
+			for (Yaku y: ylist){
+				JLabel label = new JLabel();
+				label.setText(y.toString());
+				label.setSize(120,14);
+				label.setPreferredSize(new Dimension(120, 14));
+				new Dimension(120, 14);
+				
+				yakuLabels.add(label);
+				add(label);
+				
+//				yakuLabels.add(new JLabel(y.toString()));
+//				add(yakuLabels.get(yakuLabels.size()-1));
+			}
+		}
+		public void blankAll(){
+//			removeAll();
+			while (!yakuLabels.isEmpty()) remove(yakuLabels.remove(0));
+		}
 	}
 	
 	
@@ -420,26 +370,40 @@ public class ResultPanel extends JPanel{
 	
 	
 	
+	
 	public static void main(String[] args) {
-		
-//		for (int i = 0; i < 200; i++) DEMOthis();
-//		DEMOthisNoPBS();
+		showDemo(new ResultPanel());
+	}
+	public static void showDemo(final ResultPanel resPan){
 		
 		final int WINDOW_WIDTH = 1120 + (-62*2 - 6) + 2*2;
 		final int WINDOW_HEIGHT = 726 + 6 + (-62*2 + 25 + 18) + 26 + 23;
 		
-		JFrame frame = new JFrame();
-		JPanel contentPane = new JPanel();
+		final JFrame frame = new JFrame();
+		final JPanel contentPane = new JPanel();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		contentPane.setLayout(null);
 		frame.setContentPane(contentPane);
 		
 		
-		ResultPanel resPan = new ResultPanel();
 		resPan.setLocation(57,75);
 		contentPane.add(resPan);
 		
+		
+		
+		final JButton btnRandAll = new JButton("Rand"); btnRandAll.setBounds(700, 10, 65, 23);
+		btnRandAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				resPan.showResult(Majenerator.generateRoundResultSummary());
+				frame.repaint();
+			}
+		});
+		btnRandAll.setVisible(true);
+		contentPane.add(btnRandAll);
+		
+		
+
 		frame.setVisible(true);
 	}
 }

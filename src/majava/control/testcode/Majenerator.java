@@ -7,10 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import majava.Hand;
+import majava.HandChecker;
 import majava.Meld;
 import majava.Player;
 import majava.RoundResult;
 import majava.util.TileList;
+import majava.util.YakuList;
 import majava.yaku.Yaku;
 import majava.enums.MeldType;
 import majava.summary.PaymentMap;
@@ -39,19 +42,14 @@ public class Majenerator {
 	
 	
 	
-	public static List<Yaku> generateYakuList(){
-		
+	public static YakuList generateYakuList(){
 		
 		final int MAX_HOW_MANY = 10;
 		
-		
-		List<Yaku> yakuList = new ArrayList<Yaku>();
-		
-		Yaku[] allYaku = Yaku.values();
-		
+		YakuList yakuList = new YakuList();
 		int howMany = 1+randGen.nextInt(MAX_HOW_MANY);
 		
-		
+		Yaku[] allYaku = Yaku.values();
 		for (int i = 0; i < howMany; i++){
 			yakuList.add(allYaku[randGen.nextInt(allYaku.length)]);
 		}
@@ -79,10 +77,17 @@ public class Majenerator {
 		TileList winHandTiles = null;
 		Tile winningTile = null;
 		
-		winHandTiles = new TileList(3+18,4+18,5+18,6+18);
-		winningTile = new Tile(6+18);
+		
+		
+//		winHandTiles = new TileList(3+18,4+18,5+18,6+18);
+//		winningTile = new Tile(6+18);
+//		winMelds = new ArrayList<Meld>();
+//		winMelds.add(generateMeld());winMelds.add(generateMeld());winMelds.add(generateMeld());
+		
+		winHandTiles = new TileList();
 		winMelds = new ArrayList<Meld>();
-		winMelds.add(generateMeld());winMelds.add(generateMeld());winMelds.add(generateMeld());
+		generateWinningHandAndMelds(winHandTiles, winMelds);
+		winningTile = winHandTiles.getLast();
 		
 		
 		if (randGen.nextBoolean()) res.setVictoryRon(winner, furi);
@@ -139,6 +144,72 @@ public class Majenerator {
 	
 	
 	
+	
+	
+	
+	public static void generateWinningHandAndMelds(final TileList winHand, final List<Meld> winMelds){
+		if (winHand == null || winMelds == null) return;
+		while (!winHand.isEmpty()) winHand.removeFirst();
+		while (!winMelds.isEmpty()) winMelds.remove(0);
+		
+		int howManyMelds = randGen.nextInt(5);
+		List<Meld> handMelds = new ArrayList<Meld>();
+		TileList handtiles = null;
+		
+		
+		
+		//sometimes do chiitoi and kokushi
+		if (randGen.nextInt(15) == 14){
+			if (randGen.nextBoolean()) handtiles = generateHandTilesKokushi();
+			else handtiles = generateHandTilesChiitoi();
+			
+			for (Tile t: handtiles) winHand.add(t);
+			return;
+		}
+		
+		
+		
+		
+		//form melds
+		for (int meldsFormed = 0; meldsFormed < 4; meldsFormed++){
+			if (meldsFormed < howManyMelds) winMelds.add(generateMeld());
+			else handMelds.add(generateMeld(randomMeldTypeNoKan()));
+		}
+		
+		//form pair
+		handMelds.add(generateMeld(MeldType.PAIR));
+		
+		
+		//add hand meld tiles to hand
+		for (Meld m: handMelds) for (Tile t: m) winHand.add(t);
+		winHand.sort();
+	}
+	
+	
+	
+	public static TileList generateHandTilesChiitoi(){
+		int id;
+		TileList tlist = new TileList();
+		while (tlist.size() != 14){
+			id = 1+randGen.nextInt(NUM_TILES);
+			if (!tlist.contains(id)){
+				tlist.add(id);tlist.add(id);
+			}
+		}
+		
+		tlist.sort();
+		return tlist;
+	}
+	public static TileList generateHandTilesKokushi(){
+		TileList tlist = HandChecker.listOfYaochuuTiles();
+		tlist.add(tlist.get(randGen.nextInt(tlist.size())));
+		
+		tlist.sort();
+		return tlist;
+	}
+	
+	
+	
 	public static Meld generateMeld(MeldType type, boolean closed){
 		
 		TileList meldTiles = new TileList();
@@ -159,7 +230,9 @@ public class Majenerator {
 		Meld m = new Meld(meldTiles, type);
 		return m;
 	}
-	public static Meld generateMeld(){final MeldType[] mts = {MeldType.CHI_L, MeldType.CHI_M, MeldType.CHI_H, MeldType.PON, MeldType.KAN};return generateMeld(mts[randGen.nextInt(mts.length)], true);}
+	public static Meld generateMeld(MeldType mt){return generateMeld(mt, true);}
+	public static Meld generateMeld(){return generateMeld(randomMeldType());}
+	
 	public static boolean tileCanMeldMeldType(Tile tile, MeldType mt){
 		if (tile.getId() == 0) return false;
 		
@@ -177,6 +250,10 @@ public class Majenerator {
 		}
 	}
 	public static boolean tileCanMeldMeldType(int tId, MeldType mt){return tileCanMeldMeldType(new Tile(tId), mt);}
+	
+	
+	public static MeldType randomMeldType(){final MeldType[] mts = {MeldType.CHI_L, MeldType.CHI_M, MeldType.CHI_H, MeldType.PON, MeldType.KAN}; return mts[randGen.nextInt(mts.length)];}
+	public static MeldType randomMeldTypeNoKan(){final MeldType[] mts = {MeldType.CHI_L, MeldType.CHI_M, MeldType.CHI_H, MeldType.PON}; return mts[randGen.nextInt(mts.length)];}
 	
 	
 	
@@ -209,4 +286,13 @@ public class Majenerator {
 		return player;
 	}
 	public static Player generatePlayer(){return generatePlayer(randGen.nextInt(NUM_PLAYERS));}
+	
+	
+	
+	
 }
+
+
+
+
+

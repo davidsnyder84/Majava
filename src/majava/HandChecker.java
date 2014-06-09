@@ -68,12 +68,9 @@ public class HandChecker {
 	private static final int NUM_PARTNERS_NEEDED_TO_KAN = 3;
 	private static final int NUM_PARTNERS_NEEDED_TO_PAIR = 1;
 	
-	private static final int OFFSET_CHI_L1 = 1;
-	private static final int OFFSET_CHI_L2 = 2;
-	private static final int OFFSET_CHI_M1 = -1;
-	private static final int OFFSET_CHI_M2 = 1;
-	private static final int OFFSET_CHI_H1 = -2;
-	private static final int OFFSET_CHI_H2 = -1;
+	private static final int OFFSET_CHI_L1 = 1, OFFSET_CHI_L2 = 2;
+	private static final int OFFSET_CHI_M1 = -1,  OFFSET_CHI_M2 = 1;
+	private static final int OFFSET_CHI_H1 = -2, OFFSET_CHI_H2 = -1;
 	
 	private static final int MAX_HAND_SIZE = 14;
 	
@@ -665,7 +662,7 @@ public class HandChecker {
 		
 		
 		//check if the hand contains at least 12 different TYC tiles
-		TileList listTYC = __listOfYaochuuTiles();
+		TileList listTYC = listOfYaochuuTiles();
 		int countTYC = 0;
 		for (int i = 0; i < NUMBER_OF_YAOCHUU_TILES; i++)
 			if (mHandTiles.contains(listTYC.get(i)))
@@ -696,7 +693,7 @@ public class HandChecker {
 		Tile missingTYC = null;
 		if (isTenpaiKokushi() == true){
 			//look for a Yaochuu tile that the hand doesn't contain
-			TileList listTYC = __listOfYaochuuTiles();
+			TileList listTYC = listOfYaochuuTiles();
 			for (Tile t: listTYC)
 				if (mHandTiles.contains(t) == false)
 					missingTYC = t;
@@ -1243,7 +1240,7 @@ public class HandChecker {
 	
 	
 	
-	private final static TileList __listOfYaochuuTiles(){return LIST_OF_YAOCHUU_TILES.makeCopy();}
+	public static final TileList listOfYaochuuTiles(){return LIST_OF_YAOCHUU_TILES.makeCopy();}
 	
 	
 	

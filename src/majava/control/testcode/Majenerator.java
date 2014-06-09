@@ -11,6 +11,7 @@ import majava.Meld;
 import majava.Player;
 import majava.RoundResult;
 import majava.util.TileList;
+import majava.yaku.Yaku;
 import majava.enums.MeldType;
 import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
@@ -25,14 +26,43 @@ public class Majenerator {
 	
 	
 	public static void main(String[] args){
-		println(generateRoundResult().toString());
+		
+		
+//		println(generateRoundResult().toString());
+		for (Yaku y: generateYakuList()) println(y.toString());
+		
+		
 	}
 	public static void println(String prints){System.out.println(prints);}public static void println(){System.out.println("");}
 	
 	
 	
 	
-
+	
+	public static List<Yaku> generateYakuList(){
+		
+		
+		final int MAX_HOW_MANY = 10;
+		
+		
+		List<Yaku> yakuList = new ArrayList<Yaku>();
+		
+		Yaku[] allYaku = Yaku.values();
+		
+		int howMany = 1+randGen.nextInt(MAX_HOW_MANY);
+		
+		
+		for (int i = 0; i < howMany; i++){
+			yakuList.add(allYaku[randGen.nextInt(allYaku.length)]);
+		}
+		
+		return yakuList;
+	}
+	
+	
+	
+	
+	
 	public static RoundResultSummary generateRoundResultSummary(){
 		return generateRoundResult().getSummary();
 	}
@@ -121,7 +151,8 @@ public class Majenerator {
 		case CHI_M: meldTiles.add(id - 1); meldTiles.add(id); meldTiles.add(id + 1); break;
 		case CHI_H: meldTiles.add(id - 2); meldTiles.add(id - 1); meldTiles.add(id); break;
 		case KAN: meldTiles.add(id);
-		case PON: meldTiles.add(id); meldTiles.add(id); meldTiles.add(id); break;
+		case PON: meldTiles.add(id);
+		case PAIR: meldTiles.add(id); meldTiles.add(id); break;
 		default: break;
 		}
 		
@@ -130,14 +161,18 @@ public class Majenerator {
 	}
 	public static Meld generateMeld(){final MeldType[] mts = {MeldType.CHI_L, MeldType.CHI_M, MeldType.CHI_H, MeldType.PON, MeldType.KAN};return generateMeld(mts[randGen.nextInt(mts.length)], true);}
 	public static boolean tileCanMeldMeldType(Tile tile, MeldType mt){
-		if (tile.getFace() == '0') return false;
-		if (tile.getId() > 27 && (mt == MeldType.CHI_L || mt == MeldType.CHI_M || mt == MeldType.CHI_H)) return false;
+		if (tile.getId() == 0) return false;
+		
+		//pon/kan
+		if (mt.isMulti()) return true;
+		
+		//chis
+		if (tile.isHonor()) return false;
 		
 		switch (mt){
 		case CHI_L: return tile.getFace() != '8' && tile.getFace() != '9';
 		case CHI_M: return tile.getFace() != '1' && tile.getFace() != '9';
 		case CHI_H: return tile.getFace() != '1' && tile.getFace() != '2';
-		case PON: case KAN: return true;
 		default: return false;
 		}
 	}

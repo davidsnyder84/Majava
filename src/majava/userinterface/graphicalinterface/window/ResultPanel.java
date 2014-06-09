@@ -44,6 +44,7 @@ public class ResultPanel extends JPanel{
 	protected TableViewBase.PlayerPanel mWinningPlayerPanel;
 	protected TableViewBase.RoundResultLabelPanel mResultLabelPanel;
 	protected PaymentsPanel mPaymentsPanel;
+	protected YakuPanel mYakuPanel;
 	
 	
 	
@@ -61,6 +62,7 @@ public class ResultPanel extends JPanel{
 		mResultLabelPanel = new TableViewBase.RoundResultLabelPanel();
 		mResultLabelPanel.setLocation(200,15);
 		mResultLabelPanel.setBackground(TableViewBase.COLOR_TRANSPARENT);
+//		mResultLabelPanel.setBorder(null);
 		add(mResultLabelPanel);
 		
 		
@@ -74,6 +76,9 @@ public class ResultPanel extends JPanel{
 		mPaymentsPanel.setLocation(142, 352);
 		add(mPaymentsPanel);
 		
+		
+		mYakuPanel = new YakuPanel();
+		add(mYakuPanel);
 		
 		showResult(resum);
 		
@@ -281,6 +286,24 @@ public class ResultPanel extends JPanel{
 	
 	
 	
+	//TODO start panel classes
+	
+	protected static class YakuPanel extends JPanel{
+		private static final long serialVersionUID = 3133779361407012033L;
+		
+		
+		public YakuPanel(){
+			super();
+			setBounds(20,180,300,300);
+			
+			String[] ss = {"Riichi", "Ippatsu", "Tsumo", "Dora 1", "Pinfu", "Tanyao", "Sanshiki", "Iipeikou"};
+			for (int i = 0; i < 8; i++){
+				add(new JLabel(ss[i]));
+			}
+			
+		}
+		
+	}
 	
 	
 	

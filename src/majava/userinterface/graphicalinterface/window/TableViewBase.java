@@ -1186,6 +1186,12 @@ public class TableViewBase extends JFrame{
 		}
 		public void getLabelsHand(JLabel[] hLarry){panelH.getLabels(hLarry);}
 		public void getLabelsMelds(JLabel[][] msLarry){panelMs.getLabels(msLarry);}
+		
+		public void blankAll(){
+			for (JLabel l: panelH.larryH) l.setIcon(null);
+			for (MeldsPanel.MeldPanel mp: panelMs.panelHMs) for (JLabel l: mp.larryHM) l.setIcon(null);
+		}
+		
 	}
 	
 	

@@ -1,6 +1,7 @@
 package majava.userinterface.graphicalinterface.window;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -88,6 +89,9 @@ public class ResultPanel extends JPanel{
 	
 	public void showResult(RoundResultSummary resum){
 		
+		__blankEverything();
+		
+		
 		
 		//for all
 		String resultLabel = null;
@@ -134,18 +138,19 @@ public class ResultPanel extends JPanel{
 		
 		
 		
-		
-		
-		
-		
-		
 		//reuslt label
+		mResultLabelPanel.setVisible(true);
 		mResultLabelPanel.getLabelResult().setText(resultLabel);
 		
+		//payments
+		mPaymentsPanel.setVisible(true);
 		mPaymentsPanel.setPayments(payments);
 		
 		
+		
 		if (resum.isVictory()){
+			mWinningPlayerPanel.setVisible(true);
+			
 			//winning hand
 			int currentTile = 0, currentMeld = 0;
 			for (currentTile = 0; currentTile < winnerHandTiles.size(); currentTile++)
@@ -161,37 +166,13 @@ public class ResultPanel extends JPanel{
 	
 	
 	
-	
-	
-	
-//	public void setInfo(RoundResultSummary resum){
-//		//***result label (Player 1 wins!, Draw!, etc)
-//		mResultLabel = resum.getAsStringResultType();
-//		
-//		//***payments per player panel
-//		mPayments = resum.getPayments();
-//		
-//		
-//		if (resum.isVictory()){
-//			mWinner = resum.getWinningPlayer();
-//			mFurikon = resum.getFurikondaPlayer();
-//			
-//			//***winning hand/melds panel
-//			mWinnerHandTiles = resum.getWinnerHandTiles();	
-//			mWinnerMelds = resum.getWinnerMelds();
-//			mWinningTile = resum.getWinningTile();
-//			
-//			//***panel/list of yaku
-//			mYakuList = Arrays.asList("Riichi", "Ippatsu", "Tsumo", "Dora 1");
-//			mYakuWorth = 1;
-//			
-//			//***hand score label
-//			mHandScore = mPayments.get(mWinner);
-//		}
-//	}
-//	public void setInfo(){setInfo(mResultSummary);}
-	
-	
+	private void __blankEverything(){
+		mResultLabelPanel.setVisible(false);
+		mPaymentsPanel.setVisible(false);
+		
+		mWinningPlayerPanel.blankAll();
+		mWinningPlayerPanel.setVisible(false);
+	}
 	
 	
 	

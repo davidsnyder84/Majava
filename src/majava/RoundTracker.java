@@ -278,18 +278,7 @@ public class RoundTracker {
 	
 	public RoundResultSummary getResultSummary(){return mRoundResult.getSummary();}
 	
-	public void printRoundResult(){
-		if (roundIsOver())
-			 System.out.println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
-			 					"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
-					 			"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		
-		
-		 String resultStr = "Result: " + getRoundResultString();
-		 System.out.println(resultStr);
-		 
-		 if (mRoundResult.isVictory()) System.out.println(mRoundResult.getAsStringWinningHand());
-	}
+	
 	//returns the round result as a string
 	public String getRoundResultString(){return mRoundResult.toString();}
 	

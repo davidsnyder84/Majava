@@ -33,7 +33,7 @@ public class DemoHandGen {
 //		runSumulationRandom(90000);
 		runSpecificTest();
 		
-		runSimulation(1000);
+		runSimulation(5000);
 	}
 	
 	

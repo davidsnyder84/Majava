@@ -8,8 +8,6 @@ import java.util.List;
 import majava.tiles.HandCheckerTile;
 import majava.tiles.GameTile;
 
-import utility.GenSort;
-
 
 /*
 Class: TileList
@@ -46,15 +44,9 @@ methods:
 public class TileList extends ArrayList<GameTile>{
 	private static final long serialVersionUID = -6296356765155653731L;
 	
-	
-	private final GenSort<GameTile> mSorter;
-	
 
 	//creates a new list with the given capacity
-	public TileList(int capacity){
-		super(capacity);
-		mSorter = new GenSort<GameTile>(this);
-	}
+	public TileList(int capacity){super(capacity);}
 	//takes a List
 	public TileList(List<GameTile> tiles){
 		this(tiles.size());
@@ -174,7 +166,7 @@ public class TileList extends ArrayList<GameTile>{
 		}
 		
 		//sort the indices in descending order
-		GenSort<Integer> sorter = new GenSort<Integer>(seenSoFar); sorter.sortDescending();
+		Collections.sort(seenSoFar, Collections.reverseOrder());
 		
 		//remove the indices
 		for (Integer i: seenSoFar) remove((int)i);
@@ -220,12 +212,8 @@ public class TileList extends ArrayList<GameTile>{
 	
 	
 	
-	//sorts
-	public void sort(){mSorter.sort();}
-//	public void sort(){Collections.sort(this);}
-//	public void sortAscending(){mSorter.sort();}
-//	public void sortDescending(){mSorter.sortDescending();}
-//	public void shuffle(){mSorter.shuffle();}
+	//sort
+	public void sort(){Collections.sort(this);}
 	
 	
 	

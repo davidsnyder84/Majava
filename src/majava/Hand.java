@@ -337,23 +337,12 @@ public class Hand implements Iterable<GameTile>{
 			while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.remove((new Integer(partnerIndices.size() - 1)).intValue());
 			
 			
-			
-			
 			handTiles = mTiles.getMultiple(partnerIndices);
 			
 			mMelds.add(new Meld(handTiles, candidate, meldType));
 			
 			//remove the tiles from the hand
 			partnerIndices.add(candidateIndex);
-			
-//			for (Integer i: partnerIndices) System.out.println(i);(new Scanner(System.in)).next();//////////////
-			
-//			GenSort<Integer> sorter = new GenSort<Integer>(partnerIndices); sorter.sortDescending();
-			
-//			for (Integer i: partnerIndices) System.out.println(i);(new Scanner(System.in)).next();///////////
-			
-			
-//			for (Integer i: partnerIndices) removeTile(i);
 			removeMultiple(partnerIndices);
 			
 

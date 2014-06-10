@@ -2,6 +2,7 @@ package majava.control.testcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import majava.Hand;
@@ -11,8 +12,6 @@ import majava.Player;
 import majava.enums.Wind;
 import majava.tiles.GameTile;
 import majava.util.TileList;
-
-import utility.GenSort;
 
 
 
@@ -416,8 +415,8 @@ public class MajaPlay {
 		
 		
 		//sort the lists
-		GenSort<Integer> sorter = new GenSort<Integer>(hots);sorter.sort();
-		sorter = new GenSort<Integer>(callables);sorter.sort();
+		Collections.sort(hots);
+		Collections.sort(callables);
 		
 
 		println("\nHot Tiles: ");

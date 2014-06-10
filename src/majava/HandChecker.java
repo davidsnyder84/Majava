@@ -900,8 +900,7 @@ public class HandChecker {
 //		boolean complete;
 //		if (complete = isCompleteNormal(mHandTiles)){
 //			for (Meld m: mFinishingMelds) mHandMelds.add(m);
-//			GenSort<Meld> meldSorter = new GenSort<Meld>(mHandMelds);
-//			meldSorter.sort();
+//			Collections.sort(mHandMelds);
 //		}
 //		
 //		return complete;

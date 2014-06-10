@@ -178,12 +178,12 @@ public class Wall {
 	private void __initialize(){
 		
 		mCurrentWallPosition = 0;
-		int i = 0;
 		
 		final int IDM5 = 5, IDP5 = 14, IDS5 = 23;
 		
 		//fill the wall with 4 of each tile, in sequential order
 		//make red doras accordingly for fives (1 in man, 2 in pin, 1 in sou)
+		int i = 0;
 		for (int id = 1; id <= NUMBER_OF_DIFFERENT_TILES; id++){
 			mTiles[i++] = new Tile(id);
 			mTiles[i++] = new Tile(id);

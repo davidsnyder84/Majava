@@ -1,0 +1,204 @@
+package majava.tiles;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class ImmutableTile implements Comparable<ImmutableTile>, TileInterface{
+	
+	private static final String FACE_FOR_RED_DORA = "%";
+	private static final String[] STR_REPS = {"O0", 
+											  "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9",
+											  "P1", "P2", "P3", "P4", "P5", "P6", "P7", "P8", "P9",
+											  "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9",
+											  "WE", "WS", "WW", "WN",
+											  "DW", "DG", "DR"};
+	
+	private static final ImmutableTile[] tiles = {
+		new ImmutableTile(0),
+		new ImmutableTile(1),
+		new ImmutableTile(2),
+		new ImmutableTile(3),
+		new ImmutableTile(4),
+		new ImmutableTile(5),
+		new ImmutableTile(6),
+		new ImmutableTile(7),
+		new ImmutableTile(8),
+		new ImmutableTile(9),
+
+		new ImmutableTile(10),
+		new ImmutableTile(11),
+		new ImmutableTile(12),
+		new ImmutableTile(13),
+		new ImmutableTile(14),
+		new ImmutableTile(15),
+		new ImmutableTile(16),
+		new ImmutableTile(17),
+		new ImmutableTile(18),
+		
+		new ImmutableTile(19),
+		new ImmutableTile(20),
+		new ImmutableTile(21),
+		new ImmutableTile(22),
+		new ImmutableTile(23),
+		new ImmutableTile(24),
+		new ImmutableTile(25),
+		new ImmutableTile(26),
+		new ImmutableTile(27),
+		
+		new ImmutableTile(28),
+		new ImmutableTile(29),
+		new ImmutableTile(30),
+		new ImmutableTile(31),
+		
+		new ImmutableTile(32),
+		new ImmutableTile(33),
+		new ImmutableTile(34),
+		
+		
+		
+		new ImmutableTile(5, true),
+		new ImmutableTile(14, true),
+		new ImmutableTile(23, true)
+	};
+	
+	private static final int INDEX_DUMMY = 0; 
+	private static final int INDEX_RED_M5 = 35, INDEX_RED_P5 = 36, INDEX_RED_S5 = 37; 
+	
+	
+	
+	public static final int NUMBER_OF_DIFFERENT_TILES = 34;
+	public static final int NUMBER_OF_YAOCHUU_TILES = 13;
+	private static final int ID_FIRST_HONOR_TILE = 28;
+	
+	
+	private static final ImmutableTile[] yaochuuIDs = {tiles[1], tiles[9], tiles[10], tiles[18], tiles[19], tiles[27], tiles[28], tiles[29], tiles[30], tiles[31], tiles[32], tiles[33], tiles[34]};
+	
+	
+	private final int mID;
+	private final char mSuit;
+	private final char mFace;
+	private final String mSuitfaceString;
+	private final boolean mRedDora;
+	
+	
+	private ImmutableTile(int id, boolean isRed){
+		mID = id;
+		mRedDora = isRed;
+		
+		if (mRedDora) mSuitfaceString = STR_REPS[mID].charAt(0) + FACE_FOR_RED_DORA;
+		else mSuitfaceString = STR_REPS[mID];
+		
+		mSuit = mSuitfaceString.charAt(0);
+		mFace = mSuitfaceString.charAt(1);
+	}
+	private ImmutableTile(int id){this(id, false);}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	final public int getId(){return mID;}
+	final public char getSuit(){return mSuit;}
+	final public char getFace(){return mFace;}
+	final public boolean isRedDora(){return mRedDora;}
+	
+	final public boolean isYaochuu(){return (isHonor() || isTerminal());}
+	final public boolean isHonor(){return (mID >= ID_FIRST_HONOR_TILE);}
+	final public boolean isTerminal(){return (mFace == '1' || mFace == '9');}
+	
+	
+	
+	
+	/*
+	method: nextTile
+	returns the tile that follows this one (used to find a dora from a dora indicator)
+	*/
+	final public ImmutableTile nextTile(){
+		if (mFace == '9') return tiles[mID - 8];
+		else if (mFace == 'N') return tiles[mID - 3];
+		else if (mFace == 'R') return tiles[mID - 2];
+		else return tiles[mID + 1];
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	//compares the IDs of two tiles
+	//if they are both 5's, and one is a red dora, the red dora will "come after" the non-red tile
+	@Override
+	final public int compareTo(ImmutableTile other){
+		
+		//if the tiles have different id's, return the difference
+		if (mID != other.mID) return (mID - other.mID);
+		
+		//at this point, both tiles have the same ID
+		//if both 5's, check if one is red dora
+		if (mFace == '5')
+			if (mRedDora && !other.mRedDora) return 1;
+			else return -1;
+		
+		//if the tiles are not 5's, or if both or neither are red doras, return 0
+		return 0;
+	}
+	
+	//returns true if the tiles have the same ID
+	@Override
+	final public boolean equals(Object other){
+		if (other == null || !(other instanceof ImmutableTile)) return false;
+		return mID == ((ImmutableTile)other).mID;
+	}
+	@Override
+	public String toString(){return mSuitfaceString;}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//factory methods
+	public static final ImmutableTile retrieveTile(int id){
+		if (id < 0 || id > NUMBER_OF_DIFFERENT_TILES) return tiles[INDEX_DUMMY];
+		return tiles[id];
+	}
+	public static final ImmutableTile retrieveTile(String suitfaceString){return retrieveTile(Arrays.asList(STR_REPS).indexOf(suitfaceString.toUpperCase()));}
+	
+	public static final ImmutableTile retrieveTileRed(int id){
+		if (id < 0 || id > NUMBER_OF_DIFFERENT_TILES) return tiles[INDEX_DUMMY];
+		if (id != 5 && id != 14 && id != 23) return retrieveTile(id);
+		return tiles[NUMBER_OF_DIFFERENT_TILES + 1 + (id/9)];
+	}
+	
+	public static final List<ImmutableTile> retrievelistOfYaochuuTiles(){return Arrays.asList(yaochuuIDs);}
+	
+	
+	
+	
+	
+	
+	
+	
+	public static void main(String[] s){
+		
+		List<ImmutableTile> list = new ArrayList<ImmutableTile>();
+		for (int i = 0; i <= NUMBER_OF_DIFFERENT_TILES; i++) list.add(ImmutableTile.retrieveTile(i));
+		for (ImmutableTile t: list) System.out.println(t.toString());
+		
+	}
+
+}

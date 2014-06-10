@@ -9,7 +9,7 @@ import majava.RoundResult;
 import majava.enums.MeldType;
 import majava.Player;
 import majava.enums.Wind;
-import majava.tiles.Tile;
+import majava.tiles.GameTile;
 import majava.util.TileList;
 
 import utility.GenSort;
@@ -132,14 +132,14 @@ public class MajaPlay {
 		//Tile q = null;
 //		TileList waits = null;
 		
-		h.addTile(new Tile(1));
-		h.addTile(new Tile(1));
-		h.addTile(new Tile(1));
-		h.addTile(new Tile(2));
-		h.addTile(new Tile(3));
-		h.addTile(new Tile(4));
-		h.addTile(new Tile(5));
-		h.addTile(new Tile(5));
+		h.addTile(new GameTile(1));
+		h.addTile(new GameTile(1));
+		h.addTile(new GameTile(1));
+		h.addTile(new GameTile(2));
+		h.addTile(new GameTile(3));
+		h.addTile(new GameTile(4));
+		h.addTile(new GameTile(5));
+		h.addTile(new GameTile(5));
 		h.sortHand();
 		
 
@@ -158,7 +158,7 @@ public class MajaPlay {
 		
 		TileList handTiles = new TileList(2,2,5,5,7,7,10,10,20,20,21,21,30,30);
 		handTiles.remove(13);
-		for (Tile t: handTiles) h.addTile(t);
+		for (GameTile t: handTiles) h.addTile(t);
 		
 		
 		println(h.toString());
@@ -183,7 +183,7 @@ public class MajaPlay {
 		
 		for (TileList tl: tlists){
 			h = new Hand(ownerSeat);
-			for (Tile t: tl) h.addTile(t);
+			for (GameTile t: tl) h.addTile(t);
 
 			println(h.toString());
 
@@ -202,12 +202,12 @@ public class MajaPlay {
 		badtlists.add(new TileList(1,1,1,1,5,6,7,7,9,9,11,11,13,13));
 		badtlists.add(new TileList(1,1,5,5,7,7,9,9,11,11,13));
 		badtlists.add(new TileList(1,1,5));
-		badtlists.add(new TileList(new Tile(1)));
+		badtlists.add(new TileList(new GameTile(1)));
 		badtlists.add(new TileList(1,1,3,3,5,5,7,7,9,9,11,11,13,13));	//is actually chiitoi complete
 		
 		for (TileList tl: badtlists){
 			h = new Hand(ownerSeat);
-			for (Tile t: tl) h.addTile(t);
+			for (GameTile t: tl) h.addTile(t);
 
 			println(h.toString());
 
@@ -230,21 +230,21 @@ public class MajaPlay {
 		//Tile q = null;
 		TileList waits = null;
 
-		h.addTile(new Tile("M1"));	//1
-		h.addTile(new Tile("M9"));	//2
-		h.addTile(new Tile("P1"));	//3
-		h.addTile(new Tile("P9"));	//4
-		h.addTile(new Tile("S1"));	//5
-		h.addTile(new Tile("S9"));	//6
-		h.addTile(new Tile("WE"));	//7
-		h.addTile(new Tile("WS"));	//8
-		h.addTile(new Tile("WW"));	//9
-		h.addTile(new Tile("WN"));	//10
-		h.addTile(new Tile("DW"));	//11
-		h.addTile(new Tile("DG"));	//12
-		h.addTile(new Tile("DR"));	//13
-//		h.addTile(new Tile("m8"));	//14
-//		h.addTile(new Tile("DR"));	//extra tile
+		h.addTile(new GameTile("M1"));	//1
+		h.addTile(new GameTile("M9"));	//2
+		h.addTile(new GameTile("P1"));	//3
+		h.addTile(new GameTile("P9"));	//4
+		h.addTile(new GameTile("S1"));	//5
+		h.addTile(new GameTile("S9"));	//6
+		h.addTile(new GameTile("WE"));	//7
+		h.addTile(new GameTile("WS"));	//8
+		h.addTile(new GameTile("WW"));	//9
+		h.addTile(new GameTile("WN"));	//10
+		h.addTile(new GameTile("DW"));	//11
+		h.addTile(new GameTile("DG"));	//12
+		h.addTile(new GameTile("DR"));	//13
+//		h.addTile(new GameTile("m8"));	//14
+//		h.addTile(new GameTile("DR"));	//extra tile
 		h.sortHand();
 		
 		println(h.toString());
@@ -254,7 +254,7 @@ public class MajaPlay {
 		
 		waits = h.DEMOgetChecker().DEMOgetKokushiWaits();
 		System.out.print(waits.size() + "-sided wait: ");
-		for (Tile t: waits)
+		for (GameTile t: waits)
 			System.out.print(t.toString() + ", ");
 		
 		println("\n\nKokushi musou complete?: " + h.DEMOgetChecker().isCompleteKokushi());
@@ -263,7 +263,7 @@ public class MajaPlay {
 	
 	public static void testCallPartners(){
 		
-		Tile q = null;
+		GameTile q = null;
 		Hand h = new Hand(ownerSeat);
 
 		h.addTile(1);
@@ -285,7 +285,7 @@ public class MajaPlay {
 		
 		for (Integer id: discardIDs){
 			
-			q = new Tile(id);
+			q = new GameTile(id);
 			q.setOwner(ownerSeat.kamichaWind());
 			h.checkCallableTile(q);
 			
@@ -318,7 +318,7 @@ public class MajaPlay {
 
 	public static void finishingMovePre(){
 		Hand h = new Hand(ownerSeat);
-		Tile q = null;
+		GameTile q = null;
 
 		h.addTile(2);
 		h.addTile(3);
@@ -327,7 +327,7 @@ public class MajaPlay {
 		println(h.toString());
 		
 		
-		q = new Tile(1);
+		q = new GameTile(1);
 		q.setOwner(ownerSeat.kamichaWind());
 //		println("\nDiscarded tile: " + q.toStringAllInfo());
 		println("\nDiscarded tile: " + q.toString());
@@ -352,7 +352,7 @@ public class MajaPlay {
 
 	public static void chiKamichaTest(){
 		Hand h = new Hand(ownerSeat);
-		Tile q = null;
+		GameTile q = null;
 
 		h.addTile(2);
 		h.addTile(3);
@@ -363,7 +363,7 @@ public class MajaPlay {
 		
 		
 		
-		q = new Tile(1);
+		q = new GameTile(1);
 //		q.setOwner(ownerSeat);
 //		q.setOwner(Player.findKamichaOf(ownerSeat));
 		q.setOwner(Wind.WEST);
@@ -423,13 +423,13 @@ public class MajaPlay {
 		println("\nHot Tiles: ");
 		for (Integer i: hots)
 //			System.out.print(Tile.repr_stringReprOfId(i) + ", ");
-			System.out.print((new Tile(i)).toString() + ", ");
+			System.out.print((new GameTile(i)).toString() + ", ");
 		
 		
 		println("\n\nCallable Tiles: ");
 		for (Integer i: callables)
 //			System.out.print(Tile.repr_stringReprOfId(i) + ", ");
-			System.out.print((new Tile(i)).toString() + ", ");
+			System.out.print((new GameTile(i)).toString() + ", ");
 		
 	}
 	
@@ -441,20 +441,20 @@ public class MajaPlay {
 
 	public static void nextTileTest(){
 		
-		List<Tile> tiles = new ArrayList<Tile>(10);
+		List<GameTile> tiles = new ArrayList<GameTile>(10);
 
-		tiles.add(new Tile("S2"));
-		tiles.add(new Tile("P6"));
-		tiles.add(new Tile("P9"));
-		tiles.add(new Tile("M1"));
-		tiles.add(new Tile("M9"));
-		tiles.add(new Tile("DG"));
-		tiles.add(new Tile("DR"));
-		tiles.add(new Tile("WN"));
-		tiles.add(new Tile("WE"));
-		tiles.add(new Tile("WW"));
+		tiles.add(new GameTile("S2"));
+		tiles.add(new GameTile("P6"));
+		tiles.add(new GameTile("P9"));
+		tiles.add(new GameTile("M1"));
+		tiles.add(new GameTile("M9"));
+		tiles.add(new GameTile("DG"));
+		tiles.add(new GameTile("DR"));
+		tiles.add(new GameTile("WN"));
+		tiles.add(new GameTile("WE"));
+		tiles.add(new GameTile("WW"));
 		
-		for (Tile t: tiles)
+		for (GameTile t: tiles)
 			println(t.toString() + ", next tile: " + t.nextTile().toString());
 	}
 	
@@ -483,16 +483,16 @@ public class MajaPlay {
 		p.addTileToHand(34);
 		
 		
-		Tile q = null;
-		q = new Tile(4);
+		GameTile q = null;
+		q = new GameTile(4);
 		
-		List<Tile> discards = new ArrayList<Tile>(10);
-		discards.add(new Tile(12));
-		discards.add(new Tile(34));
-		discards.add(new Tile(7));
-		discards.add(new Tile(25));
-		discards.add(new Tile(1));
-		discards.add(new Tile(16));
+		List<GameTile> discards = new ArrayList<GameTile>(10);
+		discards.add(new GameTile(12));
+		discards.add(new GameTile(34));
+		discards.add(new GameTile(7));
+		discards.add(new GameTile(25));
+		discards.add(new GameTile(1));
+		discards.add(new GameTile(16));
 		
 		discards.get(1).setOwner(p.getSeatWind());
 		
@@ -566,8 +566,8 @@ public class MajaPlay {
 		p.addTileToHand(6);
 		
 		
-		Tile q = null;
-		q = new Tile(4);
+		GameTile q = null;
+		q = new GameTile(4);
 		
 		println(p.getAsStringHand());
 		println("\nDiscarded tile: " + q.toString() + "\n");
@@ -603,15 +603,15 @@ public class MajaPlay {
 	
 	public static void testCalls(){
 		
-		Tile q = null;
+		GameTile q = null;
 		Hand h = new Hand();
 		
 		
-		h.addTile(new Tile(12));
-		h.addTile(new Tile(10));
+		h.addTile(new GameTile(12));
+		h.addTile(new GameTile(10));
 		
 		
-		q = new Tile(11);
+		q = new GameTile(11);
 		
 
 		println(h.toString());
@@ -635,16 +635,16 @@ public class MajaPlay {
 	
 	public static void testContains(){
 		
-		List<Tile> tiles = new ArrayList<Tile>();
+		List<GameTile> tiles = new ArrayList<GameTile>();
 		
-		Tile t2 = new Tile(2);
+		GameTile t2 = new GameTile(2);
 		
-		tiles.add(new Tile(1));
-		tiles.add(new Tile(2));
-		tiles.add(new Tile(3));
+		tiles.add(new GameTile(1));
+		tiles.add(new GameTile(2));
+		tiles.add(new GameTile(3));
 		
 		//println("\nt2 == M2?: ");
-		//println(t2.equals(new Tile(2)));
+		//println(t2.equals(new GameTile(2)));
 		
 //		println(t2.toStringAllInfo());
 		
@@ -658,8 +658,8 @@ public class MajaPlay {
 	public static void testHots(){
 		Hand h = new Hand();
 
-		h.addTile(new Tile(1));
-		h.addTile(new Tile(2));
+		h.addTile(new GameTile(1));
+		h.addTile(new GameTile(2));
 		
 		
 		List<Integer> hots = new ArrayList<Integer>(0);
@@ -669,7 +669,7 @@ public class MajaPlay {
 		
 		println("\nhots:");
 		
-		for (Integer i: hots) println((new Tile(i)).toString());
+		for (Integer i: hots) println((new GameTile(i)).toString());
 	}
 	
 	
@@ -677,8 +677,8 @@ public class MajaPlay {
 	
 
 	public static void playTileClone(){
-		Tile t1, t2;
-		t1 = new Tile(7);
+		GameTile t1, t2;
+		t1 = new GameTile(7);
 		println("t1: " + t1.toString() + "\n");
 		
 		t2 = t1.clone();

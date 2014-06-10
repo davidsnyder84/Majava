@@ -1,7 +1,7 @@
 package nanshanten;
 
 
-import majava.tiles.Tile;
+import majava.tiles.GameTile;
 
 
 public class Nanshanten {
@@ -10,7 +10,7 @@ public class Nanshanten {
 	public static void main(String[] args) {
 		System.out.println("Remember me?");
 		
-		Tile t = new Tile(15);
+		GameTile t = new GameTile(15);
 		System.out.println(t);
 		
 		

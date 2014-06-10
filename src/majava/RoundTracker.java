@@ -8,7 +8,7 @@ import majava.userinterface.GameUI;
 import majava.summary.RoundResultSummary;
 import majava.summary.entity.PlayerTracker;
 import majava.summary.entity.RoundEntities;
-import majava.tiles.Tile;
+import majava.tiles.GameTile;
 import majava.enums.Wind;
 import majava.util.TileList;
 
@@ -94,7 +94,7 @@ public class RoundTracker {
 	
 
 	private final Wall mWall;	//duplicate
-	private final Tile[] mTilesW;	//duplicate
+	private final GameTile[] mTilesW;	//duplicate
 	
 	
 	private final Player[] mPlayerArray;
@@ -109,7 +109,7 @@ public class RoundTracker {
 	private final RoundResult mRoundResult;
 	
 	private int mWhoseTurn;
-	private Tile mMostRecentDiscard;
+	private GameTile mMostRecentDiscard;
 	
 	
 	
@@ -144,10 +144,10 @@ public class RoundTracker {
 	
 	
 	private int numPlayersSynched; private boolean wallSynched;
-	private Tile[] tempSyncWallTiles = null;
+	private GameTile[] tempSyncWallTiles = null;
 	private Player tempSyncPlayer = null; private TileList tempSyncHandTiles = null; private TileList tempSyncPondTiles = null; private Hand tempSyncHand = null; private Pond tempSyncPond = null; private List<Meld> tempSyncMelds = null;
 	
-	public void syncWall(Tile[] wallTiles){
+	public void syncWall(GameTile[] wallTiles){
 		if (wallSynched) return;
 		tempSyncWallTiles = wallTiles;
 	}
@@ -252,7 +252,7 @@ public class RoundTracker {
 
 	public void setResultVictory(Player winner){
 		
-		Tile winningTile = null;
+		GameTile winningTile = null;
 		TileList winningHandTiles = new TileList(mRoundEntities.mPTrackers[winner.getPlayerNumber()].tilesH);
 		
 		if (winner == currentPlayer()){
@@ -370,8 +370,8 @@ public class RoundTracker {
 	
 	
 	
-	public void setMostRecentDiscard(Tile discard){mMostRecentDiscard = discard;}
-	public Tile getMostRecentDiscard(){return mMostRecentDiscard;}
+	public void setMostRecentDiscard(GameTile discard){mMostRecentDiscard = discard;}
+	public GameTile getMostRecentDiscard(){return mMostRecentDiscard;}
 	
 	
 	

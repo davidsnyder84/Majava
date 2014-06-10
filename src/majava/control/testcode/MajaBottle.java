@@ -3,7 +3,7 @@ package majava.control.testcode;
 import utility.Pauser;
 import majava.Player;
 import majava.Wall;
-import majava.tiles.Tile;
+import majava.tiles.GameTile;
 import majava.util.TileList;
 
 
@@ -26,7 +26,7 @@ public class MajaBottle {
 		Player p2 = Majenerator.generatePlayer(1);
 		Player p3 = Majenerator.generatePlayer(2);
 		Player p4 = Majenerator.generatePlayer(3);
-		Tile t = null;
+		GameTile t = null;
 		
 		p1.DEMOfillHandNoTsumo();
 		p2.DEMOfillHandNoTsumo();
@@ -40,7 +40,7 @@ public class MajaBottle {
 			Player p = new Player();
 			p.setSeatWindEast();
 			for (int j = 0; j < 13; j++){
-				t = new Tile(j % 34);
+				t = new GameTile(j % 34);
 				
 //				p.takeTurn();
 				p.addTileToHand(t);

@@ -4,7 +4,7 @@ package majava;
 import java.util.Arrays;
 import java.util.Collections;
 
-import majava.tiles.Tile;
+import majava.tiles.GameTile;
 import majava.util.TileList;
 
 
@@ -90,7 +90,7 @@ public class Wall {
 	
 	
 	
-	private Tile[] mTiles;
+	private GameTile[] mTiles;
 	private int mCurrentWallPosition;
 	
 	private RoundTracker mRoundTracker;
@@ -100,7 +100,7 @@ public class Wall {
 	
 	public Wall(){
 		//fill and shuffle the wall
-		mTiles = new Tile[MAX_SIZE_WALL];
+		mTiles = new GameTile[MAX_SIZE_WALL];
 		__initialize();
 	}
 	
@@ -185,10 +185,14 @@ public class Wall {
 		//make red doras accordingly for fives (1 in man, 2 in pin, 1 in sou)
 		int i = 0;
 		for (int id = 1; id <= NUMBER_OF_DIFFERENT_TILES; id++){
-			mTiles[i++] = new Tile(id);
-			mTiles[i++] = new Tile(id);
-			mTiles[i++] = new Tile(id, (id == IDP5) );
-			mTiles[i++] = new Tile(id, (id == IDM5 || id == IDP5 || id == IDS5) );
+			mTiles[i++] = new GameTile(id);
+			mTiles[i++] = new GameTile(id);
+			
+			if (id == IDP5) mTiles[i++] = new GameTile(id, true);
+			else            mTiles[i++] = new GameTile(id);
+			
+			if (id == IDM5 || id == IDP5 || id == IDS5) mTiles[i++] = new GameTile(id, true);
+			else                                        mTiles[i++] = new GameTile(id);
 		}
 		
 		//shuffle the wall
@@ -260,8 +264,8 @@ public class Wall {
 	removes a tile from the current wall position and returns it
 	returns the tile, or returns null if the wall was empty
 	*/
-	public Tile takeTile(){
-		Tile takenTile = null;
+	public GameTile takeTile(){
+		GameTile takenTile = null;
 		if (mCurrentWallPosition <= POS_LAST_NORMAL_WALL_TILE){
 			takenTile = mTiles[mCurrentWallPosition];
 			mTiles[mCurrentWallPosition] = null;
@@ -274,8 +278,8 @@ public class Wall {
 	
 	
 	//removes a tile from the end of the dead wall and returns it (for a rinshan draw)
-	public Tile takeTileFromDeadWall(){
-		Tile takenTile = null;
+	public GameTile takeTileFromDeadWall(){
+		GameTile takenTile = null;
 
 		takenTile = mTiles[OFFSET_DEAD_WALL + POS_KANDRAWS[mRoundTracker.getNumKansMade() - 1]];
 		mTiles[OFFSET_DEAD_WALL + POS_KANDRAWS[mRoundTracker.getNumKansMade() - 1]] = null;
@@ -482,9 +486,9 @@ public class Wall {
 		mTiles[3*TAKEN_PER_ROUND + 4] = tilesN.removeFirst();
 		
 		
-		if (tsumo2 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 1] = new Tile(tsumo2);
-		if (tsumo3 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 2] = new Tile(tsumo3);
-		if (tsumo4 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 3] = new Tile(tsumo4);
+		if (tsumo2 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 1] = new GameTile(tsumo2);
+		if (tsumo3 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 2] = new GameTile(tsumo3);
+		if (tsumo4 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 3] = new GameTile(tsumo4);
 		
 	}
 	////////////////////////////////////////////////////////////////////////////////////

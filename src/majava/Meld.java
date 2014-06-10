@@ -2,7 +2,7 @@ package majava;
 
 
 import java.util.Iterator;
-import majava.tiles.Tile;
+import majava.tiles.GameTile;
 import majava.enums.MeldType;
 import majava.enums.Wind;
 import majava.util.TileList;
@@ -46,7 +46,7 @@ methods:
 		getSize - returns how many tiles are in the meld
 		isChi, isPon, isKan - returns true if the meld is of the corresponding type
 */
-public class Meld implements Iterable<Tile>, Comparable<Meld> {
+public class Meld implements Iterable<GameTile>, Comparable<Meld> {
 	
 	private static final int FU_DEFAULT = 0;
 	
@@ -60,7 +60,7 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 
 	private Wind mOwnerSeatWind;
 	
-	private Tile mCompletedTile;
+	private GameTile mCompletedTile;
 	private Wind mPlayerResponsible;
 	
 	private int mFu;
@@ -79,7 +79,7 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	form the meld
 	fu = 0
 	*/
-	public Meld(TileList handTiles, Tile newTile, MeldType meldType){		
+	public Meld(TileList handTiles, GameTile newTile, MeldType meldType){		
 		
 		__formMeld(handTiles, newTile, meldType);
 		
@@ -93,7 +93,7 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	public Meld(Meld other){
 		
 		mTiles = new TileList();
-		for (Tile t: other.mTiles) mTiles.add(t);
+		for (GameTile t: other.mTiles) mTiles.add(t);
 		
 		mOwnerSeatWind = other.mOwnerSeatWind;
 		
@@ -127,7 +127,7 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	add the new tile to the meld
 	sort the meld if it is a chi
 	*/
-	private void __formMeld(TileList handTiles, Tile newTile, MeldType meldType){
+	private void __formMeld(TileList handTiles, GameTile newTile, MeldType meldType){
 		
 		//set the owner's seat wind
 		mOwnerSeatWind = handTiles.getFirst().getOrignalOwner();
@@ -159,7 +159,7 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	
 	
 	//uses the given tile to upgrade a minkou to a minkan
-	public void upgradeToMinkan(Tile handTile){
+	public void upgradeToMinkan(GameTile handTile){
 		
 		if (!isPon()) return;
 		
@@ -171,7 +171,7 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	}
 	
 	//adds a tile to a meld (needed for upgrading minkou to minkan)
-	private void __addTile(Tile t){mTiles.add(t);}
+	private void __addTile(GameTile t){mTiles.add(t);}
 	
 	
 	
@@ -205,12 +205,12 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	
 
 	//returns the tile at the given index in the meld, returns null if index is outside of the meld's range
-	public Tile getTile(int index){
+	public GameTile getTile(int index){
 		if (index >= 0 && index < mTiles.size()) return mTiles.get(index);
 		return null;
 	}
 	//returns the first tile in the meld
-	public Tile getFirstTile(){return mTiles.getFirst();}
+	public GameTile getFirstTile(){return mTiles.getFirst();}
 	
 	
 	//returns a copy of the entire list of tiles
@@ -245,7 +245,7 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	public String toString(){
 		String meldString = "";
 		
-		for (Tile t: mTiles) meldString += t.toString() + " ";
+		for (GameTile t: mTiles) meldString += t.toString() + " ";
 		
 		//show closed or open
 		if (mClosed == true) meldString += "  [Closed]";
@@ -255,7 +255,7 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 	}
 	public String toStringCompact(){
 		String meldString = "";
-		for (Tile t: mTiles) meldString += t + " ";
+		for (GameTile t: mTiles) meldString += t + " ";
 		
 		if (meldString != "") meldString = meldString.substring(0, meldString.length() - 1);
 		return meldString;
@@ -264,7 +264,7 @@ public class Meld implements Iterable<Tile>, Comparable<Meld> {
 
 	//iterator, returns mTile's iterator
 	@Override
-	public Iterator<Tile> iterator() {return mTiles.iterator();}
+	public Iterator<GameTile> iterator() {return mTiles.iterator();}
 	
 	
 	

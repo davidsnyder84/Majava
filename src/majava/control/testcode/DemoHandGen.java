@@ -8,7 +8,7 @@ import java.util.Random;
 import majava.Hand;
 import majava.enums.MeldType;
 import majava.enums.Wind;
-import majava.tiles.Tile;
+import majava.tiles.GameTile;
 import majava.util.TileList;
 
 
@@ -140,7 +140,7 @@ public class DemoHandGen {
 			
 			System.out.print("Waits: ");
 			waitString = "";
-			for (Tile t: waits) waitString += t.toString() + ", ";
+			for (GameTile t: waits) waitString += t.toString() + ", ";
 			
 			
 			if (waits.isEmpty()){
@@ -192,7 +192,7 @@ public class DemoHandGen {
 		
 		
 		TileList tiles = new majava.util.TileList();
-		Tile currentTile = null;
+		GameTile currentTile = null;
 		
 		
 		int id = 0;
@@ -218,7 +218,7 @@ public class DemoHandGen {
 			
 			//generate a random tile
 			id = random.nextInt(34) + 1;
-			currentTile = new Tile(id);
+			currentTile = new GameTile(id);
 			currentTile.setOwner(OWNER_SEAT);
 			
 			howManyOfThisInHand = tiles.findHowManyOf(currentTile);
@@ -249,11 +249,11 @@ public class DemoHandGen {
 				
 				
 				tooMany = false;
-				for (Tile t: currentMeldTiles) if (tiles.findHowManyOf(t) + 1 > 4) tooMany = true;
+				for (GameTile t: currentMeldTiles) if (tiles.findHowManyOf(t) + 1 > 4) tooMany = true;
 				
 				if (tooMany == false){
 					//add the tiles to the hand
-					for (Tile t: currentMeldTiles){
+					for (GameTile t: currentMeldTiles){
 						t.setOwner(OWNER_SEAT);
 						hand.addTile(t);
 					}
@@ -270,7 +270,7 @@ public class DemoHandGen {
 		do{
 			//generate a random tile
 			id = random.nextInt(34) + 1;
-			currentTile = new Tile(id);
+			currentTile = new GameTile(id);
 			currentTile.setOwner(OWNER_SEAT);
 			howManyOfThisInHand = tiles.findHowManyOf(currentTile);
 		}
@@ -280,7 +280,7 @@ public class DemoHandGen {
 		currentMeldTiles.add(id); currentMeldTiles.add(id);
 		
 		//add the tiles to the hand
-		for (Tile t: currentMeldTiles){
+		for (GameTile t: currentMeldTiles){
 			t.setOwner(OWNER_SEAT);
 			hand.addTile(t);
 		}
@@ -335,7 +335,7 @@ public class DemoHandGen {
 		
 		Hand hand = new Hand(OWNER_SEAT);
 		TileList tiles = new TileList();
-		Tile currentTile = null;
+		GameTile currentTile = null;
 		int id = 0;
 		int numMeldsMade = random.nextInt(3);
 		
@@ -346,13 +346,13 @@ public class DemoHandGen {
 			id = random.nextInt(34) + 1;
 			
 			if (tiles.findHowManyOf(id) < 4){
-				currentTile = new Tile(id);
+				currentTile = new GameTile(id);
 				currentTile.setOwner(OWNER_SEAT);
 				tiles.add(currentTile);
 			}
 		}
 		
-		for (Tile t: tiles) hand.addTile(t);
+		for (GameTile t: tiles) hand.addTile(t);
 		
 		hand.sortHand();
 //		System.out.println(hand.toString());
@@ -382,7 +382,7 @@ public class DemoHandGen {
 		TileList tiles = new TileList(2+9,3+9,4+9,1+18,1+18);	//P2 P3 P4 S1 S1
 		
 		
-		for (Tile t: tiles){
+		for (GameTile t: tiles){
 			t.setOwner(OWNER_SEAT);
 			System.out.println("Adding " + t);
 			if (t.getId() == 1+18)

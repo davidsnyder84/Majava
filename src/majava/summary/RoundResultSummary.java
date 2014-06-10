@@ -1,16 +1,14 @@
 package majava.summary;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import majava.Meld;
 import majava.util.TileList;
 import majava.enums.Wind;
 import majava.summary.PlayerSummary;
 import majava.summary.ResultType;
-import majava.tiles.Tile;
+import majava.tiles.GameTile;
 
 
 
@@ -24,7 +22,7 @@ public class RoundResultSummary {
 	private final PlayerSummary pWinningPlayer;
 	private final PlayerSummary pFurikondaPlayer;
 	
-	private final Tile pWinningTile;
+	private final GameTile pWinningTile;
 	
 	
 	private final TileList pWinnerHand;
@@ -35,7 +33,7 @@ public class RoundResultSummary {
 	
 	
 	//win constructor
-	public RoundResultSummary(ResultType resType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, Tile winningTile, TileList winnerHand, List<Meld> winnerMelds, PaymentMap payments){
+	public RoundResultSummary(ResultType resType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, GameTile winningTile, TileList winnerHand, List<Meld> winnerMelds, PaymentMap payments){
 		
 		pResultType = resType;
 		
@@ -90,7 +88,7 @@ public class RoundResultSummary {
 	public PlayerSummary getFurikondaPlayer(){return pFurikondaPlayer;}
 	
 	public Wind getWindOfWinner(){if (!isVictory()) return null; return pWinningPlayer.getSeatWind();}
-	public Tile getWinningTile(){if (!isVictory()) return null; return pWinningTile.clone();}
+	public GameTile getWinningTile(){if (!isVictory()) return null; return pWinningTile.clone();}
 	
 	
 	

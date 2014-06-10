@@ -7,7 +7,7 @@ import majava.Player;
 import majava.enums.Exclamation;
 import majava.enums.Wind;
 import majava.summary.PlayerSummary;
-import majava.tiles.Tile;
+import majava.tiles.GameTile;
 
 /*
 Class: ImmutablePlayer
@@ -37,7 +37,7 @@ public class ImmutablePlayer{
 	
 	//Player accessor methods
 	
-	public Tile getLastDiscard(){return mPlayer.getLastDiscard();}
+	public GameTile getLastDiscard(){return mPlayer.getLastDiscard();}
 	
 	
 	public boolean turnActionMadeKan(){return mPlayer.turnActionMadeKan();}
@@ -126,7 +126,7 @@ public class ImmutablePlayer{
 	
 	
 	public boolean holdingRinshan(){return mPlayer.holdingRinshan();}
-	public Tile getTsumoTile(){return mPlayer.getTsumoTile();}
+	public GameTile getTsumoTile(){return mPlayer.getTsumoTile();}
 	
 	
 	public boolean handIsFullyConcealed(){return mPlayer.handIsFullyConcealed();}

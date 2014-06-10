@@ -13,7 +13,7 @@ import majava.enums.Wind;
 import majava.summary.RoundResultSummary;
 import majava.summary.entity.PlayerTracker;
 import majava.summary.entity.RoundEntities;
-import majava.tiles.Tile;
+import majava.tiles.GameTile;
 import majava.util.TileList;
 import majava.tiles.PondTile;
 import utility.ImageResizer;
@@ -327,7 +327,7 @@ public class TableViewBase extends JFrame{
 	
 	protected RoundEntities mRoundEntities;
 	protected PlayerTracker[] mPTrackers;
-	protected Tile[] mTilesW;
+	protected GameTile[] mTilesW;
 	protected Wall mWall;
 	protected RoundTracker mRoundTracker;
 	
@@ -357,7 +357,7 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	private int __getImageIdOfTile(Tile t){
+	private int __getImageIdOfTile(GameTile t){
 		if (t == null) return 0;
 		if (!t.isRedDora()) return t.getId();
 		switch (t.getId()){
@@ -401,7 +401,7 @@ public class TableViewBase extends JFrame{
 	
 	
 	//gets icon for wall tile array
-	protected ImageIcon __getImageIconWall(Tile[] tList, int index, int seatNum, boolean reveal){
+	protected ImageIcon __getImageIconWall(GameTile[] tList, int index, int seatNum, boolean reveal){
 		if (seatNum == SEAT2) seatNum = SEAT4; else if (seatNum == SEAT4) seatNum = SEAT2;
 		
 		int id = __getImageID(tList[index]);
@@ -410,11 +410,11 @@ public class TableViewBase extends JFrame{
 		if (!reveal) id = TILEBACK;
 		return garryTiles[seatNum][SMALL][id];
 	}
-	protected ImageIcon __getImageIconWall(Tile[] tList, int index, int seatNum){return __getImageIconWall(tList, index, seatNum, true);}
+	protected ImageIcon __getImageIconWall(GameTile[] tList, int index, int seatNum){return __getImageIconWall(tList, index, seatNum, true);}
 	
 	
 	//returns the image ID number for the tile at the given index of tList
-	private int __getImageID(Tile t){
+	private int __getImageID(GameTile t){
 		if (t == null) return NULL_TILE_IMAGE_ID;
 		if (t.isRedDora())
 			switch(t.getId()){

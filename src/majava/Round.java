@@ -3,7 +3,7 @@ package majava;
 import majava.userinterface.GameUI;
 import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
-import majava.tiles.Tile;
+import majava.tiles.GameTile;
 import majava.util.TileList;
 import majava.enums.GameplayEvent;
 import majava.enums.Wind;
@@ -56,7 +56,8 @@ public class Round{
 	private static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
 	//for debug use
-	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+//	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	
 	
@@ -170,7 +171,7 @@ public class Round{
 		__doPointPayments();
 		
 		
-		mUI.setRoundResult(mRoundResult.getSummary());
+		if (mUI != null) mUI.setRoundResult(mRoundResult.getSummary());
 		
 		//display end of round result
 		displayRoundResult();
@@ -272,10 +273,10 @@ public class Round{
 		mWall.getStartingHands(tilesE, tilesS, tilesW, tilesN);
 		
 		//add the tiles to the players' hands
-		for(Tile t: tilesE) p1.addTileToHand(t);
-		for(Tile t: tilesS) p2.addTileToHand(t);
-		for(Tile t: tilesW) p3.addTileToHand(t);
-		for(Tile t: tilesN) p4.addTileToHand(t);
+		for(GameTile t: tilesE) p1.addTileToHand(t);
+		for(GameTile t: tilesS) p2.addTileToHand(t);
+		for(GameTile t: tilesW) p3.addTileToHand(t);
+		for(GameTile t: tilesN) p4.addTileToHand(t);
 		
 		//sort the players' hands
 		p1.sortHand(); p2.sortHand(); p3.sortHand(); p4.sortHand();
@@ -322,7 +323,7 @@ public class Round{
 		//~~~~~~get player's discard (ankans, riichi, and such are handled inside here)
 		//loop until the player has chosen a discard
 		//loop until the player stops making kans
-		Tile discardedTile = null;
+		GameTile discardedTile = null;
 		do{
 			discardedTile = p.takeTurn();
 			mRoundTracker.setMostRecentDiscard(discardedTile);
@@ -388,7 +389,7 @@ public class Round{
 	//gives a player a tile from the wall or dead wall
 	private void __givePlayerTile(Player p){
 		
-		Tile drawnTile = null;
+		GameTile drawnTile = null;
 		if (!p.needsDraw()) return;
 		
 		//draw from wall or dead wall, depending on what player needs
@@ -457,7 +458,7 @@ public class Round{
 		
 		
 		//get the discarded tile
-		Tile discardedTile = mRoundTracker.currentPlayer().getLastDiscard();
+		GameTile discardedTile = mRoundTracker.currentPlayer().getLastDiscard();
 		
 		
 		
@@ -616,8 +617,8 @@ public class Round{
 		final int FAST_SLEEPTIME = 0;
 		final int FAST_SLEEPTIME_EXCLAMATION = 0;
 //		final int FAST_SLEEPTIME_EXCLAMATION = DEAFULT_SLEEPTIME_EXCLAMATION;
-//		final int FAST_SLEEPTIME_ROUND_END = 0;
-		final int FAST_SLEEPTIME_ROUND_END = DEAFULT_SLEEPTIME_ROUND_END;
+		final int FAST_SLEEPTIME_ROUND_END = 0;
+//		final int FAST_SLEEPTIME_ROUND_END = DEAFULT_SLEEPTIME_ROUND_END;
 		
 		
 		if (mDoFastGameplay){

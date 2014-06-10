@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import majava.tiles.Tile;
+import majava.tiles.GameTile;
 import majava.enums.Wind;
 import majava.enums.MeldType;
 import majava.util.TileList;
@@ -65,7 +65,7 @@ methods:
 		other:
 		syncWithRoundTracker - associates the hand with the tracker
 */
-public class Hand implements Iterable<Tile>{
+public class Hand implements Iterable<GameTile>{
 	
 	private static final int MAX_HAND_SIZE = 14;
 	private static final int MAX_NUM_MELDS = 5;
@@ -107,7 +107,7 @@ public class Hand implements Iterable<Tile>{
 	
 	
 	//returns the tile at the given index in the hand, returns null if outside of the hand's range
-	public Tile getTile(int index){
+	public GameTile getTile(int index){
 		if (index > mTiles.size() || index < 0 ) return null;
 		return mTiles.get(index);
 	}
@@ -153,7 +153,7 @@ public class Hand implements Iterable<Tile>{
 	
 	//adds a tile to the hand (cannot add more than max hand size)
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand
-	public boolean addTile(Tile addThisTile){
+	public boolean addTile(GameTile addThisTile){
 		
 		if (mTiles.size() >= MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*mNumMeldsMade) return false;
 		
@@ -163,7 +163,7 @@ public class Hand implements Iterable<Tile>{
 		__updateChecker();
 		return true;
 	}
-	public boolean addTile(int tileID){return addTile(new Tile(tileID));}
+	public boolean addTile(int tileID){return addTile(new GameTile(tileID));}
 	
 	
 	//removes the tile at the given index
@@ -230,7 +230,7 @@ public class Hand implements Iterable<Tile>{
 	send candidate tile to checker (flags are set and lists are populated here)
 	if any call can be made, return true. else, return false
 	*/
-	public boolean checkCallableTile(Tile candidate){
+	public boolean checkCallableTile(GameTile candidate){
 		//~~~~return true if a call (any call) can be made
 		return mChecker.checkCallableTile(candidate);
 	}
@@ -286,7 +286,7 @@ public class Hand implements Iterable<Tile>{
 		TileList tilesFromHand = mTiles.getMultiple(partnerIndices);
 		
 		//candidateTile = the tile that will complete the meld
-		Tile candidateTile = mChecker.getCallCandidate();
+		GameTile candidateTile = mChecker.getCallCandidate();
 		
 		
 		//~~~~make the meld and remove the tiles from the hand
@@ -321,7 +321,7 @@ public class Hand implements Iterable<Tile>{
 	private void __makeClosedMeld(MeldType meldType){
 		
 		TileList handTiles = new TileList();
-		Tile candidate;
+		GameTile candidate;
 		int candidateIndex;
 		List<Integer> partnerIndices;
 		
@@ -382,7 +382,7 @@ public class Hand implements Iterable<Tile>{
 	public void makeMeldTurnMinkan(){
 		
 		int candidateIndex = mChecker.getCandidateMinkanIndex();
-		Tile candidate = mTiles.get(candidateIndex);
+		GameTile candidate = mTiles.get(candidateIndex);
 		
 		Meld meldToUpgrade = null;
 		
@@ -509,7 +509,7 @@ public class Hand implements Iterable<Tile>{
 	
 	//iterator, returns mTile's iterator
 	@Override
-	public Iterator<Tile> iterator() {return mTiles.iterator();}
+	public Iterator<GameTile> iterator() {return mTiles.iterator();}
 	
 	
 	

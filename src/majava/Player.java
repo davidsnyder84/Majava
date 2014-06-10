@@ -8,7 +8,7 @@ import majava.enums.GameplayEvent;
 import majava.enums.Wind;
 import majava.userinterface.GameUI;
 import majava.summary.PlayerSummary;
-import majava.tiles.Tile;
+import majava.tiles.GameTile;
 
 /*
 Class: Player
@@ -200,7 +200,7 @@ public class Player {
 	private ActionType mTurnAction;
 	private int mChosenDiscardIndex;
 	
-	private Tile mLastDiscard;
+	private GameTile mLastDiscard;
 	
 	private boolean mHoldingRinshanTile;
 	private boolean mRiichiStatus;
@@ -289,7 +289,7 @@ public class Player {
 		return null (no discard chosen)
 	end if
 	*/
-	public Tile takeTurn(){
+	public GameTile takeTurn(){
 		
 		mLastDiscard = null;
 		mChosenDiscardIndex = NO_DISCARD_CHOSEN;
@@ -347,18 +347,18 @@ public class Player {
 	
 	
 	//adds a tile to the pond
-	private void __putTileInPond(Tile t){mPond.addTile(t);}
+	private void __putTileInPond(GameTile t){mPond.addTile(t);}
 	
 	
 	//removes the most recent tile from the player's pond (because another player called it)
-	public Tile removeTileFromPond(){return mPond.removeMostRecentTile();}
+	public GameTile removeTileFromPond(){return mPond.removeMostRecentTile();}
 	
 	
 	
 	
-	private Tile __discardChosenTile(){
+	private GameTile __discardChosenTile(){
 		
-		Tile discardedTile = null;
+		GameTile discardedTile = null;
 		
 		//remove the chosen discard tile from hand
 		discardedTile = mHand.getTile(mChosenDiscardIndex);
@@ -495,7 +495,7 @@ public class Player {
 	}
 	
 	
-	public Tile getLastDiscard(){return mLastDiscard;}
+	public GameTile getLastDiscard(){return mLastDiscard;}
 	
 	
 	public boolean turnActionMadeKan(){return (turnActionMadeAnkan() || turnActionMadeMinkan());}
@@ -541,7 +541,7 @@ public class Player {
 	add the tile to the player's hand
 	set drawNeeded = none (since the player has just drawn)
 	*/
-	public void addTileToHand(Tile t){
+	public void addTileToHand(GameTile t){
 		
 		//set the tile's owner to be the player
 		t.setOwner(mSeatWind);
@@ -553,7 +553,7 @@ public class Player {
 		mDrawNeeded = DrawType.NONE;
 	}
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand (for debug use)
-	public void addTileToHand(int tileID){addTileToHand(new Tile(tileID));}
+	public void addTileToHand(int tileID){addTileToHand(new GameTile(tileID));}
 	
 	
 	
@@ -590,7 +590,7 @@ public class Player {
 	end if
 	return call status
 	*/
-	public boolean reactToDiscard(Tile t){
+	public boolean reactToDiscard(GameTile t){
 		mCallStatus = CallType.NONE;
 		
 		//if able to call the tile, ask self for reaction
@@ -630,7 +630,7 @@ public class Player {
 	end if
 	return call
 	*/
-	private CallType __askSelfForReaction(Tile t){
+	private CallType __askSelfForReaction(GameTile t){
 		CallType call = CallType.NONE;
 		
 		if (controllerIsHuman()) call = __askReactionHuman(t);
@@ -653,7 +653,7 @@ public class Player {
 	call = decide based on player's choice
 	return call
 	*/
-	private CallType __askReactionHuman(Tile t){
+	private CallType __askReactionHuman(GameTile t){
 		
 		CallType call = CallType.NONE;
 		boolean called = false;
@@ -689,7 +689,7 @@ public class Player {
 	call = NONE
 	return call
 	*/
-	private CallType __askReactionCom(Tile t){
+	private CallType __askReactionCom(GameTile t){
 		/*
 		I'm a computer. What do I want to call?
 		Ron > Kan = pon > Chi-L = Chi-M = Chi-H > none
@@ -718,7 +718,7 @@ public class Player {
 	input: t is the tile to check if the player can call
 	returns true if the player can call the tile, false if not
 	*/
-	private boolean __ableToCallTile(Tile t){
+	private boolean __ableToCallTile(GameTile t){
 		
 		//check if t can be called to make a meld
 		boolean ableToCall = mHand.checkCallableTile(t);
@@ -753,7 +753,7 @@ public class Player {
 	tell hand to make the meld
 	update what the player will need to draw next turn
 	*/
-	public void makeMeld(Tile t){
+	public void makeMeld(GameTile t){
 		
 		if (called()){
 			
@@ -783,8 +783,8 @@ public class Player {
 	
 	
 	//will use these for chankan later
-	public boolean reactToAnkan(Tile t){return false;}
-	public boolean reactToMinkan(Tile t){return false;}
+	public boolean reactToAnkan(GameTile t){return false;}
+	public boolean reactToMinkan(GameTile t){return false;}
 	
 	
 	
@@ -853,7 +853,7 @@ public class Player {
 	
 	
 	public boolean holdingRinshan(){return mHoldingRinshanTile;}
-	public Tile getTsumoTile(){return mHand.getTile(mHand.size() - 1).clone();}
+	public GameTile getTsumoTile(){return mHand.getTile(mHand.size() - 1).clone();}
 	
 	
 	public boolean handIsFullyConcealed(){return mHand.isClosed();}
@@ -971,7 +971,7 @@ public class Player {
 	public String getAsStringHandCompact(){
 		String hs = "";
 		hs += mSeatWind.toChar() + " hand: ";
-		for (Tile t: mHand) hs += t + " ";
+		for (GameTile t: mHand) hs += t + " ";
 		return hs;
 	}
 	

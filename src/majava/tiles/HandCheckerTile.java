@@ -27,14 +27,14 @@ methods:
 		mstackTop, mstackIsEmpty - stack functions for stack of melds
 		mstackTopParterIDs - returns partner ids for the meld on top of the stack
 */
-public class HandCheckerTile extends Tile {
+public class HandCheckerTile extends GameTile {
 	
 	
 	MahStack<MeldType> mMeldTypeStack;
 	
 	
 	
-	public HandCheckerTile(Tile other){
+	public HandCheckerTile(GameTile other){
 		super(other);
 		
 		if (other instanceof HandCheckerTile)

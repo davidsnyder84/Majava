@@ -14,7 +14,7 @@ import majava.enums.Exclamation;
 import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;
-import majava.tiles.Tile;
+import majava.tiles.GameTile;
 
 public class DetailedTextualUI extends TextualUI{
 	
@@ -144,7 +144,7 @@ public class DetailedTextualUI extends TextualUI{
 		PaymentMap payments = null;
 		//for win
 		PlayerSummary winner = null, furikon = null;
-		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; Tile winningTile = null;
+		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; GameTile winningTile = null;
 		YakuList yakuList = null; int yakuWorth = -1; int handScore = -1; 
 		
 		

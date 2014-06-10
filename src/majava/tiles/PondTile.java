@@ -21,7 +21,7 @@ methods:
 	 	accessors:
 		isRiichiTile, wasCalled
 */
-public class PondTile extends Tile {
+public class PondTile extends GameTile {
 	
 	
 	private boolean mIsRiichiTile;
@@ -30,12 +30,12 @@ public class PondTile extends Tile {
 	
 	
 	
-	public PondTile(Tile other){
+	public PondTile(GameTile other){
 		super(other);
 		mIsRiichiTile = false;
 		mWasCalled = false;
 	}
-	public PondTile(int id) {this (new Tile(id));}
+	public PondTile(int id) {this (new GameTile(id));}
 	
 	
 	

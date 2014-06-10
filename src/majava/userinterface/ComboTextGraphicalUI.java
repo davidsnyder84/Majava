@@ -16,7 +16,6 @@ import majava.userinterface.textinterface.SparseTextualUI;
 import majava.userinterface.textinterface.TextualUI;
 import majava.summary.RoundResultSummary;
 import majava.summary.entity.RoundEntities;
-import majava.tiles.Tile;
 import majava.util.TileList;
 
 

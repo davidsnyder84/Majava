@@ -7,7 +7,7 @@ import majava.Pond;
 import majava.RoundTracker;
 import majava.enums.Exclamation;
 import majava.enums.Wind;
-import majava.tiles.Tile;
+import majava.tiles.GameTile;
 import majava.util.TileList;
 import majava.tiles.PondTile;
 import utility.Pauser;

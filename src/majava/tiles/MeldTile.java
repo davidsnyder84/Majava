@@ -1,12 +1,12 @@
 package majava.tiles;
 
 
-public class MeldTile extends Tile {
+public class MeldTile extends GameTile {
 	
 	
 	
 //	public MeldTile(int id) {super(id);}
-	public MeldTile(Tile other){
+	public MeldTile(GameTile other){
 		super(other);
 	}
 	

@@ -31,6 +31,8 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.event.MouseInputAdapter;
+
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -315,7 +317,7 @@ public class TableViewBase extends JFrame{
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^BEGIN MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 	
 	protected JPanel contentPane;
-	protected TableViewBase thisguy = this;
+	protected final TableViewBase thisguy = this;
 	
 	
 	protected boolean mOptionRevealWall;
@@ -880,7 +882,7 @@ public class TableViewBase extends JFrame{
 		
 		
 		
-		panPlayer1.setLocation(105, 544);
+		panPlayer1.setLocation(147, 544);
 		panPlayer2.setLocation(606, -90);
 		panPlayer3.setLocation(-32, 30);
 		panPlayer4.setLocation(30, 72);
@@ -1171,8 +1173,8 @@ public class TableViewBase extends JFrame{
 			setBackground(COLOR_TRANSPARENT);
 			setLayout(null);
 			
-			final int[][] LOCS_H = {{42,0}, {0,203}, {203,36}, {36,72}};
-			final int[][] LOCS_M = {{100,47}, {46,104}, {104,0}, {0,100}};
+			final int[][] LOCS_H = {{0,0}, {0,203}, {177,36}, {36,40}};
+			final int[][] LOCS_M = {{58,47}, {46,104}, {78,0}, {0,96}};
 			
 			panelH = new HandPanel(seat);
 			panelH.setLocation(LOCS_H[seat][X], LOCS_H[seat][Y]);
@@ -1192,7 +1194,6 @@ public class TableViewBase extends JFrame{
 		}
 		
 	}
-	
 	
 	
 	

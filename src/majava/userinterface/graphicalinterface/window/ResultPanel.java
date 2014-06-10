@@ -258,7 +258,6 @@ public class ResultPanel extends JPanel{
 			}
 			public void blankAll(){
 				lblTile.setIcon(null);
-//				coverall.setVisible(false);
 			}
 		}
 		
@@ -273,8 +272,8 @@ public class ResultPanel extends JPanel{
 			setLayout(null);
 			setOpaque(false);
 			
-			panelHandAndMelds.setLocation(-42,5);
-			panelWinningTile.setLocation(422,0);
+			panelHandAndMelds.setLocation(0,5);
+			panelWinningTile.setLocation(2 + TILE_BIG_WIDTH*14,0);
 			
 			
 			
@@ -315,8 +314,6 @@ public class ResultPanel extends JPanel{
 				l.setPreferredSize(new Dimension(getWidth(), 14));
 				l.setForeground(COLOR_YAKU_TEXT);
 				labelsYakuNames.add((JLabel)add(l));
-//				labelsYakuNames.add(l);
-//				add(l);
 			}
 			public void blankAll(){while (!labelsYakuNames.isEmpty()) remove(labelsYakuNames.remove(0));}
 		}
@@ -336,8 +333,6 @@ public class ResultPanel extends JPanel{
 				l.setPreferredSize(new Dimension(getWidth(), 14));
 				l.setForeground(COLOR_YAKU_TEXT);
 				labelsYakuWorths.add((JLabel)add(l));
-//				labelsYakuWorths.add(l);
-//				add(l);
 			}
 			public void blankAll(){while (!labelsYakuWorths.isEmpty()) remove(labelsYakuWorths.remove(0));}
 		}

@@ -184,9 +184,9 @@ public class TableViewer extends TableViewBase{
 		
 		
 		//player panels		
-		panPlayer1.setLocation(167, 643);
+		panPlayer1.setLocation(209, 643);
 		panPlayer2.setLocation(730, -53);
-		panPlayer3.setLocation(5, 5);
+		panPlayer3.setLocation(31, 5);
 		panPlayer4.setLocation(30, 109);
 		
 		

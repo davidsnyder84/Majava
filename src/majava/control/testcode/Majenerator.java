@@ -32,11 +32,12 @@ public class Majenerator {
 		
 		
 //		println(generateRoundResult().toString());
-		for (Yaku y: generateYakuList()) println(y.toString());
+//		for (Yaku y: generateYakuList()) println(y.toString());
 		
-		
+		angryBaby();
 	}
-	public static void println(String prints){System.out.println(prints);}public static void println(){System.out.println("");}
+	
+
 	
 	
 	
@@ -143,15 +144,12 @@ public class Majenerator {
 	
 	
 	
-	
 	public static void generateWinningHandAndMelds(final TileList winHand, final List<Meld> winMelds, final int howManyMelds){
 		if (winHand == null || winMelds == null) return;
 		while (!winHand.isEmpty()) winHand.removeFirst();
 		while (!winMelds.isEmpty()) winMelds.remove(0);
 		
-		List<Meld> handMelds = new ArrayList<Meld>();
 		TileList handtiles = null;
-		
 		
 		
 		//sometimes do chiitoi and kokushi
@@ -163,43 +161,59 @@ public class Majenerator {
 			return;
 		}
 		
-		
-		
+
+		List<Meld> handMelds = new ArrayList<Meld>();
+		List<Meld> recipient = null;
+		Meld candidateMeld = null;
 		
 		//form melds
-		for (int meldsFormed = 0; meldsFormed < 4; meldsFormed++){
-			if (meldsFormed < howManyMelds) winMelds.add(generateMeld());
-			else handMelds.add(generateMeld(randomMeldTypeNoKan()));
+		int meldsFormed = 0;
+		while (meldsFormed < 4){
+			if (meldsFormed < howManyMelds){
+				recipient = winMelds;
+				candidateMeld = generateMeld();
+			}
+			else{
+				recipient = handMelds;
+				candidateMeld = generateMeld(randomMeldTypeNoKan());
+			}
+			
+			
+			if (!__meldWouldViolateTileLimit(candidateMeld, handMelds, winMelds)){
+				recipient.add(candidateMeld);
+				meldsFormed++;
+			}
 		}
 		
 		//form pair
-		handMelds.add(generateMeld(MeldType.PAIR));
-		
+		while (__meldWouldViolateTileLimit((candidateMeld = generateMeld(MeldType.PAIR)), handMelds, winMelds));
+		handMelds.add(candidateMeld);
 		
 		//add hand meld tiles to hand
 		for (Meld m: handMelds) for (Tile t: m) winHand.add(t);
 		winHand.sort();
 	}
 	public static void generateWinningHandAndMelds(final TileList winHand, final List<Meld> winMelds){generateWinningHandAndMelds(winHand, winMelds, randGen.nextInt(5));}
-	private static boolean __tooManyOfTileInHandAndMelds(Meld candidateMeld, List<Meld> handMelds, List<Meld> melds){
+	private static boolean __meldWouldViolateTileLimit(Meld candidateMeld, List<Meld> handMelds, List<Meld> melds){
 		
 		TileList all = new TileList();
 		for (Meld m: handMelds) for (Tile t: m) all.add(t);
 		for (Meld m: melds) for (Tile t: m) all.add(t);
 		all.sort();
 		
-		
 		//chis
 		if (candidateMeld.isChi()){
-			for (Tile t: candidateMeld) if (all.findHowManyOf(t) >= 4) return false;
+			for (Tile t: candidateMeld) if (all.findHowManyOf(t) >= 4) return true;
 		}
 		//pon, kan, pair
 		else{
-			int wantToAdd = candidateMeld.size();
-			if ((all.findHowManyOf(candidateMeld.getFirstTile()) + wantToAdd) > 4) return false;
+//			int wantToAdd = candidateMeld.size();
+			if ((all.findHowManyOf(candidateMeld.getFirstTile()) + candidateMeld.size()) > 4) return true;
 		}
-		return true;
+		return false;
 	}
+	
+	
 	
 	
 	
@@ -305,7 +319,8 @@ public class Majenerator {
 	
 	
 	
-	
+
+	public static void println(String prints){System.out.println(prints);}public static void println(){System.out.println("");}
 }
 
 

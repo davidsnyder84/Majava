@@ -1,6 +1,7 @@
 package majava.userinterface.graphicalinterface.window;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -50,8 +51,6 @@ public class ResultPanel extends JPanel{
 	protected PaymentsPanel mPaymentsPanel;
 	protected YakuPanel mYakuPanel;
 	
-//	protected List<Yaku> yakuList;
-	
 	
 	public ResultPanel(){
 		super();
@@ -83,6 +82,7 @@ public class ResultPanel extends JPanel{
 		
 		
 		mYakuPanel = new YakuPanel();
+		mYakuPanel.setLocation(79, 177);
 		add(mYakuPanel);
 		
 		
@@ -175,7 +175,6 @@ public class ResultPanel extends JPanel{
 			mYakuPanel.setYaku(yakuList);
 		}
 		
-//		repaint();
 	}
 	
 	
@@ -187,6 +186,7 @@ public class ResultPanel extends JPanel{
 		mWinningPlayerPanel.blankAll();
 		mWinningPlayerPanel.setVisible(false);
 		
+		mYakuPanel.blankAll();
 		mYakuPanel.setVisible(false);
 	}
 	
@@ -222,40 +222,113 @@ public class ResultPanel extends JPanel{
 	
 	//TODO start panel classes
 	
+	protected static class WinnerPanel extends JPanel{
+		private static final long serialVersionUID = -8739912729914325644L;
+		
+		public TableViewBase.PlayerPanel panelHandAndMelds = new TableViewBase.PlayerPanel(TableViewBase.SEAT1);
+		
+		public WinnerPanel(){
+			super();
+			setBounds(55, 90, 800, 800);
+			setLayout(null);
+			
+//			mWinningPlayerPanel = new TableViewBase.PlayerPanel(TableViewBase.SEAT1);
+//			mWinningPlayerPanel.setLocation(10, 88);
+//			add(mWinningPlayerPanel);
+			
+			panelHandAndMelds.setLocation(0,0);
+			
+			
+			add(panelHandAndMelds);
+		}
+	}
+	
+	
+	
 	protected static class YakuPanel extends JPanel{
-		private static final long serialVersionUID = 3133779361407012033L;
+		private static final long serialVersionUID = -1129656642544518038L;
+		
+		private static final int HEIGHT_YP = 138;
+		private static final Color COLOR_YAKU_PANEL = Color.GRAY;
+		private static final Color COLOR_YAKU_TEXT = Color.WHITE;
+		
+
+		//names of the yaku
+		protected static class YakuNamePanel extends JPanel{
+			private static final long serialVersionUID = 3133779361407012033L;
+			
+			private final List<JLabel> labelsYakuNames = new ArrayList<JLabel>();
+			public YakuNamePanel(){
+				super();
+				setBounds(0, 0, 120, HEIGHT_YP);
+				setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+//				setBackground(Color.YELLOW);
+			}
+			public void addLabel(JLabel l){
+				l.setPreferredSize(new Dimension(getWidth(), 14));
+				l.setForeground(COLOR_YAKU_TEXT);
+				labelsYakuNames.add((JLabel)add(l));
+//				labelsYakuNames.add(l);
+//				add(l);
+			}
+			public void blankAll(){while (!labelsYakuNames.isEmpty()) remove(labelsYakuNames.remove(0));}
+		}
+		
+		//number values for han
+		protected static class YakuWorthPanel extends JPanel{
+			private static final long serialVersionUID = 4771454758392390877L;
+
+			private final List<JLabel> labelsYakuWorths = new ArrayList<JLabel>();
+			public YakuWorthPanel(){
+				super();
+				setBounds(0, 0, 20, HEIGHT_YP);
+				setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+//				setBackground(Color.GREEN);
+			}
+			public void addLabel(JLabel l){
+				l.setPreferredSize(new Dimension(getWidth(), 14));
+				l.setForeground(COLOR_YAKU_TEXT);
+				labelsYakuWorths.add((JLabel)add(l));
+//				labelsYakuWorths.add(l);
+//				add(l);
+			}
+			public void blankAll(){while (!labelsYakuWorths.isEmpty()) remove(labelsYakuWorths.remove(0));}
+		}
 		
 		
-		YakuList yakuList;
-		List<JLabel> yakuLabels = new ArrayList<JLabel>();
-		
+		private final YakuNamePanel panelNames = new YakuNamePanel();
+		private final YakuWorthPanel panelWorths = new YakuWorthPanel();
 		public YakuPanel(){
 			super();
-			setBounds(79, 177, 129, 138);
-			setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+			setLayout(null);
+			setBounds(0, 0, panelNames.getWidth() + panelWorths.getWidth(), HEIGHT_YP);
+			
+			
+			panelNames.setLocation(0,0);
+			panelWorths.setLocation(panelNames.getWidth(),0);
+			panelNames.setBackground(COLOR_YAKU_PANEL);panelWorths.setBackground(COLOR_YAKU_PANEL);
+			
+			add(panelNames);add(panelWorths);
 		}
 		
 		public void setYaku(YakuList ylist){
 			blankAll();
 			for (Yaku y: ylist){
-				JLabel label = new JLabel();
-				label.setText(y.toString());
-				label.setSize(120,14);
-				label.setPreferredSize(new Dimension(120, 14));
-				new Dimension(120, 14);
-				
-				yakuLabels.add(label);
-				add(label);
-				
-//				yakuLabels.add(new JLabel(y.toString()));
-//				add(yakuLabels.get(yakuLabels.size()-1));
+				panelNames.addLabel(new JLabel(y.toString()));
+				int worth = y.getValueClosed();
+				panelWorths.addLabel(new JLabel(Integer.toString(worth)));
 			}
 		}
 		public void blankAll(){
-//			removeAll();
-			while (!yakuLabels.isEmpty()) remove(yakuLabels.remove(0));
+			panelNames.blankAll();
+			panelWorths.blankAll();
 		}
+		
 	}
+	
+	
+	
+	
 	
 	
 	
@@ -263,6 +336,7 @@ public class ResultPanel extends JPanel{
 	
 	protected static class PaymentsPanel extends JPanel{
 		private static final long serialVersionUID = -3188452904507674217L;
+		private static final Color COLOR_PAYMENT_PANEL = Color.LIGHT_GRAY;
 		
 		public static class PlayerPaymentPanel extends JPanel{
 			private static final long serialVersionUID = -1732543659928397387L;
@@ -279,9 +353,9 @@ public class ResultPanel extends JPanel{
 				super();
 				
 				setBounds(0,0,131,35);
-				setBackground(Color.LIGHT_GRAY);
+				setBackground(COLOR_PAYMENT_PANEL);
+//				setBorder(new LineBorder(new Color(0, 0, 0)));
 				setLayout(null);
-				
 
 				
 				panPayment.setBounds(30,17,100,14);
@@ -319,12 +393,10 @@ public class ResultPanel extends JPanel{
 			}
 			
 			public void setPayment(PlayerSummary player, int payment){
+				
 				lblPlayerName.setText(player.getPlayerName());
-				
 				lblPlayerWind.setIcon(new ImageIcon(getClass().getResource("/res/img/winds/small/trans" + player.getSeatWind().toChar() + "s.png")));
-				
 				lblPoints.setText(player.getPoints() + "  ");
-				
 				
 				if (payment >= 0){
 					lblPayment.setForeground(PlayerPaymentPanel.COLOR_POSITIVE);
@@ -371,9 +443,7 @@ public class ResultPanel extends JPanel{
 	
 	
 	
-	public static void main(String[] args) {
-		showDemo(new ResultPanel());
-	}
+	public static void main(String[] args) {showDemo(new ResultPanel());}
 	public static void showDemo(final ResultPanel resPan){
 		
 		final int WINDOW_WIDTH = 1120 + (-62*2 - 6) + 2*2;

@@ -86,7 +86,7 @@ public class Majenerator {
 		
 		winHandTiles = new TileList();
 		winMelds = new ArrayList<Meld>();
-		generateWinningHandAndMelds(winHandTiles, winMelds);
+		generateWinningHandAndMelds(winHandTiles, winMelds, 0);
 		winningTile = winHandTiles.getLast();
 		
 		
@@ -147,12 +147,11 @@ public class Majenerator {
 	
 	
 	
-	public static void generateWinningHandAndMelds(final TileList winHand, final List<Meld> winMelds){
+	public static void generateWinningHandAndMelds(final TileList winHand, final List<Meld> winMelds, final int howManyMelds){
 		if (winHand == null || winMelds == null) return;
 		while (!winHand.isEmpty()) winHand.removeFirst();
 		while (!winMelds.isEmpty()) winMelds.remove(0);
 		
-		int howManyMelds = randGen.nextInt(5);
 		List<Meld> handMelds = new ArrayList<Meld>();
 		TileList handtiles = null;
 		
@@ -184,6 +183,7 @@ public class Majenerator {
 		for (Meld m: handMelds) for (Tile t: m) winHand.add(t);
 		winHand.sort();
 	}
+	public static void generateWinningHandAndMelds(final TileList winHand, final List<Meld> winMelds){generateWinningHandAndMelds(winHand, winMelds, randGen.nextInt(5));}
 	
 	
 	

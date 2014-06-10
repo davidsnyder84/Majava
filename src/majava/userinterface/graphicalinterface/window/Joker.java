@@ -23,8 +23,8 @@ public class Joker extends ResultPanel{
 
 	public Joker(){
 		super();
-		mYakuPanel.setBounds(79, 177, 129, 138);
-		mYakuPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+//		mYakuPanel.setBounds(79, 177, 129, 138);
+//		mYakuPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		
 		
 		

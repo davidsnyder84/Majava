@@ -253,17 +253,21 @@ public class RoundTracker {
 	public void setResultVictory(Player winner){
 		
 		Tile winningTile = null;
+		TileList winningHandTiles = new TileList(mRoundEntities.mPTrackers[winner.getPlayerNumber()].tilesH);
 		
 		if (winner == currentPlayer()){
 			mRoundResult.setVictoryTsumo(winner);
+			
 			winningTile = winner.getTsumoTile();
+			winningHandTiles.removeLast();
 		}
 		else{ 
 			mRoundResult.setVictoryRon(winner, currentPlayer());
+			
 			winningTile = mMostRecentDiscard;
 		}
 		
-		mRoundResult.setWinningHand(mRoundEntities.mPTrackers[winner.getPlayerNumber()].tilesH, mRoundEntities.mPTrackers[winner.getPlayerNumber()].melds, winningTile);
+		mRoundResult.setWinningHand(winningHandTiles, mRoundEntities.mPTrackers[winner.getPlayerNumber()].melds, winningTile);
 	}
 	public void setResultRyuukyokuWashout(){mRoundResult.setResultRyuukyokuWashout();}
 	public void setResultRyuukyokuKyuushu(){mRoundResult.setResultRyuukyokuKyuushu();}

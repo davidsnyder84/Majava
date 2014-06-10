@@ -78,16 +78,13 @@ public class Majenerator {
 		Tile winningTile = null;
 		
 		
-		
-//		winHandTiles = new TileList(3+18,4+18,5+18,6+18);
-//		winningTile = new Tile(6+18);
-//		winMelds = new ArrayList<Meld>();
-//		winMelds.add(generateMeld());winMelds.add(generateMeld());winMelds.add(generateMeld());
-		
 		winHandTiles = new TileList();
 		winMelds = new ArrayList<Meld>();
-		generateWinningHandAndMelds(winHandTiles, winMelds, 0);
-		winningTile = winHandTiles.getLast();
+		generateWinningHandAndMelds(winHandTiles, winMelds);
+//		generateWinningHandAndMelds(winHandTiles, winMelds, 0);
+//		winningTile = winHandTiles.getLast();
+//		winningTile = winHandTiles.removeLast();
+		winningTile = winHandTiles.remove(randGen.nextInt(winHandTiles.size()));
 		
 		
 		if (randGen.nextBoolean()) res.setVictoryRon(winner, furi);
@@ -184,6 +181,25 @@ public class Majenerator {
 		winHand.sort();
 	}
 	public static void generateWinningHandAndMelds(final TileList winHand, final List<Meld> winMelds){generateWinningHandAndMelds(winHand, winMelds, randGen.nextInt(5));}
+	private static boolean __tooManyOfTileInHandAndMelds(Meld candidateMeld, List<Meld> handMelds, List<Meld> melds){
+		
+		TileList all = new TileList();
+		for (Meld m: handMelds) for (Tile t: m) all.add(t);
+		for (Meld m: melds) for (Tile t: m) all.add(t);
+		all.sort();
+		
+		
+		//chis
+		if (candidateMeld.isChi()){
+			for (Tile t: candidateMeld) if (all.findHowManyOf(t) >= 4) return false;
+		}
+		//pon, kan, pair
+		else{
+			int wantToAdd = candidateMeld.size();
+			if ((all.findHowManyOf(candidateMeld.getFirstTile()) + wantToAdd) > 4) return false;
+		}
+		return true;
+	}
 	
 	
 	

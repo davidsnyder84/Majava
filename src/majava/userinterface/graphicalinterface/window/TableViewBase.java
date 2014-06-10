@@ -20,6 +20,7 @@ import utility.ImageResizer;
 import utility.ImageRotator;
 
 import java.awt.Color;
+import java.awt.Container;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -101,10 +102,8 @@ public class TableViewBase extends JFrame{
 	
 
 	
-	protected static final int TILE_BIG_WIDTH = 30;
-	protected static final int TILE_BIG_HEIGHT = 41;
-	protected static final int TILE_SMALL_WIDTH = 23;
-	protected static final int TILE_SMALL_HEIGHT = 31;
+	protected static final int TILE_BIG_WIDTH = 30, TILE_BIG_HEIGHT = 41;
+	protected static final int TILE_SMALL_WIDTH = 23, TILE_SMALL_HEIGHT = 31;
 	protected static final int PONDPANEL_NEW_WIDTH = TILE_SMALL_WIDTH*6;
 	protected static final int PONDPANEL_NEW_HEIGHT = TILE_SMALL_HEIGHT*4;
 	
@@ -969,8 +968,8 @@ public class TableViewBase extends JFrame{
 		
 		panCalls.getButtonsCalls(barryCalls);
 		panCalls.getButtonsTurnActions(barryTActions);
-		
 	}
+	public Container getContentPane(){return null;}
 	
 	
 	
@@ -1564,26 +1563,10 @@ public class TableViewBase extends JFrame{
 	
 	
 	protected static class RoundResultLabelPanel extends JPanel{
-		
-		
-		protected class GayLabel extends JLabel{
-			private static final long serialVersionUID = -464042607L;
-
-			public GayLabel(){
-				super();
-				setText("HIIIIII");
-				setBounds(0, 0, 270, 218);
-				setVerticalAlignment(SwingConstants.TOP);
-			}
-		}
-		
-		
-		
-		
-		
 		private static final long serialVersionUID = 1415387615431328822L;
 		
 		protected final JLabel lblRoundResult = new JLabel();
+		protected final JLabel lblRoundOver = new JLabel();
 		
 		public RoundResultLabelPanel(){
 			super();
@@ -1594,7 +1577,7 @@ public class TableViewBase extends JFrame{
 			setBackground(COLOR_RESULT_PANEL);
 			setBorder(new LineBorder(new Color(0, 200, 0), 3, true));
 			
-			JLabel lblRoundOver = new JLabel("===ROUND OVER===");
+			lblRoundOver.setText("===ROUND OVER===");
 			lblRoundOver.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			lblRoundOver.setHorizontalAlignment(SwingConstants.CENTER);
 			lblRoundOver.setBounds(0, 0, 212, 33);
@@ -1605,6 +1588,7 @@ public class TableViewBase extends JFrame{
 			
 			add(lblRoundOver);add(lblRoundResult);
 		}
+		public void setTextColor(Color newTextColor){lblRoundOver.setForeground(newTextColor);lblRoundResult.setForeground(newTextColor);}
 		public JLabel getLabelResult(){return lblRoundResult;}
 	}
 	

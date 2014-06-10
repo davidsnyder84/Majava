@@ -74,6 +74,11 @@ public class TileList implements Iterable<Tile>{
 		for (int id: ids) mTiles.add(new Tile(id));
 	}
 	
+	public TileList(TileList other){
+		this(other.size());
+		for (Tile t: other) add(new Tile(t));
+	}
+	
 	
 	
 	//return a new TileList with a COPY (independent) of each tile in the list

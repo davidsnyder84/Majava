@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import majava.Meld;
@@ -40,13 +41,16 @@ public class ResultPanel extends JPanel{
 	
 	private static final int NUM_PLAYERS = 4;
 	
+	private static final int TILE_BIG_WIDTH = 30, TILE_BIG_HEIGHT = 41;
 	
 	
 	
 	
 	
 	
-	protected TableViewBase.PlayerPanel mWinningPlayerPanel;
+	
+//	protected TableViewBase.PlayerPanel mWinningPlayerPanel;
+	protected WinnerPanel mWinnerPanel;
 	protected TableViewBase.RoundResultLabelPanel mResultLabelPanel;
 	protected PaymentsPanel mPaymentsPanel;
 	protected YakuPanel mYakuPanel;
@@ -66,14 +70,15 @@ public class ResultPanel extends JPanel{
 		mResultLabelPanel = new TableViewBase.RoundResultLabelPanel();
 		mResultLabelPanel.setLocation(200,15);
 		mResultLabelPanel.setBackground(TableViewBase.COLOR_TRANSPARENT);
-//		mResultLabelPanel.setBorder(null);
+		mResultLabelPanel.setBorder(new LineBorder(Color.BLACK, 3, true));
+		mResultLabelPanel.setTextColor(Color.WHITE);
 		add(mResultLabelPanel);
 		
 		
 		
-		mWinningPlayerPanel = new TableViewBase.PlayerPanel(TableViewBase.SEAT1);
-		mWinningPlayerPanel.setLocation(10, 88);
-		add(mWinningPlayerPanel);
+		mWinnerPanel = new WinnerPanel();
+		mWinnerPanel.setLocation(55-20,88);
+		add(mWinnerPanel);
 		
 		
 		mPaymentsPanel = new PaymentsPanel();
@@ -158,17 +163,21 @@ public class ResultPanel extends JPanel{
 		
 		
 		if (resum.isVictory()){
-			mWinningPlayerPanel.setVisible(true);
+			mWinnerPanel.setVisible(true);
 			
 			//winning hand
 			int currentTile = 0, currentMeld = 0;
 			for (currentTile = 0; currentTile < winnerHandTiles.size(); currentTile++)
-				mWinningPlayerPanel.panelH.larryH[currentTile].setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/" + winnerHandTiles.get(currentTile).getId() + ".png")));
+				mWinnerPanel.panelHandAndMelds.panelH.larryH[currentTile].setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/" + winnerHandTiles.get(currentTile).getId() + ".png")));
 			
 			//winning melds
 			for (currentMeld = 0; currentMeld < winnerMelds.size(); currentMeld++)
 				for (currentTile = 0; currentTile < winnerMelds.get(currentMeld).size(); currentTile++)
-					mWinningPlayerPanel.panelMs.panelHMs[currentMeld].larryHM[currentTile].setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/small/" + winnerMelds.get(currentMeld).getTile(currentTile).getId() + ".png")));
+					mWinnerPanel.panelHandAndMelds.panelMs.panelHMs[currentMeld].larryHM[currentTile].setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/small/" + winnerMelds.get(currentMeld).getTile(currentTile).getId() + ".png")));
+			
+			//winning tile
+			mWinnerPanel.panelWinningTile.lblTile.setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/" + winningTile.getId() + ".png")));
+			mWinnerPanel.setNumberOfHandTiles(winnerHandTiles.size());
 			
 			//yaku list
 			mYakuPanel.setVisible(true);
@@ -183,8 +192,8 @@ public class ResultPanel extends JPanel{
 		mResultLabelPanel.setVisible(false);
 		mPaymentsPanel.setVisible(false);
 		
-		mWinningPlayerPanel.blankAll();
-		mWinningPlayerPanel.setVisible(false);
+		mWinnerPanel.blankAll();
+		mWinnerPanel.setVisible(false);
 		
 		mYakuPanel.blankAll();
 		mYakuPanel.setVisible(false);
@@ -225,21 +234,59 @@ public class ResultPanel extends JPanel{
 	protected static class WinnerPanel extends JPanel{
 		private static final long serialVersionUID = -8739912729914325644L;
 		
+		
+		protected static class WinningTilePanel extends JPanel{
+			private static final long serialVersionUID = -1175350218382412270L;
+			
+			private final JLabel lblTile = new JLabel();
+			private final JLabel coverall = new JLabel();
+			public WinningTilePanel(){
+				super();
+				setBounds(0,0,30,41);
+				setOpaque(false);
+				setLayout(null);
+				
+				lblTile.setSize(30, 41);
+				lblTile.setLocation(0,0);
+				lblTile.setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/17.png")));
+				
+				coverall.setBounds(lblTile.getBounds());
+				coverall.setBackground(new Color(255,0,150, 70)); coverall.setOpaque(true);
+				
+				add(coverall);
+				add(lblTile);
+			}
+			public void blankAll(){
+				lblTile.setIcon(null);
+//				coverall.setVisible(false);
+			}
+		}
+		
+		
+		
 		public TableViewBase.PlayerPanel panelHandAndMelds = new TableViewBase.PlayerPanel(TableViewBase.SEAT1);
+		public WinningTilePanel panelWinningTile = new WinningTilePanel();
 		
 		public WinnerPanel(){
 			super();
-			setBounds(55, 90, 800, 800);
+			setBounds(0, 0, panelHandAndMelds.getWidth(), panelHandAndMelds.getHeight() + 5);
 			setLayout(null);
+			setOpaque(false);
 			
-//			mWinningPlayerPanel = new TableViewBase.PlayerPanel(TableViewBase.SEAT1);
-//			mWinningPlayerPanel.setLocation(10, 88);
-//			add(mWinningPlayerPanel);
+			panelHandAndMelds.setLocation(-42,5);
+			panelWinningTile.setLocation(422,0);
 			
-			panelHandAndMelds.setLocation(0,0);
 			
 			
 			add(panelHandAndMelds);
+			add(panelWinningTile);
+		}
+		public void blankAll(){
+			panelHandAndMelds.blankAll();
+			panelWinningTile.blankAll();
+		}
+		public void setNumberOfHandTiles(int numHandTiles){
+			panelWinningTile.setLocation(2 + TILE_BIG_WIDTH*numHandTiles, 0);
 		}
 	}
 	
@@ -369,7 +416,6 @@ public class ResultPanel extends JPanel{
 				lblPoints.setLocation(0, 0);
 				
 				lblPayment.setForeground(COLOR_POSITIVE);
-				lblPayment.setHorizontalAlignment(SwingConstants.LEFT);
 				lblPayment.setSize(48, 14);
 				lblPayment.setLocation(52, 0);
 				

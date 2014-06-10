@@ -1114,7 +1114,7 @@ public class HandChecker {
 				checkTilesMinusThisMeld = checkTiles.makeCopyWithCheckers();
 				toMeldTiles = new TileList();
 				
-				while (!partnerIndices.isEmpty()) toMeldTiles.add(checkTilesMinusThisMeld.remove(partnerIndices.remove(partnerIndices.size() - 1)));
+				while (!partnerIndices.isEmpty()) toMeldTiles.add(checkTilesMinusThisMeld.remove( partnerIndices.remove(partnerIndices.size() - 1).intValue()) );
 				toMeldTiles.add(checkTilesMinusThisMeld.removeFirst());
 				
 				

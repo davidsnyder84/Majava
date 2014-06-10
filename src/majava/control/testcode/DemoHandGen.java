@@ -31,9 +31,9 @@ public class DemoHandGen {
 //		runTenpaiSimulation(5000);
 //		runSimulationNoDisplay(25000);
 //		runSumulationRandom(90000);
-//		runSpecificTest();
+		runSpecificTest();
 		
-		runSimulation(20000);
+		runSimulation(1000);
 	}
 	
 	
@@ -377,14 +377,20 @@ public class DemoHandGen {
 	
 	public static Hand generateSpecificHand(){
 		Hand hand = new Hand(OWNER_SEAT);
-		TileList tiles = new TileList(19,19,19,20,21,21,22,22,23,32,32,32,34,34);
+//		TileList tiles = new TileList(19,19,19,20,21,21,22,22,23,32,32,32,34,34);	//S1 S1 S1 S2 S3 S3 S4 S4 S5 DW DW DW DR DR
 //		TileList tiles = new TileList(21,22,23,32,32,32,34,34);
+		TileList tiles = new TileList(2+9,3+9,4+9,1+18,1+18);	//P2 P3 P4 S1 S1
+		
 		
 		for (Tile t: tiles){
 			t.setOwner(OWNER_SEAT);
+			System.out.println("Adding " + t);
+			if (t.getId() == 1+18)
+				t.getId();
 			hand.addTile(t);
+			System.out.println(hand.toString());
 		}
-		//S1 S1 S1 S2 S3 S3 S4 S4 S5 DW DW DW DR DR
+		
 		
 		hand.sortHand();
 		return hand;

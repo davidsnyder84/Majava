@@ -2,7 +2,6 @@ package majava.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import majava.tiles.HandCheckerTile;
@@ -40,58 +39,47 @@ methods:
 		makeCopyWithCheckers - makes a copy of the list with checkers
 		
 		
-		methods from List:
+		methods from Lsist:
 		add, remove, size, get, contains, isEmpty, indexOf, lastIndexOf, set, clear, trimToSize, ensureCapacity, iterator
 */
-public class TileList implements Iterable<Tile>{
+public class TileList extends ArrayList<Tile>{
+	private static final long serialVersionUID = -6296356765155653731L;
 	
 	
-	private static final int DEFAULT_CAPACITY = 10;
-	
-	
-	private final List<Tile> mTiles;
 	private final GenSort<Tile> mSorter;
 	
-	
+
+	//creates a new list with the given capacity
+	public TileList(int capacity){
+		super(capacity);
+		mSorter = new GenSort<Tile>(this);
+	}
 	//takes a List
 	public TileList(List<Tile> tiles){
-		mTiles = tiles;
-		mSorter = new GenSort<Tile>(mTiles);
+		this(tiles.size());
+		for (Tile t: tiles) add(t);
 	}
-	//creates a new list with the given capacity
-	public TileList(int capacity){this(new ArrayList<Tile>(capacity));}
-	public TileList(){this(DEFAULT_CAPACITY);}
+	//can take an array, or a var args
+	public TileList(Tile... tiles){this(Arrays.asList(tiles));}
 	
-	//can take an array, or a variable number or arguments of type T 
-	public TileList(Tile... tiles){
-		this(tiles.length);
-		for (Tile t: tiles) mTiles.add(t);
-	}
-	
-	//takes a list of integer ids, makes a list of tiles out of them
+	//overloaded for a list of integer ids, makes a list of tiles out of them
 	public TileList(int... ids){
 		this(ids.length);
-		for (int id: ids) mTiles.add(new Tile(id));
+		for (int id: ids) add(new Tile(id));
 	}
-	
-	public TileList(TileList other){
-		this(other.size());
-		for (Tile t: other) add(new Tile(t));
-	}
+	public TileList(){this(10);}
 	
 	
 	
 	//return a new TileList with a COPY (independent) of each tile in the list
 	public TileList makeCopy(){
-		TileList copy = new TileList(mTiles.size());
-		for (Tile t: mTiles) copy.add(new Tile(t));
-		return copy;
+		return new TileList(this);
 	}
 	//return a new TileList with a COPY (independent) of each tile in the list
 	public TileList makeCopyNoDuplicates(){
-		TileList copy = new TileList(mTiles.size());
+		TileList copy = new TileList(size());
 		
-		for (Tile t: mTiles)
+		for (Tile t: this)
 			if (!copy.contains(t))
 				copy.add(new Tile(t));
 		return copy;
@@ -99,9 +87,9 @@ public class TileList implements Iterable<Tile>{
 	
 	
 	public TileList makeCopyWithCheckers(){
-		TileList copy = new TileList(mTiles.size());
-//		for (Tile t: mTiles) copy.add(new HandCheckerTile(t));
-		for (int i = 0; i < mTiles.size(); i++) copy.add(new HandCheckerTile(mTiles.get(i)));
+		TileList copy = new TileList(size());
+//		for (Tile t: this) copy.add(new HandCheckerTile(t));
+		for (int i = 0; i < size(); i++) copy.add(new HandCheckerTile(get(i)));
 		return copy;
 	}
 	
@@ -117,36 +105,40 @@ public class TileList implements Iterable<Tile>{
 	
 	
 	
-	//contains, overloaded to accept tileID
-	public boolean contains(int id){return contains(new Tile(id));}
 	
-	//add, overloaded to accept tileID
-	public boolean add(int id){return mTiles.add(new Tile(id));}
-	
-	
-	
-	
-	
-	//returns a sublist, as a TileList from fromIndex (inclusive) to toIndex (exclusive)
-	public TileList subList(int fromIndex, int toIndex){return new TileList(mTiles.subList(fromIndex, toIndex));}
-	
-	//returns a sublist of the entire list, minus the last tile
-	public TileList getAllExceptLast(){return subList(0, mTiles.size() - 1);}
 	
 	
 	
 	
 	//returns a tile in the list, returns null if the list is empty
-	public Tile getFirst(){if (mTiles.isEmpty()) return null; return mTiles.get(0);}
-	public Tile getLast(){if (mTiles.isEmpty()) return null; return mTiles.get(mTiles.size() - 1);}
+	public Tile getFirst(){if (isEmpty()) return null; return get(0);}
+	public Tile getLast(){if (isEmpty()) return null; return get(size() - 1);}
 	
 	//removes and returns a tile in the list, returns null if the list is empty
-	public Tile removeFirst(){if (mTiles.isEmpty()) return null; return mTiles.remove(0);}
-	public Tile removeLast(){if (mTiles.isEmpty()) return null; return mTiles.remove(mTiles.size() - 1);}
+	public Tile removeFirst(){if (isEmpty()) return null; return remove(0);}
+	public Tile removeLast(){if (isEmpty()) return null; return remove(size() - 1);}
 	
-	//indexOf
-	public int indexOf(Tile t){return mTiles.indexOf(t);}
-	public int indexOf(int tileID){return mTiles.indexOf(new Tile(tileID));}	//overloaded for Tile ID
+
+	
+	//returns a sublist, as a TileList from fromIndex (inclusive) to toIndex (exclusive)
+	public TileList subList(int fromIndex, int toIndex){return new TileList(super.subList(fromIndex, toIndex));}
+	
+	//returns a sublist of the entire list, minus the last tile
+	public TileList getAllExceptLast(){return subList(0, size() - 1);}
+	
+	
+	
+	
+	//add, overloaded to accept tileID
+	public boolean add(int id){return add(new Tile(id));}
+	
+	//indexOf, overloaded for Tile ID
+	public int indexOf(int tileID){return indexOf(new Tile(tileID));}
+	public int indexOf(Integer tileID){return indexOf(tileID.intValue());}
+	
+	//contains, overloaded to accept tileID
+	public boolean contains(int id){return contains(new Tile(id));}
+	public boolean contains(Integer id){return contains(id.intValue());}
 	
 	
 	
@@ -157,8 +149,8 @@ public class TileList implements Iterable<Tile>{
 	public TileList getMultiple(List<Integer> indices){
 		TileList holder = new TileList();
 		for (Integer index: indices)
-			if (index < mTiles.size() && index >= 0)
-				holder.add(mTiles.get(index));
+			if (index < size() && index >= 0)
+				holder.add(get(index));
 		
 		return holder;
 	}
@@ -171,12 +163,12 @@ public class TileList implements Iterable<Tile>{
 	public boolean removeMultiple(List<Integer> removeIndices){
 		
 		//disallow more indices than the list has
-		if (removeIndices.size() > mTiles.size()) return false;
+		if (removeIndices.size() > size()) return false;
 		
 		List<Integer> seenSoFar = new ArrayList<Integer>();
 		for (Integer i: removeIndices){
 			//disallow an index outside of the list's size, disallow duplicate indices
-			if (i >= mTiles.size() || i < 0 || seenSoFar.contains(i)) return false;
+			if (i >= size() || i < 0 || seenSoFar.contains(i)) return false;
 			else seenSoFar.add(i);
 		}
 		
@@ -184,7 +176,7 @@ public class TileList implements Iterable<Tile>{
 		GenSort<Integer> sorter = new GenSort<Integer>(seenSoFar); sorter.sortDescending();
 		
 		//remove the indices
-		for (Integer i: seenSoFar) mTiles.remove((int)i);
+		for (Integer i: seenSoFar) remove((int)i);
 		
 		return true;
 	}
@@ -206,9 +198,9 @@ public class TileList implements Iterable<Tile>{
 	//finds all indices where a tile occurs in the list, returns the indices as a list of integers
 	public List<Integer> findAllIndicesOf(Tile t, boolean allowCountingItself){
 		List<Integer> indices = new ArrayList<Integer>(2);
-		for (int i = 0; i < mTiles.size(); i++)
-			if (mTiles.get(i).equals(t)){
-				if (mTiles.get(i) != t)
+		for (int i = 0; i < size(); i++)
+			if (get(i).equals(t)){
+				if (get(i) != t)
 					indices.add(i);
 				else if (allowCountingItself)
 					indices.add(i);
@@ -228,50 +220,14 @@ public class TileList implements Iterable<Tile>{
 	
 	
 	//sorts
-	public void sort(){sortAscending();}
-	public void sortAscending(){mSorter.sort();}
-	public void sortDescending(){mSorter.sortDescending();}
-	public void shuffle(){mSorter.shuffle();}
+	public void sort(){mSorter.sort();}
+//	public void sortAscending(){mSorter.sort();}
+//	public void sortDescending(){mSorter.sortDescending();}
+//	public void shuffle(){mSorter.shuffle();}
 	
 	
 	
 	
-	
-	
-	
-	
-	
-	//***************************************************************************************************
-	//****BEGIN LIST FUNCS
-	//***************************************************************************************************
-	//add
-	public boolean add(Tile t){return mTiles.add(t);}
-	public void add(int index, Tile t){mTiles.add(index, t);}
-	
-	//remove
-	public boolean remove(Tile t){return mTiles.remove(t);}
-	public Tile remove(int index){return mTiles.remove(index);}
-	
-	//size
-	public int size(){return mTiles.size();}
-	
-	//get
-	public Tile get(int index){return mTiles.get(index);}
-	public boolean contains(Tile t){return mTiles.contains(t);}
-	public boolean isEmpty(){return mTiles.isEmpty();}
-	public int lastIndexOf(Tile t){return mTiles.lastIndexOf(t);}
-	public Tile set(int index, Tile t){return mTiles.set(index, t);}
-	
-	
-//	public void clear(){mTiles.clear();}
-//	public void trimToSize(){mTiles.trimToSize();}
-//	public void ensureCapacity(int minCapacity){mTiles.ensureCapacity(minCapacity);}
-	
-	@Override
-	public Iterator<Tile> iterator(){return mTiles.iterator();}	//returns the List's iterator
-	//***************************************************************************************************
-	//****END LIST FUNCS
-	//***************************************************************************************************
 	
 	
 	
@@ -280,7 +236,7 @@ public class TileList implements Iterable<Tile>{
 	public String toString(){
 		String tilesString = "";
 		//add the tiles to the string
-		for (Tile t: mTiles) tilesString += t.toString() + " ";
+		for (Tile t: this) tilesString += t.toString() + " ";
 		if (tilesString != "") tilesString = tilesString.substring(0, tilesString.length() - 1);
 		
 		return tilesString;

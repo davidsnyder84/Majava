@@ -72,7 +72,7 @@ public class ImmutableTile implements TileInterface{
 	private static final int ID_FIRST_HONOR_TILE = 28;
 	
 	
-	private static final ImmutableTile[] yaochuuIDs = {tiles[1], tiles[9], tiles[10], tiles[18], tiles[19], tiles[27], tiles[28], tiles[29], tiles[30], tiles[31], tiles[32], tiles[33], tiles[34]};
+	private static final TileInterface[] yaochuuIDs = {tiles[1], tiles[9], tiles[10], tiles[18], tiles[19], tiles[27], tiles[28], tiles[29], tiles[30], tiles[31], tiles[32], tiles[33], tiles[34]};
 	
 	
 	private final int mID;
@@ -185,7 +185,7 @@ public class ImmutableTile implements TileInterface{
 		return tiles[NUMBER_OF_DIFFERENT_TILES + 1 + (id/9)];
 	}
 	
-	public static final List<ImmutableTile> retrievelistOfYaochuuTiles(){return Arrays.asList(yaochuuIDs);}
+	public static final List<TileInterface> retrievelistOfYaochuuTiles(){return Arrays.asList(yaochuuIDs);}
 	
 	
 	

@@ -164,28 +164,6 @@ public class ConviniList<T extends Comparable<T>> extends ArrayList<T>{
 	public int findHowManyOf(T item){return findAllIndicesOf(item, true).size();}
 	
 	
-//	//finds all indices where a tile occurs in the list, returns the indices as a list of integers
-//	public List<Integer> findAllIndicesOf(TileInterface t, boolean allowCountingItself){
-//		List<Integer> indices = new ArrayList<Integer>(2);
-//		for (int i = 0; i < size(); i++)
-//			if (get(i).equals(t)){
-//				if (get(i) != t)
-//					indices.add(i);
-//				else if (allowCountingItself)
-//					indices.add(i);
-//			}
-//		return indices;
-//	}
-//	//overloaded, omitting allowCountingItself will default to false (do not count itself)
-//	public List<Integer> findAllIndicesOf(TileInterface tile){return findAllIndicesOf(tile, false);}
-//	
-//	
-//	//allow counting itself
-//	public int findHowManyOf(TileInterface tile){return findAllIndicesOf(tile, true).size();}
-//	public int findHowManyOf(int id){return findHowManyOf(new GameTile(id));}
-//	
-	
-	
 	
 	
 	

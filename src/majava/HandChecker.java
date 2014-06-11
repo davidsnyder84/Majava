@@ -6,6 +6,7 @@ import java.util.List;
 
 import majava.tiles.HandCheckerTile;
 import majava.tiles.GameTile;
+import majava.tiles.ImmutableTile;
 import majava.tiles.TileInterface;
 import majava.enums.MeldType;
 import majava.enums.Wind;
@@ -77,8 +78,8 @@ public class HandChecker {
 	
 	private static final int NOT_FOUND = -1;	//list
 
-	private static final int NUMBER_OF_YAOCHUU_TILES = 13;
-	private static final TileList LIST_OF_YAOCHUU_TILES = new TileList(1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34);
+	private static final int NUMBER_OF_YAOCHUU_TILES = ImmutableTile.NUMBER_OF_YAOCHUU_TILES;
+	private static final List<TileInterface> LIST_OF_YAOCHUU_TILES = ImmutableTile.retrievelistOfYaochuuTiles();
 	
 	
 	
@@ -663,10 +664,9 @@ public class HandChecker {
 		
 		
 		//check if the hand contains at least 12 different TYC tiles
-		TileList listTYC = listOfYaochuuTiles();
 		int countTYC = 0;
 		for (int i = 0; i < NUMBER_OF_YAOCHUU_TILES; i++)
-			if (mHandTiles.contains(listTYC.get(i)))
+			if (mHandTiles.contains(LIST_OF_YAOCHUU_TILES.get(i)))
 				countTYC++;
 
 		//return false if the hand doesn't contain at least 12 different TYC tiles
@@ -694,14 +694,13 @@ public class HandChecker {
 		TileInterface missingTYC = null;
 		if (isTenpaiKokushi() == true){
 			//look for a Yaochuu tile that the hand doesn't contain
-			TileList listTYC = listOfYaochuuTiles();
-			for (TileInterface t: listTYC)
+			for (TileInterface t: LIST_OF_YAOCHUU_TILES)
 				if (mHandTiles.contains(t) == false)
 					missingTYC = t;
 			
 			//if the hand contains exactly one of every Yaochuu tile, then it is a 13-sided wait for all Yaochuu tiles
 			if (missingTYC == null)
-				waits = listTYC;
+				waits = new TileList(LIST_OF_YAOCHUU_TILES);
 			else
 				//else, if the hand is missing a Yaochuu tile, that missing tile is the hand's wait
 				waits.add(missingTYC);
@@ -1243,7 +1242,9 @@ public class HandChecker {
 	
 	
 	
-	public static final TileList listOfYaochuuTiles(){return LIST_OF_YAOCHUU_TILES.clone();}
+	
+	
+	
 	
 	
 	

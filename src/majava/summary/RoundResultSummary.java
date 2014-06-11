@@ -43,7 +43,7 @@ public class RoundResultSummary {
 			pFurikondaPlayer = furikondaPlayer;
 			pWinningTile = winningTile.clone();
 			
-			pWinnerHand = winnerHand.makeCopy();
+			pWinnerHand = winnerHand.clone();
 			pWinnerMelds = winnerMelds;
 		}
 		else{
@@ -93,7 +93,7 @@ public class RoundResultSummary {
 	
 	
 	
-	public TileList getWinnerHandTiles(){if (!isVictory()) return null; return pWinnerHand.makeCopy();}
+	public TileList getWinnerHandTiles(){if (!isVictory()) return null; return pWinnerHand.clone();}
 	public List<Meld> getWinnerMelds(){
 		if (!isVictory()) return null; 
 		List<Meld> meldsCopy = new ArrayList<Meld>();

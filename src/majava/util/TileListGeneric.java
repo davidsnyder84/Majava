@@ -13,7 +13,7 @@ import majava.tiles.TileInterface;
 
 
 /*
-Class: TileList
+Class: TileListGeneric
 a wrapper class for an List of Tiles. adds extra functionalities
 
 data:
@@ -33,7 +33,7 @@ methods:
 	 	
 	 	accessors:
 		getFirst, getLast - returns a tile in the list, returns null if the list is empty
-		subList - returns a sublist, as a TileList from fromIndex (inclusive) to toIndex (exclusive)
+		subList - returns a sublist, as a TileListGeneric from fromIndex (inclusive) to toIndex (exclusive)
 		
 		findAllIndicesOf - searches the list for all occurences of Tile t, returns a List of integer indices of where that tile occurred
 		makeCopy - returns a copy of the list
@@ -44,28 +44,47 @@ methods:
 		methods from Lsist:
 		add, remove, size, get, contains, isEmpty, indexOf, lastIndexOf, set, clear, trimToSize, ensureCapacity, iterator
 */
-public class TileList extends ConviniList<TileInterface>{
-	private static final long serialVersionUID = -6296356765155653731L;
+public class TileListGeneric<TileType> extends ConviniList<TileInterface>{
+	private static final long serialVersionUID = -3919481636758323535L;
+
+
+	//creates a new list with the given capacity
+	public TileListGeneric(int capacity){super(capacity);}
+	//takes a List
+	public TileListGeneric(List<TileInterface> tiles){
+		this(tiles.size());
+		for (TileInterface t: tiles) add(t);
+	}
+	//can take an array, or a var args
+	public TileListGeneric(TileInterface... tiles){this(Arrays.asList(tiles));}
+	
+	//overloaded for a list of integer ids, makes a list of tiles out of them
+	public TileListGeneric(int... ids){
+		this(ids.length);
+		for (int id: ids) add(new GameTile(id));
+	}
+	public TileListGeneric(){this(10);}
 	
 	
 	
-	public TileList(int capacity){super(capacity);}
-	public TileList(List<TileInterface> tiles){super(tiles);}
-	public TileList(TileInterface... tiles){super(Arrays.asList(tiles));}
-	public TileList(){super();}
-	
-	
-	
-	
-	
-	//(No it doesn't) return a new TileList with a COPY (independent) of each tile in the list
-	public TileList clone(){
-		return new TileList(super.clone());
+	//return a new TileListGeneric with a COPY (independent) of each tile in the list
+	public TileListGeneric makeCopy(){
+		return new TileListGeneric(this);
+	}
+	//return a new TileListGeneric with a COPY (independent) of each tile in the list
+	public TileListGeneric makeCopyNoDuplicates(){
+		TileListGeneric copy = new TileListGeneric(size());
+		
+		for (TileInterface t: this)
+			if (!copy.contains(t))
+				copy.add(t.clone());
+//				copy.add(new GameTile(t));
+		return copy;
 	}
 	
 	
-	public TileList makeCopyWithCheckers(){
-		TileList copy = new TileList(size());
+	public TileListGeneric makeCopyWithCheckers(){
+		TileListGeneric copy = new TileListGeneric(size());
 //		for (Tile t: this) copy.add(new HandCheckerTile(t));
 		for (int i = 0; i < size(); i++) copy.add(new HandCheckerTile((GameTile)get(i)));
 //		for (int i = 0; i < size(); i++) copy.add(new HandCheckerTile(get(i)));
@@ -79,15 +98,11 @@ public class TileList extends ConviniList<TileInterface>{
 	
 	
 	
-	/*
-	 * --------------------------------------------------------TILELIST FUNCTIONS
-	*/
+
 	
-	//overloaded for a list of integer ids, makes a list of tiles out of them
-	public TileList(int... ids){
-		this(ids.length);
-		for (int id: ids) add(new GameTile(id));
-	}
+	
+	
+	
 	
 	//add, overloaded for tileID
 	public boolean add(int id){return add(new GameTile(id));}
@@ -103,47 +118,6 @@ public class TileList extends ConviniList<TileInterface>{
 	
 	//overloaded for tileID
 	public int findHowManyOf(int id){return findHowManyOf(new GameTile(id));}
-
-	/*
-	 * --------------------------------------------------------TILELIST FUNCTIONS
-	*/
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public TileList subList(int fromIndex, int toIndex){return new TileList(super.subList(fromIndex, toIndex));}
-	public TileList getAllExceptLast(){return subList(0, size() - 1);}
-	
-	
-	
-	
-	
-	
-	//returns multiple items in the list, at the given indices
-	public TileList getMultiple(List<Integer> indices){return new TileList(super.getMultiple(indices));}
-	public TileList getMultiple(Integer... indices){return getMultiple(Arrays.asList(indices));}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -170,12 +144,12 @@ public class TileList extends ConviniList<TileInterface>{
 	
 	@Override
 	public boolean equals(Object other){
-		if (other == null || (other instanceof TileList) == false) return false;
-		if (((TileList)other).size() != this.size()) return false;
+		if (other == null || (other instanceof TileListGeneric) == false) return false;
+		if (((TileListGeneric)other).size() != this.size()) return false;
 		
 		int size = this.size(); 
 		for(int i = 0; i < size; i++)
-			if (!get(i).equals(((TileList)other).get(i))) return false;
+			if (!get(i).equals(((TileListGeneric)other).get(i))) return false;
 		
 		return true;
 	}

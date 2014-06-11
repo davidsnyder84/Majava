@@ -780,7 +780,7 @@ public class HandChecker {
 		TileList oddTiles = handTiles.getMultiple(1,3,5,7,9,11,13);
 		return evenTiles.equals(oddTiles);
 	}
-	public boolean isCompleteChiitoitsu(){return isCompleteChiitoitsu(mHandTiles.makeCopy());}
+	public boolean isCompleteChiitoitsu(){return isCompleteChiitoitsu(mHandTiles.clone());}
 	
 	
 	
@@ -929,7 +929,7 @@ public class HandChecker {
 			currentHotTile.setOwner(mHand.getOwnerSeatWind());
 			
 			//make a copy of the hand, add the current hot tile to that copy, sort the copy
-			handTilesCopy = mHandTiles.makeCopy();
+			handTilesCopy = mHandTiles.clone();
 			handTilesCopy.add(currentHotTile); handTilesCopy.sort();
 			
 			//check if the copy, with the added tile, is complete
@@ -1243,7 +1243,7 @@ public class HandChecker {
 	
 	
 	
-	public static final TileList listOfYaochuuTiles(){return LIST_OF_YAOCHUU_TILES.makeCopy();}
+	public static final TileList listOfYaochuuTiles(){return LIST_OF_YAOCHUU_TILES.clone();}
 	
 	
 	

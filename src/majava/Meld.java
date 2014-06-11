@@ -215,7 +215,7 @@ public class Meld implements Iterable<TileInterface>, Comparable<Meld> {
 	
 	
 	//returns a copy of the entire list of tiles
-	public TileList getAllTiles(){return mTiles.makeCopy();}
+	public TileList getAllTiles(){return mTiles.clone();}
 	
 	
 	//returns how many tiles are in the meld

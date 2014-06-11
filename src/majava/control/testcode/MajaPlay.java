@@ -65,8 +65,8 @@ public class MajaPlay {
 //		playFinishingMelds();
 		
 		
-//		playShowRoundResultInfo();
-		listEqualsTest();
+		playShowRoundResultInfo();
+//		listEqualsTest();
 		
 //		playTileClone();
 		
@@ -700,27 +700,27 @@ public class MajaPlay {
 	
 
 	
-	public static void listEqualsTest(){
-		
-		TileList handTiles = new TileList(2,2,5,5,7,7,10,10,20,20,21,21,30,30);
-//		handTiles = new TileList(2,2,5,5,7,7,10,10,20,20,21,21,30,30);
-		
-		TileList evenTiles = handTiles.getMultiple(0,2,4,6,8,10,12);
-		TileList oddTiles = handTiles.getMultiple(1,3,5,7,9,11,13);
-		
-//		oddTiles.get(1).setRedDora();
-		((GameTile)oddTiles.get(2)).setOwner(Wind.NORTH);
-		
-		println("List1: " + evenTiles.toString());
-		println("List2: " + oddTiles.toString());
-		println("List1 equals List2?: " + evenTiles.equals(oddTiles));
-		
-
-		TileList dupes = new TileList(2,2,2,3,4,4,5,6,6,6,7);
-		TileList noDupes = dupes.makeCopyNoDuplicates();
-		println("\n\nYedupes: " + dupes.toString());
-		println("Nodupes: " + noDupes.toString());
-	}
+//	public static void listEqualsTest(){
+//		
+//		TileList handTiles = new TileList(2,2,5,5,7,7,10,10,20,20,21,21,30,30);
+////		handTiles = new TileList(2,2,5,5,7,7,10,10,20,20,21,21,30,30);
+//		
+//		TileList evenTiles = handTiles.getMultiple(0,2,4,6,8,10,12);
+//		TileList oddTiles = handTiles.getMultiple(1,3,5,7,9,11,13);
+//		
+////		oddTiles.get(1).setRedDora();
+//		((GameTile)oddTiles.get(2)).setOwner(Wind.NORTH);
+//		
+//		println("List1: " + evenTiles.toString());
+//		println("List2: " + oddTiles.toString());
+//		println("List1 equals List2?: " + evenTiles.equals(oddTiles));
+//		
+//
+//		TileList dupes = new TileList(2,2,2,3,4,4,5,6,6,6,7);
+//		TileList noDupes = dupes.makeCopyNoDuplicates();
+//		println("\n\nYedupes: " + dupes.toString());
+//		println("Nodupes: " + noDupes.toString());
+//	}
 	
 	
 }

@@ -296,10 +296,7 @@ public class Hand implements Iterable<GameTile>{
 		mMelds.add(new Meld(tilesFromHand, candidateTile, meldType));
 		
 		//remove the tiles from the hand
-		while (partnerIndices.isEmpty() == false){
-			removeTile(partnerIndices.get(partnerIndices.size() - 1));
-			partnerIndices.remove(partnerIndices.size() - 1);
-		}
+		removeMultiple(partnerIndices);
 		mNumMeldsMade++;
 		
 		//update the hand's closed status after making the meld
@@ -335,8 +332,7 @@ public class Hand implements Iterable<GameTile>{
 			candidate = (GameTile)mTiles.get(candidateIndex);
 			
 			partnerIndices = mTiles.findAllIndicesOf(candidate);
-//			while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.remove(partnerIndices.size() - 1);
-			while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.remove((new Integer(partnerIndices.size() - 1)).intValue());
+			while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.remove(partnerIndices.size() - 1);
 			
 			
 			handTiles = mTiles.getMultiple(partnerIndices);
@@ -501,10 +497,6 @@ public class Hand implements Iterable<GameTile>{
 	//iterator, returns mTile's iterator
 	@Override
 	public Iterator<GameTile> iterator() {return mTiles.iterator();}
-	
-	
-	
-	
 	
 	
 	

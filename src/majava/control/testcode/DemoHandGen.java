@@ -34,10 +34,10 @@ public class DemoHandGen {
 		
 //		runTenpaiSimulation(5000);
 //		runSimulationNoDisplay(25000);
-		runSumulationRandom(10000);
+//		runSumulationRandom(10000);
 //		runSpecificTest();
 		
-//		runSimulation(5000);
+		runSimulation(5000);
 	}
 	
 	

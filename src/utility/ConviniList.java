@@ -111,7 +111,7 @@ public class ConviniList<T extends Comparable<? super T>> extends ArrayList<T>{
 	
 	//remove multiple indices from the list
 	//returns true if the indices were removed, false if not
-	public boolean removeMultiple(List<Integer> removeIndices){
+	public boolean removeMultiple(final List<Integer> removeIndices){
 		
 		//disallow more indices than the list has
 		if (removeIndices.size() > size()) return false;

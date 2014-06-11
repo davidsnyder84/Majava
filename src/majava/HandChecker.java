@@ -97,7 +97,7 @@ public class HandChecker {
 	
 	//call flags and partner index lists
 	private boolean mCanChiL, mCanChiM, mCanChiH, mCanPon, mCanKan, mCanRon, mCanPair;
-	private List<Integer> mPartnerIndicesChiL, mPartnerIndicesChiM, mPartnerIndicesChiH, mPartnerIndicesPon, mPartnerIndicesKan, mPartnerIndicesPair;
+	private final List<Integer> mPartnerIndicesChiL, mPartnerIndicesChiM, mPartnerIndicesChiH, mPartnerIndicesPon, mPartnerIndicesKan, mPartnerIndicesPair;
 	private GameTile mCallCandidate;
 	
 	private boolean mCanAnkan, mCanMinkan, mCanRiichi, mCanTsumo;
@@ -124,6 +124,16 @@ public class HandChecker {
 		mClosed = DEFAULT_CLOSED_STATUS;
 		
 		//reset callable flags
+		
+		
+
+		mPartnerIndicesChiL = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
+		mPartnerIndicesChiM = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
+		mPartnerIndicesChiH = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
+		mPartnerIndicesPon = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_PON);
+		mPartnerIndicesKan = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_KAN);
+		mPartnerIndicesPair = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_PAIR);
+		
 		__resetCallableFlags();
 		mCallCandidate = null;
 	}
@@ -368,12 +378,18 @@ public class HandChecker {
 		mCanChiL = mCanChiM = mCanChiH = mCanPon = mCanKan = mCanRon = mCanPair = false;
 		mCanAnkan = mCanMinkan = mCanRiichi = mCanTsumo = false;
 		
-		mPartnerIndicesChiL = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
-		mPartnerIndicesChiM = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
-		mPartnerIndicesChiH = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
-		mPartnerIndicesPon = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_PON);
-		mPartnerIndicesKan = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_KAN);
-		mPartnerIndicesPair = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_PAIR);
+		mPartnerIndicesChiL.clear();
+		mPartnerIndicesChiM.clear();
+		mPartnerIndicesChiH.clear();
+		mPartnerIndicesPon.clear();
+		mPartnerIndicesKan.clear();
+		mPartnerIndicesPair.clear();
+//		mPartnerIndicesChiL = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
+//		mPartnerIndicesChiM = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
+//		mPartnerIndicesChiH = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
+//		mPartnerIndicesPon = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_PON);
+//		mPartnerIndicesKan = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_KAN);
+//		mPartnerIndicesPair = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_PAIR);
 		mTurnAnkanCandidateIndex = mTurnMinkanCandidateIndex = -1; 
 	}
 	
@@ -830,8 +846,7 @@ public class HandChecker {
 	return false if either of them are missing
 	*/
 	private <TileType extends TileInterface> boolean __canClosedChiType(TileType candidate, List<TileType> handTiles, int offset1, int offset2){
-//		return (handTiles.contains(candidate.getId() + offset1) && handTiles.contains(candidate.getId() + offset2));
-		return (handTiles.contains(ImmutableTile.retrieveTile(candidate.getId() + offset1)) && handTiles.contains(ImmutableTile.retrieveTile(candidate.getId() + offset2)));
+		return (handTiles.containsAll(ImmutableTile.retrieveMultipleTiles(candidate.getId() + offset1, candidate.getId() + offset2)));
 	}
 	private <TileType extends TileInterface> boolean __canClosedChiL(TileType candidate, List<TileType> handTiles){return ((candidate.getFace() != '8' && candidate.getFace() != '9') && __canClosedChiType(candidate, handTiles, OFFSET_CHI_L1, OFFSET_CHI_L2));}
 	private <TileType extends TileInterface> boolean __canClosedChiM(TileType candidate, List<TileType> handTiles){return ((candidate.getFace() != '1' && candidate.getFace() != '9') && __canClosedChiType(candidate, handTiles, OFFSET_CHI_M1, OFFSET_CHI_M2));}
@@ -1054,7 +1069,8 @@ public class HandChecker {
 
 		HandCheckerTile currentTile = null;
 		MeldType currentTileMeldType;
-		List<Integer> currentTileParterIDs = null;
+//		List<Integer> currentTileParterIDs = null;
+		List<TileInterface> currentTileParterTiles = null;
 		boolean currentTilePartersAreStillHere = true;
 		List<Integer> partnerIndices = null;
 		
@@ -1071,7 +1087,7 @@ public class HandChecker {
 			
 			//~~~~Verify that currentTile's partners are still in the hand
 			//currentTileParterIDs = list of IDs of partners for currentTile's top MeldType
-			currentTileParterIDs = currentTile.mstackTopParterIDs();
+			currentTileParterTiles = ImmutableTile.retrieveMultipleTiles(currentTile.mstackTopParterIDs());
 			
 			//get the top meldType from currentTile's stack
 			currentTileMeldType = currentTile.mstackPop();	//(remove it)
@@ -1080,7 +1096,7 @@ public class HandChecker {
 			//check if currentTile's partners are still in the hand
 			currentTilePartersAreStillHere = true;
 			if (currentTileMeldType.isChi()){
-				if (!checkTiles.contains(ImmutableTile.retrieveTile(currentTileParterIDs.get(0))) || !checkTiles.contains(ImmutableTile.retrieveTile(currentTileParterIDs.get(1))))
+				if (!checkTiles.containsAll(currentTileParterTiles))
 					currentTilePartersAreStillHere = false;
 			}
 			else{
@@ -1103,12 +1119,8 @@ public class HandChecker {
 				
 				//if chi, just find the partners
 				if (currentTileMeldType.isChi()){
-					partnerIndices.add(checkTiles.indexOf(ImmutableTile.retrieveTile(currentTileParterIDs.get(0))));
-					partnerIndices.add(checkTiles.indexOf(ImmutableTile.retrieveTile(currentTileParterIDs.get(1))));
-					if (partnerIndices.contains(-1))////////////////////////////////////////////////
-						partnerIndices.size();
-//					partnerIndices.add(checkTiles.indexOf(currentTileParterIDs.get(new Integer(0).intValue())));
-//					partnerIndices.add(checkTiles.indexOf(currentTileParterIDs.get(new Integer(1).intValue())));
+					partnerIndices.add(checkTiles.indexOf(currentTileParterTiles.get(0)));
+					partnerIndices.add(checkTiles.indexOf(currentTileParterTiles.get(1)));
 				}
 				else{
 					//else if pon/pair, make sure you don't count the tile itsef
@@ -1125,9 +1137,6 @@ public class HandChecker {
 				//make a copy of the hand, then remove the meld tiles from the copy and add them to the meld
 				checkTilesMinusThisMeld = HandCheckerTile.makeCopyOfListWithCheckers(checkTiles);
 				toMeldTiles = new ConviniList<HandCheckerTile>();
-				
-				if (checkTilesMinusThisMeld.size() == 5)	////////////////////////////////////////////////////
-					checkTilesMinusThisMeld.size();
 				
 				while (!partnerIndices.isEmpty())
 					toMeldTiles.add(checkTilesMinusThisMeld.remove( partnerIndices.remove(partnerIndices.size() - 1).intValue()) );

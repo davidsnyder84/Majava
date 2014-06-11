@@ -139,11 +139,7 @@ public class GameTile implements Cloneable, TileInterface {
 	
 	//returns true if the tiles have the same ID
 	@Override
-	final public boolean equals(Object other){
-		return mTile.equals(other);
-//		if (other == null || !(other instanceof TileInterface)) return false;
-//		return mTile.equals(((TileInterface)other).getTileBase());
-	}
+	final public boolean equals(Object other){return mTile.equals(other);}
 	
 	//string representaiton of tile's suit/face
 	@Override

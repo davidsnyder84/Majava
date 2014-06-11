@@ -121,6 +121,7 @@ public class GameTileOnly implements Cloneable, TileInterface {
 		if (other == null || !(other instanceof GameTileOnly)) return false;
 		return mTile.equals(((GameTileOnly)other).mTile);
 	}
+	final public boolean equals(Integer otherID){return true;}
 	
 	//string representaiton of tile's suit/face
 	@Override

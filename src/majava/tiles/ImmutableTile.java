@@ -160,6 +160,7 @@ public class ImmutableTile implements TileInterface{
 		if (other == null || !(other instanceof TileInterface)) return false;
 		return mID == ((TileInterface)other).getId();
 	}
+	
 	@Override
 	public String toString(){return mSuitfaceString;}
 	
@@ -216,9 +217,23 @@ public class ImmutableTile implements TileInterface{
 		GameTile gt= new GameTile(3);
 		System.out.println(gt.toString());
 		
-
+		
 		System.out.println(it.equals(gt));
 		System.out.println(gt.equals(it));
+		
+		
+		System.out.println();
+		System.out.println(new Integer(3).equals(it));
+		System.out.println(it.equals(new Integer(3)));
+		
+
+		System.out.println();
+		List<Integer> a = Arrays.asList(new Integer(2),new Integer(3),new Integer(4));
+		List<TileInterface> ls = retrieveMultipleTiles(2,3,4);
+		System.out.println(a.toString());
+		System.out.println(a.contains(it));
+		System.out.println(ls.toString());
+		System.out.println(ls.contains(3));
 	}
 
 }

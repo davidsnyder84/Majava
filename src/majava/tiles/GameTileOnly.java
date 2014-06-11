@@ -1,12 +1,13 @@
 package majava.tiles;
 
+import java.util.Arrays;
 import majava.enums.Wind;
 
 
 
 
 /*
-Class: GameTile
+Class: GameTileOnly
 represents a single tile
 
 data:
@@ -36,48 +37,38 @@ methods:
 		isHonor - returns true if the tile is an honor tile, false otherwise
 		isTerminal - returns true if the tile is a terminal, false otherwise
 		getOrignalOwner - returns the wind of the original owner of the tile
-		nextGameTile - returns what the dora would be if this tile was a dora indicator
+		nextGameTileOnly - returns what the dora would be if this tile was a dora indicator
 		
 		other:
 		equals - returns true if both tiles have the same ID, false otherwise
 		toString - returns string representation of a tile's suit/face
 */
-public class GameTile implements Cloneable, Comparable<GameTile>, TileInterface {
+public class GameTileOnly implements Cloneable, Comparable<GameTileOnly>, TileInterface {
 	
 	private final ImmutableTile mTile;
-	private Wind mOriginalOwner;
 	
 	
 
-	public GameTile(ImmutableTile tilebase){
+	public GameTileOnly(ImmutableTile tilebase){
 		mTile = tilebase;
-		mOriginalOwner = Wind.UNKNOWN;
 	}
 	//Takes ID of tile (and optional red dora flag)
-	public GameTile(int id, boolean isRed){this(ImmutableTile.retrieveTileRed(id));}
+	public GameTileOnly(int id, boolean isRed){this(ImmutableTile.retrieveTileRed(id));}
 	//1-arg Constructor, takes tile ID
-	public GameTile(int id){this(ImmutableTile.retrieveTile(id));}
+	public GameTileOnly(int id){this(ImmutableTile.retrieveTile(id));}
 	//Takes string representation of tile
-	public GameTile(String suitfaceString){this(ImmutableTile.retrieveTile(suitfaceString));}
+	public GameTileOnly(String suitfaceString){this(ImmutableTile.retrieveTile(suitfaceString));}
 	
 	
 	
 	//copy constructor
-	public GameTile(GameTile other){
+	public GameTileOnly(GameTileOnly other){
 		mTile = other.mTile;
-		mOriginalOwner = other.mOriginalOwner;
 	}
-//	public GameTile clone(){
-//		try{return (GameTile) super.clone();}
-//		catch (CloneNotSupportedException e){System.out.println(e.getMessage()); return null;}
-//	}
-	public GameTile clone(){return new GameTile(this);}
-	
-	
-	//Owner methods
-	final public Wind getOrignalOwner(){return mOriginalOwner;}
-	//sets the original owner attribute of the tile (the player who drew the tile from the wall)
-	final public void setOwner(Wind owner){mOriginalOwner = owner;}
+	public GameTileOnly clone(){
+		try{return (GameTileOnly) super.clone();}
+		catch (CloneNotSupportedException e){System.out.println(e.getMessage()); return null;}
+	}
 	
 	
 	
@@ -111,23 +102,23 @@ public class GameTile implements Cloneable, Comparable<GameTile>, TileInterface 
 	
 	
 	/*
-	method: nextGameTile
+	method: nextGameTileOnly
 	returns the tile that follows this one (used to find a dora from a dora indicator)
 	*/
-	final public GameTile nextTile(){return new GameTile(mTile.nextTile());}
+	final public GameTileOnly nextTile(){return new GameTileOnly(mTile.nextTile());}
 	
 	
 	
 
 	//compares the two base tiles
 	@Override
-	final public int compareTo(GameTile other){return mTile.compareTo(other.mTile);}
+	final public int compareTo(GameTileOnly other){return mTile.compareTo(other.mTile);}
 	
 	//returns true if the tiles have the same ID
 	@Override
 	final public boolean equals(Object other){
-		if (other == null || !(other instanceof GameTile)) return false;
-		return mTile.equals(((GameTile)other).mTile);
+		if (other == null || !(other instanceof GameTileOnly)) return false;
+		return mTile.equals(((GameTileOnly)other).mTile);
 	}
 	
 	//string representaiton of tile's suit/face

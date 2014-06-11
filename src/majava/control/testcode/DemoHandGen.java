@@ -21,19 +21,18 @@ public class DemoHandGen {
 	
 	public static final Wind OWNER_SEAT = Wind.SOUTH;
 	
-	public static Random random;
+	public static Random randGen = new Random();
 	
 	
 	
 	public static void main(String[] args) {
-
-		random = new Random();
-//		runTenpaiSimulation(5000);
-//		runSimulationNoDisplay(25000);
-//		runSumulationRandom(90000);
-		runSpecificTest();
 		
-		runSimulation(5000);
+//		runTenpaiSimulation(5000);
+		runSimulationNoDisplay(25000);
+//		runSumulationRandom(100000);
+//		runSpecificTest();
+		
+//		runSimulation(20000);
 	}
 	
 	
@@ -92,15 +91,14 @@ public class DemoHandGen {
 		int numFailures = 0;
 		
 		
-		
 		for (int i = 0; i < howManyTimes; i++){
-			if (!(currentHand = generateCompleteHand()).DEMOgetChecker().isCompleteNormal()){
+//			if (!(currentHand = generateCompleteHand()).DEMOgetChecker().isCompleteNormal()){
+			if (!(currentHand = generateCompleteHand()).DEMOgetChecker().isComplete()){
 				numFailures++;
 				System.out.println(currentHand.toString() + "\n");
 				
 			}
 		}
-		
 		
 
 		System.out.println("Total number of trials: " + howManyTimes);
@@ -177,117 +175,23 @@ public class DemoHandGen {
 	public static Hand generateTenpaiHand(){
 		
 		Hand hand = generateCompleteHand();
-
-		int removeIndex = random.nextInt(hand.size());
-		hand.removeTile(removeIndex);
 		
+		hand.removeTile(randGen.nextInt(hand.size()));
 		return hand; 
 	}
-		
-	
 	//returns a hand that is complete
 	public static Hand generateCompleteHand(){
-		
-		Hand hand = new Hand(OWNER_SEAT);
-		
-		
-		TileList tiles = new majava.util.TileList();
-		GameTile currentTile = null;
-		
-		
-		int id = 0;
-		
-		int meldWhich = -1;
-		MeldType chosenMeld;
-		List<MeldType> validMelds = null;
-		
-		int howManyOfThisInHand = -1;
-		
-		TileList currentMeldTiles = null;
-		
-		
-		int numSuccessfulMelds = 0;
-		boolean tooMany = false;
-		
-		
-		int numAlreadyCompletedMelds = 0;
-		numAlreadyCompletedMelds = random.nextInt(5);
-		
-		//add 4 melds
-		while (numSuccessfulMelds < numAlreadyCompletedMelds){
-			
-			//generate a random tile
-			id = random.nextInt(34) + 1;
-			currentTile = new GameTile(id);
-			currentTile.setOwner(OWNER_SEAT);
-			
-			howManyOfThisInHand = tiles.findHowManyOf(currentTile);
-			if (howManyOfThisInHand < 4){
-				
-				validMelds = new ArrayList<MeldType>(5);
-				if (!currentTile.isHonor()){
-					if (currentTile.getFace() != '8' && currentTile.getFace() != '9') validMelds.add(MeldType.CHI_L);
-					if (currentTile.getFace() != '1' && currentTile.getFace() != '9') validMelds.add(MeldType.CHI_M);
-					if (currentTile.getFace() != '1' && currentTile.getFace() != '2') validMelds.add(MeldType.CHI_H);
-				}
-				if (howManyOfThisInHand <= 1) validMelds.add(MeldType.PON);
-				
-				meldWhich = random.nextInt(validMelds.size());
-				chosenMeld = validMelds.get(meldWhich);
-				
-				
-				//add the tiles to the meld list
-				currentMeldTiles = new TileList(3);
-				switch (chosenMeld){
-				case CHI_L: currentMeldTiles.add(id); currentMeldTiles.add(id + 1); currentMeldTiles.add(id + 2); break;
-				case CHI_M: currentMeldTiles.add(id - 1); currentMeldTiles.add(id); currentMeldTiles.add(id + 1); break;
-				case CHI_H: currentMeldTiles.add(id - 2); currentMeldTiles.add(id - 1); currentMeldTiles.add(id); break;
-				case PON: currentMeldTiles.add(id); currentMeldTiles.add(id); currentMeldTiles.add(id); break;
-				default: break;
-				}
-				
-				
-				
-				tooMany = false;
-				for (GameTile t: currentMeldTiles) if (tiles.findHowManyOf(t) + 1 > 4) tooMany = true;
-				
-				if (tooMany == false){
-					//add the tiles to the hand
-					for (GameTile t: currentMeldTiles){
-						t.setOwner(OWNER_SEAT);
-						hand.addTile(t);
-					}
-					numSuccessfulMelds++;
-				}
-				
-				
-				
-			}
-		}
-		
-		//add a pair
-		
-		do{
-			//generate a random tile
-			id = random.nextInt(34) + 1;
-			currentTile = new GameTile(id);
-			currentTile.setOwner(OWNER_SEAT);
-			howManyOfThisInHand = tiles.findHowManyOf(currentTile);
-		}
-		while(howManyOfThisInHand > 2);
 
-		currentMeldTiles = new TileList(2);
-		currentMeldTiles.add(id); currentMeldTiles.add(id);
+		Hand hand = new Hand(OWNER_SEAT);
+		TileList handTiles = Majenerator.generateWinningHandTiles();		
 		
-		//add the tiles to the hand
-		for (GameTile t: currentMeldTiles){
+		for (GameTile t: handTiles){
 			t.setOwner(OWNER_SEAT);
 			hand.addTile(t);
 		}
 		
 		hand.sortHand();
 		return hand;
-		
 	}
 	
 	
@@ -337,13 +241,13 @@ public class DemoHandGen {
 		TileList tiles = new TileList();
 		GameTile currentTile = null;
 		int id = 0;
-		int numMeldsMade = random.nextInt(3);
+		int numMeldsMade = randGen.nextInt(3);
 		
 		
 		
 		while (tiles.size() < 14 - 3*numMeldsMade){
 			//generate a random tile
-			id = random.nextInt(34) + 1;
+			id = randGen.nextInt(34) + 1;
 			
 			if (tiles.findHowManyOf(id) < 4){
 				currentTile = new GameTile(id);

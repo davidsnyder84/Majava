@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import majava.tiles.GameTile;
+
 
 /*
 Class: MahStack
@@ -33,12 +35,12 @@ methods:
 		other:
 		iterator - the List's iterator
 */
-public class MahStack <T extends Comparable<T> > implements Iterable<T>{
+public class MahStack <T> implements Cloneable{
 	
 	protected static final int DEFAULT_CAPACITY = 10;
 	
 	
-	private List<T> mList;
+	private final List<T> mList;
 	
 	
 	
@@ -47,41 +49,41 @@ public class MahStack <T extends Comparable<T> > implements Iterable<T>{
 	public MahStack(){this(DEFAULT_CAPACITY);}
 	
 	//copy constructor, duplicates another stack
-	public MahStack(MahStack<T> other){		
+	public MahStack(MahStack<T> other){
 		this(other.size());
 		for (T item: other.mList) mList.add(item);
+		
+	}
+	public MahStack<T> clone(){
+		return new MahStack<T>(this);
 	}
 	
 	
 	
 	
-
-	//returns the top item on the stack, returns null if the stack is empty
+	//-----------Stack functions
 	public T top(){
 		if (mList.isEmpty()) return null;
 		return mList.get(mList.size() - 1);
 	}
-
-	//removes and returns the top item on the stack, returns null if the stack is empty
+	
 	public T pop(){
 		if (mList.isEmpty()) return null;
 		return mList.remove(mList.size() - 1);
 	}
 	
-	//adds an item to the top of the stack
 	public boolean push(T item){return mList.add(item);}
 	
-	
-	
-	//returns true if the stack is empty
 	public boolean isEmpty(){return mList.isEmpty();}
-
-	//returns the number of items in the stack
+	
 	public int size(){return mList.size();}
 	
 	
+	
+	
 	//removes all items from the stack
-	public void makeEmpty(){mList = new ArrayList<T>(DEFAULT_CAPACITY);}
+//	public void makeEmpty(){mList = new ArrayList<T>(DEFAULT_CAPACITY);}
+//	public void makeEmpty(){mList.clear();}
 	
 	
 	
@@ -89,8 +91,8 @@ public class MahStack <T extends Comparable<T> > implements Iterable<T>{
 	
 	
 	
-	@Override
-	public Iterator<T> iterator(){return mList.iterator();}	//returns the List's iterator
+//	@Override
+//	public Iterator<T> iterator(){return mList.iterator();}	//returns the List's iterator
 	
 	
 	

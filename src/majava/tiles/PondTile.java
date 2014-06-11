@@ -32,11 +32,17 @@ public class PondTile extends GameTile {
 	
 	public PondTile(GameTile other){
 		super(other);
+		
 		mIsRiichiTile = false;
 		mWasCalled = false;
 	}
-	public PondTile(int id) {this (new GameTile(id));}
-	
+//	public PondTile(int id) {this (new GameTile(id));}
+	public PondTile clone(){
+		PondTile other = new PondTile(this);
+		other.mIsRiichiTile = mIsRiichiTile;
+		other.mWasCalled = mWasCalled;
+		return other;
+	}
 	
 	
 	

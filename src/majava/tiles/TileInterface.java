@@ -11,4 +11,10 @@ public interface TileInterface{
 	public boolean isYaochuu();
 	public boolean isHonor();
 	public boolean isTerminal();
+	
+	
+	
+	
+	//clone
+	public TileInterface clone();
 }

@@ -119,7 +119,7 @@ public class Table {
 //		ui = new TableViewer();
 //		ui = new SparseTextualUI();
 //		ui = new DetailedTextualUI();
-//		ui = new ComboTextGraphicalUI();
+		ui = new ComboTextGraphicalUI();
 //		ui = new GraphicalUI();
 		return ui;
 	}

@@ -1,6 +1,6 @@
 package majava.tiles;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import majava.enums.MeldType;
@@ -30,7 +30,7 @@ methods:
 public class HandCheckerTile extends GameTile {
 	
 	
-	MahStack<MeldType> mMeldTypeStack;
+	private final MahStack<MeldType> mMeldTypeStack;
 	
 	
 	
@@ -42,6 +42,7 @@ public class HandCheckerTile extends GameTile {
 		else
 			mMeldTypeStack = new MahStack<MeldType>();
 	}
+	public HandCheckerTile clone(){return new HandCheckerTile(this);}
 	
 	
 	
@@ -49,38 +50,35 @@ public class HandCheckerTile extends GameTile {
 	
 
 	//stack functions
-	public boolean mstackPush(MeldType meldType){return mMeldTypeStack.push(meldType);}
-	public MeldType mstackPop(){return mMeldTypeStack.pop();}
-	public MeldType mstackTop(){return mMeldTypeStack.top();}
-	public boolean mstackIsEmpty(){return mMeldTypeStack.isEmpty();}
+	final public boolean mstackPush(MeldType meldType){return mMeldTypeStack.push(meldType);}
+	final public MeldType mstackPop(){return mMeldTypeStack.pop();}
+	final public MeldType mstackTop(){return mMeldTypeStack.top();}
+	final public boolean mstackIsEmpty(){return mMeldTypeStack.isEmpty();}
 	
 	//returns a list of the partner IDs for the top meldType on the stack
-	public List<Integer> mstackTopParterIDs(){
-		
-		List<Integer> partnerIDs = new ArrayList<Integer>(2);
-		
+	final public List<Integer> mstackTopParterIDs(){
 		int id = getId();
 		switch(mMeldTypeStack.top()){
-		case CHI_L: partnerIDs.add(id + 1); partnerIDs.add(id + 2); break;
-		case CHI_M: partnerIDs.add(id - 1); partnerIDs.add(id + 1); break;
-		case CHI_H: partnerIDs.add(id - 2); partnerIDs.add(id - 1); break;
-		case PON: partnerIDs.add(id); partnerIDs.add(id); break;
-		case KAN: partnerIDs.add(id); partnerIDs.add(id); partnerIDs.add(id); break;
-		case PAIR: partnerIDs.add(id); break;
-		default: break;
+		case CHI_L: return Arrays.asList(id + 1, id + 2);
+		case CHI_M: return Arrays.asList(id - 1, id + 1);
+		case CHI_H: return Arrays.asList(id - 2, id - 1);
+		
+		case KAN: return Arrays.asList(id, id, id);
+		case PON: return Arrays.asList(id, id);
+		case PAIR: return Arrays.asList(id);
+		default: return null;
 		}
-		return partnerIDs;
 	}
 	
 	
 	
 	
 	
-	public String stackString(){
-		String stackString = "";
-		for (MeldType m: mMeldTypeStack) stackString += m.toString() + ", ";
-		return stackString;
-	}
+//	public String stackString(){
+//		String stackString = "";
+//		for (MeldType m: mMeldTypeStack) stackString += m.toString() + ", ";
+//		return stackString;
+//	}
 	
 	
 }

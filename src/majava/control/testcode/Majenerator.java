@@ -138,7 +138,13 @@ public class Majenerator {
 	
 	
 	
-	
+	public static TileList generateWinningHandTiles(){
+		final TileList winHand = new TileList();
+		final List<Meld> winMelds = new ArrayList<Meld>();
+		generateWinningHandAndMelds(winHand, winMelds);
+		
+		return winHand;
+	}
 	
 	public static void generateWinningHandAndMelds(final TileList winHand, final List<Meld> winMelds, final int howManyMelds){
 		if (winHand == null || winMelds == null) return;

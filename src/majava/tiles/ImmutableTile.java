@@ -93,7 +93,7 @@ public class ImmutableTile implements Comparable<ImmutableTile>, TileInterface{
 		mFace = mSuitfaceString.charAt(1);
 	}
 	private ImmutableTile(int id){this(id, false);}
-	
+	public ImmutableTile clone(){return this;}
 	
 	
 	

@@ -2,11 +2,13 @@ package majava;
 
 
 import java.util.Iterator;
+import java.util.List;
+
+import utility.ConviniList;
 import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
 import majava.enums.MeldType;
 import majava.enums.Wind;
-import majava.util.TileList;
 
 
 /*
@@ -47,14 +49,14 @@ methods:
 		getSize - returns how many tiles are in the meld
 		isChi, isPon, isKan - returns true if the meld is of the corresponding type
 */
-public class Meld implements Iterable<TileInterface>, Comparable<Meld> {
+public class Meld implements Iterable<GameTile>, Comparable<Meld> {
 	
 	private static final int FU_DEFAULT = 0;
 	
 	
 	
 	//list of tiles in the meld
-	private TileList mTiles;
+	private ConviniList<GameTile> mTiles;
 	
 	private MeldType mMeldType;
 	private boolean mClosed;
@@ -80,7 +82,7 @@ public class Meld implements Iterable<TileInterface>, Comparable<Meld> {
 	form the meld
 	fu = 0
 	*/
-	public Meld(TileList handTiles, GameTile newTile, MeldType meldType){		
+	public Meld(ConviniList<GameTile> handTiles, GameTile newTile, MeldType meldType){		
 		
 		__formMeld(handTiles, newTile, meldType);
 		
@@ -88,13 +90,13 @@ public class Meld implements Iterable<TileInterface>, Comparable<Meld> {
 	}
 	//2-arg, takes list of tiles and meld type (used when making a meld only from hand tiles, so no "new" tile)
 	//passes (handtiles 0 to n-1, handtile n, and meld type)
-	public Meld(TileList handTiles, MeldType meldType){
-		this(handTiles.getAllExceptLast(), (GameTile)handTiles.getLast(), meldType);
+	public Meld(ConviniList<GameTile> handTiles, MeldType meldType){
+		this(handTiles.getAllExceptLast(), handTiles.getLast(), meldType);
 	}
 	public Meld(Meld other){
 		
-		mTiles = new TileList();
-		for (TileInterface t: other.mTiles) mTiles.add(t);
+		mTiles = new ConviniList<GameTile>();
+		for (GameTile t: other.mTiles) mTiles.add(t);
 		
 		mOwnerSeatWind = other.mOwnerSeatWind;
 		
@@ -128,10 +130,10 @@ public class Meld implements Iterable<TileInterface>, Comparable<Meld> {
 	add the new tile to the meld
 	sort the meld if it is a chi
 	*/
-	private void __formMeld(TileList handTiles, GameTile newTile, MeldType meldType){
+	private void __formMeld(ConviniList<GameTile> handTiles, GameTile newTile, MeldType meldType){
 		
 		//set the owner's seat wind
-		mOwnerSeatWind = ((GameTile)handTiles.getFirst()).getOrignalOwner();
+		mOwnerSeatWind = handTiles.getFirst().getOrignalOwner();
 		
 		//set the new tile as the tile that completed the meld
 		mCompletedTile = newTile;
@@ -215,7 +217,8 @@ public class Meld implements Iterable<TileInterface>, Comparable<Meld> {
 	
 	
 	//returns a copy of the entire list of tiles
-	public TileList getAllTiles(){return mTiles.clone();}
+//	public List<GameTile> getAllTiles(){return mTiles.clone();}
+	public List<GameTile> getAllTiles(){return mTiles.clone();}
 	
 	
 	//returns how many tiles are in the meld
@@ -265,7 +268,7 @@ public class Meld implements Iterable<TileInterface>, Comparable<Meld> {
 
 	//iterator, returns mTile's iterator
 	@Override
-	public Iterator<TileInterface> iterator() {return mTiles.iterator();}
+	public Iterator<GameTile> iterator() {return mTiles.iterator();}
 	
 	
 	

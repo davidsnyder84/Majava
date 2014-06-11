@@ -2,16 +2,19 @@ package majava.control.testcode;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
+import utility.ConviniList;
 
 import majava.Hand;
 import majava.HandChecker;
 import majava.enums.MeldType;
 import majava.enums.Wind;
 import majava.tiles.GameTile;
+import majava.tiles.ImmutableTile;
 import majava.tiles.TileInterface;
-import majava.util.TileList;
 
 
 
@@ -31,10 +34,10 @@ public class DemoHandGen {
 		
 //		runTenpaiSimulation(5000);
 //		runSimulationNoDisplay(25000);
-//		runSumulationRandom(100000);
+		runSumulationRandom(10000);
 //		runSpecificTest();
 		
-		runSimulation(5000);
+//		runSimulation(5000);
 	}
 	
 	
@@ -119,7 +122,7 @@ public class DemoHandGen {
 		
 		Hand currentHand = null;
 		int numFailures = 0;
-		TileList waits = null;
+		List<TileInterface> waits = null;
 		String waitString = "";
 
 //		TileList maxWaits = null;
@@ -185,11 +188,12 @@ public class DemoHandGen {
 	public static Hand generateCompleteHand(){
 
 		Hand hand = new Hand(OWNER_SEAT);
-		TileList handTiles = Majenerator.generateWinningHandTiles();		
+		List<TileInterface> handTiles = Majenerator.generateWinningHandTiles();		
 		
 		for (TileInterface t: handTiles){
-			((GameTile) t).setOwner(OWNER_SEAT);
-			hand.addTile((GameTile)t);
+			GameTile gt = new GameTile(t);
+			gt.setOwner(OWNER_SEAT);
+			hand.addTile(gt);
 		}
 		
 		hand.sortHand();
@@ -240,7 +244,7 @@ public class DemoHandGen {
 	public static Hand generateRandomHand(){
 		
 		Hand hand = new Hand(OWNER_SEAT);
-		TileList tiles = new TileList();
+		ConviniList<GameTile> tiles = new ConviniList<GameTile>();
 		GameTile currentTile = null;
 		int id = 0;
 		int numMeldsMade = randGen.nextInt(3);
@@ -251,14 +255,14 @@ public class DemoHandGen {
 			//generate a random tile
 			id = randGen.nextInt(34) + 1;
 			
-			if (tiles.findHowManyOf(id) < 4){
+			if (tiles.findHowManyOf(new GameTile(id)) < 4){
 				currentTile = new GameTile(id);
 				currentTile.setOwner(OWNER_SEAT);
 				tiles.add(currentTile);
 			}
 		}
 		
-		for (TileInterface t: tiles) hand.addTile((GameTile)t);
+		for (GameTile t: tiles) hand.addTile(t);
 		
 		hand.sortHand();
 //		System.out.println(hand.toString());
@@ -289,15 +293,16 @@ public class DemoHandGen {
 //		TileList tiles = new TileList(19,19,19,20,21,21,22,22,23,32,32,32,34,34);	//S1 S1 S1 S2 S3 S3 S4 S4 S5 DW DW DW DR DR
 //		TileList tiles = new TileList(21,22,23,32,32,32,34,34);
 //		TileList tiles = new TileList(2+9,3+9,4+9,1+18,1+18);	//P2 P3 P4 S1 S1
-		TileList tiles = new TileList(1,1,2+9,3+9,4+9);	//P2 P3 P4 S1 S1
+		List<TileInterface> tiles = ImmutableTile.retrieveMultipleTiles(1,1,2+9,3+9,4+9);	//P2 P3 P4 S1 S1
 		
-		
+		GameTile gt;
 		for (TileInterface t: tiles){
-			((GameTile) t).setOwner(OWNER_SEAT);
-			System.out.println("Adding " + t);
-			if (t.getId() == 4+9)
-				t.getId();
-			hand.addTile((GameTile)t);
+			gt = new GameTile(t);
+			gt.setOwner(OWNER_SEAT);
+			System.out.println("Adding " + gt);
+			if (gt.getId() == 4+9)
+				gt.getId();
+			hand.addTile(new GameTile(gt));
 //			System.out.println(hand.toString());
 		}
 		

@@ -9,7 +9,6 @@ import majava.summary.ResultType;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
-import majava.util.TileList;
 
 
 
@@ -54,7 +53,7 @@ public class RoundResult {
 	private TileInterface mWinningTile;
 
 	
-	private TileList mWinnerHand;
+	private List<GameTile> mWinnerHand;
 	private List<Meld> mWinnerMelds;
 	
 	private PaymentMap mPayments;
@@ -101,7 +100,7 @@ public class RoundResult {
 	
 	
 	//set other things
-	public void setWinningHand(TileList handTiles, List<Meld> melds, TileInterface winningTile){
+	public void setWinningHand(List<GameTile> handTiles, List<Meld> melds, TileInterface winningTile){
 		mWinnerHand = handTiles;
 		mWinnerMelds = melds;
 		setWinningTile(winningTile);
@@ -189,7 +188,7 @@ public class RoundResult {
 		PlayerSummary winnerSummary = null, furikonSummary = null;
 		PaymentMap payments = null;
 		TileInterface winningTile = null;
-		TileList winnerHand = null;
+		List<GameTile> winnerHand = null;
 		List<Meld> winnerMelds = null;
 		
 		//get winning, losing player summaries

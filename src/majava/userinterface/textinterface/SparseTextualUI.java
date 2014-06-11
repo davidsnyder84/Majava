@@ -11,7 +11,6 @@ import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
-import majava.util.TileList;
 import majava.util.YakuList;
 import majava.yaku.Yaku;
 import utility.Pauser;
@@ -84,7 +83,7 @@ public class SparseTextualUI extends TextualUI{
 	protected void __showPlayerHand(Player p){println(p.getAsStringHandCompact());}
 	
 	protected void __showWall(){println(mRoundEntities.mWall.toString());}
-	protected void __showDoraIndicators(){println(",,,New Dora Indicator: " + mRoundEntities.mWall.getDoraIndicators().getLast());}
+	protected void __showDoraIndicators(){println(",,,New Dora Indicator: " + mRoundEntities.mWall.getDoraIndicators().get(mRoundEntities.mWall.getNumKansMade()));}
 	protected void __showDeadWall(){__showDoraIndicators();}
 	
 	protected void __showRoundResult(){
@@ -114,7 +113,7 @@ public class SparseTextualUI extends TextualUI{
 		PaymentMap payments = null;
 		//for win
 		PlayerSummary winner = null, furikon = null;
-		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; TileInterface winningTile = null;
+		List<TileInterface> winnerHandTiles = null; List<Meld> winnerMelds = null; TileInterface winningTile = null;
 		YakuList yakuList = null; int yakuWorth = -1; int handScore = -1; 
 		
 		

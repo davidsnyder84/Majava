@@ -6,7 +6,8 @@ import majava.Hand;
 import majava.Meld;
 import majava.Player;
 import majava.Pond;
-import majava.util.TileList;
+import majava.tiles.GameTile;
+import majava.tiles.PondTile;
 
 
 
@@ -15,10 +16,10 @@ public final class PlayerTracker{
 	public final Player player;
 	
 	public final Hand hand;
-	public final TileList tilesH;
+	public final List<GameTile> tilesH;
 	
 	public final Pond pond;
-	public final TileList tilesP;
+	public final List<PondTile> tilesP;
 	
 	public final List<Meld> melds;
 	
@@ -29,7 +30,7 @@ public final class PlayerTracker{
 	
 	//private List<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
 	
-	public PlayerTracker(Player p, Hand ha, TileList tH, Pond po, TileList tP, List<Meld> ms){
+	public PlayerTracker(Player p, Hand ha, List<GameTile> tH, Pond po, List<PondTile> tP, List<Meld> ms){
 		player = p;
 		hand = ha; tilesH = tH;
 		pond = po; tilesP = tP;

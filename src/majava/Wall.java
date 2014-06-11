@@ -1,13 +1,13 @@
 package majava;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
-import majava.util.TileList;
 
 
 
@@ -222,12 +222,12 @@ public class Wall {
 		if kans have been made,  add more ura indicators to the list
 	return the list
 	*/
-	private TileList __getDoraIndicators(boolean getUraDora){
+	private List<TileInterface> __getDoraIndicators(boolean getUraDora){
 		
 		int numKansMade = mRoundTracker.getNumKansMade();
 		int size = numKansMade + 1;
 		if (getUraDora) size *= 2;
-		TileList indicators = new TileList(size);
+		List<TileInterface> indicators = new ArrayList<TileInterface>(size);
 		
 		//add the first dora indicator
 		indicators.add(mTiles[OFFSET_DEAD_WALL + POS_DORA_1]);
@@ -254,8 +254,8 @@ public class Wall {
 		return indicators;
 	}
 	//methods to get a list of dora tiles, or a list of both dora and ura dora tiles 
-	public TileList getDoraIndicators(){return __getDoraIndicators(false);}
-	public TileList getDoraIndicatorsWithUra(){return __getDoraIndicators(true);}
+	public List<TileInterface> getDoraIndicators(){return __getDoraIndicators(false);}
+	public List<TileInterface> getDoraIndicatorsWithUra(){return __getDoraIndicators(true);}
 	
 	
 	
@@ -450,10 +450,14 @@ public class Wall {
 		*/
 		
 
-		TileList tilesE = new TileList(h1);
-		TileList tilesS = new TileList(h2);
-		TileList tilesW = new TileList(h3);
-		TileList tilesN = new TileList(h4);
+		List<TileInterface> tilesE = new ArrayList<TileInterface>();
+		List<TileInterface> tilesS = new ArrayList<TileInterface>();
+		List<TileInterface> tilesW = new ArrayList<TileInterface>();
+		List<TileInterface> tilesN = new ArrayList<TileInterface>();
+//		TileList tilesE = new TileList(h1);
+//		TileList tilesS = new TileList(h2);
+//		TileList tilesW = new TileList(h3);
+//		TileList tilesN = new TileList(h4);
 		
 		final int TAKEN_PER_ROUND = 16;
 		final int TAKEN_PER_PLAYER = 4;
@@ -464,29 +468,29 @@ public class Wall {
 		for (i = 0; i < 3; i++){
 			//east takes 4
 			for (j = 0; j < 4; j++)
-				mTiles[TAKEN_PER_ROUND*i + j + 0*TAKEN_PER_PLAYER] = (GameTile)tilesE.removeFirst();
+				mTiles[TAKEN_PER_ROUND*i + j + 0*TAKEN_PER_PLAYER] = (GameTile)tilesE.remove(0);
 			//south takes 4
 			for (j = 0; j < 4; j++)
-				mTiles[TAKEN_PER_ROUND*i + j + 1*TAKEN_PER_PLAYER] = (GameTile)tilesS.removeFirst();
+				mTiles[TAKEN_PER_ROUND*i + j + 1*TAKEN_PER_PLAYER] = (GameTile)tilesS.remove(0);
 			//west takes 4
 			for (j = 0; j < 4; j++)
-				mTiles[TAKEN_PER_ROUND*i + j + 2*TAKEN_PER_PLAYER] = (GameTile)tilesW.removeFirst();
+				mTiles[TAKEN_PER_ROUND*i + j + 2*TAKEN_PER_PLAYER] = (GameTile)tilesW.remove(0);
 			//north takes 4
 			for (j = 0; j < 4; j++)
-				mTiles[TAKEN_PER_ROUND*i + j + 3*TAKEN_PER_PLAYER] = (GameTile)tilesN.removeFirst();
+				mTiles[TAKEN_PER_ROUND*i + j + 3*TAKEN_PER_PLAYER] = (GameTile)tilesN.remove(0);
 		}
 		//east takes 2
-		mTiles[3*TAKEN_PER_ROUND + 0] = (GameTile)tilesE.removeFirst();
-		mTiles[3*TAKEN_PER_ROUND + 1] = (GameTile)tilesE.removeFirst();
+		mTiles[3*TAKEN_PER_ROUND + 0] = (GameTile)tilesE.remove(0);
+		mTiles[3*TAKEN_PER_ROUND + 1] = (GameTile)tilesE.remove(0);
 
 		//south takes 1
-		mTiles[3*TAKEN_PER_ROUND + 2] = (GameTile)tilesS.removeFirst();
+		mTiles[3*TAKEN_PER_ROUND + 2] = (GameTile)tilesS.remove(0);
 
 		//west takes 1
-		mTiles[3*TAKEN_PER_ROUND + 3] = (GameTile)tilesW.removeFirst();
+		mTiles[3*TAKEN_PER_ROUND + 3] = (GameTile)tilesW.remove(0);
 
 		//north takes 1
-		mTiles[3*TAKEN_PER_ROUND + 4] = (GameTile)tilesN.removeFirst();
+		mTiles[3*TAKEN_PER_ROUND + 4] = (GameTile)tilesN.remove(0);
 		
 		
 		if (tsumo2 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 1] = new GameTile(tsumo2);

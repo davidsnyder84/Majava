@@ -6,7 +6,6 @@ import utility.Pauser;
 import majava.Player;
 import majava.Wall;
 import majava.tiles.GameTile;
-import majava.util.TileList;
 
 
 

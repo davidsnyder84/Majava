@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import majava.Meld;
-import majava.util.TileList;
 import majava.enums.Wind;
 import majava.summary.PlayerSummary;
 import majava.summary.ResultType;
-import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
 
 
@@ -26,7 +24,7 @@ public class RoundResultSummary {
 	private final TileInterface pWinningTile;
 	
 	
-	private final TileList pWinnerHand;
+	private final List<TileInterface> pWinnerHand;
 	private final List<Meld> pWinnerMelds;
 	
 	private final PaymentMap pPayments;
@@ -34,7 +32,7 @@ public class RoundResultSummary {
 	
 	
 	//win constructor
-	public RoundResultSummary(ResultType resType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, TileInterface winningTile, TileList winnerHand, List<Meld> winnerMelds, PaymentMap payments){
+	public RoundResultSummary(ResultType resType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, TileInterface winningTile, List<? extends TileInterface> winnerHand, List<Meld> winnerMelds, PaymentMap payments){
 		
 		pResultType = resType;
 		
@@ -43,7 +41,9 @@ public class RoundResultSummary {
 			pFurikondaPlayer = furikondaPlayer;
 			pWinningTile = winningTile.clone();
 			
-			pWinnerHand = winnerHand.clone();
+			pWinnerHand = new ArrayList<TileInterface>();
+			for (TileInterface t: winnerHand) pWinnerHand.add(t.getTileBase());
+			
 			pWinnerMelds = winnerMelds;
 		}
 		else{
@@ -93,7 +93,12 @@ public class RoundResultSummary {
 	
 	
 	
-	public TileList getWinnerHandTiles(){if (!isVictory()) return null; return pWinnerHand.clone();}
+	public List<TileInterface> getWinnerHandTiles(){
+		if (!isVictory()) return null;
+		List <TileInterface> copy = new ArrayList<TileInterface>();
+		copy.addAll(pWinnerHand);
+		return copy;
+	}
 	public List<Meld> getWinnerMelds(){
 		if (!isVictory()) return null; 
 		List<Meld> meldsCopy = new ArrayList<Meld>();

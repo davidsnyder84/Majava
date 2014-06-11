@@ -1,9 +1,11 @@
 package majava.tiles;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import majava.enums.MeldType;
+import utility.ConviniList;
 import utility.MahStack;
 
 
@@ -80,6 +82,20 @@ public class HandCheckerTile extends GameTile {
 //		for (MeldType m: mMeldTypeStack) stackString += m.toString() + ", ";
 //		return stackString;
 //	}
+	
+	
+	
+	
+	public static ConviniList<HandCheckerTile> makeCopyOfListWithCheckers(final List<? extends TileInterface> orig){
+		
+		ConviniList<HandCheckerTile> copy = new ConviniList<HandCheckerTile>();
+		
+		for (TileInterface t: orig){
+			if (t instanceof GameTile) copy.add(new HandCheckerTile((GameTile)t));
+			else copy.add(new HandCheckerTile(t));
+		}
+		return copy;
+	}
 	
 	
 }

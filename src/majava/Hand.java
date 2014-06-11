@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import utility.ConviniList;
+
 import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
 import majava.enums.Wind;
 import majava.enums.MeldType;
-import majava.util.TileList;
 
 
 /*
@@ -66,7 +67,7 @@ methods:
 		other:
 		syncWithRoundTracker - associates the hand with the tracker
 */
-public class Hand implements Iterable<TileInterface>{
+public class Hand implements Iterable<GameTile>{
 	
 	private static final int MAX_HAND_SIZE = 14;
 	private static final int MAX_NUM_MELDS = 5;
@@ -78,7 +79,7 @@ public class Hand implements Iterable<TileInterface>{
 	
 	
 	
-	private final TileList mTiles;
+	private final ConviniList<GameTile> mTiles;
 	private final List<Meld> mMelds;
 	private final HandChecker mChecker;
 	
@@ -93,7 +94,7 @@ public class Hand implements Iterable<TileInterface>{
 	
 	//1-arg constructor, takes player's seat wind
 	public Hand(Wind playerWind){
-		mTiles = new TileList(MAX_HAND_SIZE);
+		mTiles = new ConviniList<GameTile>(MAX_HAND_SIZE);
 		mMelds = new ArrayList<Meld>(MAX_NUM_MELDS);
 		
 		mNumMeldsMade = 0;
@@ -142,7 +143,7 @@ public class Hand implements Iterable<TileInterface>{
 	public boolean getTenpaiStatus(){return mChecker.getTenpaiStatus();}
 	
 	//returns a list of the hand's tenpai waits
-	public TileList getTenpaiWaits(){
+	public List<TileInterface> getTenpaiWaits(){
 		if (getTenpaiStatus()) return mChecker.getTenpaiWaits();
 		else return null;
 	}
@@ -284,7 +285,7 @@ public class Hand implements Iterable<TileInterface>{
 		List<Integer> partnerIndices = mChecker.getPartnerIndices(meldType);
 
 		//list of TILES, will hold the tiles coming from the hand that will be in the meld
-		TileList tilesFromHand = mTiles.getMultiple(partnerIndices);
+		ConviniList<GameTile> tilesFromHand = mTiles.getMultiple(partnerIndices);
 		
 		//candidateTile = the tile that will complete the meld
 		GameTile candidateTile = mChecker.getCallCandidate();
@@ -321,7 +322,7 @@ public class Hand implements Iterable<TileInterface>{
 	
 	private void __makeClosedMeld(MeldType meldType){
 		
-		TileList handTiles = new TileList();
+		ConviniList<GameTile> handTiles = new ConviniList<GameTile>();
 		GameTile candidate;
 		int candidateIndex;
 		List<Integer> partnerIndices;
@@ -499,7 +500,7 @@ public class Hand implements Iterable<TileInterface>{
 	
 	//iterator, returns mTile's iterator
 	@Override
-	public Iterator<TileInterface> iterator() {return mTiles.iterator();}
+	public Iterator<GameTile> iterator() {return mTiles.iterator();}
 	
 	
 	

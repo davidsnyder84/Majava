@@ -157,8 +157,8 @@ public class ImmutableTile implements TileInterface{
 	//returns true if the tiles have the same ID
 	@Override
 	final public boolean equals(Object other){
-		if (other == null || !(other instanceof ImmutableTile)) return false;
-		return mID == ((ImmutableTile)other).mID;
+		if (other == null || !(other instanceof TileInterface)) return false;
+		return mID == ((TileInterface)other).getId();
 	}
 	@Override
 	public String toString(){return mSuitfaceString;}
@@ -185,6 +185,15 @@ public class ImmutableTile implements TileInterface{
 		return tiles[NUMBER_OF_DIFFERENT_TILES + 1 + (id/9)];
 	}
 	
+	//retrieve multiple tiles
+	public static final List<TileInterface> retrieveMultipleTiles(Integer... ids){
+		TileInterface[] list = new TileInterface[ids.length];
+		for (int i = 0; i < list.length; i++) list[i] = tiles[ids[i]];
+		return Arrays.asList(list);
+	}
+	public static final List<TileInterface> retrieveMultipleTiles(List<Integer> ids){return retrieveMultipleTiles((Integer[])ids.toArray());}
+	
+	//retrieve list of yaochuu tiles
 	public static final List<TileInterface> retrievelistOfYaochuuTiles(){return Arrays.asList(yaochuuIDs);}
 	
 	
@@ -196,10 +205,20 @@ public class ImmutableTile implements TileInterface{
 	
 	public static void main(String[] s){
 		
-		List<ImmutableTile> list = new ArrayList<ImmutableTile>();
-		for (int i = 0; i <= NUMBER_OF_DIFFERENT_TILES; i++) list.add(ImmutableTile.retrieveTile(i));
-		for (ImmutableTile t: list) System.out.println(t.toString());
+//		List<ImmutableTile> list = new ArrayList<ImmutableTile>();
+//		for (int i = 0; i <= NUMBER_OF_DIFFERENT_TILES; i++) list.add(ImmutableTile.retrieveTile(i));
+//		for (ImmutableTile t: list) System.out.println(t.toString());
 		
+		
+		ImmutableTile it = tiles[3];
+		System.out.println(it.toString());
+		
+		GameTile gt= new GameTile(3);
+		System.out.println(gt.toString());
+		
+
+		System.out.println(it.equals(gt));
+		System.out.println(gt.equals(it));
 	}
 
 }

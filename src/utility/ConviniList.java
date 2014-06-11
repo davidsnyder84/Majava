@@ -38,7 +38,8 @@ methods:
 		methods from Lsist:
 		add, remove, size, get, contains, isEmpty, indexOf, lastIndexOf, set, clear, trimToSize, ensureCapacity, iterator
 */
-public class ConviniList<T extends Comparable<T>> extends ArrayList<T>{
+public class ConviniList<T extends Comparable<? super T>> extends ArrayList<T>{
+//public class ConviniList<T extends Comparable<? extends T>> extends ArrayList<T>{
 	private static final long serialVersionUID = -6296356765155653731L;
 	
 
@@ -47,7 +48,7 @@ public class ConviniList<T extends Comparable<T>> extends ArrayList<T>{
 	
 	
 	//takes a List
-	public ConviniList(List<T> items){
+	public ConviniList(List<? extends T> items){
 		this(items.size());
 		for (T t: items) add(t);
 	}

@@ -53,6 +53,7 @@ public class GameTile implements Cloneable, TileInterface {
 		mTile = tilebase;
 		mOriginalOwner = Wind.UNKNOWN;
 	}
+	public GameTile(TileInterface tinter){this(tinter.getTileBase());}
 	//Takes ID of tile (and optional red dora flag)
 	public GameTile(int id, boolean isRed){this(ImmutableTile.retrieveTileRed(id));}
 	//1-arg Constructor, takes tile ID
@@ -61,9 +62,6 @@ public class GameTile implements Cloneable, TileInterface {
 	public GameTile(String suitfaceString){this(ImmutableTile.retrieveTile(suitfaceString));}
 	
 	
-	
-	
-	public GameTile(TileInterface tinter){this(tinter.getTileBase());}
 	
 	
 	
@@ -142,8 +140,9 @@ public class GameTile implements Cloneable, TileInterface {
 	//returns true if the tiles have the same ID
 	@Override
 	final public boolean equals(Object other){
-		if (other == null || !(other instanceof TileInterface)) return false;
-		return mTile.equals(((TileInterface)other).getTileBase());
+		return mTile.equals(other);
+//		if (other == null || !(other instanceof TileInterface)) return false;
+//		return mTile.equals(((TileInterface)other).getTileBase());
 	}
 	
 	//string representaiton of tile's suit/face

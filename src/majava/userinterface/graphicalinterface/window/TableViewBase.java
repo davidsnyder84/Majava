@@ -15,7 +15,6 @@ import majava.summary.entity.PlayerTracker;
 import majava.summary.entity.RoundEntities;
 import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
-import majava.util.TileList;
 import majava.tiles.PondTile;
 import utility.ImageResizer;
 import utility.ImageRotator;
@@ -368,7 +367,7 @@ public class TableViewBase extends JFrame{
 		}
 	}
 	
-	private ImageIcon __getImageIcon(TileList tList, int index, int seatNum, int tileSize, boolean reveal){
+	private ImageIcon __getImageIcon(List<? extends TileInterface> tList, int index, int seatNum, int tileSize, boolean reveal){
 		if (tList.size() <= index) return null;
 		
 		if (!reveal) return garryTiles[seatNum][tileSize][TILEBACK];
@@ -378,10 +377,10 @@ public class TableViewBase extends JFrame{
 		
 		return garryTiles[seatNum][tileSize][id];
 	}
-	private ImageIcon __getImageIcon(TileList tList, int index, int seatNum, int tileSize){return __getImageIcon(tList, index, seatNum, tileSize, true);}
+	private ImageIcon __getImageIcon(List<? extends TileInterface> tList, int index, int seatNum, int tileSize){return __getImageIcon(tList, index, seatNum, tileSize, true);}
 	
 	
-	private ImageIcon __getImageIconPond(TileList tList, int index, int seatNum){
+	private ImageIcon __getImageIconPond(List<? extends TileInterface> tList, int index, int seatNum){
 		if (tList.size() <= index) return null;
 		
 		int id =__getImageID(tList.get(index));
@@ -513,7 +512,7 @@ public class TableViewBase extends JFrame{
 		
 		//update melds
 		List<Meld> meldList = null;
-		TileList tList = null;
+		List<GameTile> tList = null;
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
 			meldList = mPTrackers[currentPlayer].player.getMelds();
 			for (currentMeld = 0; currentMeld < meldList.size(); currentMeld++){

@@ -14,7 +14,6 @@ import majava.userinterface.graphicalinterface.window.TableViewBase;
 import majava.summary.RoundResultSummary;
 import majava.summary.entity.RoundEntities;
 import majava.tiles.GameTile;
-import majava.util.TileList;
 
 import java.util.ArrayList;
 import java.util.Collections;

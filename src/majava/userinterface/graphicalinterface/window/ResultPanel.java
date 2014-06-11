@@ -26,9 +26,9 @@ import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;
 import majava.tiles.TileInterface;
-import majava.util.TileList;
 import majava.util.YakuList;
 import majava.yaku.Yaku;
+
 
 public class ResultPanel extends JPanel{
 	private static final long serialVersionUID = -5392789088556649589L;
@@ -111,7 +111,7 @@ public class ResultPanel extends JPanel{
 		PaymentMap payments = null;
 		//for win
 		PlayerSummary winner = null, furikon = null;
-		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; TileInterface winningTile = null;
+		List<TileInterface> winnerHandTiles = null; List<Meld> winnerMelds = null; TileInterface winningTile = null;
 		YakuList yakuList = null; int yakuWorth = 1; int handScore = 0;
 		
 		//***result label (Player 1 wins!, Draw!, etc)

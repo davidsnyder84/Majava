@@ -11,8 +11,8 @@ import majava.enums.MeldType;
 import majava.Player;
 import majava.enums.Wind;
 import majava.tiles.GameTile;
+import majava.tiles.ImmutableTile;
 import majava.tiles.TileInterface;
-import majava.util.TileList;
 
 
 
@@ -155,9 +155,9 @@ public class MajaPlay {
 	public static void chiitoiTenpaiTest(){
 		
 		Hand h = new Hand(ownerSeat);
-		TileList waits = new TileList();
+		List<TileInterface> waits = new ArrayList<TileInterface>();
 		
-		TileList handTiles = new TileList(2,2,5,5,7,7,10,10,20,20,21,21,30,30);
+		List<TileInterface> handTiles = ImmutableTile.retrieveMultipleTiles(2,2,5,5,7,7,10,10,20,20,21,21,30,30);
 		handTiles.remove(13);
 		for (TileInterface t: handTiles) h.addTile((GameTile) t);
 		
@@ -167,30 +167,30 @@ public class MajaPlay {
 
 		println("\nIn tenpai for chiitoi?: " + h.DEMOgetChecker().DEMOchiitoitsuInTenpai());
 		waits = h.DEMOgetChecker().getTenpaiWaits();
-		if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.getFirst().toString());
+		if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.get(0).toString());
 		println("\n\n\n");
 		
 
 		//chiitoi tenpai hands (should show true)
 		println("\n\nGOOD TENPAIS=====================\n");
-		List<TileList> tlists = new ArrayList<TileList>(8);
-		tlists.add(new TileList(1,1,3,3,5,5,7,7,9,9,11,11,13));
-		tlists.add(new TileList(1,1,3,3,5,5,7,7,9,9,11,13,13));
-		tlists.add(new TileList(1,1,3,3,5,5,7,7,9,11,11,13,13));
-		tlists.add(new TileList(1,1,3,3,5,5,7,9,9,11,11,13,13));
-		tlists.add(new TileList(1,1,3,3,5,7,7,9,9,11,11,13,13));
-		tlists.add(new TileList(1,1,3,5,5,7,7,9,9,11,11,13,13));
-		tlists.add(new TileList(1,3,3,5,5,7,7,9,9,11,11,13,13));
+		List<List<TileInterface>> tlists = new ArrayList<List<TileInterface>>(8);
+		tlists.add(ImmutableTile.retrieveMultipleTiles(1,1,3,3,5,5,7,7,9,9,11,11,13));
+		tlists.add(ImmutableTile.retrieveMultipleTiles(1,1,3,3,5,5,7,7,9,9,11,13,13));
+		tlists.add(ImmutableTile.retrieveMultipleTiles(1,1,3,3,5,5,7,7,9,11,11,13,13));
+		tlists.add(ImmutableTile.retrieveMultipleTiles(1,1,3,3,5,5,7,9,9,11,11,13,13));
+		tlists.add(ImmutableTile.retrieveMultipleTiles(1,1,3,3,5,7,7,9,9,11,11,13,13));
+		tlists.add(ImmutableTile.retrieveMultipleTiles(1,1,3,5,5,7,7,9,9,11,11,13,13));
+		tlists.add(ImmutableTile.retrieveMultipleTiles(1,3,3,5,5,7,7,9,9,11,11,13,13));
 		
-		for (TileList tl: tlists){
+		for (List<TileInterface> tl: tlists){
 			h = new Hand(ownerSeat);
-			for (TileInterface t: tl) h.addTile(((GameTile) t));
+			for (TileInterface t: tl) h.addTile(new GameTile(t.getTileBase()));
 
 			println(h.toString());
 
 			println("\nIn tenpai for chiitoi?: " + h.DEMOgetChecker().DEMOchiitoitsuInTenpai());
 			waits = h.DEMOgetChecker().getTenpaiWaits();
-			if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.getFirst().toString());
+			if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.get(0).toString());
 			println("\n\n\n");
 		}
 		
@@ -198,23 +198,25 @@ public class MajaPlay {
 		
 		//NOT chiitoi tenpai hands (should show false)
 		println("\n\nBAD TENPAIS=====================\n");
-		List<TileList> badtlists = new ArrayList<TileList>(8);
-		badtlists.add(new TileList(1,1,1,1,5,5,7,7,9,9,11,11,13));
-		badtlists.add(new TileList(1,1,1,1,5,6,7,7,9,9,11,11,13,13));
-		badtlists.add(new TileList(1,1,5,5,7,7,9,9,11,11,13));
-		badtlists.add(new TileList(1,1,5));
-		badtlists.add(new TileList(new GameTile(1)));
-		badtlists.add(new TileList(1,1,3,3,5,5,7,7,9,9,11,11,13,13));	//is actually chiitoi complete
+		List<List<TileInterface>> badtlists = new ArrayList<List<TileInterface>>(8);
+		badtlists.add(ImmutableTile.retrieveMultipleTiles(1,1,1,1,5,5,7,7,9,9,11,11,13));
+		badtlists.add(ImmutableTile.retrieveMultipleTiles(1,1,1,1,5,6,7,7,9,9,11,11,13,13));
+		badtlists.add(ImmutableTile.retrieveMultipleTiles(1,1,5,5,7,7,9,9,11,11,13));
+		badtlists.add(ImmutableTile.retrieveMultipleTiles(1,1,5));
+		badtlists.add(ImmutableTile.retrieveMultipleTiles(1));
+		badtlists.add(ImmutableTile.retrieveMultipleTiles(1,1,3,3,5,5,7,7,9,9,11,11,13,13));	//is actually chiitoi complete
 		
-		for (TileList tl: badtlists){
+		
+		
+		for (List<TileInterface> tl: badtlists){
 			h = new Hand(ownerSeat);
-			for (TileInterface t: tl) h.addTile((GameTile)t);
+			for (TileInterface t: tl) h.addTile(new GameTile(t.getTileBase()));
 
 			println(h.toString());
 
 			println("\nIn tenpai for chiitoi?: " + h.DEMOgetChecker().DEMOchiitoitsuInTenpai());
 			waits = h.DEMOgetChecker().getTenpaiWaits();
-			if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.getFirst().toString());
+			if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.get(0).toString());
 			println("\n\n\n");
 		}
 		
@@ -229,7 +231,7 @@ public class MajaPlay {
 		
 		Hand h = new Hand(ownerSeat);
 		//Tile q = null;
-		TileList waits = null;
+		List<TileInterface> waits = null;
 
 		h.addTile(new GameTile("M1"));	//1
 		h.addTile(new GameTile("M9"));	//2

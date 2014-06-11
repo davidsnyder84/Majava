@@ -7,7 +7,6 @@ import java.util.List;
 import utility.Pauser;
 import majava.Meld;
 import majava.Player;
-import majava.util.TileList;
 import majava.util.YakuList;
 import majava.yaku.Yaku;
 import majava.enums.Exclamation;
@@ -93,7 +92,7 @@ public class DetailedTextualUI extends TextualUI{
 	protected void __showWall(){println(mRoundEntities.mWall.toString());}
 	
 	protected void __showDoraIndicators(){
-		TileList t = mRoundEntities.mWall.getDoraIndicators();
+		List<TileInterface> t = mRoundEntities.mWall.getDoraIndicators();
 		println("Dora Indicators: " + t.toString() + "\n\n");
 	}
 	
@@ -145,7 +144,7 @@ public class DetailedTextualUI extends TextualUI{
 		PaymentMap payments = null;
 		//for win
 		PlayerSummary winner = null, furikon = null;
-		TileList winnerHandTiles = null; List<Meld> winnerMelds = null; TileInterface winningTile = null;
+		List<TileInterface> winnerHandTiles = null; List<Meld> winnerMelds = null; TileInterface winningTile = null;
 		YakuList yakuList = null; int yakuWorth = -1; int handScore = -1; 
 		
 		

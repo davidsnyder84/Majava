@@ -11,6 +11,7 @@ import majava.enums.MeldType;
 import majava.Player;
 import majava.enums.Wind;
 import majava.tiles.GameTile;
+import majava.tiles.TileInterface;
 import majava.util.TileList;
 
 
@@ -64,7 +65,8 @@ public class MajaPlay {
 //		playFinishingMelds();
 		
 		
-		playShowRoundResultInfo();
+//		playShowRoundResultInfo();
+		listEqualsTest();
 		
 //		playTileClone();
 		
@@ -157,7 +159,7 @@ public class MajaPlay {
 		
 		TileList handTiles = new TileList(2,2,5,5,7,7,10,10,20,20,21,21,30,30);
 		handTiles.remove(13);
-		for (GameTile t: handTiles) h.addTile(t);
+		for (TileInterface t: handTiles) h.addTile((GameTile) t);
 		
 		
 		println(h.toString());
@@ -182,7 +184,7 @@ public class MajaPlay {
 		
 		for (TileList tl: tlists){
 			h = new Hand(ownerSeat);
-			for (GameTile t: tl) h.addTile(t);
+			for (TileInterface t: tl) h.addTile(((GameTile) t));
 
 			println(h.toString());
 
@@ -206,7 +208,7 @@ public class MajaPlay {
 		
 		for (TileList tl: badtlists){
 			h = new Hand(ownerSeat);
-			for (GameTile t: tl) h.addTile(t);
+			for (TileInterface t: tl) h.addTile((GameTile)t);
 
 			println(h.toString());
 
@@ -253,7 +255,7 @@ public class MajaPlay {
 		
 		waits = h.DEMOgetChecker().DEMOgetKokushiWaits();
 		System.out.print(waits.size() + "-sided wait: ");
-		for (GameTile t: waits)
+		for (TileInterface t: waits)
 			System.out.print(t.toString() + ", ");
 		
 		println("\n\nKokushi musou complete?: " + h.DEMOgetChecker().isCompleteKokushi());
@@ -707,7 +709,7 @@ public class MajaPlay {
 		TileList oddTiles = handTiles.getMultiple(1,3,5,7,9,11,13);
 		
 //		oddTiles.get(1).setRedDora();
-		oddTiles.get(2).setOwner(Wind.NORTH);
+		((GameTile)oddTiles.get(2)).setOwner(Wind.NORTH);
 		
 		println("List1: " + evenTiles.toString());
 		println("List2: " + oddTiles.toString());

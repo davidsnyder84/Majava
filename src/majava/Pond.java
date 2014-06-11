@@ -2,6 +2,7 @@ package majava;
 
 import majava.tiles.PondTile;
 import majava.tiles.GameTile;
+import majava.tiles.TileInterface;
 import majava.util.TileList;
 
 /*
@@ -36,7 +37,7 @@ public class Pond {
 	
 	
 	
-	private TileList mTiles;
+	private final TileList mTiles;
 	
 	private int mRiichiTileIndex;
 	
@@ -64,10 +65,10 @@ public class Pond {
 	
 	
 	//returns which tile the player used for riichi
-	public GameTile getRiichiTile(){return mTiles.get(mRiichiTileIndex);}
+	public GameTile getRiichiTile(){return (GameTile)mTiles.get(mRiichiTileIndex);}
 	
 	//returns the most recently discarded tile in the pond
-	public GameTile getMostRecentTile(){return mTiles.getLast();}
+	public GameTile getMostRecentTile(){return (GameTile)mTiles.getLast();}
 	
 	
 	

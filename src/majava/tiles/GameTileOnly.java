@@ -43,7 +43,7 @@ methods:
 		equals - returns true if both tiles have the same ID, false otherwise
 		toString - returns string representation of a tile's suit/face
 */
-public class GameTileOnly implements Cloneable, Comparable<GameTileOnly>, TileInterface {
+public class GameTileOnly implements Cloneable, TileInterface {
 	
 	private final ImmutableTile mTile;
 	
@@ -98,7 +98,8 @@ public class GameTileOnly implements Cloneable, Comparable<GameTileOnly>, TileIn
 	final public boolean isHonor(){return mTile.isHonor();}
 	final public boolean isTerminal(){return mTile.isTerminal();}
 	
-	
+
+	final public ImmutableTile getTileBase(){return mTile;}
 	
 	
 	/*
@@ -112,7 +113,7 @@ public class GameTileOnly implements Cloneable, Comparable<GameTileOnly>, TileIn
 
 	//compares the two base tiles
 	@Override
-	final public int compareTo(GameTileOnly other){return mTile.compareTo(other.mTile);}
+	final public int compareTo(TileInterface other){return mTile.compareTo(other.getTileBase());}
 	
 	//returns true if the tiles have the same ID
 	@Override

@@ -9,6 +9,7 @@ import majava.enums.Wind;
 import majava.userinterface.GameUI;
 import majava.summary.PlayerSummary;
 import majava.tiles.GameTile;
+import majava.tiles.TileInterface;
 
 /*
 Class: Player
@@ -541,7 +542,9 @@ public class Player {
 	add the tile to the player's hand
 	set drawNeeded = none (since the player has just drawn)
 	*/
-	public void addTileToHand(GameTile t){
+	public void addTileToHand(final GameTile t){
+		
+//		GameTile ownedTile = new GameTile(t);
 		
 		//set the tile's owner to be the player
 		t.setOwner(mSeatWind);
@@ -971,7 +974,7 @@ public class Player {
 	public String getAsStringHandCompact(){
 		String hs = "";
 		hs += mSeatWind.toChar() + " hand: ";
-		for (GameTile t: mHand) hs += t + " ";
+		for (TileInterface t: mHand) hs += t + " ";
 		return hs;
 	}
 	

@@ -8,6 +8,7 @@ import majava.summary.PlayerSummary;
 import majava.summary.ResultType;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
+import majava.tiles.TileInterface;
 import majava.util.TileList;
 
 
@@ -50,7 +51,7 @@ public class RoundResult {
 	private Player mWinningPlayer;
 	private Player mFurikondaPlayer;
 	
-	private GameTile mWinningTile;
+	private TileInterface mWinningTile;
 
 	
 	private TileList mWinnerHand;
@@ -100,12 +101,12 @@ public class RoundResult {
 	
 	
 	//set other things
-	public void setWinningHand(TileList handTiles, List<Meld> melds, GameTile winningTile){
+	public void setWinningHand(TileList handTiles, List<Meld> melds, TileInterface winningTile){
 		mWinnerHand = handTiles;
 		mWinnerMelds = melds;
 		setWinningTile(winningTile);
 	}
-	public void setWinningTile(GameTile winningTile){mWinningTile = winningTile;}
+	public void setWinningTile(TileInterface winningTile){mWinningTile = winningTile;}
 	
 	
 	public void recordPayments(PaymentMap payments){
@@ -162,7 +163,7 @@ public class RoundResult {
 	
 	public Wind getWindOfWinner(){if (isOver() && isVictory()) return mWinningPlayer.getSeatWind(); return null;}
 	
-	public GameTile getWinningTile(){return mWinningTile;}
+	public TileInterface getWinningTile(){return mWinningTile;}
 	public Player getWinningPlayer(){return mWinningPlayer;}
 	public Player getFurikondaPlayer(){return mFurikondaPlayer;}
 	
@@ -187,7 +188,7 @@ public class RoundResult {
 		RoundResultSummary sum = null;
 		PlayerSummary winnerSummary = null, furikonSummary = null;
 		PaymentMap payments = null;
-		GameTile winningTile = null;
+		TileInterface winningTile = null;
 		TileList winnerHand = null;
 		List<Meld> winnerMelds = null;
 		

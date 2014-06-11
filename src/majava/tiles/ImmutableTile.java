@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ImmutableTile implements Comparable<ImmutableTile>, TileInterface{
+public class ImmutableTile implements TileInterface{
 	
 	private static final String FACE_FOR_RED_DORA = "%";
 	private static final String[] STR_REPS = {"O0", 
@@ -103,7 +103,8 @@ public class ImmutableTile implements Comparable<ImmutableTile>, TileInterface{
 	
 	
 	
-	
+
+	final public ImmutableTile getTileBase(){return this;}
 	
 	final public int getId(){return mID;}
 	final public char getSuit(){return mSuit;}
@@ -138,15 +139,15 @@ public class ImmutableTile implements Comparable<ImmutableTile>, TileInterface{
 	//compares the IDs of two tiles
 	//if they are both 5's, and one is a red dora, the red dora will "come after" the non-red tile
 	@Override
-	final public int compareTo(ImmutableTile other){
+	final public int compareTo(TileInterface other){
 		
 		//if the tiles have different id's, return the difference
-		if (mID != other.mID) return (mID - other.mID);
+		if (mID != other.getId()) return (mID - other.getId());
 		
 		//at this point, both tiles have the same ID
 		//if both 5's, check if one is red dora
 		if (mFace == '5')
-			if (mRedDora && !other.mRedDora) return 1;
+			if (mRedDora && !other.isRedDora()) return 1;
 			else return -1;
 		
 		//if the tiles are not 5's, or if both or neither are red doras, return 0

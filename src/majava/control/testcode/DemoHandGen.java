@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Random;
 
 import majava.Hand;
+import majava.HandChecker;
 import majava.enums.MeldType;
 import majava.enums.Wind;
 import majava.tiles.GameTile;
+import majava.tiles.TileInterface;
 import majava.util.TileList;
 
 
@@ -28,11 +30,11 @@ public class DemoHandGen {
 	public static void main(String[] args) {
 		
 //		runTenpaiSimulation(5000);
-		runSimulationNoDisplay(25000);
+//		runSimulationNoDisplay(25000);
 //		runSumulationRandom(100000);
 //		runSpecificTest();
 		
-//		runSimulation(20000);
+		runSimulation(5000);
 	}
 	
 	
@@ -66,7 +68,7 @@ public class DemoHandGen {
 			
 			success = currentHand.DEMOgetChecker().DEMOisComplete();
 			System.out.println(currentHand.getAsStringMeldsCompact());
-			System.out.println("Hand is complete normal?: " + success);
+			System.out.println("Hand is complete?: " + success);
 			
 			if (success == false){
 				numFailures++;
@@ -138,7 +140,7 @@ public class DemoHandGen {
 			
 			System.out.print("Waits: ");
 			waitString = "";
-			for (GameTile t: waits) waitString += t.toString() + ", ";
+			for (TileInterface t: waits) waitString += t.toString() + ", ";
 			
 			
 			if (waits.isEmpty()){
@@ -185,9 +187,9 @@ public class DemoHandGen {
 		Hand hand = new Hand(OWNER_SEAT);
 		TileList handTiles = Majenerator.generateWinningHandTiles();		
 		
-		for (GameTile t: handTiles){
-			t.setOwner(OWNER_SEAT);
-			hand.addTile(t);
+		for (TileInterface t: handTiles){
+			((GameTile) t).setOwner(OWNER_SEAT);
+			hand.addTile((GameTile)t);
 		}
 		
 		hand.sortHand();
@@ -256,7 +258,7 @@ public class DemoHandGen {
 			}
 		}
 		
-		for (GameTile t: tiles) hand.addTile(t);
+		for (TileInterface t: tiles) hand.addTile((GameTile)t);
 		
 		hand.sortHand();
 //		System.out.println(hand.toString());
@@ -274,8 +276,11 @@ public class DemoHandGen {
 		Hand hand = generateSpecificHand();
 		
 		
-		System.out.println(hand.toString());
-		System.out.println("Hand is complete normal?: " + hand.DEMOgetChecker().isCompleteNormal());
+		System.out.println("\n" + hand.toString());
+		
+		HandChecker checker = hand.DEMOgetChecker();
+		boolean isComplete = checker.DEMOisComplete();
+		System.out.println("Hand is complete normal?: " + isComplete);
 		
 	}
 	
@@ -283,16 +288,17 @@ public class DemoHandGen {
 		Hand hand = new Hand(OWNER_SEAT);
 //		TileList tiles = new TileList(19,19,19,20,21,21,22,22,23,32,32,32,34,34);	//S1 S1 S1 S2 S3 S3 S4 S4 S5 DW DW DW DR DR
 //		TileList tiles = new TileList(21,22,23,32,32,32,34,34);
-		TileList tiles = new TileList(2+9,3+9,4+9,1+18,1+18);	//P2 P3 P4 S1 S1
+//		TileList tiles = new TileList(2+9,3+9,4+9,1+18,1+18);	//P2 P3 P4 S1 S1
+		TileList tiles = new TileList(1,1,2+9,3+9,4+9);	//P2 P3 P4 S1 S1
 		
 		
-		for (GameTile t: tiles){
-			t.setOwner(OWNER_SEAT);
+		for (TileInterface t: tiles){
+			((GameTile) t).setOwner(OWNER_SEAT);
 			System.out.println("Adding " + t);
-			if (t.getId() == 1+18)
+			if (t.getId() == 4+9)
 				t.getId();
-			hand.addTile(t);
-			System.out.println(hand.toString());
+			hand.addTile((GameTile)t);
+//			System.out.println(hand.toString());
 		}
 		
 		

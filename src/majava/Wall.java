@@ -3,8 +3,10 @@ package majava;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import majava.tiles.GameTile;
+import majava.tiles.TileInterface;
 import majava.util.TileList;
 
 
@@ -120,7 +122,8 @@ public class Wall {
     East takes 4, South takes 4, West takes 4, North takes 4
     East takes 2, South takes 1, West takes 1, North takes 1
 	*/
-	public void getStartingHands(TileList tilesE, TileList tilesS, TileList tilesW, TileList tilesN){
+//	public void getStartingHands(TileList tilesE, TileList tilesS, TileList tilesW, TileList tilesN){
+	public void getStartingHands(List<GameTile> tilesE, List<GameTile> tilesS, List<GameTile> tilesW, List<GameTile> tilesN){
 		
 		int i, j;
 		//each player takes 4 tiles, three times
@@ -461,29 +464,29 @@ public class Wall {
 		for (i = 0; i < 3; i++){
 			//east takes 4
 			for (j = 0; j < 4; j++)
-				mTiles[TAKEN_PER_ROUND*i + j + 0*TAKEN_PER_PLAYER] = tilesE.removeFirst();
+				mTiles[TAKEN_PER_ROUND*i + j + 0*TAKEN_PER_PLAYER] = (GameTile)tilesE.removeFirst();
 			//south takes 4
 			for (j = 0; j < 4; j++)
-				mTiles[TAKEN_PER_ROUND*i + j + 1*TAKEN_PER_PLAYER] = tilesS.removeFirst();
+				mTiles[TAKEN_PER_ROUND*i + j + 1*TAKEN_PER_PLAYER] = (GameTile)tilesS.removeFirst();
 			//west takes 4
 			for (j = 0; j < 4; j++)
-				mTiles[TAKEN_PER_ROUND*i + j + 2*TAKEN_PER_PLAYER] = tilesW.removeFirst();
+				mTiles[TAKEN_PER_ROUND*i + j + 2*TAKEN_PER_PLAYER] = (GameTile)tilesW.removeFirst();
 			//north takes 4
 			for (j = 0; j < 4; j++)
-				mTiles[TAKEN_PER_ROUND*i + j + 3*TAKEN_PER_PLAYER] = tilesN.removeFirst();
+				mTiles[TAKEN_PER_ROUND*i + j + 3*TAKEN_PER_PLAYER] = (GameTile)tilesN.removeFirst();
 		}
 		//east takes 2
-		mTiles[3*TAKEN_PER_ROUND + 0] = tilesE.removeFirst();
-		mTiles[3*TAKEN_PER_ROUND + 1] = tilesE.removeFirst();
+		mTiles[3*TAKEN_PER_ROUND + 0] = (GameTile)tilesE.removeFirst();
+		mTiles[3*TAKEN_PER_ROUND + 1] = (GameTile)tilesE.removeFirst();
 
 		//south takes 1
-		mTiles[3*TAKEN_PER_ROUND + 2] = tilesS.removeFirst();
+		mTiles[3*TAKEN_PER_ROUND + 2] = (GameTile)tilesS.removeFirst();
 
 		//west takes 1
-		mTiles[3*TAKEN_PER_ROUND + 3] = tilesW.removeFirst();
+		mTiles[3*TAKEN_PER_ROUND + 3] = (GameTile)tilesW.removeFirst();
 
 		//north takes 1
-		mTiles[3*TAKEN_PER_ROUND + 4] = tilesN.removeFirst();
+		mTiles[3*TAKEN_PER_ROUND + 4] = (GameTile)tilesN.removeFirst();
 		
 		
 		if (tsumo2 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 1] = new GameTile(tsumo2);

@@ -19,6 +19,7 @@ import majava.enums.MeldType;
 import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
+import majava.tiles.TileInterface;
 
 
 public class Majenerator {
@@ -74,7 +75,7 @@ public class Majenerator {
 		Player furi = players[losedex];
 		List<Meld> winMelds = null;
 		TileList winHandTiles = null;
-		GameTile winningTile = null;
+		TileInterface winningTile = null;
 		
 		
 		winHandTiles = new TileList();
@@ -159,7 +160,7 @@ public class Majenerator {
 			if (randGen.nextBoolean()) handtiles = generateHandTilesKokushi();
 			else handtiles = generateHandTilesChiitoi();
 			
-			for (GameTile t: handtiles) winHand.add(t);
+			for (TileInterface t: handtiles) winHand.add(t);
 			return;
 		}
 		
@@ -192,13 +193,13 @@ public class Majenerator {
 		handMelds.add(candidateMeld);
 		
 		//add hand meld tiles to hand
-		for (Meld m: handMelds) for (GameTile t: m) winHand.add(t);
+		for (Meld m: handMelds) for (TileInterface t: m) winHand.add(t);
 		winHand.sort();
 	}
 	public static void generateWinningHandAndMelds(final TileList winHand, final List<Meld> winMelds){generateWinningHandAndMelds(winHand, winMelds, randGen.nextInt(5));}
 	private static boolean __meldWouldViolateTileLimit(Meld candidateMeld, TileList existingTiles){
 		//chis
-		if (candidateMeld.isChi()) for (GameTile t: candidateMeld) if (existingTiles.findHowManyOf(t) >= 4) return true;
+		if (candidateMeld.isChi()) for (TileInterface t: candidateMeld) if (existingTiles.findHowManyOf(t) >= 4) return true;
 		//pon, kan, pair
 		else if ((existingTiles.findHowManyOf(candidateMeld.getFirstTile()) + candidateMeld.size()) > 4) return true;
 		
@@ -206,8 +207,8 @@ public class Majenerator {
 	}
 	private static boolean __meldWouldViolateTileLimit(Meld candidateMeld, List<Meld> handMelds, List<Meld> melds){	
 		TileList existingTiles = new TileList();
-		for (Meld m: handMelds) for (GameTile t: m) existingTiles.add(t);
-		for (Meld m: melds) for (GameTile t: m) existingTiles.add(t);
+		for (Meld m: handMelds) for (TileInterface t: m) existingTiles.add(t);
+		for (Meld m: melds) for (TileInterface t: m) existingTiles.add(t);
 		return __meldWouldViolateTileLimit(candidateMeld, existingTiles);
 	}
 	

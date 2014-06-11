@@ -9,6 +9,7 @@ import majava.summary.RoundResultSummary;
 import majava.summary.entity.PlayerTracker;
 import majava.summary.entity.RoundEntities;
 import majava.tiles.GameTile;
+import majava.tiles.TileInterface;
 import majava.enums.Wind;
 import majava.util.TileList;
 
@@ -91,10 +92,8 @@ public class RoundTracker {
 	
 	//tracks information for a player
 	private final RoundEntities mRoundEntities;
-	
-
 	private final Wall mWall;	//duplicate
-	private final GameTile[] mTilesW;	//duplicate
+	private final TileInterface[] mTilesW;	//duplicate
 	
 	
 	private final Player[] mPlayerArray;
@@ -144,10 +143,10 @@ public class RoundTracker {
 	
 	
 	private int numPlayersSynched; private boolean wallSynched;
-	private GameTile[] tempSyncWallTiles = null;
+	private TileInterface[] tempSyncWallTiles = null;
 	private Player tempSyncPlayer = null; private TileList tempSyncHandTiles = null; private TileList tempSyncPondTiles = null; private Hand tempSyncHand = null; private Pond tempSyncPond = null; private List<Meld> tempSyncMelds = null;
 	
-	public void syncWall(GameTile[] wallTiles){
+	public void syncWall(TileInterface[] wallTiles){
 		if (wallSynched) return;
 		tempSyncWallTiles = wallTiles;
 	}

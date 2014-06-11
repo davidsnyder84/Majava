@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import majava.tiles.GameTile;
+import majava.tiles.TileInterface;
 import majava.enums.Wind;
 import majava.enums.MeldType;
 import majava.util.TileList;
@@ -65,7 +66,7 @@ methods:
 		other:
 		syncWithRoundTracker - associates the hand with the tracker
 */
-public class Hand implements Iterable<GameTile>{
+public class Hand implements Iterable<TileInterface>{
 	
 	private static final int MAX_HAND_SIZE = 14;
 	private static final int MAX_NUM_MELDS = 5;
@@ -109,7 +110,7 @@ public class Hand implements Iterable<GameTile>{
 	//returns the tile at the given index in the hand, returns null if outside of the hand's range
 	public GameTile getTile(int index){
 		if (index > mTiles.size() || index < 0 ) return null;
-		return mTiles.get(index);
+		return (GameTile)mTiles.get(index);
 	}
 	
 	//returns a list of the melds that have been made (copy of actual melds), returns an empty list if no melds made
@@ -330,7 +331,7 @@ public class Hand implements Iterable<GameTile>{
 		if (meldType.isKan()){
 
 			candidateIndex = mChecker.getCandidateAnkanIndex();
-			candidate = mTiles.get(candidateIndex);
+			candidate = (GameTile)mTiles.get(candidateIndex);
 			
 			partnerIndices = mTiles.findAllIndicesOf(candidate);
 //			while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.remove(partnerIndices.size() - 1);
@@ -371,7 +372,7 @@ public class Hand implements Iterable<GameTile>{
 	public void makeMeldTurnMinkan(){
 		
 		int candidateIndex = mChecker.getCandidateMinkanIndex();
-		GameTile candidate = mTiles.get(candidateIndex);
+		GameTile candidate = (GameTile)mTiles.get(candidateIndex);
 		
 		Meld meldToUpgrade = null;
 		
@@ -498,7 +499,7 @@ public class Hand implements Iterable<GameTile>{
 	
 	//iterator, returns mTile's iterator
 	@Override
-	public Iterator<GameTile> iterator() {return mTiles.iterator();}
+	public Iterator<TileInterface> iterator() {return mTiles.iterator();}
 	
 	
 	

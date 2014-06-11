@@ -42,6 +42,7 @@ public class HandCheckerTile extends GameTile {
 		else
 			mMeldTypeStack = new MahStack<MeldType>();
 	}
+	public HandCheckerTile(TileInterface t){this(new GameTile(t));}
 	public HandCheckerTile clone(){return new HandCheckerTile(this);}
 	
 	

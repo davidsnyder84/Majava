@@ -1,9 +1,13 @@
 package majava;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import majava.userinterface.GameUI;
 import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
+import majava.tiles.TileInterface;
 import majava.util.TileList;
 import majava.enums.GameplayEvent;
 import majava.enums.Wind;
@@ -269,7 +273,8 @@ public class Round{
 		if (DEBUG_LOAD_DEBUG_WALL) mWall.DEMOloadDebugWall();	//DEBUG
 		
 		//get starting hands (as lists of tiles)
-		TileList tilesE = new TileList(), tilesS = new TileList(), tilesW = new TileList(), tilesN = new TileList();
+//		TileList tilesE = new TileList(), tilesS = new TileList(), tilesW = new TileList(), tilesN = new TileList();
+		List<GameTile> tilesE = new ArrayList<GameTile>(), tilesS = new ArrayList<GameTile>(), tilesW = new ArrayList<GameTile>(), tilesN = new ArrayList<GameTile>();
 		mWall.getStartingHands(tilesE, tilesS, tilesW, tilesN);
 		
 		//add the tiles to the players' hands

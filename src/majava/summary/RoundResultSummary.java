@@ -9,6 +9,7 @@ import majava.enums.Wind;
 import majava.summary.PlayerSummary;
 import majava.summary.ResultType;
 import majava.tiles.GameTile;
+import majava.tiles.TileInterface;
 
 
 
@@ -22,7 +23,7 @@ public class RoundResultSummary {
 	private final PlayerSummary pWinningPlayer;
 	private final PlayerSummary pFurikondaPlayer;
 	
-	private final GameTile pWinningTile;
+	private final TileInterface pWinningTile;
 	
 	
 	private final TileList pWinnerHand;
@@ -33,7 +34,7 @@ public class RoundResultSummary {
 	
 	
 	//win constructor
-	public RoundResultSummary(ResultType resType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, GameTile winningTile, TileList winnerHand, List<Meld> winnerMelds, PaymentMap payments){
+	public RoundResultSummary(ResultType resType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, TileInterface winningTile, TileList winnerHand, List<Meld> winnerMelds, PaymentMap payments){
 		
 		pResultType = resType;
 		
@@ -88,7 +89,7 @@ public class RoundResultSummary {
 	public PlayerSummary getFurikondaPlayer(){return pFurikondaPlayer;}
 	
 	public Wind getWindOfWinner(){if (!isVictory()) return null; return pWinningPlayer.getSeatWind();}
-	public GameTile getWinningTile(){if (!isVictory()) return null; return pWinningTile.clone();}
+	public TileInterface getWinningTile(){if (!isVictory()) return null; return pWinningTile.clone();}
 	
 	
 	

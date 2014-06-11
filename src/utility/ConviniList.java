@@ -1,0 +1,198 @@
+package utility;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+
+/*
+Class: ConviniList<T>
+a wrapper class for an List of Tiles. adds extra functionalities
+
+data:
+	mTiles - a list that holds the list of tiles
+	mSorter - used to sort the list
+	
+methods:
+	
+	constructors:
+	Takes List / Takes initial capacity / Takes Array or Var args
+	
+	public:
+		mutators:
+		removeFirst, removeLast - removes and returns a tile in the list, returns null if the list is empty
+		removeMultiple - removes multiple indices from the list
+		sort, sortAscending, sortDescending, shuffle - sort the list in specified order
+	 	
+	 	accessors:
+		getFirst, getLast - returns a tile in the list, returns null if the list is empty
+		subList - returns a sublist, as a ConviniList<T> from fromIndex (inclusive) to toIndex (exclusive)
+		
+		findAllIndicesOf - searches the list for all occurences of Tile t, returns a List of integer indices of where that tile occurred
+		makeCopy - returns a copy of the list
+		makeCopyNoDuplicates - returns a copy of the list with no duplicate tiles
+		makeCopyWithCheckers - makes a copy of the list with checkers
+		
+		
+		methods from Lsist:
+		add, remove, size, get, contains, isEmpty, indexOf, lastIndexOf, set, clear, trimToSize, ensureCapacity, iterator
+*/
+public class ConviniList<T extends Comparable<T>> extends ArrayList<T>{
+	private static final long serialVersionUID = -6296356765155653731L;
+	
+
+	//creates a new list with the given capacity
+	public ConviniList(int capacity){super(capacity);}
+	
+	
+	//takes a List
+	public ConviniList(List<T> items){
+		this(items.size());
+		for (T t: items) add(t);
+	}
+	//can take an array, or a var args
+	public ConviniList(@SuppressWarnings("unchecked") T... items){this(Arrays.asList(items));}
+	public ConviniList(){this(10);}
+	
+	public ConviniList<T> clone(){return new ConviniList<T>(this);}
+	
+	//return a new ConviniList<T> with a COPY (independent) of each tile in the list
+	public ConviniList<T> makeCopyNoDuplicates(){
+		ConviniList<T> copy = new ConviniList<T>(size());
+		for (T item: this) if (!copy.contains(item)) copy.add(item);
+		return copy;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//returns a tile in the list, returns null if the list is empty
+	public T getFirst(){if (isEmpty()) return null; return get(0);}
+	public T getLast(){if (isEmpty()) return null; return get(size() - 1);}
+	
+	//removes and returns a tile in the list, returns null if the list is empty
+	public T removeFirst(){if (isEmpty()) return null; return remove(0);}
+	public T removeLast(){if (isEmpty()) return null; return remove(size() - 1);}
+	
+
+	
+	//returns a sublist, as a ConviniList<T> from fromIndex (inclusive) to toIndex (exclusive)
+	public ConviniList<T> subList(int fromIndex, int toIndex){return new ConviniList<T>(super.subList(fromIndex, toIndex));}
+	
+	//returns a sublist of the entire list, minus the last tile
+	public ConviniList<T> getAllExceptLast(){return subList(0, size() - 1);}
+	
+	
+	
+	
+	
+	
+	//returns multiple items in the list, at the given indices
+	public ConviniList<T> getMultiple(List<Integer> indices){
+		ConviniList<T> holder = new ConviniList<T>();
+		for (Integer index: indices)
+			if (index < size() && index >= 0)
+				holder.add(get(index));
+		
+		return holder;
+	}
+	public ConviniList<T> getMultiple(Integer... indices){return getMultiple(Arrays.asList(indices));}
+	
+	
+	
+	//remove multiple indices from the list
+	//returns true if the indices were removed, false if not
+	public boolean removeMultiple(List<Integer> removeIndices){
+		
+		//disallow more indices than the list has
+		if (removeIndices.size() > size()) return false;
+		
+		List<Integer> seenSoFar = new ArrayList<Integer>();
+		for (Integer i: removeIndices){
+			//disallow an index outside of the list's size, disallow duplicate indices
+			if (i >= size() || i < 0 || seenSoFar.contains(i)) return false;
+			else seenSoFar.add(i);
+		}
+		
+		//sort the indices in descending order
+		Collections.sort(seenSoFar, Collections.reverseOrder());
+		
+		//remove the indices
+		for (Integer i: seenSoFar) remove((int)i);
+		
+		return true;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	//finds all indices where a tile occurs in the list, returns the indices as a list of integers
+	public List<Integer> findAllIndicesOf(T item, boolean allowCountingItself){
+		List<Integer> indices = new ArrayList<Integer>(2);
+		for (int i = 0; i < size(); i++)
+			if (get(i).equals(item)){
+				if (get(i) != item)
+					indices.add(i);
+				else if (allowCountingItself)
+					indices.add(i);
+			}
+		return indices;
+	}
+	//overloaded, omitting allowCountingItself will default to false (do not count itself)
+	public List<Integer> findAllIndicesOf(T item){return findAllIndicesOf(item, false);}
+	
+	//allow counting itself
+	public int findHowManyOf(T item){return findAllIndicesOf(item, true).size();}
+	
+	
+//	//finds all indices where a tile occurs in the list, returns the indices as a list of integers
+//	public List<Integer> findAllIndicesOf(TileInterface t, boolean allowCountingItself){
+//		List<Integer> indices = new ArrayList<Integer>(2);
+//		for (int i = 0; i < size(); i++)
+//			if (get(i).equals(t)){
+//				if (get(i) != t)
+//					indices.add(i);
+//				else if (allowCountingItself)
+//					indices.add(i);
+//			}
+//		return indices;
+//	}
+//	//overloaded, omitting allowCountingItself will default to false (do not count itself)
+//	public List<Integer> findAllIndicesOf(TileInterface tile){return findAllIndicesOf(tile, false);}
+//	
+//	
+//	//allow counting itself
+//	public int findHowManyOf(TileInterface tile){return findAllIndicesOf(tile, true).size();}
+//	public int findHowManyOf(int id){return findHowManyOf(new GameTile(id));}
+//	
+	
+	
+	
+	
+	
+	
+	//sort
+	public void sort(){Collections.sort(this);}
+	
+	
+}
+

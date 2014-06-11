@@ -3,6 +3,7 @@ package majava;
 
 import java.util.Iterator;
 import majava.tiles.GameTile;
+import majava.tiles.TileInterface;
 import majava.enums.MeldType;
 import majava.enums.Wind;
 import majava.util.TileList;
@@ -46,7 +47,7 @@ methods:
 		getSize - returns how many tiles are in the meld
 		isChi, isPon, isKan - returns true if the meld is of the corresponding type
 */
-public class Meld implements Iterable<GameTile>, Comparable<Meld> {
+public class Meld implements Iterable<TileInterface>, Comparable<Meld> {
 	
 	private static final int FU_DEFAULT = 0;
 	
@@ -88,12 +89,12 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld> {
 	//2-arg, takes list of tiles and meld type (used when making a meld only from hand tiles, so no "new" tile)
 	//passes (handtiles 0 to n-1, handtile n, and meld type)
 	public Meld(TileList handTiles, MeldType meldType){
-		this(handTiles.getAllExceptLast(), handTiles.getLast(), meldType);
+		this(handTiles.getAllExceptLast(), (GameTile)handTiles.getLast(), meldType);
 	}
 	public Meld(Meld other){
 		
 		mTiles = new TileList();
-		for (GameTile t: other.mTiles) mTiles.add(t);
+		for (TileInterface t: other.mTiles) mTiles.add(t);
 		
 		mOwnerSeatWind = other.mOwnerSeatWind;
 		
@@ -130,7 +131,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld> {
 	private void __formMeld(TileList handTiles, GameTile newTile, MeldType meldType){
 		
 		//set the owner's seat wind
-		mOwnerSeatWind = handTiles.getFirst().getOrignalOwner();
+		mOwnerSeatWind = ((GameTile)handTiles.getFirst()).getOrignalOwner();
 		
 		//set the new tile as the tile that completed the meld
 		mCompletedTile = newTile;
@@ -206,11 +207,11 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld> {
 
 	//returns the tile at the given index in the meld, returns null if index is outside of the meld's range
 	public GameTile getTile(int index){
-		if (index >= 0 && index < mTiles.size()) return mTiles.get(index);
+		if (index >= 0 && index < mTiles.size()) return (GameTile)mTiles.get(index);
 		return null;
 	}
 	//returns the first tile in the meld
-	public GameTile getFirstTile(){return mTiles.getFirst();}
+	public GameTile getFirstTile(){return (GameTile)mTiles.getFirst();}
 	
 	
 	//returns a copy of the entire list of tiles
@@ -245,7 +246,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld> {
 	public String toString(){
 		String meldString = "";
 		
-		for (GameTile t: mTiles) meldString += t.toString() + " ";
+		for (TileInterface t: mTiles) meldString += t.toString() + " ";
 		
 		//show closed or open
 		if (mClosed == true) meldString += "  [Closed]";
@@ -255,7 +256,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld> {
 	}
 	public String toStringCompact(){
 		String meldString = "";
-		for (GameTile t: mTiles) meldString += t + " ";
+		for (TileInterface t: mTiles) meldString += t + " ";
 		
 		if (meldString != "") meldString = meldString.substring(0, meldString.length() - 1);
 		return meldString;
@@ -264,7 +265,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld> {
 
 	//iterator, returns mTile's iterator
 	@Override
-	public Iterator<GameTile> iterator() {return mTiles.iterator();}
+	public Iterator<TileInterface> iterator() {return mTiles.iterator();}
 	
 	
 	

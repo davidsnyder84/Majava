@@ -42,7 +42,7 @@ methods:
 		equals - returns true if both tiles have the same ID, false otherwise
 		toString - returns string representation of a tile's suit/face
 */
-public class GameTile implements Cloneable, Comparable<GameTile>, TileInterface {
+public class GameTile implements Cloneable, TileInterface {
 	
 	private final ImmutableTile mTile;
 	private Wind mOriginalOwner;
@@ -62,6 +62,11 @@ public class GameTile implements Cloneable, Comparable<GameTile>, TileInterface 
 	
 	
 	
+	
+	public GameTile(TileInterface tinter){this(tinter.getTileBase());}
+	
+	
+	
 	//copy constructor
 	public GameTile(GameTile other){
 		mTile = other.mTile;
@@ -72,6 +77,16 @@ public class GameTile implements Cloneable, Comparable<GameTile>, TileInterface 
 //		catch (CloneNotSupportedException e){System.out.println(e.getMessage()); return null;}
 //	}
 	public GameTile clone(){return new GameTile(this);}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	//Owner methods
@@ -106,7 +121,8 @@ public class GameTile implements Cloneable, Comparable<GameTile>, TileInterface 
 	final public boolean isYaochuu(){return mTile.isYaochuu();}
 	final public boolean isHonor(){return mTile.isHonor();}
 	final public boolean isTerminal(){return mTile.isTerminal();}
-	
+
+	final public ImmutableTile getTileBase(){return mTile;}
 	
 	
 	
@@ -121,13 +137,13 @@ public class GameTile implements Cloneable, Comparable<GameTile>, TileInterface 
 
 	//compares the two base tiles
 	@Override
-	final public int compareTo(GameTile other){return mTile.compareTo(other.mTile);}
+	final public int compareTo(TileInterface other){return mTile.compareTo(other.getTileBase());}
 	
 	//returns true if the tiles have the same ID
 	@Override
 	final public boolean equals(Object other){
-		if (other == null || !(other instanceof GameTile)) return false;
-		return mTile.equals(((GameTile)other).mTile);
+		if (other == null || !(other instanceof TileInterface)) return false;
+		return mTile.equals(((TileInterface)other).getTileBase());
 	}
 	
 	//string representaiton of tile's suit/face

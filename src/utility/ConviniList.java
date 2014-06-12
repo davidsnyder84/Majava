@@ -147,7 +147,7 @@ public class ConviniList<T extends Comparable<? super T>> extends ArrayList<T>{
 	
 	
 	//finds all indices where a tile occurs in the list, returns the indices as a list of integers
-	public List<Integer> findAllIndicesOf(T item, boolean allowCountingItself){
+	public List<Integer> findAllIndicesOf(Object item, boolean allowCountingItself){
 		List<Integer> indices = new ArrayList<Integer>(2);
 		for (int i = 0; i < size(); i++)
 			if (get(i).equals(item)){
@@ -162,7 +162,8 @@ public class ConviniList<T extends Comparable<? super T>> extends ArrayList<T>{
 	public List<Integer> findAllIndicesOf(T item){return findAllIndicesOf(item, false);}
 	
 	//allow counting itself
-	public int findHowManyOf(T item){return findAllIndicesOf(item, true).size();}
+	public int findHowManyOf(Object item){return findAllIndicesOf(item, true).size();}
+//	public int findHowManyOf(T item){return findAllIndicesOf(item, true).size();}
 	
 	
 	

@@ -204,12 +204,25 @@ public class Majenerator {
 	}
 	public static void generateWinningHandAndMelds(final List<TileInterface> winHand, final List<Meld> winMelds){generateWinningHandAndMelds(winHand, winMelds, randGen.nextInt(5));}
 	private static boolean __meldWouldViolateTileLimit(Meld candidateMeld, ConviniList<TileInterface> existingTiles){
-		//chis
-		if (candidateMeld.isChi()) for (TileInterface t: candidateMeld) if (existingTiles.findHowManyOf(t) >= 4) return true;
-		//pon, kan, pair
-		else if ((existingTiles.findHowManyOf(candidateMeld.getFirstTile()) + candidateMeld.size()) > 4) return true;
 		
+		//chis
+		if (candidateMeld.isChi()){
+			for (TileInterface t: candidateMeld) if (existingTiles.findHowManyOf(t) >= 4) return true;
+			return false;
+		}
+		
+		//pon, kan, pair
+		if ((existingTiles.findHowManyOf(candidateMeld.getFirstTile()) + candidateMeld.size()) > 4) return true;
 		return false;
+		
+		
+		
+//		//chis
+//		if (candidateMeld.isChi()) for (TileInterface t: candidateMeld) if (existingTiles.findHowManyOf(t) >= 4) return true;
+//		//pon, kan, pair
+//		else if ((existingTiles.findHowManyOf(candidateMeld.getFirstTile()) + candidateMeld.size()) > 4) return true;
+//		
+//		return false;
 	}
 	private static boolean __meldWouldViolateTileLimit(Meld candidateMeld, List<Meld> handMelds, List<Meld> melds){	
 		ConviniList<TileInterface> existingTiles = new ConviniList<TileInterface>();
@@ -249,7 +262,7 @@ public class Majenerator {
 		
 		final List<TileInterface> meldTiles = new ArrayList<TileInterface>();
 		
-		int id = 0;
+		int id = 1;
 		while(!tileCanMeldMeldType((id = 1+randGen.nextInt(NUM_TILES)), type));
 		
 		switch (type){
@@ -271,7 +284,7 @@ public class Majenerator {
 	public static Meld generateMeld(MeldType mt){return generateMeld(mt, true);}
 	public static Meld generateMeld(){return generateMeld(randomMeldType());}
 	
-	public static boolean tileCanMeldMeldType(GameTile tile, MeldType mt){
+	public static boolean tileCanMeldMeldType(TileInterface tile, MeldType mt){
 		if (tile.getId() == 0) return false;
 		
 		//pon/kan
@@ -287,7 +300,7 @@ public class Majenerator {
 		default: return false;
 		}
 	}
-	public static boolean tileCanMeldMeldType(int tId, MeldType mt){return tileCanMeldMeldType(new GameTile(tId), mt);}
+	public static boolean tileCanMeldMeldType(int tId, MeldType mt){return tileCanMeldMeldType(ImmutableTile.retrieveTile(tId), mt);}
 	
 	
 	public static MeldType randomMeldType(){final MeldType[] mts = {MeldType.CHI_L, MeldType.CHI_M, MeldType.CHI_H, MeldType.PON, MeldType.KAN}; return mts[randGen.nextInt(mts.length)];}

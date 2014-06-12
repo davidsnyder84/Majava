@@ -33,11 +33,11 @@ public class DemoHandGen {
 	public static void main(String[] args) {
 		
 //		runTenpaiSimulation(5000);
-//		runSimulationNoDisplay(25000);
-//		runSumulationRandom(10000);
+		runSimulationNoDisplay(5000);
+//		runSumulationRandom(15000);
 //		runSpecificTest();
 		
-		runSimulation(5000);
+//		runSimulation(5000);
 	}
 	
 	

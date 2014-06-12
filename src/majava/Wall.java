@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import majava.tiles.GameTile;
+import majava.tiles.ImmutableTile;
 import majava.tiles.TileInterface;
 
 
@@ -338,7 +339,7 @@ public class Wall {
 		
 		
 //		//multiple minkans
-		int[] h1 = {2,2,2,14,14,14,14,22,22,29,29,29,33,33};
+//		int[] h1 = {2,2,2,14,14,14,14,22,22,29,29,29,33,33};
 //		int[] h2 = {2,2,2,2,2,2,2,2,2,2,2,2,2};
 //		int[] h3 = {3,3,3,3,3,3,3,3,3,3,3,3,3};
 //		int[] h4 = {4,4,4,4,4,4,4,4,4,4,4,4,4};
@@ -353,13 +354,20 @@ public class Wall {
 //	tsumo4 = 0;
 		
 		
+		//specific error case
+		Integer[] h1 = {1,2,5,8,9,10,11,14,15,20,21,29,30,34};
+		Integer[] h2 = {2,2,4,7,9,15,16,17,18,19,19,22,23};
+		Integer[] h3 = {1,3,7,16,16,17,25,25,28,30,30,31,33};
+		Integer[] h4 = {3,5,9,10,11,11,21,22,24,28,29,29,34};
+		tsumo2 = 24;
+		
 		
 		//kokushi
 //		int[] h1 = {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34, 7};
-		int[] h2 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
-		int[] h3 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
-		int[] h4 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
-		for (int i = 0; i < h2.length; i++){h2[i] += 3;	h3[i] -= 1;	h4[i] += 2;}
+//		int[] h2 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
+//		int[] h3 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
+//		int[] h4 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
+//		for (int i = 0; i < h2.length; i++){h2[i] += 3;	h3[i] -= 1;	h4[i] += 2;}
 		
 		
 		
@@ -449,15 +457,16 @@ public class Wall {
 		h1[13] += 18;
 		*/
 		
-
-		List<TileInterface> tilesE = new ArrayList<TileInterface>();
-		List<TileInterface> tilesS = new ArrayList<TileInterface>();
-		List<TileInterface> tilesW = new ArrayList<TileInterface>();
-		List<TileInterface> tilesN = new ArrayList<TileInterface>();
-//		TileList tilesE = new TileList(h1);
-//		TileList tilesS = new TileList(h2);
-//		TileList tilesW = new TileList(h3);
-//		TileList tilesN = new TileList(h4);
+		List<GameTile> tilesE = new ArrayList<GameTile>(), tilesS = new ArrayList<GameTile>(), tilesW = new ArrayList<GameTile>(), tilesN = new ArrayList<GameTile>();
+//		for (TileInterface t: ImmutableTile.retrieveMultipleTiles(h1)) tilesE.add(new GameTile(t));
+//		for (TileInterface t: ImmutableTile.retrieveMultipleTiles(h2)) tilesS.add(new GameTile(t));
+//		for (TileInterface t: ImmutableTile.retrieveMultipleTiles(h3)) tilesW.add(new GameTile(t));
+//		for (TileInterface t: ImmutableTile.retrieveMultipleTiles(h4)) tilesN.add(new GameTile(t));
+		for (Integer id: h1) tilesE.add(new GameTile(id));
+		for (Integer id: h2) tilesS.add(new GameTile(id));
+		for (Integer id: h3) tilesW.add(new GameTile(id));
+		for (Integer id: h4) tilesN.add(new GameTile(id));
+		
 		
 		final int TAKEN_PER_ROUND = 16;
 		final int TAKEN_PER_PLAYER = 4;
@@ -468,29 +477,29 @@ public class Wall {
 		for (i = 0; i < 3; i++){
 			//east takes 4
 			for (j = 0; j < 4; j++)
-				mTiles[TAKEN_PER_ROUND*i + j + 0*TAKEN_PER_PLAYER] = (GameTile)tilesE.remove(0);
+				mTiles[TAKEN_PER_ROUND*i + j + 0*TAKEN_PER_PLAYER] = tilesE.remove(0);
 			//south takes 4
 			for (j = 0; j < 4; j++)
-				mTiles[TAKEN_PER_ROUND*i + j + 1*TAKEN_PER_PLAYER] = (GameTile)tilesS.remove(0);
+				mTiles[TAKEN_PER_ROUND*i + j + 1*TAKEN_PER_PLAYER] = tilesS.remove(0);
 			//west takes 4
 			for (j = 0; j < 4; j++)
-				mTiles[TAKEN_PER_ROUND*i + j + 2*TAKEN_PER_PLAYER] = (GameTile)tilesW.remove(0);
+				mTiles[TAKEN_PER_ROUND*i + j + 2*TAKEN_PER_PLAYER] = tilesW.remove(0);
 			//north takes 4
 			for (j = 0; j < 4; j++)
-				mTiles[TAKEN_PER_ROUND*i + j + 3*TAKEN_PER_PLAYER] = (GameTile)tilesN.remove(0);
+				mTiles[TAKEN_PER_ROUND*i + j + 3*TAKEN_PER_PLAYER] = tilesN.remove(0);
 		}
 		//east takes 2
-		mTiles[3*TAKEN_PER_ROUND + 0] = (GameTile)tilesE.remove(0);
-		mTiles[3*TAKEN_PER_ROUND + 1] = (GameTile)tilesE.remove(0);
+		mTiles[3*TAKEN_PER_ROUND + 0] = tilesE.remove(0);
+		mTiles[3*TAKEN_PER_ROUND + 1] = tilesE.remove(0);
 
 		//south takes 1
-		mTiles[3*TAKEN_PER_ROUND + 2] = (GameTile)tilesS.remove(0);
+		mTiles[3*TAKEN_PER_ROUND + 2] = tilesS.remove(0);
 
 		//west takes 1
-		mTiles[3*TAKEN_PER_ROUND + 3] = (GameTile)tilesW.remove(0);
+		mTiles[3*TAKEN_PER_ROUND + 3] = tilesW.remove(0);
 
 		//north takes 1
-		mTiles[3*TAKEN_PER_ROUND + 4] = (GameTile)tilesN.remove(0);
+		mTiles[3*TAKEN_PER_ROUND + 4] = tilesN.remove(0);
 		
 		
 		if (tsumo2 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 1] = new GameTile(tsumo2);

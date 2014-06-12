@@ -16,6 +16,8 @@ public interface TileInterface extends Comparable<TileInterface>{
 	public ImmutableTile getTileBase();
 	
 	
+//	public boolean canChiL();
+	
 	
 	
 	//clone

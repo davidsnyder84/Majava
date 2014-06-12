@@ -11,7 +11,9 @@ import majava.enums.MeldType;
 import majava.Player;
 import majava.enums.Wind;
 import majava.tiles.GameTile;
+import majava.tiles.HandCheckerTile;
 import majava.tiles.ImmutableTile;
+import majava.tiles.PondTile;
 import majava.tiles.TileInterface;
 
 
@@ -65,10 +67,12 @@ public class MajaPlay {
 //		playFinishingMelds();
 		
 		
-		playShowRoundResultInfo();
+//		playShowRoundResultInfo();
 //		listEqualsTest();
 		
 //		playTileClone();
+		
+		playNewTileInhertance();
 		
 	}
 	public static void println(String prints){System.out.println(prints);}public static void println(){println("");}
@@ -78,6 +82,69 @@ public class MajaPlay {
 	
 	
 
+	public static void playNewTileInhertance(){
+		
+		
+		TileInterface ti = ImmutableTile.retrieveTile(34);;
+		
+		ImmutableTile im = ImmutableTile.retrieveTile(1);
+		
+		GameTile gt = new GameTile(2);
+		
+		HandCheckerTile ht = new HandCheckerTile(new GameTile(3));
+		PondTile pt = new PondTile(new GameTile(4));
+		
+		
+//		ti = im;
+//		ti = gt;
+//		ti = ht;
+//		ti = pt;
+		
+//		gt = ht;
+//		gt = pt;
+		
+		
+		
+		
+
+		
+		
+		
+		List<TileInterface> listTI = new ArrayList<TileInterface>();
+		List<ImmutableTile> listIM = new ArrayList<ImmutableTile>();
+		List<GameTile> listGT = new ArrayList<GameTile>();
+		List<HandCheckerTile> listHT = new ArrayList<HandCheckerTile>();
+		List<PondTile> listPT = new ArrayList<PondTile>();
+		
+		List<? extends TileInterface> listInterface = new ArrayList<TileInterface>();
+		listInterface = new ArrayList<GameTile>();
+		
+		listInterface = listTI;
+		listInterface = listIM;
+		listInterface = listGT;
+		listInterface = listHT;
+		listInterface = listPT;
+		
+		
+		
+
+		listTI.add(ti);
+		listTI.add(im);
+		listTI.add(gt);
+		listTI.add(ht);
+		listTI.add(pt);
+		
+		
+		println("ti" + ",  " + "im" + ",  " + "gt" + ",  " + "ht" + ",  " + "pt" + ",  " + "");
+		println(ti + ",  " + im + ",  " + gt + ",  " + ht + ",  " + pt + ",  " + "");
+		
+		println("");
+		for (TileInterface t: listTI) println(t.toString());
+	}
+	
+	
+	
+	
 	public static void playShowRoundResultInfo(){
 		
 		RoundResult res;

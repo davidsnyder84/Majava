@@ -1,5 +1,6 @@
 package majava.util;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -20,4 +21,49 @@ public class YakuList extends ArrayList<Yaku>{
 		return total;
 	}
 	
+
+	
+	
+	public boolean containsYakuman(){
+		for (Yaku y: Yaku.listOfAllYakuman()) if (contains(y)) return true;
+		return false;
+	}
+	
+	
+	public void removeSmallFry(){
+		
+		
+		//if contains yakuman, weed out non-yakuman
+		if (containsYakuman()){
+			retainAll(Yaku.listOfAllYakuman());
+			if (contains(Yaku.YKM_DAISHUUSHII)) remove(Yaku.YKM_SHOUSHUUSHII);
+			
+			return;
+		}
+		
+		
+		//if no yakuman, weed out overlapping yaku
+		
+		if (contains(Yaku.SHOUSANGEN))
+			removeAll(Arrays.asList(Yaku.YAKUHAI_DRAGON_HAKU, Yaku.YAKUHAI_DRAGON_HATSU, Yaku.YAKUHAI_DRAGON_CHUN));
+		
+		if (contains(Yaku.RYANPEIKOU))
+			remove(Arrays.asList(Yaku.CHIITOITSU, Yaku.IIPEIKOU));
+		
+		if (contains(Yaku.RIICHI_DOUBLE))
+			remove(Yaku.RIICHI);
+		
+		
+		
+		if (contains(Yaku.HONROUTO))
+			removeAll(Arrays.asList(Yaku.CHIITOITSU, Yaku.TOITOI));
+		
+		if (contains(Yaku.JUNCHAN))
+			remove(Yaku.CHANTA);
+		
+		
+		if (contains(Yaku.CHINITSU))
+			remove(Yaku.HONITSU);
+		
+	}
 }

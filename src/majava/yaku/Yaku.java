@@ -1,5 +1,8 @@
 package majava.yaku;
 
+import java.util.Arrays;
+import java.util.List;
+
 
 public enum Yaku {
 	
@@ -12,8 +15,8 @@ public enum Yaku {
 	RIICHI_IPPATSU("Ippatsu", 1, Yaku.DISALLOW_OPEN),
 	
 	TSUMO("Tsumo", 1, Yaku.DISALLOW_OPEN),
-	HAITEI("Haitei", 1),
-	HOITEI("Houtei", 1),
+	HAITEI("Haitei Raoyue", 1),
+	HOITEI("Houtei Raoyui", 1),
 	RINSHAN("Rinshan Kaihou", 1),
 	CHANKAN("Chankan", 1),
 	
@@ -21,7 +24,7 @@ public enum Yaku {
 	CHIITOITSU("Chiitoitsu", 2, Yaku.DISALLOW_OPEN),
 	
 					
-	PINFU("Pinfu", 1, 0),
+	PINFU("Pinfu", 1, Yaku.DISALLOW_OPEN),
 	IIPEIKOU("Iipeikou", 1, Yaku.DISALLOW_OPEN),
 	SANSHOKU("Sanshoku Doujun", 2, 1),
 	ITTSUU("Ittsuu", 2, 1),
@@ -34,35 +37,36 @@ public enum Yaku {
 	
 	TANYAO("Tanyao", 1),
 	
-	YAKUHAI_HAKU("Yakuhai Haku", 1),
-	YAKUHAI_HATSU("Yakuhai Hatsu", 1),
-	YAKUHAI_CHUN("Yakuhai Chun", 1),
-	YAKUHAI_EAST("Yakuhai East", 1),
-	YAKUHAI_SOUTH("Yakuhai South", 1),
-	YAKUHAI_WEST("Yakuhai West", 1),
-	YAKUHAI_NORTH("Yakuhai North", 1),
+	YAKUHAI_DRAGON_HAKU("Yakuhai Haku", 1),
+	YAKUHAI_DRAGON_HATSU("Yakuhai Hatsu", 1),
+	YAKUHAI_DRAGON_CHUN("Yakuhai Chun", 1),
+	YAKUHAI_WIND_EAST("Yakuhai East", 1),
+	YAKUHAI_WIND_SOUTH("Yakuhai South", 1),
+	YAKUHAI_WIND_WEST("Yakuhai West", 1),
+	YAKUHAI_WIND_NORTH("Yakuhai North", 1),
 	
 	CHANTA("Chanta", 2, 1),
-	JUNCHAN("Junchan", 2, 1),
-	HONROUTO("Honrouto", 2, 1),
+	JUNCHAN("Junchan", 3, 2),
+	HONROUTO("Honrouto", 4),
 	SHOUSANGEN("Shousangen", 4),
 	
 	HONITSU("Honitsu", 3, 2),
-	CHINITSU("Chinitsu", 5, 4),
+	CHINITSU("Chinitsu", 6, 5),
 	
-	YKM_KOKUSHI("Kokushi Musou", Yaku.YAKUMAN),
-	YKM_SUUANKOU("Suuankou", Yaku.YAKUMAN),
+	YKM_KOKUSHI("Kokushi Musou", Yaku.YAKUMAN, Yaku.DISALLOW_OPEN),
+	YKM_SUUANKOU("Suuankou", Yaku.YAKUMAN, Yaku.DISALLOW_OPEN),
 	YKM_DAISANGEN("Daisangen", Yaku.YAKUMAN),
 	YKM_SHOUSHUUSHII("Shousuushii", Yaku.YAKUMAN),
 	YKM_DAISHUUSHII("Daisuushii", Yaku.YAKUMAN),
 	YKM_TSUUIISOU("Tsuuiisou", Yaku.YAKUMAN),
 	YKM_RYUUIISOU("Ryuuiisou", Yaku.YAKUMAN),
-	YKM_CHUURENPOUTO("Chuuren Poutou", Yaku.YAKUMAN),
+	YKM_CHUURENPOUTO("Chuuren Poutou", Yaku.YAKUMAN, Yaku.DISALLOW_OPEN),
 	YKM_SUUKANTSU("Suukantsu", Yaku.YAKUMAN),
+	YKM_CHINROUTO("Chinrouto", Yaku.YAKUMAN),
 	
-	YKM_TENHOU("Tenhou", Yaku.YAKUMAN),
-	YKM_CHIIHOU("Chiihou", Yaku.YAKUMAN),
-	YKM_RENHOU("Renhou", Yaku.YAKUMAN),
+	YKM_TENHOU("Tenhou", Yaku.YAKUMAN, Yaku.DISALLOW_OPEN),
+	YKM_CHIIHOU("Chiihou", Yaku.YAKUMAN, Yaku.DISALLOW_OPEN),
+	YKM_RENHOU("Renhou", Yaku.YAKUMAN, Yaku.DISALLOW_OPEN),
 	
 	
 	NAGASHI_MANGAN("Nagashi mangan", Yaku.MANGAN);
@@ -105,10 +109,42 @@ public enum Yaku {
 	public int getValueClosed(){return closedVal;}
 	
 	
-	public boolean isYakuman(){return openVal == YAKUMAN;}
+	public boolean isYakuman(){return closedVal == YAKUMAN;}
 	public boolean allowOpen(){return openVal != DISALLOW_OPEN;}
 	
 	public String toString(){return yakuName;}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	public static List<Yaku> listOfAllYaku(){return Arrays.asList(values());}
+	public static List<Yaku> listOfAllYakuman(){
+		return Arrays.asList(
+							YKM_KOKUSHI, 
+							YKM_SUUANKOU, 
+							YKM_DAISANGEN, 
+							YKM_SHOUSHUUSHII, 
+							YKM_DAISHUUSHII,
+							YKM_TSUUIISOU,
+							YKM_RYUUIISOU,
+							YKM_CHUURENPOUTO, 
+							YKM_SUUKANTSU, 							
+							YKM_CHINROUTO,
+							
+							YKM_TENHOU,
+							YKM_CHIIHOU,
+							YKM_RENHOU
+							);
+	}
+	
+	
+	public static void main(String[]s){
+		listOfAllYaku();
+	}
 	
 }

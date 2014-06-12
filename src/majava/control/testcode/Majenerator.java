@@ -15,9 +15,11 @@ import majava.HandChecker;
 import majava.Meld;
 import majava.Player;
 import majava.RoundResult;
+import majava.util.TileInterfaceList;
 import majava.util.YakuList;
 import majava.yaku.Yaku;
 import majava.enums.MeldType;
+import majava.enums.Wind;
 import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
@@ -36,7 +38,7 @@ public class Majenerator {
 		
 		
 //		println(generateRoundResult().toString());
-		for (Yaku y: generateYakuList()) println(y.toString());
+//		for (Yaku y: generateYakuList()) println(y.toString());
 	}
 	
 
@@ -199,8 +201,10 @@ public class Majenerator {
 		
 		//add hand meld tiles to hand
 		for (Meld m: handMelds) for (TileInterface t: m) winHand.add(t);
-//		winHand.sort();
 		Collections.sort(winHand);
+		
+		
+		
 	}
 	public static void generateWinningHandAndMelds(final List<TileInterface> winHand, final List<Meld> winMelds){generateWinningHandAndMelds(winHand, winMelds, randGen.nextInt(5));}
 	private static boolean __meldWouldViolateTileLimit(Meld candidateMeld, ConviniList<TileInterface> existingTiles){
@@ -234,15 +238,13 @@ public class Majenerator {
 	
 	
 	
-	
 	public static ConviniList<TileInterface> generateHandTilesChiitoi(){
 		int id;
 		ConviniList<TileInterface> tlist = new ConviniList<TileInterface>();
 		while (tlist.size() != 14){
 			id = 1+randGen.nextInt(NUM_TILES);
-			if (!tlist.contains(id)){
-				tlist.add(ImmutableTile.retrieveTile(id));tlist.add(ImmutableTile.retrieveTile(id));
-			}
+			if (!tlist.contains(id)) 
+				tlist.addAll(new TileInterfaceList(id, id));
 		}
 		
 		tlist.sort();
@@ -260,25 +262,22 @@ public class Majenerator {
 	
 	public static Meld generateMeld(final MeldType type, final boolean closed){
 		
-		final List<TileInterface> meldTiles = new ArrayList<TileInterface>();
+		List<GameTile> meldTiles = null;
 		
 		int id = 1;
 		while(!tileCanMeldMeldType((id = 1+randGen.nextInt(NUM_TILES)), type));
 		
 		switch (type){
-		case CHI_L: meldTiles.addAll(ImmutableTile.retrieveMultipleTiles(id, id + 1, id + 2)); break;
-		case CHI_M: meldTiles.addAll(ImmutableTile.retrieveMultipleTiles(id - 1, id, id + 2));
-		case CHI_H: meldTiles.addAll(ImmutableTile.retrieveMultipleTiles(id - 2, id - 1, id));
-		case KAN: meldTiles.addAll(ImmutableTile.retrieveMultipleTiles(id, id, id, id)); break;
-		case PON: meldTiles.addAll(ImmutableTile.retrieveMultipleTiles(id, id, id)); break;
-		case PAIR: meldTiles.addAll(ImmutableTile.retrieveMultipleTiles(id, id)); break;
+		case CHI_L: meldTiles = new TileInterfaceList(id, id + 1, id + 2).toGameTiles(); break;
+		case CHI_M: meldTiles = new TileInterfaceList(id - 1, id, id + 1).toGameTiles(); break;
+		case CHI_H: meldTiles = new TileInterfaceList(id - 2, id - 1, id).toGameTiles(); break;
+		case KAN: meldTiles = new TileInterfaceList(id, id, id, id).toGameTiles(); break;
+		case PON: meldTiles = new TileInterfaceList(id, id, id).toGameTiles(); break;
+		case PAIR: meldTiles = new TileInterfaceList(id, id).toGameTiles(); break;
 		default: break;
 		}
 		
-		ConviniList<GameTile> gameTiles = new ConviniList<GameTile>();
-		for (TileInterface t: meldTiles) gameTiles.add(new GameTile(t.getTileBase()));
-		
-		Meld m = new Meld(gameTiles, type);
+		Meld m = new Meld(meldTiles, type);
 		return m;
 	}
 	public static Meld generateMeld(MeldType mt){return generateMeld(mt, true);}
@@ -287,16 +286,16 @@ public class Majenerator {
 	public static boolean tileCanMeldMeldType(TileInterface tile, MeldType mt){
 		if (tile.getId() == 0) return false;
 		
-		//pon/kan
+		//pon/kan/pair
 		if (mt.isMulti()) return true;
 		
 		//chis
 		if (tile.isHonor()) return false;
 		
 		switch (mt){
-		case CHI_L: return tile.getFace() != '8' && tile.getFace() != '9';
-		case CHI_M: return tile.getFace() != '1' && tile.getFace() != '9';
-		case CHI_H: return tile.getFace() != '1' && tile.getFace() != '2';
+		case CHI_L: return (tile.getFace() != '8' && tile.getFace() != '9');
+		case CHI_M: return (tile.getFace() != '1' && tile.getFace() != '9');
+		case CHI_H: return (tile.getFace() != '1' && tile.getFace() != '2');
 		default: return false;
 		}
 	}

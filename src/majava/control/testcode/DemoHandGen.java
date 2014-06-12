@@ -15,6 +15,7 @@ import majava.enums.Wind;
 import majava.tiles.GameTile;
 import majava.tiles.ImmutableTile;
 import majava.tiles.TileInterface;
+import majava.util.TileInterfaceList;
 
 
 
@@ -33,11 +34,11 @@ public class DemoHandGen {
 	public static void main(String[] args) {
 		
 //		runTenpaiSimulation(5000);
-		runSimulationNoDisplay(5000);
+//		runSimulationNoDisplay(5000);
 //		runSumulationRandom(15000);
 //		runSpecificTest();
 		
-//		runSimulation(5000);
+		runSimulation(5000);
 	}
 	
 	
@@ -97,7 +98,6 @@ public class DemoHandGen {
 		
 		
 		for (int i = 0; i < howManyTimes; i++){
-//			if (!(currentHand = generateCompleteHand()).DEMOgetChecker().isCompleteNormal()){
 			if (!(currentHand = generateCompleteHand()).DEMOgetChecker().isComplete()){
 				numFailures++;
 				System.out.println(currentHand.toString() + "\n");
@@ -188,12 +188,12 @@ public class DemoHandGen {
 	public static Hand generateCompleteHand(){
 
 		Hand hand = new Hand(OWNER_SEAT);
-		List<TileInterface> handTiles = Majenerator.generateWinningHandTiles();		
+		List<GameTile> listGT = TileInterfaceList.toGameTiles(Majenerator.generateWinningHandTiles());
 		
-		for (TileInterface t: handTiles){
-			GameTile gt = new GameTile(t);
-			gt.setOwner(OWNER_SEAT);
-			hand.addTile(gt);
+		
+		for (GameTile t: listGT){
+			t.setOwner(OWNER_SEAT);
+			hand.addTile(t);
 		}
 		
 		hand.sortHand();
@@ -293,16 +293,13 @@ public class DemoHandGen {
 //		TileList tiles = new TileList(19,19,19,20,21,21,22,22,23,32,32,32,34,34);	//S1 S1 S1 S2 S3 S3 S4 S4 S5 DW DW DW DR DR
 //		TileList tiles = new TileList(21,22,23,32,32,32,34,34);
 //		TileList tiles = new TileList(2+9,3+9,4+9,1+18,1+18);	//P2 P3 P4 S1 S1
-		List<TileInterface> tiles = ImmutableTile.retrieveMultipleTiles(1,1,2+9,3+9,4+9);	//P2 P3 P4 S1 S1
+		List<GameTile> tiles = new TileInterfaceList(1,1,2+9,3+9,4+9).toGameTiles();	//P2 P3 P4 S1 S1
 		
-		GameTile gt;
-		for (TileInterface t: tiles){
-			gt = new GameTile(t);
-			gt.setOwner(OWNER_SEAT);
-			System.out.println("Adding " + gt);
-			if (gt.getId() == 4+9)
-				gt.getId();
-			hand.addTile(new GameTile(gt));
+		for (GameTile t: tiles){
+			t.setOwner(OWNER_SEAT);
+			
+			System.out.println("Adding " + t);
+			hand.addTile(t);
 //			System.out.println(hand.toString());
 		}
 		

@@ -50,7 +50,7 @@ public class ConviniList<T extends Comparable<? super T>> extends ArrayList<T>{
 	//takes a List
 	public ConviniList(List<? extends T> items){
 		this(items.size());
-		for (T t: items) add(t);
+		addAll(items);
 	}
 	//can take an array, or a var args
 	public ConviniList(@SuppressWarnings("unchecked") T... items){this(Arrays.asList(items));}

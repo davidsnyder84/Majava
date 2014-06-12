@@ -118,7 +118,7 @@ public class Hand implements Iterable<GameTile>{
 	public List<Meld> getMelds(){
 		List<Meld> meldList = new ArrayList<Meld>(mNumMeldsMade); 
 		for (int i = 0; i < mNumMeldsMade; i++)
-			meldList.add(new Meld(mMelds.get(i)));
+			meldList.add(mMelds.get(i).clone());
 		
 		return meldList;
 	}

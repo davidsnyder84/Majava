@@ -190,7 +190,8 @@ public class ImmutableTile implements TileInterface{
 	public static final List<TileInterface> retrieveMultipleTiles(Integer... ids){
 //		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~HailSatan");
 		TileInterface[] list = new TileInterface[ids.length];
-		for (int i = 0; i < list.length; i++) list[i] = tiles[ids[i]];
+//		for (int i = 0; i < list.length; i++) list[i] = tiles[ids[i]];
+		for (int i = 0; i < list.length; i++) list[i] = retrieveTile(ids[i]);
 		return Arrays.asList(list);
 	}
 	public static final List<TileInterface> retrieveMultipleTiles(List<Integer> ids){return retrieveMultipleTiles((Integer[])ids.toArray());}

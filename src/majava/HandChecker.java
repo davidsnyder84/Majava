@@ -10,6 +10,7 @@ import majava.tiles.HandCheckerTile;
 import majava.tiles.GameTile;
 import majava.tiles.ImmutableTile;
 import majava.tiles.TileInterface;
+import majava.util.TileInterfaceList;
 import majava.enums.MeldType;
 import majava.enums.Wind;
 
@@ -275,8 +276,17 @@ public class HandChecker {
 	
 	
 	//returns true if the player can call ron on the candidate tile
+	private static int counter = 0;
 	private boolean __canRon(GameTile candidate){
-		return mTenpaiWaits.contains(candidate);
+		
+//		return mTenpaiWaits.contains(candidate);
+		if (mHand.getOwnerSeatWind() == Wind.EAST)
+			candidate.getId();/////////////////////////////////////////////////
+		
+		for (TileInterface t: mTenpaiWaits)
+//			if (t.equals(candidate)) return true;
+			if (candidate.equals(t)) return true;
+		return false;
 	}
 	//overloaded. if no tile argument given, candidate = mCallCandidate is passsed
 	private boolean __canRon(){return __canRon(mCallCandidate);}
@@ -351,7 +361,7 @@ public class HandChecker {
 				mCanKan = __canKan();
 		
 		//if in tenpai, check ron
-		if (mTenpaiStatus)
+//		if (mTenpaiStatus)
 			mCanRon = __canRon();
 		
 		//~~~~return true if a call (any call) can be made
@@ -624,9 +634,11 @@ public class HandChecker {
 		
 		//check for kokushi musou tenpai, waits are also found here
 		isKokushiTenpai = isTenpaiKokushi();
-		if (isKokushiTenpai)
+		if (isKokushiTenpai){
+//			mTenpaiWaits.clear();
 			mTenpaiWaits.addAll(__getKokushiWaits());
 //			mTenpaiWaits = __getKokushiWaits();
+		}
 		else{
 			
 			//check if the hand is in normal tenpai, waits are also found here (don't check if in already kokushi tenpai)
@@ -936,7 +948,7 @@ public class HandChecker {
 	private List<TileInterface> __findTenpaiWaits(){
 		//TODO this is find tenpai waits
 		
-		List<TileInterface> waits = new ArrayList<TileInterface>();
+		final List<TileInterface> waits = new ArrayList<TileInterface>();
 		
 		ConviniList<GameTile> handTilesCopy;
 		List<Integer> hotTileIDs = __findAllHotTiles();
@@ -1271,6 +1283,6 @@ public class HandChecker {
 	
 	
 	//runs test code
-	public static void main(String[] args){majava.control.testcode.DemoHandGen.main(null);}
+//	public static void main(String[] args){majava.control.testcode.DemoHandGen.main(null);}
 	
 }

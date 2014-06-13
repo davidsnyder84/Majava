@@ -38,7 +38,9 @@ public class DemoHandGen {
 //		runSumulationRandom(15000);
 //		runSpecificTest();
 		
-		runSimulation(5000);
+		runTenpaiSimulation(500);
+		
+//		runSimulation(5000);
 	}
 	
 	

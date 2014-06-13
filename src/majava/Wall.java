@@ -330,8 +330,8 @@ public class Wall {
 	////////////////////////////////////////////////////////////////////////////////////
 	//////BEGIN DEMO METHODS
 	////////////////////////////////////////////////////////////////////////////////////
+	private int[] debugHandSizes = {14,13,13,13};
 	public void DEMOloadDebugWall(){
-
 		
 		int tsumo2, tsumo3, tsumo4;
 		tsumo2 = tsumo3 = tsumo4 = 0;
@@ -355,11 +355,19 @@ public class Wall {
 		
 		
 		//specific error case
-		Integer[] h1 = {1,2,5,8,9,10,11,14,15,20,21,29,30,34};
-		Integer[] h2 = {2,2,4,7,9,15,16,17,18,19,19,22,23};
-		Integer[] h3 = {1,3,7,16,16,17,25,25,28,30,30,31,33};
-		Integer[] h4 = {3,5,9,10,11,11,21,22,24,28,29,29,34};
-		tsumo2 = 24;
+//		Integer[] h1 = {1,2,5,8,9,10,11,14,15,20,21,29,30,34};
+//		Integer[] h2 = {2,2,4,7,9,15,16,17,18,19,19,22,23};
+//		Integer[] h3 = {1,3,7,16,16,17,25,25,28,30,30,31,33};
+//		Integer[] h4 = {3,5,9,10,11,11,21,22,24,28,29,29,34};
+//		tsumo2 = 24;
+		
+		//specific error case
+		Integer[] h1 = {3,4,11,11,17};
+		Integer[] h2 = {1,6,7,20};
+		Integer[] h3 = {2,5,5,6};
+		Integer[] h4 = {4,8,12,17};
+		tsumo2 = 2;
+		debugHandSizes = new int[]{5,4,4,4};
 		
 		
 		//kokushi
@@ -467,6 +475,13 @@ public class Wall {
 		for (Integer id: h3) tilesW.add(new GameTile(id));
 		for (Integer id: h4) tilesN.add(new GameTile(id));
 		
+		while (tilesE.size() < 14) tilesE.add(new GameTile(0));
+		while (tilesS.size() < 13) tilesS.add(new GameTile(0));
+		while (tilesW.size() < 13) tilesW.add(new GameTile(0));
+		while (tilesN.size() < 13) tilesN.add(new GameTile(0));
+		if (debugHandSizes[0] > 14) debugHandSizes[0] = 14;
+		for (int i = 1; i < debugHandSizes.length; i++) if (debugHandSizes[i] > 13) debugHandSizes[i] = 13;
+		
 		
 		final int TAKEN_PER_ROUND = 16;
 		final int TAKEN_PER_PLAYER = 4;
@@ -507,9 +522,7 @@ public class Wall {
 		if (tsumo4 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 3] = new GameTile(tsumo4);
 		
 	}
-	public int DEMOgetDebugPlayerHandSize(int playerNum){
-		return 1;
-	}
+	public int[] DEMOgetDebugPlayerHandSizes(){return debugHandSizes;}
 	////////////////////////////////////////////////////////////////////////////////////
 	//////END DEMO METHODS
 	////////////////////////////////////////////////////////////////////////////////////

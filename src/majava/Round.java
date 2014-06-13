@@ -275,14 +275,16 @@ public class Round{
 		List<GameTile> tilesE = new ArrayList<GameTile>(), tilesS = new ArrayList<GameTile>(), tilesW = new ArrayList<GameTile>(), tilesN = new ArrayList<GameTile>();
 		mWall.getStartingHands(tilesE, tilesS, tilesW, tilesN);
 		
+		int dealerSeatNum = mRoundTracker.getDealerSeatNum();
+		
 		//add the tiles to the players' hands
-		for(GameTile t: tilesE) p1.addTileToHand(t);
-		for(GameTile t: tilesS) p2.addTileToHand(t);
-		for(GameTile t: tilesW) p3.addTileToHand(t);
-		for(GameTile t: tilesN) p4.addTileToHand(t);
+		for(GameTile t: tilesE) mPlayerArray[dealerSeatNum].addTileToHand(t);
+		for(GameTile t: tilesS) mPlayerArray[(dealerSeatNum + 1) % NUM_PLAYERS].addTileToHand(t);
+		for(GameTile t: tilesW) mPlayerArray[(dealerSeatNum + 2) % NUM_PLAYERS].addTileToHand(t);
+		for(GameTile t: tilesN) mPlayerArray[(dealerSeatNum + 3) % NUM_PLAYERS].addTileToHand(t);
 		
 		//sort the players' hands
-		p1.sortHand(); p2.sortHand(); p3.sortHand(); p4.sortHand();
+		for (Player p: mPlayerArray) p.sortHand();
 		__updateUI(GameplayEvent.START_OF_ROUND);
 	}
 	
@@ -614,8 +616,8 @@ public class Round{
 
 		final int DEAFULT_SLEEPTIME = 400;
 		final int DEAFULT_SLEEPTIME_EXCLAMATION = 1500;
-//		final int DEAFULT_SLEEPTIME_ROUND_END = 2000;
-		final int DEAFULT_SLEEPTIME_ROUND_END = 7000;
+		final int DEAFULT_SLEEPTIME_ROUND_END = 2000;
+//		final int DEAFULT_SLEEPTIME_ROUND_END = 7000;
 		
 		final int FAST_SLEEPTIME = 0;
 		final int FAST_SLEEPTIME_EXCLAMATION = 0;

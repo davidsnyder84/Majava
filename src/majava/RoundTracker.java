@@ -88,7 +88,6 @@ methods:
 public class RoundTracker {
 	
 	private static final int NUM_PLAYERS = 4;
-	private static final int NUM_PLAYERS_TO_TRACK = NUM_PLAYERS;
 	private static final int NUM_MELDS_TO_TRACK = 5;
 	
 	
@@ -124,9 +123,6 @@ public class RoundTracker {
 		
 		mRoundWind = roundWind; mRoundNum = roundNum; mRoundBonusNum = roundBonus;
 		
-		mWhoseTurn = 0;
-		mMostRecentDiscard = null;
-		
 		mRoundResult = result;
 		
 		
@@ -139,6 +135,10 @@ public class RoundTracker {
 		tempSyncWallTiles = null;
 		
 		__syncWithUI(ui);
+		
+		//the dealer starts first
+		mWhoseTurn = getDealerSeatNum();
+		mMostRecentDiscard = null;
 	}
 	public RoundTracker(RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){this(null, result, roundWind, roundNum, roundBonus, wall, p1, p2, p3, p4);}
 	
@@ -209,11 +209,16 @@ public class RoundTracker {
 	
 	
 	
-	public void nextTurn(){mWhoseTurn = (mWhoseTurn + 1) % 4;}
+	public void nextTurn(){mWhoseTurn = (mWhoseTurn + 1) % NUM_PLAYERS;}
 	public void setTurn(int turn){if (turn < NUM_PLAYERS) mWhoseTurn = turn;}
 	public void setTurn(Player p){setTurn(p.getPlayerNumber());}	//overloaded to accept a player
 	
 	public int whoseTurn(){return mWhoseTurn;}
+	
+	public int getDealerSeatNum(){
+		for (int i = 0; i < NUM_PLAYERS; i++) if (mPlayerArray[i].isDealer()) return i;
+		return -1;
+	}
 	
 	public Player currentPlayer(){return mPlayerArray[mWhoseTurn];}
 	
@@ -233,7 +238,7 @@ public class RoundTracker {
 	
 	
 	public boolean callWasMadeOnDiscard(){
-		for (int i = 1; i < 4; i++) if (mPlayerArray[(mWhoseTurn + i) % NUM_PLAYERS].called()) return true;
+		for (int i = 1; i < NUM_PLAYERS; i++) if (mPlayerArray[(mWhoseTurn + i) % NUM_PLAYERS].called()) return true;
 		return false;
 	}
 	

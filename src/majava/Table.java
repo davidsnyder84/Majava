@@ -92,6 +92,7 @@ public class Table {
 	play game
 	*/
 	public void play(){
+		long time = 0;
 		
 		//generate players to sit at the table
 		__generatePlayers();
@@ -102,10 +103,20 @@ public class Table {
 
 		if (mGameUI != null) mGameUI.startUI();
 		
+		time = System.currentTimeMillis();
+		
 		//play one game
 		mCurrentGame = new Game(mGameUI, mPlayerArray);
 		mCurrentGame.setOptionFastGameplay(mDoFastGameplay);
+		
+		
 		mCurrentGame.play();
+		
+
+		
+		
+		time = System.currentTimeMillis() - time;
+		System.out.println("Time elapsed: " + time);
 		
 		//close the window
 		Pauser.pauseFor(5000);
@@ -119,7 +130,7 @@ public class Table {
 //		ui = new TableViewer();
 //		ui = new SparseTextualUI();
 //		ui = new DetailedTextualUI();
-//		ui = new ComboTextGraphicalUI();
+		ui = new ComboTextGraphicalUI();
 //		ui = new GraphicalUI();
 		return ui;
 	}

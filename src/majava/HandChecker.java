@@ -98,7 +98,7 @@ public class HandChecker {
 	
 	//call flags and partner index lists
 	private boolean mCanChiL, mCanChiM, mCanChiH, mCanPon, mCanKan, mCanRon, mCanPair;
-	private List<Integer> mPartnerIndicesChiL, mPartnerIndicesChiM, mPartnerIndicesChiH, mPartnerIndicesPon, mPartnerIndicesKan, mPartnerIndicesPair;
+	private final List<Integer> mPartnerIndicesChiL, mPartnerIndicesChiM, mPartnerIndicesChiH, mPartnerIndicesPon, mPartnerIndicesKan, mPartnerIndicesPair;
 	private GameTile mCallCandidate;
 	
 	private boolean mCanAnkan, mCanMinkan, mCanRiichi, mCanTsumo;
@@ -108,7 +108,7 @@ public class HandChecker {
 	
 	
 	private boolean pairHasBeenChosen = false;
-	private List<Meld> mFinishingMelds;
+	private final List<Meld> mFinishingMelds;
 	
 	private final GameTileList mTenpaiWaits;
 	
@@ -135,6 +135,7 @@ public class HandChecker {
 		mPartnerIndicesPon = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_PON);
 		mPartnerIndicesKan = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_KAN);
 		mPartnerIndicesPair = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_PAIR);
+		mFinishingMelds = new ArrayList<Meld>(5);
 		
 		__resetCallableFlags();
 		mCallCandidate = null;
@@ -323,18 +324,18 @@ public class HandChecker {
 		mCanChiL = mCanChiM = mCanChiH = mCanPon = mCanKan = mCanRon = mCanPair = false;
 		mCanAnkan = mCanMinkan = mCanRiichi = mCanTsumo = false;
 		
-//		mPartnerIndicesChiL.clear();
-//		mPartnerIndicesChiM.clear();
-//		mPartnerIndicesChiH.clear();
-//		mPartnerIndicesPon.clear();
-//		mPartnerIndicesKan.clear();
-//		mPartnerIndicesPair.clear();
-		mPartnerIndicesChiL = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
-		mPartnerIndicesChiM = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
-		mPartnerIndicesChiH = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
-		mPartnerIndicesPon = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_PON);
-		mPartnerIndicesKan = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_KAN);
-		mPartnerIndicesPair = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_PAIR);
+		mPartnerIndicesChiL.clear();
+		mPartnerIndicesChiM.clear();
+		mPartnerIndicesChiH.clear();
+		mPartnerIndicesPon.clear();
+		mPartnerIndicesKan.clear();
+		mPartnerIndicesPair.clear();
+//		mPartnerIndicesChiL = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
+//		mPartnerIndicesChiM = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
+//		mPartnerIndicesChiH = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
+//		mPartnerIndicesPon = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_PON);
+//		mPartnerIndicesKan = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_KAN);
+//		mPartnerIndicesPair = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_PAIR);
 		mTurnAnkanCandidateIndex = mTurnMinkanCandidateIndex = -1; 
 	}
 	
@@ -626,7 +627,7 @@ public class HandChecker {
 	public boolean isTenpaiKokushi(){
 		
 		//if any melds have been made, kokushi musou is impossible, return false
-		if (mHand.size() != MAX_HAND_SIZE-1) return false;
+		if (mHand.size() < MAX_HAND_SIZE-1) return false;
 		//if the hand contains even one non-honor tile, return false
 		for (GameTile t: mHandTiles) if (!t.isYaochuu()) return false;
 		
@@ -883,25 +884,25 @@ public class HandChecker {
 		
 		final GameTileList waits = new GameTileList();
 		
-		GameTileList handTilesCopy;
-		List<Integer> hotTileIDs = __findAllHotTiles();
-		GameTile currentHotTile;
+		final GameTileList handTilesCopy = mHandTiles.clone();
+		final List<Integer> hotTileIDs = __findAllHotTiles();
+		GameTile currentHotTile = null;
 		
 		for (Integer id: hotTileIDs){
 			//get a hot tile (and mark it with the hand's seat wind, so chi is valid)
 			currentHotTile = new GameTile(id);
 			currentHotTile.setOwner(mOwnerWind);
 			
-			//make a copy of the hand, add the current hot tile to that copy, sort the copy
-			handTilesCopy = mHandTiles.clone();
-			handTilesCopy.add(currentHotTile); handTilesCopy.sort();
+			//make a copy of the hand, add the current hot tile to that copy
+			handTilesCopy.add(currentHotTile);
 			
 			//check if the copy, with the added tile, is complete
 			if (__isCompleteNormal(handTilesCopy)) waits.add(currentHotTile);
+			
+			handTilesCopy.remove(currentHotTile);
 		}
 		
 		//store the waits in mTenpaiWaits, if there are any
-//		if (!waits.isEmpty()) mTenpaiWaits = waits;
 		if (!waits.isEmpty()) mTenpaiWaits.addAll(waits);
 		return waits;
 	}
@@ -922,9 +923,7 @@ public class HandChecker {
 		if ((handTiles.size() % 3) != 2) return false;
 		
 		//make a list of checkTiles out of the handTiles
-//		ConviniList<HandCheckerTile> checkTiles = HandCheckerTile.makeCopyOfListWithCheckers(handTiles);
 		GameTileList checkTiles = handTiles.makeCopyWithCheckers();
-		
 		checkTiles.sort();
 		
 		
@@ -932,7 +931,7 @@ public class HandChecker {
 		if (!__populateMeldStacks(checkTiles)) return false;
 		
 		pairHasBeenChosen = false;
-		mFinishingMelds = new ArrayList<Meld>(5);
+		mFinishingMelds.clear();
 		
 		return __isCompleteNormalHand(checkTiles);
 	}

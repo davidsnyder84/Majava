@@ -314,6 +314,7 @@ public class MajaPlay {
 		h.addTile(new GameTile("DW"));	//11
 		h.addTile(new GameTile("DG"));	//12
 		h.addTile(new GameTile("DR"));	//13
+		
 //		h.addTile(new GameTile("m8"));	//14
 		h.addTile(new GameTile("DR"));	//extra tile
 		h.sortHand();

@@ -34,7 +34,7 @@ public class DemoHandGen {
 	
 	public static void main(String[] args) {
 		
-		runTenpaiSimulation(20000);
+		runTenpaiSimulation(5000);
 //		runSimulationNoDisplay(5000);
 //		runSumulationRandom(15000);
 //		runSpecificTest();
@@ -128,7 +128,7 @@ public class DemoHandGen {
 		GameTileList waits = null;
 		String waitString = "";
 		
-//		TileList maxWaits = null;
+		GameTileList maxWaits = null;
 		Hand maxWaitsHand = null;
 		int maxNumWaits = 0;
 		String maxWaitString = "";
@@ -156,8 +156,8 @@ public class DemoHandGen {
 			}
 			else{
 				System.out.println(waitString);
-				if (waits.size() > maxNumWaits){
-//					maxWaits = waits;
+				if (waits.size() > maxNumWaits && waits.size() != 13){
+					maxWaits = waits;
 					maxWaitsHand = currentHand;
 					maxWaitString = waitString;
 					maxNumWaits = waits.size();
@@ -171,7 +171,7 @@ public class DemoHandGen {
 		System.out.println("Total number of trials: " + howManyTimes);
 		System.out.println("Total number of failures: " + numFailures);
 		
-		System.out.println("\nMax Waits: ");
+		System.out.println("\nMax Waits: (" + maxWaits.size() + ")");
 		System.out.println(maxWaitsHand.toString() + "\n");
 		System.out.println(maxWaitString);
 	}

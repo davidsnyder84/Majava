@@ -239,8 +239,10 @@ public class Majenerator {
 		return tlist;
 	}
 	public static GameTileList generateHandTilesKokushi(){
-		GameTileList tlist = new GameTileList(ImmutableTile.retrieveYaochuuTileIDs());
-//		tlist.sort();
+		Integer[] yaochuuIDs = ImmutableTile.retrieveYaochuuTileIDs();
+		GameTileList tlist = new GameTileList(yaochuuIDs);
+		tlist.add(yaochuuIDs[randGen.nextInt(13)]);
+		tlist.sort();
 		return tlist;
 	}
 	

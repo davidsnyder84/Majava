@@ -282,11 +282,6 @@ public class HandChecker {
 	//TODO checkCallableTile
 	public boolean checkCallableTile(GameTile candidate){
 		
-		//if in tenpai, check ron
-		if (mTenpaiStatus)
-			mCanRon = __canRon();
-		
-		
 		//check if tile candidate is a hot tile. if candidate is not a hot tile, return false
 		if (!__findAllHotTiles().contains(candidate.getId()) && !mTenpaiStatus) return false;
 		
@@ -364,9 +359,8 @@ public class HandChecker {
 		
 		__resetCallableFlags();
 		
-		for (int index = 0; index < mHandTiles.size(); index++){
-			
-			GameTile t = mHandTiles.get(index);
+		int index = 0;
+		for (GameTile t: mHandTiles){
 			
 			if (__canClosedKan(t)){
 //				mTurnAnkanCandidate = t;
@@ -380,10 +374,11 @@ public class HandChecker {
 				mCanMinkan = true;
 			}
 			
-			if (__canTsumo()){
-				mCanTsumo = true;
-			}
-			
+			index++;
+		}
+		
+		if (__canTsumo()){
+			mCanTsumo = true;
 		}
 	}
 	
@@ -836,31 +831,12 @@ public class HandChecker {
 	private boolean __checkMeldableTile(HandCheckerTile candidate, GameTileList checkTiles){
 		
 		
+		//check pon. if can pon, push both pon and pair. if can't pon, check pair.
 		switch(checkTiles.findHowManyOf(candidate)){
 		case 2: candidate.mstackPush(MeldType.PAIR); break;
 		case 4: case 3: candidate.mstackPush(MeldType.PAIR); candidate.mstackPush(MeldType.PON);
 		default: break;
 		}
-		//commented out because of push order
-//		switch(mHandTiles.findHowManyOf(candidate)){
-//		case 4: case 3: candidate.mstackPush(MeldType.PON);
-//		case 2: candidate.mstackPush(MeldType.PAIR);
-//		default: break;
-//		}
-		
-		
-		
-		//check pon. if can pon, push both pon and pair. if can't pon, check pair.
-//		if (__canClosedPair(candidate)){
-//			candidate.mstackPush(MeldType.PAIR);
-//			if (__canClosedPon(candidate)) candidate.mstackPush(MeldType.PON);
-//		}
-		
-//		if (__canClosedPon(candidate)){
-//			candidate.mstackPush(MeldType.PAIR);
-//			candidate.mstackPush(MeldType.PON);
-//		}
-//		else if (__canClosedPair(candidate)) candidate.mstackPush(MeldType.PAIR);
 		
 		//don't check chi if candidate is an honor tile
 		if (!candidate.isHonor()){

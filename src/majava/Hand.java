@@ -172,8 +172,6 @@ public class Hand implements Iterable<GameTile>{
 	//removes the tile at the given index
 	public boolean removeTile(int removeThisIndex){
 		
-//		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~HELP I'M BEING RAPED~~~~~~~~~~~~~~~~~~~~~~~");
-		
 		if (removeThisIndex < 0 || removeThisIndex >= mTiles.size()) return false;
 
 		mTiles.remove(removeThisIndex);

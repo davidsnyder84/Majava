@@ -849,13 +849,13 @@ public class HandChecker {
 	return true if hand contains both (candidate's ID + offset1) and (candidate's ID + offset2)
 	return false if either of them are missing
 	*/
-	private boolean __canClosedChiType(GameTile candidate, int offset1, int offset2){
+	private boolean __canClosedChiType(GameTile candidate, GameTileList checkTiles, int offset1, int offset2){
 //		return (mHandTiles.containsAll(ImmutableTile.retrieveMultipleTiles(candidate.getId() + offset1, candidate.getId() + offset2)));
-		return (mHandTiles.contains(candidate.getId() + offset1) && mHandTiles.contains(candidate.getId() + offset2));
+		return (checkTiles.contains(candidate.getId() + offset1) && checkTiles.contains(candidate.getId() + offset2));
 	}
-	private boolean __canClosedChiL(GameTile candidate){return ((candidate.getFace() != '8' && candidate.getFace() != '9') && __canClosedChiType(candidate, OFFSET_CHI_L1, OFFSET_CHI_L2));}
-	private boolean __canClosedChiM(GameTile candidate){return ((candidate.getFace() != '1' && candidate.getFace() != '9') && __canClosedChiType(candidate, OFFSET_CHI_M1, OFFSET_CHI_M2));}
-	private boolean __canClosedChiH(GameTile candidate){return ((candidate.getFace() != '1' && candidate.getFace() != '2') && __canClosedChiType(candidate, OFFSET_CHI_H1, OFFSET_CHI_H2));}
+	private boolean __canClosedChiL(GameTile candidate, GameTileList checkTiles){return ((candidate.getFace() != '8' && candidate.getFace() != '9') && __canClosedChiType(candidate, checkTiles, OFFSET_CHI_L1, OFFSET_CHI_L2));}
+	private boolean __canClosedChiM(GameTile candidate, GameTileList checkTiles){return ((candidate.getFace() != '1' && candidate.getFace() != '9') && __canClosedChiType(candidate, checkTiles, OFFSET_CHI_M1, OFFSET_CHI_M2));}
+	private boolean __canClosedChiH(GameTile candidate, GameTileList checkTiles){return ((candidate.getFace() != '1' && candidate.getFace() != '2') && __canClosedChiType(candidate, checkTiles, OFFSET_CHI_H1, OFFSET_CHI_H2));}
 	
 	
 	/*
@@ -868,8 +868,8 @@ public class HandChecker {
 		//count how many occurences of the tile
 		return mHandTiles.findHowManyOf(candidate) >= numPartnersNeeded;
 	}
-	private boolean __canClosedPair(GameTile candidate){return __canClosedMultiType(candidate, NUM_PARTNERS_NEEDED_TO_PAIR + 1);}
-	private boolean __canClosedPon(GameTile candidate){return __canClosedMultiType(candidate, NUM_PARTNERS_NEEDED_TO_PON + 1);}
+//	private boolean __canClosedPair(GameTile candidate){return __canClosedMultiType(candidate, NUM_PARTNERS_NEEDED_TO_PAIR + 1);}
+//	private boolean __canClosedPon(GameTile candidate){return __canClosedMultiType(candidate, NUM_PARTNERS_NEEDED_TO_PON + 1);}
 	private boolean __canClosedKan(GameTile candidate){return __canClosedMultiType(candidate, NUM_PARTNERS_NEEDED_TO_KAN + 1);}
 	
 	
@@ -889,10 +889,10 @@ public class HandChecker {
 	(order of stack should be top->L,M,H,Pon,Pair)
 	return true if meldStack is not empty
 	*/
-	private boolean __checkMeldableTile(HandCheckerTile candidate){
+	private boolean __checkMeldableTile(HandCheckerTile candidate, GameTileList checkTiles){
 		
 		
-		switch(mHandTiles.findHowManyOf(candidate)){
+		switch(checkTiles.findHowManyOf(candidate)){
 		case 2: candidate.mstackPush(MeldType.PAIR); break;
 		case 4: case 3: candidate.mstackPush(MeldType.PAIR); candidate.mstackPush(MeldType.PON);
 		default: break;
@@ -920,9 +920,9 @@ public class HandChecker {
 		
 		//don't check chi if candidate is an honor tile
 		if (!candidate.isHonor()){
-			if (__canClosedChiH(candidate)) candidate.mstackPush(MeldType.CHI_H);
-			if (__canClosedChiM(candidate)) candidate.mstackPush(MeldType.CHI_M);
-			if (__canClosedChiL(candidate)) candidate.mstackPush(MeldType.CHI_L);
+			if (__canClosedChiH(candidate, checkTiles)) candidate.mstackPush(MeldType.CHI_H);
+			if (__canClosedChiM(candidate, checkTiles)) candidate.mstackPush(MeldType.CHI_M);
+			if (__canClosedChiL(candidate, checkTiles)) candidate.mstackPush(MeldType.CHI_L);
 		}
 		
 		//~~~~return true if a call (any call) can be made
@@ -999,11 +999,6 @@ public class HandChecker {
 	*/
 	public boolean __isCompleteNormal(GameTileList handTiles){
 		
-		if (handTiles.size() == 5 && handTiles.get(0).getId() == 2 && mHand.getOwnerSeatWind() == Wind.EAST)
-//		if (handTiles.toString().equals("[M2, M3, M4, P1, P1]"))
-			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~HELP I'M BEING RAPED~~~~~~~~~~~~~~~~~~~~~~");
-//			handTiles.size();	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
 		if ((handTiles.size() % 3) != 2) return false;
 		
 		//make a list of checkTiles out of the handTiles
@@ -1034,7 +1029,7 @@ public class HandChecker {
 	private boolean __populateMeldStacks(GameTileList checkTiles){
 		//check to see if every tile can make at least one meld
 		for (int i = 0; i < checkTiles.size(); i++)
-			if (!__checkMeldableTile((HandCheckerTile)checkTiles.get(i))) return false;
+			if (!__checkMeldableTile((HandCheckerTile)checkTiles.get(i), checkTiles)) return false;
 //			if (!__checkMeldableTile(checkTiles.get(i), checkTiles)) return false;
 		
 		return true;

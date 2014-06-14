@@ -6,7 +6,6 @@ import majava.Hand;
 import majava.Meld;
 import majava.Player;
 import majava.Pond;
-import majava.tiles.GameTile;
 import majava.tiles.PondTile;
 import majava.util.GameTileList;
 

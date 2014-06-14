@@ -78,10 +78,9 @@ public class HandChecker {
 	private static final int OFFSET_CHI_H1 = -2, OFFSET_CHI_H2 = -1;
 	
 	private static final int MAX_HAND_SIZE = 14;
-
-	private static final int NUMBER_OF_YAOCHUU_TILES = ImmutableTile.NUMBER_OF_YAOCHUU_TILES;
-//	private static final List<TileInterface> LIST_OF_YAOCHUU_TILES = ImmutableTile.retrievelistOfYaochuuTiles();
+	
 	private static final Integer[] YAOCHUU_TILE_IDS = ImmutableTile.retrieveYaochuuTileIDs();
+	private static final int NUMBER_OF_YAOCHUU_TILES = YAOCHUU_TILE_IDS.length;
 	
 	
 	

@@ -16,7 +16,6 @@ import majava.tiles.GameTile;
 import majava.tiles.ImmutableTile;
 import majava.tiles.TileInterface;
 import majava.util.GameTileList;
-import majava.util.TileInterfaceList;
 
 
 
@@ -147,7 +146,7 @@ public class DemoHandGen {
 			
 			System.out.print("Waits: ");
 			waitString = "";
-			for (TileInterface t: waits) waitString += t.toString() + ", ";
+			for (GameTile t: waits) waitString += t.toString() + ", ";
 			
 			
 			if (waits.isEmpty()){

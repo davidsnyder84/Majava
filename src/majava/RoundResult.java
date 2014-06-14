@@ -163,7 +163,7 @@ public class RoundResult {
 	
 	public Wind getWindOfWinner(){if (isOver() && isVictory()) return mWinningPlayer.getSeatWind(); return null;}
 	
-	public TileInterface getWinningTile(){return mWinningTile;}
+	public GameTile getWinningTile(){return mWinningTile;}
 	public Player getWinningPlayer(){return mWinningPlayer;}
 	public Player getFurikondaPlayer(){return mFurikondaPlayer;}
 	

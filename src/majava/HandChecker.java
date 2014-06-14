@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import utility.ConviniList;
-
 import majava.tiles.HandCheckerTile;
 import majava.tiles.GameTile;
 import majava.tiles.ImmutableTile;
 import majava.tiles.TileInterface;
 import majava.util.GameTileList;
-import majava.util.TileInterfaceList;
 import majava.enums.MeldType;
 import majava.enums.Wind;
 
@@ -86,6 +83,7 @@ public class HandChecker {
 	
 	
 	
+	
 	private final Hand mHand;
 	private final GameTileList mHandTiles;
 	private final List<Meld> mHandMelds;
@@ -110,6 +108,51 @@ public class HandChecker {
 	private final List<Meld> mFinishingMelds;
 	
 	private final GameTileList mTenpaiWaits;
+	
+	
+	
+	
+	
+	
+//	private class Callability{
+//		
+//		private final List<Integer> mPartnerIndicesChiL, mPartnerIndicesChiM, mPartnerIndicesChiH, mPartnerIndicesPon, mPartnerIndicesKan, mPartnerIndicesPair;
+//		private boolean mCanChiL, mCanChiM, mCanChiH, mCanPon, mCanKan, mCanRon, mCanPair;
+//		private GameTile mCallCandidate;
+//		
+//
+//		private boolean mCanAnkan, mCanMinkan, mCanRiichi, mCanTsumo;
+////		private Tile mTurnAnkanCandidate;
+////		private Tile mTurnMinkanCandidate;
+//		private int mTurnAnkanCandidateIndex, mTurnMinkanCandidateIndex;
+//		
+//		public Callability(){
+//			mPartnerIndicesChiL = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
+//			mPartnerIndicesChiM = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
+//			mPartnerIndicesChiH = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
+//			mPartnerIndicesPon = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_PON);
+//			mPartnerIndicesKan = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_KAN);
+//			mPartnerIndicesPair = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_PAIR);
+//			
+//			resetCallableFlags();
+//			mCallCandidate = null;
+//		}
+//		
+//		public void resetCallableFlags(){
+//			mCanChiL = mCanChiM = mCanChiH = mCanPon = mCanKan = mCanRon = mCanPair = false;
+//			mCanAnkan = mCanMinkan = mCanRiichi = mCanTsumo = false;
+//			
+//			mPartnerIndicesChiL.clear();
+//			mPartnerIndicesChiM.clear();
+//			mPartnerIndicesChiH.clear();
+//			mPartnerIndicesPon.clear();
+//			mPartnerIndicesKan.clear();
+//			mPartnerIndicesPair.clear();
+//			
+//			mTurnAnkanCandidateIndex = mTurnMinkanCandidateIndex = -1; 
+//		}
+//	}
+	
 	
 	
 	

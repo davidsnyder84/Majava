@@ -32,11 +32,12 @@ public class GameTileList extends ConviniList<GameTile>{
 	
 	
 	public GameTileList(Integer... ids){
-		this(ids.length);
+		this(DEFAULT_SIZE);
 		for (Integer i: ids) add(new GameTile(i));
 	}
 	
 	
+	@Override
 	public GameTileList clone(){
 		return new GameTileList(this);
 //		TileInterfaceList copy = new TileInterfaceList(size());
@@ -47,10 +48,17 @@ public class GameTileList extends ConviniList<GameTile>{
 	
 	
 	
+//	public boolean contains(TileInterface other){
+//		for (GameTile t: this) if (t.equals(other)) return true;
+//		return true;
+//	}
+	
+	
+	
 	public GameTileList makeCopyWithCheckers(){
 		GameTileList copy = new GameTileList(DEFAULT_SIZE);
-	//	for (Tile t: this) copy.add(new HandCheckerTile(t));
-		for (int i = 0; i < size(); i++) copy.add(new HandCheckerTile(get(i)));
+		for (GameTile t: this) copy.add(new HandCheckerTile(t));
+//		for (int i = 0; i < size(); i++) copy.add(new HandCheckerTile(get(i)));
 		return copy;
 	}
 	
@@ -59,16 +67,16 @@ public class GameTileList extends ConviniList<GameTile>{
 	
 	
 	
-	public static ConviniList<HandCheckerTile> makeCopyOfListWithCheckers(final List<? extends TileInterface> orig){
-		
-		ConviniList<HandCheckerTile> copy = new ConviniList<HandCheckerTile>();
-		
-		for (TileInterface t: orig){
-			if (t instanceof GameTile) copy.add(new HandCheckerTile((GameTile)t));
-			else copy.add(new HandCheckerTile(t));
-		}
-		return copy;
-	}
+//	public static ConviniList<HandCheckerTile> makeCopyOfListWithCheckers(final List<? extends TileInterface> orig){
+//		
+//		ConviniList<HandCheckerTile> copy = new ConviniList<HandCheckerTile>();
+//		
+//		for (TileInterface t: orig){
+//			if (t instanceof GameTile) copy.add(new HandCheckerTile((GameTile)t));
+//			else copy.add(new HandCheckerTile(t));
+//		}
+//		return copy;
+//	}
 	
 	
 	

@@ -56,7 +56,9 @@ public class ConviniList<T extends Comparable<? super T>> extends ArrayList<T>{
 	public ConviniList(@SuppressWarnings("unchecked") T... items){this(Arrays.asList(items));}
 	public ConviniList(){this(10);}
 	
+	@Override
 	public ConviniList<T> clone(){return new ConviniList<T>(this);}
+	
 	
 	//return a new ConviniList<T> with a COPY (independent) of each tile in the list
 	public ConviniList<T> makeCopyNoDuplicates(){
@@ -85,6 +87,7 @@ public class ConviniList<T extends Comparable<? super T>> extends ArrayList<T>{
 	
 
 	
+	@Override
 	//returns a sublist, as a ConviniList<T> from fromIndex (inclusive) to toIndex (exclusive)
 	public ConviniList<T> subList(int fromIndex, int toIndex){return new ConviniList<T>(super.subList(fromIndex, toIndex));}
 	

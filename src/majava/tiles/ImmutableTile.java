@@ -198,6 +198,7 @@ public class ImmutableTile implements TileInterface{
 	
 	//retrieve list of yaochuu tiles
 	public static final List<TileInterface> retrievelistOfYaochuuTiles(){return Arrays.asList(yaochuuIDs);}
+	public static final Integer[] retrieveYaochuuTileIDs(){return new Integer[]{1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34};}
 	
 	
 	

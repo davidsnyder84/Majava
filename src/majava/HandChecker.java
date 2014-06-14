@@ -81,6 +81,7 @@ public class HandChecker {
 
 	private static final int NUMBER_OF_YAOCHUU_TILES = ImmutableTile.NUMBER_OF_YAOCHUU_TILES;
 	private static final List<TileInterface> LIST_OF_YAOCHUU_TILES = ImmutableTile.retrievelistOfYaochuuTiles();
+	private static final Integer[] YAOCHUU_TILE_IDS = ImmutableTile.retrieveYaochuuTileIDs();
 	
 	
 	
@@ -88,8 +89,6 @@ public class HandChecker {
 	
 	private final Hand mHand;
 	private final GameTileList mHandTiles;
-//	private final ConviniList<GameTile> mHandTiles;
-//	private final ConviniList<TileInterface> mHandTiles;
 	private final List<Meld> mHandMelds;
 	
 	private boolean mClosed;
@@ -110,7 +109,7 @@ public class HandChecker {
 	private boolean pairHasBeenChosen = false;
 	private List<Meld> mFinishingMelds;
 	
-	private final List<TileInterface> mTenpaiWaits;
+	private final GameTileList mTenpaiWaits;
 	
 	
 	
@@ -120,7 +119,7 @@ public class HandChecker {
 		mHandTiles = handTiles;
 		mHandMelds = handMelds;
 		
-		mTenpaiWaits = new ArrayList<TileInterface>();
+		mTenpaiWaits = new GameTileList();
 		mTenpaiStatus = false;
 		mClosed = DEFAULT_CLOSED_STATUS;
 		
@@ -288,7 +287,7 @@ public class HandChecker {
 		
 		
 		
-		for (TileInterface t: mTenpaiWaits)
+		for (GameTile t: mTenpaiWaits)
 //			if (t.equals(candidate)) return true;
 			if (candidate.getId() == t.getId()) return true;
 		return false;
@@ -713,20 +712,20 @@ public class HandChecker {
 
 	//returns a list of the hand's waits, if it is in tenpai for kokushi musou
 	//returns an empty list if not in kokushi musou tenpai
-	private List<TileInterface> __getKokushiWaits(){
+	private GameTileList __getKokushiWaits(){
 		
-		List<TileInterface> waits = new ArrayList<TileInterface>(1);
+		GameTileList waits = new GameTileList(1);
 		
-		TileInterface missingTYC = null;
+		GameTile missingTYC = null;
 		if (isTenpaiKokushi() == true){
 			//look for a Yaochuu tile that the hand doesn't contain
-			for (TileInterface t: LIST_OF_YAOCHUU_TILES)
-				if (!mHandTiles.contains(t.getId()))
-					missingTYC = t;
+			for (Integer id: YAOCHUU_TILE_IDS)
+				if (!mHandTiles.contains(id))
+					missingTYC = new GameTile(id);
 			
 			//if the hand contains exactly one of every Yaochuu tile, then it is a 13-sided wait for all Yaochuu tiles
 			if (missingTYC == null)
-				waits = new ArrayList<TileInterface>(LIST_OF_YAOCHUU_TILES);
+				waits = new GameTileList(YAOCHUU_TILE_IDS);
 			else
 				//else, if the hand is missing a Yaochuu tile, that missing tile is the hand's wait
 				waits.add(missingTYC);
@@ -736,7 +735,7 @@ public class HandChecker {
 		if (!waits.isEmpty()) mTenpaiWaits.addAll(waits);
 		return waits;
 	}
-	public List<TileInterface> DEMOgetKokushiWaits(){return __getKokushiWaits();}
+	public GameTileList DEMOgetKokushiWaits(){return __getKokushiWaits();}
 	
 	
 	
@@ -757,7 +756,7 @@ public class HandChecker {
 	*/
 	public boolean isTenpaiChiitoitsu(final GameTileList handTiles){
 		
-		TileInterface missingTile = null;
+		GameTile missingTile = null;
 		//conditions:
 		//hand must be 13 tiles (no melds made)
 		//hand must have exactly 7 different types of tiles
@@ -959,10 +958,10 @@ public class HandChecker {
 	
 	
 	
-	private List<TileInterface> __findTenpaiWaits(){
+	private GameTileList __findTenpaiWaits(){
 		//TODO this is find tenpai waits
 		
-		final List<TileInterface> waits = new ArrayList<TileInterface>();
+		final GameTileList waits = new GameTileList();
 		
 		GameTileList handTilesCopy;
 		List<Integer> hotTileIDs = __findAllHotTiles();
@@ -986,7 +985,7 @@ public class HandChecker {
 		if (!waits.isEmpty()) mTenpaiWaits.addAll(waits);
 		return waits;
 	}
-	public List<TileInterface> DEMOfindTenpaiWaits(){return __findTenpaiWaits();}
+	public GameTileList DEMOfindTenpaiWaits(){return __findTenpaiWaits();}
 	
 	
 	
@@ -999,6 +998,11 @@ public class HandChecker {
 	returns true if list of handTiles is complete (is a winning hand)
 	*/
 	public boolean __isCompleteNormal(GameTileList handTiles){
+		
+		if (handTiles.size() == 5 && handTiles.get(0).getId() == 2 && mHand.getOwnerSeatWind() == Wind.EAST)
+//		if (handTiles.toString().equals("[M2, M3, M4, P1, P1]"))
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~HELP I'M BEING RAPED~~~~~~~~~~~~~~~~~~~~~~");
+//			handTiles.size();	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		if ((handTiles.size() % 3) != 2) return false;
 		
@@ -1195,7 +1199,7 @@ public class HandChecker {
 
 	
 	//returns the list of tenpai waits
-	public List<TileInterface> getTenpaiWaits(){return mTenpaiWaits;}
+	public GameTileList getTenpaiWaits(){return mTenpaiWaits;}
 	
 	
 	//***************************************************************************************************

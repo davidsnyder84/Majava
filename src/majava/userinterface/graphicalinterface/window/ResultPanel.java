@@ -91,7 +91,7 @@ public class ResultPanel extends JPanel{
 		
 		
 		
-		showResult(Majenerator.generateRoundResultSummary());
+//		showResult(Majenerator.generateRoundResultSummary());
 		
 	}
 	

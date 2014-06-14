@@ -15,6 +15,7 @@ import majava.enums.Wind;
 import majava.tiles.GameTile;
 import majava.tiles.ImmutableTile;
 import majava.tiles.TileInterface;
+import majava.util.GameTileList;
 import majava.util.TileInterfaceList;
 
 
@@ -124,9 +125,9 @@ public class DemoHandGen {
 		
 		Hand currentHand = null;
 		int numFailures = 0;
-		List<TileInterface> waits = null;
+		GameTileList waits = null;
 		String waitString = "";
-
+		
 //		TileList maxWaits = null;
 		Hand maxWaitsHand = null;
 		int maxNumWaits = 0;

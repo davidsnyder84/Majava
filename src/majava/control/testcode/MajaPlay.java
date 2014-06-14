@@ -15,6 +15,7 @@ import majava.tiles.HandCheckerTile;
 import majava.tiles.ImmutableTile;
 import majava.tiles.PondTile;
 import majava.tiles.TileInterface;
+import majava.util.GameTileList;
 
 
 
@@ -222,7 +223,7 @@ public class MajaPlay {
 	public static void chiitoiTenpaiTest(){
 		
 		Hand h = new Hand(ownerSeat);
-		List<TileInterface> waits = new ArrayList<TileInterface>();
+		GameTileList waits = new GameTileList();
 		
 		List<TileInterface> handTiles = ImmutableTile.retrieveMultipleTiles(2,2,5,5,7,7,10,10,20,20,21,21,30,30);
 		handTiles.remove(13);
@@ -298,7 +299,7 @@ public class MajaPlay {
 		
 		Hand h = new Hand(ownerSeat);
 		//Tile q = null;
-		List<TileInterface> waits = null;
+		GameTileList waits = null;
 
 		h.addTile(new GameTile("M1"));	//1
 		h.addTile(new GameTile("M9"));	//2

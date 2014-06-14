@@ -15,6 +15,7 @@ import majava.HandChecker;
 import majava.Meld;
 import majava.Player;
 import majava.RoundResult;
+import majava.util.GameTileList;
 import majava.util.TileInterfaceList;
 import majava.util.YakuList;
 import majava.yaku.Yaku;
@@ -93,7 +94,7 @@ public class Majenerator {
 		if (randGen.nextBoolean()) res.setVictoryRon(winner, furi);
 		else res.setVictoryTsumo(winner);
 
-		ConviniList<GameTile> winHandTilesGame = new ConviniList<GameTile>();
+		GameTileList winHandTilesGame = new GameTileList();
 		for (TileInterface t: winHandTiles) winHandTilesGame.add(new GameTile(t.getTileBase()));
 		res.setWinningHand(winHandTilesGame, winMelds, winningTile);
 		
@@ -262,18 +263,18 @@ public class Majenerator {
 	
 	public static Meld generateMeld(final MeldType type, final boolean closed){
 		
-		List<GameTile> meldTiles = null;
+		GameTileList meldTiles = null;
 		
 		int id = 1;
 		while(!tileCanMeldMeldType((id = 1+randGen.nextInt(NUM_TILES)), type));
 		
 		switch (type){
-		case CHI_L: meldTiles = new TileInterfaceList(id, id + 1, id + 2).toGameTiles(); break;
-		case CHI_M: meldTiles = new TileInterfaceList(id - 1, id, id + 1).toGameTiles(); break;
-		case CHI_H: meldTiles = new TileInterfaceList(id - 2, id - 1, id).toGameTiles(); break;
-		case KAN: meldTiles = new TileInterfaceList(id, id, id, id).toGameTiles(); break;
-		case PON: meldTiles = new TileInterfaceList(id, id, id).toGameTiles(); break;
-		case PAIR: meldTiles = new TileInterfaceList(id, id).toGameTiles(); break;
+		case CHI_L: meldTiles = new GameTileList(id, id + 1, id + 2); break;
+		case CHI_M: meldTiles = new GameTileList(id - 1, id, id + 1); break;
+		case CHI_H: meldTiles = new GameTileList(id - 2, id - 1, id); break;
+		case KAN: meldTiles = new GameTileList(id, id, id, id); break;
+		case PON: meldTiles = new GameTileList(id, id, id); break;
+		case PAIR: meldTiles = new GameTileList(id, id); break;
 		default: break;
 		}
 		

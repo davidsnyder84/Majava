@@ -64,6 +64,49 @@ public class GameTileList extends ConviniList<GameTile>{
 	
 	
 	
+	@Override public GameTileList getMultiple(Integer... indices){return new GameTileList(super.getMultiple(indices));}
+	@Override public GameTileList getMultiple(List<Integer> indices){return new GameTileList(super.getMultiple(indices));}
+	
+	
+	
+	@Override
+	public GameTileList subList(int fromIndex, int toIndex){
+		return new GameTileList(super.subList(fromIndex, toIndex));
+	}
+	
+	
+	
+	
+	public int indexOf(Integer id){return indexOf(new GameTile(id));}
+//	public int indexOf(Integer id){
+//		for (GameTile t: this) if (t.getId() == id) return true;
+//		return false;
+//	}
+	
+	//contains, overloaded for tile id
+	public boolean contains(Integer id){return contains(new GameTile(id));}
+//	public boolean contains(Integer id){
+//		for (GameTile t: this) if (t.getId() == id) return true;
+//		return false;
+//	}
+//	public boolean containsAll(Integer... ids){
+//		
+//		return false;
+//	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

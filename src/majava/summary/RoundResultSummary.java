@@ -8,6 +8,7 @@ import majava.enums.Wind;
 import majava.summary.PlayerSummary;
 import majava.summary.ResultType;
 import majava.tiles.TileInterface;
+import majava.util.GameTileList;
 
 
 
@@ -32,7 +33,7 @@ public class RoundResultSummary {
 	
 	
 	//win constructor
-	public RoundResultSummary(ResultType resType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, TileInterface winningTile, List<? extends TileInterface> winnerHand, List<Meld> winnerMelds, PaymentMap payments){
+	public RoundResultSummary(ResultType resType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, TileInterface winningTile, GameTileList winnerHand, List<Meld> winnerMelds, PaymentMap payments){
 		
 		pResultType = resType;
 		

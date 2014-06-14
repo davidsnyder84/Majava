@@ -34,8 +34,8 @@ methods:
 public class Pond {
 	
 	
-	private static final int SIZE_DEFAULT = 30;
-//	private static final int SIZE_MAX = 30;
+//	private static final int SIZE_DEFAULT = 30;
+	private static final int SIZE_MAX = 30;
 	
 	
 	
@@ -49,7 +49,7 @@ public class Pond {
 	
 	
 	public Pond(){
-		mTiles = new ArrayList<PondTile>(SIZE_DEFAULT);
+		mTiles = new ArrayList<PondTile>(SIZE_MAX);
 		mRiichiTileIndex = -1;
 	}
 	

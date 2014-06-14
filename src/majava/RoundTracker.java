@@ -7,6 +7,7 @@ import java.util.List;
 import utility.ConviniList;
 
 import majava.userinterface.GameUI;
+import majava.util.GameTileList;
 import majava.summary.RoundResultSummary;
 import majava.summary.entity.PlayerTracker;
 import majava.summary.entity.RoundEntities;
@@ -94,7 +95,7 @@ public class RoundTracker {
 	//tracks information for a player
 	private final RoundEntities mRoundEntities;
 	private final Wall mWall;	//duplicate
-	private final TileInterface[] mTilesW;	//duplicate
+	private final GameTile[] mTilesW;	//duplicate
 	
 	
 	private final Player[] mPlayerArray;
@@ -145,10 +146,10 @@ public class RoundTracker {
 	
 	
 	private int numPlayersSynched; private boolean wallSynched;
-	private TileInterface[] tempSyncWallTiles = null;
-	private Player tempSyncPlayer = null; private List<GameTile> tempSyncHandTiles = null; private List<PondTile> tempSyncPondTiles = null; private Hand tempSyncHand = null; private Pond tempSyncPond = null; private List<Meld> tempSyncMelds = null;
+	private GameTile[] tempSyncWallTiles = null;
+	private Player tempSyncPlayer = null; private GameTileList tempSyncHandTiles = null; private List<PondTile> tempSyncPondTiles = null; private Hand tempSyncHand = null; private Pond tempSyncPond = null; private List<Meld> tempSyncMelds = null;
 	
-	public void syncWall(TileInterface[] wallTiles){
+	public void syncWall(GameTile[] wallTiles){
 		if (wallSynched) return;
 		tempSyncWallTiles = wallTiles;
 	}
@@ -182,7 +183,7 @@ public class RoundTracker {
 //		mPTrackers[numPlayersSynched].points = mPTrackers[numPlayersSynched].player.getPoints();	//NOT LINK
 //		mPTrackers[numPlayersSynched].riichiStatus = mPTrackers[numPlayersSynched].player.getRiichiStatus();	//NOT LINK
 	}
-	public void syncHand(List<GameTile> handTiles, List<Meld> handMelds){
+	public void syncHand(GameTileList handTiles, List<Meld> handMelds){
 		if (numPlayersSynched > NUM_PLAYERS) return;
 		tempSyncHandTiles = handTiles;
 		tempSyncMelds = handMelds;
@@ -259,7 +260,8 @@ public class RoundTracker {
 	public void setResultVictory(Player winner){
 		
 		GameTile winningTile = null;
-		ConviniList<GameTile> winningHandTiles = new ConviniList<GameTile>(mRoundEntities.mPTrackers[winner.getPlayerNumber()].tilesH);
+//		GameTileList winningHandTiles = new GameTileList(mRoundEntities.mPTrackers[winner.getPlayerNumber()].tilesH);
+		GameTileList winningHandTiles = mRoundEntities.mPTrackers[winner.getPlayerNumber()].tilesH.clone();
 		
 		if (winner == currentPlayer()){
 			mRoundResult.setVictoryTsumo(winner);

@@ -10,6 +10,7 @@ import majava.tiles.HandCheckerTile;
 import majava.tiles.GameTile;
 import majava.tiles.ImmutableTile;
 import majava.tiles.TileInterface;
+import majava.util.GameTileList;
 import majava.util.TileInterfaceList;
 import majava.enums.MeldType;
 import majava.enums.Wind;
@@ -86,7 +87,8 @@ public class HandChecker {
 	
 	
 	private final Hand mHand;
-	private final ConviniList<GameTile> mHandTiles;
+	private final GameTileList mHandTiles;
+//	private final ConviniList<GameTile> mHandTiles;
 //	private final ConviniList<TileInterface> mHandTiles;
 	private final List<Meld> mHandMelds;
 	
@@ -113,7 +115,7 @@ public class HandChecker {
 	
 	
 	//creates a LINK between this and the hand's tiles/melds
-	public HandChecker(Hand hand, ConviniList<GameTile> handTiles, List<Meld> handMelds){
+	public HandChecker(Hand hand, GameTileList handTiles, List<Meld> handMelds){
 		mHand = hand;
 		mHandTiles = handTiles;
 		mHandMelds = handMelds;
@@ -206,11 +208,13 @@ public class HandChecker {
 	private boolean __canChiType(GameTile candidate, List<Integer> storePartnersHere, int offset1, int offset2){
 		
 		//return false if the hand does not contain the partners
-		if (!mHandTiles.containsAll(ImmutableTile.retrieveMultipleTiles(candidate.getId() + offset1, candidate.getId() + offset2)))
+//		if (!mHandTiles.containsAll(ImmutableTile.retrieveMultipleTiles(candidate.getId() + offset1, candidate.getId() + offset2)))
+		if (!mHandTiles.contains(candidate.getId() + offset1) || !mHandTiles.contains(candidate.getId() + offset2))
 			return false;
 		
 		//if both parters were found in the hand, store the indices of the partners in a partner list
-		storePartnersHere.addAll(Arrays.asList(mHandTiles.indexOf(ImmutableTile.retrieveTile(candidate.getId() + offset1)), mHandTiles.indexOf(ImmutableTile.retrieveTile(candidate.getId() + offset2))));
+//		storePartnersHere.addAll(Arrays.asList(mHandTiles.indexOf(ImmutableTile.retrieveTile(candidate.getId() + offset1)), mHandTiles.indexOf(ImmutableTile.retrieveTile(candidate.getId() + offset2))));
+		storePartnersHere.addAll(Arrays.asList(mHandTiles.indexOf(candidate.getId() + offset1), mHandTiles.indexOf(candidate.getId() + offset2)));
 		return true;
 		
 	}
@@ -276,16 +280,17 @@ public class HandChecker {
 	
 	
 	//returns true if the player can call ron on the candidate tile
-	private static int counter = 0;
 	private boolean __canRon(GameTile candidate){
 		
 //		return mTenpaiWaits.contains(candidate);
 		if (mHand.getOwnerSeatWind() == Wind.EAST)
 			candidate.getId();/////////////////////////////////////////////////
 		
+		
+		
 		for (TileInterface t: mTenpaiWaits)
 //			if (t.equals(candidate)) return true;
-			if (candidate.equals(t)) return true;
+			if (candidate.getId() == t.getId()) return true;
 		return false;
 	}
 	//overloaded. if no tile argument given, candidate = mCallCandidate is passsed
@@ -361,7 +366,7 @@ public class HandChecker {
 				mCanKan = __canKan();
 		
 		//if in tenpai, check ron
-//		if (mTenpaiStatus)
+		if (mTenpaiStatus)
 			mCanRon = __canRon();
 		
 		//~~~~return true if a call (any call) can be made
@@ -440,7 +445,7 @@ public class HandChecker {
 	
 	
 	
-	private boolean __canMinkan(TileInterface candidate){
+	private boolean __canMinkan(GameTile candidate){
 		for (Meld m: mHandMelds){
 			if (m.isPon() && m.getFirstTile().equals(candidate))
 				return true;
@@ -501,11 +506,11 @@ public class HandChecker {
 	//returns a list of hot tile IDs for ALL tiles in the hand
 	private List<Integer> __findAllHotTiles(){
 
-		List<Integer> allHotTileIds = new ArrayList<Integer>(16);
+		List<Integer> allHotTileIds = new ArrayList<Integer>(32);
 		List<Integer> singleTileHotTiles = null;
 		
 		//get hot tiles for each tile in the hand
-		for (TileInterface t: mHandTiles){
+		for (GameTile t: mHandTiles){
 			singleTileHotTiles = __findHotTilesOfTile(t);
 			for (Integer i: singleTileHotTiles) if (!allHotTileIds.contains(i)) allHotTileIds.add(i);
 		}
@@ -521,7 +526,7 @@ public class HandChecker {
 	if (t is not honor): add all possible chi partners to the list
 	return list
 	*/
-	private static List<Integer> __findHotTilesOfTile(final TileInterface t){
+	private static List<Integer> __findHotTilesOfTile(final GameTile t){
 		
 		List<Integer> hotTileIds = new ArrayList<Integer>(5); 
 		int id = t.getId(); char face = t.getFace();
@@ -681,13 +686,13 @@ public class HandChecker {
 		//if any melds have been made, kokushi musou is impossible, return false
 		if (mHand.getNumMeldsMade() > 0) return false;
 		//if the hand contains even one non-honor tile, return false
-		for (TileInterface t: mHandTiles) if (!t.isYaochuu()) return false;
+		for (GameTile t: mHandTiles) if (!t.isYaochuu()) return false;
 		
 		
 		//check if the hand contains at least 12 different TYC tiles
 		int countTYC = 0;
 		for (int i = 0; i < NUMBER_OF_YAOCHUU_TILES; i++)
-			if (mHandTiles.contains(LIST_OF_YAOCHUU_TILES.get(i)))
+			if (mHandTiles.contains(LIST_OF_YAOCHUU_TILES.get(i).getId()))
 				countTYC++;
 
 		//return false if the hand doesn't contain at least 12 different TYC tiles
@@ -716,7 +721,7 @@ public class HandChecker {
 		if (isTenpaiKokushi() == true){
 			//look for a Yaochuu tile that the hand doesn't contain
 			for (TileInterface t: LIST_OF_YAOCHUU_TILES)
-				if (mHandTiles.contains(t) == false)
+				if (!mHandTiles.contains(t.getId()))
 					missingTYC = t;
 			
 			//if the hand contains exactly one of every Yaochuu tile, then it is a 13-sided wait for all Yaochuu tiles
@@ -750,7 +755,7 @@ public class HandChecker {
 	returns true if the hand is in tenpai for chiitoitsu 
 	return false if either of them are missing
 	*/
-	public boolean isTenpaiChiitoitsu(final ConviniList<GameTile> handTiles){
+	public boolean isTenpaiChiitoitsu(final GameTileList handTiles){
 		
 		TileInterface missingTile = null;
 		//conditions:
@@ -767,8 +772,8 @@ public class HandChecker {
 		//the hand must have no more than 2 of each tile
 		for(GameTile t: handTiles){
 			switch(handTiles.findHowManyOf(t)){
-			case 1: missingTile = t; break;
-			case 2: ;break;//intentionally blank
+			case 1: missingTile = t;
+			case 2: break;//intentionally blank
 			default: return false;
 			}
 		}
@@ -789,7 +794,7 @@ public class HandChecker {
 	
 	
 	//returns true if a 14-tile hand is a complete chiitoitsu
-	public boolean isCompleteChiitoitsu(final ConviniList<GameTile> handTiles){
+	public boolean isCompleteChiitoitsu(final GameTileList handTiles){
 		
 		handTiles.sort();
 		
@@ -797,8 +802,8 @@ public class HandChecker {
 		if (handTiles.size() < MAX_HAND_SIZE) return false;
 		
 		//even tiles should equal odd tiles, if chiitoitsu
-		ConviniList<GameTile> evenTiles = handTiles.getMultiple(0,2,4,6,8,10,12);
-		ConviniList<GameTile> oddTiles = handTiles.getMultiple(1,3,5,7,9,11,13);
+		GameTileList evenTiles = handTiles.getMultiple(0,2,4,6,8,10,12);
+		GameTileList oddTiles = handTiles.getMultiple(1,3,5,7,9,11,13);
 		return evenTiles.equals(oddTiles);
 	}
 	public boolean isCompleteChiitoitsu(){return isCompleteChiitoitsu(mHandTiles.clone());}
@@ -845,12 +850,13 @@ public class HandChecker {
 	return true if hand contains both (candidate's ID + offset1) and (candidate's ID + offset2)
 	return false if either of them are missing
 	*/
-	private boolean __canClosedChiType(TileInterface candidate, int offset1, int offset2){
-		return (mHandTiles.containsAll(ImmutableTile.retrieveMultipleTiles(candidate.getId() + offset1, candidate.getId() + offset2)));
+	private boolean __canClosedChiType(GameTile candidate, int offset1, int offset2){
+//		return (mHandTiles.containsAll(ImmutableTile.retrieveMultipleTiles(candidate.getId() + offset1, candidate.getId() + offset2)));
+		return (mHandTiles.contains(candidate.getId() + offset1) && mHandTiles.contains(candidate.getId() + offset2));
 	}
-	private boolean __canClosedChiL(TileInterface candidate){return ((candidate.getFace() != '8' && candidate.getFace() != '9') && __canClosedChiType(candidate, OFFSET_CHI_L1, OFFSET_CHI_L2));}
-	private boolean __canClosedChiM(TileInterface candidate){return ((candidate.getFace() != '1' && candidate.getFace() != '9') && __canClosedChiType(candidate, OFFSET_CHI_M1, OFFSET_CHI_M2));}
-	private boolean __canClosedChiH(TileInterface candidate){return ((candidate.getFace() != '1' && candidate.getFace() != '2') && __canClosedChiType(candidate, OFFSET_CHI_H1, OFFSET_CHI_H2));}
+	private boolean __canClosedChiL(GameTile candidate){return ((candidate.getFace() != '8' && candidate.getFace() != '9') && __canClosedChiType(candidate, OFFSET_CHI_L1, OFFSET_CHI_L2));}
+	private boolean __canClosedChiM(GameTile candidate){return ((candidate.getFace() != '1' && candidate.getFace() != '9') && __canClosedChiType(candidate, OFFSET_CHI_M1, OFFSET_CHI_M2));}
+	private boolean __canClosedChiH(GameTile candidate){return ((candidate.getFace() != '1' && candidate.getFace() != '2') && __canClosedChiType(candidate, OFFSET_CHI_H1, OFFSET_CHI_H2));}
 	
 	
 	/*
@@ -859,13 +865,13 @@ public class HandChecker {
 	
 	input: candidate is the tile to search for copies of, numPartnersNeeded is the number of copies needed
 	*/
-	private boolean __canClosedMultiType(TileInterface candidate, int numPartnersNeeded){
+	private boolean __canClosedMultiType(GameTile candidate, int numPartnersNeeded){
 		//count how many occurences of the tile
 		return mHandTiles.findHowManyOf(candidate) >= numPartnersNeeded;
 	}
-	private boolean __canClosedPair(TileInterface candidate){return __canClosedMultiType(candidate, NUM_PARTNERS_NEEDED_TO_PAIR + 1);}
-	private boolean __canClosedPon(TileInterface candidate){return __canClosedMultiType(candidate, NUM_PARTNERS_NEEDED_TO_PON + 1);}
-	private boolean __canClosedKan(TileInterface candidate){return __canClosedMultiType(candidate, NUM_PARTNERS_NEEDED_TO_KAN + 1);}
+	private boolean __canClosedPair(GameTile candidate){return __canClosedMultiType(candidate, NUM_PARTNERS_NEEDED_TO_PAIR + 1);}
+	private boolean __canClosedPon(GameTile candidate){return __canClosedMultiType(candidate, NUM_PARTNERS_NEEDED_TO_PON + 1);}
+	private boolean __canClosedKan(GameTile candidate){return __canClosedMultiType(candidate, NUM_PARTNERS_NEEDED_TO_KAN + 1);}
 	
 	
 		
@@ -888,10 +894,18 @@ public class HandChecker {
 		
 		
 		switch(mHandTiles.findHowManyOf(candidate)){
-		case 4: case 3: candidate.mstackPush(MeldType.PON);
-		case 2: candidate.mstackPush(MeldType.PAIR);
+		case 2: candidate.mstackPush(MeldType.PAIR); break;
+		case 4: case 3: candidate.mstackPush(MeldType.PAIR); candidate.mstackPush(MeldType.PON);
 		default: break;
 		}
+		//commented out because of push order
+//		switch(mHandTiles.findHowManyOf(candidate)){
+//		case 4: case 3: candidate.mstackPush(MeldType.PON);
+//		case 2: candidate.mstackPush(MeldType.PAIR);
+//		default: break;
+//		}
+		
+		
 		
 		//check pon. if can pon, push both pon and pair. if can't pon, check pair.
 //		if (__canClosedPair(candidate)){
@@ -950,7 +964,7 @@ public class HandChecker {
 		
 		final List<TileInterface> waits = new ArrayList<TileInterface>();
 		
-		ConviniList<GameTile> handTilesCopy;
+		GameTileList handTilesCopy;
 		List<Integer> hotTileIDs = __findAllHotTiles();
 		GameTile currentHotTile;
 		
@@ -984,12 +998,14 @@ public class HandChecker {
 	private method: __isCompleteNormal
 	returns true if list of handTiles is complete (is a winning hand)
 	*/
-	public boolean __isCompleteNormal(List<GameTile> handTiles){
+	public boolean __isCompleteNormal(GameTileList handTiles){
 		
 		if ((handTiles.size() % 3) != 2) return false;
 		
 		//make a list of checkTiles out of the handTiles
-		ConviniList<HandCheckerTile> checkTiles = HandCheckerTile.makeCopyOfListWithCheckers(handTiles);
+//		ConviniList<HandCheckerTile> checkTiles = HandCheckerTile.makeCopyOfListWithCheckers(handTiles);
+		GameTileList checkTiles = handTiles.makeCopyWithCheckers();
+		
 		checkTiles.sort();
 		
 		
@@ -1011,10 +1027,10 @@ public class HandChecker {
 	populates the meld type stacks for all of the tile in checkTiles
 	returns true if all tiles can make a meld, returns false if a tile cannot make a meld
 	*/
-	private boolean __populateMeldStacks(ConviniList<HandCheckerTile> checkTiles){
+	private boolean __populateMeldStacks(GameTileList checkTiles){
 		//check to see if every tile can make at least one meld
 		for (int i = 0; i < checkTiles.size(); i++)
-			if (!__checkMeldableTile(checkTiles.get(i))) return false;
+			if (!__checkMeldableTile((HandCheckerTile)checkTiles.get(i))) return false;
 //			if (!__checkMeldableTile(checkTiles.get(i), checkTiles)) return false;
 		
 		return true;
@@ -1066,15 +1082,15 @@ public class HandChecker {
 	end while
 	return false (currentTile could not make any meld, so the hand cannot be complete)
 	*/
-	private boolean __isCompleteNormalHand(ConviniList<HandCheckerTile> checkTiles){
+	private boolean __isCompleteNormalHand(GameTileList checkTiles){
 		
 		//if the hand is empty, it is complete
 		if (checkTiles.isEmpty()) return true;
 		
 		
 		
-		ConviniList<HandCheckerTile> toMeldTiles = null;
-		ConviniList<HandCheckerTile> checkTilesMinusThisMeld = null;
+		GameTileList toMeldTiles = null;
+		GameTileList checkTilesMinusThisMeld = null;
 		
 
 		HandCheckerTile currentTile = null;
@@ -1145,8 +1161,9 @@ public class HandChecker {
 
 				//~~~~Add the tiles to a meld tile list
 				//make a copy of the hand, then remove the meld tiles from the copy and add them to the meld
-				checkTilesMinusThisMeld = HandCheckerTile.makeCopyOfListWithCheckers(checkTiles);
-				toMeldTiles = new ConviniList<HandCheckerTile>();
+//				checkTilesMinusThisMeld = HandCheckerTile.makeCopyOfListWithCheckers(checkTiles);
+				checkTilesMinusThisMeld = checkTiles.makeCopyWithCheckers();
+				toMeldTiles = new GameTileList();
 				
 				while (!partnerIndices.isEmpty())
 					toMeldTiles.add(checkTilesMinusThisMeld.remove( partnerIndices.remove(partnerIndices.size() - 1).intValue()) );
@@ -1159,7 +1176,7 @@ public class HandChecker {
 				
 				//~~~~Recursive call, check if the hand is still complete without the removed meld tiles
 				if (__isCompleteNormalHand(checkTilesMinusThisMeld)){
-					mFinishingMelds.add(new Meld(new ConviniList<GameTile>(toMeldTiles), currentTileMeldType));	//add the meld tiles to the finishing melds stack
+					mFinishingMelds.add(new Meld(toMeldTiles.clone(), currentTileMeldType));	//add the meld tiles to the finishing melds stack
 					return true;
 				}
 				else{

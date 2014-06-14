@@ -8,6 +8,7 @@ import java.util.List;
 import utility.ConviniList;
 import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
+import majava.util.GameTileList;
 import majava.enums.MeldType;
 import majava.enums.Wind;
 
@@ -57,7 +58,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	
 	
 	//list of tiles in the meld
-	private List<GameTile> mTiles;
+	private GameTileList mTiles;
 	
 	private MeldType mMeldType;
 	private boolean mClosed;
@@ -83,7 +84,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	form the meld
 	fu = 0
 	*/
-	public Meld(List<GameTile> handTiles, GameTile newTile, MeldType meldType){		
+	public Meld(GameTileList handTiles, GameTile newTile, MeldType meldType){		
 		
 		__formMeld(handTiles, newTile, meldType);
 		
@@ -91,7 +92,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	}
 	//2-arg, takes list of tiles and meld type (used when making a meld only from hand tiles, so no "new" tile)
 	//passes (handtiles 0 to n-1, handtile n, and meld type)
-	public Meld(List<GameTile> handTiles, MeldType meldType){
+	public Meld(GameTileList handTiles, MeldType meldType){
 		this(handTiles.subList(0, handTiles.size() - 1), handTiles.get(handTiles.size() - 1), meldType);
 	}
 	
@@ -133,7 +134,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	add the new tile to the meld
 	sort the meld if it is a chi
 	*/
-	private void __formMeld(List<GameTile> handTiles, GameTile newTile, MeldType meldType){
+	private void __formMeld(GameTileList handTiles, GameTile newTile, MeldType meldType){
 		
 		//set the owner's seat wind
 		mOwnerSeatWind = handTiles.get(0).getOrignalOwner();
@@ -220,7 +221,8 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	
 	
 	//returns a copy of the entire list of tiles
-	public List<GameTile> getAllTiles(){return new ConviniList<GameTile>(mTiles);}
+//	public List<GameTile> getAllTiles(){return new ConviniList<GameTile>(mTiles);}
+	public GameTileList getAllTiles(){return mTiles.clone();}
 	
 	
 	//returns how many tiles are in the meld

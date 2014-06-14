@@ -9,6 +9,7 @@ import utility.ConviniList;
 
 import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
+import majava.util.GameTileList;
 import majava.enums.Wind;
 import majava.enums.MeldType;
 
@@ -79,7 +80,7 @@ public class Hand implements Iterable<GameTile>{
 	
 	
 	
-	private final ConviniList<GameTile> mTiles;
+	private final GameTileList mTiles;
 	private final List<Meld> mMelds;
 	private final HandChecker mChecker;
 	
@@ -94,7 +95,7 @@ public class Hand implements Iterable<GameTile>{
 	
 	//1-arg constructor, takes player's seat wind
 	public Hand(Wind playerWind){
-		mTiles = new ConviniList<GameTile>(MAX_HAND_SIZE);
+		mTiles = new GameTileList(MAX_HAND_SIZE);
 		mMelds = new ArrayList<Meld>(MAX_NUM_MELDS);
 		
 		mNumMeldsMade = 0;
@@ -143,10 +144,10 @@ public class Hand implements Iterable<GameTile>{
 	public boolean getTenpaiStatus(){return mChecker.getTenpaiStatus();}
 	
 	//returns a list of the hand's tenpai waits
-	public List<TileInterface> getTenpaiWaits(){
-		if (getTenpaiStatus()) return mChecker.getTenpaiWaits();
-		else return null;
-	}
+//	public GameTileList getTenpaiWaits(){
+//		if (getTenpaiStatus()) return mChecker.getTenpaiWaits();
+//		else return null;
+//	}
 	
 	
 	
@@ -285,7 +286,7 @@ public class Hand implements Iterable<GameTile>{
 		List<Integer> partnerIndices = mChecker.getPartnerIndices(meldType);
 
 		//list of TILES, will hold the tiles coming from the hand that will be in the meld
-		ConviniList<GameTile> tilesFromHand = mTiles.getMultiple(partnerIndices);
+		GameTileList tilesFromHand = mTiles.getMultiple(partnerIndices);
 		
 		//candidateTile = the tile that will complete the meld
 		GameTile candidateTile = mChecker.getCallCandidate();
@@ -319,7 +320,7 @@ public class Hand implements Iterable<GameTile>{
 	
 	private void __makeClosedMeld(MeldType meldType){
 		
-		ConviniList<GameTile> handTiles = new ConviniList<GameTile>();
+		GameTileList handTiles = new GameTileList();
 		GameTile candidate;
 		int candidateIndex;
 		List<Integer> partnerIndices;
@@ -327,9 +328,9 @@ public class Hand implements Iterable<GameTile>{
 		final int NUM_PARTNERS_NEEDED_TO_KAN = 3;
 		
 		if (meldType.isKan()){
-
+			
 			candidateIndex = mChecker.getCandidateAnkanIndex();
-			candidate = (GameTile)mTiles.get(candidateIndex);
+			candidate = mTiles.get(candidateIndex);
 			
 			partnerIndices = mTiles.findAllIndicesOf(candidate);
 			while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.remove(partnerIndices.size() - 1);
@@ -343,7 +344,7 @@ public class Hand implements Iterable<GameTile>{
 			partnerIndices.add(candidateIndex);
 			removeMultiple(partnerIndices);
 			
-
+			
 			mNumMeldsMade++;
 		}
 	}
@@ -369,7 +370,7 @@ public class Hand implements Iterable<GameTile>{
 	public void makeMeldTurnMinkan(){
 		
 		int candidateIndex = mChecker.getCandidateMinkanIndex();
-		GameTile candidate = (GameTile)mTiles.get(candidateIndex);
+		GameTile candidate = mTiles.get(candidateIndex);
 		
 		Meld meldToUpgrade = null;
 		

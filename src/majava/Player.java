@@ -9,7 +9,6 @@ import majava.enums.Wind;
 import majava.userinterface.GameUI;
 import majava.summary.PlayerSummary;
 import majava.tiles.GameTile;
-import majava.tiles.TileInterface;
 
 /*
 Class: Player
@@ -974,7 +973,7 @@ public class Player {
 	public String getAsStringHandCompact(){
 		String hs = "";
 		hs += mSeatWind.toChar() + " hand: ";
-		for (TileInterface t: mHand) hs += t + " ";
+		for (GameTile t: mHand) hs += t + " ";
 		return hs;
 	}
 	

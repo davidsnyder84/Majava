@@ -9,6 +9,7 @@ import java.util.List;
 import majava.tiles.GameTile;
 import majava.tiles.ImmutableTile;
 import majava.tiles.TileInterface;
+import majava.util.GameTileList;
 
 
 
@@ -465,20 +466,28 @@ public class Wall {
 		h1[13] += 18;
 		*/
 		
-		List<GameTile> tilesE = new ArrayList<GameTile>(), tilesS = new ArrayList<GameTile>(), tilesW = new ArrayList<GameTile>(), tilesN = new ArrayList<GameTile>();
-//		for (TileInterface t: ImmutableTile.retrieveMultipleTiles(h1)) tilesE.add(new GameTile(t));
-//		for (TileInterface t: ImmutableTile.retrieveMultipleTiles(h2)) tilesS.add(new GameTile(t));
-//		for (TileInterface t: ImmutableTile.retrieveMultipleTiles(h3)) tilesW.add(new GameTile(t));
-//		for (TileInterface t: ImmutableTile.retrieveMultipleTiles(h4)) tilesN.add(new GameTile(t));
-		for (Integer id: h1) tilesE.add(new GameTile(id));
-		for (Integer id: h2) tilesS.add(new GameTile(id));
-		for (Integer id: h3) tilesW.add(new GameTile(id));
-		for (Integer id: h4) tilesN.add(new GameTile(id));
+		
+//		List<GameTile> tilesE = new ArrayList<GameTile>(), tilesS = new ArrayList<GameTile>(), tilesW = new ArrayList<GameTile>(), tilesN = new ArrayList<GameTile>();
+//		for (Integer id: h1) tilesE.add(new GameTile(id));
+//		for (Integer id: h2) tilesS.add(new GameTile(id));
+//		for (Integer id: h3) tilesW.add(new GameTile(id));
+//		for (Integer id: h4) tilesN.add(new GameTile(id));
+//		while (tilesE.size() < 14) tilesE.add(new GameTile(0));
+//		while (tilesS.size() < 13) tilesS.add(new GameTile(0));
+//		while (tilesW.size() < 13) tilesW.add(new GameTile(0));
+//		while (tilesN.size() < 13) tilesN.add(new GameTile(0));
+
+		
+		GameTileList tilesE = new GameTileList(h1);
+		GameTileList tilesS = new GameTileList(h2);
+		GameTileList tilesW = new GameTileList(h3);
+		GameTileList tilesN = new GameTileList(h4);
 		
 		while (tilesE.size() < 14) tilesE.add(new GameTile(0));
 		while (tilesS.size() < 13) tilesS.add(new GameTile(0));
 		while (tilesW.size() < 13) tilesW.add(new GameTile(0));
 		while (tilesN.size() < 13) tilesN.add(new GameTile(0));
+		
 		if (debugHandSizes[0] > 14) debugHandSizes[0] = 14;
 		for (int i = 1; i < debugHandSizes.length; i++) if (debugHandSizes[i] > 13) debugHandSizes[i] = 13;
 		

@@ -34,12 +34,12 @@ public class DemoHandGen {
 	
 	public static void main(String[] args) {
 		
-//		runTenpaiSimulation(5000);
+		runTenpaiSimulation(5000);
 //		runSimulationNoDisplay(5000);
 //		runSumulationRandom(15000);
 //		runSpecificTest();
 		
-		runTenpaiSimulation(500);
+//		runTenpaiSimulation(500);
 		
 //		runSimulation(5000);
 	}
@@ -141,7 +141,8 @@ public class DemoHandGen {
 
 			System.out.println(currentHand.toString() + "\n");
 			
-			waits = currentHand.DEMOgetChecker().DEMOfindTenpaiWaits();
+			currentHand.DEMOgetChecker().DEMOcheckIfTenpai();
+			waits = currentHand.DEMOgetChecker().getTenpaiWaits();
 			
 			
 			System.out.print("Waits: ");

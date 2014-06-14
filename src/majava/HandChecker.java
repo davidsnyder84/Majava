@@ -80,7 +80,7 @@ public class HandChecker {
 	private static final int MAX_HAND_SIZE = 14;
 
 	private static final int NUMBER_OF_YAOCHUU_TILES = ImmutableTile.NUMBER_OF_YAOCHUU_TILES;
-	private static final List<TileInterface> LIST_OF_YAOCHUU_TILES = ImmutableTile.retrievelistOfYaochuuTiles();
+//	private static final List<TileInterface> LIST_OF_YAOCHUU_TILES = ImmutableTile.retrievelistOfYaochuuTiles();
 	private static final Integer[] YAOCHUU_TILE_IDS = ImmutableTile.retrieveYaochuuTileIDs();
 	
 	
@@ -207,12 +207,10 @@ public class HandChecker {
 	private boolean __canChiType(GameTile candidate, List<Integer> storePartnersHere, int offset1, int offset2){
 		
 		//return false if the hand does not contain the partners
-//		if (!mHandTiles.containsAll(ImmutableTile.retrieveMultipleTiles(candidate.getId() + offset1, candidate.getId() + offset2)))
 		if (!mHandTiles.contains(candidate.getId() + offset1) || !mHandTiles.contains(candidate.getId() + offset2))
 			return false;
 		
 		//if both parters were found in the hand, store the indices of the partners in a partner list
-//		storePartnersHere.addAll(Arrays.asList(mHandTiles.indexOf(ImmutableTile.retrieveTile(candidate.getId() + offset1)), mHandTiles.indexOf(ImmutableTile.retrieveTile(candidate.getId() + offset2))));
 		storePartnersHere.addAll(Arrays.asList(mHandTiles.indexOf(candidate.getId() + offset1), mHandTiles.indexOf(candidate.getId() + offset2)));
 		return true;
 		
@@ -641,12 +639,11 @@ public class HandChecker {
 		if (isKokushiTenpai){
 //			mTenpaiWaits.clear();
 			mTenpaiWaits.addAll(__getKokushiWaits());
-//			mTenpaiWaits = __getKokushiWaits();
 		}
 		else{
 			
 			//check if the hand is in normal tenpai, waits are also found here (don't check if in already kokushi tenpai)
-			isNormalTenpai = (!__findTenpaiWaits().isEmpty());
+			isNormalTenpai = (!__findNormalTenpaiWaits().isEmpty());
 			
 			//check for chiitoitsu tenpai, wait is also found here (only check if no kokushi tenpai and no normal tenpai)
 			if (!isNormalTenpai)
@@ -656,6 +653,7 @@ public class HandChecker {
 		mTenpaiStatus = (isKokushiTenpai || isChiitoitsuTenpai || isNormalTenpai);
 		return mTenpaiStatus;
 	}
+	public boolean DEMOcheckIfTenpai(){return __checkIfTenpai();}
 	public boolean updateTenpaiStatus(){return __checkIfTenpai();}
 	
 	
@@ -690,8 +688,8 @@ public class HandChecker {
 		
 		//check if the hand contains at least 12 different TYC tiles
 		int countTYC = 0;
-		for (int i = 0; i < NUMBER_OF_YAOCHUU_TILES; i++)
-			if (mHandTiles.contains(LIST_OF_YAOCHUU_TILES.get(i).getId()))
+		for (int id: YAOCHUU_TILE_IDS)
+			if (mHandTiles.contains(id))
 				countTYC++;
 
 		//return false if the hand doesn't contain at least 12 different TYC tiles
@@ -732,7 +730,7 @@ public class HandChecker {
 		}
 		
 		//store the waits in mTenpaiWaits if there are any
-		if (!waits.isEmpty()) mTenpaiWaits.addAll(waits);
+//		if (!waits.isEmpty()) mTenpaiWaits.addAll(waits);
 		return waits;
 	}
 	public GameTileList DEMOgetKokushiWaits(){return __getKokushiWaits();}
@@ -850,7 +848,6 @@ public class HandChecker {
 	return false if either of them are missing
 	*/
 	private boolean __canClosedChiType(GameTile candidate, GameTileList checkTiles, int offset1, int offset2){
-//		return (mHandTiles.containsAll(ImmutableTile.retrieveMultipleTiles(candidate.getId() + offset1, candidate.getId() + offset2)));
 		return (checkTiles.contains(candidate.getId() + offset1) && checkTiles.contains(candidate.getId() + offset2));
 	}
 	private boolean __canClosedChiL(GameTile candidate, GameTileList checkTiles){return ((candidate.getFace() != '8' && candidate.getFace() != '9') && __canClosedChiType(candidate, checkTiles, OFFSET_CHI_L1, OFFSET_CHI_L2));}
@@ -958,7 +955,7 @@ public class HandChecker {
 	
 	
 	
-	private GameTileList __findTenpaiWaits(){
+	private GameTileList __findNormalTenpaiWaits(){
 		//TODO this is find tenpai waits
 		
 		final GameTileList waits = new GameTileList();
@@ -985,7 +982,7 @@ public class HandChecker {
 		if (!waits.isEmpty()) mTenpaiWaits.addAll(waits);
 		return waits;
 	}
-	public GameTileList DEMOfindTenpaiWaits(){return __findTenpaiWaits();}
+	public GameTileList DEMOfindNormalTenpaiWaits(){return __findNormalTenpaiWaits();}
 	
 	
 	
@@ -1027,10 +1024,8 @@ public class HandChecker {
 	returns true if all tiles can make a meld, returns false if a tile cannot make a meld
 	*/
 	private boolean __populateMeldStacks(GameTileList checkTiles){
-		//check to see if every tile can make at least one meld
-		for (int i = 0; i < checkTiles.size(); i++)
-			if (!__checkMeldableTile((HandCheckerTile)checkTiles.get(i), checkTiles)) return false;
-//			if (!__checkMeldableTile(checkTiles.get(i), checkTiles)) return false;
+		for (GameTile t: checkTiles)
+			if (!__checkMeldableTile((HandCheckerTile)t, checkTiles)) return false;
 		
 		return true;
 	}
@@ -1094,8 +1089,7 @@ public class HandChecker {
 
 		HandCheckerTile currentTile = null;
 		MeldType currentTileMeldType;
-//		List<Integer> currentTileParterIDs = null;
-		List<TileInterface> currentTileParterTiles = null;
+		int[] currentTileParterIDs = null;
 		boolean currentTilePartersAreStillHere = true;
 		List<Integer> partnerIndices = null;
 		
@@ -1112,7 +1106,7 @@ public class HandChecker {
 			
 			//~~~~Verify that currentTile's partners are still in the hand
 			//currentTileParterIDs = list of IDs of partners for currentTile's top MeldType
-			currentTileParterTiles = ImmutableTile.retrieveMultipleTiles(currentTile.mstackTopParterIDs());
+			currentTileParterIDs = currentTile.mstackTopParterIDs();
 			
 			//get the top meldType from currentTile's stack
 			currentTileMeldType = currentTile.mstackPop();	//(remove it)
@@ -1121,7 +1115,7 @@ public class HandChecker {
 			//check if currentTile's partners are still in the hand
 			currentTilePartersAreStillHere = true;
 			if (currentTileMeldType.isChi()){
-				if (!checkTiles.containsAll(currentTileParterTiles))
+				if (!checkTiles.contains(currentTileParterIDs[0]) || !checkTiles.contains(currentTileParterIDs[1]))
 					currentTilePartersAreStillHere = false;
 			}
 			else{
@@ -1144,8 +1138,8 @@ public class HandChecker {
 				
 				//if chi, just find the partners
 				if (currentTileMeldType.isChi()){
-					partnerIndices.add(checkTiles.indexOf(currentTileParterTiles.get(0)));
-					partnerIndices.add(checkTiles.indexOf(currentTileParterTiles.get(1)));
+					partnerIndices.add(checkTiles.indexOf(currentTileParterIDs[0]));
+					partnerIndices.add(checkTiles.indexOf(currentTileParterIDs[1]));
 				}
 				else{
 					//else if pon/pair, make sure you don't count the tile itsef

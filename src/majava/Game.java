@@ -154,7 +154,11 @@ public class Game {
 	public void play(){
 		
 		if (DEFAULT_FAST_COMS_MEAN_SIMULATION)
-			if (mDoFastGameplay && p1.controllerIsComputer() && p2.controllerIsComputer() && p3.controllerIsComputer() && p4.controllerIsComputer()) setGameTypeSimulation();
+			if (mDoFastGameplay && p1.controllerIsComputer() && p2.controllerIsComputer() && p3.controllerIsComputer() && p4.controllerIsComputer()){
+				setGameTypeSimulation();
+				for (Player p: mPlayerArray) p.setControllerComputer();
+			}
+		if (mUI == null) for (Player p: mPlayerArray) p.setControllerComputer();
 		
 		
 		//play rounds until the game is over

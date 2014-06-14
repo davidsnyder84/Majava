@@ -60,7 +60,7 @@ public class MajaPlay {
 		
 		
 		
-		//kokushiTenpaiTest();
+		kokushiTenpaiTest();
 		
 //		chiitoiTenpaiTest();
 		
@@ -73,7 +73,7 @@ public class MajaPlay {
 		
 //		playTileClone();
 		
-		playNewTileInhertance();
+//		playNewTileInhertance();
 		
 	}
 	public static void println(String prints){System.out.println(prints);}public static void println(){println("");}
@@ -312,10 +312,10 @@ public class MajaPlay {
 		h.addTile(new GameTile("WW"));	//9
 		h.addTile(new GameTile("WN"));	//10
 		h.addTile(new GameTile("DW"));	//11
-		h.addTile(new GameTile("DG"));	//12
+//		h.addTile(new GameTile("DG"));	//12
 		h.addTile(new GameTile("DR"));	//13
 //		h.addTile(new GameTile("m8"));	//14
-//		h.addTile(new GameTile("DR"));	//extra tile
+		h.addTile(new GameTile("DR"));	//extra tile
 		h.sortHand();
 		
 		println(h.toString());

@@ -59,19 +59,33 @@ public class HandCheckerTile extends GameTile {
 	final public boolean mstackIsEmpty(){return mMeldTypeStack.isEmpty();}
 	
 	//returns a list of the partner IDs for the top meldType on the stack
-	final public List<Integer> mstackTopParterIDs(){
+	final public int[] mstackTopParterIDs(){
 		int id = getId();
 		switch(mMeldTypeStack.top()){
-		case CHI_L: return Arrays.asList(id + 1, id + 2);
-		case CHI_M: return Arrays.asList(id - 1, id + 1);
-		case CHI_H: return Arrays.asList(id - 2, id - 1);
+		case CHI_L: return new int[]{id + 1, id + 2};
+		case CHI_M: return new int[]{id - 1, id + 1};
+		case CHI_H: return new int[]{id - 2, id - 1};
 		
-		case KAN: return Arrays.asList(id, id, id);
-		case PON: return Arrays.asList(id, id);
-		case PAIR: return Arrays.asList(id);
+		case KAN: return new int[]{id, id, id};
+		case PON: return new int[]{id, id};
+		case PAIR: return new int[]{id};
 		default: return null;
 		}
 	}
+//	//returns a list of the partner IDs for the top meldType on the stack
+//	final public List<Integer> mstackTopParterIDs(){
+//		int id = getId();
+//		switch(mMeldTypeStack.top()){
+//		case CHI_L: return Arrays.asList(id + 1, id + 2);
+//		case CHI_M: return Arrays.asList(id - 1, id + 1);
+//		case CHI_H: return Arrays.asList(id - 2, id - 1);
+//		
+//		case KAN: return Arrays.asList(id, id, id);
+//		case PON: return Arrays.asList(id, id);
+//		case PAIR: return Arrays.asList(id);
+//		default: return null;
+//		}
+//	}
 	
 	
 	
@@ -84,18 +98,6 @@ public class HandCheckerTile extends GameTile {
 //	}
 	
 	
-	
-	
-	public static ConviniList<HandCheckerTile> makeCopyOfListWithCheckers(final List<? extends TileInterface> orig){
-		
-		ConviniList<HandCheckerTile> copy = new ConviniList<HandCheckerTile>();
-		
-		for (TileInterface t: orig){
-			if (t instanceof GameTile) copy.add(new HandCheckerTile((GameTile)t));
-			else copy.add(new HandCheckerTile(t));
-		}
-		return copy;
-	}
 	
 	
 }

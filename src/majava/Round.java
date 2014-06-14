@@ -7,7 +7,6 @@ import majava.userinterface.GameUI;
 import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
-import majava.tiles.TileInterface;
 import majava.enums.GameplayEvent;
 import majava.enums.Wind;
 import majava.enums.Exclamation;

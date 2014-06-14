@@ -1,14 +1,11 @@
 package majava;
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import majava.tiles.GameTile;
-import majava.tiles.ImmutableTile;
-import majava.tiles.TileInterface;
 import majava.util.GameTileList;
 
 
@@ -224,12 +221,12 @@ public class Wall {
 		if kans have been made,  add more ura indicators to the list
 	return the list
 	*/
-	private List<TileInterface> __getDoraIndicators(boolean getUraDora){
+	private GameTileList __getDoraIndicators(boolean getUraDora){
 		
 		int numKansMade = mRoundTracker.getNumKansMade();
 		int size = numKansMade + 1;
 		if (getUraDora) size *= 2;
-		List<TileInterface> indicators = new ArrayList<TileInterface>(size);
+		GameTileList indicators = new GameTileList(size);
 		
 		//add the first dora indicator
 		indicators.add(mTiles[OFFSET_DEAD_WALL + POS_DORA_1]);
@@ -256,8 +253,8 @@ public class Wall {
 		return indicators;
 	}
 	//methods to get a list of dora tiles, or a list of both dora and ura dora tiles 
-	public List<TileInterface> getDoraIndicators(){return __getDoraIndicators(false);}
-	public List<TileInterface> getDoraIndicatorsWithUra(){return __getDoraIndicators(true);}
+	public GameTileList getDoraIndicators(){return __getDoraIndicators(false);}
+	public GameTileList getDoraIndicatorsWithUra(){return __getDoraIndicators(true);}
 	
 	
 	
@@ -331,7 +328,7 @@ public class Wall {
 	////////////////////////////////////////////////////////////////////////////////////
 	//////BEGIN DEMO METHODS
 	////////////////////////////////////////////////////////////////////////////////////
-	private int[] debugHandSizes = {14,13,13,13};
+	private final int[] debugHandSizes = {14,13,13,13};
 	public void DEMOloadDebugWall(){
 		
 		int tsumo2, tsumo3, tsumo4;
@@ -363,20 +360,22 @@ public class Wall {
 //		tsumo2 = 24;
 		
 		//specific error case
-		Integer[] h1 = {3,4,11,11,17};
-		Integer[] h2 = {1,6,7,20};
-		Integer[] h3 = {2,5,5,6};
-		Integer[] h4 = {4,8,12,17};
-		tsumo2 = 2;
-		debugHandSizes = new int[]{5,4,4,4};
+//		Integer[] h1 = {3,4,11,11,17};
+//		Integer[] h2 = {1,6,7,20};
+//		Integer[] h3 = {2,5,5,6};
+//		Integer[] h4 = {4,8,12,17};
+//		tsumo2 = 2;
+//		debugHandSizes = new int[]{5,4,4,4};
 		
 		
 		//kokushi
+		int[] h1 = {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 34, 34, 7};
 //		int[] h1 = {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34, 7};
-//		int[] h2 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
-//		int[] h3 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
-//		int[] h4 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
-//		for (int i = 0; i < h2.length; i++){h2[i] += 3;	h3[i] -= 1;	h4[i] += 2;}
+		int[] h2 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
+		int[] h3 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
+		int[] h4 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
+		for (int i = 0; i < h2.length; i++){h2[i] += 3;	h3[i] -= 1;	h4[i] += 2;}
+		tsumo2 = 33;
 		
 		
 		
@@ -466,22 +465,16 @@ public class Wall {
 		h1[13] += 18;
 		*/
 		
+		Integer h1i[] = new Integer[h1.length], h2i[] = new Integer[h2.length], h3i[] = new Integer[h3.length], h4i[] = new Integer[h4.length];
+		for (int i = 0; i < h1.length; i++) h1i[i] = h1[i];
+		for (int i = 0; i < h2.length; i++) h2i[i] = h2[i];
+		for (int i = 0; i < h3.length; i++) h3i[i] = h3[i];
+		for (int i = 0; i < h4.length; i++) h4i[i] = h4[i];
 		
-//		List<GameTile> tilesE = new ArrayList<GameTile>(), tilesS = new ArrayList<GameTile>(), tilesW = new ArrayList<GameTile>(), tilesN = new ArrayList<GameTile>();
-//		for (Integer id: h1) tilesE.add(new GameTile(id));
-//		for (Integer id: h2) tilesS.add(new GameTile(id));
-//		for (Integer id: h3) tilesW.add(new GameTile(id));
-//		for (Integer id: h4) tilesN.add(new GameTile(id));
-//		while (tilesE.size() < 14) tilesE.add(new GameTile(0));
-//		while (tilesS.size() < 13) tilesS.add(new GameTile(0));
-//		while (tilesW.size() < 13) tilesW.add(new GameTile(0));
-//		while (tilesN.size() < 13) tilesN.add(new GameTile(0));
-
-		
-		GameTileList tilesE = new GameTileList(h1);
-		GameTileList tilesS = new GameTileList(h2);
-		GameTileList tilesW = new GameTileList(h3);
-		GameTileList tilesN = new GameTileList(h4);
+		GameTileList tilesE = new GameTileList(h1i);
+		GameTileList tilesS = new GameTileList(h2i);
+		GameTileList tilesW = new GameTileList(h3i);
+		GameTileList tilesN = new GameTileList(h4i);
 		
 		while (tilesE.size() < 14) tilesE.add(new GameTile(0));
 		while (tilesS.size() < 13) tilesS.add(new GameTile(0));

@@ -595,6 +595,9 @@ public class Player {
 	public boolean reactToDiscard(GameTile t){
 		mCallStatus = CallType.NONE;
 		
+		if (mSeatWind == Wind.EAST)///////////////////////////////////////////////////////////////////////////
+			mSeatWind.next();
+		
 		//if able to call the tile, ask self for reaction
 		if (__ableToCallTile(t)){
 			

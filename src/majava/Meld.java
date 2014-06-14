@@ -5,9 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import utility.ConviniList;
 import majava.tiles.GameTile;
-import majava.tiles.TileInterface;
 import majava.util.GameTileList;
 import majava.enums.MeldType;
 import majava.enums.Wind;
@@ -253,7 +251,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	public String toString(){
 		String meldString = "";
 		
-		for (TileInterface t: mTiles) meldString += t.toString() + " ";
+		for (GameTile t: mTiles) meldString += t.toString() + " ";
 		
 		//show closed or open
 		if (mClosed == true) meldString += "  [Closed]";
@@ -263,7 +261,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	}
 	public String toStringCompact(){
 		String meldString = "";
-		for (TileInterface t: mTiles) meldString += t + " ";
+		for (GameTile t: mTiles) meldString += t + " ";
 		
 		if (meldString != "") meldString = meldString.substring(0, meldString.length() - 1);
 		return meldString;

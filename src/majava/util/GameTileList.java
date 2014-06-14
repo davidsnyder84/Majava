@@ -21,7 +21,6 @@ public class GameTileList extends ConviniList<GameTile>{
 	
 	//takes a List
 	public GameTileList(List<GameTile> tiles){
-//		this(tiles.size());
 		this(DEFAULT_SIZE);
 		addAll(tiles);
 	}
@@ -35,6 +34,7 @@ public class GameTileList extends ConviniList<GameTile>{
 		this(DEFAULT_SIZE);
 		for (Integer i: ids) add(new GameTile(i));
 	}
+//	public GameTileList(int... ids){this(DEFAULT_SIZE); for (Integer i: ids) add(new GameTile(i));}
 	
 	
 	@Override
@@ -95,8 +95,8 @@ public class GameTileList extends ConviniList<GameTile>{
 //	}
 	
 	
-	
-	
+	//add, overloaded for tile id
+	public boolean add(int id){return add(new GameTile(id));}
 	
 	
 	

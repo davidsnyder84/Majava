@@ -225,9 +225,9 @@ public class MajaPlay {
 		Hand h = new Hand(ownerSeat);
 		GameTileList waits = new GameTileList();
 		
-		List<TileInterface> handTiles = ImmutableTile.retrieveMultipleTiles(2,2,5,5,7,7,10,10,20,20,21,21,30,30);
+		GameTileList handTiles = new GameTileList(2,2,5,5,7,7,10,10,20,20,21,21,30,30);
 		handTiles.remove(13);
-		for (TileInterface t: handTiles) h.addTile((GameTile) t);
+		for (GameTile t: handTiles) h.addTile(t);
 		
 		
 		println(h.toString());
@@ -241,18 +241,18 @@ public class MajaPlay {
 
 		//chiitoi tenpai hands (should show true)
 		println("\n\nGOOD TENPAIS=====================\n");
-		List<List<TileInterface>> tlists = new ArrayList<List<TileInterface>>(8);
-		tlists.add(ImmutableTile.retrieveMultipleTiles(1,1,3,3,5,5,7,7,9,9,11,11,13));
-		tlists.add(ImmutableTile.retrieveMultipleTiles(1,1,3,3,5,5,7,7,9,9,11,13,13));
-		tlists.add(ImmutableTile.retrieveMultipleTiles(1,1,3,3,5,5,7,7,9,11,11,13,13));
-		tlists.add(ImmutableTile.retrieveMultipleTiles(1,1,3,3,5,5,7,9,9,11,11,13,13));
-		tlists.add(ImmutableTile.retrieveMultipleTiles(1,1,3,3,5,7,7,9,9,11,11,13,13));
-		tlists.add(ImmutableTile.retrieveMultipleTiles(1,1,3,5,5,7,7,9,9,11,11,13,13));
-		tlists.add(ImmutableTile.retrieveMultipleTiles(1,3,3,5,5,7,7,9,9,11,11,13,13));
+		List<GameTileList> tlists = new ArrayList<GameTileList>(8);
+		tlists.add(new GameTileList(1,1,3,3,5,5,7,7,9,9,11,11,13));
+		tlists.add(new GameTileList(1,1,3,3,5,5,7,7,9,9,11,13,13));
+		tlists.add(new GameTileList(1,1,3,3,5,5,7,7,9,11,11,13,13));
+		tlists.add(new GameTileList(1,1,3,3,5,5,7,9,9,11,11,13,13));
+		tlists.add(new GameTileList(1,1,3,3,5,7,7,9,9,11,11,13,13));
+		tlists.add(new GameTileList(1,1,3,5,5,7,7,9,9,11,11,13,13));
+		tlists.add(new GameTileList(1,3,3,5,5,7,7,9,9,11,11,13,13));
 		
-		for (List<TileInterface> tl: tlists){
+		for (GameTileList tl: tlists){
 			h = new Hand(ownerSeat);
-			for (TileInterface t: tl) h.addTile(new GameTile(t.getTileBase()));
+			for (GameTile t: tl) h.addTile(t);
 
 			println(h.toString());
 
@@ -266,19 +266,19 @@ public class MajaPlay {
 		
 		//NOT chiitoi tenpai hands (should show false)
 		println("\n\nBAD TENPAIS=====================\n");
-		List<List<TileInterface>> badtlists = new ArrayList<List<TileInterface>>(8);
-		badtlists.add(ImmutableTile.retrieveMultipleTiles(1,1,1,1,5,5,7,7,9,9,11,11,13));
-		badtlists.add(ImmutableTile.retrieveMultipleTiles(1,1,1,1,5,6,7,7,9,9,11,11,13,13));
-		badtlists.add(ImmutableTile.retrieveMultipleTiles(1,1,5,5,7,7,9,9,11,11,13));
-		badtlists.add(ImmutableTile.retrieveMultipleTiles(1,1,5));
-		badtlists.add(ImmutableTile.retrieveMultipleTiles(1));
-		badtlists.add(ImmutableTile.retrieveMultipleTiles(1,1,3,3,5,5,7,7,9,9,11,11,13,13));	//is actually chiitoi complete
+		List<GameTileList> badtlists = new ArrayList<GameTileList>(8);
+		badtlists.add(new GameTileList(1,1,1,1,5,5,7,7,9,9,11,11,13));
+		badtlists.add(new GameTileList(1,1,1,1,5,6,7,7,9,9,11,11,13,13));
+		badtlists.add(new GameTileList(1,1,5,5,7,7,9,9,11,11,13));
+		badtlists.add(new GameTileList(1,1,5));
+		badtlists.add(new GameTileList(1));
+		badtlists.add(new GameTileList(1,1,3,3,5,5,7,7,9,9,11,11,13,13));	//is actually chiitoi complete
 		
 		
 		
-		for (List<TileInterface> tl: badtlists){
+		for (GameTileList tl: badtlists){
 			h = new Hand(ownerSeat);
-			for (TileInterface t: tl) h.addTile(new GameTile(t.getTileBase()));
+			for (GameTile t: tl) h.addTile(t);
 
 			println(h.toString());
 
@@ -312,7 +312,7 @@ public class MajaPlay {
 		h.addTile(new GameTile("WW"));	//9
 		h.addTile(new GameTile("WN"));	//10
 		h.addTile(new GameTile("DW"));	//11
-//		h.addTile(new GameTile("DG"));	//12
+		h.addTile(new GameTile("DG"));	//12
 		h.addTile(new GameTile("DR"));	//13
 //		h.addTile(new GameTile("m8"));	//14
 		h.addTile(new GameTile("DR"));	//extra tile
@@ -325,7 +325,7 @@ public class MajaPlay {
 		
 		waits = h.DEMOgetChecker().DEMOgetKokushiWaits();
 		System.out.print(waits.size() + "-sided wait: ");
-		for (TileInterface t: waits)
+		for (GameTile t: waits)
 			System.out.print(t.toString() + ", ");
 		
 		println("\n\nKokushi musou complete?: " + h.DEMOgetChecker().isCompleteKokushi());

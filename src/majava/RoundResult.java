@@ -51,7 +51,7 @@ public class RoundResult {
 	private Player mWinningPlayer;
 	private Player mFurikondaPlayer;
 	
-	private TileInterface mWinningTile;
+	private GameTile mWinningTile;
 
 	
 	private GameTileList mWinnerHand;
@@ -101,12 +101,12 @@ public class RoundResult {
 	
 	
 	//set other things
-	public void setWinningHand(GameTileList handTiles, List<Meld> melds, TileInterface winningTile){
+	public void setWinningHand(GameTileList handTiles, List<Meld> melds, GameTile winningTile){
 		mWinnerHand = handTiles;
 		mWinnerMelds = melds;
 		setWinningTile(winningTile);
 	}
-	public void setWinningTile(TileInterface winningTile){mWinningTile = winningTile;}
+	public void setWinningTile(GameTile winningTile){mWinningTile = winningTile;}
 	
 	
 	public void recordPayments(PaymentMap payments){
@@ -188,7 +188,7 @@ public class RoundResult {
 		RoundResultSummary sum = null;
 		PlayerSummary winnerSummary = null, furikonSummary = null;
 		PaymentMap payments = null;
-		TileInterface winningTile = null;
+		GameTile winningTile = null;
 		GameTileList winnerHand = null;
 		List<Meld> winnerMelds = null;
 		

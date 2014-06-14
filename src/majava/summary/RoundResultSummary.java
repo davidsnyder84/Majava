@@ -7,7 +7,7 @@ import majava.Meld;
 import majava.enums.Wind;
 import majava.summary.PlayerSummary;
 import majava.summary.ResultType;
-import majava.tiles.TileInterface;
+import majava.tiles.GameTile;
 import majava.util.GameTileList;
 
 
@@ -22,10 +22,10 @@ public class RoundResultSummary {
 	private final PlayerSummary pWinningPlayer;
 	private final PlayerSummary pFurikondaPlayer;
 	
-	private final TileInterface pWinningTile;
+	private final GameTile pWinningTile;
 	
 	
-	private final List<TileInterface> pWinnerHand;
+	private final GameTileList pWinnerHand;
 	private final List<Meld> pWinnerMelds;
 	
 	private final PaymentMap pPayments;
@@ -33,7 +33,7 @@ public class RoundResultSummary {
 	
 	
 	//win constructor
-	public RoundResultSummary(ResultType resType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, TileInterface winningTile, GameTileList winnerHand, List<Meld> winnerMelds, PaymentMap payments){
+	public RoundResultSummary(ResultType resType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, GameTile winningTile, GameTileList winnerHand, List<Meld> winnerMelds, PaymentMap payments){
 		
 		pResultType = resType;
 		
@@ -42,8 +42,7 @@ public class RoundResultSummary {
 			pFurikondaPlayer = furikondaPlayer;
 			pWinningTile = winningTile.clone();
 			
-			pWinnerHand = new ArrayList<TileInterface>();
-			for (TileInterface t: winnerHand) pWinnerHand.add(t.getTileBase());
+			pWinnerHand = new GameTileList(winnerHand);
 			
 			pWinnerMelds = winnerMelds;
 		}
@@ -90,15 +89,13 @@ public class RoundResultSummary {
 	public PlayerSummary getFurikondaPlayer(){return pFurikondaPlayer;}
 	
 	public Wind getWindOfWinner(){if (!isVictory()) return null; return pWinningPlayer.getSeatWind();}
-	public TileInterface getWinningTile(){if (!isVictory()) return null; return pWinningTile.clone();}
+	public GameTile getWinningTile(){if (!isVictory()) return null; return pWinningTile.clone();}
 	
 	
 	
-	public List<TileInterface> getWinnerHandTiles(){
+	public GameTileList getWinnerHandTiles(){
 		if (!isVictory()) return null;
-		List <TileInterface> copy = new ArrayList<TileInterface>();
-		copy.addAll(pWinnerHand);
-		return copy;
+		return pWinnerHand.clone();
 	}
 	public List<Meld> getWinnerMelds(){
 		if (!isVictory()) return null; 

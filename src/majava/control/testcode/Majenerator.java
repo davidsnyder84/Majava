@@ -8,15 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import utility.ConviniList;
-
 import majava.Hand;
 import majava.HandChecker;
 import majava.Meld;
 import majava.Player;
 import majava.RoundResult;
 import majava.util.GameTileList;
-import majava.util.TileInterfaceList;
 import majava.util.YakuList;
 import majava.yaku.Yaku;
 import majava.enums.MeldType;
@@ -80,11 +77,11 @@ public class Majenerator {
 		Player winner = players[windex];
 		Player furi = players[losedex];
 		List<Meld> winMelds = null;
-		List<TileInterface> winHandTiles = null;
-		TileInterface winningTile = null;
+		GameTileList winHandTiles = null;
+		GameTile winningTile = null;
 		
 		
-		winHandTiles = new ArrayList<TileInterface>();
+		winHandTiles = new GameTileList();
 		winMelds = new ArrayList<Meld>();
 		generateWinningHandAndMelds(winHandTiles, winMelds);
 //		generateWinningHandAndMelds(winHandTiles, winMelds, 0);
@@ -93,10 +90,8 @@ public class Majenerator {
 		
 		if (randGen.nextBoolean()) res.setVictoryRon(winner, furi);
 		else res.setVictoryTsumo(winner);
-
-		GameTileList winHandTilesGame = new GameTileList();
-		for (TileInterface t: winHandTiles) winHandTilesGame.add(new GameTile(t.getTileBase()));
-		res.setWinningHand(winHandTilesGame, winMelds, winningTile);
+		
+		res.setWinningHand(winHandTiles, winMelds, winningTile);
 		
 		
 		PaymentMap payments = generatePaymentsMap(players, res);
@@ -147,28 +142,29 @@ public class Majenerator {
 	
 	
 	
-	public static ConviniList<TileInterface> generateWinningHandTiles(){
-		final ConviniList<TileInterface> winHand = new ConviniList<TileInterface>();
+	public static GameTileList generateWinningHandTiles(){
+		final GameTileList winHand = new GameTileList();
 		final List<Meld> winMelds = new ArrayList<Meld>();
 		generateWinningHandAndMelds(winHand, winMelds);
 		
 		return winHand;
 	}
 	
-	public static void generateWinningHandAndMelds(final List<TileInterface> winHand, final List<Meld> winMelds, final int howManyMelds){
+	public static void generateWinningHandAndMelds(final GameTileList winHand, final List<Meld> winMelds, final int howManyMelds){
 		if (winHand == null || winMelds == null) return;
 		winHand.clear();
 		winMelds.clear();
 		
-		ConviniList<TileInterface> handtiles = null;
 		
 		
 		//sometimes do chiitoi and kokushi
 		if (randGen.nextInt(15) == 14){
+			GameTileList handtiles = null;
+			
 			if (randGen.nextBoolean()) handtiles = generateHandTilesKokushi();
 			else handtiles = generateHandTilesChiitoi();
 			
-			for (TileInterface t: handtiles) winHand.add(t);
+			for (GameTile t: handtiles) winHand.add(t);
 			return;
 		}
 		
@@ -201,61 +197,50 @@ public class Majenerator {
 		handMelds.add(candidateMeld);
 		
 		//add hand meld tiles to hand
-		for (Meld m: handMelds) for (TileInterface t: m) winHand.add(t);
+		for (Meld m: handMelds) for (GameTile t: m) winHand.add(t);
 		Collections.sort(winHand);
 		
 		
 		
 	}
-	public static void generateWinningHandAndMelds(final List<TileInterface> winHand, final List<Meld> winMelds){generateWinningHandAndMelds(winHand, winMelds, randGen.nextInt(5));}
-	private static boolean __meldWouldViolateTileLimit(Meld candidateMeld, ConviniList<TileInterface> existingTiles){
+	public static void generateWinningHandAndMelds(final GameTileList winHand, final List<Meld> winMelds){generateWinningHandAndMelds(winHand, winMelds, randGen.nextInt(5));}
+	private static boolean __meldWouldViolateTileLimit(Meld candidateMeld, GameTileList existingTiles){
 		
 		//chis
 		if (candidateMeld.isChi()){
-			for (TileInterface t: candidateMeld) if (existingTiles.findHowManyOf(t) >= 4) return true;
+			for (GameTile t: candidateMeld) if (existingTiles.findHowManyOf(t) >= 4) return true;
 			return false;
 		}
 		
 		//pon, kan, pair
 		if ((existingTiles.findHowManyOf(candidateMeld.getFirstTile()) + candidateMeld.size()) > 4) return true;
 		return false;
-		
-		
-		
-//		//chis
-//		if (candidateMeld.isChi()) for (TileInterface t: candidateMeld) if (existingTiles.findHowManyOf(t) >= 4) return true;
-//		//pon, kan, pair
-//		else if ((existingTiles.findHowManyOf(candidateMeld.getFirstTile()) + candidateMeld.size()) > 4) return true;
-//		
-//		return false;
 	}
 	private static boolean __meldWouldViolateTileLimit(Meld candidateMeld, List<Meld> handMelds, List<Meld> melds){	
-		ConviniList<TileInterface> existingTiles = new ConviniList<TileInterface>();
-		for (Meld m: handMelds) for (TileInterface t: m) existingTiles.add(t);
-		for (Meld m: melds) for (TileInterface t: m) existingTiles.add(t);
+		GameTileList existingTiles = new GameTileList();
+		for (Meld m: handMelds) for (GameTile t: m) existingTiles.add(t);
+		for (Meld m: melds) for (GameTile t: m) existingTiles.add(t);
 		return __meldWouldViolateTileLimit(candidateMeld, existingTiles);
 	}
 	
 	
 	
 	
-	public static ConviniList<TileInterface> generateHandTilesChiitoi(){
+	public static GameTileList generateHandTilesChiitoi(){
 		int id;
-		ConviniList<TileInterface> tlist = new ConviniList<TileInterface>();
+		GameTileList tlist = new GameTileList();
 		while (tlist.size() != 14){
 			id = 1+randGen.nextInt(NUM_TILES);
-			if (!tlist.contains(id)) 
-				tlist.addAll(new TileInterfaceList(id, id));
+			if (!tlist.contains(new GameTile(id)))
+				tlist.addAll(new GameTileList(id, id));
 		}
 		
 		tlist.sort();
 		return tlist;
 	}
-	public static ConviniList<TileInterface> generateHandTilesKokushi(){
-		ConviniList<TileInterface> tlist = new ConviniList<TileInterface>(ImmutableTile.retrievelistOfYaochuuTiles());
-		tlist.add(tlist.get(randGen.nextInt(tlist.size())));
-		
-		tlist.sort();
+	public static GameTileList generateHandTilesKokushi(){
+		GameTileList tlist = new GameTileList(ImmutableTile.retrieveYaochuuTileIDs());
+//		tlist.sort();
 		return tlist;
 	}
 	

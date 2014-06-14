@@ -7,6 +7,7 @@ import java.util.List;
 import utility.Pauser;
 import majava.Meld;
 import majava.Player;
+import majava.util.GameTileList;
 import majava.util.YakuList;
 import majava.yaku.Yaku;
 import majava.enums.Exclamation;
@@ -14,7 +15,6 @@ import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
-import majava.tiles.TileInterface;
 
 public class DetailedTextualUI extends TextualUI{
 	
@@ -92,8 +92,8 @@ public class DetailedTextualUI extends TextualUI{
 	protected void __showWall(){println(mRoundEntities.mWall.toString());}
 	
 	protected void __showDoraIndicators(){
-		List<TileInterface> t = mRoundEntities.mWall.getDoraIndicators();
-		println("Dora Indicators: " + t.toString() + "\n\n");
+		GameTileList tl = mRoundEntities.mWall.getDoraIndicators();
+		println("Dora Indicators: " + tl.toString() + "\n\n");
 	}
 	
 	protected void __showDeadWall(){
@@ -124,7 +124,7 @@ public class DetailedTextualUI extends TextualUI{
 		 		"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 				"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		
-		RoundResultSummary result = mRoundEntities.mRoundTracker.getResultSummary();
+		RoundResultSummary resum = mRoundEntities.mRoundTracker.getResultSummary();
 		
 //		String resultStr = "Result: " + mRoundEntities.mRoundTracker.getRoundResultString();
 //		System.out.println(resultStr);
@@ -144,26 +144,26 @@ public class DetailedTextualUI extends TextualUI{
 		PaymentMap payments = null;
 		//for win
 		PlayerSummary winner = null, furikon = null;
-		List<TileInterface> winnerHandTiles = null; List<Meld> winnerMelds = null; TileInterface winningTile = null;
+		GameTileList winnerHandTiles = null; List<Meld> winnerMelds = null; GameTile winningTile = null;
 		YakuList yakuList = null; int yakuWorth = -1; int handScore = -1; 
 		
 		
 		
 		//***result label (Player 1 wins!, Draw!, etc)
-		resultLabel = result.getAsStringResultType();
+		resultLabel = resum.getAsStringResultType();
 		
 		
 		//***payments per player panel
-		payments = result.getPayments();
+		payments = resum.getPayments();
 		
-		if (result.isVictory()){
-			winner = result.getWinningPlayer();
-			furikon = result.getFurikondaPlayer();
+		if (resum.isVictory()){
+			winner = resum.getWinningPlayer();
+			furikon = resum.getFurikondaPlayer();
 			
 			//***winning hand/melds panel
-			winnerHandTiles = result.getWinnerHandTiles();	
-			winnerMelds = result.getWinnerMelds();
-			winningTile = result.getWinningTile();
+			winnerHandTiles = resum.getWinnerHandTiles();	
+			winnerMelds = resum.getWinnerMelds();
+			winningTile = resum.getWinningTile();
 			
 			//***panel/list of yaku
 			yakuList = new YakuList(Yaku.RIICHI, Yaku.RIICHI_IPPATSU, Yaku.TSUMO, Yaku.DORA);
@@ -177,9 +177,9 @@ public class DetailedTextualUI extends TextualUI{
 		
 		
 		System.out.println("Result: " + resultLabel);
-		if (result.isVictory()){
-			print(result.getAsStringWinType() + "!");
-			if (result.isVictoryRon()) print(" (from Player " + (furikon.getPlayerNumber()+1) + ")");
+		if (resum.isVictory()){
+			print(resum.getAsStringWinType() + "!");
+			if (resum.isVictoryRon()) print(" (from Player " + (furikon.getPlayerNumber()+1) + ")");
 			println();
 		}
 		
@@ -191,7 +191,7 @@ public class DetailedTextualUI extends TextualUI{
 			println(payments.get(ps) + ")");
 		}
 		
-		if (result.isVictory()){
+		if (resum.isVictory()){
 			//***winning hand/melds panel
 			println("\nWinner's hand: " + winnerHandTiles);
 			println("Winner's melds:");

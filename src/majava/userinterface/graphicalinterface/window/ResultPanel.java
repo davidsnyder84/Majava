@@ -25,7 +25,9 @@ import majava.enums.Wind;
 import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;
+import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
+import majava.util.GameTileList;
 import majava.util.YakuList;
 import majava.yaku.Yaku;
 
@@ -111,7 +113,7 @@ public class ResultPanel extends JPanel{
 		PaymentMap payments = null;
 		//for win
 		PlayerSummary winner = null, furikon = null;
-		List<TileInterface> winnerHandTiles = null; List<Meld> winnerMelds = null; TileInterface winningTile = null;
+		GameTileList winnerHandTiles = null; List<Meld> winnerMelds = null; GameTile winningTile = null;
 		YakuList yakuList = null; int yakuWorth = 1; int handScore = 0;
 		
 		//***result label (Player 1 wins!, Draw!, etc)

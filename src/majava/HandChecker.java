@@ -90,6 +90,7 @@ public class HandChecker {
 	private final Hand mHand;
 	private final GameTileList mHandTiles;
 	private final List<Meld> mHandMelds;
+	private final Wind mOwnerWind;
 	
 	private boolean mClosed;
 	private boolean mTenpaiStatus;
@@ -118,6 +119,7 @@ public class HandChecker {
 		mHand = hand;
 		mHandTiles = handTiles;
 		mHandMelds = handMelds;
+		mOwnerWind = mHand.getOwnerSeatWind();
 		
 		mTenpaiWaits = new GameTileList();
 		mTenpaiStatus = false;
@@ -137,31 +139,6 @@ public class HandChecker {
 		__resetCallableFlags();
 		mCallCandidate = null;
 	}
-	//copy constructor, makes another checker for the hand (creates a COPY OF the other checker tiles/melds lists)
-//	public HandChecker(HandChecker other){
-//		
-//		mHandTiles = new TileList();
-//		for (Tile t: other.mHandTiles) mHandTiles.add(t);
-//		mHandMelds = new ArrayList<Meld>();
-//		for (Meld m: other.mHandMelds) mHandMelds.add(new Meld(m));
-//
-//		this.__resetCallableFlags();
-//		mCallCandidate = other.mCallCandidate;
-//		mCanChiL = other.mCanChiL; mCanChiM = other.mCanChiM; mCanChiH = other.mCanChiH; mCanPon = other.mCanPon; mCanKan = other.mCanKan; mCanRon = other.mCanRon; mCanPair = other.mCanPair; 
-//		for (Integer i: other.mPartnerIndicesChiL) mPartnerIndicesChiL.add(i);
-//		for (Integer i: other.mPartnerIndicesChiM) mPartnerIndicesChiM.add(i);
-//		for (Integer i: other.mPartnerIndicesChiH) mPartnerIndicesChiH.add(i);
-//		for (Integer i: other.mPartnerIndicesPon) mPartnerIndicesPon.add(i);
-//		for (Integer i: other.mPartnerIndicesKan) mPartnerIndicesKan.add(i);
-//		for (Integer i: other.mPartnerIndicesPair) mPartnerIndicesPair.add(i);
-//		
-//		mCanAnkan = other.mCanAnkan; mCanMinkan = other.mCanMinkan; mCanTsumo = other.mCanTsumo; mCanRiichi = other.mCanRiichi;
-//		mTurnAnkanCandidate = other.mTurnAnkanCandidate; mTurnMinkanCandidate = other.mTurnMinkanCandidate;
-//		mTurnAnkanCandidateIndex = other.mTurnAnkanCandidateIndex; mTurnMinkanCandidateIndex = other.mTurnMinkanCandidateIndex;
-//		
-//		mTenpaiStatus = other.mTenpaiStatus;
-//		mClosed = other.mClosed;
-//	}
 	
 	
 	
@@ -254,11 +231,11 @@ public class HandChecker {
 	private boolean __canMultiType(GameTile candidate, List<Integer> storePartnersHere, int numPartnersNeeded){
 		
 		//count how many occurences of the tile, and store the indices of the occurences in tempPartnerIndices
-		List<Integer> tempPartnerIndices = new ArrayList<Integer>(numPartnersNeeded);
+		List<Integer> tempPartnerIndices = mHandTiles.findAllIndicesOf(candidate);
 		
 		//meld is possible if there are enough partners in the hand to form the meld
-		if (__howManyOfThisTileInHand(candidate, tempPartnerIndices) >= numPartnersNeeded){
-
+		if (tempPartnerIndices.size() >= numPartnersNeeded){
+			
 			//store the partner indices in the pon partner index list
 			storePartnersHere.addAll(tempPartnerIndices.subList(0, numPartnersNeeded));
 			
@@ -278,42 +255,10 @@ public class HandChecker {
 	
 	//returns true if the player can call ron on the candidate tile
 	private boolean __canRon(GameTile candidate){
-		
-//		return mTenpaiWaits.contains(candidate);
-		if (mHand.getOwnerSeatWind() == Wind.EAST)
-			candidate.getId();/////////////////////////////////////////////////
-		
-		
-		
-		for (GameTile t: mTenpaiWaits)
-//			if (t.equals(candidate)) return true;
-			if (candidate.getId() == t.getId()) return true;
-		return false;
+		return mTenpaiWaits.contains(candidate);
 	}
 	//overloaded. if no tile argument given, candidate = mCallCandidate is passsed
 	private boolean __canRon(){return __canRon(mCallCandidate);}
-	
-	
-	
-	/*
-	private method: __howManyOfThisTileInHand
-	returns how many copies of tile t are in the hand
-	
-	input: t is the tile to look for. if a list is provided, storeIndicesHere will be populated with the indices where t occurs 
-	
-	foundIndices = find all indices of t in the hand
-	if a (list was provided): store the indices in that list
-	return (number of indices found)
-	*/
-	private int __howManyOfThisTileInHand(GameTile t, List<Integer> storeIndicesHere){
-		
-		//find all the indices of t in the hand, then store the indices if a list was provided
-		List<Integer> foundIndices = mHandTiles.findAllIndicesOf(t);
-		if (storeIndicesHere != null) for (Integer i: foundIndices) storeIndicesHere.add(i);
-		
-		//return the number of indices found
-		return foundIndices.size();
-	}
 	
 	
 	
@@ -337,11 +282,16 @@ public class HandChecker {
 	//TODO checkCallableTile
 	public boolean checkCallableTile(GameTile candidate){
 		
+		//if in tenpai, check ron
+		if (mTenpaiStatus)
+			mCanRon = __canRon();
+		
+		
 		//check if tile candidate is a hot tile. if candidate is not a hot tile, return false
-		if (!__findAllHotTiles().contains(candidate.getId())) return false;
+		if (!__findAllHotTiles().contains(candidate.getId()) && !mTenpaiStatus) return false;
+		
 		
 		//check which melds candidate can be called for, if any
-		
 		
 		//~~~~reset flags
 		__resetCallableFlags();
@@ -350,8 +300,8 @@ public class HandChecker {
 		//~~~~runs checks, set flags to the check results
 		//only allow chis from the player's kamicha, or from the player's own tiles. don't check chi if candidate is an honor tile
 		if (!candidate.isHonor() && (
-			(candidate.getOrignalOwner() == mHand.getOwnerSeatWind()) || 
-			(candidate.getOrignalOwner() == mHand.getOwnerSeatWind().kamichaWind())) ){
+			(candidate.getOrignalOwner() == mOwnerWind) || 
+			(candidate.getOrignalOwner() == mOwnerWind.kamichaWind())) ){
 			mCanChiL = __canChiL();
 			mCanChiM = __canChiM();
 			mCanChiH = __canChiH();
@@ -681,7 +631,7 @@ public class HandChecker {
 	public boolean isTenpaiKokushi(){
 		
 		//if any melds have been made, kokushi musou is impossible, return false
-		if (mHand.getNumMeldsMade() > 0) return false;
+		if (mHand.size() != MAX_HAND_SIZE-1) return false;
 		//if the hand contains even one non-honor tile, return false
 		for (GameTile t: mHandTiles) if (!t.isYaochuu()) return false;
 		
@@ -701,7 +651,7 @@ public class HandChecker {
 	//returns true if a 14-tile hand is a complete kokushi musou
 	public boolean isCompleteKokushi(){
 		if ((mHandTiles.size() == MAX_HAND_SIZE) &&
-			(isTenpaiKokushi() == true) &&
+			(isTenpaiKokushi()) &&
 			(__getKokushiWaits().size() == NUMBER_OF_YAOCHUU_TILES))
 			return true;
 		
@@ -715,7 +665,7 @@ public class HandChecker {
 		GameTileList waits = new GameTileList(1);
 		
 		GameTile missingTYC = null;
-		if (isTenpaiKokushi() == true){
+		if (isTenpaiKokushi()){
 			//look for a Yaochuu tile that the hand doesn't contain
 			for (Integer id: YAOCHUU_TILE_IDS)
 				if (!mHandTiles.contains(id))
@@ -729,8 +679,6 @@ public class HandChecker {
 				waits.add(missingTYC);
 		}
 		
-		//store the waits in mTenpaiWaits if there are any
-//		if (!waits.isEmpty()) mTenpaiWaits.addAll(waits);
 		return waits;
 	}
 	public GameTileList DEMOgetKokushiWaits(){return __getKokushiWaits();}
@@ -779,7 +727,6 @@ public class HandChecker {
 		
 		
 		//add the missing tile to the wait list (it will be the only wait)
-//		mTenpaiWaits = new TileList(1);
 		mTenpaiWaits.clear();
 		if (missingTile != null) mTenpaiWaits.add(missingTile);
 		return true;
@@ -967,7 +914,7 @@ public class HandChecker {
 		for (Integer id: hotTileIDs){
 			//get a hot tile (and mark it with the hand's seat wind, so chi is valid)
 			currentHotTile = new GameTile(id);
-			currentHotTile.setOwner(mHand.getOwnerSeatWind());
+			currentHotTile.setOwner(mOwnerWind);
 			
 			//make a copy of the hand, add the current hot tile to that copy, sort the copy
 			handTilesCopy = mHandTiles.clone();

@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import majava.enums.MeldType;
-import utility.ConviniList;
 import utility.MahStack;
 
 
@@ -32,7 +31,8 @@ methods:
 public class HandCheckerTile extends GameTile {
 	
 	
-	private final MahStack<MeldType> mMeldTypeStack;
+//	private final MahStack<MeldType> mMeldTypeStack;
+	private final MeldTypeStack mMeldTypeStack;
 	
 	
 	
@@ -40,9 +40,11 @@ public class HandCheckerTile extends GameTile {
 		super(other);
 		
 		if (other instanceof HandCheckerTile)
-			mMeldTypeStack =  new MahStack<MeldType>(((HandCheckerTile) other).mMeldTypeStack);
+//			mMeldTypeStack =  new MahStack<MeldType>(((HandCheckerTile) other).mMeldTypeStack);
+			mMeldTypeStack =  ((HandCheckerTile) other).mMeldTypeStack.clone();
 		else
-			mMeldTypeStack = new MahStack<MeldType>();
+			mMeldTypeStack = new MeldTypeStack();
+//			mMeldTypeStack = new MahStack<MeldType>();
 	}
 	public HandCheckerTile(TileInterface t){this(new GameTile(t));}
 	public HandCheckerTile clone(){return new HandCheckerTile(this);}
@@ -53,7 +55,8 @@ public class HandCheckerTile extends GameTile {
 	
 
 	//stack functions
-	final public boolean mstackPush(MeldType meldType){return mMeldTypeStack.push(meldType);}
+//	final public boolean mstackPush(MeldType meldType){return mMeldTypeStack.push(meldType);}
+	final public void mstackPush(MeldType meldType){mMeldTypeStack.push(meldType);}
 	final public MeldType mstackPop(){return mMeldTypeStack.pop();}
 	final public MeldType mstackTop(){return mMeldTypeStack.top();}
 	final public boolean mstackIsEmpty(){return mMeldTypeStack.isEmpty();}
@@ -72,30 +75,57 @@ public class HandCheckerTile extends GameTile {
 		default: return null;
 		}
 	}
-//	//returns a list of the partner IDs for the top meldType on the stack
-//	final public List<Integer> mstackTopParterIDs(){
-//		int id = getId();
-//		switch(mMeldTypeStack.top()){
-//		case CHI_L: return Arrays.asList(id + 1, id + 2);
-//		case CHI_M: return Arrays.asList(id - 1, id + 1);
-//		case CHI_H: return Arrays.asList(id - 2, id - 1);
-//		
-//		case KAN: return Arrays.asList(id, id, id);
-//		case PON: return Arrays.asList(id, id);
-//		case PAIR: return Arrays.asList(id);
-//		default: return null;
-//		}
-//	}
 	
 	
 	
 	
 	
-//	public String stackString(){
-//		String stackString = "";
-//		for (MeldType m: mMeldTypeStack) stackString += m.toString() + ", ";
-//		return stackString;
-//	}
+	
+	
+	
+	
+	
+	private static class MeldTypeStack implements Cloneable{
+		
+		private static final int MAX_SIZE = 5;
+		private static final int MAX_POS = 4;
+		
+		private final MeldType[] list = new MeldType[MAX_SIZE];
+		private int pos = -1;
+		
+		public MeldTypeStack(){}
+		public MeldTypeStack(final MeldTypeStack other){
+			pos = other.pos;
+			list[0] = other.list[0];
+			list[1] = other.list[1];
+			list[2] = other.list[2];
+			list[3] = other.list[3];
+			list[4] = other.list[4];
+		}
+		public MeldTypeStack clone(){
+			return new MeldTypeStack(this);
+		}
+		
+		public MeldType top(){
+			if (pos < 0) return null;
+			return list[pos];
+		}
+		
+		public MeldType pop(){
+			if (pos < 0) return null;
+			return list[pos--];
+		}
+		
+		public void push(MeldType item){
+			if (pos < MAX_POS)
+				list[++pos] = item;
+		}
+		
+		public boolean isEmpty(){return pos < 0;}
+	}
+	
+	
+	
 	
 	
 	

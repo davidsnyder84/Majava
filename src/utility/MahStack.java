@@ -35,25 +35,28 @@ methods:
 		other:
 		iterator - the List's iterator
 */
-public class MahStack <T> implements Cloneable{
-	
+public class MahStack<T> extends ArrayList<T> implements Cloneable{
+	private static final long serialVersionUID = -5155657231824569104L;
+
+
 	protected static final int DEFAULT_CAPACITY = 10;
 	
 	
-	private final List<T> mList;
+//	private final List<T> mList;
 	
 	
 	
 	//creates a new stack with the given capacity
-	public MahStack(int capacity){mList = new ArrayList<T>(capacity);}
+	public MahStack(int capacity){super(capacity);}
 	public MahStack(){this(DEFAULT_CAPACITY);}
 	
 	//copy constructor, duplicates another stack
 	public MahStack(MahStack<T> other){
-		this(other.size());
-		for (T item: other.mList) mList.add(item);
-		
+		super(other);
+//		this(DEFAULT_CAPACITY);
+//		addAll(other);
 	}
+	@Override
 	public MahStack<T> clone(){
 		return new MahStack<T>(this);
 	}
@@ -63,20 +66,16 @@ public class MahStack <T> implements Cloneable{
 	
 	//-----------Stack functions
 	public T top(){
-		if (mList.isEmpty()) return null;
-		return mList.get(mList.size() - 1);
+		if (isEmpty()) return null;
+		return get(size() - 1);
 	}
 	
 	public T pop(){
-		if (mList.isEmpty()) return null;
-		return mList.remove(mList.size() - 1);
+		if (isEmpty()) return null;
+		return remove(size() - 1);
 	}
 	
-	public boolean push(T item){return mList.add(item);}
-	
-	public boolean isEmpty(){return mList.isEmpty();}
-	
-	public int size(){return mList.size();}
+	public boolean push(T item){return add(item);}
 	
 	
 	
@@ -84,15 +83,6 @@ public class MahStack <T> implements Cloneable{
 	//removes all items from the stack
 //	public void makeEmpty(){mList = new ArrayList<T>(DEFAULT_CAPACITY);}
 //	public void makeEmpty(){mList.clear();}
-	
-	
-	
-	
-	
-	
-	
-//	@Override
-//	public Iterator<T> iterator(){return mList.iterator();}	//returns the List's iterator
 	
 	
 	

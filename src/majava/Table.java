@@ -130,7 +130,7 @@ public class Table {
 //		ui = new TableViewer();
 //		ui = new SparseTextualUI();
 //		ui = new DetailedTextualUI();
-		ui = new ComboTextGraphicalUI();
+//		ui = new ComboTextGraphicalUI();
 //		ui = new GraphicalUI();
 		return ui;
 	}
@@ -178,7 +178,8 @@ public class Table {
 //		if (mDoSinglePlayer) numHumans = 1;
 //		else numHumans = 0;
 		
-		String[] names = {"Human", "Albert", "Brenda", "Carl"};
+
+		String[] names = {"Suwado", "Albert", "Brenda", "Carl"};
 		boolean[] humanController = {false, false, false, false};
 		
 		if (mDoSinglePlayer) humanController[0] = true;

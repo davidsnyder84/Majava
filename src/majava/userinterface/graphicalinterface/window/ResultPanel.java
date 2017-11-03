@@ -26,7 +26,6 @@ import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
-import majava.tiles.TileInterface;
 import majava.util.GameTileList;
 import majava.util.YakuList;
 import majava.yaku.Yaku;

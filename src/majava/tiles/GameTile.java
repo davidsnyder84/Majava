@@ -70,10 +70,6 @@ public class GameTile implements Cloneable, TileInterface {
 		mTile = other.mTile;
 		mOriginalOwner = other.mOriginalOwner;
 	}
-//	public GameTile clone(){
-//		try{return (GameTile) super.clone();}
-//		catch (CloneNotSupportedException e){System.out.println(e.getMessage()); return null;}
-//	}
 	public GameTile clone(){return new GameTile(this);}
 	
 	
@@ -87,9 +83,8 @@ public class GameTile implements Cloneable, TileInterface {
 	
 	
 	
-	//Owner methods
+	//Owner methods (the player who drew the tile from the wall)
 	final public Wind getOrignalOwner(){return mOriginalOwner;}
-	//sets the original owner attribute of the tile (the player who drew the tile from the wall)
 	final public void setOwner(Wind owner){mOriginalOwner = owner;}
 	
 	
@@ -124,16 +119,12 @@ public class GameTile implements Cloneable, TileInterface {
 	
 	
 	
-	/*
-	method: nextGameTile
-	returns the tile that follows this one (used to find a dora from a dora indicator)
-	*/
+	//returns the tile that follows this one (used to find a dora from a dora indicator)
 	final public GameTile nextTile(){return new GameTile(mTile.nextTile());}
 	
 	
 	
-
-	//compares the two base tiles
+	
 	@Override
 	final public int compareTo(TileInterface other){return mTile.compareTo(other.getTileBase());}
 	
@@ -141,7 +132,6 @@ public class GameTile implements Cloneable, TileInterface {
 	@Override
 	final public boolean equals(Object other){return mTile.equals(other);}
 	
-	//string representaiton of tile's suit/face
 	@Override
 	public String toString(){return mTile.toString();}
 	

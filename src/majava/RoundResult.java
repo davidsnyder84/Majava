@@ -8,7 +8,6 @@ import majava.summary.PlayerSummary;
 import majava.summary.ResultType;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
-import majava.tiles.TileInterface;
 import majava.util.GameTileList;
 
 

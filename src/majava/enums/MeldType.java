@@ -28,18 +28,13 @@ public enum MeldType {
 			case CHI_L: return "Chi-L";
 			case CHI_M: return "Chi-M";
 			case CHI_H: return "Chi-H";
-			default: return "how...";
+			default: return "melttypesomethingwentwrong...";
 			}
 		}
 
-		//returns true if the meldtype is a chi
 		public boolean isChi(){return (this == CHI || this == CHI_L || this == CHI_M || this == CHI_H);}
-		//returns true if the meldtype is a multi
 		public boolean isMulti(){return (this == PON || this == KAN || this == PAIR);}
 		
-		//returns true if the meldtype is a pon
 		public boolean isPon(){return (this == PON);}
-		
-		//returns true if the meldtype is a kan
 		public boolean isKan(){return (this == KAN);}
 }

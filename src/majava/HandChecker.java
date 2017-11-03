@@ -7,7 +7,6 @@ import java.util.List;
 import majava.tiles.HandCheckerTile;
 import majava.tiles.GameTile;
 import majava.tiles.ImmutableTile;
-import majava.tiles.TileInterface;
 import majava.util.GameTileList;
 import majava.enums.MeldType;
 import majava.enums.Wind;

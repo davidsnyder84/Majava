@@ -6,7 +6,6 @@ import java.util.List;
 import utility.ConviniList;
 import majava.tiles.PondTile;
 import majava.tiles.GameTile;
-import majava.tiles.TileInterface;
 
 /*
 Class: Pond

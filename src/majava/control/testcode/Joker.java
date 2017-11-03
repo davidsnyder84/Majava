@@ -1,7 +1,8 @@
-package majava.userinterface.graphicalinterface.window;
+package majava.control.testcode;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import majava.userinterface.graphicalinterface.window.ResultPanel;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
 

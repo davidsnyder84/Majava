@@ -3,7 +3,6 @@ package majava.summary.entity;
 import majava.RoundTracker;
 import majava.Wall;
 import majava.tiles.GameTile;
-import majava.tiles.TileInterface;
 
 public class RoundEntities {
 	

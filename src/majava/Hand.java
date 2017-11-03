@@ -5,10 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import utility.ConviniList;
-
 import majava.tiles.GameTile;
-import majava.tiles.TileInterface;
 import majava.util.GameTileList;
 import majava.enums.Wind;
 import majava.enums.MeldType;

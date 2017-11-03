@@ -1,4 +1,4 @@
-package majava.userinterface.graphicalinterface.window;
+package majava.control.testcode;
 
 import java.awt.Color;
 

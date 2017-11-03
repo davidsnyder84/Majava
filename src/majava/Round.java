@@ -597,15 +597,10 @@ public class Round{
 	
 	
 	
-	/*
-	method: displayRoundResult
-	displays the result of the current round
-	*/
+	
 	public void displayRoundResult(){
 		
 		__updateUI(GameplayEvent.END_OF_ROUND);
-		
-//		Pauser.pauseFor(sleepTimeRoundEnd);
 	}
 	
 	
@@ -614,7 +609,6 @@ public class Round{
 		if (mUI == null) return;
 		
 		mUI.displayEvent(event);
-//		if (sleepTime > 0 && !event.isExclamation() && event != GameplayEvent.PLACEHOLDER) mPauser.pauseWait();
 	}
 	
 	
@@ -647,7 +641,6 @@ public class Round{
 			sleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
 		}
 		
-//		mPauser = new Pauser(sleepTime);
 		if (mUI != null) mUI.setSleepTimes(sleepTime, sleepTimeExclamation, sleepTimeRoundEnd);
 	}
 	

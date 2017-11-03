@@ -1,9 +1,5 @@
 package majava.tiles;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import majava.enums.MeldType;
 
 
@@ -30,7 +26,6 @@ methods:
 public class HandCheckerTile extends GameTile {
 	
 	
-//	private final MahStack<MeldType> mMeldTypeStack;
 	private final MeldTypeStack mMeldTypeStack;
 	
 	
@@ -39,11 +34,9 @@ public class HandCheckerTile extends GameTile {
 		super(other);
 		
 		if (other instanceof HandCheckerTile)
-//			mMeldTypeStack =  new MahStack<MeldType>(((HandCheckerTile) other).mMeldTypeStack);
 			mMeldTypeStack =  ((HandCheckerTile) other).mMeldTypeStack.clone();
 		else
 			mMeldTypeStack = new MeldTypeStack();
-//			mMeldTypeStack = new MahStack<MeldType>();
 	}
 	public HandCheckerTile(TileInterface t){this(new GameTile(t));}
 	public HandCheckerTile clone(){return new HandCheckerTile(this);}

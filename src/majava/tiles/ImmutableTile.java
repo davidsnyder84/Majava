@@ -1,6 +1,5 @@
 package majava.tiles;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -118,10 +117,8 @@ public class ImmutableTile implements TileInterface{
 	
 	
 	
-	/*
-	method: nextTile
-	returns the tile that follows this one (used to find a dora from a dora indicator)
-	*/
+	
+	//returns the tile that follows this one (used to find a dora from a dora indicator)
 	final public ImmutableTile nextTile(){
 		if (mFace == '9') return tiles[mID - 8];
 		else if (mFace == 'N') return tiles[mID - 3];
@@ -188,9 +185,7 @@ public class ImmutableTile implements TileInterface{
 	
 	//retrieve multiple tiles
 	public static final List<TileInterface> retrieveMultipleTiles(Integer... ids){
-//		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~HailSatan");
 		TileInterface[] list = new TileInterface[ids.length];
-//		for (int i = 0; i < list.length; i++) list[i] = tiles[ids[i]];
 		for (int i = 0; i < list.length; i++) list[i] = retrieveTile(ids[i]);
 		return Arrays.asList(list);
 	}

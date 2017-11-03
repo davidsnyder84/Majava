@@ -91,26 +91,26 @@ public enum Yaku {
 	
 	
 	private final String yakuName;
-	private final int openVal, closedVal;
+	private final int openValue, closedValue;
 	
 	
 
 	//for yaku whose open/closed values differ
-	private Yaku(String name, int closed, int open){
+	private Yaku(String name, int closedVal, int openVal){
 		yakuName = name;
-		openVal = open; closedVal = closed;
+		openValue = openVal; closedValue = closedVal;
 	}
-	private Yaku(String name, int val){this(name, val, val);}
+	private Yaku(String name, int hanValue){this(name, hanValue, hanValue);}
 	
 	
 	//accessors
 	public String getName(){return yakuName;}
-	public int getValueOpen(){return openVal;}
-	public int getValueClosed(){return closedVal;}
+	public int getValueOpen(){return openValue;}
+	public int getValueClosed(){return closedValue;}
 	
 	
-	public boolean isYakuman(){return closedVal == YAKUMAN;}
-	public boolean allowOpen(){return openVal != DISALLOW_OPEN;}
+	public boolean isYakuman(){return closedValue == YAKUMAN;}
+	public boolean allowedOpen(){return openValue != DISALLOW_OPEN;}
 	
 	public String toString(){return yakuName;}
 	

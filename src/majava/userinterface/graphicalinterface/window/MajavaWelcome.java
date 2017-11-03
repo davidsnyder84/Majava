@@ -19,6 +19,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
 
+import utility.Pauser;
+
 
 /*
 Class: MajavaWelcome
@@ -71,7 +73,8 @@ public class MajavaWelcome extends JFrame implements ActionListener {
 	
 	
 	public void waitForChoice(){
-		while (mChosenOption == Option.UNDECIDED);//intentionally blank
+		while (mChosenOption == Option.UNDECIDED)
+			Pauser.pauseFor(500);
 		this.dispose();
 	}
 	

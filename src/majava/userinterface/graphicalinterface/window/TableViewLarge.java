@@ -50,7 +50,7 @@ import javax.swing.JCheckBoxMenuItem;
 Class: TableViewer
 a larger GUI for viewing the full wall
 */
-public class TableViewer extends TableViewBase{
+public class TableViewLarge extends TableViewBase{
 	private static final long serialVersionUID = 8352771291866988835L;
 	
 	
@@ -146,14 +146,14 @@ public class TableViewer extends TableViewBase{
 	//launch the application TODO MAIN
 	public static void main(String[] args) {
 		
-		TableViewer viewer = new TableViewer();
+		TableViewLarge viewer = new TableViewLarge();
 		viewer.setVisible(true);
 		
 	}
 	
 	
 	//TODO start of constructor
-	public TableViewer(){
+	public TableViewLarge(){
 		
 		super();
 		

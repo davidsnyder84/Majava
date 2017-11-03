@@ -704,6 +704,9 @@ public class TableViewBase extends JFrame{
 	
 	
 	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){
+//////////////////////////////////////////////////////////
+		canRiichi = false;	//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
 		
 		mChosenTurnAction = NO_ACTION_CHOSEN;
 		mChosenDiscard = NO_DISCARD_CHOSEN;
@@ -931,6 +934,8 @@ public class TableViewBase extends JFrame{
 		lblFun.setLocation(4, 5);
 		panDebugButtons.setLocation(204, 333);
 		
+		
+		panDebugButtons.setVisible(false);	////////////////////////////////////////////////////
 		
 		
 		

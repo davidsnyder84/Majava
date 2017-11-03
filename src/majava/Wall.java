@@ -329,10 +329,15 @@ public class Wall {
 	//////BEGIN DEMO METHODS
 	////////////////////////////////////////////////////////////////////////////////////
 	private final int[] debugHandSizes = {14,13,13,13};
+	
+	public void DEMOmyDEMOWALL(){
+		
+	}
+	
 	public void DEMOloadDebugWall(){
 		
-		int tsumo2, tsumo3, tsumo4;
-		tsumo2 = tsumo3 = tsumo4 = 0;
+		int tsumo2, tsumo3, tsumo4, tsumo5, tsumo6, tsumo7, tsumo8, tsumo9;
+		tsumo2 = tsumo3 = tsumo4 = tsumo5 = tsumo6 = tsumo7 = tsumo8 = tsumo9 = 0;
 //		int[] h1 = {2,2,4,4,6,6,8,8,10,10,12,12,15,15};
 		
 		
@@ -375,7 +380,8 @@ public class Wall {
 		int[] h3 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
 		int[] h4 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
 		for (int i = 0; i < h2.length; i++){h2[i] += 3;	h3[i] -= 1;	h4[i] += 2;}
-		tsumo2 = 33;
+		tsumo2 = tsumo3 = tsumo4 = tsumo5 = tsumo6 = tsumo7 = tsumo8 = 28;
+		tsumo9 = 1;
 		
 		
 		
@@ -522,6 +528,14 @@ public class Wall {
 		if (tsumo2 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 1] = new GameTile(tsumo2);
 		if (tsumo3 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 2] = new GameTile(tsumo3);
 		if (tsumo4 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 3] = new GameTile(tsumo4);
+		
+		
+		if (tsumo5 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 4] = new GameTile(tsumo5);
+		if (tsumo6 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 5] = new GameTile(tsumo6);
+		if (tsumo7 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 6] = new GameTile(tsumo7);
+		if (tsumo8 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 7] = new GameTile(tsumo8);
+		
+		if (tsumo9 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 8] = new GameTile(tsumo9);
 		
 	}
 	public int[] DEMOgetDebugPlayerHandSizes(){return debugHandSizes;}

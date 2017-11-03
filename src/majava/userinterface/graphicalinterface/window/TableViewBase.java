@@ -18,6 +18,7 @@ import majava.tiles.TileInterface;
 import majava.tiles.PondTile;
 import utility.ImageResizer;
 import utility.ImageRotator;
+import utility.Pauser;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -678,7 +679,8 @@ public class TableViewBase extends JFrame{
 		repaint();
 		
 		
-		while (mChosenCall == NO_CALL_CHOSEN);//intentionally blank
+		while (mChosenCall == NO_CALL_CHOSEN)
+			__avoidBusyWaitForClick();
 		
 		if (mChosenCall == CALL_CHI) mChosenCall = chiType;
 		
@@ -717,9 +719,9 @@ public class TableViewBase extends JFrame{
 		barryTActions[BARRY_TACTIONS_MINKAN].setVisible(canMinkan);
 		barryTActions[BARRY_TACTIONS_TSUMO].setVisible(canTsumo);
 		
-		
 		mChosenTurnAction = NO_ACTION_CHOSEN;
-		while (mChosenTurnAction == NO_ACTION_CHOSEN);//intentionally blank
+		while (mChosenTurnAction == NO_ACTION_CHOSEN)
+			__avoidBusyWaitForClick();
 		
 		if (mChosenDiscard > handSize) __setDiscardChosen(DEFAULT_DISCARD);
 		if (mChosenDiscard == DEFAULT_DISCARD) mChosenDiscard = handSize;
@@ -737,6 +739,12 @@ public class TableViewBase extends JFrame{
 	public int resultChosenDiscardIndex(){
 		if (resultChosenTurnActionWasDiscard()) return mChosenDiscard;
 		else return NO_DISCARD_CHOSEN;
+	}
+	
+	//avoids buggy behavior that can happen if busy waits are used while waiting for mouseclick input
+	private void __avoidBusyWaitForClick(){
+		int sleepTime = 100;
+		Pauser.pauseFor(sleepTime);
 	}
 	
 	

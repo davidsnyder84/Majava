@@ -498,22 +498,12 @@ public class Player {
 	public boolean reactToDiscard(GameTile t){
 		mCallStatus = CallType.NONE;
 		
-		if (mSeatWind == Wind.EAST)///////////////////////////////////////////////////////////////////////////
-			mSeatWind.next();
-		
 		//if able to call the tile, ask self for reaction
 		if (__ableToCallTile(t)){
 			
-			//ask self for reaction
-			//update call status
+			//ask self for reaction, also update call status
 			mCallStatus = __askSelfForReaction(t);
 		}
-		
-		////////////////////the motherfucker
-		//////////////////I think I can remove this, because NORMAL is set after discarding
-		//draw normally if no call
-		if (mCallStatus == CallType.NONE)
-			mDrawNeeded = DrawType.NORMAL;
 		
 		return (mCallStatus != CallType.NONE);
 	}

@@ -60,7 +60,6 @@ public class Round{
 	
 	//for debug use
 	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
-//	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	
 	
@@ -147,24 +146,18 @@ public class Round{
 		
 		if (roundIsOver()){mUI.printErrorRoundAlreadyOver();return;}
 		
-		//deal starting hands
+		
 		__dealHands();
 		
-		
-		//game loop, loop until the round is over
 		while (!roundIsOver()){
-
-			//handle player turns
+			
 			__doPlayerTurn(mRoundTracker.currentPlayer());
 			
-
-			//handle reactions here
 			if (!roundIsOver())
 				if (mRoundTracker.callWasMadeOnDiscard())
 					__handleReaction();
 		}
 		
-		//handle end of round
 		__handleRoundEnd();
 	}
 	
@@ -263,29 +256,23 @@ public class Round{
 	
 	
 	
-	/*
-	private method: __dealHands
-	deals players their starting hands
-	*/
+	
+	//deals players their starting hands
 	private void __dealHands(){
 		
 		if (DEBUG_LOAD_DEBUG_WALL) mWall.DEMOloadDebugWall();	//DEBUG
 		
-		//get starting hands (as lists of tiles)
+		//get starting hands from the wall
 		List<GameTile> tilesE = new ArrayList<GameTile>(), tilesS = new ArrayList<GameTile>(), tilesW = new ArrayList<GameTile>(), tilesN = new ArrayList<GameTile>();
 		mWall.getStartingHands(tilesE, tilesS, tilesW, tilesN);
 		
-		int dealerSeatNum = mRoundTracker.getDealerSeatNum();
 		
-		//add the tiles to the players' hands
-		for(GameTile t: tilesE) 
-			mPlayerArray[dealerSeatNum].addTileToHand(t);
-		for(GameTile t: tilesS)
-			mPlayerArray[(dealerSeatNum + 1) % NUM_PLAYERS].addTileToHand(t);
-		for(GameTile t: tilesW)
-			mPlayerArray[(dealerSeatNum + 2) % NUM_PLAYERS].addTileToHand(t);
-		for(GameTile t: tilesN)
-			mPlayerArray[(dealerSeatNum + 3) % NUM_PLAYERS].addTileToHand(t);
+		Player eastPlayer = mRoundTracker.currentPlayer();
+		//give dealer their tiles
+		eastPlayer.giveStartingHand(tilesE);
+		mRoundTracker.neighborShimochaOf(eastPlayer).giveStartingHand(tilesS);
+		mRoundTracker.neighborToimenOf(eastPlayer).giveStartingHand(tilesW);
+		mRoundTracker.neighborKamichaOf(eastPlayer).giveStartingHand(tilesN);
 		
 		//sort the players' hands
 		for (Player p: mPlayerArray) p.sortHand();

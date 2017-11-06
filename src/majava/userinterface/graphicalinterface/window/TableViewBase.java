@@ -83,8 +83,8 @@ public class TableViewBase extends JFrame{
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	
 	//Control constants
-	protected static final boolean DEFAULT_OPTION_REVEAL_WALL = false;
-	protected static final boolean DEFAULT_OPTION_REVEAL_HANDS = false;
+	protected static final boolean DEFAULT_OPTION_REVEAL_WALL = true;
+	protected static final boolean DEFAULT_OPTION_REVEAL_HANDS = true;
 	
 	//debug buttons
 	protected static final boolean DEBUG_BUTTONS_VISIBLE = true;

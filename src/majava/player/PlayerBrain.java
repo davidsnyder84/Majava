@@ -38,13 +38,28 @@ public abstract class PlayerBrain {
 		}
 	}
 	
+	//used to indicate what action the player wants to do on their turn
+	protected static enum ActionType{
+		DISCARD, ANKAN, MINKAN, RIICHI, TSUMO, UNDECIDED;
+	}
 	
 	
 	
 	
-
-	private CallType callStatus;
+	
+	
+	
+	
+	
+	
+	
 	protected Player player;
+	
+	private CallType callStatus;
+	
+	private ActionType turnAction;
+	private int chosenDiscardIndex;
+	
 	
 	
 	
@@ -53,7 +68,7 @@ public abstract class PlayerBrain {
 	
 	public PlayerBrain(Player p){
 		player = p;
-		if (player == null) player = new Player();
+		if (player == null) System.out.println("null player in PlayerBrain, shouldn't be here");
 		
 		callStatus = CallType.NONE;
 	}
@@ -63,7 +78,78 @@ public abstract class PlayerBrain {
 	
 	
 	
-	public abstract void chooseTurnAction();
+	//template method pattern, final
+	public final void chooseTurnAction(){
+		
+		ActionType chosenAction = ActionType.UNDECIDED;
+		int discardIndex = -1;
+		
+		//force auto discard if in riichi and unable to tsumo/kan
+		if (player.isInRiichi() && (!player.ableToTsumo() && !player.ableToAnkan())){
+			turnAction = ActionType.DISCARD;
+			discardIndex = player.handSize() - 1;
+			return;
+		}
+		
+		//get list of possible turn actions
+		List<ActionType> listOfPossibleTurnActions = listOfPossibleTurnActions();
+		
+		//if any actions are possible, give a chance to pick one of the actions
+		if (!listOfPossibleTurnActions.isEmpty())
+			chosenAction = selectTurnAction(listOfPossibleTurnActions);
+		
+		//if discard was chosen, ask to pick a discard
+		if (chosenAction == ActionType.DISCARD){
+			discardIndex = selectDiscardIndex();
+			chosenDiscardIndex = discardIndex;
+		}
+		
+		
+	}
+	//get list of possible options
+	private final List<ActionType> listOfPossibleTurnActions() {
+		List<ActionType> listOfPossibleTurnActions = new ArrayList<ActionType>();
+		
+		//discard is always possible, don't add it to the list
+		if (player.ableToAnkan()) listOfPossibleTurnActions.add(ActionType.ANKAN);
+		if (player.ableToMinkan()) listOfPossibleTurnActions.add(ActionType.MINKAN);
+		if (player.ableToRiichi()) listOfPossibleTurnActions.add(ActionType.RIICHI);
+		if (player.ableToTsumo()) listOfPossibleTurnActions.add(ActionType.TSUMO);
+		
+		return listOfPossibleTurnActions;
+	}
+	//how the turn action is chosen left abstract and must be defined by the subclass
+	protected abstract ActionType selectTurnAction(List<ActionType> listOfPossibleTurnActions);
+	protected abstract int selectDiscardIndex();
+	
+	
+	
+	public boolean turnActionMadeKan(){return (turnActionMadeAnkan() || turnActionMadeMinkan());}
+	public boolean turnActionMadeAnkan(){return (turnAction == ActionType.ANKAN);}
+	public boolean turnActionMadeMinkan(){return (turnAction == ActionType.MINKAN);}
+	public boolean turnActionCalledTsumo(){return (turnAction == ActionType.TSUMO);}
+	public boolean turnActionChoseDiscard(){return (turnAction == ActionType.DISCARD);}
+//	public boolean turnActionChoseDiscard(){return (mTurnAction == TURN_ACTION_DISCARD || mTurnAction == TURN_ACTION_RIICHI);}
+	public boolean turnActionRiichi(){return (turnAction == ActionType.RIICHI);}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

@@ -529,7 +529,7 @@ public class TableViewBase extends JFrame{
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
 			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_SEATWIND].setIcon(__getImageIconWind(mPTrackers[currentPlayer].player.getSeatWind(), SMALL));
 			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_POINTS].setText(Integer.toString(mPTrackers[currentPlayer].player.getPoints()));
-			if (mPTrackers[currentPlayer].player.getRiichiStatus())
+			if (mPTrackers[currentPlayer].player.isInRiichi())
 				larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_RIICHI].setIcon(garryOther[GARRYINDEX_OTHER_RIICHI]);
 		}
 		

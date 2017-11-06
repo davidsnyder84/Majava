@@ -88,9 +88,9 @@ public class ImmutablePlayer{
 	public int getPlayerID(){return mPlayer.getPlayerID();}
 	
 
-	public int getHandSize(){return mPlayer.getHandSize();}
-	public boolean getRiichiStatus(){return mPlayer.getRiichiStatus();}
-	public boolean checkFuriten(){return mPlayer.checkFuriten();}
+	public int handSize(){return mPlayer.handSize();}
+	public boolean isInRiichi(){return mPlayer.isInRiichi();}
+	public boolean isInFuriten(){return mPlayer.isInFuriten();}
 	public boolean checkTenpai(){return mPlayer.checkTenpai();}
 	
 	

@@ -37,32 +37,6 @@ public class Player {
 		public boolean isComputer(){return (this == COM);}
 		public boolean isHuman(){return (this == HUMAN);}
 	}
-
-	//used to indicate what call a player wants to make on another player's discard
-	private static enum CallType{
-		NONE, CHI_L, CHI_M, CHI_H, PON, KAN, RON, CHI, UNDECIDED;
-		
-		@Override
-		public String toString(){
-			switch (this){
-			case CHI_L: case CHI_M: case CHI_H: return "Chi";
-			case PON: return "Pon";
-			case KAN: return "Kan";
-			case RON: return "Ron";
-			default: return "None";
-			}
-		}
-		public Exclamation toExclamation(){
-			switch (this){
-			case CHI_L: case CHI_M: case CHI_H: return Exclamation.CHI;
-			case PON: return Exclamation.PON;
-			case KAN: return Exclamation.KAN;
-			case RON: return Exclamation.RON;
-			case NONE: return Exclamation.NONE;
-			default: return Exclamation.UNKNOWN;
-			}
-		}
-	}
 	
 	//used to indicate what type of draw a player needs
 	private static enum DrawType{
@@ -326,6 +300,7 @@ public class Player {
 	return chosenDiscard
 	*/
 	private void __askTurnActionHuman(){
+		if (ableToRiichi()) System.out.println("HEY BUD!!!!!!!!!! YOU CAN RIICHI!");
 		
 		ActionType chosenAction = ActionType.UNDECIDED;
 		int chosenDiscardIndex = NO_DISCARD_CHOSEN;
@@ -334,7 +309,7 @@ public class Player {
 		__updateUI(GameplayEvent.HUMAN_PLAYER_TURN_START);
 
 		//get the player's desired action through the UI
-		mUI.askUserInputTurnAction(getHandSize(), ableToRiichi(), ableToAnkan(), ableToMinkan(), ableToTsumo());
+		mUI.askUserInputTurnAction(handSize(), ableToRiichi(), ableToAnkan(), ableToMinkan(), ableToTsumo());
 		
 		
 		
@@ -355,7 +330,7 @@ public class Player {
 				mRiichiStatus = true;
 				
 				mTurnAction = ActionType.DISCARD;
-				mChosenDiscardIndex = getHandSize() - 1;
+				mChosenDiscardIndex = handSize() - 1;
 			}
 		}
 	}
@@ -627,9 +602,9 @@ public class Player {
 	
 	
 
-	public int getHandSize(){return mHand.size();}
-	public boolean getRiichiStatus(){return mRiichiStatus;}
-	public boolean checkFuriten(){return mFuritenStatus;}
+	public int handSize(){return mHand.size();}
+	public boolean isInRiichi(){return mRiichiStatus;}
+	public boolean isInFuriten(){return mFuritenStatus;}
 	public boolean checkTenpai(){return mHand.getTenpaiStatus();}
 	
 	

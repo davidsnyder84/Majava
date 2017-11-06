@@ -2,6 +2,8 @@ package majava.player;
 
 import java.util.List;
 
+import majava.enums.GameplayEvent;
+import majava.player.PlayerBrain.ActionType;
 import majava.userinterface.GameUI;
 
 public class HumanBrain extends PlayerBrain {
@@ -15,6 +17,56 @@ public class HumanBrain extends PlayerBrain {
 		super(p);
 		userInterface = ui;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	@Override
+	protected ActionType selectTurnAction(List<ActionType> listOfPossibleTurnActions){
+		ActionType chosenAction = ActionType.UNDECIDED;
+		
+		//show hand
+		userInterface.displayEvent(GameplayEvent.HUMAN_PLAYER_TURN_START);
+		
+		//get the player's desired action through the UI
+		userInterface.askUserInputTurnAction(
+				player.handSize(),
+				listOfPossibleTurnActions.contains(ActionType.RIICHI),
+				listOfPossibleTurnActions.contains(ActionType.ANKAN),
+				listOfPossibleTurnActions.contains(ActionType.MINKAN),
+				listOfPossibleTurnActions.contains(ActionType.TSUMO)
+				);
+		
+		//decide action based on player's choice
+		if (userInterface.resultChosenTurnActionWasDiscard()) chosenAction = ActionType.DISCARD;
+		else if (userInterface.resultChosenTurnActionWasAnkan()) chosenAction = ActionType.ANKAN;
+		else if (userInterface.resultChosenTurnActionWasMinkan()) chosenAction = ActionType.MINKAN;
+		else if (userInterface.resultChosenTurnActionWasRiichi()) chosenAction = ActionType.RIICHI;
+		else if (userInterface.resultChosenTurnActionWasTsumo()) chosenAction = ActionType.TSUMO;
+		
+		return chosenAction;
+	}
+	
+	@Override
+	protected int selectDiscardIndex(){
+		//the human has already chosen the discard index through the user interface, just need to return that
+		return userInterface.resultChosenDiscardIndex() - 1;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -53,12 +105,6 @@ public class HumanBrain extends PlayerBrain {
 
 	
 	
-
-	@Override
-	public void chooseTurnAction() {
-		// TODO Auto-generated method stub
-	}
-	
 	
 	
 	
@@ -71,4 +117,5 @@ public class HumanBrain extends PlayerBrain {
 	
 	@Override
 	public String toString(){return "HumanBrain";}
+	
 }

@@ -1,5 +1,9 @@
 package majava.player;
 
+import java.util.List;
+
+import majava.player.PlayerBrain.ActionType;
+
 
 public abstract class RobotBrain extends PlayerBrain {
 	
@@ -15,11 +19,6 @@ public abstract class RobotBrain extends PlayerBrain {
 	
 	
 	
-	
-	
-	@Override
-	public void chooseTurnAction() {
-	}
 	
 	
 	

@@ -65,6 +65,10 @@ public class HumanBrain extends PlayerBrain {
 	
 	public boolean isHuman(){return true;}
 	
+	public void setUI(GameUI ui){
+		userInterface = ui;
+	}
+	
 	@Override
 	public String toString(){return "HumanBrain";}
 }

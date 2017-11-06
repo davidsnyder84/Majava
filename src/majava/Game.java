@@ -219,7 +219,9 @@ public class Game {
 	}
 	
 	private void __setUIs(){
-		for (Player p: mPlayerArray) p.setUI(mUI);
+		for (Player p: mPlayerArray){
+			p.setUI(mUI);
+		}
 	}
 	
 	

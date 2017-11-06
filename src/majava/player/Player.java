@@ -79,12 +79,7 @@ public class Player {
 	private static final ComBehavior COM_BEHAVIOR_DEFAULT = ComBehavior.DISCARD_LAST;
 	
 	
-
 	
-
-	
-	private static final boolean DEBUG_ALLOW_PLAYER_CALLS = true;
-	private static final boolean DEBUG_COMPUTERS_MAKE_CALLS = true;
 	private static final boolean DEBUG_COMPUTERS_MAKE_ACTIONS = true;
 	
 	private static final Wind SEAT_DEFAULT = Wind.UNKNOWN;
@@ -110,7 +105,7 @@ public class Player {
 	private Wind mSeatWind;
 	private int mPlayerNum;
 	private Controller mController;
-	private PlayerBrain brain = null;
+	private PlayerBrain myBrain;
 	private String mPlayerName;
 	private int mPlayerID;
 	
@@ -168,8 +163,8 @@ public class Player {
 		mHand = new Hand(mSeatWind);
 		mPond = new Pond();
 		
-		brain = null;
-//		mCallStatus = CallType.NONE;
+		if (myBrain != null)
+			myBrain.clearCallStatus();	//just in case, don't know if it's needed
 		mDrawNeeded = DrawType.NORMAL;
 		
 		mChosenDiscardIndex = NO_DISCARD_CHOSEN;
@@ -507,118 +502,22 @@ public class Player {
 	return call status
 	*/
 	public boolean reactToDiscard(GameTile tileToReactTo){
-		brain.clearCallStatus();
+		myBrain.clearCallStatus();
 		
 		//if able to call the tile, ask self for reaction
 		if (__ableToCallTile(tileToReactTo)){
 			
 			//ask self for reaction, also update call status
 //			mCallStatus = __askSelfForReaction(tileToReactTo);
-			brain.reactToDiscard(tileToReactTo);
+			myBrain.reactToDiscard(tileToReactTo);
 		}
 		
-		return brain.called();	//i think?
+		return myBrain.called();	//i think?
 //		return (mCallStatus != CallType.NONE);
 	}
 	
 	
 	
-	
-	/*
-	private method: __askSelfForReaction
-	asks the player how they want to react to the discarded tile
-	
-	input: t is the tile that was just discarded, and the player has a chance to react to it
-		   tviewer is the TableViewer GUI the player will click on
-	
-	returns the type of call the player wants to make on the tile (none, chi, pon, kan, ron)
-	
-	
-	if (controller == human)
-		call = ask human
-	else if (controller == computer)
-		call = ask computer
-	end if
-	return call
-	*/
-	private CallType __askSelfForReaction(GameTile t){
-		CallType call = CallType.NONE;
-		
-		if (controllerIsHuman()) call = __askReactionHuman(t);
-		else call = __askReactionCom(t);
-		
-		return call;
-	}
-	
-	
-	/*
-	private method: __askReactionHuman
-	asks a human player how they want to react to the discarded tile
-	
-	input: t is the tile that was just discarded, and the player has a chance to react to it
-		   tviewer is the TableViewer GUI the player will click on
-	returns the type of call the player wants to make on the tile (none, chi, pon, kan, ron)
-	
-	figure out which calls are possible
-	choice = get player's choice through GUI
-	call = decide based on player's choice
-	return call
-	*/
-	private CallType __askReactionHuman(GameTile t){
-		
-		CallType call = CallType.NONE;
-		boolean called = false;
-		if (!DEBUG_ALLOW_PLAYER_CALLS) return call;
-		
-		//get user's choice through UI
-		called = mUI.askUserInputCall(ableToCallChiL(), ableToCallChiM(), ableToCallChiH(), ableToCallPon(), ableToCallKan(), ableToCallRon());
-		
-		//decide call based on player's choice
-		if (called){
-			if (mUI.resultChosenCallWasChiL()) call = CallType.CHI_L;
-			else if (mUI.resultChosenCallWasChiM()) call = CallType.CHI_M;
-			else if (mUI.resultChosenCallWasChiH()) call = CallType.CHI_H;
-			else if (mUI.resultChosenCallWasPon()) call = CallType.PON;
-			else if (mUI.resultChosenCallWasKan()) call = CallType.KAN;
-			else if (mUI.resultChosenCallWasRon()) call = CallType.RON;
-		}
-		
-		return call;
-	}
-	
-	
-	
-	/*
-	private method: __askReactionCom
-	asks a computer player how they want to react to the discarded tile
-	
-	input: t is the tile that was just discarded, and the player has a chance to react to it
-	
-	returns the type of call the player wants to make on the tile (none, chi, pon, kan, ron)
-	
-	
-	call = NONE
-	return call
-	*/
-	private CallType __askReactionCom(GameTile t){
-		/*
-		I'm a computer. What do I want to call?
-		Ron > Kan = pon > Chi-L = Chi-M = Chi-H > none
-		*/
-		
-		CallType call = CallType.NONE;
-		if (!DEBUG_COMPUTERS_MAKE_CALLS) return call;
-		
-		//computer will always call if possible
-		if (ableToCallChiL()) call = CallType.CHI_L;
-		if (ableToCallChiM()) call = CallType.CHI_M;
-		if (ableToCallChiH()) call = CallType.CHI_H;
-		if (ableToCallPon()) call = CallType.PON;
-		if (ableToCallKan()) call = CallType.KAN;
-		if (ableToCallRon()) call = CallType.RON;
-		
-		return call;
-	}
 	
 	
 	
@@ -684,7 +583,7 @@ public class Player {
 			
 			//clear call status because the call has been completed
 			//i don't really like this
-			brain.clearCallStatus();
+			myBrain.clearCallStatus();
 		}
 		else
 			System.out.println("-----Error: No meld to make (the player didn't make a call!!)");
@@ -739,18 +638,18 @@ public class Player {
 	
 	
 	//returns call status as an exclamation
-	public Exclamation getCallStatusExclamation(){return brain.getCallStatusExclamation();}
+	public Exclamation getCallStatusExclamation(){return myBrain.getCallStatusExclamation();}
 	
 	//returns true if the player called a tile
-	public boolean called(){return brain.called();}
+	public boolean called(){return myBrain.called();}
 	//individual call statuses
 	public boolean calledChi(){return (calledChiL() || calledChiM() || calledChiH());}
-	public boolean calledChiL(){return brain.calledChiL();}
-	public boolean calledChiM(){return brain.calledChiM();}
-	public boolean calledChiH(){return brain.calledChiH();}
-	public boolean calledPon(){return brain.calledPon();}
-	public boolean calledKan(){return brain.calledKan();}
-	public boolean calledRon(){return brain.calledRon();}
+	public boolean calledChiL(){return myBrain.calledChiL();}
+	public boolean calledChiM(){return myBrain.calledChiM();}
+	public boolean calledChiH(){return myBrain.calledChiH();}
+	public boolean calledPon(){return myBrain.calledPon();}
+	public boolean calledKan(){return myBrain.calledKan();}
+	public boolean calledRon(){return myBrain.calledRon();}
 	
 	
 	//check if the players needs to draw a tile, and what type of draw (normal vs rinshan)
@@ -799,11 +698,12 @@ public class Player {
 	
 	
 	//used to set the controller of the player after its creation
-	private void __setController(Controller newController){
+	private void __setController(Controller newController, PlayerBrain desiredBrain){
 		mController = newController;
+		myBrain = desiredBrain;
 	}
-	public void setControllerHuman(){__setController(Controller.HUMAN);}
-	public void setControllerComputer(){__setController(Controller.COM);}
+	public void setControllerHuman(){__setController(Controller.HUMAN, new HumanBrain(this, mUI));}
+	public void setControllerComputer(){__setController(Controller.COM, new SimpleRobot(this));}
 	
 	public String getAsStringController(){return mController.toString();}
 	
@@ -915,7 +815,11 @@ public class Player {
 	private void __updateUI(GameplayEvent event){
 		if (mUI != null) mUI.displayEvent(event);
 	}
-	public void setUI(GameUI ui){mUI = ui;}
+	public void setUI(GameUI ui){
+		mUI = ui;
+		if (controllerIsHuman())
+			((HumanBrain) myBrain).setUI(mUI);
+	}
 	
 	
 	//sync player's hand and pond with tracker

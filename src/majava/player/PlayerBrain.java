@@ -57,7 +57,6 @@ public abstract class PlayerBrain {
 	protected Player player;
 	
 	private CallType callStatus;
-	
 	private ActionType turnAction;
 	private int chosenDiscardIndex;
 	
@@ -233,6 +232,8 @@ public abstract class PlayerBrain {
 	
 	public abstract boolean isHuman();
 	public final boolean isComputer(){return !isHuman();}
+	
+	public static final PlayerBrain generateGenericBrain(Player p){return new SimpleRobot(p);}
 	
 	@Override
 	public String toString(){return "UnknownnnnnnnnnBrain";}

@@ -1,6 +1,7 @@
 package majava.player;
 
 import java.util.List;
+import java.util.Random;
 
 
 public class SimpleRobot extends RobotBrain {
@@ -72,7 +73,7 @@ public class SimpleRobot extends RobotBrain {
 		switch(myDiscardBehavior){
 		case DISCARD_FIRST: return 0;
 		case DISCARD_LAST: return player.handSize()-1;
-		case DISCARD_RANDOM: return 0;	//implement random
+		case DISCARD_RANDOM: return (new Random()).nextInt(player.handSize());
 		default: return 0;
 		}
 	}

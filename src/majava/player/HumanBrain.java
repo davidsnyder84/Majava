@@ -3,7 +3,6 @@ package majava.player;
 import java.util.List;
 
 import majava.enums.GameplayEvent;
-import majava.player.PlayerBrain.ActionType;
 import majava.userinterface.GameUI;
 
 public class HumanBrain extends PlayerBrain {
@@ -17,11 +16,6 @@ public class HumanBrain extends PlayerBrain {
 		super(p);
 		userInterface = ui;
 	}
-	
-	
-	
-	
-	
 	
 	
 	
@@ -61,16 +55,6 @@ public class HumanBrain extends PlayerBrain {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	@Override
 	public CallType chooseReaction(List<CallType> listOfPossibleReactions){
 		
@@ -97,14 +81,6 @@ public class HumanBrain extends PlayerBrain {
 		
 		return chosenCallType;
 	}
-	
-	
-	
-	
-	
-
-	
-	
 	
 	
 	

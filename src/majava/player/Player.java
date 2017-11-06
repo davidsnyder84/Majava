@@ -32,7 +32,7 @@ public class Player {
 	
 	
 	//used to indicate what type of draw a player needs
-	private DrawingDesire drawNeeded;
+	private DrawingNeed drawNeeded;
 	private GameTile mLastDiscard;
 	
 	

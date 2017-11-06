@@ -2,12 +2,12 @@ package majava.player;
 
 
 //used to indicate what type of draw a player needs, if any
-public class DrawingDesire {
+public class DrawingNeed {
 	private static enum DrawType{NONE, NORMAL, RINSHAN;}
 	
 	DrawType drawType;
 	
-	public DrawingDesire(){drawType = DrawType.NONE;}
+	public DrawingNeed(){drawType = DrawType.NONE;}
 	
 	//check if the players needs to draw a tile, and what type of draw (normal vs rinshan)
 	public boolean needsToDraw(){return (needsNormal() || needsRinshan());}

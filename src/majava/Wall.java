@@ -121,7 +121,6 @@ public class Wall {
     East takes 4, South takes 4, West takes 4, North takes 4
     East takes 2, South takes 1, West takes 1, North takes 1
 	*/
-//	public void getStartingHands(TileList tilesE, TileList tilesS, TileList tilesW, TileList tilesN){
 	public void getStartingHands(List<GameTile> tilesE, List<GameTile> tilesS, List<GameTile> tilesW, List<GameTile> tilesN){
 		
 		int i, j;

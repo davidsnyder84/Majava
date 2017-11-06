@@ -6,10 +6,9 @@ import java.util.List;
 import majava.enums.Exclamation;
 import majava.tiles.GameTile;
 
+
+//makes decisions for a player
 public abstract class PlayerBrain {
-	
-	
-	
 	
 	
 	//used to indicate what call a player wants to make on another player's discard
@@ -50,19 +49,11 @@ public abstract class PlayerBrain {
 	
 	
 	
-	
-	
-	
-	
 	protected Player player;
 	
 	private CallType callStatus;
 	private ActionType turnAction;
 	private int chosenDiscardIndex;
-	
-	
-	
-	
 	
 	
 	
@@ -76,12 +67,8 @@ public abstract class PlayerBrain {
 	
 	
 	
-	
-	
 	//template method pattern, final
 	public final void chooseTurnAction(){
-		
-		//default action is simply discard
 		ActionType chosenAction = ActionType.DISCARD;
 		int discardIndex = NO_DISCARD_CHOSEN;
 		
@@ -123,36 +110,14 @@ public abstract class PlayerBrain {
 	protected abstract int selectDiscardIndex();
 	
 	
-	
 	public boolean turnActionMadeKan(){return (turnActionMadeAnkan() || turnActionMadeMinkan());}
 	public boolean turnActionMadeAnkan(){return (turnAction == ActionType.ANKAN);}
 	public boolean turnActionMadeMinkan(){return (turnAction == ActionType.MINKAN);}
 	public boolean turnActionCalledTsumo(){return (turnAction == ActionType.TSUMO);}
 	public boolean turnActionChoseDiscard(){return (turnAction == ActionType.DISCARD);}
-//	public boolean turnActionChoseDiscard(){return (mTurnAction == TURN_ACTION_DISCARD || mTurnAction == TURN_ACTION_RIICHI);}
 	public boolean turnActionRiichi(){return (turnAction == ActionType.RIICHI);}
 	
 	public int getChosenDiscardIndex(){return chosenDiscardIndex;}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -194,17 +159,6 @@ public abstract class PlayerBrain {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	//returns call status as an exclamation
 	public final Exclamation getCallStatusExclamation(){return callStatus.toExclamation();}
 	
@@ -236,6 +190,6 @@ public abstract class PlayerBrain {
 	public static final PlayerBrain generateGenericBrain(Player p){return new SimpleRobot(p);}
 	
 	@Override
-	public String toString(){return "UnknownnnnnnnnnBrain";}
+	public String toString(){return "UnknownBrain";}
 	
 }

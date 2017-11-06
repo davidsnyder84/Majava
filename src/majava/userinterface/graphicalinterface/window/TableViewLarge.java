@@ -2,11 +2,11 @@ package majava.userinterface.graphicalinterface.window;
 
 import majava.Hand;
 import majava.Meld;
-import majava.Player;
 import majava.Pond;
 import majava.RoundTracker;
 import majava.enums.Exclamation;
 import majava.enums.Wind;
+import majava.player.Player;
 import majava.tiles.GameTile;
 import majava.tiles.PondTile;
 import utility.Pauser;

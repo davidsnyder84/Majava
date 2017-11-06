@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import majava.userinterface.GameUI;
+import majava.player.Player;
 import majava.summary.RoundResultSummary;
 import majava.enums.Wind;
 

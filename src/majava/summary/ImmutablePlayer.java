@@ -3,9 +3,9 @@ package majava.summary;
 import java.util.List;
 
 import majava.Meld;
-import majava.Player;
 import majava.enums.Exclamation;
 import majava.enums.Wind;
+import majava.player.Player;
 import majava.summary.PlayerSummary;
 import majava.tiles.GameTile;
 

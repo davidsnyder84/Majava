@@ -2,6 +2,7 @@ package majava;
 
 
 
+import majava.player.Player;
 import majava.userinterface.ComboTextGraphicalUI;
 import majava.userinterface.GameUI;
 import majava.userinterface.graphicalinterface.GraphicalUI;
@@ -15,18 +16,7 @@ import utility.Pauser;
 
 
 /*
-Class: Table
-
-data:
-	p1, p2, p3, p4 - the four players who will play the round
-	mPlayerArray - an array containing the four players
-	
-	mCurrentGame - the current game being played at the table
-	
-	mTviewer - TableGUI to display the game and get input from the human player
-	mDoFastGameplay - option, will do fast gameplay if true
-	mDoSinglePlayer - option, will do single player if true
-	
+Class: Table	
 methods:
 	public:
 		mutators:
@@ -156,12 +146,6 @@ public class Table {
 	
 	
 	
-	/*
-	private method: __generatePlayers
-	generates four players to sit at the table
-	
-	decides the players' names and controllers
-	*/
 	private void __generatePlayers(){
 		
 		//creates a new player to sit at each seat
@@ -171,18 +155,12 @@ public class Table {
 		p4 = new Player();
 		mPlayerArray = new Player[]{p1, p2, p3, p4};
 		
-		
-		//figure out how many humans are playing
-//		int numHumans = -1;
-//		if (mDoSinglePlayer) numHumans = 1;
-//		else numHumans = 0;
-		
 		String[] names = {"Human", "Albert", "Brenda", "Carl"};
 		boolean[] humanController = {false, false, false, false};
 		
 		if (mDoSinglePlayer) humanController[0] = true;
 		
-		//assign the controllers and names to players
+		//assign controllers and names to players
 		for (int i = 0; i < NUM_PLAYERS; i++){
 			if (humanController[i]) mPlayerArray[i].setControllerHuman();
 			else mPlayerArray[i].setControllerComputer();
@@ -194,10 +172,7 @@ public class Table {
 	
 	
 	
-	/*
-	private method: __decideSeats
-	assigns a seat to each player
-	*/
+	//assigns a seat to each player
 	private void __decideSeats(){
 		p1.setSeatWindEast();
 		p2.setSeatWindSouth();

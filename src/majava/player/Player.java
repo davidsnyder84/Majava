@@ -1,8 +1,12 @@
-package majava;
+package majava.player;
 
 import java.util.List;
 import java.util.Random;
 
+import majava.Hand;
+import majava.Meld;
+import majava.Pond;
+import majava.RoundTracker;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 import majava.enums.Wind;

@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import majava.Meld;
-import majava.Player;
 import majava.enums.Exclamation;
+import majava.player.Player;
 import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;

@@ -3,6 +3,7 @@ package majava;
 import java.util.List;
 
 import majava.enums.Wind;
+import majava.player.Player;
 import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;
 import majava.summary.ResultType;

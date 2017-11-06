@@ -3,13 +3,13 @@ package majava.userinterface.graphicalinterface.window;
 
 import majava.Hand;
 import majava.Meld;
-import majava.Player;
 import majava.Pond;
 import majava.RoundTracker;
 import majava.Wall;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 import majava.enums.Wind;
+import majava.player.Player;
 import majava.summary.RoundResultSummary;
 import majava.summary.entity.PlayerTracker;
 import majava.summary.entity.RoundEntities;

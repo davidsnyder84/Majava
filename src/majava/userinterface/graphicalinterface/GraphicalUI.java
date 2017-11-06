@@ -3,7 +3,6 @@ package majava.userinterface.graphicalinterface;
 
 import majava.Hand;
 import majava.Meld;
-import majava.Player;
 import majava.Pond;
 import majava.RoundTracker;
 import majava.Wall;
@@ -11,6 +10,7 @@ import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 import majava.userinterface.GameUI;
 import majava.userinterface.graphicalinterface.window.TableViewBase;
+import majava.player.Player;
 import majava.summary.RoundResultSummary;
 import majava.summary.entity.RoundEntities;
 import majava.tiles.GameTile;

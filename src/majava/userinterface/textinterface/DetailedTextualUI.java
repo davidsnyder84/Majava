@@ -6,11 +6,11 @@ import java.util.List;
 
 import utility.Pauser;
 import majava.Meld;
-import majava.Player;
 import majava.util.GameTileList;
 import majava.util.YakuList;
 import majava.yaku.Yaku;
 import majava.enums.Exclamation;
+import majava.player.Player;
 import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;

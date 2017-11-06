@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import majava.Player;
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
+import majava.player.Player;
 import majava.summary.entity.PlayerTracker;
 import majava.summary.entity.RoundEntities;
 import majava.userinterface.GameUI;

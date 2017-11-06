@@ -3,8 +3,8 @@ package majava.control.testcode;
 import java.util.ArrayList;
 
 import utility.Pauser;
-import majava.Player;
 import majava.Wall;
+import majava.player.Player;
 import majava.tiles.GameTile;
 
 

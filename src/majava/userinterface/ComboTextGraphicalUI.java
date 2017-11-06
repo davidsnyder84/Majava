@@ -1,7 +1,6 @@
 package majava.userinterface;
 
 import majava.Hand;
-import majava.Player;
 import majava.Pond;
 import majava.RoundTracker;
 import majava.Wall;
@@ -13,6 +12,7 @@ import majava.userinterface.graphicalinterface.window.TableViewSmall;
 import majava.userinterface.textinterface.DetailedTextualUI;
 import majava.userinterface.textinterface.SparseTextualUI;
 import majava.userinterface.textinterface.TextualUI;
+import majava.player.Player;
 import majava.summary.RoundResultSummary;
 import majava.summary.entity.RoundEntities;
 

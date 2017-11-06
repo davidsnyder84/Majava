@@ -9,11 +9,13 @@ public class SimpleRobot extends RobotBrain {
 	private boolean likesToMakeCalls = true;
 	
 	
-	public SimpleRobot(Player p, boolean likesCalls){
+	
+	public SimpleRobot(Player p, boolean willMakeCalls){
 		super(p);
-		likesToMakeCalls = likesCalls;
+		likesToMakeCalls = willMakeCalls;
 	}
 	public SimpleRobot(Player p){this(p, true);}
+	
 	
 	
 	
@@ -31,8 +33,5 @@ public class SimpleRobot extends RobotBrain {
 	
 	@Override
 	public String toString(){return "SimpleRobot";}
-	
-	
-	
 	
 }

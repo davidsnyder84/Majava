@@ -19,11 +19,6 @@ represents a player in the game
 */
 public class Player {
 	
-	//used to indicate what type of draw a player needs
-	private static enum DrawType{NONE, NORMAL, RINSHAN;}
-	
-	
-	
 	private static final Wind DEFAULT_SEAT = Wind.UNKNOWN;
 	private static final String DEFAULT_PLAYERNAME = "Kyoutarou";
 	private static final int DEFAULT_PLAYERNUM = 0;
@@ -44,8 +39,8 @@ public class Player {
 	private String mPlayerName;
 	private int mPlayerID;
 	
-	
-	private DrawType mDrawNeeded;
+	//used to indicate what type of draw a player needs
+	private DrawingDesire drawNeeded;
 	
 	private GameTile mLastDiscard;
 	
@@ -319,14 +314,12 @@ public class Player {
 	
 	
 	//check if the players needs to draw a tile, and what type of draw (normal vs rinshan)
-	public boolean needsDraw(){return (needsDrawNormal() || needsDrawRinshan());}
-	public boolean needsDrawNormal(){return (mDrawNeeded == DrawType.NORMAL);}
-	public boolean needsDrawRinshan(){return (mDrawNeeded == DrawType.RINSHAN);}
-	
-	private void setDrawNeeded(DrawType dt){mDrawNeeded = dt;}
-	private void setDrawNeededRinshan(){setDrawNeeded(DrawType.RINSHAN);}
-	private void setDrawNeededNormal(){setDrawNeeded(DrawType.NORMAL);}
-	private void setDrawNeededNone(){setDrawNeeded(DrawType.NONE);}
+	public boolean needsDraw(){return drawNeeded.needsToDraw();}
+	public boolean needsDrawNormal(){return drawNeeded.needsNormal();}
+	public boolean needsDrawRinshan(){return drawNeeded.needsRinshan();}
+	private void setDrawNeededRinshan(){drawNeeded.setRinshan();}
+	private void setDrawNeededNormal(){drawNeeded.setNormal();}
+	private void setDrawNeededNone(){drawNeeded.setNone();}
 	
 	
 

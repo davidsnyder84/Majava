@@ -15,6 +15,9 @@ public class RobotBrain extends PlayerBrain {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	public boolean isHuman(){return false;}
 
 	@Override
 	public String toString(){return "Robot brain";}

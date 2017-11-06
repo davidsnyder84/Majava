@@ -310,6 +310,7 @@ public class Player {
 		
 		
 		//ask self for turn action
+//		brain.chooseTurnAction();
 		if (controllerIsHuman()) __askTurnActionHuman();
 		else __askTurnActionCom();
 	}
@@ -449,6 +450,16 @@ public class Player {
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand (for debug use)
 	public void addTileToHand(int tileID){addTileToHand(new GameTile(tileID));}
 	
+	//give a player a starting hand at the beginning of the round
+	public void giveStartingHand(List<GameTile> startingTiles){
+		for (GameTile t: startingTiles)
+			addTileToHand(t);
+		
+		//if the player isn't east, they will need to draw
+		if (mHand.size() < Hand.maxHandSize())
+			mDrawNeeded = DrawType.NORMAL;
+		
+	}
 	
 	
 	
@@ -498,8 +509,8 @@ public class Player {
 			mCallStatus = __askSelfForReaction(t);
 		}
 		
-		////////////////////WATCH THIS MOTHERFUCKER
-		//////////////////I DONT KNOW WHAT THIS WILL DO
+		////////////////////the motherfucker
+		//////////////////I think I can remove this, because NORMAL is set after discarding
 		//draw normally if no call
 		if (mCallStatus == CallType.NONE)
 			mDrawNeeded = DrawType.NORMAL;

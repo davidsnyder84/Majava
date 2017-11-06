@@ -59,7 +59,7 @@ public class Round{
 	private static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
 	//for debug use
-	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
 //	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	
@@ -277,21 +277,15 @@ public class Round{
 		
 		int dealerSeatNum = mRoundTracker.getDealerSeatNum();
 		
-		if (DEBUG_LOAD_DEBUG_WALL){
-			int i;
-			int[] handSizes = mWall.DEMOgetDebugPlayerHandSizes();
-			for(i = 0; i < handSizes[0]; i++) mPlayerArray[dealerSeatNum].addTileToHand(tilesE.get(i));
-			for(i = 0; i < handSizes[1]; i++) mPlayerArray[(dealerSeatNum + 1) % NUM_PLAYERS].addTileToHand(tilesS.get(i));
-			for(i = 0; i < handSizes[2]; i++) mPlayerArray[(dealerSeatNum + 2) % NUM_PLAYERS].addTileToHand(tilesW.get(i));
-			for(i = 0; i < handSizes[3]; i++) mPlayerArray[(dealerSeatNum + 3) % NUM_PLAYERS].addTileToHand(tilesN.get(i));
-		}
-		else{
-			//add the tiles to the players' hands
-			for(GameTile t: tilesE) mPlayerArray[dealerSeatNum].addTileToHand(t);
-			for(GameTile t: tilesS) mPlayerArray[(dealerSeatNum + 1) % NUM_PLAYERS].addTileToHand(t);
-			for(GameTile t: tilesW) mPlayerArray[(dealerSeatNum + 2) % NUM_PLAYERS].addTileToHand(t);
-			for(GameTile t: tilesN) mPlayerArray[(dealerSeatNum + 3) % NUM_PLAYERS].addTileToHand(t);
-		}
+		//add the tiles to the players' hands
+		for(GameTile t: tilesE) 
+			mPlayerArray[dealerSeatNum].addTileToHand(t);
+		for(GameTile t: tilesS)
+			mPlayerArray[(dealerSeatNum + 1) % NUM_PLAYERS].addTileToHand(t);
+		for(GameTile t: tilesW)
+			mPlayerArray[(dealerSeatNum + 2) % NUM_PLAYERS].addTileToHand(t);
+		for(GameTile t: tilesN)
+			mPlayerArray[(dealerSeatNum + 3) % NUM_PLAYERS].addTileToHand(t);
 		
 		//sort the players' hands
 		for (Player p: mPlayerArray) p.sortHand();

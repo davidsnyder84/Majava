@@ -13,9 +13,11 @@ public abstract class PlayerBrain {
 	public abstract Object reactToDiscard(GameTile T);
 	
 	
+	
+	
+	public abstract boolean isHuman(); 
+	
 	@Override
-	public String toString(){
-		return "UnknownBrain";
-	}
+	public String toString(){return "UnknownBrain";}
 	
 }

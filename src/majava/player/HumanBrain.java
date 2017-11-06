@@ -16,6 +16,7 @@ public class HumanBrain extends PlayerBrain {
 		return null;
 	}
 	
+	public boolean isHuman(){return true;}
 	
 	@Override
 	public String toString(){return "Human brain";}

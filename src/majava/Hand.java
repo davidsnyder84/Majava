@@ -509,5 +509,9 @@ public class Hand implements Iterable<GameTile>{
 	}
 	
 	
+	
+	
+	public static int maxHandSize(){return Hand.MAX_HAND_SIZE;}
+	
 
 }

@@ -16,93 +16,7 @@ import majava.tiles.GameTile;
 
 /*
 Class: Player
-represents a single player in the game
-
-data:
-	mHand - the player's hand (melds are also in here)
-	mPond - the player's pond of discards
-	mPoints - how many points the player has
-	
-	mSeatWind - the player's seat wind
-	mController - who is controlling the player (human or computer)
-	mPlayerName - the player's name as a string
-	mPlayerID - unique player ID, used to identify the player
-	
-	mCallStatus - the player's call (reaction) to the most recent disacrd (chi, pon, kan, ron, or none)
-	mDrawNeeded - the type of draw the player needs for their next turn (normal draw, rinshan draw, or no draw)
-	mTurnAction - the player's choice of action on their turn (discard, ankan, tsumo, etc)
-	mChosenDiscardIndex - the index of the tile the player has chosen to discard
-	
-	mHoldingRinshanTile - is true if the player is holding a rinshan tile that they drew this turn, false otherwise
-	mRiichiStatus - is true if the player has declared riichi, false if not
-	mFuritenStatus - is true if the player is in furiten status, false if not
-	
-	mRoundTracker - used to look at round info
-
-methods:
-	constructors:
-	Can optionally supply a player name (string)
-	
-	
-	public:
-		
-		mutators:
-		prepareForNewRound - prepares a player's variables for a new round
-		takeTurn - walks the player through their turn, returns their discard
-		reactToDiscard - shows a player a discarded tile, and gets their reaction (call or no call) to it
-		reactToAnkan, reactToMinkan - return a player's reaction to another player's minkan or ankan
-		
-		setPlayerName - sets the player's name
-		setControllerHuman/Com - sets the player's controller to the corresponding controller
-	 	setSeatWindEast, etc - sets the player's seat wind to the corresponding wind
-	 	rotateSeat - rotates the player's seat wind to the next wind
-		pointsIncrease, pointsDecrease - increase/decrease the player's points by an integer amount
-		
-		addTileToHand - receives a tile and adds it to the player's hand
-		removeTileFromPond - removes the most recent tile from the player's pond
-		makeMeld - tell the player to make the meld corresponding to their desired call
-	 	sortHand - sorts the player's hand
-		
-		
-		
-	 	accessors:
-	 	getHandSize - returns hand size
-		getSeatWind - return seat wind
-		getPoints - returns how many points the player has
-		getPlayerName - returns the player's name
-		getControllerAsString - returns the player's controller as a string
-		controllerIsHuman/Computer - returns true if the player's controller is of the corresponding type
-		
-		getRiichiStatus - returns true if the player is in riichi status
-		checkFuriten - returns true if the player is in furiten status
-		checkRinshan - returns true if the player is holding a rinshan tile that they drew this turn
-		checkTenpai - returns true if the player is in tenpai
-		
-		getMelds - returns a list of the player's melds
-		getNumMeldsMade - returns the number of melds the player has made (open melds and ankans)
-		getNumKansMade - returns the number of kans the player has made
-		hasMadeAKan - returns true if the player has made a kan
-		handIsFullyConcealed - returns true if the player's hand is fully concealed
-		
-		
-		called - returns true if the player has called a discarded tile
-		calledChi, etc - returns true if the player made the corresponding call
-		checkCallStatusString - returns the specific type of call the player has made, as a string
-		
-		needsDraw - returns true if the player needs to draw a tile
-		needsDrawNormal, needsDrawRinshan - returns true if the player needs the corresponding type of draw
-		
-		turnActionChoseDiscard - returns true if the player chose a discard during their turn
-		turnActionMadeKan, etc - returns true if the player made the corresponding action during their turn
-		ableToAnkan, etc - returns true if the player is able to make the corresponding action during their turn
-		
-		showHand - display the player's hand
-		showPond - display the player's pond
-		getPondAsString - get the player's pond as a string
-		
-		
-	other:
-		syncWithRoundTracker - associates this player with the round tracker
+represents a player in the game
 */
 public class Player {
 	
@@ -199,21 +113,26 @@ public class Player {
 	private String mPlayerName;
 	private int mPlayerID;
 	
+//	mCallStatus - the player's call (reaction) to the most recent disacrd (chi, pon, kan, ron, or none)
+//	mDrawNeeded - the type of draw the player needs for their next turn (normal draw, rinshan draw, or no draw)
+//	mTurnAction - the player's choice of action on their turn (discard, ankan, tsumo, etc)
 	private CallType mCallStatus;
 	private DrawType mDrawNeeded;
 	private ActionType mTurnAction;
 	private int mChosenDiscardIndex;
 	
+	
 	private GameTile mLastDiscard;
 	
+//	mHoldingRinshanTile - is true if the player is holding a rinshan tile that they drew this turn, false otherwise
+//	mRiichiStatus - is true if the player has declared riichi, false if not
+//	mFuritenStatus - is true if the player is in furiten status, false if not
 	private boolean mHoldingRinshanTile;
 	private boolean mRiichiStatus;
 	private boolean mFuritenStatus;
 	
 	
 	private RoundTracker mRoundTracker;
-//	private TableGUI mTviewer;
-//	private TextualUI mTextinterface;
 	private GameUI mUI;
 	
 	
@@ -282,16 +201,6 @@ public class Player {
 	
 	returns the discarded tile if they chose a discard
 	returns null if the player did not discard (they made a kan or tsumo)
-	
-	discardedTile = discard a tile
-	
-	if (discard was chosen)
-		set drawNeeded = normal draw for next turn
-		put discardedTile in the pond
-		return discardedTile
-	else
-		return null (no discard chosen)
-	end if
 	*/
 	public GameTile takeTurn(){
 		
@@ -309,12 +218,7 @@ public class Player {
 		}
 		else{
 			
-//			if (turnActionMadeAnkan()) System.out.println("\n\n!!!!!OOOOOHBOY ANKAN\n!!!!");
-//			if (turnActionMadeMinkan()) System.out.println("\n\n!!!!!OOOOOHBOY MINKAN\n!!!!");
-//			if (turnActionRiichi()) System.out.println("\n\n!!!!!OOOOOHBOY RIICHI\n!!!!");
-//			if (turnActionCalledTsumo()) System.out.println("\n\n!!!!!OOOOOHBOY TSUMO\n!!!!");
-			
-			
+//			if (turnActionMadeAnkan()) System.out.println("\n\n!!!!!OOOOOHBOY ANKAN\n!!!!"); if (turnActionMadeMinkan()) System.out.println("\n\n!!!!!OOOOOHBOY MINKAN\n!!!!"); if (turnActionRiichi()) System.out.println("\n\n!!!!!OOOOOHBOY RIICHI\n!!!!"); if (turnActionCalledTsumo()) System.out.println("\n\n!!!!!OOOOOHBOY TSUMO\n!!!!");
 			
 			//ankan
 			//minkan
@@ -333,16 +237,9 @@ public class Player {
 				mDrawNeeded = DrawType.RINSHAN;
 			}
 			
-			
-			
 			//riichi
 			
-			
-			
 			//tsumo
-			
-			
-			
 			
 			return null;
 		}
@@ -538,16 +435,7 @@ public class Player {
 	
 	
 	
-	/*
-	method: addTileToHand
-	receives a tile, adds the tile to the player's hand
-	
-	add the tile to the player's hand
-	set drawNeeded = none (since the player has just drawn)
-	*/
 	public void addTileToHand(final GameTile t){
-		
-//		GameTile ownedTile = new GameTile(t);
 		
 		//set the tile's owner to be the player
 		t.setOwner(mSeatWind);
@@ -555,7 +443,7 @@ public class Player {
 		//add the tile to the hand
 		mHand.addTile(t);
 		
-		//no longer need to draw
+		//no longer need to draw (because the player has just drawn)
 		mDrawNeeded = DrawType.NONE;
 	}
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand (for debug use)
@@ -1011,8 +899,6 @@ public class Player {
 	
 	private void __updateUI(GameplayEvent event){
 		if (mUI != null) mUI.displayEvent(event);
-//		if (mTextinterface != null) mTextinterface.displayEvent(event);
-//		if (mTviewer != null) mTviewer.displayEvent(event);
 	}
 	public void setUI(GameUI ui){mUI = ui;}
 	

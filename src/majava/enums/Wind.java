@@ -15,6 +15,7 @@ methods:
 public enum Wind {
 	EAST, SOUTH, WEST, NORTH, UNKNOWN;
 	
+	private static final Wind X_WIND = null;
 	
 	public Wind next(){
 		switch(this){

@@ -11,6 +11,7 @@ import majava.enums.Exclamation;
 import majava.enums.Wind;
 import majava.userinterface.GameUI;
 import majava.summary.PlayerSummary;
+import majava.summary.PointsBox;
 import majava.tiles.GameTile;
 
 /*
@@ -19,29 +20,19 @@ represents a player in the game
 */
 public class Player {
 	
-	private static final Wind DEFAULT_SEAT = Wind.UNKNOWN;
-	private static final String DEFAULT_PLAYERNAME = "Kyoutarou";
-	private static final int DEFAULT_PLAYERNUM = 0;
-	
-	private static final int POINTS_STARTING_AMOUNT_DEFAULT = 25000;
-	
-	
-	
-	
-	private Hand mHand;
-	private Pond mPond;
-	private int mPoints;	
-	private Wind mSeatWind;
-	//playerNum (Player1, Player2, etc)
-	private int mPlayerNum;
-	
 	private PlayerBrain myBrain;
 	private String mPlayerName;
 	private int mPlayerID;
 	
+	private Hand mHand;
+	private Pond mPond;
+	private PointsBox pointsBox;
+	private Wind mSeatWind;
+	private int mPlayerNum;
+	
+	
 	//used to indicate what type of draw a player needs
 	private DrawingDesire drawNeeded;
-	
 	private GameTile mLastDiscard;
 	
 	
@@ -55,8 +46,6 @@ public class Player {
 	
 	
 	
-	
-	
 	public Player(String pName){
 		
 		//always generate a default brain just in case. we don't want brainless players
@@ -64,12 +53,13 @@ public class Player {
 		setPlayerName(pName);
 		mPlayerID = (new Random()).nextInt();
 		
-		mPoints = POINTS_STARTING_AMOUNT_DEFAULT;		
-		mSeatWind = DEFAULT_SEAT;
-		mPlayerNum = DEFAULT_PLAYERNUM;
+		pointsBox = new PointsBox();
+		
+		mSeatWind = Wind.UNKNOWN;
+		mPlayerNum = 0;
 		prepareForNewRound();
 	}
-	public Player(){this(DEFAULT_PLAYERNAME);}
+	public Player(){this(null);}
 	
 	
 	
@@ -99,8 +89,8 @@ public class Player {
 	
 	
 	
-	//returns the discarded tile if they chose a discard
-	//returns null if the player did not discard (they made a kan or tsumo)
+	//lets a player take their turn
+	//returns the tile discarded by the player, returns null if the player did not discard (they made a kan or tsumo)
 	public GameTile takeTurn(){
 		mLastDiscard = null;
 		
@@ -192,7 +182,6 @@ public class Player {
 	
 	
 	
-	
 	//shows a player a tile, and gets their reaction (call or no call) for it
 	public boolean reactToDiscard(GameTile tileToReactTo){
 		myBrain.clearCallStatus();
@@ -203,9 +192,6 @@ public class Player {
 		
 		return myBrain.called();
 	}
-	
-	
-	
 	
 	
 	
@@ -262,7 +248,7 @@ public class Player {
 	
 	
 	
-	//will use these for chankan later
+	//will implement these for chankan later
 	public boolean reactToAnkan(GameTile t){return false;}
 	public boolean reactToMinkan(GameTile t){return false;}
 	
@@ -377,7 +363,8 @@ public class Player {
 	private static PlayerBrain generateDefaultBrain(Player p){return new SimpleRobot(p);}
 	
 	
-	
+
+	private static final String DEFAULT_PLAYERNAME = "Saki";
 	public void setPlayerName(String newName){
 		if (newName == null)
 			if (mPlayerName == null) mPlayerName = DEFAULT_PLAYERNAME;
@@ -389,15 +376,10 @@ public class Player {
 	
 	
 	
-	//accessors for points
-	public int getPoints(){return mPoints;}
-	//mutators for points, increase or decrease
-	public void pointsIncrease(int amount){
-		mPoints += amount;
-	}
-	public void pointsDecrease(int amount){
-		mPoints -= amount;
-	}	
+	//points
+	public int getPoints(){return pointsBox.getPoints();}
+	public void pointsIncrease(int amount){pointsBox.add(amount);}
+	public void pointsDecrease(int amount){pointsBox.subtract(amount);}	
 	
 	
 	
@@ -412,14 +394,14 @@ public class Player {
 	
 	//get pond as string
 	public String getAsStringPond(){
-		return (mSeatWind + " Player's pond:\n" + mPond.toString());
+		return mSeatWind + " Player's pond:\n" + mPond;
 	}
 	//get hand as string
 	public String getAsStringHand(){
 		String hs = "";
-		hs += mSeatWind + " Player's hand (controller: " + getAsStringController() + ", " + mPlayerName + "):";
+		hs += mSeatWind + " Player's hand (controller: " + myBrain + ", " + mPlayerName + "):";
 		if (mHand.getTenpaiStatus()) hs += "     $$$$!Tenpai!$$$$";
-		hs += "\n" + mHand.toString();
+		hs += "\n" + mHand;
 		return hs;
 	}
 	public String getAsStringHandCompact(){
@@ -433,7 +415,7 @@ public class Player {
 	
 	
 	public PlayerSummary getPlayerSummary(){
-		PlayerSummary summary = new PlayerSummary(mPlayerName, mPlayerID, myBrain.toString(), mPlayerNum, mSeatWind, mPoints);
+		PlayerSummary summary = new PlayerSummary(mPlayerName, mPlayerID, myBrain.toString(), mPlayerNum, mSeatWind, pointsBox.getPoints());
 		return summary;
 	}
 	

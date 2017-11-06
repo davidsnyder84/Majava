@@ -31,7 +31,7 @@ public class Majava {
 	//start the program
 	public void start(){
 		
-		System.out.println("Welcome to Majava!");
+		System.out.println("Welcome to Majava!\n\n\n\n");
 		
 		boolean doSinglePlayer = true;
 		boolean doFastGameplay = false;
@@ -43,8 +43,6 @@ public class Majava {
 		doSinglePlayer = mWelcomeMenu.choseSinglePlayer();
 		doFastGameplay = mWelcomeMenu.choseFastGameplay();
 		
-		
-		System.out.println("\n\n\n\n");
 		
 		//play the game
 		mTable = new Table();

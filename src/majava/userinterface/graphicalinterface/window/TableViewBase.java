@@ -381,7 +381,7 @@ public class TableViewBase extends JFrame{
 	private ImageIcon __getImageIcon(List<? extends TileInterface> tList, int index, int seatNum, int tileSize){return __getImageIcon(tList, index, seatNum, tileSize, true);}
 	
 	
-	private ImageIcon __getImageIconPond(List<? extends TileInterface> tList, int index, int seatNum){
+	private ImageIcon __getImageIconPond(List<PondTile> tList, int index, int seatNum){
 		if (tList.size() <= index) return null;
 		
 		int id =__getImageID(tList.get(index));
@@ -389,11 +389,12 @@ public class TableViewBase extends JFrame{
 		
 		
 		//mark label if the pond tile has been called
-		if ( ((PondTile)(tList.get(index))).wasCalled() ){
-			larryPonds[seatNum][index].setOpaque(true); larryPonds[seatNum][index].setBackground(COLOR_POND_CALLED_TILE);
+		if (tList.get(index).wasCalled()){
+			larryPonds[seatNum][index].setOpaque(true);
+			larryPonds[seatNum][index].setBackground(COLOR_POND_CALLED_TILE);
 		}
-//		mark label if 
-//		if ( ((PondTile)(tList.get(index))).isRiichiTile() ){
+//		riichi not implemented yet
+//		if (tList.get(index).isRiichiTile()){
 //			seatNum = (seatNum + 1) % NUM_PLAYERS;
 //		}
 		

@@ -32,16 +32,11 @@ methods:
 */
 public class Pond {
 	
-	
-//	private static final int SIZE_DEFAULT = 30;
 	private static final int SIZE_MAX = 30;
 	
 	
 	
-	
-//	private final List<GameTile> mTiles;
 	private final List<PondTile> mTiles;
-	
 	private int mRiichiTileIndex;
 	
 	
@@ -60,24 +55,24 @@ public class Pond {
 	
 	
 	
-	//returns true if the player has made a nagashi mangan in their pond
 	public boolean isNagashiMangan(){
+		//nagashi mangan not yet implemented
 		return false;
 	}
 	
 	
 	
 	//returns which tile the player used for riichi
-	public GameTile getRiichiTile(){return mTiles.get(mRiichiTileIndex);}
-	
+	public PondTile getRiichiTile(){return mTiles.get(mRiichiTileIndex);}
 	//returns the most recently discarded tile in the pond
-	public GameTile getMostRecentTile(){return mTiles.get(mTiles.size()-1);}
+	public PondTile getMostRecentTile(){return mTiles.get(size()-1);}
+	public int size(){return mTiles.size();}
 	
 	
 	
 	//marks the most recent tile as missing (because it was callled)
-	public GameTile removeMostRecentTile(){
-		mTiles.get(mTiles.size()-1).setCalled();
+	public PondTile removeMostRecentTile(){
+		getMostRecentTile().setCalled();
 		return getMostRecentTile();
 	}
 	
@@ -89,20 +84,20 @@ public class Pond {
 	
 	
 	
+	
+	
 	@Override
 	public String toString(){
-		
-		int i, j;
 		String pondString = "";
 		
 		final int TILES_PER_LINE = 6;
-		for (i = 0; i < (mTiles.size() / TILES_PER_LINE) + 1; i++){
+		for (int i = 0; i < (size() / TILES_PER_LINE) + 1; i++){
 			
 			pondString += "\t";
-			for (j = 0; j < TILES_PER_LINE && (j + TILES_PER_LINE*i < mTiles.size()); j++)
+			for (int j = 0; j < TILES_PER_LINE && (j + TILES_PER_LINE*i < size()); j++)
 				pondString += mTiles.get(TILES_PER_LINE*i + j) + " ";
 			
-			if (TILES_PER_LINE*i < mTiles.size()) pondString += "\n";
+			if (TILES_PER_LINE*i < size()) pondString += "\n";
 		}
 		
 		return pondString;

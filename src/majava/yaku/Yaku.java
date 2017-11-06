@@ -78,6 +78,7 @@ public enum Yaku {
 	
 	private static final int YAKUMAN = 13;
 	private static final int MANGAN = 5;
+	//is open is disallowed, han value is 0
 	private static final int DISALLOW_OPEN = 0;
 	
 	

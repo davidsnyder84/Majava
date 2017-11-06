@@ -37,8 +37,7 @@ public class SimpleRobot extends RobotBrain {
 	
 	@Override
 	protected ActionType selectTurnAction(List<ActionType> listOfPossibleTurnActions){
-		//listOfPossibleTurnActions is guaranteed to be non-empty (see superclass's template method)
-		if (likesToMakeTurnActions)
+		if (likesToMakeTurnActions && !listOfPossibleTurnActions.isEmpty())
 			return listOfPossibleTurnActions.get(listOfPossibleTurnActions.size()-1);
 		else
 			return ActionType.DISCARD;

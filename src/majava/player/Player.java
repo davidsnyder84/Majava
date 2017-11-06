@@ -20,51 +20,20 @@ represents a player in the game
 */
 public class Player {
 	
-
-	//used to indicate who is controlling the player
-	private static enum Controller{
-		HUMAN, COM, UNDECIDED;
-		
-		@Override
-		public String toString(){
-			switch (this){
-			case HUMAN: return "Human";
-			case COM: return "Computer";
-			default: return "Undecided";
-			}
-		}
-		
-		public boolean isComputer(){return (this == COM);}
-		public boolean isHuman(){return (this == HUMAN);}
-	}
-	
 	//used to indicate what type of draw a player needs
 	private static enum DrawType{
 		NONE, NORMAL, RINSHAN;
 	}
-
-	//used to indicate what action the player wants to do on their turn
-	private static enum ActionType{
-		DISCARD, ANKAN, MINKAN, RIICHI, TSUMO, UNDECIDED;
-	}
-	
-	//used to dictate how the com chooses its discards
-	private static enum ComBehavior{DISCARD_LAST, DISCARD_FIRST, DISCARD_RANDOM}
-	private static final ComBehavior COM_BEHAVIOR_DEFAULT = ComBehavior.DISCARD_LAST;
 	
 	
 	
-	private static final boolean DEBUG_COMPUTERS_MAKE_ACTIONS = true;
 	
 	private static final Wind SEAT_DEFAULT = Wind.UNKNOWN;
-	private static final Controller CONTROLLER_DEFAULT = Controller.UNDECIDED;
+//	private static final Controller CONTROLLER_DEFAULT = Controller.UNDECIDED;
 	private static final String DEFAULT_PLAYERNAME = "Kyoutarou";
 	private static final int DEFAULT_PLAYERNUM = 0;
-	private static final ComBehavior COM_BEHAVIOR = COM_BEHAVIOR_DEFAULT;
 	
 	private static final int POINTS_STARTING_AMOUNT_DEFAULT = 25000;
-	
-	private static final int NO_DISCARD_CHOSEN = -94564;
 	
 	
 	
@@ -78,7 +47,7 @@ public class Player {
 	
 	private Wind mSeatWind;
 	private int mPlayerNum;
-	private Controller mController;
+//	private Controller mController;
 	private PlayerBrain myBrain;
 	private String mPlayerName;
 	private int mPlayerID;
@@ -88,8 +57,8 @@ public class Player {
 //	mTurnAction - the player's choice of action on their turn (discard, ankan, tsumo, etc)
 //	private CallType mCallStatus;
 	private DrawType mDrawNeeded;
-	private ActionType mTurnAction;
-	private int mChosenDiscardIndex;
+//	private ActionType mTurnAction;
+//	private int mChosenDiscardIndex;
 	
 	
 	private GameTile mLastDiscard;
@@ -114,7 +83,7 @@ public class Player {
 	public Player(int playerNum, String pName){
 		
 		mSeatWind = SEAT_DEFAULT;
-		mController = CONTROLLER_DEFAULT;
+//		mController = CONTROLLER_DEFAULT;
 		
 		if (pName == null) pName = DEFAULT_PLAYERNAME;
 		setPlayerName(pName);
@@ -141,8 +110,10 @@ public class Player {
 			myBrain.clearCallStatus();	//just in case, don't know if it's needed
 		mDrawNeeded = DrawType.NORMAL;
 		
-		mChosenDiscardIndex = NO_DISCARD_CHOSEN;
-		mTurnAction = ActionType.UNDECIDED;
+//		mChosenDiscardIndex = NO_DISCARD_CHOSEN;
+//		mTurnAction = ActionType.UNDECIDED;
+		if (myBrain != null)
+			myBrain.clearTurnActionStatus();	//just in case, don't know if it's needed
 		
 		mRiichiStatus = false;
 		mFuritenStatus = false;
@@ -176,10 +147,9 @@ public class Player {
 	public GameTile takeTurn(){
 		
 		mLastDiscard = null;
-		mChosenDiscardIndex = NO_DISCARD_CHOSEN;
 		
-		//discard a tile
-		__chooseTurnAction();
+		//choose turn action
+		myBrain.chooseTurnAction();
 		
 		if (turnActionChoseDiscard()){
 			
@@ -233,8 +203,8 @@ public class Player {
 		GameTile discardedTile = null;
 		
 		//remove the chosen discard tile from hand
-		discardedTile = mHand.getTile(mChosenDiscardIndex);
-		mHand.removeTile(mChosenDiscardIndex);
+		discardedTile = mHand.getTile(myBrain.getChosenDiscardIndex());
+		mHand.removeTile(myBrain.getChosenDiscardIndex());
 		
 		//put the tile in the pond
 		__putTileInPond(discardedTile);
@@ -373,12 +343,12 @@ public class Player {
 	
 	
 	public boolean turnActionMadeKan(){return (turnActionMadeAnkan() || turnActionMadeMinkan());}
-	public boolean turnActionMadeAnkan(){return (mTurnAction == ActionType.ANKAN);}
-	public boolean turnActionMadeMinkan(){return (mTurnAction == ActionType.MINKAN);}
-	public boolean turnActionCalledTsumo(){return (mTurnAction == ActionType.TSUMO);}
-	public boolean turnActionChoseDiscard(){return (mTurnAction == ActionType.DISCARD);}
+	public boolean turnActionMadeAnkan(){return myBrain.turnActionMadeAnkan();}
+	public boolean turnActionMadeMinkan(){return myBrain.turnActionMadeMinkan();}
+	public boolean turnActionCalledTsumo(){return myBrain.turnActionCalledTsumo();}
+	public boolean turnActionChoseDiscard(){return myBrain.turnActionChoseDiscard();}
 //	public boolean turnActionChoseDiscard(){return (mTurnAction == TURN_ACTION_DISCARD || mTurnAction == TURN_ACTION_RIICHI);}
-	public boolean turnActionRiichi(){return (mTurnAction == ActionType.RIICHI);}
+	public boolean turnActionRiichi(){return myBrain.turnActionRiichi();}
 	
 	
 	//turn actions
@@ -673,17 +643,16 @@ public class Player {
 	
 	
 	//used to set the controller of the player after its creation
-	private void __setController(Controller newController, PlayerBrain desiredBrain){
-		mController = newController;
+	private void __setController(PlayerBrain desiredBrain){
 		myBrain = desiredBrain;
 	}
-	public void setControllerHuman(){__setController(Controller.HUMAN, new HumanBrain(this, mUI));}
-	public void setControllerComputer(){__setController(Controller.COM, new SimpleRobot(this));}
+	public void setControllerHuman(){__setController(new HumanBrain(this, mUI));}
+	public void setControllerComputer(){__setController(new SimpleRobot(this));}
 	
-	public String getAsStringController(){return mController.toString();}
+	public String getAsStringController(){return myBrain.toString();}
 	
-	public boolean controllerIsHuman(){return mController.isHuman();}
-	public boolean controllerIsComputer(){return mController.isComputer();}
+	public boolean controllerIsHuman(){return myBrain.isHuman();}
+	public boolean controllerIsComputer(){return myBrain.isComputer();}
 	
 	
 	
@@ -766,7 +735,7 @@ public class Player {
 	
 	
 	public PlayerSummary getPlayerSummary(){
-		PlayerSummary summary = new PlayerSummary(mPlayerName, mPlayerID, mController.toString(), mPlayerNum, mSeatWind, mPoints);
+		PlayerSummary summary = new PlayerSummary(mPlayerName, mPlayerID, myBrain.toString(), mPlayerNum, mSeatWind, mPoints);
 		return summary;
 	}
 	

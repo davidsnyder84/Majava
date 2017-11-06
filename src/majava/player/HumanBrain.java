@@ -27,7 +27,7 @@ public class HumanBrain extends PlayerBrain {
 	
 	@Override
 	protected ActionType selectTurnAction(List<ActionType> listOfPossibleTurnActions){
-		ActionType chosenAction = ActionType.UNDECIDED;
+		ActionType chosenAction = ActionType.DISCARD;
 		
 		//show hand
 		userInterface.displayEvent(GameplayEvent.HUMAN_PLAYER_TURN_START);

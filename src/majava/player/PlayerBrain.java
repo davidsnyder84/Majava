@@ -42,6 +42,7 @@ public abstract class PlayerBrain {
 	protected static enum ActionType{
 		DISCARD, ANKAN, MINKAN, RIICHI, TSUMO, UNDECIDED;
 	}
+	private static final int NO_DISCARD_CHOSEN = -94564;
 	
 	
 	
@@ -81,8 +82,9 @@ public abstract class PlayerBrain {
 	//template method pattern, final
 	public final void chooseTurnAction(){
 		
-		ActionType chosenAction = ActionType.UNDECIDED;
-		int discardIndex = -1;
+		//default action is simply discard
+		ActionType chosenAction = ActionType.DISCARD;
+		int discardIndex = NO_DISCARD_CHOSEN;
 		
 		//force auto discard if in riichi and unable to tsumo/kan
 		if (player.isInRiichi() && (!player.ableToTsumo() && !player.ableToAnkan())){
@@ -94,17 +96,16 @@ public abstract class PlayerBrain {
 		//get list of possible turn actions
 		List<ActionType> listOfPossibleTurnActions = listOfPossibleTurnActions();
 		
-		//if any actions are possible, give a chance to pick one of the actions
-		if (!listOfPossibleTurnActions.isEmpty())
-			chosenAction = selectTurnAction(listOfPossibleTurnActions);
+		//ask to pick a turn action (abstract)
+		chosenAction = selectTurnAction(listOfPossibleTurnActions);
 		
-		//if discard was chosen, ask to pick a discard
+		//if discard was chosen, ask to pick a discard (abstract)
 		if (chosenAction == ActionType.DISCARD){
 			discardIndex = selectDiscardIndex();
 			chosenDiscardIndex = discardIndex;
 		}
 		
-		
+		turnAction = chosenAction;
 	}
 	//get list of possible options
 	private final List<ActionType> listOfPossibleTurnActions() {
@@ -132,7 +133,7 @@ public abstract class PlayerBrain {
 //	public boolean turnActionChoseDiscard(){return (mTurnAction == TURN_ACTION_DISCARD || mTurnAction == TURN_ACTION_RIICHI);}
 	public boolean turnActionRiichi(){return (turnAction == ActionType.RIICHI);}
 	
-	
+	public int getChosenDiscardIndex(){return chosenDiscardIndex;}
 	
 	
 	
@@ -221,12 +222,17 @@ public abstract class PlayerBrain {
 	
 	
 	public void clearCallStatus(){callStatus = CallType.NONE;}
+	public void clearTurnActionStatus(){
+		turnAction = ActionType.UNDECIDED;
+		chosenDiscardIndex = NO_DISCARD_CHOSEN;
+	}
 	
 	
 	
 	
 	
-	public abstract boolean isHuman(); 
+	public abstract boolean isHuman();
+	public final boolean isComputer(){return !isHuman();}
 	
 	@Override
 	public String toString(){return "UnknownnnnnnnnnBrain";}

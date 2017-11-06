@@ -108,8 +108,8 @@ public class Hand implements Iterable<GameTile>{
 	
 	//returns the tile at the given index in the hand, returns null if outside of the hand's range
 	public GameTile getTile(int index){
-		if (index > mTiles.size() || index < 0 ) return null;
-		return (GameTile)mTiles.get(index);
+		if (index > size() || index < 0 ) return null;
+		return mTiles.get(index);
 	}
 	
 	//returns a list of the melds that have been made (copy of actual melds), returns an empty list if no melds made
@@ -155,7 +155,7 @@ public class Hand implements Iterable<GameTile>{
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand
 	public boolean addTile(GameTile addThisTile){
 		
-		if (mTiles.size() >= MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*mNumMeldsMade) return false;
+		if (size() >= MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*mNumMeldsMade) return false;
 		
 		addThisTile.setOwner(mOwnerSeatWind);
 		mTiles.add(addThisTile);
@@ -166,20 +166,16 @@ public class Hand implements Iterable<GameTile>{
 	public boolean addTile(int tileID){return addTile(new GameTile(tileID));}
 	
 	
-	//removes the tile at the given index
-	public boolean removeTile(int removeThisIndex){
-		
-		if (removeThisIndex < 0 || removeThisIndex >= mTiles.size()) return false;
-
-		mTiles.remove(removeThisIndex);
-		
+	//removes the tile at the given index, returns null if out of range
+	public GameTile removeTile(int removeThisIndex){
+		if (removeThisIndex < 0 || removeThisIndex > size()) return null;
+		GameTile tile = mTiles.remove(removeThisIndex);
 		sortHand();
-		return true;
+		
+		return tile;
 	}
 	public boolean removeMultiple(List<Integer> removeIndices){
-		
 		mTiles.removeMultiple(removeIndices);
-		
 		sortHand();
 		return true;
 	}
@@ -203,7 +199,6 @@ public class Hand implements Iterable<GameTile>{
 	//sort the hand in ascending order
 	public void sortHand(){
 		mTiles.sort();
-		
 		__updateChecker();
 	}
 	
@@ -327,7 +322,7 @@ public class Hand implements Iterable<GameTile>{
 		if (meldType.isKan()){
 			
 			candidateIndex = mChecker.getCandidateAnkanIndex();
-			candidate = mTiles.get(candidateIndex);
+			candidate = getTile(candidateIndex);			
 			
 			partnerIndices = mTiles.findAllIndicesOf(candidate);
 			while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.remove(partnerIndices.size() - 1);
@@ -340,7 +335,6 @@ public class Hand implements Iterable<GameTile>{
 			//remove the tiles from the hand
 			partnerIndices.add(candidateIndex);
 			removeMultiple(partnerIndices);
-			
 			
 			mNumMeldsMade++;
 		}
@@ -367,7 +361,7 @@ public class Hand implements Iterable<GameTile>{
 	public void makeMeldTurnMinkan(){
 		
 		int candidateIndex = mChecker.getCandidateMinkanIndex();
-		GameTile candidate = mTiles.get(candidateIndex);
+		GameTile candidate = getTile(candidateIndex);
 		
 		Meld meldToUpgrade = null;
 		
@@ -417,7 +411,7 @@ public class Hand implements Iterable<GameTile>{
 		wantedIndices = mChecker.getPartnerIndices(meldType);
 		
 		for (Integer i: wantedIndices)
-			if (wantActualTiles) partnersString += mTiles.get(i).toString() + ", ";
+			if (wantActualTiles) partnersString += getTile(i).toString() + ", ";
 			else partnersString += Integer.toString(i+1) + ", ";
 		
 		if (partnersString != "") partnersString = partnersString.substring(0, partnersString.length() - 2);
@@ -475,14 +469,14 @@ public class Hand implements Iterable<GameTile>{
 		int i;
 		
 		//show indices above the hand
-		for (i = 0; i < mTiles.size(); i++)
+		for (i = 0; i < size(); i++)
 			if (i+1 < 10) handString += (i+1) + "  ";
 			else handString += (i+1) + " ";
 		handString += "\n";
 		
 		//show the tiles, separated by spaces
-		for (i = 0; i < mTiles.size(); i++)
-			handString += mTiles.get(i).toString() + " ";
+		for (i = 0; i < size(); i++)
+			handString += getTile(i).toString() + " ";
 		
 		//show the completed melds
 		if (DEBUG_SHOW_MELDS_ALONG_WITH_HAND)

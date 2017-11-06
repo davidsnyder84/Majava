@@ -8,7 +8,6 @@ import majava.Meld;
 import majava.Pond;
 import majava.RoundTracker;
 import majava.enums.Exclamation;
-import majava.enums.GameplayEvent;
 import majava.enums.Wind;
 import majava.userinterface.GameUI;
 import majava.summary.PlayerSummary;
@@ -89,7 +88,7 @@ public class Player {
 		myBrain.clearCallStatus();
 		myBrain.clearTurnActionStatus();
 		
-		mDrawNeeded = DrawType.NORMAL;
+		setDrawNeededNormal();
 		mRiichiStatus = false;
 		mFuritenStatus = false;
 		mHoldingRinshanTile = false;
@@ -125,7 +124,7 @@ public class Player {
 				else if (turnActionMadeMinkan())
 					mHand.makeMeldTurnMinkan();
 				
-				mDrawNeeded = DrawType.RINSHAN;
+				setDrawNeededRinshan();
 			}
 			//riichi, tsumo falls here
 			return null;
@@ -142,20 +141,14 @@ public class Player {
 	
 	
 	private GameTile __discardChosenTile(){
-		
-		GameTile discardedTile = null;
-		
 		//remove the chosen discard tile from hand
-		discardedTile = mHand.getTile(myBrain.getChosenDiscardIndex());
-		mHand.removeTile(myBrain.getChosenDiscardIndex());
+		GameTile discardedTile = mHand.removeTile(myBrain.getChosenDiscardIndex());
 		
-		//put the tile in the pond
 		__putTileInPond(discardedTile);
 		
 		//set needed draw to normal, since we just discarded a tile
-		mDrawNeeded = DrawType.NORMAL;
+		setDrawNeededNormal();
 
-		//return the discarded tile
 		return discardedTile;
 	}
 	
@@ -187,19 +180,17 @@ public class Player {
 		mHand.addTile(t);
 		
 		//no longer need to draw (because the player has just drawn)
-		mDrawNeeded = DrawType.NONE;
+		setDrawNeededNone();
 	}
 	
 	public void giveStartingHand(List<GameTile> startingTiles){
 		for (GameTile t: startingTiles) addTileToHand(t);
 		
 		//if the player isn't east, they will need to draw
-		if (mHand.size() < Hand.maxHandSize()) mDrawNeeded = DrawType.NORMAL;
+		if (mHand.size() < Hand.maxHandSize())
+			setDrawNeededNormal();
 	}
 	
-	
-	
-
 	
 	
 	
@@ -252,26 +243,24 @@ public class Player {
 	//forms a meld using the given tile
 	public void makeMeld(GameTile t){
 		
-		if (called()){
-			//make the right type of meld, based on call status
-			if (calledChiL()) mHand.makeMeldChiL();
-			else if (calledChiM()) mHand.makeMeldChiM();
-			else if (calledChiH()) mHand.makeMeldChiH();
-			else if (calledPon()) mHand.makeMeldPon();
-			else if (calledKan()) mHand.makeMeldKan();
-			
-			//update what the player will need to draw next turn (draw nothing if called chi/pon, rinshan draw if called kan)
-			if (calledChi() || calledPon())
-				mDrawNeeded = DrawType.NONE;
-			if (calledKan())
-				mDrawNeeded = DrawType.RINSHAN;
-			
-			//clear call status because the call has been completed
-			//i don't really like this
-			myBrain.clearCallStatus();
-		}
-		else
-			System.out.println("-----Error: No meld to make (the player didn't make a call!!)");
+		//prevent an error case that will probably never happen
+		if (!called()){System.out.println("-----Error: No meld to make (the player didn't make a call!!)"); return;}
+		
+		//make the right type of meld, based on call status
+		if (calledChiL()) mHand.makeMeldChiL();
+		else if (calledChiM()) mHand.makeMeldChiM();
+		else if (calledChiH()) mHand.makeMeldChiH();
+		else if (calledPon()) mHand.makeMeldPon();
+		else if (calledKan()) mHand.makeMeldKan();
+		
+		//update what the player will need to draw next turn (draw nothing if called chi/pon, rinshan draw if called kan)
+		if (calledChi() || calledPon())
+			setDrawNeededNone();
+		if (calledKan())
+			setDrawNeededRinshan();
+		
+		//clear call status because the call has been completed
+		myBrain.clearCallStatus();	//don't know how needed this is
 	}
 	
 	
@@ -303,8 +292,6 @@ public class Player {
 	
 	public String getPlayerName(){return mPlayerName;}
 	public int getPlayerID(){return mPlayerID;}
-	
-	
 
 	public int handSize(){return mHand.size();}
 	public boolean isInRiichi(){return mRiichiStatus;}

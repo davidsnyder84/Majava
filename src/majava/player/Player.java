@@ -110,13 +110,14 @@ public class Player {
 	private Wind mSeatWind;
 	private int mPlayerNum;
 	private Controller mController;
+	private PlayerBrain brain = null;
 	private String mPlayerName;
 	private int mPlayerID;
 	
 //	mCallStatus - the player's call (reaction) to the most recent disacrd (chi, pon, kan, ron, or none)
 //	mDrawNeeded - the type of draw the player needs for their next turn (normal draw, rinshan draw, or no draw)
 //	mTurnAction - the player's choice of action on their turn (discard, ankan, tsumo, etc)
-	private CallType mCallStatus;
+//	private CallType mCallStatus;
 	private DrawType mDrawNeeded;
 	private ActionType mTurnAction;
 	private int mChosenDiscardIndex;
@@ -167,7 +168,8 @@ public class Player {
 		mHand = new Hand(mSeatWind);
 		mPond = new Pond();
 		
-		mCallStatus = CallType.NONE;
+		brain = null;
+//		mCallStatus = CallType.NONE;
 		mDrawNeeded = DrawType.NORMAL;
 		
 		mChosenDiscardIndex = NO_DISCARD_CHOSEN;
@@ -472,6 +474,15 @@ public class Player {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 	
@@ -495,17 +506,19 @@ public class Player {
 	end if
 	return call status
 	*/
-	public boolean reactToDiscard(GameTile t){
-		mCallStatus = CallType.NONE;
+	public boolean reactToDiscard(GameTile tileToReactTo){
+		brain.clearCallStatus();
 		
 		//if able to call the tile, ask self for reaction
-		if (__ableToCallTile(t)){
+		if (__ableToCallTile(tileToReactTo)){
 			
 			//ask self for reaction, also update call status
-			mCallStatus = __askSelfForReaction(t);
+//			mCallStatus = __askSelfForReaction(tileToReactTo);
+			brain.reactToDiscard(tileToReactTo);
 		}
 		
-		return (mCallStatus != CallType.NONE);
+		return brain.called();	//i think?
+//		return (mCallStatus != CallType.NONE);
 	}
 	
 	
@@ -670,7 +683,8 @@ public class Player {
 				mDrawNeeded = DrawType.RINSHAN;
 			
 			//clear call status because the call has been completed
-			mCallStatus = CallType.NONE;
+			//i don't really like this
+			brain.clearCallStatus();
 		}
 		else
 			System.out.println("-----Error: No meld to make (the player didn't make a call!!)");
@@ -725,18 +739,18 @@ public class Player {
 	
 	
 	//returns call status as an exclamation
-	public Exclamation getCallStatusExclamation(){return mCallStatus.toExclamation();}
+	public Exclamation getCallStatusExclamation(){return brain.getCallStatusExclamation();}
 	
 	//returns true if the player called a tile
-	public boolean called(){return (mCallStatus != CallType.NONE);}
+	public boolean called(){return brain.called();}
 	//individual call statuses
 	public boolean calledChi(){return (calledChiL() || calledChiM() || calledChiH());}
-	public boolean calledChiL(){return (mCallStatus == CallType.CHI_L);}
-	public boolean calledChiM(){return (mCallStatus == CallType.CHI_M);}
-	public boolean calledChiH(){return (mCallStatus == CallType.CHI_H);}
-	public boolean calledPon(){return (mCallStatus == CallType.PON);}
-	public boolean calledKan(){return (mCallStatus == CallType.KAN);}
-	public boolean calledRon(){return (mCallStatus == CallType.RON);}
+	public boolean calledChiL(){return brain.calledChiL();}
+	public boolean calledChiM(){return brain.calledChiM();}
+	public boolean calledChiH(){return brain.calledChiH();}
+	public boolean calledPon(){return brain.calledPon();}
+	public boolean calledKan(){return brain.calledKan();}
+	public boolean calledRon(){return brain.calledRon();}
 	
 	
 	//check if the players needs to draw a tile, and what type of draw (normal vs rinshan)

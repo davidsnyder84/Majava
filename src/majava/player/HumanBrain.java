@@ -4,6 +4,11 @@ import majava.tiles.GameTile;
 
 public class HumanBrain extends PlayerBrain {
 
+	public HumanBrain(Player p) {
+		super(p);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void chooseTurnAction() {
 		// TODO Auto-generated method stub
@@ -11,13 +16,11 @@ public class HumanBrain extends PlayerBrain {
 	}
 	
 	@Override
-	public Object reactToDiscard(GameTile T) {
-		// TODO Auto-generated method stub
-		return null;
+	public void reactToDiscard(GameTile tileToReactTo){
 	}
 	
 	public boolean isHuman(){return true;}
 	
 	@Override
-	public String toString(){return "Human brain";}
+	public String toString(){return "HumanBrain";}
 }

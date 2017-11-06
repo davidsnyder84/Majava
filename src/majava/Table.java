@@ -155,7 +155,7 @@ public class Table {
 		p4 = new Player();
 		mPlayerArray = new Player[]{p1, p2, p3, p4};
 		
-		String[] names = {"Human", "Albert", "Brenda", "Carl"};
+		String[] names = {"HughMan", "Albert", "Brenda", "Carl"};
 		boolean[] humanController = {false, false, false, false};
 		
 		if (mDoSinglePlayer) humanController[0] = true;

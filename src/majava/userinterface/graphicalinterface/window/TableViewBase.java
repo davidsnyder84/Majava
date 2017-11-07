@@ -77,11 +77,11 @@ public class TableViewBase extends JFrame{
 	//debug buttons
 	protected static final boolean DEBUG_BUTTONS_VISIBLE = true;
 	
-	private static final String STRING_WINDOW_TITLE = "The Beaver";
 	
+	//window constants
+	private static final String STRING_WINDOW_TITLE = "The Beaver";	
 	private static final int WINDOW_WIDTH = 1120 + (-62*2 - 6);
-	private static final int WINDOW_HEIGHT = 726 + 6 + (-62*2 + 25 + 18);
-	
+	private static final int WINDOW_HEIGHT = 726 + 6 + (-62*2 + 25 + 18);	
 	protected static final int WINDOW_TOP_BORDER_SIZE_WITH_RESIZE = 30;
 	protected static final int WINDOW_TOP_BORDER_SIZE = 26;
 	protected static final int WINDOW_SIDE_BORDER_SIZE_WITH_RESIZE = 8;
@@ -103,7 +103,7 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	
+	//color constants
 	protected static final Color COLOR_TRANSPARENT = new Color(0, 0, 0, 0);
 	protected static final Color COLOR_PURPLISH =  new Color(210,0, 210, 30);
 	
@@ -153,20 +153,17 @@ public class TableViewBase extends JFrame{
 	protected static final int SIZE_POND = 24;
 	protected static final int SIZE_LARRY_INFOPLAYER = 3;
 	protected static final int SIZE_LARRY_INFOROUND = 3;
-
 	
 	
 	private static final int SIZE_GARRY_TILES = 38, SIZE_GARRY_OTHER = 1, SIZE_GARRY_OMAKE = 5;
 	private static final int RED5M = 35,  RED5P = 36, RED5S = 37, TILEBACK = 0, NULL_TILE_IMAGE_ID = -1;
 	private static final int GARRYINDEX_OTHER_RIICHI = 0;
 	
-	
 
 	private static final int LARRY_INFOROUND_ROUNDWIND = 0, LARRY_INFOROUND_ROUNDNUM = 1, LARRY_INFOROUND_BONUSNUM = 2;
 	private static final int LARRY_INFOPLAYER_SEATWIND = 0, LARRY_INFOPLAYER_POINTS = 1, LARRY_INFOPLAYER_RIICHI = 2;
 	
 	private static final int BARRY_TACTIONS_RIICHI = 0, BARRY_TACTIONS_ANKAN = 1, BARRY_TACTIONS_MINKAN = 2, BARRY_TACTIONS_TSUMO = 3;
-
 	
 	
 	//click action constants
@@ -309,26 +306,26 @@ public class TableViewBase extends JFrame{
 	protected final TableViewBase thisguy = this;
 	
 	
-	protected boolean mOptionRevealWall;
-	protected boolean mOptionRevealHands;
-	protected boolean[] mRevealHands;
+	protected boolean cheatRevealAllWall;
+	protected boolean cheatRevealAllHands;
+	protected boolean[] whichHandsToReveal;
 	
 	
-	protected RoundEntities mRoundEntities;
-	protected PlayerTracker[] mPTrackers;
-	protected TileInterface[] mTilesW;
-	protected Wall mWall;
-	protected RoundTracker mRoundTracker;
+	protected RoundEntities roundEntities;
+	protected PlayerTracker[] playerTrackers;
+	protected TileInterface[] wallTiles;
+	protected Wall wall;
+	protected RoundTracker roundTracker;
 	
 	
 	
 	
 	
-	private int mNewTurn = -1, mOldTurn = -1;
+	private int newTurn = -1, oldTurn = -1;
 
-	private int mChosenCall;
-	private int mChosenTurnAction;
-	private int mChosenDiscard;
+	private int chosenCall;
+	private int chosenTurnAction;
+	private int chosenDiscard;
 	
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^END MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 	
@@ -458,11 +455,11 @@ public class TableViewBase extends JFrame{
 		
 		
 		//show end of round result if round is over
-		if (mRoundTracker.roundIsOver()){
-			lblResult.setText(mRoundTracker.getRoundResultString());
+		if (roundTracker.roundIsOver()){
+			lblResult.setText(roundTracker.getRoundResultString());
 			panRoundResultLabel.setVisible(true);
 			
-			for (int i = 0; i < mRevealHands.length; i++) mRevealHands[i] = true;
+			for (int i = 0; i < whichHandsToReveal.length; i++) whichHandsToReveal[i] = true;
 		}
 		
 		
@@ -470,7 +467,7 @@ public class TableViewBase extends JFrame{
 		//update hands
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_HAND; currentTile++){
-				larryHands[currentPlayer][currentTile].setIcon(__getImageIcon(mPTrackers[currentPlayer].tilesH, currentTile, currentPlayer, BIG, mRevealHands[currentPlayer]));
+				larryHands[currentPlayer][currentTile].setIcon(__getImageIcon(playerTrackers[currentPlayer].tilesH, currentTile, currentPlayer, BIG, whichHandsToReveal[currentPlayer]));
 			}
 		}
 		
@@ -478,22 +475,22 @@ public class TableViewBase extends JFrame{
 		//update ponds
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_POND; currentTile++){
-				larryPonds[currentPlayer][currentTile].setIcon(__getImageIconPond(mPTrackers[currentPlayer].tilesP, currentTile, currentPlayer));
+				larryPonds[currentPlayer][currentTile].setIcon(__getImageIconPond(playerTrackers[currentPlayer].tilesP, currentTile, currentPlayer));
 			}
 		}
 		
 		
 		//update wall summary
 		for (currentTile = 0; currentTile < SIZE_DEAD_WALL; currentTile++){
-			larryDW[currentTile].setIcon(__getImageIconWall(mTilesW, currentTile + OFFSET_DEAD_WALL, SEAT1, mOptionRevealWall));
+			larryDW[currentTile].setIcon(__getImageIconWall(wallTiles, currentTile + OFFSET_DEAD_WALL, SEAT1, cheatRevealAllWall));
 		}
-		for (currentTile = POS_DORA_1; currentTile >= 2*(4 - mRoundTracker.getNumKansMade()); currentTile -= 2){
-			larryDW[currentTile].setIcon(__getImageIconWall(mTilesW, currentTile + OFFSET_DEAD_WALL, SEAT1));
+		for (currentTile = POS_DORA_1; currentTile >= 2*(4 - roundTracker.getNumKansMade()); currentTile -= 2){
+			larryDW[currentTile].setIcon(__getImageIconWall(wallTiles, currentTile + OFFSET_DEAD_WALL, SEAT1));
 		}
-		lblWallTilesLeft.setText(Integer.toString(mRoundTracker.getNumTilesLeftInWall()));
+		lblWallTilesLeft.setText(Integer.toString(roundTracker.getNumTilesLeftInWall()));
 		currentTile = 0;
-		while (mTilesW[SIZE_NORMAL_WALL-1-currentTile] != null){
-			if (mOptionRevealWall) larryTinyW[currentTile].setIcon(garryTilesTiny[__getImageIdOfTile(mTilesW[SIZE_NORMAL_WALL-1-currentTile])]);
+		while (wallTiles[SIZE_NORMAL_WALL-1-currentTile] != null){
+			if (cheatRevealAllWall) larryTinyW[currentTile].setIcon(garryTilesTiny[__getImageIdOfTile(wallTiles[SIZE_NORMAL_WALL-1-currentTile])]);
 			else larryTinyW[currentTile].setIcon(garryTilesTiny[TILEBACK]);
 			currentTile++;
 		}
@@ -504,7 +501,7 @@ public class TableViewBase extends JFrame{
 		List<Meld> meldList = null;
 		List<GameTile> tList = null;
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
-			meldList = mPTrackers[currentPlayer].player.getMelds();
+			meldList = playerTrackers[currentPlayer].player.getMelds();
 			for (currentMeld = 0; currentMeld < meldList.size(); currentMeld++){
 				tList = meldList.get(currentMeld).getAllTiles();
 				for (currentTile = 0; currentTile < SIZE_MELD; currentTile++)
@@ -515,21 +512,21 @@ public class TableViewBase extends JFrame{
 		
 		//update player info
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
-			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_SEATWIND].setIcon(__getImageIconWind(mPTrackers[currentPlayer].player.getSeatWind(), SMALL));
-			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_POINTS].setText(Integer.toString(mPTrackers[currentPlayer].player.getPoints()));
-			if (mPTrackers[currentPlayer].player.isInRiichi())
+			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_SEATWIND].setIcon(__getImageIconWind(playerTrackers[currentPlayer].player.getSeatWind(), SMALL));
+			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_POINTS].setText(Integer.toString(playerTrackers[currentPlayer].player.getPoints()));
+			if (playerTrackers[currentPlayer].player.isInRiichi())
 				larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_RIICHI].setIcon(garryOther[GARRYINDEX_OTHER_RIICHI]);
 		}
 		
 		
 		//update round info
-		larryInfoRound[LARRY_INFOROUND_ROUNDWIND].setIcon(__getImageIconWind(mRoundTracker.getRoundWind(), BIG));
-		larryInfoRound[LARRY_INFOROUND_ROUNDNUM].setText(Integer.toString(mRoundTracker.getRoundNum()));
-		larryInfoRound[LARRY_INFOROUND_BONUSNUM].setText(Integer.toString(mRoundTracker.getRoundBonusNum()));
+		larryInfoRound[LARRY_INFOROUND_ROUNDWIND].setIcon(__getImageIconWind(roundTracker.getRoundWind(), BIG));
+		larryInfoRound[LARRY_INFOROUND_ROUNDNUM].setText(Integer.toString(roundTracker.getRoundNum()));
+		larryInfoRound[LARRY_INFOROUND_BONUSNUM].setText(Integer.toString(roundTracker.getRoundBonusNum()));
 		
 		//update turn indicators
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
-			parryTurnInds[currentPlayer].setVisible(mRoundTracker.whoseTurn() == currentPlayer);
+			parryTurnInds[currentPlayer].setVisible(roundTracker.whoseTurn() == currentPlayer);
 		}
 		
 		repaint();
@@ -538,27 +535,27 @@ public class TableViewBase extends JFrame{
 	//highlights the most recent discard
 	private void __updateDiscardMarker(){
 		
-		mNewTurn = mRoundTracker.whoseTurn();
+		newTurn = roundTracker.whoseTurn();
 		__discardMarkerErase();
 		__discardMarkerSet();
-		mOldTurn = mNewTurn;
+		oldTurn = newTurn;
 	}
 	private void __discardMarkerSet(){
-		if (!mPTrackers[mNewTurn].tilesP.isEmpty() && mPTrackers[mNewTurn].player.needsDraw()){
-			if (mNewTurn == mOldTurn &&  mPTrackers[mNewTurn].player.needsDrawRinshan()) return;
-			__getLastLabelInPond(mNewTurn).setOpaque(true);
-			__getLastLabelInPond(mNewTurn).setBackground(COLOR_POND_DISCARD_TILE);
+		if (!playerTrackers[newTurn].tilesP.isEmpty() && playerTrackers[newTurn].player.needsDraw()){
+			if (newTurn == oldTurn &&  playerTrackers[newTurn].player.needsDrawRinshan()) return;
+			__getLastLabelInPond(newTurn).setOpaque(true);
+			__getLastLabelInPond(newTurn).setBackground(COLOR_POND_DISCARD_TILE);
 		}
 	}
 	private void __discardMarkerErase(){
-		if (mOldTurn >= 0 && !mPTrackers[mOldTurn].tilesP.isEmpty()){
-			__getLastLabelInPond(mOldTurn).setOpaque(false);
-			__getLastLabelInPond(mOldTurn).setBackground(COLOR_TRANSPARENT);
+		if (oldTurn >= 0 && !playerTrackers[oldTurn].tilesP.isEmpty()){
+			__getLastLabelInPond(oldTurn).setOpaque(false);
+			__getLastLabelInPond(oldTurn).setBackground(COLOR_TRANSPARENT);
 		}
 	}
 	private JLabel __getLastLabelInPond(int seatNum){
-		if (mPTrackers[seatNum].tilesP.isEmpty()) return null;
-		else return larryPonds[seatNum][mPTrackers[seatNum].tilesP.size() - 1];
+		if (playerTrackers[seatNum].tilesP.isEmpty()) return null;
+		else return larryPonds[seatNum][playerTrackers[seatNum].tilesP.size() - 1];
 	}
 	
 	
@@ -567,11 +564,11 @@ public class TableViewBase extends JFrame{
 	
 	//replaces all imageicons with null
 	public void blankEverything(){
-		
 		//exclamation
 		lblExclamation.setVisible(false);
 		
-		for (JLabel[] lar: larryHands)	//hands
+		//hands
+		for (JLabel[] lar: larryHands)
 			for (JLabel l: lar) l.setIcon(null);
 		
 		//ponds
@@ -637,7 +634,7 @@ public class TableViewBase extends JFrame{
 
 	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
 		
-		mChosenCall = NO_CALL_CHOSEN;
+		chosenCall = NO_CALL_CHOSEN;
 		boolean onlyOneChiPossible = ((canChiL ^ canChiM ^ canChiH) ^ (canChiL && canChiM && canChiH));
 		int chiType = -1;
 		
@@ -668,29 +665,29 @@ public class TableViewBase extends JFrame{
 		repaint();
 		
 		
-		while (mChosenCall == NO_CALL_CHOSEN)
+		while (chosenCall == NO_CALL_CHOSEN)
 			__avoidBusyWaitForClick();
 		
-		if (mChosenCall == CALL_CHI) mChosenCall = chiType;
+		if (chosenCall == CALL_CHI) chosenCall = chiType;
 		
 		for (JButton b: barryCalls) b.setVisible(false);
-		return (mChosenCall != NO_CALL_CHOSEN);
+		return (chosenCall != NO_CALL_CHOSEN);
 	}
-	public boolean resultChosenCallWasNone(){return (mChosenCall == NO_CALL_CHOSEN);}
-	public boolean resultChosenCallWasChiL(){return (mChosenCall == CALL_CHI_L);}
-	public boolean resultChosenCallWasChiM(){return (mChosenCall == CALL_CHI_M);}
-	public boolean resultChosenCallWasChiH(){return (mChosenCall == CALL_CHI_H);}
-	public boolean resultChosenCallWasPon(){return (mChosenCall == CALL_PON);}
-	public boolean resultChosenCallWasKan(){return (mChosenCall == CALL_KAN);}
-	public boolean resultChosenCallWasRon(){return (mChosenCall == CALL_RON);}
+	public boolean resultChosenCallWasNone(){return (chosenCall == NO_CALL_CHOSEN);}
+	public boolean resultChosenCallWasChiL(){return (chosenCall == CALL_CHI_L);}
+	public boolean resultChosenCallWasChiM(){return (chosenCall == CALL_CHI_M);}
+	public boolean resultChosenCallWasChiH(){return (chosenCall == CALL_CHI_H);}
+	public boolean resultChosenCallWasPon(){return (chosenCall == CALL_PON);}
+	public boolean resultChosenCallWasKan(){return (chosenCall == CALL_KAN);}
+	public boolean resultChosenCallWasRon(){return (chosenCall == CALL_RON);}
 	
 	
 	
 	
 	
 	private void __setDiscardChosen(int discardIndex){
-		mChosenTurnAction = TURN_ACTION_DISCARD;
-		mChosenDiscard = discardIndex;
+		chosenTurnAction = TURN_ACTION_DISCARD;
+		chosenDiscard = discardIndex;
 	}
 	
 	
@@ -699,8 +696,8 @@ public class TableViewBase extends JFrame{
 		canRiichi = false;	//////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
 		
-		mChosenTurnAction = NO_ACTION_CHOSEN;
-		mChosenDiscard = NO_DISCARD_CHOSEN;
+		chosenTurnAction = NO_ACTION_CHOSEN;
+		chosenDiscard = NO_DISCARD_CHOSEN;
 		
 		//add appropriate turn action buttons
 		barryTActions[BARRY_TACTIONS_RIICHI].setVisible(canRiichi);
@@ -708,25 +705,25 @@ public class TableViewBase extends JFrame{
 		barryTActions[BARRY_TACTIONS_MINKAN].setVisible(canMinkan);
 		barryTActions[BARRY_TACTIONS_TSUMO].setVisible(canTsumo);
 		
-		mChosenTurnAction = NO_ACTION_CHOSEN;
-		while (mChosenTurnAction == NO_ACTION_CHOSEN)
+		chosenTurnAction = NO_ACTION_CHOSEN;
+		while (chosenTurnAction == NO_ACTION_CHOSEN)
 			__avoidBusyWaitForClick();
 		
-		if (mChosenDiscard > handSize) __setDiscardChosen(DEFAULT_DISCARD);
-		if (mChosenDiscard == DEFAULT_DISCARD) mChosenDiscard = handSize;
+		if (chosenDiscard > handSize) __setDiscardChosen(DEFAULT_DISCARD);
+		if (chosenDiscard == DEFAULT_DISCARD) chosenDiscard = handSize;
 		
 		
 		for (JButton b: barryTActions) b.setVisible(false);
 	}
-	public boolean resultChosenTurnActionWasDiscard(){return (mChosenTurnAction == TURN_ACTION_DISCARD);}
-	public boolean resultChosenTurnActionWasAnkan(){return (mChosenTurnAction == TURN_ACTION_ANKAN);}
-	public boolean resultChosenTurnActionWasMinkan(){return (mChosenTurnAction == TURN_ACTION_MINKAN);}
-	public boolean resultChosenTurnActionWasRiichi(){return (mChosenTurnAction == TURN_ACTION_RIICHI);}
-	public boolean resultChosenTurnActionWasTsumo(){return (mChosenTurnAction == TURN_ACTION_TSUMO);}
+	public boolean resultChosenTurnActionWasDiscard(){return (chosenTurnAction == TURN_ACTION_DISCARD);}
+	public boolean resultChosenTurnActionWasAnkan(){return (chosenTurnAction == TURN_ACTION_ANKAN);}
+	public boolean resultChosenTurnActionWasMinkan(){return (chosenTurnAction == TURN_ACTION_MINKAN);}
+	public boolean resultChosenTurnActionWasRiichi(){return (chosenTurnAction == TURN_ACTION_RIICHI);}
+	public boolean resultChosenTurnActionWasTsumo(){return (chosenTurnAction == TURN_ACTION_TSUMO);}
 	
 	//returns the index of the clicked discard. returns negative if no discard chosen.
 	public int resultChosenDiscardIndex(){
-		if (resultChosenTurnActionWasDiscard()) return mChosenDiscard;
+		if (resultChosenTurnActionWasDiscard()) return chosenDiscard;
 		else return NO_DISCARD_CHOSEN;
 	}
 	
@@ -754,16 +751,16 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	public void syncWithRoundTracker(RoundEntities roundEntities){
+	public void syncWithRoundTracker(RoundEntities receivedRoundEntities){
 		
-		mRoundEntities = roundEntities;
-		mRoundTracker = mRoundEntities.mRoundTracker;
-		mPTrackers = mRoundEntities.mPTrackers;
-		mWall = mRoundEntities.mWall;mTilesW = mRoundEntities.mTilesW;
+		roundEntities = receivedRoundEntities;
+		roundTracker = roundEntities.mRoundTracker;
+		playerTrackers = roundEntities.mPTrackers;
+		wall = roundEntities.mWall;wallTiles = roundEntities.mTilesW;
 		
 		//hand revealing options
-		mRevealHands = new boolean[NUM_PLAYERS];
-		for (int i = 0; i < NUM_PLAYERS; i++) mRevealHands[i] = (mOptionRevealHands || mPTrackers[i].player.controllerIsHuman());
+		whichHandsToReveal = new boolean[NUM_PLAYERS];
+		for (int i = 0; i < NUM_PLAYERS; i++) whichHandsToReveal[i] = (cheatRevealAllHands || playerTrackers[i].player.controllerIsHuman());
 		
 		blankEverything();
 	}
@@ -787,8 +784,8 @@ public class TableViewBase extends JFrame{
 	public TableViewBase(){
 		
 		
-		mOptionRevealWall = DEFAULT_OPTION_REVEAL_WALL;
-		mOptionRevealHands = DEFAULT_OPTION_REVEAL_HANDS;
+		cheatRevealAllWall = DEFAULT_OPTION_REVEAL_WALL;
+		cheatRevealAllHands = DEFAULT_OPTION_REVEAL_HANDS;
 
 
 		//load image icons into arrays
@@ -866,7 +863,7 @@ public class TableViewBase extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (arg0.getClickCount() == 2){
-					mChosenCall = DEFAULT_CALL;
+					chosenCall = DEFAULT_CALL;
 					__setDiscardChosen(DEFAULT_DISCARD);
 				}
 			}
@@ -1058,24 +1055,24 @@ public class TableViewBase extends JFrame{
 	private class CallListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			String command = e.getActionCommand();
-			if (command.equals("Chi-L")) mChosenCall = CALL_CHI_L;
-			else if (command.equals("Chi-M")) mChosenCall = CALL_CHI_M;
-			else if (command.equals("Chi-H")) mChosenCall = CALL_CHI_H;
-			else if (command.equals("Pon")) mChosenCall = CALL_PON;
-			else if (command.equals("Kan")) mChosenCall = CALL_KAN;
-			else if (command.equals("Ron")) mChosenCall = CALL_RON;
-			else if (command.equals("None")) mChosenCall = CALL_NONE;
-			else if (command.equals("Chi")) mChosenCall = CALL_CHI;
+			if (command.equals("Chi-L")) chosenCall = CALL_CHI_L;
+			else if (command.equals("Chi-M")) chosenCall = CALL_CHI_M;
+			else if (command.equals("Chi-H")) chosenCall = CALL_CHI_H;
+			else if (command.equals("Pon")) chosenCall = CALL_PON;
+			else if (command.equals("Kan")) chosenCall = CALL_KAN;
+			else if (command.equals("Ron")) chosenCall = CALL_RON;
+			else if (command.equals("None")) chosenCall = CALL_NONE;
+			else if (command.equals("Chi")) chosenCall = CALL_CHI;
 		}		
 	}
 	
 	private class TurnActionListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			String command = e.getActionCommand();
-			if (command.equals("Ankan")) mChosenTurnAction = TURN_ACTION_ANKAN;
-			else if (command.equals("Minkan")) mChosenTurnAction = TURN_ACTION_MINKAN;
-			else if (command.equals("Riichi")) mChosenTurnAction = TURN_ACTION_RIICHI;
-			else if (command.equals("Tsumo")) mChosenTurnAction = TURN_ACTION_TSUMO;
+			if (command.equals("Ankan")) chosenTurnAction = TURN_ACTION_ANKAN;
+			else if (command.equals("Minkan")) chosenTurnAction = TURN_ACTION_MINKAN;
+			else if (command.equals("Riichi")) chosenTurnAction = TURN_ACTION_RIICHI;
+			else if (command.equals("Tsumo")) chosenTurnAction = TURN_ACTION_TSUMO;
 		}		
 	}
 	
@@ -1718,14 +1715,14 @@ public class TableViewBase extends JFrame{
 				
 				checkboxRevealWalls.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						mOptionRevealWall = !mOptionRevealWall;
+						cheatRevealAllWall = !cheatRevealAllWall;
 						updateEverything();
 					}
 				});
 				checkboxRevealHands.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						mOptionRevealHands = !mOptionRevealHands;
-						for (int i = 0; i < mRevealHands.length; i++) mRevealHands[i] = (mOptionRevealHands || mPTrackers[i].player.controllerIsHuman());
+						cheatRevealAllHands = !cheatRevealAllHands;
+						for (int i = 0; i < whichHandsToReveal.length; i++) whichHandsToReveal[i] = (cheatRevealAllHands || playerTrackers[i].player.controllerIsHuman());
 						updateEverything();
 					}
 				});

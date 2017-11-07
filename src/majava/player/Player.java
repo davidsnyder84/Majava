@@ -20,7 +20,7 @@ public class Player {
 	private PlayerProfile profile;
 	private PointsBox pointsBox;
 	
-	private RoundTracker mRoundTracker;
+	private RoundTracker roundTracker;
 	private GameUI userInterface;
 	
 	//data that changes between rounds
@@ -363,8 +363,8 @@ public class Player {
 	
 	//sync player's hand and pond with tracker
 	public void syncWithRoundTracker(RoundTracker tracker){
-		mRoundTracker = tracker;
-		mRoundTracker.syncPlayer(hand, pond);
+		roundTracker = tracker;
+		roundTracker.syncPlayer(hand, pond);
 	}
 	
 	

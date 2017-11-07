@@ -29,16 +29,13 @@ public class Round{
 	
 	
 	
-	private final Player p1, p2, p3, p4;
-	private final Player[] players;
-	
-	private final Wall wall;
+	private final Player[] players;	
 	
 	private final RoundTracker roundTracker;
 	private final RoundResult roundResult;
-	private final GameUI userInterface;
+	private final GameUI userInterface;	
 	
-	
+	private final Wall wall;
 	private final Wind roundWind;
 	private final int roundNumber, roundBonusNumber;
 	
@@ -53,13 +50,9 @@ public class Round{
 	public Round(GameUI ui, Player[] playerArray, Wind roundWindToSet, int roundNum, int roundBonusNum){
 		
 		players = playerArray;
-		p1 = players[0]; p2 = players[1]; p3 = players[2]; p4 = players[3];
-		
-		//prepare players for new round
 		for (Player p: players)
 			p.prepareForNewRound();
 		
-		//creates the wall
 		wall = new Wall();
 		
 		//initializes round info
@@ -71,7 +64,7 @@ public class Round{
 		
 		//initialize Round Tracker
 		roundResult = new RoundResult();
-		roundTracker = new RoundTracker(userInterface, roundResult, roundWind,roundNumber,roundBonusNumber,  wall,  p1,p2,p3,p4);
+		roundTracker = new RoundTracker(userInterface, roundResult, roundWind,roundNumber,roundBonusNumber, wall, players);
 		
 		setOptionFastGameplay(DEFAULT_DO_FAST_GAMEPLAY);
 	}

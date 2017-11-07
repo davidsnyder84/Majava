@@ -91,55 +91,54 @@ public class RoundTracker {
 	
 	
 	//tracks information for a player
-	private final RoundEntities mRoundEntities;
-	private final Wall mWall;	//duplicate
-	private final GameTile[] mTilesW;	//duplicate
+	private final RoundEntities roundEntities;
+	private final Wall wall;	//duplicate
+	private final GameTile[] wallTiles;	//duplicate
 	
 	
-	private final Player[] mPlayerArray;
-	
-	
-	
-	
-	private final Wind mRoundWind;
-	private final int mRoundNum;
-	private final int mRoundBonusNum;
-	
-	private final RoundResult mRoundResult;
-	
-	private int mWhoseTurn;
-	private GameTile mMostRecentDiscard;
+	private final Player[] players;
 	
 	
 	
+	
+	private final Wind roundWind;
+	private final int roundNumber;
+	private final int roundBonusNumber;
+	
+	private final RoundResult roundResult;
+	
+	private int indexOfWhoseTurn;
+	private GameTile mostRecentDiscard;
 	
 	
 	
 	
 	
 	
-	public RoundTracker(GameUI ui, RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){
+	
+	
+	
+	public RoundTracker(GameUI ui, RoundResult result, Wind windOfRound, int roundNum, int roundBonusNum, Wall receivedWall, Player[] playerArray){
 		
-		mRoundWind = roundWind; mRoundNum = roundNum; mRoundBonusNum = roundBonus;
+		roundWind = windOfRound; roundNumber = roundNum; roundBonusNumber = roundBonusNum;
 		
-		mRoundResult = result;
+		roundResult = result;
 		
+		wall = receivedWall;
+		wall.syncWithTracker(this);
+		wallTiles = tempSyncWallTiles;
 		
-		mWall = wall;
-		mWall.syncWithTracker(this);
-		mTilesW = tempSyncWallTiles;
-		
-		mPlayerArray = new Player[]{p1,p2,p3,p4};
-		mRoundEntities = new RoundEntities(this, __setupPlayerTrackers(), mWall, mTilesW);
+		players = playerArray.clone();
+		roundEntities = new RoundEntities(this, __setupPlayerTrackers(), wall, wallTiles);
 		tempSyncWallTiles = null;
 		
 		__syncWithUI(ui);
 		
 		//the dealer starts first
-		mWhoseTurn = getDealerSeatNum();
-		mMostRecentDiscard = null;
+		indexOfWhoseTurn = getDealerSeatNum();
+		mostRecentDiscard = null;
 	}
-	public RoundTracker(RoundResult result, Wind roundWind, int roundNum, int roundBonus, Wall wall, Player p1, Player p2, Player p3, Player p4){this(null, result, roundWind, roundNum, roundBonus, wall, p1, p2, p3, p4);}
+	public RoundTracker(RoundResult result, Wind windOfRound, int roundNum, int roundBonusNum, Wall receivedWall, Player[] playerArray){this(null, result, windOfRound, roundNum, roundBonusNum, receivedWall, playerArray);}
 	
 	
 	
@@ -147,9 +146,9 @@ public class RoundTracker {
 	private GameTile[] tempSyncWallTiles = null;
 	private Player tempSyncPlayer = null; private GameTileList tempSyncHandTiles = null; private List<PondTile> tempSyncPondTiles = null; private Hand tempSyncHand = null; private Pond tempSyncPond = null; private List<Meld> tempSyncMelds = null;
 	
-	public void syncWall(GameTile[] wallTiles){
+	public void syncWall(GameTile[] tilesOfWall){
 		if (wallSynched) return;
-		tempSyncWallTiles = wallTiles;
+		tempSyncWallTiles = tilesOfWall;
 	}
 
 	private PlayerTracker[] __setupPlayerTrackers(){
@@ -160,7 +159,7 @@ public class RoundTracker {
 		
 		for (numPlayersSynched = 0; numPlayersSynched < NUM_PLAYERS; numPlayersSynched++){
 			
-			tempSyncPlayer = mPlayerArray[numPlayersSynched];	//link
+			tempSyncPlayer = players[numPlayersSynched];	//link
 			tempSyncPlayer.syncWithRoundTracker(this);
 			tempSyncHand.syncWithRoundTracker(this);
 			tempSyncPond.syncWithRoundTracker(this);
@@ -194,7 +193,7 @@ public class RoundTracker {
 	
 	private void __syncWithUI(GameUI ui){
 		if (ui == null) return;
-		ui.syncWithRoundTracker(mRoundEntities);
+		ui.syncWithRoundTracker(roundEntities);
 	}
 	
 	
@@ -208,36 +207,36 @@ public class RoundTracker {
 	
 	
 	
-	public void nextTurn(){mWhoseTurn = (mWhoseTurn + 1) % NUM_PLAYERS;}
-	public void setTurn(int turn){if (turn < NUM_PLAYERS) mWhoseTurn = turn;}
+	public void nextTurn(){indexOfWhoseTurn = (indexOfWhoseTurn + 1) % NUM_PLAYERS;}
+	public void setTurn(int turn){if (turn < NUM_PLAYERS) indexOfWhoseTurn = turn;}
 	public void setTurn(Player p){setTurn(p.getPlayerNumber());}	//overloaded to accept a player
 	
-	public int whoseTurn(){return mWhoseTurn;}
+	public int whoseTurn(){return indexOfWhoseTurn;}
 	
 	public int getDealerSeatNum(){
-		for (int i = 0; i < NUM_PLAYERS; i++) if (mPlayerArray[i].isDealer()) return i;
+		for (int i = 0; i < NUM_PLAYERS; i++) if (players[i].isDealer()) return i;
 		return -1;
 	}
 	
-	public Player currentPlayer(){return mPlayerArray[mWhoseTurn];}
+	public Player currentPlayer(){return players[indexOfWhoseTurn];}
 	
 	
 	
 	
 	
 	
-	private Player __neighborOffsetOf(Player p, int offset){
-		return mPlayerArray[(p.getPlayerNumber() + offset) % NUM_PLAYERS];
+	private Player neighborOffsetOf(Player p, int offset){
+		return players[(p.getPlayerNumber() + offset) % NUM_PLAYERS];
 	}
-	public Player neighborShimochaOf(Player p){return __neighborOffsetOf(p, 1);}
-	public Player neighborToimenOf(Player p){return __neighborOffsetOf(p, 2);}
-	public Player neighborKamichaOf(Player p){return __neighborOffsetOf(p, 3);}
 	public Player neighborNextPlayer(Player p){return neighborShimochaOf(p);}
+	public Player neighborShimochaOf(Player p){return neighborOffsetOf(p, 1);}
+	public Player neighborToimenOf(Player p){return neighborOffsetOf(p, 2);}
+	public Player neighborKamichaOf(Player p){return neighborOffsetOf(p, 3);}
 	
 	
 	
 	public boolean callWasMadeOnDiscard(){
-		for (int i = 1; i < NUM_PLAYERS; i++) if (mPlayerArray[(mWhoseTurn + i) % NUM_PLAYERS].called()) return true;
+		for (int i = 1; i < NUM_PLAYERS; i++) if (players[(indexOfWhoseTurn + i) % NUM_PLAYERS].called()) return true;
 		return false;
 	}
 	
@@ -259,44 +258,44 @@ public class RoundTracker {
 		
 		GameTile winningTile = null;
 //		GameTileList winningHandTiles = new GameTileList(mRoundEntities.mPTrackers[winner.getPlayerNumber()].tilesH);
-		GameTileList winningHandTiles = mRoundEntities.mPTrackers[winner.getPlayerNumber()].tilesH.clone();
+		GameTileList winningHandTiles = roundEntities.mPTrackers[winner.getPlayerNumber()].tilesH.clone();
 		
 		if (winner == currentPlayer()){
-			mRoundResult.setVictoryTsumo(winner);
+			roundResult.setVictoryTsumo(winner);
 			
 			winningTile = winner.getTsumoTile();
 			winningHandTiles.removeLast();
 		}
 		else{ 
-			mRoundResult.setVictoryRon(winner, currentPlayer());
+			roundResult.setVictoryRon(winner, currentPlayer());
 			
-			winningTile = mMostRecentDiscard;
+			winningTile = mostRecentDiscard;
 		}
 		
-		mRoundResult.setWinningHand(winningHandTiles, mRoundEntities.mPTrackers[winner.getPlayerNumber()].melds, winningTile);
+		roundResult.setWinningHand(winningHandTiles, roundEntities.mPTrackers[winner.getPlayerNumber()].melds, winningTile);
 	}
-	public void setResultRyuukyokuWashout(){mRoundResult.setResultRyuukyokuWashout();}
-	public void setResultRyuukyokuKyuushu(){mRoundResult.setResultRyuukyokuKyuushu();}
-	public void setResultRyuukyoku4Kan(){mRoundResult.setResultRyuukyoku4Kan();}
-	public void setResultRyuukyoku4Riichi(){mRoundResult.setResultRyuukyoku4Riichi();}
-	public void setResultRyuukyoku4Wind(){mRoundResult.setResultRyuukyoku4Wind();}
+	public void setResultRyuukyokuWashout(){roundResult.setResultRyuukyokuWashout();}
+	public void setResultRyuukyokuKyuushu(){roundResult.setResultRyuukyokuKyuushu();}
+	public void setResultRyuukyoku4Kan(){roundResult.setResultRyuukyoku4Kan();}
+	public void setResultRyuukyoku4Riichi(){roundResult.setResultRyuukyoku4Riichi();}
+	public void setResultRyuukyoku4Wind(){roundResult.setResultRyuukyoku4Wind();}
 	
 	
 	
 //	public Player getWinningPlayer(){return mRoundResult.getWinningPlayer();}
 //	public Player getFurikondaPlayer(){return mRoundResult.getFurikondaPlayer();}
 	
-	public RoundResultSummary getResultSummary(){return mRoundResult.getSummary();}
+	public RoundResultSummary getResultSummary(){return roundResult.getSummary();}
 	
 	
 	//returns the round result as a string
-	public String getRoundResultString(){return mRoundResult.toString();}
+	public String getRoundResultString(){return roundResult.toString();}
 	
 	
-	public boolean roundIsOver(){return mRoundResult.isOver();}
+	public boolean roundIsOver(){return roundResult.isOver();}
 //	public boolean roundEndedWithDraw(){return mRoundResult.isDraw();}
 //	public boolean roundEndedWithVictory(){return mRoundResult.isVictory();}
-	public boolean roundEndedWithDealerVictory(){return mRoundResult.isDealerVictory();}
+	public boolean roundEndedWithDealerVictory(){return roundResult.isDealerVictory();}
 	
 	public boolean qualifiesForRenchan(){return roundEndedWithDealerVictory();}	//or if the dealer is in tenpai, or a certain ryuukyoku happens
 	
@@ -316,7 +315,7 @@ public class RoundTracker {
 	private boolean __multiplePlayersHaveMadeKans(){
 		//count the number of players who have made kans
 		int count = 0;
-		for (Player p: mPlayerArray){
+		for (Player p: players){
 			if (p.hasMadeAKan())
 				count++;
 		}
@@ -337,7 +336,7 @@ public class RoundTracker {
 	//returns the number of kans made on the table
 	public int getNumKansMade(){
 		int count = 0;
-		for (Player p: mPlayerArray) count += p.getNumKansMade();
+		for (Player p: players) count += p.getNumKansMade();
 		return count;
 	}
 	
@@ -360,7 +359,7 @@ public class RoundTracker {
 	
 	//checks if the wall is empty, and sets the round result if so	
 	public boolean checkIfWallIsEmpty(){
-		if (mWall.isEmpty()){
+		if (wall.isEmpty()){
 			setResultRyuukyokuWashout();
 			return true;
 		}
@@ -376,8 +375,8 @@ public class RoundTracker {
 	
 	
 	
-	public void setMostRecentDiscard(GameTile discard){mMostRecentDiscard = discard;}
-	public GameTile getMostRecentDiscard(){return mMostRecentDiscard;}
+	public void setMostRecentDiscard(GameTile discard){mostRecentDiscard = discard;}
+	public GameTile getMostRecentDiscard(){return mostRecentDiscard;}
 	
 	
 	
@@ -391,22 +390,22 @@ public class RoundTracker {
 	
 	
 	
-	public Wind getRoundWind(){return mRoundWind;}
-	public int getRoundNum(){return mRoundNum;}
-	public int getRoundBonusNum(){return mRoundBonusNum;}
+	public Wind getRoundWind(){return roundWind;}
+	public int getRoundNum(){return roundNumber;}
+	public int getRoundBonusNum(){return roundBonusNumber;}
 	
 	
 	
 	public Wind getWindOfSeat(int seat){
 		if (seat < 0 || seat >= NUM_PLAYERS) return null;
-		return mPlayerArray[seat].getSeatWind();
+		return players[seat].getSeatWind();
 	}
 	
 	
 	
 	
 	
-	public int getNumTilesLeftInWall(){return mWall.getNumTilesLeftInWall();}
+	public int getNumTilesLeftInWall(){return wall.getNumTilesLeftInWall();}
 	
 	
 	

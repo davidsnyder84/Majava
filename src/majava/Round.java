@@ -30,53 +30,53 @@ public class Round{
 	
 	
 	private final Player p1, p2, p3, p4;
-	private final Player[] mPlayerArray;
+	private final Player[] players;
 	
-	private final Wall mWall;
+	private final Wall wall;
 	
-	private final RoundTracker mRoundTracker;
-	private final RoundResult mRoundResult;
-	private final GameUI mUI;
+	private final RoundTracker roundTracker;
+	private final RoundResult roundResult;
+	private final GameUI userInterface;
 	
 	
-	private final Wind mRoundWind;
-	private final int mRoundNum, mRoundBonusNum;
+	private final Wind roundWind;
+	private final int roundNumber, roundBonusNumber;
 	
 	
 	//options
-	private boolean mDoFastGameplay;
+	private boolean optionDoFastGameplay;
 	private int sleepTime, sleepTimeExclamation, sleepTimeRoundEnd;
 	
 	
 	
 	//constructor
-	public Round(GameUI ui, Player[] playerArray, Wind roundWind, int roundNum, int roundBonusNum){
+	public Round(GameUI ui, Player[] playerArray, Wind roundWindToSet, int roundNum, int roundBonusNum){
 		
-		mPlayerArray = playerArray;
-		p1 = mPlayerArray[0]; p2 = mPlayerArray[1]; p3 = mPlayerArray[2]; p4 = mPlayerArray[3];
+		players = playerArray;
+		p1 = players[0]; p2 = players[1]; p3 = players[2]; p4 = players[3];
 		
 		//prepare players for new round
-		for (Player p: mPlayerArray)
+		for (Player p: players)
 			p.prepareForNewRound();
 		
 		//creates the wall
-		mWall = new Wall();
+		wall = new Wall();
 		
 		//initializes round info
-		mRoundWind = roundWind;
-		mRoundNum = roundNum;
-		mRoundBonusNum = roundBonusNum;
+		roundWind = roundWindToSet;
+		roundNumber = roundNum;
+		roundBonusNumber = roundBonusNum;
 		
-		mUI = ui;
+		userInterface = ui;
 		
 		//initialize Round Tracker
-		mRoundResult = new RoundResult();
-		mRoundTracker = new RoundTracker(mUI, mRoundResult, mRoundWind,mRoundNum,mRoundBonusNum,  mWall,  p1,p2,p3,p4);
+		roundResult = new RoundResult();
+		roundTracker = new RoundTracker(userInterface, roundResult, roundWind,roundNumber,roundBonusNumber,  wall,  p1,p2,p3,p4);
 		
 		setOptionFastGameplay(DEFAULT_DO_FAST_GAMEPLAY);
 	}
 	//no bonus round info
-	public Round(GameUI ui, Player[] playerArray, Wind roundWind, int roundNum){this(ui, playerArray, roundWind, roundNum, DEFAULT_ROUND_BONUS_NUM);}
+	public Round(GameUI ui, Player[] playerArray, Wind roundWindToSet, int roundNum){this(ui, playerArray, roundWindToSet, roundNum, DEFAULT_ROUND_BONUS_NUM);}
 	//no round info
 	public Round(GameUI ui, Player[] playerArray){this(ui, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
 	
@@ -86,14 +86,14 @@ public class Round{
 	
 	//plays a single round of mahjong with the round's players
 	public void play(){
-		if (roundIsOver()){mUI.printErrorRoundAlreadyOver();return;}
+		if (roundIsOver()){userInterface.printErrorRoundAlreadyOver();return;}
 		
 		dealHands();
 		while (!roundIsOver()){
-			doPlayerTurn(mRoundTracker.currentPlayer());
+			doPlayerTurn(roundTracker.currentPlayer());
 			
 			if (!roundIsOver())
-				if (mRoundTracker.callWasMadeOnDiscard())
+				if (roundTracker.callWasMadeOnDiscard())
 					handleReaction();
 		}
 		
@@ -104,7 +104,7 @@ public class Round{
 	private void handleRoundEnd(){
 		doPointPayments();
 		
-		if (mUI != null) mUI.setRoundResult(mRoundResult.getSummary());
+		if (userInterface != null) userInterface.setRoundResult(roundResult.getSummary());
 		
 		//display end of round result
 		displayRoundResult();
@@ -119,22 +119,22 @@ public class Round{
 		PaymentMap payments = null;
 
 		//find who has to pay what
-		if (mRoundResult.isDraw())
-			payments = mapPaymentsDraw();
+		if (roundResult.isDraw())
+			payments = mapPaymentsForDraw();
 		else
-			payments = mapPaymentsWin(paymentDue);
+			payments = mapPaymentsForWin(paymentDue);
 		
 		//carry out payments
-		for (Player p: mPlayerArray)
+		for (Player p: players)
 			p.pointsIncrease(payments.get(p));
 		
-		mRoundResult.recordPayments(payments);
+		roundResult.recordPayments(payments);
 	}
 
 	
 	
 	//maps payments to players, for the case of a win
-	private PaymentMap mapPaymentsWin(int handValue){
+	private PaymentMap mapPaymentsForWin(int handValue){
 		PaymentMap payments = new PaymentMap();
 		
 		final double DEALER_WIN_MULTIPLIER = 1.5, DEALER_TSUMO_MULTIPLIER = 2;
@@ -145,8 +145,8 @@ public class Round{
 		
 		
 		//find who the winner is
-		Player winner = mRoundResult.getWinningPlayer();
-		Player[] losers = {mRoundTracker.neighborShimochaOf(winner), mRoundTracker.neighborToimenOf(winner), mRoundTracker.neighborKamichaOf(winner)};
+		Player winner = roundResult.getWinningPlayer();
+		Player[] losers = {roundTracker.neighborShimochaOf(winner), roundTracker.neighborToimenOf(winner), roundTracker.neighborKamichaOf(winner)};
 		Player furikonda = null;
 		
 		if (winner.isDealer()) paymentDue *= DEALER_WIN_MULTIPLIER;
@@ -157,8 +157,8 @@ public class Round{
 		
 		
 		//find who has to pay
-		if (mRoundResult.isVictoryRon()){
-			furikonda = mRoundResult.getFurikondaPlayer();
+		if (roundResult.isVictoryRon()){
+			furikonda = roundResult.getFurikondaPlayer();
 			for (Player p: losers)
 				if (p == furikonda) payments.put(p, -paymentDue);
 				else payments.put(p, 0);
@@ -174,11 +174,11 @@ public class Round{
 	}
 	
 	//maps payments to players, for the case of a draw
-	private PaymentMap mapPaymentsDraw(){
+	private PaymentMap mapPaymentsForDraw(){
 		PaymentMap payments = new PaymentMap();
 		/////implement no-ten bappu here 
 		
-		for (Player p: mPlayerArray)
+		for (Player p: players)
 			payments.put(p, 0);
 		return payments;
 	}
@@ -191,19 +191,19 @@ public class Round{
 	//deals players their starting hands
 	private void dealHands(){
 		
-		if (DEBUG_LOAD_DEBUG_WALL) mWall.DEMOloadDebugWall();	//DEBUG
+		if (DEBUG_LOAD_DEBUG_WALL) wall.DEMOloadDebugWall();	//DEBUG
 		
 		//get starting hands from the wall
 		List<GameTile> tilesE = new ArrayList<GameTile>(), tilesS = new ArrayList<GameTile>(), tilesW = new ArrayList<GameTile>(), tilesN = new ArrayList<GameTile>();
-		mWall.getStartingHands(tilesE, tilesS, tilesW, tilesN);
+		wall.getStartingHands(tilesE, tilesS, tilesW, tilesN);
 		
 		
-		Player eastPlayer = mRoundTracker.currentPlayer();
+		Player eastPlayer = roundTracker.currentPlayer();
 		//give dealer their tiles
 		eastPlayer.giveStartingHand(tilesE);
-		mRoundTracker.neighborShimochaOf(eastPlayer).giveStartingHand(tilesS);
-		mRoundTracker.neighborToimenOf(eastPlayer).giveStartingHand(tilesW);
-		mRoundTracker.neighborKamichaOf(eastPlayer).giveStartingHand(tilesN);
+		roundTracker.neighborShimochaOf(eastPlayer).giveStartingHand(tilesS);
+		roundTracker.neighborToimenOf(eastPlayer).giveStartingHand(tilesW);
+		roundTracker.neighborKamichaOf(eastPlayer).giveStartingHand(tilesN);
 		
 		__updateUI(GameplayEvent.START_OF_ROUND);
 	}
@@ -237,7 +237,7 @@ public class Round{
 		GameTile discardedTile = null;
 		do{
 			discardedTile = p.takeTurn();
-			mRoundTracker.setMostRecentDiscard(discardedTile);
+			roundTracker.setMostRecentDiscard(discardedTile);
 			
 			//if the player made an ankan or minkan, they need a rinshan draw
 			if (p.needsDrawRinshan()){
@@ -256,7 +256,7 @@ public class Round{
 				GameplayEvent tsumoEvent = GameplayEvent.DECLARED_TSUMO;
 				tsumoEvent.setExclamation(Exclamation.TSUMO, p.getPlayerNumber());
 				__updateUI(tsumoEvent);
-				mRoundTracker.setResultVictory(p);
+				roundTracker.setResultVictory(p);
 			}
 			
 		}
@@ -269,17 +269,17 @@ public class Round{
 		__updateUI(GameplayEvent.DISCARDED_TILE);
 		
 		//~~~~~~get reactions from the other players
-		mPlayerArray[(p.getPlayerNumber() + 1) % NUM_PLAYERS].reactToDiscard(discardedTile);
-		mPlayerArray[(p.getPlayerNumber() + 2) % NUM_PLAYERS].reactToDiscard(discardedTile);
-		mPlayerArray[(p.getPlayerNumber() + 3) % NUM_PLAYERS].reactToDiscard(discardedTile);
+		players[(p.getPlayerNumber() + 1) % NUM_PLAYERS].reactToDiscard(discardedTile);
+		players[(p.getPlayerNumber() + 2) % NUM_PLAYERS].reactToDiscard(discardedTile);
+		players[(p.getPlayerNumber() + 3) % NUM_PLAYERS].reactToDiscard(discardedTile);
 //		mRoundTracker.neighborShimochaOf(p).reactToDiscard(discardedTile);
 //		mRoundTracker.neighborToimenOf(p).reactToDiscard(discardedTile);
 //		mRoundTracker.neighborKamichaOf(p).reactToDiscard(discardedTile);
 		
-		if (!mRoundTracker.callWasMadeOnDiscard()){
+		if (!roundTracker.callWasMadeOnDiscard()){
 			//update turn indicator
-			if (!mRoundTracker.checkIfWallIsEmpty())
-				mRoundTracker.nextTurn();
+			if (!roundTracker.checkIfWallIsEmpty())
+				roundTracker.nextTurn();
 		}
 	}
 	
@@ -297,23 +297,23 @@ public class Round{
 		//draw from wall or dead wall, depending on what player needs
 		if (p.needsDrawNormal()){
 			
-			if (mRoundTracker.checkIfWallIsEmpty()){
+			if (roundTracker.checkIfWallIsEmpty()){
 				//no tiles left in wall, round over
 				return;
 			}
 			else{
-				drawnTile = mWall.takeTile();
+				drawnTile = wall.takeTile();
 			}
 		}
 		else if (p.needsDrawRinshan()){
 			
 			//check if too many kans have been made before making a rinshan draw
-			if (mRoundTracker.checkIfTooManyKans()){
+			if (roundTracker.checkIfTooManyKans()){
 				//too many kans, round over
 				return;
 			}
 			else{
-				drawnTile = mWall.takeTileFromDeadWall();
+				drawnTile = wall.takeTileFromDeadWall();
 				__updateUI(GameplayEvent.NEW_DORA_INDICATOR);
 			}			
 		}
@@ -329,14 +329,14 @@ public class Round{
 	//handles a call made on a discarded tile
 	private void handleReaction(){
 		//get the discarded tile
-		GameTile discardedTile = mRoundTracker.currentPlayer().getLastDiscard();
+		GameTile discardedTile = roundTracker.currentPlayer().getLastDiscard();
 		
 		//figure out who called the tile, and if multiple players called, who gets priority
 		Player priorityCaller = whoCalled();
 		
 		//remove the tile from the discarder's pond (because it is being called), unless the call was Ron
 		if (!priorityCaller.calledRon())
-			mRoundTracker.currentPlayer().removeTileFromPond();
+			roundTracker.currentPlayer().removeTileFromPond();
 		
 		//show the call
 		GameplayEvent callEvent = GameplayEvent.CALLED_TILE;
@@ -346,7 +346,7 @@ public class Round{
 		//give the caller the discarded tile so they can make their meld
 		//if the caller called Ron, handle that instead
 		if (priorityCaller.calledRon()){
-			mRoundTracker.setResultVictory(priorityCaller);
+			roundTracker.setResultVictory(priorityCaller);
 		}
 		else{
 			//make the meld
@@ -356,7 +356,7 @@ public class Round{
 		
 		//it is now the calling player's turn (if the round isn't over)
 		if (!roundIsOver())
-			mRoundTracker.setTurn(priorityCaller);
+			roundTracker.setTurn(priorityCaller);
 	}
 	
 	//decides who gets to call the tile
@@ -366,7 +366,7 @@ public class Round{
 		Player callerPon = null, callerRon = null;
 		
 		int numCallers = 0;
-		for (Player p: mPlayerArray)
+		for (Player p: players)
 			if (p.called()){
 				callingPlayer = p;
 				numCallers++;
@@ -381,12 +381,12 @@ public class Round{
 			//if p called something other than a chi...
 				//if he called pon/kan, he is the pon caller (there can't be 2 pon callers, not enough tiles in the game)
 				//if he called ron, he is the ron caller (if there is already a ron caller, do nothing, because that caller has seat order priority)
-			for (int i = mPlayerArray.length - 1; i >= 0 ; i--){
-				if (mPlayerArray[i].called() && !mPlayerArray[i].calledChi())
-					if (mPlayerArray[i].calledPon() || mPlayerArray[i].calledKan())
-						callerPon = mPlayerArray[i];
+			for (int i = players.length - 1; i >= 0 ; i--){
+				if (players[i].called() && !players[i].calledChi())
+					if (players[i].calledPon() || players[i].calledKan())
+						callerPon = players[i];
 					else
-						callerRon = mPlayerArray[i];
+						callerRon = players[i];
 			}
 			
 			//return the first ron caller, or return the pon caller if there was no ron caller
@@ -401,16 +401,16 @@ public class Round{
 	
 	
 	//accessors
-	public Wind getRoundWind(){return mRoundWind;}
-	public int getRoundNum(){return mRoundNum;}
-	public int getRoundBonusNum(){return mRoundBonusNum;}
+	public Wind getRoundWind(){return roundWind;}
+	public int getRoundNum(){return roundNumber;}
+	public int getRoundBonusNum(){return roundBonusNumber;}
 	
-	public boolean roundIsOver(){return mRoundResult.isOver();}
-	public boolean endedWithVictory(){return mRoundResult.isVictory();}
-	public String getWinningHandString(){return mRoundResult.getAsStringWinningHand();}
-	public RoundResultSummary getResultSummary(){return mRoundResult.getSummary();}
+	public boolean roundIsOver(){return roundResult.isOver();}
+	public boolean endedWithVictory(){return roundResult.isVictory();}
+	public String getWinningHandString(){return roundResult.getAsStringWinningHand();}
+	public RoundResultSummary getResultSummary(){return roundResult.getSummary();}
 	
-	public boolean qualifiesForRenchan(){return mRoundTracker.qualifiesForRenchan();}
+	public boolean qualifiesForRenchan(){return roundTracker.qualifiesForRenchan();}
 	
 	
 	
@@ -420,15 +420,15 @@ public class Round{
 	
 	
 	private void __updateUI(GameplayEvent event){
-		if (mUI == null) return;
+		if (userInterface == null) return;
 		
-		mUI.displayEvent(event);
+		userInterface.displayEvent(event);
 	}
 	
 	
 	public void setOptionFastGameplay(boolean doFastGameplay){
 		
-		mDoFastGameplay = doFastGameplay;
+		optionDoFastGameplay = doFastGameplay;
 
 		final int DEAFULT_SLEEPTIME = 400;
 		final int DEAFULT_SLEEPTIME_EXCLAMATION = 1500;
@@ -443,7 +443,7 @@ public class Round{
 //		final int FAST_SLEEPTIME_ROUND_END = DEAFULT_SLEEPTIME_ROUND_END;
 		
 		
-		if (mDoFastGameplay){
+		if (optionDoFastGameplay){
 			sleepTime = FAST_SLEEPTIME;
 			sleepTimeExclamation = FAST_SLEEPTIME_EXCLAMATION;
 			sleepTimeRoundEnd = FAST_SLEEPTIME_ROUND_END;
@@ -454,7 +454,7 @@ public class Round{
 			sleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
 		}
 		
-		if (mUI != null) mUI.setSleepTimes(sleepTime, sleepTimeExclamation, sleepTimeRoundEnd);
+		if (userInterface != null) userInterface.setSleepTimes(sleepTime, sleepTimeExclamation, sleepTimeRoundEnd);
 	}
 	
 	

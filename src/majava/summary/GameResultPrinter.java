@@ -2,6 +2,8 @@ package majava.summary;
 
 import java.util.List;
 
+
+//functionality for printing endgame results
 public class GameResultPrinter {
 
 	private final List<RoundResultSummary> roundResults;

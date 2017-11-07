@@ -289,7 +289,7 @@ public class Player {
 	
 	
 	//seat wind methods
-	private void setSeatWind(Wind wind){seatWind = wind;}
+	public void setSeatWind(Wind wind){seatWind = wind;}
 	public void rotateSeat(){setSeatWind(seatWind.prev());}
 	public void setSeatWindEast(){setSeatWind(Wind.EAST);}
 	public void setSeatWindSouth(){setSeatWind(Wind.SOUTH);}

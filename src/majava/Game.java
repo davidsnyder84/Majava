@@ -39,9 +39,6 @@ public class Game {
 			}
 		}
 	}
-//	private static final GameType GAME_TYPE_DEFAULT = GameType.SINGLE;
-	private static final GameType GAME_TYPE_DEFAULT = GameType.HANCHAN;
-//	private static final GameType GAME_TYPE_DEFAULT = GameType.TONPUUSEN;
 
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	private static final int NUM_SIMULATIONS_TO_RUN = 500;
@@ -50,8 +47,7 @@ public class Game {
 	
 	
 	
-	private final Player p1, p2, p3, p4;
-	private final Player[] mPlayerArray;
+	private final Player[] players;
 	
 	private Round currentRound;
 	private Wind currentRoundWind;
@@ -63,19 +59,15 @@ public class Game {
 	private final List<RoundResultSummary> roundResults;
 	
 	private final GameUI userInterface;
-	
 	private boolean doFastGameplay;
 	
 	
 	
-	
-	//initializes a game
 	public Game(GameUI ui, Player[] playerArray){
 
-		setGameType(GAME_TYPE_DEFAULT);
+		setGameTypeDefault();
 		
-		mPlayerArray = playerArray;
-		p1 = mPlayerArray[0]; p2 = mPlayerArray[1]; p3 = mPlayerArray[2]; p4 = mPlayerArray[3];
+		players = playerArray;
 		
 		//initializes round info
 		currentRoundWind = DEFAULT_ROUND_WIND;currentRoundNum = 1;currentRoundBonusNum = 0;
@@ -93,13 +85,12 @@ public class Game {
 	
 	
 	//set the game type
-	private void setGameType(GameType gametype){
-		gameType = gametype;
-	}
+	private void setGameType(GameType gametype){gameType = gametype;}
 	public void setGameTypeSingle(){setGameType(GameType.SINGLE);}
 	public void setGameTypeTonpuusen(){setGameType(GameType.TONPUUSEN);}
 	public void setGameTypeHanchan(){setGameType(GameType.HANCHAN);}
 	public void setGameTypeSimulation(){setGameType(GameType.SIMULATION);}
+	public void setGameTypeDefault(){setGameTypeHanchan();}
 	
 	
 	
@@ -108,9 +99,9 @@ public class Game {
 	
 	//plays a full game of mahjong
 	public void play(){
-		
 		checkPlayersAndUI();
 		
+		//game loop
 		while (!gameIsOver()){
 			playNewRound();
 			saveRoundResults();
@@ -119,7 +110,7 @@ public class Game {
 		handleEndGame();
 	}
 	private void playNewRound(){
-		currentRound = new Round(userInterface, mPlayerArray, currentRoundWind, currentRoundNum, currentRoundBonusNum);
+		currentRound = new Round(userInterface, players, currentRoundWind, currentRoundNum, currentRoundBonusNum);
 		currentRound.setOptionFastGameplay(doFastGameplay);
 		currentRound.play();
 	}
@@ -134,7 +125,7 @@ public class Game {
 	}
 	
 	private void incrementRound(){
-		//move to the next round, or do a bonus round if the dealer won
+		//move to the next round, or do a bonus round if the dealer won (renchan)
 		if (currentRound.qualifiesForRenchan()){
 			currentRoundBonusNum++;
 		}
@@ -155,21 +146,20 @@ public class Game {
 	
 	private void checkPlayersAndUI(){
 		if (userInterface == null)
-			for (Player p: mPlayerArray) p.setControllerComputer();
+			for (Player p: players) p.setControllerComputer();
 		
 		if (doFastGameplay && allPlayersAreComputers())
 			setGameTypeSimulation();
 	}
 	private boolean allPlayersAreComputers(){
-		for (Player p: mPlayerArray) if (p.controllerIsHuman()) return false;
+		for (Player p: players) if (p.controllerIsHuman()) return false;
 		return true;
 	}
 	
 	
 	//just print the game results
 	private void handleEndGame(){
-		GameResultPrinter resultPrinter = new GameResultPrinter(roundResults, winStrings);
-		resultPrinter.printGameResults();
+		new GameResultPrinter(roundResults, winStrings).printGameResults();
 	}
 	
 	
@@ -177,12 +167,12 @@ public class Game {
 	
 	//rotates seats
 	private void rotateSeats(){
-		for (Player p: mPlayerArray)
+		for (Player p: players)
 			p.rotateSeat();
 	}
 	
 	private void __setUIs(){
-		for (Player p: mPlayerArray){
+		for (Player p: players){
 			p.setUI(userInterface);
 		}
 	}
@@ -207,7 +197,7 @@ public class Game {
 	}
 	//returns true if any player has run out of points (ハコシタ/とび)
 	private boolean hakoShita(){
-		for (Player p: mPlayerArray)
+		for (Player p: players)
 			if (p.getPoints() <= 0 && gameType != GameType.SIMULATION)
 				return true;
 		return false;

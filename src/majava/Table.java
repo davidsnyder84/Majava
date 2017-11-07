@@ -16,26 +16,23 @@ public class Table {
 	private static final boolean DEFAULT_DO_SINGLE_PLAYER = true;
 	
 	
-	private Player p1, p2, p3, p4;
-	private Player[] mPlayerArray;
+	private Player[] players;
+	private Game currentGame;
 	
-	private GameUI mGameUI;
-	
-	
+	private GameUI userInterface;	
 	//options
-	private boolean mDoSinglePlayer;
-	private boolean mDoFastGameplay;
+	private boolean optionDoSinglePlayer;
+	private boolean optionDoFastGameplay;
 	
 	
-	private Game mCurrentGame;
 	
 	
 	public Table(){
-		mGameUI = null;
-		mGameUI = generateGameUI();
+		userInterface = null;
+		userInterface = generateGameUI();
 		
-		mDoSinglePlayer = DEFAULT_DO_SINGLE_PLAYER;
-		mDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
+		optionDoSinglePlayer = DEFAULT_DO_SINGLE_PLAYER;
+		optionDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
 	}
 	
 	
@@ -46,83 +43,74 @@ public class Table {
 		
 		decideSeats();
 		
-		if (mGameUI != null) mGameUI.startUI();
+		if (userInterface != null)
+			userInterface.startUI();
 		
-		
-		long startTime = System.currentTimeMillis();
-		//play one game
-		mCurrentGame = new Game(mGameUI, mPlayerArray);
-		mCurrentGame.setOptionFastGameplay(mDoFastGameplay);
-		mCurrentGame.play();
-		
-		long endTime = System.currentTimeMillis() - startTime;
-		System.out.println("Time elapsed: " + endTime);
+		playNewGame();
 		
 		//close the window
 		Pauser.pauseFor(5000);
-		if (mGameUI != null) mGameUI.endUI();
+		if (userInterface != null) userInterface.endUI();
+	}
+	
+	//play one game
+	private void playNewGame(){
+		long time = System.currentTimeMillis();
+		currentGame = new Game(userInterface, players);
+		currentGame.setOptionFastGameplay(optionDoFastGameplay);
+		currentGame.play();
+		
+		System.out.println("Time elapsed: " + (System.currentTimeMillis() - time));
 	}
 	
 	private GameUI generateGameUI(){
-		
-		//for debug use
-//		final boolean DEBUG_USE_SMALL_VIEWER = true;
-//		final boolean DEBUG_USE_SPARSE_TEXT = true;
-		
 		GameUI ui = null;
 		
+		ui = new ComboTextGraphicalUI();
 //		ui = new TableViewSmall();
 //		ui = new TableViewerLarge();
 //		ui = new SparseTextualUI();
 //		ui = new DetailedTextualUI();
 //		ui = new GraphicalUI();
-		ui = new ComboTextGraphicalUI();
 		return ui;
 	}
 		
 	
-	public void setOptionSinglePlayerMode(boolean doSinglePlayer){mDoSinglePlayer = doSinglePlayer;}
-	public void setOptionFastGameplay(boolean doFastGameplay){mDoFastGameplay = doFastGameplay;}
+	public void setOptionSinglePlayerMode(boolean doSinglePlayer){optionDoSinglePlayer = doSinglePlayer;}
+	public void setOptionFastGameplay(boolean doFastGameplay){optionDoFastGameplay = doFastGameplay;}
 	
 	
 	private void generatePlayers(){
 		String[] names = {"HughMan", "Albert", "Brenda", "Carl"};
 		boolean[] humanController = {false, false, false, false};
-		if (mDoSinglePlayer) humanController[0] = true;
+		if (optionDoSinglePlayer) humanController[0] = true;
 		
 		//creates a new player to sit at each seat
-		p1 = new Player();
-		p2 = new Player();
-		p3 = new Player();
-		p4 = new Player();
-		mPlayerArray = new Player[]{p1, p2, p3, p4};		
+		players = new Player[]{new Player(), new Player(), new Player(), new Player()};		
 		
 		//assign controllers and names to players
 		for (int i = 0; i < NUM_PLAYERS; i++){
-			if (humanController[i]) mPlayerArray[i].setControllerHuman();
-			else mPlayerArray[i].setControllerComputer();
+			if (humanController[i]) players[i].setControllerHuman();
+			else players[i].setControllerComputer();
 			
-			mPlayerArray[i].setPlayerName(names[i]);
+			players[i].setPlayerName(names[i]);
 		}
 	}
 	
 	
-	
 	//assigns a seat to each player
 	private void decideSeats(){
-		p1.setSeatWindEast();
-		p2.setSeatWindSouth();
-		p3.setSeatWindWest();
-		p4.setSeatWindNorth();
+		players[0].setSeatWindEast();
+		players[1].setSeatWindSouth();
+		players[2].setSeatWindWest();
+		players[3].setSeatWindNorth();
 		
-		for (int playerNum = 0; playerNum < mPlayerArray.length; playerNum++)
-			mPlayerArray[playerNum].setPlayerNumber(playerNum);
+		for (int playerNum = 0; playerNum < players.length; playerNum++)
+			players[playerNum].setPlayerNumber(playerNum);
 	}
 	
-	
 	//accessors
-	public boolean gameIsOver(){return mCurrentGame.gameIsOver();}
-	
+	public boolean gameIsOver(){return currentGame.gameIsOver();}
 	
 	
 	

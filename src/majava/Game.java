@@ -61,7 +61,7 @@ public class Game {
 			default: return "unknown";
 			}
 		}
-		public Wind lastWind(){
+		public Wind finalWind(){
 			switch (this){
 			case TONPUUSEN: return Wind.EAST;
 			case HANCHAN: return Wind.SOUTH;
@@ -104,13 +104,10 @@ public class Game {
 	
 	
 	
-	
-	/*
-	initializes a game
-	*/
+	//initializes a game
 	public Game(GameUI ui, Player[] playerArray){
 
-		__setGameType(GAME_TYPE_DEFAULT);
+		setGameType(GAME_TYPE_DEFAULT);
 		
 		mPlayerArray = playerArray;
 		p1 = mPlayerArray[0]; p2 = mPlayerArray[1]; p3 = mPlayerArray[2]; p4 = mPlayerArray[3];
@@ -132,26 +129,20 @@ public class Game {
 	
 	
 	//set the game type
-	private void __setGameType(GameType gametype){
+	private void setGameType(GameType gametype){
 		mGameType = gametype;
 	}
-	public void setGameTypeSingle(){__setGameType(GameType.SINGLE);}
-	public void setGameTypeTonpuusen(){__setGameType(GameType.TONPUUSEN);}
-	public void setGameTypeHanchan(){__setGameType(GameType.HANCHAN);}
-	public void setGameTypeSimulation(){__setGameType(GameType.SIMULATION);}
+	public void setGameTypeSingle(){setGameType(GameType.SINGLE);}
+	public void setGameTypeTonpuusen(){setGameType(GameType.TONPUUSEN);}
+	public void setGameTypeHanchan(){setGameType(GameType.HANCHAN);}
+	public void setGameTypeSimulation(){setGameType(GameType.SIMULATION);}
 	
 	
 	
 	
 	
 	
-	
-	
-	
-	/*
-	method: play
-	plays a full game of mahjong
-	*/
+	//plays a full game of mahjong
 	public void play(){
 		
 		if (DEFAULT_FAST_COMS_MEAN_SIMULATION)
@@ -162,9 +153,7 @@ public class Game {
 		if (mUI == null) for (Player p: mPlayerArray) p.setControllerComputer();
 		
 		
-		//play rounds until the game is over
 		while (!gameIsOver()){
-			
 			//play a round
 			mCurrentRound = new Round(mUI, mPlayerArray, mCurrentRoundWind, mCurrentRoundNum, mCurrentRoundBonusNum);
 			mCurrentRound.setOptionFastGameplay(mDoFastGameplay);
@@ -183,13 +172,11 @@ public class Game {
 				mCurrentRoundBonusNum++;
 			}
 			else{
-				
 				//move to the next round
 				mCurrentRoundNum++;
 				mCurrentRoundBonusNum = 0;
 				
-				//rotate seats
-				__rotateSeats();
+				rotateSeats();
 				
 				//advance to the next wind if all rounds are finished
 				if (mCurrentRoundNum > MAX_NUM_ROUNDS){
@@ -199,21 +186,19 @@ public class Game {
 			}
 		}
 		
-		__handleEndGame();
+		handleEndGame();
 	}
 	
 	
 	
-	private void __handleEndGame(){
+	private void handleEndGame(){
 		displayGameResult();
 		printReportCard();
 	}
 	
 	
-	
-	
 	//rotates seats
-	private void __rotateSeats(){
+	private void rotateSeats(){
 		for (Player p: mPlayerArray)
 			p.rotateSeat();
 	}
@@ -226,10 +211,7 @@ public class Game {
 	
 	
 	
-	
-	
 	public void displayGameResult(){
-		
 		System.out.println("\n\n\n\n\n\n~~~~~~~~~~~~~~~~~~~~~~\nGAMEOVER\n~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~\nPrinting win results\n~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		
@@ -254,13 +236,12 @@ public class Game {
 				numWinsByPlayer[cr.getWinningPlayer().getPlayerNumber()]++;
 			}
 		}
-		
 		System.out.println("\n\n");
-		
 
 		System.out.println("Wins by player:");
-		int j = 0;
-		for (int i: numWinsByPlayer) System.out.println("\tPlayer " + (++j) + ": " + i + " wins");
+		int playerNum = 0;
+		for (int i: numWinsByPlayer)
+			System.out.println("\tPlayer " + (++playerNum) + ": " + i + " wins");
 		System.out.printf("Win to draw ratio: %.6f", ((double) numWins) / ((double) mRoundResults.size()));
 		
 		System.out.println("\n\n");
@@ -268,10 +249,6 @@ public class Game {
 	
 	
 	
-	
-	
-	
-	//accessors
 	public boolean gameIsOver(){
 		if (mGameIsOver) return true;
 		
@@ -279,17 +256,13 @@ public class Game {
 		
 		switch (mGameType){
 		case SINGLE: return mGameIsOver = (mCurrentRoundNum > 1 || mCurrentRoundBonusNum > 0);
-		case TONPUUSEN: case HANCHAN: return mGameIsOver = (mCurrentRoundWind == mGameType.lastWind().next());
+		case TONPUUSEN: case HANCHAN: return mGameIsOver = (mCurrentRoundWind == mGameType.finalWind().next());
 		case SIMULATION: return mGameIsOver = (mNumRoundsPlayed >= NUM_SIMULATIONS_TO_RUN);
 		default: return false;
 		}
 	}
 	
 	
-	
-	
-	
-
 	public void setOptionFastGameplay(boolean doFastGameplay){mDoFastGameplay = doFastGameplay;}
 	
 	

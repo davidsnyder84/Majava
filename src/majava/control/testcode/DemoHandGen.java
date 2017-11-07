@@ -296,7 +296,6 @@ public class DemoHandGen {
 //		TileList tiles = new TileList(19,19,19,20,21,21,22,22,23,32,32,32,34,34);	//S1 S1 S1 S2 S3 S3 S4 S4 S5 DW DW DW DR DR
 //		TileList tiles = new TileList(21,22,23,32,32,32,34,34);
 //		TileList tiles = new TileList(2+9,3+9,4+9,1+18,1+18);	//P2 P3 P4 S1 S1
-//		List<GameTile> tiles = new TileInterfaceList(1,1,2+9,3+9,4+9).toGameTiles();	//P2 P3 P4 S1 S1
 		GameTileList tiles = new GameTileList(1,1,2+9,3+9,4+9);	//P2 P3 P4 S1 S1
 		
 		for (GameTile t: tiles){

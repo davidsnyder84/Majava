@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import utility.ConviniList;
-
 import majava.userinterface.GameUI;
 import majava.util.GameTileList;
 import majava.player.Player;

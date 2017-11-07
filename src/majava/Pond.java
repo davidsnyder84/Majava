@@ -3,7 +3,6 @@ package majava;
 import java.util.ArrayList;
 import java.util.List;
 
-import utility.ConviniList;
 import majava.tiles.PondTile;
 import majava.tiles.GameTile;
 

@@ -13,7 +13,6 @@ import majava.util.GameTileList;
 
 
 public class RoundResultSummary {
-	
 	private static final int NUM_PLAYERS = 4;
 	
 	
@@ -29,7 +28,6 @@ public class RoundResultSummary {
 	private final List<Meld> pWinnerMelds;
 	
 	private final PaymentMap pPayments;
-//	private final Map<PlayerSummary,Integer> pPayments;
 	
 	
 	//win constructor

@@ -1,45 +1,19 @@
 package majava;
 
 
-
 import majava.player.Player;
 import majava.userinterface.ComboTextGraphicalUI;
 import majava.userinterface.GameUI;
-import majava.userinterface.graphicalinterface.GraphicalUI;
-import majava.userinterface.graphicalinterface.window.TableViewBase;
-import majava.userinterface.graphicalinterface.window.TableViewSmall;
-import majava.userinterface.textinterface.DetailedTextualUI;
-import majava.userinterface.textinterface.SparseTextualUI;
-import majava.userinterface.textinterface.TextualUI;
 import utility.Pauser;
 
 
 
-/*
-Class: Table	
-methods:
-	public:
-		mutators:
-		play - plays a game of mahjong with the four players seated at the table
-	 	
-	 	accessors:
-	 	gameIsOver - returns true if the current game is over
-*/
+//a table for four players to sit at and play various types of mahjong games
 public class Table {
 	
 	private static final int NUM_PLAYERS = 4;
-	
-	
-	//for debug use
-//	private static final boolean DEBUG_SHUFFLE_SEATS = false;
-//	private static final boolean DEBUG_USE_SMALL_VIEWER = false;
-	private static final boolean DEBUG_USE_SMALL_VIEWER = true;
-	private static final boolean DEBUG_USE_SPARSE_TEXT = true;
-	
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	private static final boolean DEFAULT_DO_SINGLE_PLAYER = true;
-	
-	
 	
 	
 	private Player p1, p2, p3, p4;
@@ -56,97 +30,62 @@ public class Table {
 	private Game mCurrentGame;
 	
 	
-	/*
-	no-arg Constructor
-	initializes a table, creates a GUI to view the table
-	initializes options for games that will be played at the table
-	*/
 	public Table(){
-		
-		//initialize UI
 		mGameUI = null;
-		mGameUI = __generateGameUI();
+		mGameUI = generateGameUI();
 		
 		mDoSinglePlayer = DEFAULT_DO_SINGLE_PLAYER;
 		mDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
 	}
 	
 	
-	
-	/*
-	method: play
-	plays a new game of mahjong with the table's four players
-	 
-	decide seat order
-	play game
-	*/
+	//plays a new game of mahjong with the table's four players
 	public void play(){
-		long time = 0;
 		
-		//generate players to sit at the table
-		__generatePlayers();
+		generatePlayers();
 		
-		//decide seats
-		__decideSeats();
+		decideSeats();
 		
-
 		if (mGameUI != null) mGameUI.startUI();
 		
-		time = System.currentTimeMillis();
 		
+		long startTime = System.currentTimeMillis();
 		//play one game
 		mCurrentGame = new Game(mGameUI, mPlayerArray);
 		mCurrentGame.setOptionFastGameplay(mDoFastGameplay);
-		
-		
 		mCurrentGame.play();
 		
-
-		
-		
-		time = System.currentTimeMillis() - time;
-		System.out.println("Time elapsed: " + time);
+		long endTime = System.currentTimeMillis() - startTime;
+		System.out.println("Time elapsed: " + endTime);
 		
 		//close the window
 		Pauser.pauseFor(5000);
 		if (mGameUI != null) mGameUI.endUI();
 	}
 	
-	private GameUI __generateGameUI(){
+	private GameUI generateGameUI(){
+		
+		//for debug use
+//		final boolean DEBUG_USE_SMALL_VIEWER = true;
+//		final boolean DEBUG_USE_SPARSE_TEXT = true;
+		
 		GameUI ui = null;
 		
 //		ui = new TableViewSmall();
-//		ui = new TableViewer();
+//		ui = new TableViewerLarge();
 //		ui = new SparseTextualUI();
 //		ui = new DetailedTextualUI();
-		ui = new ComboTextGraphicalUI();
 //		ui = new GraphicalUI();
+		ui = new ComboTextGraphicalUI();
 		return ui;
 	}
-//	private TableGUI __generateTableGUI(){
-//		TableGUI g;
-//		if (DEBUG_USE_SMALL_VIEWER) g = new TableViewSmall();
-//		else g = new TableViewer();
-//		return g;
-//	}
-//	private TextualUI __generateTextInterface(){
-//		TextualUI u;
-//		if (DEBUG_USE_SPARSE_TEXT) u = new SparseTextualUI();
-//		else u = new DetailedTextualUI();
-//		return u;
-//	}
+		
 	
-	
-	
-	//sit one human at the table
 	public void setOptionSinglePlayerMode(boolean doSinglePlayer){mDoSinglePlayer = doSinglePlayer;}
 	public void setOptionFastGameplay(boolean doFastGameplay){mDoFastGameplay = doFastGameplay;}
 	
 	
-	
-	
-	
-	private void __generatePlayers(){
+	private void generatePlayers(){
 		String[] names = {"HughMan", "Albert", "Brenda", "Carl"};
 		boolean[] humanController = {false, false, false, false};
 		if (mDoSinglePlayer) humanController[0] = true;
@@ -169,29 +108,25 @@ public class Table {
 	
 	
 	
-	
 	//assigns a seat to each player
-	private void __decideSeats(){
+	private void decideSeats(){
 		p1.setSeatWindEast();
 		p2.setSeatWindSouth();
 		p3.setSeatWindWest();
 		p4.setSeatWindNorth();
 		
-		for (int playerNum = 0; playerNum < mPlayerArray.length; playerNum++) mPlayerArray[playerNum].setPlayerNumber(playerNum);
+		for (int playerNum = 0; playerNum < mPlayerArray.length; playerNum++)
+			mPlayerArray[playerNum].setPlayerNumber(playerNum);
 	}
 	
 	
-	
 	//accessors
-//	public int getGameType(){return mCurrentGame.getGameType();}
 	public boolean gameIsOver(){return mCurrentGame.gameIsOver();}
 	
 	
 	
 	
-	
 	public static void main(String[] args) {
-		
 		System.out.println("Welcome to Majava (Table)!");
 		System.out.println("\n\n\n\n");
 		
@@ -202,5 +137,4 @@ public class Table {
 		table.play();
 	}
 	
-
 }

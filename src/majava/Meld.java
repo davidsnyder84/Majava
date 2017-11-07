@@ -54,16 +54,11 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	private static final int FU_DEFAULT = 0;
 	
 	
-	
-	//list of tiles in the meld
-	private GameTileList mTiles;
-	
+	private GameTileList mTiles;	
 	private MeldType mMeldType;
-	private boolean mClosed;
-
-	private Wind mOwnerSeatWind;
 	
 	private GameTile mCompletedTile;
+	private Wind mOwnerSeatWind;
 	private Wind mPlayerResponsible;
 	
 	private int mFu;
@@ -71,20 +66,10 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	
 	
 	
-	/*
-	3-arg Constructor
-	forms a meld from the given tiles, of the given meld type
 	
-	input: handTiles are the tiles that are coming from the player's hand
-		   newTile is the "new" tile that is being added to form the meld
-		   meldType is the type of meld that is being formed
-	
-	form the meld
-	fu = 0
-	*/
-	public Meld(GameTileList handTiles, GameTile newTile, MeldType meldType){		
-		
-		__formMeld(handTiles, newTile, meldType);
+	public Meld(GameTileList tilesFromHand, GameTile completingTile, MeldType meldType){
+		mTiles = new GameTileList();
+		formMeld(tilesFromHand, completingTile, meldType);
 		
 		mFu = FU_DEFAULT;
 	}
@@ -101,7 +86,6 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 		
 		mOwnerSeatWind = other.mOwnerSeatWind;
 		
-		mClosed = other.mClosed;
 		mFu = other.mFu;
 		
 		mCompletedTile = other.mCompletedTile;
@@ -112,52 +96,19 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	
 	
 	
-	
-	/*
-	private method: __formMeld
-	forms a meld of the given type with the given tiles
-	
-	input: handTiles are the tiles from the player's hand
-		   newTile is the "new" tile that is added to form the meld
-		   meldType is the type of meld that is being formed
-	
-	
-	set onwer's seat wind = owner of the hand tiles
-	set player responsible = player who discarded the newTile
-	set tile that completed the meld = newTile
-	set meld type
-	set closed = (responsible's wind == owner's wind)
-	
-	add the hand tiles to the meld
-	add the new tile to the meld
-	sort the meld if it is a chi
-	*/
-	private void __formMeld(GameTileList handTiles, GameTile newTile, MeldType meldType){
+	private void formMeld(GameTileList tilesFromHand, GameTile completingTile, MeldType meldType){
 		
-		//set the owner's seat wind
-		mOwnerSeatWind = handTiles.get(0).getOrignalOwner();
+		mCompletedTile = completingTile;
 		
-		//set the new tile as the tile that completed the meld
-		mCompletedTile = newTile;
-		//check who is responsible for discarding the new tile
-		mPlayerResponsible = newTile.getOrignalOwner();
+		mOwnerSeatWind = tilesFromHand.get(0).getOrignalOwner();
+		mPlayerResponsible = completingTile.getOrignalOwner();
 		
-		//check if the new tile came from someone other than the owner
-		//closed = false if the tile came from someone else
-		mClosed = (mPlayerResponsible == mOwnerSeatWind);
+		setMeldType(meldType);
 		
+		addTiles(tilesFromHand);
+		addTile(completingTile);
 		
-		//set meld type
-		mMeldType = meldType;
-		
-		
-		//add the hand tiles to the meld
-		mTiles = handTiles;
-		//add the new tile to the meld
-		mTiles.add(newTile);
-		
-		//sort the meld if it is a chi
-		if (mMeldType.isChi()) Collections.sort(mTiles);
+		if (isChi()) sort();
 	}
 	
 	
@@ -165,28 +116,19 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	
 	//uses the given tile to upgrade a minkou to a minkan
 	public void upgradeToMinkan(GameTile handTile){
-		
 		if (!isPon()) return;
 		
-		//add the tile to the meld
-		__addTile(handTile);
-		
-		//change meld type to kan
-		mMeldType = MeldType.KAN; 
+		addTile(handTile);
+		setMeldType(MeldType.KAN); 
 	}
 	
 	//adds a tile to a meld (needed for upgrading minkou to minkan)
-	private void __addTile(GameTile t){mTiles.add(t);}
+	private void addTile(GameTile t){mTiles.add(t);}
+	private void addTiles(GameTileList tiles){mTiles.addAll(tiles);}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	private void setMeldType(MeldType mtype){mMeldType = mtype;}
+	private void sort(){Collections.sort(mTiles);}
 	
 	
 	
@@ -196,6 +138,8 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	public int calculateFu(){
 		int fu = 0;
 		
+		//////implement fu calculation here
+		
 		mFu = fu;
 		return mFu;
 	}
@@ -204,32 +148,20 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	
 	
 	//accessors
-	public boolean isClosed(){return mClosed;}
+	public boolean isClosed(){return mPlayerResponsible == mOwnerSeatWind;}
 	public Wind getOwnerSeatWind(){return mOwnerSeatWind;}
 	public Wind getResponsible(){return mPlayerResponsible;}
 	
-
-	//returns the tile at the given index in the meld, returns null if index is outside of the meld's range
 	public GameTile getTile(int index){
-		if (index >= 0 && index < mTiles.size()) return (GameTile)mTiles.get(index);
+		if (index >= 0 && index < size()) return mTiles.get(index);
 		return null;
 	}
-	//returns the first tile in the meld
-	public GameTile getFirstTile(){return (GameTile)mTiles.get(0);}
-	
+	public GameTile getFirstTile(){return mTiles.get(0);}
 	
 	//returns a copy of the entire list of tiles
-//	public List<GameTile> getAllTiles(){return new ConviniList<GameTile>(mTiles);}
 	public GameTileList getAllTiles(){return mTiles.clone();}
 	
-	
-	//returns how many tiles are in the meld
 	public int size(){return mTiles.size();}
-	
-	
-	
-	
-	
 	
 	
 	public boolean isChi(){return mMeldType.isChi();}
@@ -239,29 +171,22 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	//toString
 	@Override
 	public String toString(){
 		String meldString = "";
 		
-		for (GameTile t: mTiles) meldString += t.toString() + " ";
+		for (GameTile t: this) meldString += t.toString() + " ";
 		
 		//show closed or open
-		if (mClosed == true) meldString += "  [Closed]";
-		else meldString += "  [Open, called from: " + mPlayerResponsible + "'s " + mCompletedTile.toString() + "]";
+		if (isClosed()) meldString += "  [Closed]";
+		else meldString += "  [Open, called from: " + mPlayerResponsible + "'s " + mCompletedTile + "]";
 		
 		return meldString;
 	}
 	public String toStringCompact(){
 		String meldString = "";
-		for (GameTile t: mTiles) meldString += t + " ";
+		for (GameTile t: this) meldString += t + " ";
 		
 		if (meldString != "") meldString = meldString.substring(0, meldString.length() - 1);
 		return meldString;

@@ -14,17 +14,16 @@ import majava.enums.Wind;
 //represents a meld (–ÊŽq) of tiles (chi, pon, kan, pair)
 public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	
-	private GameTileList mTiles;	
+	private GameTileList meldTiles;	
 	private MeldType mMeldType;
 	
-	private GameTile mCompletedTile;
-	private Wind mOwnerSeatWind;
-	private Wind mPlayerResponsible;
+	private GameTile completedTile;
+	private Wind ownerWind;
 	
 	
 	
 	public Meld(GameTileList tilesFromHand, GameTile completingTile, MeldType meldType){
-		mTiles = new GameTileList();
+		meldTiles = new GameTileList();
 		formMeld(tilesFromHand, completingTile, meldType);
 	}
 	//2-arg, takes list of tiles and meld type (used when making a meld only from hand tiles, so no "new" tile)
@@ -35,23 +34,18 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	
 	
 	private Meld(Meld other){		
-		mTiles = other.getAllTiles();
+		meldTiles = other.getAllTiles();
 		
-		mCompletedTile = other.mCompletedTile;
-		
-		mOwnerSeatWind = other.mOwnerSeatWind;
-		mPlayerResponsible = other.mPlayerResponsible;
+		completedTile = other.completedTile;
+		ownerWind = other.ownerWind;
 	}
 	public Meld clone(){return new Meld(this);}
 	
 	
 	
 	private void formMeld(GameTileList tilesFromHand, GameTile completingTile, MeldType meldType){
-		
-		mCompletedTile = completingTile;
-		
-		mOwnerSeatWind = tilesFromHand.get(0).getOrignalOwner();
-		mPlayerResponsible = completingTile.getOrignalOwner();
+		completedTile = completingTile;
+		ownerWind = tilesFromHand.get(0).getOrignalOwner();
 		
 		setMeldType(meldType);
 		
@@ -71,12 +65,12 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	}
 	
 	//adds a tile to a meld (needed for upgrading minkou to minkan)
-	private void addTile(GameTile t){mTiles.add(t);}
-	private void addTiles(GameTileList tiles){mTiles.addAll(tiles);}
+	private void addTile(GameTile t){meldTiles.add(t);}
+	private void addTiles(GameTileList tiles){meldTiles.addAll(tiles);}
 	
 	
 	private void setMeldType(MeldType mtype){mMeldType = mtype;}
-	private void sort(){Collections.sort(mTiles);}
+	private void sort(){Collections.sort(meldTiles);}
 	
 	
 	
@@ -92,20 +86,20 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	
 	
 	//accessors
-	public boolean isClosed(){return mPlayerResponsible == mOwnerSeatWind;}
-	public Wind getOwnerSeatWind(){return mOwnerSeatWind;}
-	public Wind getResponsible(){return mPlayerResponsible;}
+	public boolean isClosed(){return windOfOwner() == windOfResponsiblePlayer();}
+	public Wind windOfOwner(){return ownerWind;}
+	public Wind windOfResponsiblePlayer(){return completedTile.getOrignalOwner();}
 	
 	public GameTile getTile(int index){
-		if (index >= 0 && index < size()) return mTiles.get(index);
+		if (index >= 0 && index < size()) return meldTiles.get(index);
 		return null;
 	}
-	public GameTile getFirstTile(){return mTiles.get(0);}
+	public GameTile getFirstTile(){return meldTiles.get(0);}
 	
 	//returns a copy of the entire list of tiles
-	public GameTileList getAllTiles(){return mTiles.clone();}
+	public GameTileList getAllTiles(){return meldTiles.clone();}
 	
-	public int size(){return mTiles.size();}
+	public int size(){return meldTiles.size();}
 	
 	
 	public boolean isChi(){return mMeldType.isChi();}
@@ -124,7 +118,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 		
 		//show closed or open
 		if (isClosed()) meldString += "  [Closed]";
-		else meldString += "  [Open, called from: " + mPlayerResponsible + "'s " + mCompletedTile + "]";
+		else meldString += "  [Open, called from: " + windOfResponsiblePlayer() + "'s " + completedTile + "]";
 		
 		return meldString;
 	}
@@ -139,7 +133,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 
 	//iterator, returns mTile's iterator
 	@Override
-	public Iterator<GameTile> iterator() {return mTiles.iterator();}
+	public Iterator<GameTile> iterator() {return meldTiles.iterator();}
 	
 	
 	

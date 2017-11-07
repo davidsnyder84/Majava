@@ -56,7 +56,6 @@ public class Game {
 	private int currentRoundNum, currentRoundBonusNum;
 	
 	private GameType gameType;
-	private boolean gameIsOver;
 	private int numRoundsPlayed;
 	private final List<String> winStrings;
 	private final List<RoundResultSummary> roundResults;
@@ -80,7 +79,6 @@ public class Game {
 		currentRoundWind = DEFAULT_ROUND_WIND;currentRoundNum = 1;currentRoundBonusNum = 0;
 		numRoundsPlayed = 0;
 		
-		gameIsOver = false;
 		winStrings = new ArrayList<String>();
 		roundResults = new ArrayList<RoundResultSummary>();
 		
@@ -227,23 +225,27 @@ public class Game {
 	
 	
 	
+	//game is over if there are no rounds left, or if someone has run out of points
 	public boolean gameHasEnded(){
-		if (gameIsOver) return true;
-		
-		//game is over is someone runs out of points
-		for (Player p: mPlayerArray)
-			if (gameType != GameType.SIMULATION && p.getPoints() <= 0)
-				return gameIsOver = true;
-		
+		return noRoundsRemeaining() || hakoShita();
+	}
+	private boolean noRoundsRemeaining(){
 		switch (gameType){
 		case SINGLE:
-			return gameIsOver = (currentRoundNum > 1 || currentRoundBonusNum > 0);
-		case TONPUUSEN: case HANCHAN:
-			return gameIsOver = (currentRoundWind == gameType.finalWind().next());
+			return (currentRoundNum > 1 || currentRoundBonusNum > 0);
+		case TONPUUSEN: case HANCHAN:	//intentionally handled on same case
+			return (currentRoundWind == gameType.finalWind().next());
 		case SIMULATION:
-			return gameIsOver = (numRoundsPlayed >= NUM_SIMULATIONS_TO_RUN);
+			return (numRoundsPlayed >= NUM_SIMULATIONS_TO_RUN);
 		default: return false;
 		}
+	}
+	//returns true if any player has run out of points (ハコシタ/とび)
+	private boolean hakoShita(){
+		for (Player p: mPlayerArray)
+			if (p.getPoints() <= 0 && gameType != GameType.SIMULATION)
+				return true;
+		return false;
 	}
 	
 	

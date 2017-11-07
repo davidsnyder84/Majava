@@ -430,10 +430,9 @@ public class HandChecker {
 	
 	
 	private boolean __canMinkan(GameTile candidate){
-		for (Meld m: mHandMelds){
-			if (m.isPon() && m.getFirstTile().equals(candidate))
+		for (Meld m: mHandMelds)
+			if (m.canMinkanWith(candidate))
 				return true;
-		}
 		return false;
 	}
 	

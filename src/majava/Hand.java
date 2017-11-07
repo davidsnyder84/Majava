@@ -359,7 +359,7 @@ public class Hand implements Iterable<GameTile>{
 		
 		//find the pon
 		for (Meld m: mMelds)
-			if (m.isPon() && m.getFirstTile().equals(candidate))
+			if (m.canMinkanWith(candidate))
 				meldToUpgrade = m;
 		
 		meldToUpgrade.upgradeToMinkan(candidate);
@@ -434,15 +434,15 @@ public class Hand implements Iterable<GameTile>{
 	
 	//string representation of all melds
 	public String getAsStringMelds(){
-		String ms = ""; int mnum = 0;
-		for (Meld m: mMelds) ms += "+++Meld " + (++mnum) + ": " + m;
-		return ms;
+		String meldsString = ""; int mnum = 0;
+		for (Meld m: mMelds) meldsString += "+++Meld " + (++mnum) + ": " + m;
+		return meldsString;
 	}
 	//compact string representation of all melds
 	public String getAsStringMeldsCompact(){
-		String ms = "";
-		for (Meld m: mMelds) ms += "[" + m.toStringCompact() + "] ";
-		return ms;
+		String meldsString = "";
+		for (Meld m: mMelds) meldsString += "[" + m.toStringCompact() + "] ";
+		return meldsString;
 	}
 	
 	
@@ -463,7 +463,7 @@ public class Hand implements Iterable<GameTile>{
 		
 		//show the tiles, separated by spaces
 		for (int i = 0; i < size(); i++)
-			handString += getTile(i).toString() + " ";
+			handString += getTile(i) + " ";
 		
 		//show the completed melds
 		if (DEBUG_SHOW_MELDS_ALONG_WITH_HAND)

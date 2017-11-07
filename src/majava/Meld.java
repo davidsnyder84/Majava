@@ -64,6 +64,10 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 		setMeldType(MeldType.KAN); 
 	}
 	
+	//returns true if the meld can use the candidate to make a minkan
+	public boolean canMinkanWith(GameTile candidate){return isPon() && getFirstTile().equals(candidate);}
+	
+	
 	//adds a tile to a meld (needed for upgrading minkou to minkan)
 	private void addTile(GameTile t){meldTiles.add(t);}
 	private void addTiles(GameTileList tiles){meldTiles.addAll(tiles);}
@@ -106,6 +110,8 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	public boolean isPon(){return meldType.isPon();}
 	public boolean isKan(){return meldType.isKan();}
 //	public MeldType getMeldType(){return mMeldType;}
+	
+	
 	
 	
 	

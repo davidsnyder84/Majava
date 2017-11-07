@@ -30,6 +30,8 @@ public class YakuList extends ArrayList<Yaku>{
 	}
 	
 	
+	
+	//remove overlapping yaku of lesser value (ie, iipeiko < ryanpeiko)
 	public void removeSmallFry(){
 		
 		

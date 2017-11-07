@@ -1,7 +1,6 @@
 package majava.player;
 
 import java.util.List;
-import java.util.Random;
 
 import majava.Hand;
 import majava.Meld;
@@ -10,7 +9,6 @@ import majava.RoundTracker;
 import majava.enums.Exclamation;
 import majava.enums.Wind;
 import majava.userinterface.GameUI;
-import majava.summary.PlayerSummary;
 import majava.summary.PointsBox;
 import majava.tiles.GameTile;
 
@@ -390,10 +388,7 @@ public class Player {
 	
 	
 	
-	public PlayerSummary getPlayerSummary(){
-		PlayerSummary summary = new PlayerSummary(getPlayerName(), getPlayerID(), getAsStringController(), getPlayerNumber(), getSeatWind(), getPoints());
-		return summary;
-	}
+//	public PlayerSummary getPlayerSummary(){return new PlayerSummary(this);}
 	
 
 	

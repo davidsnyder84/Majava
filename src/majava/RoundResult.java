@@ -194,8 +194,8 @@ public class RoundResult {
 		
 		//get winning, losing player summaries
 		if (mResultType.isVictory()){
-			winnerSummary = mWinningPlayer.getPlayerSummary();
-			if (mResultType.isVictoryRon()) furikonSummary = mFurikondaPlayer.getPlayerSummary();
+			winnerSummary = PlayerSummary.getSummaryFor(mWinningPlayer);
+			if (mResultType.isVictoryRon()) furikonSummary = PlayerSummary.getSummaryFor(mFurikondaPlayer);
 			winningTile = mWinningTile;
 			winnerHand = mWinnerHand;
 			winnerMelds = mWinnerMelds;

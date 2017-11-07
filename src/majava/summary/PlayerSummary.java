@@ -1,6 +1,7 @@
 package majava.summary;
 
 import majava.enums.Wind;
+import majava.player.Player;
 
 //represents an immutable summary of a player's information
 public class PlayerSummary{
@@ -20,6 +21,12 @@ public class PlayerSummary{
 			pSeatWind = seatwind;
 			pPoints = points;
 		}
+		public PlayerSummary(Player p){
+			this(p.getPlayerName(), p.getPlayerID(), p.getAsStringController(), p.getPlayerNumber(), p.getSeatWind(), p.getPoints());
+		}
+		
+		
+		
 		public String getPlayerName(){return pPlayerName;}
 		public int getPlayerID(){return pPlayerID;}
 		public String getControllerAsString(){return pControllerString;}
@@ -38,4 +45,7 @@ public class PlayerSummary{
 		public int hashCode(){
 			return pPlayerID + pPlayerNum + pPoints;
 		}
+		
+		
+		public static PlayerSummary getSummaryFor(Player p){return new PlayerSummary(p);}
 }

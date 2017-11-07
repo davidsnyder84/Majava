@@ -176,7 +176,7 @@ public class ImmutablePlayer{
 	
 	
 	
-	public PlayerSummary getPlayerSummary(){return mPlayer.getPlayerSummary();}
+	public PlayerSummary getPlayerSummary(){return PlayerSummary.getSummaryFor(mPlayer);}
 	
 	
 	

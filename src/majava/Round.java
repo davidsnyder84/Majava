@@ -134,12 +134,14 @@ public class Round{
 		PaymentMap payments = null;
 
 		//find who has to pay what
-		if (mRoundResult.isDraw()) payments = mapPaymentsDraw();
-		else payments = mapPaymentsWin(paymentDue);
+		if (mRoundResult.isDraw())
+			payments = mapPaymentsDraw();
+		else
+			payments = mapPaymentsWin(paymentDue);
 		
 		//carry out payments
 		for (Player p: mPlayerArray)
-			p.pointsIncrease(payments.get(p.getPlayerNumber()));
+			p.pointsIncrease(payments.get(p));
 		
 		mRoundResult.recordPayments(payments);
 	}
@@ -148,7 +150,6 @@ public class Round{
 	
 	//maps payments to players, for the case of a win
 	private PaymentMap mapPaymentsWin(int handValue){
-		
 		PaymentMap payments = new PaymentMap();
 		
 		final double DEALER_WIN_MULTIPLIER = 1.5, DEALER_TSUMO_MULTIPLIER = 2;
@@ -190,12 +191,12 @@ public class Round{
 	//maps payments to players, for the case of a draw
 	private PaymentMap mapPaymentsDraw(){
 		PaymentMap payments = new PaymentMap();
+		/////implement no-ten bappu here 
 		
-		for (Player p: mPlayerArray) payments.put(p, 0);
+		for (Player p: mPlayerArray)
+			payments.put(p, 0);
 		return payments;
 	}
-	
-	
 	
 	
 	
@@ -225,20 +226,10 @@ public class Round{
 	
 	
 	
-	
 
 	
 	/*
-	private method: doPlayerTurn
-	handles player p's turn, and gets the other players' reactions to the p's turn
-	
-	
-	if (player needs to draw): give player a tile
-	if (round is over): return
-	
-	loop while (the player has not chosen a discard)
-		let the player do something
-	end loop
+	//handles player p's turn, and gets the other players' reactions to the p's turn
 	
  	display what the player discarded
  	get the other players' reactions to the discarded tile (the players will "make a call", the call won't actually be handled yet)
@@ -247,19 +238,15 @@ public class Round{
 	*/
 	private void doPlayerTurn(Player p){
 		
-		//~~~~~~handle drawing a tile
-		//if the player needs to draw a tile, draw a tile
 		if (p.needsDraw()){
-			__givePlayerTile(p);
+			givePlayerTile(p);
 		}
 		else __updateUI(GameplayEvent.PLACEHOLDER);
-		
 		
 		//return early if the round is over (4kan or washout)
 		if (roundIsOver()) return;
 		
-		
-		//~~~~~~get player's discard (ankans, riichi, and such are handled inside here)
+		//~~~~~~get player's discard (kans and riichi are handled inside here)
 		//loop until the player has chosen a discard
 		//loop until the player stops making kans
 		GameTile discardedTile = null;
@@ -276,7 +263,7 @@ public class Round{
 				__updateUI(GameplayEvent.MADE_OWN_KAN);
 				
 				//give player a rinshan draw
-				__givePlayerTile(p);
+				givePlayerTile(p);
 				
 			}
 			
@@ -290,15 +277,11 @@ public class Round{
 		}
 		while (!p.turnActionChoseDiscard() && !roundIsOver());
 		
-		
-		
 		//return early if the round is over (tsumo or 4kan or 4riichi or kyuushu)
 		if (roundIsOver()) return;
 		
-		
 		//show the human player their hand, show the discarded tile and the discarder's pond
 		__updateUI(GameplayEvent.DISCARDED_TILE);
-		
 		
 		//~~~~~~get reactions from the other players
 		mPlayerArray[(p.getPlayerNumber() + 1) % NUM_PLAYERS].reactToDiscard(discardedTile);
@@ -307,8 +290,6 @@ public class Round{
 //		mRoundTracker.neighborShimochaOf(p).reactToDiscard(discardedTile);
 //		mRoundTracker.neighborToimenOf(p).reactToDiscard(discardedTile);
 //		mRoundTracker.neighborKamichaOf(p).reactToDiscard(discardedTile);
-		
-		
 		
 		if (!mRoundTracker.callWasMadeOnDiscard()){
 			//update turn indicator
@@ -323,10 +304,8 @@ public class Round{
 	
 	
 	
-	
-	
 	//gives a player a tile from the wall or dead wall
-	private void __givePlayerTile(Player p){
+	private void givePlayerTile(Player p){
 		if (!p.needsDraw()) return;
 		GameTile drawnTile = null;
 		
@@ -357,7 +336,6 @@ public class Round{
 		p.addTileToHand(drawnTile);
 		__updateUI(GameplayEvent.DREW_TILE);
 	}
-	
 	
 	
 	
@@ -396,19 +374,6 @@ public class Round{
 			mRoundTracker.setTurn(priorityCaller);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	//decides who gets to call the tile
 	private Player whoCalled(){
 		
@@ -421,7 +386,6 @@ public class Round{
 				callingPlayer = p;
 				numCallers++;
 			}
-		
 		
 		//if only one player called, return that player
 		if (numCallers == 1){
@@ -465,11 +429,9 @@ public class Round{
 	
 	
 	
-	
 	public void displayRoundResult(){
 		__updateUI(GameplayEvent.END_OF_ROUND);
 	}
-	
 	
 	
 	private void __updateUI(GameplayEvent event){
@@ -477,7 +439,6 @@ public class Round{
 		
 		mUI.displayEvent(event);
 	}
-	
 	
 	
 	public void setOptionFastGameplay(boolean doFastGameplay){
@@ -513,8 +474,6 @@ public class Round{
 	
 	
 	
-	
-	
 	public static void main(String[] args) {
 		
 		System.out.println("Welcome to Majava (Round)!");
@@ -522,6 +481,5 @@ public class Round{
 		System.out.println("Launching Table...");
 		Table.main(null);
 	}
-	
 
 }

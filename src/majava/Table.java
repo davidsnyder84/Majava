@@ -121,7 +121,7 @@ public class Table {
 	
 	
 	//accessors
-	public boolean gameIsOver(){return mCurrentGame.gameHasEnded();}
+	public boolean gameIsOver(){return mCurrentGame.gameIsOver();}
 	
 	
 	

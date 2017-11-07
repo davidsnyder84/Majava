@@ -5,7 +5,9 @@ import java.util.List;
 
 import majava.userinterface.GameUI;
 import majava.player.Player;
+import majava.summary.GameResultPrinter;
 import majava.summary.RoundResultSummary;
+import majava.control.Majava;
 import majava.enums.Wind;
 
 
@@ -109,14 +111,13 @@ public class Game {
 		
 		checkPlayersAndUI();
 		
-		while (!gameHasEnded()){
+		while (!gameIsOver()){
 			playNewRound();
 			saveRoundResults();
 			incrementRound();
 		}
 		handleEndGame();
 	}
-	
 	private void playNewRound(){
 		currentRound = new Round(userInterface, mPlayerArray, currentRoundWind, currentRoundNum, currentRoundBonusNum);
 		currentRound.setOptionFastGameplay(doFastGameplay);
@@ -159,19 +160,20 @@ public class Game {
 		if (doFastGameplay && allPlayersAreComputers())
 			setGameTypeSimulation();
 	}
-	
-	
 	private boolean allPlayersAreComputers(){
 		for (Player p: mPlayerArray) if (p.controllerIsHuman()) return false;
 		return true;
 	}
 	
 	
+	//just print the game results
 	private void handleEndGame(){
-		displayGameResult();
-		printReportCard();
+		GameResultPrinter resultPrinter = new GameResultPrinter(roundResults, winStrings);
+		resultPrinter.printGameResults();
 	}
 	
+	
+
 	
 	//rotates seats
 	private void rotateSeats(){
@@ -185,48 +187,11 @@ public class Game {
 		}
 	}
 	
-	
-	
-	public void displayGameResult(){
-		System.out.println("\n\n\n\n\n\n~~~~~~~~~~~~~~~~~~~~~~\nGAMEOVER\n~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-		System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~\nPrinting win results\n~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-		
-		for (int i = 0; i < winStrings.size(); i++)
-			System.out.printf("%3d: %s\n", i+1, winStrings.get(i));
-		
-		RoundResultSummary cr = null;
-		for (int i = 0; i < roundResults.size(); i++){
-			cr = roundResults.get(i);
-			if (cr != null && !cr.isDrawWashout())
-				System.out.printf("%3d: %s\n", i+1, cr.getAsStringResultType());
-		}
-	}
-	
-	public void printReportCard(){
-		int numWins = 0;
-		int numWinsByPlayer[] = new int[4];
-		
-		for (RoundResultSummary cr: roundResults){
-			if (cr != null && cr.isVictory()){
-				numWins++;
-				numWinsByPlayer[cr.getWinningPlayer().getPlayerNumber()]++;
-			}
-		}
-		System.out.println("\n\n");
-
-		System.out.println("Wins by player:");
-		int playerNum = 0;
-		for (int i: numWinsByPlayer)
-			System.out.println("\tPlayer " + (++playerNum) + ": " + i + " wins");
-		System.out.printf("Win to draw ratio: %.6f", ((double) numWins) / ((double) roundResults.size()));
-		
-		System.out.println("\n\n");
-	}
-	
+	public void setOptionFastGameplay(boolean doFast){doFastGameplay = doFast;}
 	
 	
 	//game is over if there are no rounds left, or if someone has run out of points
-	public boolean gameHasEnded(){
+	public boolean gameIsOver(){
 		return noRoundsRemeaining() || hakoShita();
 	}
 	private boolean noRoundsRemeaining(){
@@ -249,19 +214,17 @@ public class Game {
 	}
 	
 	
-	public void setOptionFastGameplay(boolean doFast){doFastGameplay = doFast;}
 	
 	
 	
 	
-	
-//	public static void main(String[] args) {
-//		
-//		System.out.println("Welcome to Majava (Game)!");
-//		
-//		System.out.println("Launching Table...");
-//		Table.main(null);
-//	}
+	public static void main(String[] args) {
+		
+		System.out.println("Welcome to Majava (Game)!");
+		
+		System.out.println("Launching Majava...");
+		Majava.main(null);
+	}
 	
 
 }

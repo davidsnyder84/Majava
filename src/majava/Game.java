@@ -113,48 +113,59 @@ public class Game {
 	//plays a full game of mahjong
 	public void play(){
 		
+		checkPlayersAndUI();
+		
+		while (!gameIsOver()){
+			playNewRound();
+			saveRoundResults();
+			incrementRound();
+		}
+		handleEndGame();
+	}
+	
+	private void playNewRound(){
+		//play a round
+		mCurrentRound = new Round(mUI, mPlayerArray, mCurrentRoundWind, mCurrentRoundNum, mCurrentRoundBonusNum);
+		mCurrentRound.setOptionFastGameplay(mDoFastGameplay);
+		mCurrentRound.play();
+	}
+	
+	private void saveRoundResults(){
+		mNumRoundsPlayed++;
+		System.out.println(mNumRoundsPlayed);
+		if (mCurrentRound.endedWithVictory()){
+			mWinStrings.add(mCurrentRound.getWinningHandString());
+		}
+		mRoundResults.add(mCurrentRound.getResultSummary());
+	}
+	
+	private void incrementRound(){
+		//move to the next round, or do a bonus round if the dealer won
+		if (mCurrentRound.qualifiesForRenchan()){
+			mCurrentRoundBonusNum++;
+		}
+		else{
+			//move to the next round
+			mCurrentRoundNum++;
+			mCurrentRoundBonusNum = 0;
+			
+			rotateSeats();
+			
+			//advance to the next wind if all rounds are finished
+			if (mCurrentRoundNum > MAX_NUM_ROUNDS){
+				mCurrentRoundNum = 1;
+				mCurrentRoundWind = mCurrentRoundWind.next();
+			}
+		}
+	}
+	
+	private void checkPlayersAndUI(){
 		if (DEFAULT_FAST_COMS_MEAN_SIMULATION)
 			if (mDoFastGameplay && p1.controllerIsComputer() && p2.controllerIsComputer() && p3.controllerIsComputer() && p4.controllerIsComputer()){
 				setGameTypeSimulation();
 				for (Player p: mPlayerArray) p.setControllerComputer();
 			}
 		if (mUI == null) for (Player p: mPlayerArray) p.setControllerComputer();
-		
-		
-		while (!gameIsOver()){
-			//play a round
-			mCurrentRound = new Round(mUI, mPlayerArray, mCurrentRoundWind, mCurrentRoundNum, mCurrentRoundBonusNum);
-			mCurrentRound.setOptionFastGameplay(mDoFastGameplay);
-			mCurrentRound.play();
-			
-			mNumRoundsPlayed++;
-			System.out.println(mNumRoundsPlayed);
-			if (mCurrentRound.endedWithVictory()){
-				mWinStrings.add(mCurrentRound.getWinningHandString());
-			}
-			mRoundResults.add(mCurrentRound.getResultSummary());
-			
-			
-			//move to the next round, or do a bonus round if the dealer won
-			if (mCurrentRound.qualifiesForRenchan()){
-				mCurrentRoundBonusNum++;
-			}
-			else{
-				//move to the next round
-				mCurrentRoundNum++;
-				mCurrentRoundBonusNum = 0;
-				
-				rotateSeats();
-				
-				//advance to the next wind if all rounds are finished
-				if (mCurrentRoundNum > MAX_NUM_ROUNDS){
-					mCurrentRoundNum = 1;
-					mCurrentRoundWind = mCurrentRoundWind.next();
-				}
-			}
-		}
-		
-		handleEndGame();
 	}
 	
 	

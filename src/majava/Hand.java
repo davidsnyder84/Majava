@@ -183,7 +183,6 @@ public class Hand implements Iterable<GameTile>{
 	
 	
 	private void __updateChecker(){
-		
 		//check if modifying the hand put the hand in tenpai
 		mChecker.updateTenpaiStatus();
 		
@@ -283,16 +282,13 @@ public class Hand implements Iterable<GameTile>{
 		//candidateTile = the tile that will complete the meld
 		GameTile candidateTile = mChecker.getCallCandidate();
 		
-		
-		//~~~~make the meld and remove the tiles from the hand
-		//make the meld, add to the list of melds
+		//make the meld
 		mMelds.add(new Meld(tilesFromHand, candidateTile, meldType));
 		
-		//remove the tiles from the hand
+		//remove the tiles from the hand 
 		removeMultiple(partnerIndices);
 		mNumMeldsMade++;
 		
-		//update the hand's closed status after making the meld
 		mChecker.updateClosedStatus();
 		
 	}
@@ -352,14 +348,10 @@ public class Hand implements Iterable<GameTile>{
 	
 	
 	public void makeMeldTurnAnkan(){
-		
 		__makeClosedMeldKan();
 	}
 	
-	
-	
 	public void makeMeldTurnMinkan(){
-		
 		int candidateIndex = mChecker.getCandidateMinkanIndex();
 		GameTile candidate = getTile(candidateIndex);
 		
@@ -370,10 +362,7 @@ public class Hand implements Iterable<GameTile>{
 			if (m.isPon() && m.getFirstTile().equals(candidate))
 				meldToUpgrade = m;
 		
-		//upgrade the pon to a kan
 		meldToUpgrade.upgradeToMinkan(candidate);
-		
-		//remove the tile from the hand
 		removeTile(candidateIndex);
 	}
 	
@@ -464,23 +453,21 @@ public class Hand implements Iterable<GameTile>{
 	//returns string of all tiles in the hand, and their indices
 	@Override
 	public String toString(){
-		
 		String handString = "";
-		int i;
 		
 		//show indices above the hand
-		for (i = 0; i < size(); i++)
+		for (int i = 0; i < size(); i++)
 			if (i+1 < 10) handString += (i+1) + "  ";
 			else handString += (i+1) + " ";
 		handString += "\n";
 		
 		//show the tiles, separated by spaces
-		for (i = 0; i < size(); i++)
+		for (int i = 0; i < size(); i++)
 			handString += getTile(i).toString() + " ";
 		
 		//show the completed melds
 		if (DEBUG_SHOW_MELDS_ALONG_WITH_HAND)
-			for (i = 0; i < mMelds.size(); i++)
+			for (int i = 0; i < mMelds.size(); i++)
 				handString+= "\n+++Meld " + (i+1) + ": " + mMelds.get(i).toString();
 		
 		return handString;
@@ -506,6 +493,4 @@ public class Hand implements Iterable<GameTile>{
 	
 	
 	public static int maxHandSize(){return Hand.MAX_HAND_SIZE;}
-	
-
 }

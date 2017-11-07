@@ -6,38 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-/*
-Class: ConviniList<T>
-a wrapper class for an List of Tiles. adds extra functionalities
-
-data:
-	mTiles - a list that holds the list of tiles
-	mSorter - used to sort the list
-	
-methods:
-	
-	constructors:
-	Takes List / Takes initial capacity / Takes Array or Var args
-	
-	public:
-		mutators:
-		removeFirst, removeLast - removes and returns a tile in the list, returns null if the list is empty
-		removeMultiple - removes multiple indices from the list
-		sort, sortAscending, sortDescending, shuffle - sort the list in specified order
-	 	
-	 	accessors:
-		getFirst, getLast - returns a tile in the list, returns null if the list is empty
-		subList - returns a sublist, as a ConviniList<T> from fromIndex (inclusive) to toIndex (exclusive)
-		
-		findAllIndicesOf - searches the list for all occurences of Tile t, returns a List of integer indices of where that tile occurred
-		makeCopy - returns a copy of the list
-		makeCopyNoDuplicates - returns a copy of the list with no duplicate tiles
-		makeCopyWithCheckers - makes a copy of the list with checkers
-		
-		
-		methods from Lsist:
-		add, remove, size, get, contains, isEmpty, indexOf, lastIndexOf, set, clear, trimToSize, ensureCapacity, iterator
-*/
+//a wrapper class for an arraylist, adds extra functionalities (I think)
 public class ConviniList<T extends Comparable<? super T>> extends ArrayList<T>{
 //public class ConviniList<T extends Comparable<? extends T>> extends ArrayList<T>{
 	private static final long serialVersionUID = -6296356765155653731L;
@@ -66,10 +35,6 @@ public class ConviniList<T extends Comparable<? super T>> extends ArrayList<T>{
 		for (T item: this) if (!copy.contains(item)) copy.add(item);
 		return copy;
 	}
-	
-	
-	
-	
 	
 	
 	
@@ -138,14 +103,6 @@ public class ConviniList<T extends Comparable<? super T>> extends ArrayList<T>{
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	
 	
@@ -171,11 +128,8 @@ public class ConviniList<T extends Comparable<? super T>> extends ArrayList<T>{
 	
 	
 	
-	
-	
 	//sort
 	public void sort(){Collections.sort(this);}
-	
 	
 }
 

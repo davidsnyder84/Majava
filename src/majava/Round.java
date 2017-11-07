@@ -14,30 +14,9 @@ import majava.enums.Exclamation;
 
 
 
-
 /*
 Class: Round
-
-data:
-	p1, p2, p3, p4 - the four players who will play the round
-	mPlayerArray - an array containing the four players
-	
-	mWall - wall of tiles, includes the dead wall
-	
-	mRoundTracker - tracks and manages information on the round
-	mTviewer - TableGUI to display the game and get input from the human player
-	
-	mCurrentRoundWind, mCurrentRoundNum, mCurrentRoundBonusNum - information for the round
-	
-	mDoFastGameplay - option, will do fast gameplay if true
-	sleepTime, sleepTimeExclamation, sleepTimeRoundEnd - determine how long to pause during gameplay
-	
 methods:
-	constructor:
-	2-arg: requires TableViewer, array of four players
-	4-arg: requires TableViewer, array of four players, round wind, round num
-	5-arg: requires TableViewer, array of four players, round wind, round num, round bonus num
-	
 	public:
 		mutators:
 	 	play - play the round
@@ -49,7 +28,7 @@ methods:
 	 	roundIsOver - returns true if the round has ended
 	 	endedWithVictory - returns true if the round ended with a win (not a draw)
 	 	getWinningHandString - return a string repesentation of the round's winning hand
-	 	displayRoundResult - displays the round's end result
+	 	displayRoundResult
 */
 public class Round{
 
@@ -84,13 +63,7 @@ public class Round{
 	private int sleepTime, sleepTimeExclamation, sleepTimeRoundEnd;
 	
 	
-	/*
-	Constructor
-	initializes a new round to make it ready for playing
 	
-	creates the wall
-	initializes round and game info
-	*/
 	//constructor
 	public Round(GameUI ui, Player[] playerArray, Wind roundWind, int roundNum, int roundBonusNum){
 		
@@ -100,7 +73,6 @@ public class Round{
 		//prepare players for new round
 		for (Player p: mPlayerArray)
 			p.prepareForNewRound();
-		
 		
 		//creates the wall
 		mWall = new Wall();
@@ -126,46 +98,26 @@ public class Round{
 	
 	
 	
-	/*
-	method: play
-	plays a single round of mahjong with the round's players
 	
-	if (round is already over): return early
-	
-	deal hands
-	loop while (game is not over)
-		handle current player's turn
-		if (round is not over, and a call was made on the current player's discard)
-			handle the reaction to the player's discard
-		end if
-	end loop
-	
-	display end of round result
-	*/
+	//plays a single round of mahjong with the round's players
 	public void play(){
-		
 		if (roundIsOver()){mUI.printErrorRoundAlreadyOver();return;}
 		
-		
-		__dealHands();
-		
+		dealHands();
 		while (!roundIsOver()){
-			
-			__doPlayerTurn(mRoundTracker.currentPlayer());
+			doPlayerTurn(mRoundTracker.currentPlayer());
 			
 			if (!roundIsOver())
 				if (mRoundTracker.callWasMadeOnDiscard())
-					__handleReaction();
+					handleReaction();
 		}
 		
-		__handleRoundEnd();
+		handleRoundEnd();
 	}
 	
 	
-	private void __handleRoundEnd(){
-		
-		__doPointPayments();
-		
+	private void handleRoundEnd(){
+		doPointPayments();
 		
 		if (mUI != null) mUI.setRoundResult(mRoundResult.getSummary());
 		
@@ -175,31 +127,27 @@ public class Round{
 	
 	
 	
-	private void __doPointPayments(){
-		
+	private void doPointPayments(){
 		final int PAYMENT_DUE = 8000;
 		int paymentDue = PAYMENT_DUE;
 		
 		PaymentMap payments = null;
-		
 
 		//find who has to pay what
-		if (mRoundResult.isDraw()) payments = __mapPaymentsDraw();
-		else payments = __mapPaymentsWin(paymentDue);
+		if (mRoundResult.isDraw()) payments = mapPaymentsDraw();
+		else payments = mapPaymentsWin(paymentDue);
 		
 		//carry out payments
-		for (Player p: mPlayerArray) p.pointsIncrease(payments.get(p.getPlayerNumber()));
+		for (Player p: mPlayerArray)
+			p.pointsIncrease(payments.get(p.getPlayerNumber()));
 		
-		//record payments in the result
 		mRoundResult.recordPayments(payments);
 	}
 
 	
-	/*
-	private method: __mapPaymentsWin
-	maps payments to players, in the case of a win
-	*/
-	private PaymentMap __mapPaymentsWin(int handValue){
+	
+	//maps payments to players, for the case of a win
+	private PaymentMap mapPaymentsWin(int handValue){
 		
 		PaymentMap payments = new PaymentMap();
 		
@@ -239,11 +187,8 @@ public class Round{
 		return payments;
 	}
 	
-	/*
-	private method: __mapPaymentsDraw
-	maps payments to players, in the case of a draw
-	*/
-	private PaymentMap __mapPaymentsDraw(){
+	//maps payments to players, for the case of a draw
+	private PaymentMap mapPaymentsDraw(){
 		PaymentMap payments = new PaymentMap();
 		
 		for (Player p: mPlayerArray) payments.put(p, 0);
@@ -258,7 +203,7 @@ public class Round{
 	
 	
 	//deals players their starting hands
-	private void __dealHands(){
+	private void dealHands(){
 		
 		if (DEBUG_LOAD_DEBUG_WALL) mWall.DEMOloadDebugWall();	//DEBUG
 		
@@ -284,7 +229,7 @@ public class Round{
 
 	
 	/*
-	private method: __doPlayerTurn
+	private method: doPlayerTurn
 	handles player p's turn, and gets the other players' reactions to the p's turn
 	
 	
@@ -300,7 +245,7 @@ public class Round{
  	
 	if the wall is not empty and no one made a call, move to the next player's turn
 	*/
-	private void __doPlayerTurn(Player p){
+	private void doPlayerTurn(Player p){
 		
 		//~~~~~~handle drawing a tile
 		//if the player needs to draw a tile, draw a tile
@@ -382,9 +327,8 @@ public class Round{
 	
 	//gives a player a tile from the wall or dead wall
 	private void __givePlayerTile(Player p){
-		
-		GameTile drawnTile = null;
 		if (!p.needsDraw()) return;
+		GameTile drawnTile = null;
 		
 		//draw from wall or dead wall, depending on what player needs
 		if (p.needsDrawNormal()){
@@ -410,8 +354,6 @@ public class Round{
 			}			
 		}
 		
-		
-		//add the tile to the player's hand
 		p.addTileToHand(drawnTile);
 		__updateUI(GameplayEvent.DREW_TILE);
 	}
@@ -421,69 +363,33 @@ public class Round{
 	
 	
 	
-	
-	
-	
-	
-	
-	/*
-	private method: __handleReaction
-	handles a call made on a discarded tile
-	
-	input: t is the discarded tile
-	
-	
-	priorityCaller = figure out who made the call (and decide priority if >1 calls)
-	if (caller called ron)
-		handle Ron
-	else
-		let the caller make the meld with the tile
-		show who called the tile, and what they called 
-	end if
-	
-	if (multiple players tried to call)
-		display other callers who got bumped by priority
-	end if
-	
-	whoseTurn = priorityCaller's turn
-	reaction = NO_REACTION
-	*/
-	private void __handleReaction(){
-		
-		
+	//handles a call made on a discarded tile
+	private void handleReaction(){
 		//get the discarded tile
 		GameTile discardedTile = mRoundTracker.currentPlayer().getLastDiscard();
 		
-		
-		
 		//figure out who called the tile, and if multiple players called, who gets priority
-		Player priorityCaller = __whoCalled();
+		Player priorityCaller = whoCalled();
 		
 		//remove the tile from the discarder's pond (because it is being called), unless the call was Ron
-		if (!priorityCaller.calledRon()) mRoundTracker.currentPlayer().removeTileFromPond();
-		
-		
+		if (!priorityCaller.calledRon())
+			mRoundTracker.currentPlayer().removeTileFromPond();
 		
 		//show the call
 		GameplayEvent callEvent = GameplayEvent.CALLED_TILE;
 		callEvent.setExclamation(priorityCaller.getCallStatusExclamation(), priorityCaller.getPlayerNumber());
 		__updateUI(callEvent);
 		
-		
 		//give the caller the discarded tile so they can make their meld
 		//if the caller called Ron, handle that instead
 		if (priorityCaller.calledRon()){
-			
 			mRoundTracker.setResultVictory(priorityCaller);
-			
 		}
 		else{
-			
 			//make the meld
 			priorityCaller.makeMeld(discardedTile);
 			__updateUI(GameplayEvent.MADE_OPEN_MELD);
 		}
-		
 		
 		//it is now the calling player's turn (if the round isn't over)
 		if (!roundIsOver())
@@ -502,27 +408,9 @@ public class Round{
 	
 	
 	
-	/*
-	private method: __whoCalled
-	decides who gets to call the tile
 	
-	
-	check if only one player tried to call
-	if (only one player made a call)
-		return that player
-	else (>1 player made a call)
-		return the player with greater priority
-		(ron > pon/kan > chi, break ron tie by seat order)
-	end if
-	
-	callingPlayer = figure out who made the call (decide priority if >1 calls)
-	handle the call
-	show the result of the call
-	
-	whoseTurn = the player who made the call's turn
-	reaction = NO_REACTION
-	*/
-	private Player __whoCalled(){
+	//decides who gets to call the tile
+	private Player whoCalled(){
 		
 		Player callingPlayer = null;
 		Player callerPon = null, callerRon = null;
@@ -579,7 +467,6 @@ public class Round{
 	
 	
 	public void displayRoundResult(){
-		
 		__updateUI(GameplayEvent.END_OF_ROUND);
 	}
 	

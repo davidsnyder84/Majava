@@ -47,7 +47,8 @@ public class PaymentMap implements Iterable<PlayerSummary>{
 	
 	//gets the payments the player is mapped to
 	public int get(int playerNum){return mPayments[playerNum];}
-	public int get(PlayerSummary player){if (player == null) return -1; return mPayments[player.getPlayerNumber()];}
+	public int get(PlayerSummary playerSummary){if (playerSummary == null) return -1; return mPayments[playerSummary.getPlayerNumber()];}
+	public int get(Player p){return get(PlayerSummary.getSummaryFor(p));}
 	
 	//gets the player
 	public PlayerSummary getPlayer(int playerNum){return mPlayers[playerNum];}

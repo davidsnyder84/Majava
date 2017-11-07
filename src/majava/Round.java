@@ -14,22 +14,7 @@ import majava.enums.Exclamation;
 
 
 
-/*
-Class: Round
-methods:
-	public:
-		mutators:
-	 	play - play the round
-	 	setOptionFastGameplay - set option to do fast gameplay or not
-	 	
-	 	accessors:
-	 	getRoundWind, getRoundNum, getRoundBonusNum - returns round information
-	 	
-	 	roundIsOver - returns true if the round has ended
-	 	endedWithVictory - returns true if the round ended with a win (not a draw)
-	 	getWinningHandString - return a string repesentation of the round's winning hand
-	 	displayRoundResult
-*/
+//represents a single round (ˆê‹Ç) of mahjong
 public class Round{
 
 	private static final int NUM_PLAYERS = 4;

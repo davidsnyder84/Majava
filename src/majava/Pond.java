@@ -6,29 +6,8 @@ import java.util.List;
 import majava.tiles.PondTile;
 import majava.tiles.GameTile;
 
-/*
-Class: Pond
-represents a player's pond of discarded tiles
 
-data:
-	mTiles - list of tiles in the pond
-	mRiichiTileIndex - the index of the tile used to riichi
-	
-methods:
-	
-	public:
-		mutators:
-		addTile - adds a tile to the pond
-	 	removeMostRecentTile - marks the most recent tile as missing (because it was callled)
-	 	
-	 	accessors:
-	 	isNagashiMangan - returns true if the player has made a nagashi mangan in their pond
-		getRiichiTile - returns which tile the player used for riichi
-		getMostRecentTile - returns the most recently discarded tile in the pond
-	
-	other:
-		syncWithRoundTracker - associates this pond with the round tracker
-*/
+//represents a player's pond of discarded tiles
 public class Pond {
 	
 	private static final int SIZE_MAX = 30;
@@ -46,16 +25,13 @@ public class Pond {
 		mRiichiTileIndex = -1;
 	}
 	
-	
-	public void addTile(GameTile t){
-		mTiles.add(new PondTile(t));
-	}
+	public void addTile(GameTile t){mTiles.add(new PondTile(t));}
 	
 	
 	
 	
 	public boolean isNagashiMangan(){
-		//nagashi mangan not yet implemented
+		/////implement nagashi mangan here
 		return false;
 	}
 	
@@ -74,15 +50,6 @@ public class Pond {
 		getMostRecentTile().setCalled();
 		return getMostRecentTile();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	@Override
@@ -105,12 +72,9 @@ public class Pond {
 	
 	
 	
-	
 	//sync pond tilelist with tracker
 	public void syncWithRoundTracker(RoundTracker tracker){
 		tracker.syncPond(mTiles);
 	}
-	
-	
 	
 }

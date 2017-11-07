@@ -1,17 +1,8 @@
 package majava.enums;
 
 
-/*
-Enum: Wind
-represents a wind (East, South, West, North)
-	
-methods:
-	public:
- 	next - returns the next wind clockwise
- 	prev - returns the next wind counterclockwise
- 	kamichaWind - returns the previous wind
- 	toString, toChar - returns a string or char represnation of the wind
-*/
+
+//represents a wind (East, South, West, North)
 public enum Wind {
 	EAST, SOUTH, WEST, NORTH, UNKNOWN;
 	

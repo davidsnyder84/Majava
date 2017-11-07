@@ -53,7 +53,6 @@ import javax.swing.JMenu;
 import javax.swing.JCheckBoxMenuItem;
 
 /*
-Class: TableGUI
 a GUI for viewing and interacting with the game
 	
 methods:
@@ -65,17 +64,6 @@ methods:
 		
 		getClickCall - prompts a player to click a button to make a call
 		getClickTurnAction - prompts a player to click a button to choose an action
-		
-		
-		accessors:
-		resultClickCallWasNone, etc - returns true if the specified call was clicked
-		
-		resultClickTurnActionWasDiscard, etc - returns true if the specified action was clicked
-		getResultClickedDiscard - returns the discard index the player clicked on
-		
-		
-	other:
-	syncWithRoundTracker - associates the viewer with the round tracker
 */
 public class TableViewBase extends JFrame{
 	private static final long serialVersionUID = -4041211467460747162L;

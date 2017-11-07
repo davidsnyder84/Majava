@@ -103,7 +103,7 @@ public class ResultPanel extends JPanel{
 	
 	public void showResult(RoundResultSummary resum){
 		
-		__blankEverything();
+		blankEverything();
 		
 		
 		
@@ -188,7 +188,7 @@ public class ResultPanel extends JPanel{
 	
 	
 	
-	private void __blankEverything(){
+	private void blankEverything(){
 		mResultLabelPanel.setVisible(false);
 		mPaymentsPanel.setVisible(false);
 		

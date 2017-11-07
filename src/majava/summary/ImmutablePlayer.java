@@ -9,13 +9,8 @@ import majava.player.Player;
 import majava.summary.PlayerSummary;
 import majava.tiles.GameTile;
 
-/*
-Class: ImmutablePlayer
-immutable representation of a player
 
-methods:
-	constructors: requires a Player
-*/
+//immutable representation of a player
 public class ImmutablePlayer{
 	
 	
@@ -145,7 +140,7 @@ public class ImmutablePlayer{
 	
 	
 	
-	public String getControllerAsString(){return mPlayer.getAsStringController();}
+	public String getControllerAsString(){return mPlayer.getControllerAsString();}
 	public boolean controllerIsHuman(){return mPlayer.controllerIsHuman();}
 	public boolean controllerIsComputer(){return mPlayer.controllerIsComputer();}
 	

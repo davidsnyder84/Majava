@@ -19,10 +19,7 @@ import majava.util.GameTileList;
 
 
 
-/*
-Class: DemoHandGen
-code for testing HandChecker functions
-*/
+//code for testing HandChecker functions
 public class DemoHandGen {
 	
 	public static final Wind OWNER_SEAT = Wind.SOUTH;

@@ -2,10 +2,7 @@ package majava.userinterface.graphicalinterface.window;
 
 
 
-/*
-Class: TableViewSmall
-a smaller GUI
-*/
+//a smaller GUI
 public class TableViewSmall extends TableViewBase{
 	private static final long serialVersionUID = -4667970999762688255L;
 	

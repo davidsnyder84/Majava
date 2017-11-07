@@ -1,18 +1,7 @@
 package majava.enums;
 
 
-/*
-Enum: MeldType
-represents a type of meld (chi, pon, kan, pair)
-	
-methods:
-	public:
- 	isChi - returns true if ChiL, ChiM, or ChiH
- 	isMulti - returns true if Pon or Kan or Pair
- 	isPon - returns true if kan
- 	isKan - returns true if pon
- 	toString - string represnation
-*/
+//represents a type of meld (chi, pon, kan, pair)
 public enum MeldType {
 		NONE, PON, KAN, PAIR, CHI, CHI_L, CHI_M, CHI_H;
 		

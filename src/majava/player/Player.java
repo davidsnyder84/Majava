@@ -12,10 +12,8 @@ import majava.userinterface.GameUI;
 import majava.summary.PointsBox;
 import majava.tiles.GameTile;
 
-/*
-Class: Player
-represents a player in the game
-*/
+
+//represents a player in the game
 public class Player {
 	
 	private PlayerBrain myBrain;
@@ -23,59 +21,53 @@ public class Player {
 	private PointsBox pointsBox;
 	
 	private RoundTracker mRoundTracker;
-	private GameUI mUI;
+	private GameUI userInterface;
 	
 	//data that changes between rounds
-	private Hand mHand;
-	private Pond mPond;
-	private Wind mSeatWind;
-	private int mPlayerNum;
+	private Hand hand;
+	private Pond pond;
+	private Wind seatWind;
+	private int playerNum;
 	
 	
 	private DrawingNeed drawNeeded;
-	private GameTile mLastDiscard;	
-	private boolean mHoldingRinshanTile;
-	private boolean mRiichiStatus;
-	private boolean mFuritenStatus;
+	private GameTile lastDiscard;	
+	private boolean isHoldingRinshanTile;
+	private boolean isRiichi;
+	private boolean isFuriten;
 	
 	
 	
-	
-	
-	public Player(PlayerProfile prof){
+	public Player(PlayerProfile newProfile){
 		//always generate a default brain just in case. we don't want brainless players
 		myBrain = PlayerBrain.generateGenericBrain(this);
-		profile = prof;
+		profile = newProfile;
 		pointsBox = new PointsBox();
 		
 		setSeatWind(Wind.UNKNOWN);
-		mPlayerNum = 0;
+		playerNum = 0;
 		drawNeeded = new DrawingNeed();
 		prepareForNewRound();
 	}
 	public Player(String name){this(new PlayerProfile(name));}
 	public Player(){this((String)null);}
 	
-	
-	
 	//initializes a player's resources for a new round
 	public void prepareForNewRound(){
 		
-		mHand = new Hand(mSeatWind);
-		mPond = new Pond();
+		hand = new Hand(seatWind);
+		pond = new Pond();
 		
 		//just in case, don't know if it's needed
 		myBrain.clearCallStatus();
 		myBrain.clearTurnActionStatus();
 		
 		setDrawNeededNormal();
-		mRiichiStatus = false;
-		mFuritenStatus = false;
-		mHoldingRinshanTile = false;
-		mLastDiscard = null;
+		isRiichi = false;
+		isFuriten = false;
+		isHoldingRinshanTile = false;
+		lastDiscard = null;
 	}
-	
-	
 	
 	
 	
@@ -86,22 +78,22 @@ public class Player {
 	//lets a player take their turn
 	//returns the tile discarded by the player, returns null if the player did not discard (they made a kan or tsumo)
 	public GameTile takeTurn(){
-		mLastDiscard = null;
+		lastDiscard = null;
 		
 		myBrain.chooseTurnAction();
 		if (turnActionChoseDiscard()){
 			
 			//discard and return the chosen tile
-			mLastDiscard = __discardChosenTile();
-			return mLastDiscard;
+			lastDiscard = discardChosenTile();
+			return lastDiscard;
 		}
 		else{
 			if (turnActionMadeKan()){
 				//make the meld
 				if (turnActionMadeAnkan())
-					mHand.makeMeldTurnAnkan();
+					hand.makeMeldTurnAnkan();
 				else if (turnActionMadeMinkan())
-					mHand.makeMeldTurnMinkan();
+					hand.makeMeldTurnMinkan();
 				
 				setDrawNeededRinshan();
 			}
@@ -110,28 +102,23 @@ public class Player {
 		}
 	}
 	
-	
-	
-	private void __putTileInPond(GameTile t){mPond.addTile(t);}
-	//removes the most recent tile from the player's pond (because another player called it)
-	public GameTile removeTileFromPond(){return mPond.removeMostRecentTile();}
-	
-	
-	
-	
-	private GameTile __discardChosenTile(){
+	private GameTile discardChosenTile(){
 		//remove the chosen discard tile from hand
-		GameTile discardedTile = mHand.removeTile(myBrain.getChosenDiscardIndex());
+		GameTile discardedTile = hand.removeTile(myBrain.getChosenDiscardIndex());
 		
-		__putTileInPond(discardedTile);
+		putTileInPond(discardedTile);
 		
 		//set needed draw to normal, since we just discarded a tile
 		setDrawNeededNormal();
 
 		return discardedTile;
 	}
+	private void putTileInPond(GameTile t){pond.addTile(t);}
 	
-	public GameTile getLastDiscard(){return mLastDiscard;}
+	//removes the most recent tile from the player's pond (because another player called it)
+	public GameTile removeTileFromPond(){return pond.removeMostRecentTile();}
+	
+	public GameTile getLastDiscard(){return lastDiscard;}
 	
 	
 	public boolean turnActionMadeKan(){return (turnActionMadeAnkan() || turnActionMadeMinkan());}
@@ -143,10 +130,10 @@ public class Player {
 	
 	
 	//turn actions
-	public boolean ableToAnkan(){return mHand.ableToAnkan();}
-	public boolean ableToMinkan(){return mHand.ableToMinkan();}
-	public boolean ableToRiichi(){return !isInRiichi() && mHand.ableToRiichi();}
-	public boolean ableToTsumo(){return mHand.ableToTsumo();}
+	public boolean ableToAnkan(){return hand.ableToAnkan();}
+	public boolean ableToMinkan(){return hand.ableToMinkan();}
+	public boolean ableToRiichi(){return !isInRiichi() && hand.ableToRiichi();}
+	public boolean ableToTsumo(){return hand.ableToTsumo();}
 	
 	
 	
@@ -155,18 +142,18 @@ public class Player {
 	
 	
 	public void addTileToHand(final GameTile t){
-		t.setOwner(mSeatWind);
-		mHand.addTile(t);
+		t.setOwner(seatWind);
+		hand.addTile(t);
 		
 		//no longer need to draw (because the player has just drawn)
 		setDrawNeededNone();
 	}
 	public void giveStartingHand(List<GameTile> startingTiles){
 		for (GameTile t: startingTiles) addTileToHand(t);
-		mHand.sortHand();
+		hand.sortHand();
 		
 		//if the player isn't east, they will need to draw
-		if (mHand.size() < Hand.maxHandSize())
+		if (hand.size() < Hand.maxHandSize())
 			setDrawNeededNormal();
 	}
 	
@@ -181,7 +168,7 @@ public class Player {
 		myBrain.clearCallStatus();
 		
 		//if able to call the tile, ask brain for reaction
-		if (__ableToCallTile(tileToReactTo))
+		if (ableToCallTile(tileToReactTo))
 			myBrain.reactToDiscard(tileToReactTo);
 		
 		return myBrain.called();
@@ -191,23 +178,23 @@ public class Player {
 	
 	
 	//checks if the player is able to make a call on Tile t (actual checks performed)
-	private boolean __ableToCallTile(GameTile t){
+	private boolean ableToCallTile(GameTile t){
 		
 		//check if t can be called to make a meld
-		boolean ableToCall = mHand.checkCallableTile(t);
+		boolean ableToCall = hand.checkCallableTile(t);
 		
 		//only allow ron if riichi
-		if (isInRiichi() && !mHand.ableToRon()) ableToCall = false;
+		if (isInRiichi() && !hand.ableToRon()) ableToCall = false;
 		
 		return ableToCall;
 	}
 	
-	public boolean ableToCallChiL(){return !isInRiichi() && mHand.ableToChiL();}
-	public boolean ableToCallChiM(){return !isInRiichi() && mHand.ableToChiM();}
-	public boolean ableToCallChiH(){return !isInRiichi() && mHand.ableToChiH();}
-	public boolean ableToCallPon(){return !isInRiichi() && mHand.ableToPon();}
-	public boolean ableToCallKan(){return !isInRiichi() && mHand.ableToKan();}
-	public boolean ableToCallRon(){return mHand.ableToRon();}
+	public boolean ableToCallChiL(){return !isInRiichi() && hand.ableToChiL();}
+	public boolean ableToCallChiM(){return !isInRiichi() && hand.ableToChiM();}
+	public boolean ableToCallChiH(){return !isInRiichi() && hand.ableToChiH();}
+	public boolean ableToCallPon(){return !isInRiichi() && hand.ableToPon();}
+	public boolean ableToCallKan(){return !isInRiichi() && hand.ableToKan();}
+	public boolean ableToCallRon(){return hand.ableToRon();}
 	
 	
 	
@@ -217,16 +204,15 @@ public class Player {
 	
 	//forms a meld using the given tile
 	public void makeMeld(GameTile t){
-		
 		//prevent an error case that will probably never happen
 		if (!called()){System.out.println("-----Error: No meld to make (the player didn't make a call!!)"); return;}
 		
 		//make the right type of meld, based on call status
-		if (calledChiL()) mHand.makeMeldChiL();
-		else if (calledChiM()) mHand.makeMeldChiM();
-		else if (calledChiH()) mHand.makeMeldChiH();
-		else if (calledPon()) mHand.makeMeldPon();
-		else if (calledKan()) mHand.makeMeldKan();
+		if (calledChiL()) hand.makeMeldChiL();
+		else if (calledChiM()) hand.makeMeldChiM();
+		else if (calledChiH()) hand.makeMeldChiH();
+		else if (calledPon()) hand.makeMeldPon();
+		else if (calledKan()) hand.makeMeldKan();
 		
 		//update what the player will need to draw next turn (draw nothing if called chi/pon, rinshan draw if called kan)
 		if (calledChi() || calledPon())
@@ -245,10 +231,10 @@ public class Player {
 	
 	
 	//accessors
-	public int handSize(){return mHand.size();}
-	public boolean isInRiichi(){return mRiichiStatus;}
-	public boolean isInFuriten(){return mFuritenStatus;}
-	public boolean checkTenpai(){return mHand.getTenpaiStatus();}
+	public int handSize(){return hand.size();}
+	public boolean isInRiichi(){return isRiichi;}
+	public boolean isInFuriten(){return isFuriten;}
+	public boolean checkTenpai(){return hand.getTenpaiStatus();}
 	
 	
 	
@@ -281,20 +267,20 @@ public class Player {
 	
 	
 	
-	public boolean holdingRinshan(){return mHoldingRinshanTile;}
-	public GameTile getTsumoTile(){return mHand.getTile(mHand.size() - 1).clone();}
+	public boolean holdingRinshan(){return isHoldingRinshanTile;}
+	public GameTile getTsumoTile(){return hand.getTile(hand.size() - 1).clone();}
 	
 	
-	public boolean handIsFullyConcealed(){return mHand.isClosed();}
+	public boolean handIsFullyConcealed(){return hand.isClosed();}
 	
 	//returns the number of melds the player has made (open melds and ankans)
-	public int getNumMeldsMade(){return mHand.getNumMeldsMade();}
+	public int getNumMeldsMade(){return hand.getNumMeldsMade();}
 	
 	//returns a list of the melds that have been made (copy of actual melds), returns an empty list if no melds made
-	public List<Meld> getMelds(){return mHand.getMelds();}
+	public List<Meld> getMelds(){return hand.getMelds();}
 	
 	
-	public int getNumKansMade(){return mHand.getNumKansMade();}
+	public int getNumKansMade(){return hand.getNumKansMade();}
 	public boolean hasMadeAKan(){return (getNumKansMade() != 0);}
 	
 	
@@ -303,32 +289,28 @@ public class Player {
 	
 	
 	//seat wind methods
-	private void setSeatWind(Wind wind){mSeatWind = wind;}
-	public void rotateSeat(){setSeatWind(mSeatWind.prev());}
+	private void setSeatWind(Wind wind){seatWind = wind;}
+	public void rotateSeat(){setSeatWind(seatWind.prev());}
 	public void setSeatWindEast(){setSeatWind(Wind.EAST);}
 	public void setSeatWindSouth(){setSeatWind(Wind.SOUTH);}
 	public void setSeatWindWest(){setSeatWind(Wind.WEST);}
 	public void setSeatWindNorth(){setSeatWind(Wind.NORTH);}
-	
-	public Wind getSeatWind(){return mSeatWind;}
+	public Wind getSeatWind(){return seatWind;}
 	public boolean isDealer(){return getSeatWind().isDealerWind();}
 	
 	//player number methods
-	public void setPlayerNumber(int playerNum){if (playerNum >= 0 && playerNum < 4) mPlayerNum = playerNum;}	
-	public int getPlayerNumber(){return mPlayerNum;}
-	
+	public void setPlayerNumber(int newNum){if (newNum >= 0 && newNum < 4) playerNum = newNum;}	
+	public int getPlayerNumber(){return playerNum;}
 	
 	
 	//controller methods
-	private void __setController(PlayerBrain desiredBrain){
-		myBrain = desiredBrain;
-	}
-	public void setControllerHuman(){__setController(new HumanBrain(this, mUI));}
+	private void setController(PlayerBrain desiredBrain){myBrain = desiredBrain;}
+	public void setControllerHuman(){setController(new HumanBrain(this, userInterface));}
 	public void setControllerComputer(){
 		SimpleRobot robot = new SimpleRobot(this);
-		__setController(robot);
+		setController(robot);
 	}
-	public String getAsStringController(){return myBrain.toString();}
+	public String getControllerAsString(){return myBrain.toString();}
 	public boolean controllerIsHuman(){return myBrain.isHuman();}
 	public boolean controllerIsComputer(){return myBrain.isComputer();}
 	
@@ -348,20 +330,20 @@ public class Player {
 	
 	//get pond as string
 	public String getAsStringPond(){
-		return getSeatWind() + " Player's pond:\n" + mPond;
+		return getSeatWind() + " Player's pond:\n" + pond;
 	}
 	//get hand as string
 	public String getAsStringHand(){
 		String hs = "";
-		hs += mSeatWind + " Player's hand (controller: " + myBrain + ", " + getPlayerName() + "):";
-		if (mHand.getTenpaiStatus()) hs += "     $$$$!Tenpai!$$$$";
-		hs += "\n" + mHand;
+		hs += seatWind + " Player's hand (controller: " + myBrain + ", " + getPlayerName() + "):";
+		if (hand.getTenpaiStatus()) hs += "     $$$$!Tenpai!$$$$";
+		hs += "\n" + hand;
 		return hs;
 	}
 	public String getAsStringHandCompact(){
 		String hs = "";
-		hs += mSeatWind.toChar() + " hand: ";
-		for (GameTile t: mHand) hs += t + " ";
+		hs += seatWind.toChar() + " hand: ";
+		for (GameTile t: hand) hs += t + " ";
 		return hs;
 	}
 
@@ -369,20 +351,20 @@ public class Player {
 	@Override
 	public boolean equals(Object other){return (this == other);}
 	@Override
-	public String toString(){return (getPlayerName() + " (" + mSeatWind.toChar() +" player) ");}
+	public String toString(){return (getPlayerName() + " (" + seatWind.toChar() +" player) ");}
 	
 	
 	
 	public void setUI(GameUI ui){
-		mUI = ui;
+		userInterface = ui;
 		if (controllerIsHuman())
-			((HumanBrain) myBrain).setUI(mUI);
+			((HumanBrain) myBrain).setUI(userInterface);
 	}
 	
 	//sync player's hand and pond with tracker
 	public void syncWithRoundTracker(RoundTracker tracker){
 		mRoundTracker = tracker;
-		mRoundTracker.syncPlayer(mHand, mPond);
+		mRoundTracker.syncPlayer(hand, pond);
 	}
 	
 	
@@ -396,8 +378,8 @@ public class Player {
 	////////////////////////////////////////////////////////////////////////////////////
 	//fill hand with demo values
 //	public void DEMOfillHand(){mHand.DEMOfillChuuren();}
-	public void DEMOfillHand(){mHand.DEMOfillHelter();}
-	public void DEMOfillHandNoTsumo(){DEMOfillHand(); mHand.removeTile(mHand.size()-1);}
+	public void DEMOfillHand(){hand.DEMOfillHelter();}
+	public void DEMOfillHandNoTsumo(){DEMOfillHand(); hand.removeTile(hand.size()-1);}
 
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand (for debug use)
 	public void addTileToHand(int tileID){addTileToHand(new GameTile(tileID));}

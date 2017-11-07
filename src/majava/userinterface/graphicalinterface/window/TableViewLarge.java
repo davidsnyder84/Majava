@@ -46,10 +46,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JCheckBoxMenuItem;
 
 
-/*
-Class: TableViewer
-a larger GUI for viewing the full wall
-*/
+
+//a larger GUI for viewing the full wall
 public class TableViewLarge extends TableViewBase{
 	private static final long serialVersionUID = 8352771291866988835L;
 	

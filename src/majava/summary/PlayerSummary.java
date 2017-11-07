@@ -22,7 +22,7 @@ public class PlayerSummary{
 			pPoints = points;
 		}
 		public PlayerSummary(Player p){
-			this(p.getPlayerName(), p.getPlayerID(), p.getAsStringController(), p.getPlayerNumber(), p.getSeatWind(), p.getPoints());
+			this(p.getPlayerName(), p.getPlayerID(), p.getControllerAsString(), p.getPlayerNumber(), p.getSeatWind(), p.getPoints());
 		}
 		
 		

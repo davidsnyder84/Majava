@@ -20,41 +20,6 @@ public abstract class GameUI {
 	protected int mSleepTime = DEAFULT_SLEEPTIME, mSleepTimeExclamation = DEAFULT_SLEEPTIME_EXCLAMATION, mSleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
 	
 	
-	
-	
-	
-//	protected static class PlayerTracker{
-//		protected Player player;
-//		
-//		public PlayerTracker(Player p, Hand tH, Pond tP){player = p;hand = tH;pond = tP;}
-//	}
-	
-//	protected static final class PlayerTracker{
-//		public Player player;
-//
-//		public Hand hand;
-//		public TileList tilesH;
-//		
-//		public Pond pond;
-//		public TileList tilesP;
-//
-//		//private Wind seatWind;
-//		//private int points;
-//		//private boolean riichiStatus;
-//		//private String playerName;
-//		
-//		//private List<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
-//		
-//		public PlayerTracker(Player p, Hand ha, TileList tH, Pond po, TileList tP){
-//			player = p;
-//			hand = ha; tilesH = tH;
-//			pond = po; tilesP = tP;
-//		}
-//	}
-//	protected PlayerTracker[] mPTrackers;
-//	protected Tile[] mTilesW;
-//	protected Wall mWall;
-//	
 //	protected RoundTracker mRoundTracker;
 	
 	protected RoundEntities mRoundEntities = null;
@@ -63,24 +28,13 @@ public abstract class GameUI {
 	
 	
 	
-	
-	
-	
-	
 	public GameUI(){
 		
 	}
 	
 	
-	
-	
-	
-	
-	
 	public abstract void startUI();
 	public abstract void endUI();
-	
-	
 	
 	
 	
@@ -124,9 +78,6 @@ public abstract class GameUI {
 	
 	
 	
-	
-	
-	
 	public void syncWithRoundTracker(RoundEntities roundEntities){
 		mRoundEntities = roundEntities;
 	}
@@ -142,10 +93,6 @@ public abstract class GameUI {
 //	}
 	
 	
-	
-	
-	
-	
 	public void setRoundResult(RoundResultSummary resum){
 		mResultSummary = resum;
 	}
@@ -156,13 +103,6 @@ public abstract class GameUI {
 		mSleepTimeExclamation = sleepTimeExclamation;
 		mSleepTimeRoundEnd = sleepTimeRoundEnd;
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -185,10 +125,6 @@ public abstract class GameUI {
 	public abstract boolean resultChosenCallWasPon();
 	public abstract boolean resultChosenCallWasKan();
 	public abstract boolean resultChosenCallWasRon();
-	
-	
-	
-	
 	
 	
 	

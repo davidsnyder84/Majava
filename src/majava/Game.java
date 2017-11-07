@@ -10,39 +10,7 @@ import majava.enums.Wind;
 
 
 
-/*
-Class: Game
-
-data:
-	p1, p2, p3, p4 - the game's four players
-	mPlayerArray - an array containing the four players
-	
-	mGameType - the type of game being played (single, tonpuusen, hanchan. or simulation)
-	
-	mCurrentRound - the current round being played
-	mCurrentRoundWind, mCurrentRoundNum, mCurrentRoundBonusNum - information for the current round
-	
-	mGameIsOver - will be true if the game is over, false if not
-	mWinStrings - a string containing the winning hands of each round in the game
-	
-	mTviewer - TableGUI window for the game
-	mDoFastGameplay - option, will do fast gameplay if true
-	
-methods:
-	constructors:
-	2-arg, requires a TableViewer GUI and an array of four players
-	
-	public:
-		play - plays a game of mahjong with the four players
-		runSimulation - plays a large number of fast games with computer players only
-	
-		mutators:
-		setOptionFastGameplay - turns fast gameplay on or off
- 	
- 		accessors:
- 		gameIsOver - returns true if the game is over
- 		displayGameResult - displays the result of a game that has finished
-*/
+//represents one game (tonpuusen, hanchan, etc) of mahjong
 public class Game {
 	
 	private static final int NUM_PLAYERS = 4;

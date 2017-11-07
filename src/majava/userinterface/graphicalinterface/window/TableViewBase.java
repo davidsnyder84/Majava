@@ -303,7 +303,6 @@ public class TableViewBase extends JFrame{
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^BEGIN MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 	
 	protected JPanel contentPane;
-	protected final TableViewBase thisguy = this;
 	
 	
 	protected boolean cheatRevealAllWall;
@@ -846,7 +845,7 @@ public class TableViewBase extends JFrame{
 		lblExclamation = new ExclamationLabel();
 		
 		panRoundResultLabel = new RoundResultLabelPanel();
-		panDebugButtons = new DebugButtonsPanel();
+		panDebugButtons = new DebugButtonsPanel(this);
 		lblFun = new FunLabel();
 		
 		panCalls = new PromptPanel();
@@ -1597,8 +1596,10 @@ public class TableViewBase extends JFrame{
 	protected class DebugButtonsPanel extends JPanel{
 		private static final long serialVersionUID = 1859926261989819869L;
 		protected final JButton btnBlankAll = new JButton("Blank"), btnRandAll = new JButton("Rand");
-		public DebugButtonsPanel(){
+		private final JFrame frame;
+		public DebugButtonsPanel(JFrame f){
 			super();
+			frame = f;
 			setBounds(0, 0, 68, 23*2);setVisible(DEBUG_BUTTONS_VISIBLE);setLayout(null);setBackground(COLOR_TRANSPARENT);
 			btnBlankAll.setBounds(0, 23, 68, 23);btnBlankAll.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent arg0) {blankEverything();}});
 			btnRandAll.setBounds(0, 0, 65, 23);
@@ -1621,7 +1622,7 @@ public class TableViewBase extends JFrame{
 					String[] results = {"Draw (Washout)", "Draw (Kyuushuu)", "Draw (4 kans)", "Draw (4 riichi)", "Draw (4 wind)", "East wins! (TSUMO)", "East wins! (RON)", "South wins! (TSUMO)", "South wins! (RON)", "West wins! (TSUMO)", "West wins! (RON)", "North wins! (TSUMO)", "North wins! (RON)" };panRoundResultLabel.setVisible(true);lblResult.setText(results[randGen.nextInt(results.length)]);
 					for (JPanel p: parryTurnInds) p.setVisible(false);	parryTurnInds[randGen.nextInt(parryTurnInds.length)].setVisible(true); //randomize turn indicator
 					lblFun.setIcon(garryOmake[randGen.nextInt(garryOmake.length)]);
-					thisguy.repaint();
+					frame.repaint();
 				}
 			});
 			add(btnBlankAll);add(btnRandAll);

@@ -8,7 +8,6 @@ import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 import majava.userinterface.graphicalinterface.GraphicalUI;
 import majava.userinterface.graphicalinterface.window.TableViewBase;
-import majava.userinterface.graphicalinterface.window.TableViewSmall;
 import majava.userinterface.textinterface.DetailedTextualUI;
 import majava.userinterface.textinterface.SparseTextualUI;
 import majava.userinterface.textinterface.TextualUI;

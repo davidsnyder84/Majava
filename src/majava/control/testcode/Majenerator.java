@@ -117,20 +117,20 @@ public class Majenerator {
 		
 		///////add in honba here
 		
-		playerPaymentMap.put(winner.getPlayerSummary(), paymentDue);
+		playerPaymentMap.put(winner, paymentDue);
 		
 		
 		//find who has to pay
 		if (res.isVictoryRon()){
 			furikonda = res.getFurikondaPlayer();
 			for (Player p: losers)
-				if (p == furikonda) playerPaymentMap.put(p.getPlayerSummary(), -paymentDue);
-				else playerPaymentMap.put(p.getPlayerSummary(), 0);
+				if (p == furikonda) playerPaymentMap.put(p, -paymentDue);
+				else playerPaymentMap.put(p, 0);
 		}
 		else{//tsumo
 			for (Player p: losers){
-				if (p.isDealer() || winner.isDealer()) playerPaymentMap.put(p.getPlayerSummary(), -tsumoPointsDealer);
-				else  playerPaymentMap.put(p.getPlayerSummary(), -tsumoPointsNonDealer);
+				if (p.isDealer() || winner.isDealer()) playerPaymentMap.put(p, -tsumoPointsDealer);
+				else  playerPaymentMap.put(p, -tsumoPointsNonDealer);
 			}
 		}
 		///////add in riichi sticks here

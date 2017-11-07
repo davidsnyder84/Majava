@@ -6,7 +6,6 @@ import java.util.List;
 import majava.userinterface.GameUI;
 import majava.player.Player;
 import majava.summary.PaymentMap;
-import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
 import majava.enums.GameplayEvent;
@@ -220,20 +219,20 @@ public class Round{
 		
 		///////add in honba here
 		
-		payments.put(PlayerSummary.getSummaryFor(winner), paymentDue);
+		payments.put(winner, paymentDue);
 		
 		
 		//find who has to pay
 		if (mRoundResult.isVictoryRon()){
 			furikonda = mRoundResult.getFurikondaPlayer();
 			for (Player p: losers)
-				if (p == furikonda) payments.put(PlayerSummary.getSummaryFor(p), -paymentDue);
-				else payments.put(PlayerSummary.getSummaryFor(p), 0);
+				if (p == furikonda) payments.put(p, -paymentDue);
+				else payments.put(p, 0);
 		}
 		else{//tsumo
 			for (Player p: losers){
-				if (p.isDealer() || winner.isDealer()) payments.put(PlayerSummary.getSummaryFor(p), -tsumoPointsDealer);
-				else  payments.put(PlayerSummary.getSummaryFor(p), -tsumoPointsNonDealer);
+				if (p.isDealer() || winner.isDealer()) payments.put(p, -tsumoPointsDealer);
+				else  payments.put(p, -tsumoPointsNonDealer);
 			}
 		}
 		///////add in riichi sticks here
@@ -247,7 +246,7 @@ public class Round{
 	private PaymentMap __mapPaymentsDraw(){
 		PaymentMap payments = new PaymentMap();
 		
-		for (Player p: mPlayerArray) payments.put(PlayerSummary.getSummaryFor(p), 0);
+		for (Player p: mPlayerArray) payments.put(p, 0);
 		return payments;
 	}
 	
@@ -275,8 +274,6 @@ public class Round{
 		mRoundTracker.neighborToimenOf(eastPlayer).giveStartingHand(tilesW);
 		mRoundTracker.neighborKamichaOf(eastPlayer).giveStartingHand(tilesN);
 		
-		//sort the players' hands
-		for (Player p: mPlayerArray) p.sortHand();
 		__updateUI(GameplayEvent.START_OF_ROUND);
 	}
 	

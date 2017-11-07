@@ -45,7 +45,7 @@ public class MajaBottle {
 				
 //				p.takeTurn();
 				p.addTileToHand(t);
-				p.sortHand();
+////////////////p.sortHand();
 				
 //				p1.addTileToHand(t);p1.takeTurn();
 //				p2.addTileToHand(t);p2.takeTurn();

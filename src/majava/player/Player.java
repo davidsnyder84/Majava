@@ -161,13 +161,14 @@ public class Player {
 		//no longer need to draw (because the player has just drawn)
 		setDrawNeededNone();
 	}
-	
 	public void giveStartingHand(List<GameTile> startingTiles){
 		for (GameTile t: startingTiles) addTileToHand(t);
 		
 		//if the player isn't east, they will need to draw
 		if (mHand.size() < Hand.maxHandSize())
 			setDrawNeededNormal();
+		
+		mHand.sortHand();
 	}
 	
 	
@@ -237,22 +238,6 @@ public class Player {
 		//clear call status because the call has been completed
 		myBrain.clearCallStatus();	//don't know how needed this is
 	}
-	
-	
-	
-	
-	
-	//will implement these for chankan later
-	public boolean reactToAnkan(GameTile t){return false;}
-	public boolean reactToMinkan(GameTile t){return false;}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -362,10 +347,6 @@ public class Player {
 	
 	
 	
-	//sort the player's hand in ascending order
-	public void sortHand(){mHand.sortHand();}
-	
-	
 	//get pond as string
 	public String getAsStringPond(){
 		return getSeatWind() + " Player's pond:\n" + mPond;
@@ -384,22 +365,12 @@ public class Player {
 		for (GameTile t: mHand) hs += t + " ";
 		return hs;
 	}
-	
-	
-	
-	
-//	public PlayerSummary getPlayerSummary(){return new PlayerSummary(this);}
-	
 
 	
 	@Override
 	public boolean equals(Object other){return (this == other);}
-	
 	@Override
 	public String toString(){return (getPlayerName() + " (" + mSeatWind.toChar() +" player) ");}
-	
-	
-	
 	
 	
 	
@@ -408,7 +379,6 @@ public class Player {
 		if (controllerIsHuman())
 			((HumanBrain) myBrain).setUI(mUI);
 	}
-	
 	
 	//sync player's hand and pond with tracker
 	public void syncWithRoundTracker(RoundTracker tracker){
@@ -435,5 +405,9 @@ public class Player {
 	////////////////////////////////////////////////////////////////////////////////////
 	//////END DEMO METHODS
 	////////////////////////////////////////////////////////////////////////////////////
-
+	
+	//will implement these for chankan later
+//	public boolean reactToAnkan(GameTile t){return false;}
+//	public boolean reactToMinkan(GameTile t){return false;}
+	
 }

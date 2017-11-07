@@ -52,6 +52,7 @@ public class Player {
 		
 		setSeatWind(Wind.UNKNOWN);
 		mPlayerNum = 0;
+		drawNeeded = new DrawingNeed();
 		prepareForNewRound();
 	}
 	public Player(String name){this(new PlayerProfile(name));}

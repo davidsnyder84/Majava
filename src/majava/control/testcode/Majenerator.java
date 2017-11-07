@@ -300,14 +300,14 @@ public class Majenerator {
 	
 	
 	public static Player generatePlayer(int playernum){
-		
-		if (playernum < 0 || playernum >= 4) playernum = 0;
-		Player player = new Player();
-
 		String[] names = {"Suwado", "Albert", "Brenda", "Carl", "Dick", "Eddie", "Geromy", "Halbert", "Little King John"};
+		String randName = names[randGen.nextInt(names.length)];
 		
+		if (playernum < 0 || playernum >= 4)
+			playernum = 0;
+		
+		Player player = new Player(randName);
 		player.setControllerComputer();
-		player.setPlayerName(names[randGen.nextInt(names.length)]);
 		
 		switch(playernum){
 		case 0: player.setSeatWindEast(); break;

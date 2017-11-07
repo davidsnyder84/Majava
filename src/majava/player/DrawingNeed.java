@@ -7,7 +7,7 @@ public class DrawingNeed {
 	
 	DrawType drawType;
 	
-	public DrawingNeed(){drawType = DrawType.NONE;}
+	public DrawingNeed(){setNone();}
 	
 	//check if the players needs to draw a tile, and what type of draw (normal vs rinshan)
 	public boolean needsToDraw(){return (needsNormal() || needsRinshan());}

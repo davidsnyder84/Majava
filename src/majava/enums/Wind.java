@@ -15,7 +15,7 @@ methods:
 public enum Wind {
 	EAST, SOUTH, WEST, NORTH, UNKNOWN;
 	
-	private static final Wind X_WIND = null;
+	private static final Wind DEALER_WIND = EAST;
 	
 	public Wind next(){
 		switch(this){
@@ -28,6 +28,8 @@ public enum Wind {
 	}
 	public Wind prev(){return next().next().next();}
 	public Wind kamichaWind(){return prev();}
+	
+	public boolean isDealerWind(){return this == DEALER_WIND;}
 	
 	
 	public int getNum(){

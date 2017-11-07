@@ -21,45 +21,41 @@ represents a player in the game
 public class Player {
 	
 	private PlayerBrain myBrain;
-	private String mPlayerName;
-	private int mPlayerID;
+	private PlayerProfile profile;
+	private PointsBox pointsBox;
 	
+	private RoundTracker mRoundTracker;
+	private GameUI mUI;
+	
+	//data that changes between rounds
 	private Hand mHand;
 	private Pond mPond;
-	private PointsBox pointsBox;
 	private Wind mSeatWind;
 	private int mPlayerNum;
 	
 	
-	//used to indicate what type of draw a player needs
 	private DrawingNeed drawNeeded;
-	private GameTile mLastDiscard;
-	
-	
+	private GameTile mLastDiscard;	
 	private boolean mHoldingRinshanTile;
 	private boolean mRiichiStatus;
 	private boolean mFuritenStatus;
 	
 	
-	private RoundTracker mRoundTracker;
-	private GameUI mUI;
 	
 	
 	
-	public Player(String pName){
-		
+	public Player(PlayerProfile prof){
 		//always generate a default brain just in case. we don't want brainless players
-		myBrain = generateDefaultBrain(this);
-		setPlayerName(pName);
-		mPlayerID = (new Random()).nextInt();
-		
+		myBrain = PlayerBrain.generateGenericBrain(this);
+		profile = prof;
 		pointsBox = new PointsBox();
 		
-		mSeatWind = Wind.UNKNOWN;
+		setSeatWind(Wind.UNKNOWN);
 		mPlayerNum = 0;
 		prepareForNewRound();
 	}
-	public Player(){this(null);}
+	public Player(String name){this(new PlayerProfile(name));}
+	public Player(){this((String)null);}
 	
 	
 	
@@ -77,7 +73,6 @@ public class Player {
 		mRiichiStatus = false;
 		mFuritenStatus = false;
 		mHoldingRinshanTile = false;
-		
 		mLastDiscard = null;
 	}
 	
@@ -267,20 +262,10 @@ public class Player {
 	
 	
 	//accessors
-	public int getPlayerNumber(){return mPlayerNum;}
-	public Wind getSeatWind(){return mSeatWind;}
-	public boolean isDealer(){return mSeatWind == Wind.EAST;}
-	
-	public String getPlayerName(){return mPlayerName;}
-	public int getPlayerID(){return mPlayerID;}
-
 	public int handSize(){return mHand.size();}
 	public boolean isInRiichi(){return mRiichiStatus;}
 	public boolean isInFuriten(){return mFuritenStatus;}
 	public boolean checkTenpai(){return mHand.getTenpaiStatus();}
-	
-	
-	
 	
 	
 	
@@ -334,20 +319,24 @@ public class Player {
 	
 	
 	
-	//mutator for seat wind
-	private void __setSeatWind(Wind wind){mSeatWind = wind;}
-	public void rotateSeat(){__setSeatWind(mSeatWind.prev());}
+	//seat wind methods
+	private void setSeatWind(Wind wind){mSeatWind = wind;}
+	public void rotateSeat(){setSeatWind(mSeatWind.prev());}
+	public void setSeatWindEast(){setSeatWind(Wind.EAST);}
+	public void setSeatWindSouth(){setSeatWind(Wind.SOUTH);}
+	public void setSeatWindWest(){setSeatWind(Wind.WEST);}
+	public void setSeatWindNorth(){setSeatWind(Wind.NORTH);}
 	
-	public void setSeatWindEast(){__setSeatWind(Wind.EAST);}
-	public void setSeatWindSouth(){__setSeatWind(Wind.SOUTH);}
-	public void setSeatWindWest(){__setSeatWind(Wind.WEST);}
-	public void setSeatWindNorth(){__setSeatWind(Wind.NORTH);}
+	public Wind getSeatWind(){return mSeatWind;}
+	public boolean isDealer(){return getSeatWind().isDealerWind();}
 	
-	public void setPlayerNumber(int playerNum){if (playerNum >= 0 && playerNum < 4) mPlayerNum = playerNum;}
+	//player number methods
+	public void setPlayerNumber(int playerNum){if (playerNum >= 0 && playerNum < 4) mPlayerNum = playerNum;}	
+	public int getPlayerNumber(){return mPlayerNum;}
 	
 	
 	
-	//used to set the controller of the player after its creation
+	//controller methods
 	private void __setController(PlayerBrain desiredBrain){
 		myBrain = desiredBrain;
 	}
@@ -356,33 +345,20 @@ public class Player {
 		SimpleRobot robot = new SimpleRobot(this);
 		__setController(robot);
 	}
-	
 	public String getAsStringController(){return myBrain.toString();}
 	public boolean controllerIsHuman(){return myBrain.isHuman();}
 	public boolean controllerIsComputer(){return myBrain.isComputer();}
-	private static PlayerBrain generateDefaultBrain(Player p){return new SimpleRobot(p);}
 	
 	
-
-	private static final String DEFAULT_PLAYERNAME = "Saki";
-	public void setPlayerName(String newName){
-		if (newName == null)
-			if (mPlayerName == null) mPlayerName = DEFAULT_PLAYERNAME;
-			else return;
-		mPlayerName = newName;
-	}
-	
-	
-	
-	
-	
-	//points
+	//point methods
 	public int getPoints(){return pointsBox.getPoints();}
 	public void pointsIncrease(int amount){pointsBox.add(amount);}
 	public void pointsDecrease(int amount){pointsBox.subtract(amount);}	
-	
-	
-	
+
+	//profile methods
+	public String getPlayerName(){return profile.getPlayerName();}
+	public int getPlayerID(){return profile.getPlayerID();}
+	public void setPlayerName(String newName){profile.setPlayerName(newName);}
 	
 	
 	
@@ -391,15 +367,14 @@ public class Player {
 	public void sortHand(){mHand.sortHand();}
 	
 	
-	
 	//get pond as string
 	public String getAsStringPond(){
-		return mSeatWind + " Player's pond:\n" + mPond;
+		return getSeatWind() + " Player's pond:\n" + mPond;
 	}
 	//get hand as string
 	public String getAsStringHand(){
 		String hs = "";
-		hs += mSeatWind + " Player's hand (controller: " + myBrain + ", " + mPlayerName + "):";
+		hs += mSeatWind + " Player's hand (controller: " + myBrain + ", " + getPlayerName() + "):";
 		if (mHand.getTenpaiStatus()) hs += "     $$$$!Tenpai!$$$$";
 		hs += "\n" + mHand;
 		return hs;
@@ -415,12 +390,9 @@ public class Player {
 	
 	
 	public PlayerSummary getPlayerSummary(){
-		PlayerSummary summary = new PlayerSummary(mPlayerName, mPlayerID, myBrain.toString(), mPlayerNum, mSeatWind, pointsBox.getPoints());
+		PlayerSummary summary = new PlayerSummary(getPlayerName(), getPlayerID(), getAsStringController(), getPlayerNumber(), getSeatWind(), getPoints());
 		return summary;
 	}
-	
-	
-	
 	
 
 	
@@ -428,7 +400,7 @@ public class Player {
 	public boolean equals(Object other){return (this == other);}
 	
 	@Override
-	public String toString(){return (mPlayerName + " (" + mSeatWind.toChar() +" player) ");}
+	public String toString(){return (getPlayerName() + " (" + mSeatWind.toChar() +" player) ");}
 	
 	
 	

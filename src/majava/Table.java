@@ -147,18 +147,16 @@ public class Table {
 	
 	
 	private void __generatePlayers(){
+		String[] names = {"HughMan", "Albert", "Brenda", "Carl"};
+		boolean[] humanController = {false, false, false, false};
+		if (mDoSinglePlayer) humanController[0] = true;
 		
 		//creates a new player to sit at each seat
 		p1 = new Player();
 		p2 = new Player();
 		p3 = new Player();
 		p4 = new Player();
-		mPlayerArray = new Player[]{p1, p2, p3, p4};
-		
-		String[] names = {"HughMan", "Albert", "Brenda", "Carl"};
-		boolean[] humanController = {false, false, false, false};
-		
-		if (mDoSinglePlayer) humanController[0] = true;
+		mPlayerArray = new Player[]{p1, p2, p3, p4};		
 		
 		//assign controllers and names to players
 		for (int i = 0; i < NUM_PLAYERS; i++){

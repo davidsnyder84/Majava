@@ -3,7 +3,7 @@ package majava.userinterface.textinterface;
 import java.util.Arrays;
 import java.util.List;
 
-import majava.Meld;
+import majava.hand.Meld;
 import majava.enums.Exclamation;
 import majava.player.Player;
 import majava.summary.PaymentMap;

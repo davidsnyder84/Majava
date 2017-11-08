@@ -2,7 +2,7 @@ package majava.summary;
 
 import java.util.List;
 
-import majava.Meld;
+import majava.hand.Meld;
 import majava.enums.Exclamation;
 import majava.enums.Wind;
 import majava.player.Player;

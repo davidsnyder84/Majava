@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import majava.Hand;
+import majava.hand.Hand;
 import majava.RoundResult;
 import majava.enums.MeldType;
 import majava.enums.Wind;

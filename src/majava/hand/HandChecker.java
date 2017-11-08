@@ -1,4 +1,4 @@
-package majava;
+package majava.hand;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1000,7 +1000,7 @@ public class HandChecker {
 	
 	
 	/*
-	private method: __isCompleteNormalHand
+	private method: isCompleteNormalHand
 	checks if a hand is complete
 	if a hand is complete, should populate meld lists and flags and stuff (it doesn't yet)
 	
@@ -1043,11 +1043,8 @@ public class HandChecker {
 		//if the hand is empty, it is complete
 		if (checkTiles.isEmpty()) return true;
 		
-		
-		
 		GameTileList toMeldTiles = null;
 		GameTileList checkTilesMinusThisMeld = null;
-		
 
 		HandCheckerTile currentTile = null;
 		MeldType currentTileMeldType;
@@ -1055,16 +1052,11 @@ public class HandChecker {
 		boolean currentTilePartersAreStillHere = true;
 		List<Integer> partnerIndices = null;
 		
-		
-		
-		
 		//currrentTile = first tile in the hand
 		currentTile = (HandCheckerTile)checkTiles.getFirst();
 		
-		
 		//loop until every possible meld type has been tried for the current tile
 		while(currentTile.mstackIsEmpty() == false){
-			
 			
 			//~~~~Verify that currentTile's partners are still in the hand
 			//currentTileParterIDs = list of IDs of partners for currentTile's top MeldType

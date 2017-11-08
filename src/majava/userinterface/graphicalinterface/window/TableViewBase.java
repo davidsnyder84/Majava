@@ -1,8 +1,8 @@
 
 package majava.userinterface.graphicalinterface.window;
 
-import majava.Hand;
-import majava.Meld;
+import majava.hand.Hand;
+import majava.hand.Meld;
 import majava.Pond;
 import majava.RoundTracker;
 import majava.Wall;

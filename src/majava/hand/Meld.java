@@ -1,4 +1,4 @@
-package majava;
+package majava.hand;
 
 
 import java.util.Collections;

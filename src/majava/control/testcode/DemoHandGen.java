@@ -8,8 +8,8 @@ import java.util.Random;
 
 import utility.ConviniList;
 
-import majava.Hand;
-import majava.HandChecker;
+import majava.hand.Hand;
+import majava.hand.HandChecker;
 import majava.enums.MeldType;
 import majava.enums.Wind;
 import majava.tiles.GameTile;

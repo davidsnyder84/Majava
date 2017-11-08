@@ -1,10 +1,11 @@
-package majava;
+package majava.hand;
 
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import majava.RoundTracker;
 import majava.tiles.GameTile;
 import majava.util.GameTileList;
 import majava.enums.Wind;

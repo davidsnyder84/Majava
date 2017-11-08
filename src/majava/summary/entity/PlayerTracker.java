@@ -2,8 +2,8 @@ package majava.summary.entity;
 
 import java.util.List;
 
-import majava.Hand;
-import majava.Meld;
+import majava.hand.Hand;
+import majava.hand.Meld;
 import majava.Pond;
 import majava.player.Player;
 import majava.tiles.PondTile;

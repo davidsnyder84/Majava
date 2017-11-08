@@ -3,7 +3,7 @@ package majava.summary;
 import java.util.ArrayList;
 import java.util.List;
 
-import majava.Meld;
+import majava.hand.Meld;
 import majava.enums.Wind;
 import majava.summary.PlayerSummary;
 import majava.summary.ResultType;

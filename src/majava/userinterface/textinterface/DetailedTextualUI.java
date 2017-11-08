@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import utility.Pauser;
-import majava.Meld;
+import majava.hand.Meld;
 import majava.util.GameTileList;
 import majava.util.YakuList;
 import majava.yaku.Yaku;

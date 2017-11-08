@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import majava.Hand;
-import majava.HandChecker;
-import majava.Meld;
+import majava.hand.Hand;
+import majava.hand.HandChecker;
+import majava.hand.Meld;
 import majava.RoundResult;
 import majava.util.GameTileList;
 import majava.util.YakuList;

@@ -19,7 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-import majava.Meld;
+import majava.hand.Meld;
 import majava.control.testcode.Majenerator;
 import majava.enums.Wind;
 import majava.summary.PaymentMap;

@@ -1,6 +1,6 @@
 package majava.userinterface;
 
-import majava.Hand;
+import majava.hand.Hand;
 import majava.Pond;
 import majava.RoundTracker;
 import majava.Wall;

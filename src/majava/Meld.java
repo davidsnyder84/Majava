@@ -90,7 +90,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 				return false;
 		return true;
 	}
-	private Wind windOfResponsiblePlayer(){return completedTile.getOrignalOwner();}
+	public Wind windOfResponsiblePlayer(){return completedTile.getOrignalOwner();}
 	
 	
 	public GameTile getTile(int index){
@@ -133,11 +133,9 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	
 	@Override
 	public int compareTo(Meld other) {
-		
 		//if the first tiles are different, return the comparison of the first tiles
 		int tileCompare = getFirstTile().compareTo(other.getFirstTile());
 		if (tileCompare != 0) return tileCompare;
-		
 		//if the first tiles are the same, compare by meld type
 		return (meldType.compareTo(other.meldType));
 	}

@@ -25,7 +25,7 @@ public class YakuList extends ArrayList<Yaku>{
 	
 	
 	public boolean containsYakuman(){
-		for (Yaku y: Yaku.listOfAllYakuman()) if (contains(y)) return true;
+		for (Yaku y: this) if (y.isYakuman()) return true;
 		return false;
 	}
 	
@@ -33,7 +33,6 @@ public class YakuList extends ArrayList<Yaku>{
 	
 	//remove overlapping yaku of lesser value (ie, iipeiko < ryanpeiko)
 	public void removeSmallFry(){
-		
 		
 		//if contains yakuman, weed out non-yakuman
 		if (containsYakuman()){
@@ -50,7 +49,7 @@ public class YakuList extends ArrayList<Yaku>{
 			removeAll(Arrays.asList(Yaku.YAKUHAI_DRAGON_HAKU, Yaku.YAKUHAI_DRAGON_HATSU, Yaku.YAKUHAI_DRAGON_CHUN));
 		
 		if (contains(Yaku.RYANPEIKOU))
-			remove(Arrays.asList(Yaku.CHIITOITSU, Yaku.IIPEIKOU));
+			removeAll(Arrays.asList(Yaku.CHIITOITSU, Yaku.IIPEIKOU));
 		
 		if (contains(Yaku.RIICHI_DOUBLE))
 			remove(Yaku.RIICHI);

@@ -769,7 +769,6 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	//launch the application TODO MAIN
 	public static void main(String[] args) {
 		
 //		TableViewSmall viewer = new TableViewSmall();

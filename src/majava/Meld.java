@@ -18,7 +18,6 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	private MeldType meldType;
 	
 	private GameTile completedTile;
-	private Wind ownerWind;
 	
 	
 	
@@ -31,21 +30,15 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	public Meld(GameTileList tilesFromHand, MeldType typeOfMeld){
 		this(tilesFromHand.subList(0, tilesFromHand.size() - 1), tilesFromHand.get(tilesFromHand.size() - 1), typeOfMeld);
 	}
-	
-	
 	private Meld(Meld other){		
 		meldTiles = other.getAllTiles();
-		
 		completedTile = other.completedTile;
-		ownerWind = other.ownerWind;
 	}
 	public Meld clone(){return new Meld(this);}
 	
 	
-	
 	private void formMeld(GameTileList tilesFromHand, GameTile completingTile, MeldType typeOfMeld){
 		completedTile = completingTile;
-		ownerWind = tilesFromHand.get(0).getOrignalOwner();
 		
 		setMeldType(typeOfMeld);
 		
@@ -90,19 +83,22 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	
 	
 	//accessors
-	public boolean isClosed(){return windOfOwner() == windOfResponsiblePlayer();}
-	private Wind windOfOwner(){return ownerWind;}
+	public boolean isClosed(){
+		//if the owner of any tile differs from the responsible player, the meld is not closed
+		for (GameTile t: this)
+			if (t.getOrignalOwner() != windOfResponsiblePlayer())
+				return false;
+		return true;
+	}
 	private Wind windOfResponsiblePlayer(){return completedTile.getOrignalOwner();}
+	
 	
 	public GameTile getTile(int index){
 		if (index >= 0 && index < size()) return meldTiles.get(index);
 		return null;
 	}
 	public GameTile getFirstTile(){return meldTiles.get(0);}
-	
-	//returns a copy of the entire list of tiles
 	public GameTileList getAllTiles(){return meldTiles.clone();}
-	
 	public int size(){return meldTiles.size();}
 	
 	
@@ -117,30 +113,22 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	
 	//toString
 	@Override
-	public String toString(){
-		String meldString = "";
-		
-		for (GameTile t: this) meldString += t.toString() + " ";
-		
-		//show closed or open
-		if (isClosed()) meldString += "  [Closed]";
-		else meldString += "  [Open, called from: " + windOfResponsiblePlayer() + "'s " + completedTile + "]";
-		
-		return meldString;
-	}
-	public String toStringCompact(){
+	public String toString(){return toStringTilesOnly() + toStringOpenClosedInfo();}
+	public String toStringTilesOnly(){
 		String meldString = "";
 		for (GameTile t: this) meldString += t + " ";
 		
 		if (meldString != "") meldString = meldString.substring(0, meldString.length() - 1);
 		return meldString;
 	}
+	private String toStringOpenClosedInfo(){
+		if (isClosed()) return "   [Closed]";
+		else return "   [Open, called from: " + windOfResponsiblePlayer() + "'s " + completedTile + "]";
+	}
 	
-
 	//iterator, returns mTile's iterator
 	@Override
 	public Iterator<GameTile> iterator() {return meldTiles.iterator();}
-	
 	
 	
 	@Override

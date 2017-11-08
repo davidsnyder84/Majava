@@ -441,7 +441,7 @@ public class Hand implements Iterable<GameTile>{
 	//compact string representation of all melds
 	public String getAsStringMeldsCompact(){
 		String meldsString = "";
-		for (Meld m: mMelds) meldsString += "[" + m.toStringCompact() + "] ";
+		for (Meld m: mMelds) meldsString += "[" + m.toStringTilesOnly() + "] ";
 		return meldsString;
 	}
 	

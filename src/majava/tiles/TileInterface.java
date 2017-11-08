@@ -1,7 +1,6 @@
 package majava.tiles;
 
 public interface TileInterface extends Comparable<TileInterface>{
-//public interface TileInterface extends Comparable<TileInterface>, Cloneable{
 	
 	//attribute accessors
 	public int getId();
@@ -20,12 +19,7 @@ public interface TileInterface extends Comparable<TileInterface>{
 	
 	
 	
-	//clone
 	public TileInterface clone();
-	
-	//compareTo
 	public int compareTo(TileInterface other);
-	
-	//equals
 	public boolean equals(Object other);
 }

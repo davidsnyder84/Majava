@@ -15,11 +15,11 @@ public class ImmutablePlayer{
 	
 	
 	
-	private Player mPlayer;
+	private Player player;
 	
 	
 	public ImmutablePlayer(Player p){
-		mPlayer = p;
+		player = p;
 	}
 	
 	
@@ -32,22 +32,22 @@ public class ImmutablePlayer{
 	
 	//Player accessor methods
 	
-	public GameTile getLastDiscard(){return mPlayer.getLastDiscard();}
+	public GameTile getLastDiscard(){return player.getLastDiscard();}
 	
 	
-	public boolean turnActionMadeKan(){return mPlayer.turnActionMadeKan();}
-	public boolean turnActionMadeAnkan(){return mPlayer.turnActionMadeAnkan();}
-	public boolean turnActionMadeMinkan(){return mPlayer.turnActionMadeMinkan();}
-	public boolean turnActionCalledTsumo(){return mPlayer.turnActionCalledTsumo();}
-	public boolean turnActionChoseDiscard(){return mPlayer.turnActionChoseDiscard();}
-	public boolean turnActionRiichi(){return mPlayer.turnActionRiichi();}
+	public boolean turnActionMadeKan(){return player.turnActionMadeKan();}
+	public boolean turnActionMadeAnkan(){return player.turnActionMadeAnkan();}
+	public boolean turnActionMadeMinkan(){return player.turnActionMadeMinkan();}
+	public boolean turnActionCalledTsumo(){return player.turnActionCalledTsumo();}
+	public boolean turnActionChoseDiscard(){return player.turnActionChoseDiscard();}
+	public boolean turnActionRiichi(){return player.turnActionRiichi();}
 	
 	
 	//turn actions
-	public boolean ableToAnkan(){return mPlayer.ableToAnkan();}
-	public boolean ableToMinkan(){return mPlayer.ableToMinkan();}
-	public boolean ableToRiichi(){return mPlayer.ableToRiichi();}
-	public boolean ableToTsumo(){return mPlayer.ableToTsumo();}
+	public boolean ableToAnkan(){return player.ableToAnkan();}
+	public boolean ableToMinkan(){return player.ableToMinkan();}
+	public boolean ableToRiichi(){return player.ableToRiichi();}
+	public boolean ableToTsumo(){return player.ableToTsumo();}
 	
 	
 	
@@ -60,12 +60,12 @@ public class ImmutablePlayer{
 	
 	
 	
-	public boolean ableToCallChiL(){return mPlayer.ableToCallChiL();}
-	public boolean ableToCallChiM(){return mPlayer.ableToCallChiM();}
-	public boolean ableToCallChiH(){return mPlayer.ableToCallChiH();}
-	public boolean ableToCallPon(){return mPlayer.ableToCallPon();}
-	public boolean ableToCallKan(){return mPlayer.ableToCallKan();}
-	public boolean ableToCallRon(){return mPlayer.ableToCallRon();}
+	public boolean ableToCallChiL(){return player.ableToCallChiL();}
+	public boolean ableToCallChiM(){return player.ableToCallChiM();}
+	public boolean ableToCallChiH(){return player.ableToCallChiH();}
+	public boolean ableToCallPon(){return player.ableToCallPon();}
+	public boolean ableToCallKan(){return player.ableToCallKan();}
+	public boolean ableToCallRon(){return player.ableToCallRon();}
 	
 	
 	
@@ -75,18 +75,18 @@ public class ImmutablePlayer{
 	
 	
 	//accessors
-	public int getPlayerNumber(){return mPlayer.getPlayerNumber();}
-	public Wind getSeatWind(){return mPlayer.getSeatWind();}
-	public boolean isDealer(){return mPlayer.isDealer();}
+	public int getPlayerNumber(){return player.getPlayerNumber();}
+	public Wind getSeatWind(){return player.getSeatWind();}
+	public boolean isDealer(){return player.isDealer();}
 	
-	public String getPlayerName(){return mPlayer.getPlayerName();}
-	public int getPlayerID(){return mPlayer.getPlayerID();}
+	public String getPlayerName(){return player.getPlayerName();}
+	public int getPlayerID(){return player.getPlayerID();}
 	
 
-	public int handSize(){return mPlayer.handSize();}
-	public boolean isInRiichi(){return mPlayer.isInRiichi();}
-	public boolean isInFuriten(){return mPlayer.isInFuriten();}
-	public boolean checkTenpai(){return mPlayer.checkTenpai();}
+	public int handSize(){return player.handSize();}
+	public boolean isInRiichi(){return player.isInRiichi();}
+	public boolean isInFuriten(){return player.isInFuriten();}
+	public boolean checkTenpai(){return player.checkTenpai();}
 	
 	
 	
@@ -95,24 +95,24 @@ public class ImmutablePlayer{
 	
 	
 	//returns call status as an exclamation
-	public Exclamation getCallStatusExclamation(){return mPlayer.getCallStatusExclamation();}
+	public Exclamation getCallStatusExclamation(){return player.getCallStatusExclamation();}
 	
 	//returns true if the player called a tile
-	public boolean called(){return mPlayer.called();}
+	public boolean called(){return player.called();}
 	//individual call statuses
-	public boolean calledChi(){return mPlayer.calledChi();}
-	public boolean calledChiL(){return mPlayer.calledChiL();}
-	public boolean calledChiM(){return mPlayer.calledChiM();}
-	public boolean calledChiH(){return mPlayer.calledChiH();}
-	public boolean calledPon(){return mPlayer.calledPon();}
-	public boolean calledKan(){return mPlayer.calledKan();}
-	public boolean calledRon(){return mPlayer.calledRon();}
+	public boolean calledChi(){return player.calledChi();}
+	public boolean calledChiL(){return player.calledChiL();}
+	public boolean calledChiM(){return player.calledChiM();}
+	public boolean calledChiH(){return player.calledChiH();}
+	public boolean calledPon(){return player.calledPon();}
+	public boolean calledKan(){return player.calledKan();}
+	public boolean calledRon(){return player.calledRon();}
 	
 	
 	//check if the players needs to draw a tile, and what type of draw (normal vs rinshan)
-	public boolean needsDraw(){return mPlayer.needsDraw();}
-	public boolean needsDrawNormal(){return mPlayer.needsDrawNormal();}
-	public boolean needsDrawRinshan(){return mPlayer.needsDrawRinshan();}
+	public boolean needsDraw(){return player.needsDraw();}
+	public boolean needsDrawNormal(){return player.needsDrawNormal();}
+	public boolean needsDrawRinshan(){return player.needsDrawRinshan();}
 	
 	
 
@@ -120,29 +120,29 @@ public class ImmutablePlayer{
 	
 	
 	
-	public boolean holdingRinshan(){return mPlayer.holdingRinshan();}
-	public GameTile getTsumoTile(){return mPlayer.getTsumoTile();}
+	public boolean holdingRinshan(){return player.holdingRinshan();}
+	public GameTile getTsumoTile(){return player.getTsumoTile();}
 	
 	
-	public boolean handIsFullyConcealed(){return mPlayer.handIsFullyConcealed();}
+	public boolean handIsFullyConcealed(){return player.handIsFullyConcealed();}
 	
 	//returns the number of melds the player has made (open melds and ankans)
-	public int getNumMeldsMade(){return mPlayer.getNumMeldsMade();}
+	public int getNumMeldsMade(){return player.getNumMeldsMade();}
 	
 	//returns a list of the melds that have been made (copy of actual melds), returns an empty list if no melds made
-	public List<Meld> getMelds(){return mPlayer.getMelds();}
+	public List<Meld> getMelds(){return player.getMelds();}
 	
 	
-	public int getNumKansMade(){return mPlayer.getNumKansMade();}
-	public boolean hasMadeAKan(){return mPlayer.hasMadeAKan();}
+	public int getNumKansMade(){return player.getNumKansMade();}
+	public boolean hasMadeAKan(){return player.hasMadeAKan();}
 	
 	
 	
 	
 	
-	public String getControllerAsString(){return mPlayer.getControllerAsString();}
-	public boolean controllerIsHuman(){return mPlayer.controllerIsHuman();}
-	public boolean controllerIsComputer(){return mPlayer.controllerIsComputer();}
+	public String getControllerAsString(){return player.getControllerAsString();}
+	public boolean controllerIsHuman(){return player.controllerIsHuman();}
+	public boolean controllerIsComputer(){return player.controllerIsComputer();}
 	
 	
 	
@@ -151,7 +151,7 @@ public class ImmutablePlayer{
 	
 	
 	//accessors for points
-	public int getPoints(){return mPlayer.getPoints();}
+	public int getPoints(){return player.getPoints();}
 	
 	
 	
@@ -164,22 +164,22 @@ public class ImmutablePlayer{
 	
 	
 	//get pond as string
-	public String getAsStringPond(){return mPlayer.getAsStringPond();}
-	public String getAsStringHand(){return mPlayer.getAsStringHand();}
-	public String getAsStringHandCompact(){return mPlayer.getAsStringHandCompact();}
+	public String getAsStringPond(){return player.getAsStringPond();}
+	public String getAsStringHand(){return player.getAsStringHand();}
+	public String getAsStringHandCompact(){return player.getAsStringHandCompact();}
 	
 	
 	
 	
-	public PlayerSummary getPlayerSummary(){return PlayerSummary.getSummaryFor(mPlayer);}
+	public PlayerSummary getPlayerSummary(){return PlayerSummary.getSummaryFor(player);}
 	
 	
 	
 	
 	
-	public boolean equals(Object other){return mPlayer.equals(other);}
+	public boolean equals(Object other){return player.equals(other);}
 	
-	public String toString(){return mPlayer.toString();}
+	public String toString(){return player.toString();}
 	
 	
 	

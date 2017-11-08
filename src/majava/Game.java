@@ -41,7 +41,7 @@ public class Game {
 	}
 
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
-	private static final int NUM_SIMULATIONS_TO_RUN = 500;
+	private static final int NUM_SIMULATIONS_TO_RUN = 50;
 	
 	
 	

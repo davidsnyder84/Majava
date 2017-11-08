@@ -43,22 +43,22 @@ methods:
 public class RoundResult {
 	
 	
-	private boolean mRoundIsOver;
+	private boolean flagRoundIsOver;
 	
-	private ResultType mResultType;
-	private RoundResultSummary mResultSummary;
+	private ResultType resultType;
+	private RoundResultSummary resultSummary;
 
 
-	private Player mWinningPlayer;
-	private Player mFurikondaPlayer;
+	private Player winningPlayer;
+	private Player furikondaPlayer;
 	
-	private GameTile mWinningTile;
+	private GameTile winningTile;
 
 	
-	private GameTileList mWinnerHand;
-	private List<Meld> mWinnerMelds;
+	private GameTileList winnerHand;
+	private List<Meld> winnerMelds;
 	
-	private PaymentMap mPayments;
+	private PaymentMap payments;
 	
 	
 	
@@ -66,11 +66,11 @@ public class RoundResult {
 	
 	
 	public RoundResult(){
-		mRoundIsOver = false;
+		flagRoundIsOver = false;
 		
-		mResultType = null;
-		mWinningPlayer = mFurikondaPlayer = null;
-		mWinningTile = null;
+		resultType = null;
+		winningPlayer = furikondaPlayer = null;
+		winningTile = null;
 	}
 	
 	
@@ -78,8 +78,8 @@ public class RoundResult {
 	
 	//set round result type
 	private void __setRoundOver(ResultType result){
-		mResultType = result;
-		mRoundIsOver = true;
+		resultType = result;
+		flagRoundIsOver = true;
 	}
 	
 	public void setResultRyuukyokuWashout(){__setRoundOver(ResultType.createResultRyuukyokuWashout());}
@@ -91,27 +91,27 @@ public class RoundResult {
 	
 	public void setVictoryRon(Player winner, Player discarder){
 
-		mWinningPlayer = winner;
-		mFurikondaPlayer = discarder;
-		__setRoundOver(ResultType.createResultVictoryRon(mWinningPlayer.getPlayerNumber(), mFurikondaPlayer.getPlayerNumber()));
+		winningPlayer = winner;
+		furikondaPlayer = discarder;
+		__setRoundOver(ResultType.createResultVictoryRon(winningPlayer.getPlayerNumber(), furikondaPlayer.getPlayerNumber()));
 	}
 	public void setVictoryTsumo(Player winner){
-		mWinningPlayer = winner;
-		__setRoundOver(ResultType.createResultVictoryTsumo(mWinningPlayer.getPlayerNumber()));
+		winningPlayer = winner;
+		__setRoundOver(ResultType.createResultVictoryTsumo(winningPlayer.getPlayerNumber()));
 	}
 	
 	
 	//set other things
-	public void setWinningHand(GameTileList handTiles, List<Meld> melds, GameTile winningTile){
-		mWinnerHand = handTiles;
-		mWinnerMelds = melds;
-		setWinningTile(winningTile);
+	public void setWinningHand(GameTileList handTiles, List<Meld> melds, GameTile receivedWinningTile){
+		winnerHand = handTiles;
+		winnerMelds = melds;
+		setWinningTile(receivedWinningTile);
 	}
-	public void setWinningTile(GameTile winningTile){mWinningTile = winningTile;}
+	public void setWinningTile(GameTile receivedWinningTile){winningTile = receivedWinningTile;}
 	
 	
-	public void recordPayments(PaymentMap payments){
-		mPayments = payments;
+	public void recordPayments(PaymentMap receivedPayments){
+		payments = receivedPayments;
 	}
 	
 	
@@ -124,27 +124,27 @@ public class RoundResult {
 	
 	//accessors
 	
-	public boolean isOver(){return mRoundIsOver;}
-	public boolean isDraw(){return isOver() && mResultType.isDraw();}
-	public boolean isDrawWashout(){return isOver() && mResultType.isDrawWashout();}
-	public boolean isVictory(){return isOver() && mResultType.isVictory();}
-	public boolean isVictoryRon(){return isOver() && mResultType.isVictoryRon();}
-	public boolean isVictoryTsumo(){return isOver() && mResultType.isVictoryTsumo();}
+	public boolean isOver(){return flagRoundIsOver;}
+	public boolean isDraw(){return isOver() && resultType.isDraw();}
+	public boolean isDrawWashout(){return isOver() && resultType.isDrawWashout();}
+	public boolean isVictory(){return isOver() && resultType.isVictory();}
+	public boolean isVictoryRon(){return isOver() && resultType.isVictoryRon();}
+	public boolean isVictoryTsumo(){return isOver() && resultType.isVictoryTsumo();}
 	
-	public boolean isDealerVictory(){return (isOver() && isVictory() && mWinningPlayer.isDealer());}
+	public boolean isDealerVictory(){return (isOver() && isVictory() && winningPlayer.isDealer());}
 	
 	
 	
-	public String getAsStringWinType(){return mResultType.getAsStringWinType();}
+	public String getAsStringWinType(){return resultType.getAsStringWinType();}
 	public String getAsStringWinningHand(){
 		String winString = "";
 		if (!isVictory()) return "No winner";
 		
-		winString += "Winning hand (" + mWinningPlayer.getSeatWind() + "): " + mWinnerHand + ",   agarihai: " + mWinningTile + " (" + getAsStringWinType() + ")";
-		if (mResultType.isVictoryRon()) winString += " [from " + mFurikondaPlayer.getSeatWind() + "]";
+		winString += "Winning hand (" + winningPlayer.getSeatWind() + "): " + winnerHand + ",   agarihai: " + winningTile + " (" + getAsStringWinType() + ")";
+		if (resultType.isVictoryRon()) winString += " [from " + furikondaPlayer.getSeatWind() + "]";
 		
 		winString += "\n";
-		for (Meld m: mWinnerMelds)
+		for (Meld m: winnerMelds)
 			winString += m.toString() + "\n";
 		
 		return winString;
@@ -152,8 +152,8 @@ public class RoundResult {
 	public String getAsStringPayments(){
 		String pstring = "";
 		
-		pstring += "Winner: " + mWinningPlayer + ": +" + mPayments.get(mWinningPlayer.getPlayerNumber());
-		for (PlayerSummary ps: mPayments) if (ps.getPlayerNumber() != mWinningPlayer.getPlayerNumber()) pstring += "\n" + ps + ": " + mPayments.get(ps.getPlayerNumber());
+		pstring += "Winner: " + winningPlayer + ": +" + payments.get(winningPlayer.getPlayerNumber());
+		for (PlayerSummary ps: payments) if (ps.getPlayerNumber() != winningPlayer.getPlayerNumber()) pstring += "\n" + ps + ": " + payments.get(ps.getPlayerNumber());
 //		ps += "Winner: " + mWinningPlayer + ": +" + mPayments.get(mWinningPlayer);
 //		for (Player p: mPayments.keySet()) if (p != mWinningPlayer) ps += "\n" + p + ": " + mPayments.get(p);
 		
@@ -162,11 +162,11 @@ public class RoundResult {
 	
 	
 	
-	public Wind getWindOfWinner(){if (isOver() && isVictory()) return mWinningPlayer.getSeatWind(); return null;}
+	public Wind getWindOfWinner(){if (isOver() && isVictory()) return winningPlayer.getSeatWind(); return null;}
 	
-	public GameTile getWinningTile(){return mWinningTile;}
-	public Player getWinningPlayer(){return mWinningPlayer;}
-	public Player getFurikondaPlayer(){return mFurikondaPlayer;}
+	public GameTile getWinningTile(){return winningTile;}
+	public Player getWinningPlayer(){return winningPlayer;}
+	public Player getFurikondaPlayer(){return furikondaPlayer;}
 	
 	
 	
@@ -174,7 +174,7 @@ public class RoundResult {
 	@Override
 	public String toString(){
 		String resString = "";
-		resString += mResultType.getAsStringResultType();
+		resString += resultType.getAsStringResultType();
 		
 		if (isVictory()) resString += " (" + getAsStringWinType() + ")";
 		return resString;
@@ -183,61 +183,32 @@ public class RoundResult {
 	
 	
 	public RoundResultSummary getSummary(){
-		if (!mRoundIsOver) return null;
-		if (mResultSummary != null) return mResultSummary;
+		if (!flagRoundIsOver) return null;
+		if (resultSummary != null) return resultSummary;
 		
 		RoundResultSummary sum = null;
 		PlayerSummary winnerSummary = null, furikonSummary = null;
-		PaymentMap payments = null;
-		GameTile winningTile = null;
-		GameTileList winnerHand = null;
-		List<Meld> winnerMelds = null;
+		PaymentMap paymentsCopy = null;
+		GameTile winningTileCopy = null;
+		GameTileList winnerHandCopy = null;
+		List<Meld> winnerMeldsCopy = null;
 		
 		//get winning, losing player summaries
-		if (mResultType.isVictory()){
-			winnerSummary = PlayerSummary.getSummaryFor(mWinningPlayer);
-			if (mResultType.isVictoryRon()) furikonSummary = PlayerSummary.getSummaryFor(mFurikondaPlayer);
-			winningTile = mWinningTile;
-			winnerHand = mWinnerHand;
-			winnerMelds = mWinnerMelds;
+		if (resultType.isVictory()){
+			winnerSummary = PlayerSummary.getSummaryFor(winningPlayer);
+			if (resultType.isVictoryRon()) furikonSummary = PlayerSummary.getSummaryFor(furikondaPlayer);
+			winningTileCopy = winningTile;
+			winnerHandCopy = winnerHand;
+			winnerMeldsCopy = winnerMelds;
 		}
 		
 		//get payments
-		payments = new PaymentMap(mPayments);
+		paymentsCopy = new PaymentMap(payments);
 		
-		sum = new RoundResultSummary(mResultType, winnerSummary, furikonSummary, winningTile, winnerHand, winnerMelds, payments);
-//		sum = new RoundResultSummary(mResultType, payments);
-		mResultSummary = sum;
-		return mResultSummary;
+		sum = new RoundResultSummary(resultType, winnerSummary, furikonSummary, winningTileCopy, winnerHandCopy, winnerMeldsCopy, paymentsCopy);
+//		sum = new RoundResultSummary(mResultType, paymentsCopy);
+		resultSummary = sum;
+		return resultSummary;
 	}
-//	public RoundResultSummary getSummary(){
-//		if (!mRoundIsOver) return null;
-//		if (mResultSummary != null) return mResultSummary;
-//		
-//		RoundResultSummary sum = null;
-//		PlayerSummary winnerSummary = null, furikonSummary = null;
-//		Map<PlayerSummary,Integer> payments = null;
-//		Tile winningTile = null;
-//		TileList winnerHand = null;
-//		List<Meld> winnerMelds = null;
-//		
-//		//get winning, losing player summaries
-//		if (mResultType.isVictory()){
-//			winnerSummary = mWinningPlayer.getPlayerSummary();
-//			if (mResultType.isVictoryRon()) furikonSummary = mFurikondaPlayer.getPlayerSummary();
-//			winningTile = mWinningTile;
-//			winnerHand = mWinnerHand;
-//			winnerMelds = mWinnerMelds;
-//		}
-//		
-//		//get payments
-//		payments = new HashMap<PlayerSummary,Integer>();
-//		for (Player p: mPayments.keySet()) payments.put(p.getPlayerSummary(), mPayments.get(p));
-//		
-//		sum = new RoundResultSummary(mResultType, winnerSummary, furikonSummary, winningTile, winnerHand, winnerMelds, payments);
-////		sum = new RoundResultSummary(mResultType, payments);
-//		mResultSummary = sum;
-//		return mResultSummary;
-//	}
 
 }

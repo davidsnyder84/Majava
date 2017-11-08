@@ -6,17 +6,18 @@ import majava.tiles.GameTile;
 
 public class RoundEntities {
 	
-	public final PlayerTracker[] mPTrackers;
-	public final GameTile[] mTilesW;
-	public final Wall mWall;
+	public final PlayerTracker[] playerTrackers;
+	public final GameTile[] wallTiles;
+	public final Wall wall;
 	
-	public final RoundTracker mRoundTracker;
+	public final RoundTracker roundTracker;
 	
 	
 	
-	public RoundEntities(RoundTracker rTracker, PlayerTracker[] ptrackers, Wall wall, GameTile[] tilesW){
-		mRoundTracker = rTracker;
-		mPTrackers = ptrackers;
-		mWall = wall;mTilesW = tilesW;
+	public RoundEntities(RoundTracker rTracker, PlayerTracker[] ptrackers, Wall reveivedWall, GameTile[] tilesW){
+		roundTracker = rTracker;
+		playerTrackers = ptrackers;
+		wall = reveivedWall;
+		wallTiles = tilesW;
 	}
 }

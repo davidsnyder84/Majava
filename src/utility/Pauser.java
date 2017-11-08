@@ -1,49 +1,21 @@
 package utility;
 
 
-/*
-Class: Pauser
-contains operations for pausing
-
-data:
-	mSleepTime - the amount of time to sleep
-	
-methods:
-	
-	constructors:
-	Requires sleep time
-	
-	public:
-	 	accessors:
-		pauseWait - pauses for this object's amount of sleeptime
-		
-		static:
-		pauseFor - pauses for sleepTime amout of time
-*/
+//contains operations for pausing (sleeping/waiting)
 public class Pauser {
-	
-	
-//	private class PauseBehavior{public void pauseWait(){try {Thread.sleep(mSleepTime);} catch (InterruptedException e){}}}
-//	private class NoPauseBehavior extends PauseBehavior{public void pauseWait(){}}
-//	private final PauseBehavior mPauseBehavior;
-//	public Pauser(int sleepTime){mSleepTime = sleepTime; if (mSleepTime >0) mPauseBehavior = new PauseBehavior(); else mPauseBehavior = new NoPauseBehavior();}
-//	public void pauseWait(){mPauseBehavior.pauseWait();}
-	
-	
 	private static final int DEFAULT_SLEEP_TIME = 10;
 	
-	private final int mSleepTime;
-	
+	private final int sleepTime;
 	
 	//constructors
-	public Pauser(int sleepTime){mSleepTime = sleepTime;}
+	public Pauser(int timeToSleep){sleepTime = timeToSleep;}
 	public Pauser(){this(DEFAULT_SLEEP_TIME);}
 	
 	
-	//pause for dramatic effect
-	public void pauseWait(){if (mSleepTime > 0) pauseFor(mSleepTime);}
+	//pause
+	public void pauseWait(){if (sleepTime > 0) pauseFor(sleepTime);}
 	
-	public static void pauseFor(int sleepTime){
-		try {Thread.sleep(sleepTime);} catch (InterruptedException e){}
+	public static void pauseFor(int timeToSleep){
+		try {Thread.sleep(timeToSleep);} catch (InterruptedException e){}
 	}
 }

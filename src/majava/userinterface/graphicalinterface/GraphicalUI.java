@@ -95,7 +95,7 @@ public class GraphicalUI extends GameUI{
 	
 	
 	
-	private TableViewBase mTableWindow;
+	private TableViewBase tableWindow;
 	
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^END MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 	
@@ -110,19 +110,19 @@ public class GraphicalUI extends GameUI{
 	
 	
 	
-	protected void __displayEventDiscardedTile(){mTableWindow.updateEverything();}
-	protected void __displayEventMadeOpenMeld(){mTableWindow.updateEverything();}
-	protected void __displayEventDrewTile(){mTableWindow.updateEverything();}
-	protected void __displayEventMadeOwnKan(){mTableWindow.updateEverything();}
+	protected void __displayEventDiscardedTile(){tableWindow.updateEverything();}
+	protected void __displayEventMadeOpenMeld(){tableWindow.updateEverything();}
+	protected void __displayEventDrewTile(){tableWindow.updateEverything();}
+	protected void __displayEventMadeOwnKan(){tableWindow.updateEverything();}
 	protected void __displayEventNewDoraIndicator(){/*blank*/}
-	protected void __displayEventHumanTurnStart(){mTableWindow.updateEverything();}
-	protected void __displayEventPlaceholder(){mTableWindow.updateEverything();}
+	protected void __displayEventHumanTurnStart(){tableWindow.updateEverything();}
+	protected void __displayEventPlaceholder(){tableWindow.updateEverything();}
 	
-	protected void __displayEventStartOfRound(){mTableWindow.updateEverything();}
+	protected void __displayEventStartOfRound(){tableWindow.updateEverything();}
 	
 	protected void __displayEventEndOfRound(){
-		mTableWindow.showResult(mResultSummary);
-		mTableWindow.updateEverything();
+		tableWindow.showResult(resultSummary);
+		tableWindow.updateEverything();
 		
 		if (mSleepTimeRoundEnd > 0) Pauser.pauseFor(mSleepTimeRoundEnd);
 	}
@@ -132,11 +132,11 @@ public class GraphicalUI extends GameUI{
 	
 	protected void __showExclamation(Exclamation exclamation, int seat){
 		//show the label
-		mTableWindow.exclamationShow(exclamation, seat);
+		tableWindow.exclamationShow(exclamation, seat);
 		//pause
 		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);
 		//get rid of label
-		mTableWindow.exclamationErase();
+		tableWindow.exclamationErase();
 	}
 	
 	
@@ -146,26 +146,26 @@ public class GraphicalUI extends GameUI{
 	
 	//get user input from window
 	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
-		return mTableWindow.askUserInputCall(canChiL, canChiM, canChiH, canPon, canKan, canRon);
+		return tableWindow.askUserInputCall(canChiL, canChiM, canChiH, canPon, canKan, canRon);
 	}
-	public boolean resultChosenCallWasNone(){return mTableWindow.resultChosenCallWasNone();}
-	public boolean resultChosenCallWasChiL(){return mTableWindow.resultChosenCallWasChiL();}
-	public boolean resultChosenCallWasChiM(){return mTableWindow.resultChosenCallWasChiM();}
-	public boolean resultChosenCallWasChiH(){return mTableWindow.resultChosenCallWasChiH();}
-	public boolean resultChosenCallWasPon(){return mTableWindow.resultChosenCallWasPon();}
-	public boolean resultChosenCallWasKan(){return mTableWindow.resultChosenCallWasKan();}
-	public boolean resultChosenCallWasRon(){return mTableWindow.resultChosenCallWasRon();}
+	public boolean resultChosenCallWasNone(){return tableWindow.resultChosenCallWasNone();}
+	public boolean resultChosenCallWasChiL(){return tableWindow.resultChosenCallWasChiL();}
+	public boolean resultChosenCallWasChiM(){return tableWindow.resultChosenCallWasChiM();}
+	public boolean resultChosenCallWasChiH(){return tableWindow.resultChosenCallWasChiH();}
+	public boolean resultChosenCallWasPon(){return tableWindow.resultChosenCallWasPon();}
+	public boolean resultChosenCallWasKan(){return tableWindow.resultChosenCallWasKan();}
+	public boolean resultChosenCallWasRon(){return tableWindow.resultChosenCallWasRon();}
 	
 	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){
-		mTableWindow.askUserInputTurnAction(handSize, canRiichi, canAnkan, canMinkan, canTsumo);
+		tableWindow.askUserInputTurnAction(handSize, canRiichi, canAnkan, canMinkan, canTsumo);
 	}
-	public boolean resultChosenTurnActionWasDiscard(){return mTableWindow.resultChosenTurnActionWasDiscard();}
-	public boolean resultChosenTurnActionWasAnkan(){return mTableWindow.resultChosenTurnActionWasAnkan();}
-	public boolean resultChosenTurnActionWasMinkan(){return mTableWindow.resultChosenTurnActionWasMinkan();}
-	public boolean resultChosenTurnActionWasRiichi(){return mTableWindow.resultChosenTurnActionWasRiichi();}
-	public boolean resultChosenTurnActionWasTsumo(){return mTableWindow.resultChosenTurnActionWasTsumo();}
+	public boolean resultChosenTurnActionWasDiscard(){return tableWindow.resultChosenTurnActionWasDiscard();}
+	public boolean resultChosenTurnActionWasAnkan(){return tableWindow.resultChosenTurnActionWasAnkan();}
+	public boolean resultChosenTurnActionWasMinkan(){return tableWindow.resultChosenTurnActionWasMinkan();}
+	public boolean resultChosenTurnActionWasRiichi(){return tableWindow.resultChosenTurnActionWasRiichi();}
+	public boolean resultChosenTurnActionWasTsumo(){return tableWindow.resultChosenTurnActionWasTsumo();}
 	//returns the index of the clicked discard. returns negative if no discard chosen.
-	public int resultChosenDiscardIndex(){return mTableWindow.resultChosenDiscardIndex();}
+	public int resultChosenDiscardIndex(){return tableWindow.resultChosenDiscardIndex();}
 	
 	
 	
@@ -178,15 +178,15 @@ public class GraphicalUI extends GameUI{
 	
 	
 	
-	public void startUI(){mTableWindow.blankEverything(); mTableWindow.setVisible(true);}
-	public void endUI(){mTableWindow.dispose();}
+	public void startUI(){tableWindow.blankEverything(); tableWindow.setVisible(true);}
+	public void endUI(){tableWindow.dispose();}
 	
 	
 	
 	
 	public void syncWithRoundTracker(RoundEntities roundEntities){
 		super.syncWithRoundTracker(roundEntities);
-		mTableWindow.syncWithRoundTracker(roundEntities);
+		tableWindow.syncWithRoundTracker(roundEntities);
 	}
 	
 	
@@ -206,7 +206,7 @@ public class GraphicalUI extends GameUI{
 	//TODO start of constructor
 	public GraphicalUI(){
 		
-		mTableWindow = new TableViewBase();
+		tableWindow = new TableViewBase();
 		
 		
 		

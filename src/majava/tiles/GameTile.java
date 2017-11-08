@@ -44,16 +44,16 @@ methods:
 */
 public class GameTile implements Cloneable, TileInterface {
 	
-	private final ImmutableTile mTile;
-	private Wind mOriginalOwner;
+	private final ImmutableTile baseTile;
+	private Wind originalOwnerWind;
 	
 	
 
 	public GameTile(ImmutableTile tilebase){
-		mTile = tilebase;
-		mOriginalOwner = Wind.UNKNOWN;
+		baseTile = tilebase;
+		originalOwnerWind = Wind.UNKNOWN;
 	}
-	public GameTile(TileInterface tinter){this(tinter.getTileBase());}
+	public GameTile(TileInterface tileInterface){this(tileInterface.getTileBase());}
 	//Takes ID of tile (and optional red dora flag)
 	public GameTile(int id, boolean isRed){this(ImmutableTile.retrieveTileRed(id));}
 	//1-arg Constructor, takes tile ID
@@ -67,8 +67,8 @@ public class GameTile implements Cloneable, TileInterface {
 	
 	//copy constructor
 	public GameTile(GameTile other){
-		mTile = other.mTile;
-		mOriginalOwner = other.mOriginalOwner;
+		baseTile = other.baseTile;
+		originalOwnerWind = other.originalOwnerWind;
 	}
 	public GameTile clone(){return new GameTile(this);}
 	
@@ -84,8 +84,8 @@ public class GameTile implements Cloneable, TileInterface {
 	
 	
 	//Owner methods (the player who drew the tile from the wall)
-	final public Wind getOrignalOwner(){return mOriginalOwner;}
-	final public void setOwner(Wind owner){mOriginalOwner = owner;}
+	final public Wind getOrignalOwner(){return originalOwnerWind;}
+	final public void setOwner(Wind owner){originalOwnerWind = owner;}
 	
 	
 	
@@ -106,33 +106,33 @@ public class GameTile implements Cloneable, TileInterface {
 	
 	
 	//accessors for tile
-	final public int getId(){return mTile.getId();}
-	final public char getSuit(){return mTile.getSuit();}
-	final public char getFace(){return mTile.getFace();}
-	final public boolean isRedDora(){return mTile.isRedDora();}
+	final public int getId(){return baseTile.getId();}
+	final public char getSuit(){return baseTile.getSuit();}
+	final public char getFace(){return baseTile.getFace();}
+	final public boolean isRedDora(){return baseTile.isRedDora();}
 	
-	final public boolean isYaochuu(){return mTile.isYaochuu();}
-	final public boolean isHonor(){return mTile.isHonor();}
-	final public boolean isTerminal(){return mTile.isTerminal();}
+	final public boolean isYaochuu(){return baseTile.isYaochuu();}
+	final public boolean isHonor(){return baseTile.isHonor();}
+	final public boolean isTerminal(){return baseTile.isTerminal();}
 
-	final public ImmutableTile getTileBase(){return mTile;}
+	final public ImmutableTile getTileBase(){return baseTile;}
 	
 	
 	
 	//returns the tile that follows this one (used to find a dora from a dora indicator)
-	final public GameTile nextTile(){return new GameTile(mTile.nextTile());}
+	final public GameTile nextTile(){return new GameTile(baseTile.nextTile());}
 	
 	
 	
 	
 	@Override
-	final public int compareTo(TileInterface other){return mTile.compareTo(other.getTileBase());}
+	final public int compareTo(TileInterface other){return baseTile.compareTo(other.getTileBase());}
 	
 	//returns true if the tiles have the same ID
 	@Override
-	final public boolean equals(Object other){return mTile.equals(other);}
+	final public boolean equals(Object other){return baseTile.equals(other);}
 	
 	@Override
-	public String toString(){return mTile.toString();}
+	public String toString(){return baseTile.toString();}
 	
 }

@@ -196,7 +196,7 @@ public class DemoHandGen {
 			hand.addTile(t);
 		}
 		
-		hand.sortHand();
+		hand.sort();
 		return hand;
 	}
 	
@@ -264,7 +264,7 @@ public class DemoHandGen {
 		
 		for (GameTile t: tiles) hand.addTile(t);
 		
-		hand.sortHand();
+		hand.sort();
 //		System.out.println(hand.toString());
 		
 		return hand;
@@ -304,7 +304,7 @@ public class DemoHandGen {
 		}
 		
 		
-		hand.sortHand();
+		hand.sort();
 		return hand;
 	}
 	

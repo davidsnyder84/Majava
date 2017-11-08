@@ -188,7 +188,7 @@ public class Round{
 		
 		//get starting hands from the wall
 		List<GameTile> tilesE = new ArrayList<GameTile>(), tilesS = new ArrayList<GameTile>(), tilesW = new ArrayList<GameTile>(), tilesN = new ArrayList<GameTile>();
-		wall.getStartingHands(tilesE, tilesS, tilesW, tilesN);
+		wall.takeStartingHands(tilesE, tilesS, tilesW, tilesN);
 		
 		
 		Player eastPlayer = roundTracker.currentPlayer();

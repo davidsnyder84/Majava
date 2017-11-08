@@ -13,58 +13,33 @@ import javax.swing.JPanel;
 
 
 
-/*
-Class: ImageResizer
-used to resize an imageicon to a given scaled value
-
-data:
-	mScaler - the scale at which to resize an imageicon
-	
-methods:
-	constructors:
-	Requires a scaler
-	
-	public:
-		rotateImage - resizes an icon and returns the resized form
-*/
+//used to resize an imageicon to a given scaled value
 public class ImageResizer {
-	
-	
 	private static final double DEFAULT_SCALER = 1;
 	
 	
+	private double scaler;
 	
-	private double mScaler;
 	
-	
-	//constructors, require an angle
-	public ImageResizer(double scaler){__setScaler(scaler);}
+	//constructors, require a scale value
+	public ImageResizer(double deisredScaler){
+		setScaler(deisredScaler);
+	}
 	public ImageResizer(){this(DEFAULT_SCALER);}
 	
-	private boolean __setScaler(double scaler){
-		if (scaler <= 0){
-			mScaler = DEFAULT_SCALER;
-			return false;
-		}
-		
-		mScaler = scaler;
-		return true;
+	private void setScaler(double deisredScaler){
+		scaler = deisredScaler;
+		if (deisredScaler <= 0) scaler = DEFAULT_SCALER;
 	}
 	
 	
-	
-	
-	//accessor
-	public double getScaler(){return mScaler;}
-	
-	
-	
+	public double getScaler(){return scaler;}
 	
 	
 	public ImageIcon resizeImage(ImageIcon aicon){
-		return __resizeImage(aicon, mScaler);
+		return resizeImage(aicon, scaler);
 	}
-	private ImageIcon __resizeImage(ImageIcon aicon, double scaler){
+	private ImageIcon resizeImage(ImageIcon aicon, double scale){
 		
 		int oldW = aicon.getIconWidth();
 		int oldH = aicon.getIconHeight();
@@ -76,8 +51,8 @@ public class ImageResizer {
 		grOldImg.dispose();
 		
 		
-		int newH = (int) (oldH * scaler);
-		int newW = (int) (oldW * scaler);
+		int newH = (int) (oldH * scale);
+		int newW = (int) (oldW * scale);
 		int scaleType = Image.SCALE_SMOOTH;
 		
 		if (newH <= 0) newH = 1;
@@ -90,6 +65,11 @@ public class ImageResizer {
 	
 	
 	
+	
+	
+	
+	
+	//TODO demo methods
 	public static void main(String[] args) {
 		
 //		final double DEMO_SCALER_1 = .270588;
@@ -124,11 +104,10 @@ public class ImageResizer {
 		frame.setVisible(true);
 	}
 	
-	
-	public static JPanel wallsmallz(double scaler){
+	public static JPanel wallsmallz(double scale){
 		
 		JPanel panel = new JPanel();
-		ImageResizer resizer1 = new ImageResizer(scaler);
+		ImageResizer resizer1 = new ImageResizer(scale);
 		
 		panel.setLayout(new GridLayout(4,34,0,0));
 		
@@ -143,10 +122,10 @@ public class ImageResizer {
 	}
 	
 	
-	public static JPanel wallz(double scaler){
+	public static JPanel wallz(double scale){
 		
 		JPanel panel = new JPanel();
-		ImageResizer resizer1 = new ImageResizer(scaler);
+		ImageResizer resizer1 = new ImageResizer(scale);
 		
 		panel.setLayout(new GridLayout(4,34,0,0));
 		
@@ -158,5 +137,4 @@ public class ImageResizer {
 		
 		return panel;
 	}
-
 }

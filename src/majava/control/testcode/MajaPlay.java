@@ -209,7 +209,7 @@ public class MajaPlay {
 		h.addTile(new GameTile(4));
 		h.addTile(new GameTile(5));
 		h.addTile(new GameTile(5));
-		h.sortHand();
+		h.sort();
 		
 
 		println(h.toString());
@@ -317,7 +317,7 @@ public class MajaPlay {
 		
 //		h.addTile(new GameTile("m8"));	//14
 		h.addTile(new GameTile("DR"));	//extra tile
-		h.sortHand();
+		h.sort();
 		
 		println(h.toString());
 		

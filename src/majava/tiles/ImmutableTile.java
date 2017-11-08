@@ -74,22 +74,22 @@ public class ImmutableTile implements TileInterface{
 	private static final TileInterface[] yaochuuIDs = {tiles[1], tiles[9], tiles[10], tiles[18], tiles[19], tiles[27], tiles[28], tiles[29], tiles[30], tiles[31], tiles[32], tiles[33], tiles[34]};
 	
 	
-	private final int mID;
-	private final char mSuit;
-	private final char mFace;
-	private final String mSuitfaceString;
-	private final boolean mRedDora;
+	private final int tileID;
+	private final char suit;
+	private final char face;
+	private final String suitfaceString;
+	private final boolean isRed;
 	
 	
-	private ImmutableTile(int id, boolean isRed){
-		mID = id;
-		mRedDora = isRed;
+	private ImmutableTile(int id, boolean isRedDora){
+		tileID = id;
+		isRed = isRedDora;
 		
-		if (mRedDora) mSuitfaceString = STR_REPS[mID].charAt(0) + FACE_FOR_RED_DORA;
-		else mSuitfaceString = STR_REPS[mID];
+		if (isRed) suitfaceString = STR_REPS[tileID].charAt(0) + FACE_FOR_RED_DORA;
+		else suitfaceString = STR_REPS[tileID];
 		
-		mSuit = mSuitfaceString.charAt(0);
-		mFace = mSuitfaceString.charAt(1);
+		suit = suitfaceString.charAt(0);
+		face = suitfaceString.charAt(1);
 	}
 	private ImmutableTile(int id){this(id, false);}
 	public ImmutableTile clone(){return this;}
@@ -98,36 +98,28 @@ public class ImmutableTile implements TileInterface{
 	
 	
 	
-	
-	
-	
-	
 
 	final public ImmutableTile getTileBase(){return this;}
 	
-	final public int getId(){return mID;}
-	final public char getSuit(){return mSuit;}
-	final public char getFace(){return mFace;}
-	final public boolean isRedDora(){return mRedDora;}
+	final public int getId(){return tileID;}
+	final public char getSuit(){return suit;}
+	final public char getFace(){return face;}
+	final public boolean isRedDora(){return isRed;}
 	
 	final public boolean isYaochuu(){return (isHonor() || isTerminal());}
-	final public boolean isHonor(){return (mID >= ID_FIRST_HONOR_TILE);}
-	final public boolean isTerminal(){return (mFace == '1' || mFace == '9');}
-	
+	final public boolean isHonor(){return (tileID >= ID_FIRST_HONOR_TILE);}
+	final public boolean isTerminal(){return (face == '1' || face == '9');}
 	
 	
 	
 	
 	//returns the tile that follows this one (used to find a dora from a dora indicator)
 	final public ImmutableTile nextTile(){
-		if (mFace == '9') return tiles[mID - 8];
-		else if (mFace == 'N') return tiles[mID - 3];
-		else if (mFace == 'R') return tiles[mID - 2];
-		else return tiles[mID + 1];
+		if (face == '9') return tiles[tileID - 8];
+		else if (face == 'N') return tiles[tileID - 3];
+		else if (face == 'R') return tiles[tileID - 2];
+		else return tiles[tileID + 1];
 	}
-	
-	
-	
 	
 	
 	
@@ -139,12 +131,12 @@ public class ImmutableTile implements TileInterface{
 	final public int compareTo(TileInterface other){
 		
 		//if the tiles have different id's, return the difference
-		if (mID != other.getId()) return (mID - other.getId());
+		if (tileID != other.getId()) return (tileID - other.getId());
 		
 		//at this point, both tiles have the same ID
 		//if both 5's, check if one is red dora
-		if (mFace == '5')
-			if (mRedDora && !other.isRedDora()) return 1;
+		if (face == '5')
+			if (isRed && !other.isRedDora()) return 1;
 			else return -1;
 		
 		//if the tiles are not 5's, or if both or neither are red doras, return 0
@@ -155,16 +147,11 @@ public class ImmutableTile implements TileInterface{
 	@Override
 	final public boolean equals(Object other){
 		if (other == null || !(other instanceof TileInterface)) return false;
-		return mID == ((TileInterface)other).getId();
+		return tileID == ((TileInterface)other).getId();
 	}
 	
 	@Override
-	public String toString(){return mSuitfaceString;}
-	
-	
-	
-	
-	
+	public String toString(){return suitfaceString;}
 	
 	
 	
@@ -199,9 +186,6 @@ public class ImmutableTile implements TileInterface{
 	
 	
 	
-	
-	
-	
 	public static void main(String[] s){
 		
 		System.out.println();
@@ -210,10 +194,6 @@ public class ImmutableTile implements TileInterface{
 		for (TileInterface t: retrieveMultipleTiles(5,6,7,8,9)) System.out.println(t.toString());
 //		for (int i = 0; i < retrieveMultipleTiles(5,6,7,8,9).size(); i++)System.out.println(i);
 		System.out.println("\n\n"); 
-		
-		
-		
-		
 		
 		
 //		List<ImmutableTile> list = new ArrayList<ImmutableTile>();
@@ -227,15 +207,12 @@ public class ImmutableTile implements TileInterface{
 		GameTile gt= new GameTile(3);
 		System.out.println(gt.toString());
 		
-		
 		System.out.println(it.equals(gt));
 		System.out.println(gt.equals(it));
-		
 		
 		System.out.println();
 		System.out.println(new Integer(3).equals(it));
 		System.out.println(it.equals(new Integer(3)));
-		
 
 		System.out.println();
 		List<Integer> a = Arrays.asList(new Integer(2),new Integer(3),new Integer(4));

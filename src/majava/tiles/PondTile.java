@@ -1,55 +1,34 @@
 package majava.tiles;
 
 
-/*
-Class: PondTile
-represents a tile in a pond
 
-data:
-	mIsRiichiTile - is true if the tile was used to riichi
-	mWasCalled - is true if the tile was called by another player
-	
-methods:
-	
-	constructors:
-	Requires tile ID, or another tile (copy constructor) 
-	
-	public:
-		mutators:
-	 	setRiichiTile, setCalled
-	 	
-	 	accessors:
-		isRiichiTile, wasCalled
-*/
+//represents a tile in a pond, has extra information (riichi tile, tile that has been called, etc)
 public class PondTile extends GameTile {
 	
-	
-	private boolean mIsRiichiTile;
-	private boolean mWasCalled;
-	
-	
+	private boolean flagIsRiichiTile;
+	private boolean flagWasCalled;
 	
 	
 	public PondTile(GameTile other){
 		super(other);
 		
-		mIsRiichiTile = false;
-		mWasCalled = false;
+		flagIsRiichiTile = false;
+		flagWasCalled = false;
 	}
-//	public PondTile(int id) {this (new GameTile(id));}
 	public PondTile clone(){
 		PondTile other = new PondTile(this);
-		other.mIsRiichiTile = mIsRiichiTile;
-		other.mWasCalled = mWasCalled;
+		other.flagIsRiichiTile = flagIsRiichiTile;
+		other.flagWasCalled = flagWasCalled;
 		return other;
 	}
 	
 	
+	//getters
+	public boolean isRiichiTile(){return flagIsRiichiTile;}
+	public boolean wasCalled(){return flagWasCalled;}
 	
-	public boolean isRiichiTile(){return mIsRiichiTile;}
-	public boolean wasCalled(){return mWasCalled;}
+	//setters
+	public void setRiichiTile(){flagIsRiichiTile = true;}
+	public void setCalled(){flagWasCalled = true;}
 	
-	public void setRiichiTile(){mIsRiichiTile = true;}
-	public void setCalled(){mWasCalled = true;}
-
 }

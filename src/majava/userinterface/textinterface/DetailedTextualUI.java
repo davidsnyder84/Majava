@@ -25,10 +25,6 @@ public class DetailedTextualUI extends TextualUI{
 	
 	
 	
-	
-	
-	
-	
 
 	protected void __displayEventDiscardedTile(){
 		
@@ -36,12 +32,10 @@ public class DetailedTextualUI extends TextualUI{
 		__showHandsOfAllPlayers();
 		
 		//show the discarded tile and the discarder's pond
-		println("\n\n\tTiles left: " + mRoundEntities.mRoundTracker.getNumTilesLeftInWall());
-		println("\t" + mRoundEntities.mRoundTracker.currentPlayer().getSeatWind() + " Player's discard: ^^^^^" + mRoundEntities.mRoundTracker.getMostRecentDiscard().toString() + "^^^^^");
-		println("\t" + mRoundEntities.mRoundTracker.currentPlayer().getAsStringPond());
+		println("\n\n\tTiles left: " + roundEntities.roundTracker.getNumTilesLeftInWall());
+		println("\t" + roundEntities.roundTracker.currentPlayer().getSeatWind() + " Player's discard: ^^^^^" + roundEntities.roundTracker.getMostRecentDiscard().toString() + "^^^^^");
+		println("\t" + roundEntities.roundTracker.currentPlayer().getAsStringPond());
 	}
-	
-	
 	
 	
 	
@@ -56,7 +50,7 @@ public class DetailedTextualUI extends TextualUI{
 	}
 
 	protected void __displayEventHumanTurnStart(){
-		__showPlayerHand(mRoundEntities.mRoundTracker.currentPlayer());
+		__showPlayerHand(roundEntities.roundTracker.currentPlayer());
 	}
 	
 	protected void __displayEventStartOfRound(){
@@ -78,39 +72,31 @@ public class DetailedTextualUI extends TextualUI{
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	//prints the hand of a player
 	protected void __showPlayerHand(Player p){println(p.getAsStringHand());}
 	
-	protected void __showWall(){println(mRoundEntities.mWall.toString());}
+	protected void __showWall(){println(roundEntities.wall.toString());}
 	
 	protected void __showDoraIndicators(){
-		GameTileList tl = mRoundEntities.mWall.getDoraIndicators();
+		GameTileList tl = roundEntities.wall.getDoraIndicators();
 		println("Dora Indicators: " + tl.toString() + "\n\n");
 	}
 	
 	protected void __showDeadWall(){
 		__showDoraIndicators();
-		println(mRoundEntities.mWall.toStringDeadWall());
+		println(roundEntities.wall.toStringDeadWall());
 	}
 	
 	protected void __showRoundResultOLD(){
-		if (!mRoundEntities.mRoundTracker.roundIsOver()) return;
+		if (!roundEntities.roundTracker.roundIsOver()) return;
 		
 		System.out.println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 		 					"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 				 			"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		
-		RoundResultSummary result = mRoundEntities.mRoundTracker.getResultSummary();
+		RoundResultSummary result = roundEntities.roundTracker.getResultSummary();
 		
-		String resultStr = "Result: " + mRoundEntities.mRoundTracker.getRoundResultString();
+		String resultStr = "Result: " + roundEntities.roundTracker.getRoundResultString();
 		System.out.println(resultStr);
 		
 		if (result.isVictory());
@@ -118,23 +104,19 @@ public class DetailedTextualUI extends TextualUI{
 	}
 	
 	protected void __showRoundResult(){
-		if (!mRoundEntities.mRoundTracker.roundIsOver()) return;
+		if (!roundEntities.roundTracker.roundIsOver()) return;
 		
 		println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 		 		"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 				"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		
-		RoundResultSummary resum = mRoundEntities.mRoundTracker.getResultSummary();
+		RoundResultSummary resum = roundEntities.roundTracker.getResultSummary();
 		
 //		String resultStr = "Result: " + mRoundEntities.mRoundTracker.getRoundResultString();
 //		System.out.println(resultStr);
 		
 //		if (result.isVictory()) System.out.println(mRoundResult.getAsStringWinningHand());
 //		mRoundEntities.mRoundTracker.printRoundResult();
-		
-		
-		
-		
 		
 		
 		
@@ -215,21 +197,16 @@ public class DetailedTextualUI extends TextualUI{
 	
 	
 	
-	
-	
-	
-	
-	
 	@Override
 	protected void __showExclamation(Exclamation exclamation, int seat){
 		
 		if (exclamation.isCall())
 			println("\n*********************************************************" + 
-					"\n**********" + mRoundEntities.mPTrackers[seat].player.getSeatWind() + " Player called the tile (" + mRoundEntities.mRoundTracker.getMostRecentDiscard().toString() + ")! " + exclamationToString.get(exclamation) + "!!!**********" + 
+					"\n**********" + roundEntities.playerTrackers[seat].player.getSeatWind() + " Player called the tile (" + roundEntities.roundTracker.getMostRecentDiscard().toString() + ")! " + exclamationToString.get(exclamation) + "!!!**********" + 
 					"\n*********************************************************");
 		else
 			println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
-					"\n~~~~~~~~~~~" + mRoundEntities.mPTrackers[seat].player.getSeatWind() + " Player declared " + exclamationToString.get(exclamation) + "!!!~~~~~~~~~~~" + 
+					"\n~~~~~~~~~~~" + roundEntities.playerTrackers[seat].player.getSeatWind() + " Player declared " + exclamationToString.get(exclamation) + "!!!~~~~~~~~~~~" + 
 					"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		
 
@@ -242,9 +219,6 @@ public class DetailedTextualUI extends TextualUI{
 		//pause
 		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);
 	}
-	
-	
-	
 	
 	
 }

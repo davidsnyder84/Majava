@@ -71,7 +71,7 @@ public class MajaBottle {
 		for (num = 1; num <= 5000; num++){
 			Wall w = new Wall();
 //			for (int i = 0; i < 10000; i++)
-			w.getStartingHands(new ArrayList<GameTile>(), new ArrayList<GameTile>(), new ArrayList<GameTile>(), new ArrayList<GameTile>());
+			w.takeStartingHands(new ArrayList<GameTile>(), new ArrayList<GameTile>(), new ArrayList<GameTile>(), new ArrayList<GameTile>());
 //			w.getStartingHands(new TileList(), new TileList(), new TileList(), new TileList());
 			System.out.println(num);
 		}

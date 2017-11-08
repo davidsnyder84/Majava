@@ -52,61 +52,55 @@ public class ResultType {
 	
 	
 	
-	private final int mWinningSeat;
-	private final int mFurikondaSeat;
+	private final int seatNumberOfWinner;
+	private final int seatNumberOfFurikonda;
 	
-	private final ResType mResultType;
-	private final WinType mWinType;
-	private final DrawType mDrawType;
+	private final ResType resultType;
+	private final WinType winType;
+	private final DrawType drawType;
 	
 	
 	//win constructor
-	private ResultType(WinType winType, int winnerSeat, int loserSeat){
-		mResultType = ResType.VICTORY;
+	private ResultType(WinType receivedWinType, int winnerSeat, int loserSeat){
+		resultType = ResType.VICTORY;
 		
-		mWinningSeat = winnerSeat;
-		mFurikondaSeat = loserSeat;
-		mWinType = winType;
-		mDrawType = null;
+		seatNumberOfWinner = winnerSeat;
+		seatNumberOfFurikonda = loserSeat;
+		winType = receivedWinType;
+		drawType = null;
 	}
-	private ResultType(WinType winType, int winnerSeat){
-		this(winType, winnerSeat, NO_FURIKONDA_SEAT);
+	private ResultType(WinType receivedWinType, int winnerSeat){
+		this(receivedWinType, winnerSeat, NO_FURIKONDA_SEAT);
 	}
 	//draw constructor
-	private ResultType(DrawType drawType){
-		mResultType = ResType.DRAW;
+	private ResultType(DrawType receivedDrawType){
+		resultType = ResType.DRAW;
 		
-		mDrawType = drawType;
-		mWinType = null;
-		mWinningSeat = NO_WINNING_SEAT;
-		mFurikondaSeat = NO_FURIKONDA_SEAT;
+		drawType = receivedDrawType;
+		winType = null;
+		seatNumberOfWinner = NO_WINNING_SEAT;
+		seatNumberOfFurikonda = NO_FURIKONDA_SEAT;
 	}
 	
 	
-	public boolean isDraw(){return (mResultType.isDraw());}
-	public boolean isDrawWashout(){return mDrawType == DrawType.DRAW_WASHOUT;}
+	public boolean isDraw(){return (resultType.isDraw());}
+	public boolean isDrawWashout(){return drawType == DrawType.DRAW_WASHOUT;}
 	
-	public boolean isVictory(){return mResultType.isVictory();}
-	public boolean isVictoryTsumo(){return isVictory() && mWinType.isTsumo();}
-	public boolean isVictoryRon(){return isVictory() && mWinType.isRon();}
+	public boolean isVictory(){return resultType.isVictory();}
+	public boolean isVictoryTsumo(){return isVictory() && winType.isTsumo();}
+	public boolean isVictoryRon(){return isVictory() && winType.isRon();}
 	
-	public int getWinningSeat(){return mWinningSeat;}
-	public int getFurikondaSeat(){return mFurikondaSeat;}
+	public int getWinningSeat(){return seatNumberOfWinner;}
+	public int getFurikondaSeat(){return seatNumberOfFurikonda;}
 	
 	
 	
-	public String getAsStringWinType(){if (!isVictory()) return null; return mWinType.toString();}
+	public String getAsStringWinType(){if (!isVictory()) return null; return winType.toString();}
 	public String getAsStringResultType(){
-		if (mResultType.isDraw()) return mDrawType.toString();
-		else if (mResultType.isVictory()) return "Player " + (mWinningSeat+1) + " wins!";
+		if (resultType.isDraw()) return drawType.toString();
+		else if (resultType.isVictory()) return "Player " + (seatNumberOfWinner+1) + " wins!";
 		return "undecided result";
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -127,6 +121,4 @@ public class ResultType {
 	public static ResultType createResultRyuukyoku4Kan(){return new ResultType(DrawType.DRAW_4KAN);}
 	public static ResultType createResultRyuukyoku4Riichi(){return new ResultType(DrawType.DRAW_4RIICHI);}
 	public static ResultType createResultRyuukyoku4Wind(){return new ResultType(DrawType.DRAW_4WIND);}
-	
-	
 }

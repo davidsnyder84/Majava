@@ -18,13 +18,13 @@ import majava.summary.entity.RoundEntities;
 
 public class ComboTextGraphicalUI extends GameUI{
 
-	private TextualUI mTextualUI;
-	private GraphicalUI mGraphicalUI;
+	private TextualUI textualUI;
+	private GraphicalUI graphicalUI;
 	
 	
 	public ComboTextGraphicalUI(){
-		mTextualUI = __generateTextualUI();
-		mGraphicalUI = __generateGraphicalUI();
+		textualUI = __generateTextualUI();
+		graphicalUI = __generateGraphicalUI();
 	}
 
 	private GraphicalUI __generateGraphicalUI(){
@@ -42,60 +42,60 @@ public class ComboTextGraphicalUI extends GameUI{
 	
 	
 	public void displayEvent(GameplayEvent e){
-		mTextualUI.displayEvent(e);
-		mGraphicalUI.displayEvent(e);
+		textualUI.displayEvent(e);
+		graphicalUI.displayEvent(e);
 	}
 	
 	public void setRoundResult(RoundResultSummary resum){
-		mTextualUI.setRoundResult(resum);
-		mGraphicalUI.setRoundResult(resum);
+		textualUI.setRoundResult(resum);
+		graphicalUI.setRoundResult(resum);
 	}
 	
 	
 	public final void setSleepTimes(int sleepTime, int sleepTimeExclamation, int sleepTimeRoundEnd){
-		mTextualUI.setSleepTimes(0,0,0);
-		mGraphicalUI.setSleepTimes(sleepTime, sleepTimeExclamation, sleepTimeRoundEnd);
+		textualUI.setSleepTimes(0,0,0);
+		graphicalUI.setSleepTimes(sleepTime, sleepTimeExclamation, sleepTimeRoundEnd);
 	}
 	
 	public void printErrorRoundAlreadyOver(){
-		mTextualUI.printErrorRoundAlreadyOver();
-		mGraphicalUI.printErrorRoundAlreadyOver();
+		textualUI.printErrorRoundAlreadyOver();
+		graphicalUI.printErrorRoundAlreadyOver();
 	}
 	
 //	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] tilesW){
 	public void syncWithRoundTracker(RoundEntities roundEntities){
-		mTextualUI.syncWithRoundTracker(roundEntities);
-		mGraphicalUI.syncWithRoundTracker(roundEntities);
+		textualUI.syncWithRoundTracker(roundEntities);
+		graphicalUI.syncWithRoundTracker(roundEntities);
 	}
 	
 	
 	
 	//user interaction (sends to the GUI)
-	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){mGraphicalUI.askUserInputTurnAction(handSize, canRiichi, canAnkan, canMinkan, canTsumo);}
-	public boolean resultChosenTurnActionWasDiscard(){return mGraphicalUI.resultChosenTurnActionWasDiscard();}
-	public boolean resultChosenTurnActionWasAnkan(){return mGraphicalUI.resultChosenTurnActionWasAnkan();}
-	public boolean resultChosenTurnActionWasMinkan(){return mGraphicalUI.resultChosenTurnActionWasMinkan();}
-	public boolean resultChosenTurnActionWasRiichi(){return mGraphicalUI.resultChosenTurnActionWasRiichi();}
-	public boolean resultChosenTurnActionWasTsumo(){return mGraphicalUI.resultChosenTurnActionWasTsumo();}
-	public int resultChosenDiscardIndex(){return mGraphicalUI.resultChosenDiscardIndex();}
-	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){return mGraphicalUI.askUserInputCall(canChiL, canChiM, canChiH, canPon, canKan, canRon);}
-	public boolean resultChosenCallWasNone(){return mGraphicalUI.resultChosenCallWasNone();}
-	public boolean resultChosenCallWasChiL(){return mGraphicalUI.resultChosenCallWasChiL();}
-	public boolean resultChosenCallWasChiM(){return mGraphicalUI.resultChosenCallWasChiM();}
-	public boolean resultChosenCallWasChiH(){return mGraphicalUI.resultChosenCallWasChiH();}
-	public boolean resultChosenCallWasPon(){return mGraphicalUI.resultChosenCallWasPon();}
-	public boolean resultChosenCallWasKan(){return mGraphicalUI.resultChosenCallWasKan();}
-	public boolean resultChosenCallWasRon(){return mGraphicalUI.resultChosenCallWasRon();}
+	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){graphicalUI.askUserInputTurnAction(handSize, canRiichi, canAnkan, canMinkan, canTsumo);}
+	public boolean resultChosenTurnActionWasDiscard(){return graphicalUI.resultChosenTurnActionWasDiscard();}
+	public boolean resultChosenTurnActionWasAnkan(){return graphicalUI.resultChosenTurnActionWasAnkan();}
+	public boolean resultChosenTurnActionWasMinkan(){return graphicalUI.resultChosenTurnActionWasMinkan();}
+	public boolean resultChosenTurnActionWasRiichi(){return graphicalUI.resultChosenTurnActionWasRiichi();}
+	public boolean resultChosenTurnActionWasTsumo(){return graphicalUI.resultChosenTurnActionWasTsumo();}
+	public int resultChosenDiscardIndex(){return graphicalUI.resultChosenDiscardIndex();}
+	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){return graphicalUI.askUserInputCall(canChiL, canChiM, canChiH, canPon, canKan, canRon);}
+	public boolean resultChosenCallWasNone(){return graphicalUI.resultChosenCallWasNone();}
+	public boolean resultChosenCallWasChiL(){return graphicalUI.resultChosenCallWasChiL();}
+	public boolean resultChosenCallWasChiM(){return graphicalUI.resultChosenCallWasChiM();}
+	public boolean resultChosenCallWasChiH(){return graphicalUI.resultChosenCallWasChiH();}
+	public boolean resultChosenCallWasPon(){return graphicalUI.resultChosenCallWasPon();}
+	public boolean resultChosenCallWasKan(){return graphicalUI.resultChosenCallWasKan();}
+	public boolean resultChosenCallWasRon(){return graphicalUI.resultChosenCallWasRon();}
 	
 	
 	
 	public void startUI(){
-		mTextualUI.startUI();
-		mGraphicalUI.startUI();
+		textualUI.startUI();
+		graphicalUI.startUI();
 	}
 	public void endUI(){
-		mTextualUI.endUI();
-		mGraphicalUI.endUI();
+		textualUI.endUI();
+		graphicalUI.endUI();
 	}
 	
 	

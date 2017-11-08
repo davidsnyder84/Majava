@@ -28,7 +28,7 @@ public class SparseTextualUI extends TextualUI{
 	protected void __displayEventDiscardedTile(){
 		
 		//show the discarded tile
-		println("\t" + mRoundEntities.mRoundTracker.currentPlayer().getSeatWind().toChar() + " discard: " + mRoundEntities.mRoundTracker.getMostRecentDiscard().toString());
+		println("\t" + roundEntities.roundTracker.currentPlayer().getSeatWind().toChar() + " discard: " + roundEntities.roundTracker.getMostRecentDiscard().toString());
 //		mRoundTracker.currentPlayer().showPond();
 	}
 	
@@ -38,7 +38,7 @@ public class SparseTextualUI extends TextualUI{
 	
 	protected void __displayEventMadeOpenMeld(){}
 	protected void __displayEventDrewTile(){
-		print("\t" + mRoundEntities.mRoundTracker.currentPlayer().getSeatWind().toChar() + " draw: " + mRoundEntities.mRoundTracker.currentPlayer().getTsumoTile());
+		print("\t" + roundEntities.roundTracker.currentPlayer().getSeatWind().toChar() + " draw: " + roundEntities.roundTracker.currentPlayer().getTsumoTile());
 	}
 	protected void __displayEventMadeOwnKan(){}
 	
@@ -49,7 +49,7 @@ public class SparseTextualUI extends TextualUI{
 	}
 	
 	protected void __displayEventHumanTurnStart(){
-		println();__showPlayerHand(mRoundEntities.mRoundTracker.whoseTurn());
+		println();__showPlayerHand(roundEntities.roundTracker.whoseTurn());
 	}
 	
 	protected void __displayEventStartOfRound(){
@@ -79,21 +79,21 @@ public class SparseTextualUI extends TextualUI{
 	
 	
 	//prints the hands of a player
-	protected void __showPlayerHand(int seatNum){__showPlayerHand(mRoundEntities.mPTrackers[seatNum].player);}
+	protected void __showPlayerHand(int seatNum){__showPlayerHand(roundEntities.playerTrackers[seatNum].player);}
 	protected void __showPlayerHand(Player p){println(p.getAsStringHandCompact());}
 	
-	protected void __showWall(){println(mRoundEntities.mWall.toString());}
-	protected void __showDoraIndicators(){println(",,,New Dora Indicator: " + mRoundEntities.mWall.getDoraIndicators().get(mRoundEntities.mWall.getNumKansMade()));}
+	protected void __showWall(){println(roundEntities.wall.toString());}
+	protected void __showDoraIndicators(){println(",,,New Dora Indicator: " + roundEntities.wall.getDoraIndicators().get(roundEntities.wall.getNumKansMade()));}
 	protected void __showDeadWall(){__showDoraIndicators();}
 	
 	protected void __showRoundResult(){
-		if (!mRoundEntities.mRoundTracker.roundIsOver()) return;
+		if (!roundEntities.roundTracker.roundIsOver()) return;
 		
 		println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 		 		"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 				"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		
-		RoundResultSummary resum = mRoundEntities.mRoundTracker.getResultSummary();
+		RoundResultSummary resum = roundEntities.roundTracker.getResultSummary();
 		
 //		String resultStr = "Result: " + mRoundEntities.mRoundTracker.getRoundResultString();
 //		System.out.println(resultStr);
@@ -194,9 +194,9 @@ public class SparseTextualUI extends TextualUI{
 	protected void __showExclamation(Exclamation exclamation, int seat){
 		
 		if (exclamation.isCall())
-			println("..." + mRoundEntities.mPTrackers[seat].player.getSeatWind() + " Player called " + exclamationToString.get(exclamation).toUpperCase() + " on the tile (" + mRoundEntities.mRoundTracker.getMostRecentDiscard().toString() + ")");
+			println("..." + roundEntities.playerTrackers[seat].player.getSeatWind() + " Player called " + exclamationToString.get(exclamation).toUpperCase() + " on the tile (" + roundEntities.roundTracker.getMostRecentDiscard().toString() + ")");
 		else
-			println(",,," + mRoundEntities.mPTrackers[seat].player.getSeatWind() + " Player declared " + exclamationToString.get(exclamation).toUpperCase());
+			println(",,," + roundEntities.playerTrackers[seat].player.getSeatWind() + " Player declared " + exclamationToString.get(exclamation).toUpperCase());
 		
 		//pause
 		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);

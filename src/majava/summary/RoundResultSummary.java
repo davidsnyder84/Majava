@@ -18,47 +18,47 @@ public class RoundResultSummary {
 	
 	private final ResultType pResultType;
 
-	private final PlayerSummary pWinningPlayer;
-	private final PlayerSummary pFurikondaPlayer;
+	private final PlayerSummary winningPlayer;
+	private final PlayerSummary furikondaPlayer;
 	
-	private final GameTile pWinningTile;
+	private final GameTile winningTile;
 	
 	
-	private final GameTileList pWinnerHand;
-	private final List<Meld> pWinnerMelds;
+	private final GameTileList winnerHand;
+	private final List<Meld> winnerMelds;
 	
-	private final PaymentMap pPayments;
+	private final PaymentMap payments;
 	
 	
 	//win constructor
-	public RoundResultSummary(ResultType resType, PlayerSummary winningPlayer, PlayerSummary furikondaPlayer, GameTile winningTile, GameTileList winnerHand, List<Meld> winnerMelds, PaymentMap payments){
+	public RoundResultSummary(ResultType resType, PlayerSummary winner, PlayerSummary discarder, GameTile winningtile, GameTileList winnerhand, List<Meld> winnermelds, PaymentMap paymentsMap){
 		
 		pResultType = resType;
 		
 		if (pResultType.isVictory()){
-			pWinningPlayer = winningPlayer;
-			pFurikondaPlayer = furikondaPlayer;
-			pWinningTile = winningTile.clone();
+			winningPlayer = winner;
+			furikondaPlayer = discarder;
+			winningTile = winningtile.clone();
 			
-			pWinnerHand = new GameTileList(winnerHand);
+			winnerHand = new GameTileList(winnerhand);
 			
-			pWinnerMelds = winnerMelds;
+			winnerMelds = winnermelds;
 		}
 		else{
-			pWinningPlayer = null;
-			pFurikondaPlayer = null;
-			pWinningTile = null;
+			winningPlayer = null;
+			furikondaPlayer = null;
+			winningTile = null;
 			
-			pWinnerHand = null;
-			pWinnerMelds = null;
+			winnerHand = null;
+			winnerMelds = null;
 		}
 		
-		pPayments = new PaymentMap();
-		pPayments.putAll(payments);
+		payments = new PaymentMap();
+		payments.putAll(paymentsMap);
 	}
 	//draw constructor
-	public RoundResultSummary(ResultType resType, PaymentMap payments){
-		this(resType, null, null, null, null, null, payments);
+	public RoundResultSummary(ResultType resType, PaymentMap paymentsMap){
+		this(resType, null, null, null, null, null, paymentsMap);
 	}
 	
 	
@@ -69,7 +69,7 @@ public class RoundResultSummary {
 	public boolean isVictoryRon(){return pResultType.isVictoryRon();}
 	public boolean isVictoryTsumo(){return pResultType.isVictoryTsumo();}
 	
-	public boolean isDealerVictory(){return (isVictory() && pWinningPlayer.isDealer());}
+	public boolean isDealerVictory(){return (isVictory() && winningPlayer.isDealer());}
 	
 	
 	
@@ -83,24 +83,24 @@ public class RoundResultSummary {
 	}
 	
 	
-	public PlayerSummary getWinningPlayer(){return pWinningPlayer;}
-	public PlayerSummary getFurikondaPlayer(){return pFurikondaPlayer;}
+	public PlayerSummary getWinningPlayer(){return winningPlayer;}
+	public PlayerSummary getFurikondaPlayer(){return furikondaPlayer;}
 	
-	public Wind getWindOfWinner(){if (!isVictory()) return null; return pWinningPlayer.getSeatWind();}
-	public GameTile getWinningTile(){if (!isVictory()) return null; return pWinningTile.clone();}
+	public Wind getWindOfWinner(){if (!isVictory()) return null; return winningPlayer.getSeatWind();}
+	public GameTile getWinningTile(){if (!isVictory()) return null; return winningTile.clone();}
 	
 	
 	
 	public GameTileList getWinnerHandTiles(){
 		if (!isVictory()) return null;
-		return pWinnerHand.clone();
+		return winnerHand.clone();
 	}
 	public List<Meld> getWinnerMelds(){
 		if (!isVictory()) return null; 
 		List<Meld> meldsCopy = new ArrayList<Meld>();
-		for (Meld m: pWinnerMelds) meldsCopy.add(m);
+		for (Meld m: winnerMelds) meldsCopy.add(m);
 		return meldsCopy;
 	}
 	
-	public PaymentMap getPayments(){return new PaymentMap(pPayments);}
+	public PaymentMap getPayments(){return new PaymentMap(payments);}
 }

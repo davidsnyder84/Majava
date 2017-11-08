@@ -5,21 +5,21 @@ import majava.player.Player;
 
 //represents an immutable summary of a player's information
 public class PlayerSummary{
-		private final String pPlayerName;
-		private final int pPlayerID;
-		private final String pControllerString;
+		private final String playerName;
+		private final int playerID;
+		private final String controllerString;
 		
-		private final int pPlayerNum;
-		private final Wind pSeatWind;
-		private final int pPoints;
+		private final int playerNumber;
+		private final Wind seatWind;
+		private final int points;
 		
-		public PlayerSummary(String playername, int playerid, String controllerstring, int playernum, Wind seatwind, int points){
-			pPlayerName = playername;
-			pPlayerID = playerid;
-			pControllerString = controllerstring;
-			pPlayerNum = playernum;
-			pSeatWind = seatwind;
-			pPoints = points;
+		public PlayerSummary(String name, int id, String controllerstring, int playernum, Wind seatwind, int pointsAmount){
+			playerName = name;
+			playerID = id;
+			controllerString = controllerstring;
+			playerNumber = playernum;
+			seatWind = seatwind;
+			points = pointsAmount;
 		}
 		public PlayerSummary(Player p){
 			this(p.getPlayerName(), p.getPlayerID(), p.getControllerAsString(), p.getPlayerNumber(), p.getSeatWind(), p.getPoints());
@@ -27,23 +27,23 @@ public class PlayerSummary{
 		
 		
 		
-		public String getPlayerName(){return pPlayerName;}
-		public int getPlayerID(){return pPlayerID;}
-		public String getControllerAsString(){return pControllerString;}
+		public String getPlayerName(){return playerName;}
+		public int getPlayerID(){return playerID;}
+		public String getControllerAsString(){return controllerString;}
 		
-		public int getPlayerNumber(){return pPlayerNum;}
-		public Wind getSeatWind(){return pSeatWind;}
-		public boolean isDealer(){return pSeatWind == Wind.EAST;}
+		public int getPlayerNumber(){return playerNumber;}
+		public Wind getSeatWind(){return seatWind;}
+		public boolean isDealer(){return seatWind == Wind.EAST;}
 		
-		public int getPoints(){return pPoints;}
+		public int getPoints(){return points;}
 		
 		
-		public String toString(){return "Player " + pPlayerNum + " (" + pSeatWind.toChar() + ")";}
+		public String toString(){return "Player " + playerNumber + " (" + seatWind.toChar() + ")";}
 		public boolean equals(Object other){
-			return ((PlayerSummary)other).pPlayerNum == pPlayerNum;
+			return ((PlayerSummary)other).playerNumber == playerNumber;
 		}
 		public int hashCode(){
-			return pPlayerID + pPlayerNum + pPoints;
+			return playerID + playerNumber + points;
 		}
 		
 		

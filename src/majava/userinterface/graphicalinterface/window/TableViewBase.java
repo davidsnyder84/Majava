@@ -466,7 +466,7 @@ public class TableViewBase extends JFrame{
 		//update hands
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_HAND; currentTile++){
-				larryHands[currentPlayer][currentTile].setIcon(__getImageIcon(playerTrackers[currentPlayer].tilesH, currentTile, currentPlayer, BIG, whichHandsToReveal[currentPlayer]));
+				larryHands[currentPlayer][currentTile].setIcon(__getImageIcon(playerTrackers[currentPlayer].handTiles, currentTile, currentPlayer, BIG, whichHandsToReveal[currentPlayer]));
 			}
 		}
 		
@@ -474,7 +474,7 @@ public class TableViewBase extends JFrame{
 		//update ponds
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_POND; currentTile++){
-				larryPonds[currentPlayer][currentTile].setIcon(__getImageIconPond(playerTrackers[currentPlayer].tilesP, currentTile, currentPlayer));
+				larryPonds[currentPlayer][currentTile].setIcon(__getImageIconPond(playerTrackers[currentPlayer].pondTiles, currentTile, currentPlayer));
 			}
 		}
 		
@@ -540,21 +540,21 @@ public class TableViewBase extends JFrame{
 		oldTurn = newTurn;
 	}
 	private void __discardMarkerSet(){
-		if (!playerTrackers[newTurn].tilesP.isEmpty() && playerTrackers[newTurn].player.needsDraw()){
+		if (!playerTrackers[newTurn].pondTiles.isEmpty() && playerTrackers[newTurn].player.needsDraw()){
 			if (newTurn == oldTurn &&  playerTrackers[newTurn].player.needsDrawRinshan()) return;
 			__getLastLabelInPond(newTurn).setOpaque(true);
 			__getLastLabelInPond(newTurn).setBackground(COLOR_POND_DISCARD_TILE);
 		}
 	}
 	private void __discardMarkerErase(){
-		if (oldTurn >= 0 && !playerTrackers[oldTurn].tilesP.isEmpty()){
+		if (oldTurn >= 0 && !playerTrackers[oldTurn].pondTiles.isEmpty()){
 			__getLastLabelInPond(oldTurn).setOpaque(false);
 			__getLastLabelInPond(oldTurn).setBackground(COLOR_TRANSPARENT);
 		}
 	}
 	private JLabel __getLastLabelInPond(int seatNum){
-		if (playerTrackers[seatNum].tilesP.isEmpty()) return null;
-		else return larryPonds[seatNum][playerTrackers[seatNum].tilesP.size() - 1];
+		if (playerTrackers[seatNum].pondTiles.isEmpty()) return null;
+		else return larryPonds[seatNum][playerTrackers[seatNum].pondTiles.size() - 1];
 	}
 	
 	
@@ -753,9 +753,9 @@ public class TableViewBase extends JFrame{
 	public void syncWithRoundTracker(RoundEntities receivedRoundEntities){
 		
 		roundEntities = receivedRoundEntities;
-		roundTracker = roundEntities.mRoundTracker;
-		playerTrackers = roundEntities.mPTrackers;
-		wall = roundEntities.mWall;wallTiles = roundEntities.mTilesW;
+		roundTracker = roundEntities.roundTracker;
+		playerTrackers = roundEntities.playerTrackers;
+		wall = roundEntities.wall;wallTiles = roundEntities.wallTiles;
 		
 		//hand revealing options
 		whichHandsToReveal = new boolean[NUM_PLAYERS];

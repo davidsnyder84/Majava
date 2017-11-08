@@ -21,10 +21,8 @@ public abstract class GameUI {
 	
 	
 //	protected RoundTracker mRoundTracker;
-	
-	protected RoundEntities mRoundEntities = null;
-	
-	protected RoundResultSummary mResultSummary = null;
+	protected RoundEntities roundEntities = null;
+	protected RoundResultSummary resultSummary = null;
 	
 	
 	
@@ -78,8 +76,8 @@ public abstract class GameUI {
 	
 	
 	
-	public void syncWithRoundTracker(RoundEntities roundEntities){
-		mRoundEntities = roundEntities;
+	public void syncWithRoundTracker(RoundEntities receivedRoundEntities){
+		roundEntities = receivedRoundEntities;
 	}
 	
 //	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] tilesW){
@@ -94,7 +92,7 @@ public abstract class GameUI {
 	
 	
 	public void setRoundResult(RoundResultSummary resum){
-		mResultSummary = resum;
+		resultSummary = resum;
 	}
 	
 	

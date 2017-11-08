@@ -16,10 +16,10 @@ public final class PlayerTracker{
 	public final Player player;
 	
 	public final Hand hand;
-	public final GameTileList tilesH;
+	public final GameTileList handTiles;
 	
 	public final Pond pond;
-	public final List<PondTile> tilesP;
+	public final List<PondTile> pondTiles;
 	
 	public final List<Meld> melds;
 	
@@ -32,8 +32,8 @@ public final class PlayerTracker{
 	
 	public PlayerTracker(Player p, Hand ha, GameTileList tH, Pond po, List<PondTile> tP, List<Meld> ms){
 		player = p;
-		hand = ha; tilesH = tH;
-		pond = po; tilesP = tP;
+		hand = ha; handTiles = tH;
+		pond = po; pondTiles = tP;
 		melds = ms;
 	}
 }

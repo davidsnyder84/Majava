@@ -17,21 +17,19 @@ public enum GameplayEvent{
 	UNKNOWN, PLACEHOLDER;
 	
 	
-	private Exclamation mExcl;
-	private int mSeat;
+	private Exclamation exclamation;
+	private int seatNumber;
 	
-	private GameplayEvent(Exclamation e){mExcl = e;}
+	private GameplayEvent(Exclamation ex){exclamation = ex;}
 	private GameplayEvent(){this(null);}
 	
 	
 	
-	public void setExclamation(Exclamation e, int seat){mExcl = e; mSeat = seat;}
-	public void setExclamation(Exclamation e){mExcl = e;}
-	public Exclamation getExclamation(){return mExcl;}
+	public void setExclamation(Exclamation ex, int seat){exclamation = ex; seatNumber = seat;}
+	public void setExclamation(Exclamation ex){exclamation = ex;}
+	public Exclamation getExclamation(){return exclamation;}
 	
-//	public void setSeat(int seat){mSeat = seat;}
-	public int getSeat(){return mSeat;}
+	public int getSeat(){return seatNumber;}
 	
 	public boolean isExclamation(){return (this == CALLED_TILE || this == DECLARED_RIICHI || this == DECLARED_OWN_KAN || this == DECLARED_TSUMO);}
-	
 }

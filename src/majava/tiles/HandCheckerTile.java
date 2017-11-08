@@ -3,40 +3,22 @@ package majava.tiles;
 import majava.enums.MeldType;
 
 
-/*
-Class: HandCheckerTile
-a tile with additional information required for hand checking
 
-data:
-	mMeldTypeStack - stack of possible melds the tile can form
-	
-methods:
-	
-	constructors:
-	Requires another tile (copy constructor) 
-	
-	public:
-		mutators:
-	 	mstackPush, mstackPop - stack functions for stack of melds
-	 	
-	 	accessors:
-		mstackTop, mstackIsEmpty - stack functions for stack of melds
-		mstackTopParterIDs - returns partner ids for the meld on top of the stack
-*/
+//a tile with additional information required for hand checking
 public class HandCheckerTile extends GameTile {
 	
+	//stack of possible melds the tile can form
+	private final MeldTypeStack meldTypeStack;
 	
-	private final MeldTypeStack mMeldTypeStack;
 	
-	
-	
+	//copy constructor
 	public HandCheckerTile(GameTile other){
 		super(other);
 		
 		if (other instanceof HandCheckerTile)
-			mMeldTypeStack =  ((HandCheckerTile) other).mMeldTypeStack.clone();
+			meldTypeStack =  ((HandCheckerTile) other).meldTypeStack.clone();
 		else
-			mMeldTypeStack = new MeldTypeStack();
+			meldTypeStack = new MeldTypeStack();
 	}
 	public HandCheckerTile(TileInterface t){this(new GameTile(t));}
 	public HandCheckerTile clone(){return new HandCheckerTile(this);}
@@ -48,15 +30,15 @@ public class HandCheckerTile extends GameTile {
 
 	//stack functions
 //	final public boolean mstackPush(MeldType meldType){return mMeldTypeStack.push(meldType);}
-	final public void mstackPush(MeldType meldType){mMeldTypeStack.push(meldType);}
-	final public MeldType mstackPop(){return mMeldTypeStack.pop();}
-	final public MeldType mstackTop(){return mMeldTypeStack.top();}
-	final public boolean mstackIsEmpty(){return mMeldTypeStack.isEmpty();}
+	final public void mstackPush(MeldType meldType){meldTypeStack.push(meldType);}
+	final public MeldType mstackPop(){return meldTypeStack.pop();}
+	final public MeldType mstackTop(){return meldTypeStack.top();}
+	final public boolean mstackIsEmpty(){return meldTypeStack.isEmpty();}
 	
-	//returns a list of the partner IDs for the top meldType on the stack
+	//returns partner IDs for the top meldType on the stack
 	final public int[] mstackTopParterIDs(){
 		int id = getId();
-		switch(mMeldTypeStack.top()){
+		switch(meldTypeStack.top()){
 		case CHI_L: return new int[]{id + 1, id + 2};
 		case CHI_M: return new int[]{id - 1, id + 1};
 		case CHI_H: return new int[]{id - 2, id - 1};
@@ -72,13 +54,8 @@ public class HandCheckerTile extends GameTile {
 	
 	
 	
-	
-	
-	
-	
-	
+	//inner class
 	private static class MeldTypeStack implements Cloneable{
-		
 		private static final int MAX_SIZE = 5;
 		private static final int MAX_POS = 4;
 		
@@ -94,9 +71,7 @@ public class HandCheckerTile extends GameTile {
 			list[3] = other.list[3];
 			list[4] = other.list[4];
 		}
-		public MeldTypeStack clone(){
-			return new MeldTypeStack(this);
-		}
+		public MeldTypeStack clone(){return new MeldTypeStack(this);}
 		
 		public MeldType top(){
 			if (pos < 0) return null;
@@ -115,11 +90,5 @@ public class HandCheckerTile extends GameTile {
 		
 		public boolean isEmpty(){return pos < 0;}
 	}
-	
-	
-	
-	
-	
-	
 	
 }

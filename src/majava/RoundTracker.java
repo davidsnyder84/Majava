@@ -260,7 +260,7 @@ public class RoundTracker {
 		
 		GameTile winningTile = null;
 //		GameTileList winningHandTiles = new GameTileList(mRoundEntities.mPTrackers[winner.getPlayerNumber()].tilesH);
-		GameTileList winningHandTiles = roundEntities.mPTrackers[winner.getPlayerNumber()].tilesH.clone();
+		GameTileList winningHandTiles = roundEntities.playerTrackers[winner.getPlayerNumber()].handTiles.clone();
 		
 		if (winner == currentPlayer()){
 			roundResult.setVictoryTsumo(winner);
@@ -274,7 +274,7 @@ public class RoundTracker {
 			winningTile = mostRecentDiscard;
 		}
 		
-		roundResult.setWinningHand(winningHandTiles, roundEntities.mPTrackers[winner.getPlayerNumber()].melds, winningTile);
+		roundResult.setWinningHand(winningHandTiles, roundEntities.playerTrackers[winner.getPlayerNumber()].melds, winningTile);
 	}
 	public void setResultRyuukyokuWashout(){roundResult.setResultRyuukyokuWashout();}
 	public void setResultRyuukyokuKyuushu(){roundResult.setResultRyuukyokuKyuushu();}

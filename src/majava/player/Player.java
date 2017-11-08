@@ -150,7 +150,7 @@ public class Player {
 	}
 	public void giveStartingHand(List<GameTile> startingTiles){
 		for (GameTile t: startingTiles) addTileToHand(t);
-		hand.sortHand();
+		hand.sort();
 		
 		//if the player isn't east, they will need to draw
 		if (hand.size() < Hand.maxHandSize())

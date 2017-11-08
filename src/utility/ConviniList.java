@@ -127,8 +127,6 @@ public class ConviniList<T extends Comparable<? super T>> extends ArrayList<T>{
 	
 	
 	
-	
-	//sort
 	public void sort(){Collections.sort(this);}
 	
 }

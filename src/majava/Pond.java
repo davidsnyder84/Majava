@@ -9,23 +9,34 @@ import majava.tiles.GameTile;
 
 //represents a player's pond of discarded tiles
 public class Pond {
-	
 	private static final int SIZE_MAX = 30;
+	private static final int NO_RIICHI_INDEX = -1;
 	
 	
-	
-	private final List<PondTile> mTiles;
-	private int mRiichiTileIndex;
-	
+	private final List<PondTile> tiles;
+	private int indexOfRiichiTile;
 	
 	
 	
 	public Pond(){
-		mTiles = new ArrayList<PondTile>(SIZE_MAX);
-		mRiichiTileIndex = -1;
+		tiles = new ArrayList<PondTile>(SIZE_MAX);
+		indexOfRiichiTile = NO_RIICHI_INDEX;
 	}
 	
-	public void addTile(GameTile t){mTiles.add(new PondTile(t));}
+	public void addTile(GameTile t){tiles.add(new PondTile(t));}
+	
+	public PondTile getRiichiTile(){return getTile(indexOfRiichiTile);}
+	public PondTile getMostRecentTile(){return getTile(size() - 1);}
+	public int size(){return tiles.size();}
+	
+	private PondTile getTile(int index){return tiles.get(index);}
+	
+	
+	//marks the most recent tile as missing (because it was callled)
+	public PondTile removeMostRecentTile(){
+		getMostRecentTile().setCalled();
+		return getMostRecentTile();
+	}
 	
 	
 	
@@ -37,21 +48,6 @@ public class Pond {
 	
 	
 	
-	//returns which tile the player used for riichi
-	public PondTile getRiichiTile(){return mTiles.get(mRiichiTileIndex);}
-	//returns the most recently discarded tile in the pond
-	public PondTile getMostRecentTile(){return mTiles.get(size()-1);}
-	public int size(){return mTiles.size();}
-	
-	
-	
-	//marks the most recent tile as missing (because it was callled)
-	public PondTile removeMostRecentTile(){
-		getMostRecentTile().setCalled();
-		return getMostRecentTile();
-	}
-	
-	
 	@Override
 	public String toString(){
 		String pondString = "";
@@ -61,7 +57,7 @@ public class Pond {
 			
 			pondString += "\t";
 			for (int j = 0; j < TILES_PER_LINE && (j + TILES_PER_LINE*i < size()); j++)
-				pondString += mTiles.get(TILES_PER_LINE*i + j) + " ";
+				pondString += getTile(TILES_PER_LINE*i + j) + " ";
 			
 			if (TILES_PER_LINE*i < size()) pondString += "\n";
 		}
@@ -71,10 +67,9 @@ public class Pond {
 	
 	
 	
-	
 	//sync pond tilelist with tracker
 	public void syncWithRoundTracker(RoundTracker tracker){
-		tracker.syncPond(mTiles);
+		tracker.syncPond(tiles);
 	}
 	
 }

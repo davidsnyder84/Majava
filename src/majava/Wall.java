@@ -42,16 +42,11 @@ methods:
 		syncWithTracker - associates this wall with the round tracker
 */
 public class Wall {
-	
-
 	private static final int NUMBER_OF_DIFFERENT_TILES = 34;
 	private static final int MAX_SIZE_WALL = NUMBER_OF_DIFFERENT_TILES * 4;	//136
 	private static final int POS_LAST_NORMAL_WALL_TILE = 121;
 //	private static final int POS_LAST_DEAD_WALL_TILE = 135;
 //	private static final int FIRST_TILE_IN_WALL = 0;
-	
-	
-	
 	
 	
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN DEAD WALL CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -89,61 +84,39 @@ public class Wall {
 	
 	
 	
+	private GameTile[] wallTiles;
+	private int currentWallPosition;
 	
-	
-	private GameTile[] mTiles;
-	private int mCurrentWallPosition;
-	
-	private RoundTracker mRoundTracker;
-	
-	
+	private RoundTracker roundTracker;
 	
 	
 	public Wall(){
 		//fill and shuffle the wall
-		mTiles = new GameTile[MAX_SIZE_WALL];
+		wallTiles = new GameTile[MAX_SIZE_WALL];
 		__initialize();
 	}
 	
 	
 	
 	
-	
-	
-	/*
-	method: getStartingHands
-	deals starting hands
-	
-	fills the received TileLists with each player's starting hands
-	
-	East takes 4, South takes 4, West takes 4, North takes 4
-    East takes 4, South takes 4, West takes 4, North takes 4
-    East takes 4, South takes 4, West takes 4, North takes 4
-    East takes 2, South takes 1, West takes 1, North takes 1
-	*/
-	public void getStartingHands(List<GameTile> tilesE, List<GameTile> tilesS, List<GameTile> tilesW, List<GameTile> tilesN){
+	//fills the received TileLists with each player's starting hands
+	public void takeStartingHands(List<GameTile> tilesE, List<GameTile> tilesS, List<GameTile> tilesW, List<GameTile> tilesN){
+		/*
+		East takes 4, South takes 4, West takes 4, North takes 4
+    	East takes 4, South takes 4, West takes 4, North takes 4
+    	East takes 4, South takes 4, West takes 4, North takes 4
+    	East takes 2, South takes 1, West takes 1, North takes 1
+		 */
 		
-		int i, j;
-		//each player takes 4 tiles, three times
-		for (i = 0; i < 3; i++){
-			//east takes 4
-			for (j = 0; j < 4; j++) tilesE.add(takeTile());
-			//south takes 4
-			for (j = 0; j < 4; j++) tilesS.add(takeTile());
-			//west takes 4
-			for (j = 0; j < 4; j++) tilesW.add(takeTile());
-			//north takes 4
-			for (j = 0; j < 4; j++) tilesN.add(takeTile());
+		for (int i = 0; i < 3; i++){
+			for (int j = 0; j < 4; j++) tilesE.add(takeTile());
+			for (int j = 0; j < 4; j++) tilesS.add(takeTile());
+			for (int j = 0; j < 4; j++) tilesW.add(takeTile());
+			for (int j = 0; j < 4; j++) tilesN.add(takeTile());
 		}
-		
-		
-		//east takes 2
-		for (j = 0; j < 2; j++) tilesE.add(takeTile());
-		//south takes 1
+		tilesE.add(takeTile()); tilesE.add(takeTile());
 		tilesS.add(takeTile());
-		//west takes 1
 		tilesW.add(takeTile());
-		//north takes 1
 		tilesN.add(takeTile());
 	}
 	
@@ -178,7 +151,7 @@ public class Wall {
 	*/
 	private void __initialize(){
 		
-		mCurrentWallPosition = 0;
+		currentWallPosition = 0;
 		
 		final int IDM5 = 5, IDP5 = 14, IDS5 = 23;
 		
@@ -186,18 +159,18 @@ public class Wall {
 		//make red doras accordingly for fives (1 in man, 2 in pin, 1 in sou)
 		int i = 0;
 		for (int id = 1; id <= NUMBER_OF_DIFFERENT_TILES; id++){
-			mTiles[i++] = new GameTile(id);
-			mTiles[i++] = new GameTile(id);
+			wallTiles[i++] = new GameTile(id);
+			wallTiles[i++] = new GameTile(id);
 			
-			if (id == IDP5) mTiles[i++] = new GameTile(id, true);
-			else            mTiles[i++] = new GameTile(id);
+			if (id == IDP5) wallTiles[i++] = new GameTile(id, true);
+			else            wallTiles[i++] = new GameTile(id);
 			
-			if (id == IDM5 || id == IDP5 || id == IDS5) mTiles[i++] = new GameTile(id, true);
-			else                                        mTiles[i++] = new GameTile(id);
+			if (id == IDM5 || id == IDP5 || id == IDS5) wallTiles[i++] = new GameTile(id, true);
+			else                                        wallTiles[i++] = new GameTile(id);
 		}
 		
 		//shuffle the wall
-		Collections.shuffle(Arrays.asList(mTiles));
+		Collections.shuffle(Arrays.asList(wallTiles));
 	}
 	
 	
@@ -222,31 +195,31 @@ public class Wall {
 	*/
 	private GameTileList __getDoraIndicators(boolean getUraDora){
 		
-		int numKansMade = mRoundTracker.getNumKansMade();
+		int numKansMade = roundTracker.getNumKansMade();
 		int size = numKansMade + 1;
 		if (getUraDora) size *= 2;
 		GameTileList indicators = new GameTileList(size);
 		
 		//add the first dora indicator
-		indicators.add(mTiles[OFFSET_DEAD_WALL + POS_DORA_1]);
+		indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_DORA_1]);
 		
 		//add additional indicators if kans have been made
-		if (numKansMade >= 1) indicators.add(mTiles[OFFSET_DEAD_WALL + POS_DORA_2]);
-		if (numKansMade >= 2) indicators.add(mTiles[OFFSET_DEAD_WALL + POS_DORA_3]);
-		if (numKansMade >= 3) indicators.add(mTiles[OFFSET_DEAD_WALL + POS_DORA_4]);
-		if (numKansMade == 4) indicators.add(mTiles[OFFSET_DEAD_WALL + POS_DORA_5]);
+		if (numKansMade >= 1) indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_DORA_2]);
+		if (numKansMade >= 2) indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_DORA_3]);
+		if (numKansMade >= 3) indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_DORA_4]);
+		if (numKansMade == 4) indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_DORA_5]);
 		
 		
 		//add ura dora indicators, if specified
 		if (getUraDora){
 			//add the first ura dora indicator
-			indicators.add(mTiles[OFFSET_DEAD_WALL + POS_URADORA_1]);
+			indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_URADORA_1]);
 
 			//add additional ura indicators if kans have been made
-			if (numKansMade >= 1) indicators.add(mTiles[OFFSET_DEAD_WALL + POS_URADORA_2]);
-			if (numKansMade >= 2) indicators.add(mTiles[OFFSET_DEAD_WALL + POS_URADORA_3]);
-			if (numKansMade >= 3) indicators.add(mTiles[OFFSET_DEAD_WALL + POS_URADORA_4]);
-			if (numKansMade == 4) indicators.add(mTiles[OFFSET_DEAD_WALL + POS_URADORA_5]);
+			if (numKansMade >= 1) indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_URADORA_2]);
+			if (numKansMade >= 2) indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_URADORA_3]);
+			if (numKansMade >= 3) indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_URADORA_4]);
+			if (numKansMade == 4) indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_URADORA_5]);
 		}
 		
 		return indicators;
@@ -267,10 +240,10 @@ public class Wall {
 	*/
 	public GameTile takeTile(){
 		GameTile takenTile = null;
-		if (mCurrentWallPosition <= POS_LAST_NORMAL_WALL_TILE){
-			takenTile = mTiles[mCurrentWallPosition];
-			mTiles[mCurrentWallPosition] = null;
-			mCurrentWallPosition++;
+		if (currentWallPosition <= POS_LAST_NORMAL_WALL_TILE){
+			takenTile = wallTiles[currentWallPosition];
+			wallTiles[currentWallPosition] = null;
+			currentWallPosition++;
 		}
 		
 		return takenTile;
@@ -282,8 +255,8 @@ public class Wall {
 	public GameTile takeTileFromDeadWall(){
 		GameTile takenTile = null;
 
-		takenTile = mTiles[OFFSET_DEAD_WALL + POS_KANDRAWS[mRoundTracker.getNumKansMade() - 1]];
-		mTiles[OFFSET_DEAD_WALL + POS_KANDRAWS[mRoundTracker.getNumKansMade() - 1]] = null;
+		takenTile = wallTiles[OFFSET_DEAD_WALL + POS_KANDRAWS[roundTracker.getNumKansMade() - 1]];
+		wallTiles[OFFSET_DEAD_WALL + POS_KANDRAWS[roundTracker.getNumKansMade() - 1]] = null;
 		
 		return takenTile;
 	}
@@ -307,13 +280,13 @@ public class Wall {
 	//returns true if the wall is empty (has no tiles left)
 	public boolean isEmpty(){return (getNumTilesLeftInWall() == 0);}
 	//returns the number of tiles left in the wall (not including dead wall)
-	public int getNumTilesLeftInWall(){return MAX_SIZE_WALL - mCurrentWallPosition - MAX_SIZE_DEAD_WALL;}
+	public int getNumTilesLeftInWall(){return MAX_SIZE_WALL - currentWallPosition - MAX_SIZE_DEAD_WALL;}
 	//returns the number of tiles left in the dead wall
-	public int getNumTilesLeftInDeadWall(){return MAX_SIZE_DEAD_WALL - mRoundTracker.getNumKansMade();}
+	public int getNumTilesLeftInDeadWall(){return MAX_SIZE_DEAD_WALL - roundTracker.getNumKansMade();}
 	
 	
 	//returns the number of kans made
-	public int getNumKansMade(){return mRoundTracker.getNumKansMade();}
+	public int getNumKansMade(){return roundTracker.getNumKansMade();}
 	
 	
 	
@@ -500,42 +473,42 @@ public class Wall {
 		for (i = 0; i < 3; i++){
 			//east takes 4
 			for (j = 0; j < 4; j++)
-				mTiles[TAKEN_PER_ROUND*i + j + 0*TAKEN_PER_PLAYER] = tilesE.remove(0);
+				wallTiles[TAKEN_PER_ROUND*i + j + 0*TAKEN_PER_PLAYER] = tilesE.remove(0);
 			//south takes 4
 			for (j = 0; j < 4; j++)
-				mTiles[TAKEN_PER_ROUND*i + j + 1*TAKEN_PER_PLAYER] = tilesS.remove(0);
+				wallTiles[TAKEN_PER_ROUND*i + j + 1*TAKEN_PER_PLAYER] = tilesS.remove(0);
 			//west takes 4
 			for (j = 0; j < 4; j++)
-				mTiles[TAKEN_PER_ROUND*i + j + 2*TAKEN_PER_PLAYER] = tilesW.remove(0);
+				wallTiles[TAKEN_PER_ROUND*i + j + 2*TAKEN_PER_PLAYER] = tilesW.remove(0);
 			//north takes 4
 			for (j = 0; j < 4; j++)
-				mTiles[TAKEN_PER_ROUND*i + j + 3*TAKEN_PER_PLAYER] = tilesN.remove(0);
+				wallTiles[TAKEN_PER_ROUND*i + j + 3*TAKEN_PER_PLAYER] = tilesN.remove(0);
 		}
 		//east takes 2
-		mTiles[3*TAKEN_PER_ROUND + 0] = tilesE.remove(0);
-		mTiles[3*TAKEN_PER_ROUND + 1] = tilesE.remove(0);
+		wallTiles[3*TAKEN_PER_ROUND + 0] = tilesE.remove(0);
+		wallTiles[3*TAKEN_PER_ROUND + 1] = tilesE.remove(0);
 
 		//south takes 1
-		mTiles[3*TAKEN_PER_ROUND + 2] = tilesS.remove(0);
+		wallTiles[3*TAKEN_PER_ROUND + 2] = tilesS.remove(0);
 
 		//west takes 1
-		mTiles[3*TAKEN_PER_ROUND + 3] = tilesW.remove(0);
+		wallTiles[3*TAKEN_PER_ROUND + 3] = tilesW.remove(0);
 
 		//north takes 1
-		mTiles[3*TAKEN_PER_ROUND + 4] = tilesN.remove(0);
+		wallTiles[3*TAKEN_PER_ROUND + 4] = tilesN.remove(0);
 		
 		
-		if (tsumo2 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 1] = new GameTile(tsumo2);
-		if (tsumo3 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 2] = new GameTile(tsumo3);
-		if (tsumo4 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 3] = new GameTile(tsumo4);
+		if (tsumo2 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 1] = new GameTile(tsumo2);
+		if (tsumo3 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 2] = new GameTile(tsumo3);
+		if (tsumo4 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 3] = new GameTile(tsumo4);
 		
 		
-		if (tsumo5 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 4] = new GameTile(tsumo5);
-		if (tsumo6 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 5] = new GameTile(tsumo6);
-		if (tsumo7 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 6] = new GameTile(tsumo7);
-		if (tsumo8 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 7] = new GameTile(tsumo8);
+		if (tsumo5 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 4] = new GameTile(tsumo5);
+		if (tsumo6 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 5] = new GameTile(tsumo6);
+		if (tsumo7 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 6] = new GameTile(tsumo7);
+		if (tsumo8 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 7] = new GameTile(tsumo8);
 		
-		if (tsumo9 != 0) mTiles[3*TAKEN_PER_ROUND + 4 + 8] = new GameTile(tsumo9);
+		if (tsumo9 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 8] = new GameTile(tsumo9);
 		
 	}
 	public int[] DEMOgetDebugPlayerHandSizes(){return debugHandSizes;}
@@ -561,7 +534,7 @@ public class Wall {
 		final int TILES_PER_LINE = 17;
 		for (i = 0; i < getNumTilesLeftInWall() / TILES_PER_LINE + 1; i++){
 			for (j = 0; j < TILES_PER_LINE && (j + TILES_PER_LINE*i < getNumTilesLeftInWall()); j++){
-				wallString += mTiles[mCurrentWallPosition + TILES_PER_LINE*i + j].toString() + " ";
+				wallString += wallTiles[currentWallPosition + TILES_PER_LINE*i + j].toString() + " ";
 			}
 			if (TILES_PER_LINE*i < getNumTilesLeftInWall())
 				wallString += "\n";
@@ -590,16 +563,16 @@ public class Wall {
 	
 	
 	private String __wallTileToString(int index){
-		if (mTiles[index] == null) return "  ";
-		else return mTiles[index].toString();
+		if (wallTiles[index] == null) return "  ";
+		else return wallTiles[index].toString();
 	}
 	private String __deadWallTileToString(int index){return __wallTileToString(OFFSET_DEAD_WALL + index);}
 	
 	
 	
 	public void syncWithTracker(RoundTracker tracker){
-		mRoundTracker = tracker; 
-		mRoundTracker.syncWall(mTiles);
+		roundTracker = tracker; 
+		roundTracker.syncWall(wallTiles);
 	}
 	
 	

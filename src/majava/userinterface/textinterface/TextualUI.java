@@ -26,13 +26,13 @@ public abstract class TextualUI extends GameUI{
 	}
 	
 	
-	protected final PrintStream mOutStream;
+	protected final PrintStream outStream;
 	
 	
 	
 	public TextualUI(){
-		mOutStream = System.out;
-		mRoundEntities = null;
+		outStream = System.out;
+		roundEntities = null;
 //		mRoundTracker = null; mWall = null; mPTrackers = null;
 	}
 	
@@ -58,8 +58,8 @@ public abstract class TextualUI extends GameUI{
 	
 	
 
-	protected void __showHandsOfAllPlayers(){println(); for (PlayerTracker pt: mRoundEntities.mPTrackers) __showPlayerHand(pt.player); println();}
-	protected void __showPlayerHand(int seatNum){__showPlayerHand(mRoundEntities.mPTrackers[seatNum].player);}
+	protected void __showHandsOfAllPlayers(){println(); for (PlayerTracker pt: roundEntities.playerTrackers) __showPlayerHand(pt.player); println();}
+	protected void __showPlayerHand(int seatNum){__showPlayerHand(roundEntities.playerTrackers[seatNum].player);}
 	protected abstract void __showPlayerHand(Player p);
 	
 	protected abstract void __showWall();
@@ -114,8 +114,8 @@ public abstract class TextualUI extends GameUI{
 	
 	
 	
-	public void println(String printString){mOutStream.println(printString);}public void println(){println("");}
-	public void print(String printString){mOutStream.print(printString);}public void print(){print("");}
+	public void println(String printString){outStream.println(printString);}public void println(){println("");}
+	public void print(String printString){outStream.print(printString);}public void print(){print("");}
 	
 	
 	public void printErrorRoundAlreadyOver(){println("----Error: Round is already over, cannot play");}

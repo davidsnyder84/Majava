@@ -6,44 +6,31 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
  
 
-/*
-Class: ImageRotator
-used to rotate an imageicon in intervals of 90 degrees
-
-data:
-	mAngle - the angle at which to rotate an imageicon
-	
-methods:
-	constructors:
-	Requires an angle
-	
-	public:
-		rotateImage - rotates an icon and returns the rotated form
-*/
+//used to rotate an imageicon in intervals of 90 degrees
 public class ImageRotator {
 	
-	private int mAngle;
+	private int angle;
 	
 	//constructors, require an angle
-	public ImageRotator(int angle){mAngle = angle;}
+	public ImageRotator(int receivedAngle){angle = receivedAngle;}
 	public ImageRotator(){this(90);}
 	
 	
 	//accessor
-	public int getAngle(){return mAngle;}
+	public int getAngle(){return angle;}
 	
 	
 	
 	
 	//receives an imageicon, rotates it and returns the rotated icon
 	public ImageIcon rotateImage(ImageIcon aicon){
-		switch(mAngle){
-		case 90: case -90: return __rotateImage(aicon, mAngle);
-		case 180: return __rotateImage(__rotateImage(aicon, 90), 90);
+		switch(angle){
+		case 90: case -90: return rotateImage(aicon, angle);
+		case 180: return rotateImage(rotateImage(aicon, 90), 90);
 		default: return aicon;
 		}
 	}
-	private ImageIcon __rotateImage(ImageIcon aicon, int angle){
+	private ImageIcon rotateImage(ImageIcon aicon, int angleOfRotation){
 		
 		int w = aicon.getIconWidth();
 		int h = aicon.getIconHeight();
@@ -56,7 +43,7 @@ public class ImageRotator {
 		double y = (w - h)/2.0;
 		
 		AffineTransform at = AffineTransform.getTranslateInstance(x, y);
-		at.rotate(Math.toRadians(angle), w/2.0, h/2.0);
+		at.rotate(Math.toRadians(angleOfRotation), w/2.0, h/2.0);
 		
 		grBimg.drawImage(aicon.getImage(), at, null);
 		grBimg.dispose();

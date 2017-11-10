@@ -31,14 +31,14 @@ public class DemoHandGen {
 	
 	public static void main(String[] args) {
 		
-		runTenpaiSimulation(5000);
+//		runTenpaiSimulation(5000);
 //		runSingleTenpaiTest(generateSpecificHand());
 //		runSimulation(5000);
 		
 		
 		
 //		runSimulationNoDisplay(5000);
-//		runSumulationRandom(15000);
+		runSumulationRandom(30000);
 //		runSpecificTest();
 		
 //		runTenpaiSimulation(500);
@@ -248,6 +248,7 @@ public class DemoHandGen {
 		for (int i = 0; i < howManyTimes; i++){
 			
 			currentHand = generateRandomHand();
+			currentHand.sort();
 			
 //			currentHand = new Hand(OWNER_SEAT);
 //			currentHand.fill();
@@ -256,13 +257,14 @@ public class DemoHandGen {
 			
 			if (currentHand.DEMOgetChecker().DEMOisComplete()){
 				numHits++;
-				System.out.println(currentHand.toString() + "\n");
+				System.out.println("\n\n" + currentHand.toString());
+				currentHand.DEMOgetChecker().DEMOprintFinishingMelds();
 			}
 		}
 		
 		
 
-		System.out.println("Total number of trials: " + howManyTimes);
+		System.out.println("\n\nTotal number of trials: " + howManyTimes);
 		System.out.println("Total number of hits: " + numHits);
 		
 	}
@@ -308,11 +310,10 @@ public class DemoHandGen {
 		System.out.println("\n" + hand.toString());
 		
 		HandChecker checker = hand.DEMOgetChecker();
-		boolean isComplete = checker.DEMOisComplete();
-		System.out.println("Hand is complete normal?: " + isComplete);
+		boolean isCompleteNorm = checker.isCompleteNormal();
+		System.out.println("Hand is complete normal?: " + isCompleteNorm);
 		
-		
-
+		hand.DEMOgetChecker().DEMOprintFinishingMelds();
 		
 		System.out.println("\n\n\n\n\n");
 		System.out.println("Hand is tenpai:? " + "\n" + checker.DEMOfindNormalTenpaiWaits());
@@ -327,7 +328,8 @@ public class DemoHandGen {
 //		GameTileList tiles = new GameTileList(1,1,2+9,3+9,4+9);	//P2 P3 P4 S1 S1
 //		GameTileList tiles = new GameTileList(3,7,8,9,4+18,5+18,6+18);	//M3 M7 M8 M9 S4 S5 S6
 //		GameTileList tiles = new GameTileList(1,2,2,3,3,4,7+9,9+9,18+5,18+5);	//
-		GameTileList tiles = new GameTileList(1,1,1,2,3,4,5,6,7,8,9,9,9);	//tenpai chuuren
+//		GameTileList tiles = new GameTileList(1,1,1,2,3,4,5,6,7,8,9,9,9);	//tenpai chuuren
+		GameTileList tiles = new GameTileList(2,2,8+9,8+9,6+18,6+18,33,33);	//error case
 		
 		
 		for (GameTile t: tiles){

@@ -598,7 +598,7 @@ public class HandChecker {
 				
 				
 				//~~~~Recursive call, check if the hand is still complete without the removed meld tiles
-				if (isCompleteNormalHand(checkTilesMinusThisMeld, finishingMelds)){
+				if (isCompleteNormalHand(checkTilesMinusThisMeld, finishingMelds, pairHasBeenChosen)){
 					if (finishingMelds != null)
 						finishingMelds.add(new Meld(toMeldTiles.clone(), currentTileMeldType));	//add the meld tiles to the finishing melds stack
 					return true;
@@ -613,7 +613,7 @@ public class HandChecker {
 		}
 		return false;
 	}
-	private boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds){return isCompleteNormalHand(checkTiles.makeCopyWithCheckers(), null, new AtomicBoolean(false));}
+	private boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds){return isCompleteNormalHand(checkTiles.makeCopyWithCheckers(), finishingMelds, new AtomicBoolean(false));}
 	private boolean isCompleteNormalHand(GameTileList checkTiles){return isCompleteNormalHand(checkTiles.makeCopyWithCheckers(), null);}
 	private boolean isCompleteNormalHand(){return isCompleteNormalHand(myHandTiles);}
 	

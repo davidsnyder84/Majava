@@ -22,6 +22,7 @@ public class HandChecker {
 	private static final int OFFSET_CHI_L1 = 1, OFFSET_CHI_L2 = 2;
 	private static final int OFFSET_CHI_M1 = -1,  OFFSET_CHI_M2 = 1;
 	private static final int OFFSET_CHI_H1 = -2, OFFSET_CHI_H2 = -1;
+	private static final int INDEX_NOT_FOUND = -1;
 	
 	private static final int MAX_HAND_SIZE = 14;
 	
@@ -34,10 +35,6 @@ public class HandChecker {
 	private final Hand myHand;
 	private final GameTileList myHandTiles;
 	private final List<Meld> handMelds;
-	
-	//call flags and partner index lists
-	private boolean flagCanAnkan, flagCanMinkan, flagCanRiichi, flagCanTsumo;
-	private int indexTurnAnkanCandidate, indexTurnMinkanCandidate;
 	
 	
 	private boolean pairHasBeenChosen = false;
@@ -53,11 +50,9 @@ public class HandChecker {
 		handMelds = reveivedHandMelds;
 		
 		finishingMelds = new ArrayList<Meld>(5);
-		
-		resetCallableFlags();
 	}
 	
-	private int handSize(){return myHand.size();}
+//	private int handSize(){return myHand.size();}
 	private Wind ownerSeatWind(){return myHand.getOwnerSeatWind();}
 	
 	public boolean isClosed(){
@@ -104,17 +99,6 @@ public class HandChecker {
 	
 	
 	
-	
-	//resets call flags to false, creates new empty partner index lists
-	private void resetCallableFlags(){
-		flagCanAnkan = flagCanMinkan = flagCanRiichi = flagCanTsumo = false;
-		
-		indexTurnAnkanCandidate = indexTurnMinkanCandidate = -1; 
-	}
-	
-	
-	
-	
 	//returns the partner indices list for a given meld type
 	public List<Integer> getPartnerIndices(GameTile candidate, MeldType meldType){
 		switch (meldType){
@@ -156,46 +140,30 @@ public class HandChecker {
 	public boolean ableToPon(GameTile candidate){return !getPartnerIndicesPon(candidate).isEmpty();}
 	public boolean ableToKan(GameTile candidate){return !getPartnerIndicesKan(candidate).isEmpty();}
 	public boolean ableToRon(GameTile candidate){return getTenpaiWaits().contains(candidate);}
+//	public boolean ableToPair(GameTile candidate){return !getPartnerIndicesPair(candidate).isEmpty();}
 	
-	public boolean ableToPair(GameTile candidate){return !getPartnerIndicesPair(candidate).isEmpty();}
+	
+	
+	
 	
 	//turn actions
-	public boolean ableToAnkan(){return flagCanAnkan;}
-	public boolean ableToMinkan(){return flagCanMinkan;}
-//	public boolean ableToRiichi(){return mCanRiichi;}
-	public boolean ableToRiichi(){return false;}
-	public boolean ableToTsumo(){return flagCanTsumo;}
+	public boolean ableToAnkan(){return getCandidateAnkanIndex() != INDEX_NOT_FOUND;}
+	public boolean ableToMinkan(){return getCandidateMinkanIndex() != INDEX_NOT_FOUND;}
+	public boolean ableToRiichi(){return false;}	/////implement riichi check here
+	public boolean ableToTsumo(){return isComplete();}
 	
-	
-	
-	
-	
-	
-	public void updateTurnActions(){
-		resetCallableFlags();
-		
-		int index = 0;
-		for (GameTile t: myHandTiles){
-			
-			if (__canClosedKan(t)){
-				indexTurnAnkanCandidate = index;
-				flagCanAnkan = true;
-			}
-			
-			if (__canMinkan(t)){
-				indexTurnMinkanCandidate = index;
-				flagCanMinkan = true;
-			}
-			
-			index++;
-		}
-		
-		if (__canTsumo()){
-			flagCanTsumo = true;
-		}
+	public int getCandidateMinkanIndex(){
+		for (int currentIndex = 0; currentIndex < myHandTiles.size(); currentIndex++)
+			if (__canMinkan(myHand.getTile(currentIndex)))
+				return currentIndex;
+		return INDEX_NOT_FOUND;
 	}
-	
-	private boolean __canTsumo(){return isComplete();}
+	public int getCandidateAnkanIndex(){
+		for (int currentIndex = 0; currentIndex < myHandTiles.size(); currentIndex++)
+			if (__canClosedKan(myHand.getTile(currentIndex)))
+				return currentIndex;
+		return INDEX_NOT_FOUND;
+	}
 	
 	private boolean __canMinkan(GameTile candidate){
 		for (Meld m: handMelds)
@@ -203,11 +171,6 @@ public class HandChecker {
 				return true;
 		return false;
 	}
-	
-	public int getCandidateMinkanIndex(){return indexTurnMinkanCandidate;}
-	public int getCandidateAnkanIndex(){return indexTurnAnkanCandidate;}
-	
-	
 	
 	
 	
@@ -302,35 +265,37 @@ public class HandChecker {
 	
 	//returns true if the hand is in tenpai for kokushi musou
 	//if this is true, it means that: handsize >= 13, hand has at least 12 different TYC tiles
-	public boolean isTenpaiKokushi(){
+	public boolean isTenpaiKokushi(GameTileList checkTiles){
 		
 		//if any melds have been made, kokushi musou is impossible, return false
-		if (handSize() < MAX_HAND_SIZE-1) return false;
+		if (checkTiles.size() < MAX_HAND_SIZE-1) return false;
 		//if the hand contains even one non-honor tile, return false
-		for (GameTile t: myHandTiles) if (!t.isYaochuu()) return false;
+		for (GameTile t: checkTiles) if (!t.isYaochuu()) return false;
 		
 		
 		//check if the hand contains at least 12 different TYC tiles
 		int countTYC = 0;
 		for (int id: YAOCHUU_TILE_IDS)
-			if (myHandTiles.contains(id))
+			if (checkTiles.contains(id))
 				countTYC++;
-
+		
 		//return false if the hand doesn't contain at least 12 different TYC tiles
 		if (countTYC < NUMBER_OF_YAOCHUU_TILES - 1) return false;
 		
 		return true;
 	}
+	public boolean isTenpaiKokushi(){return isTenpaiKokushi(myHandTiles);}
 	
 	//returns true if a 14-tile hand is a complete kokushi musou
-	public boolean isCompleteKokushi(){
-		if ((handSize() == MAX_HAND_SIZE) &&
-			(isTenpaiKokushi()) &&
-			(getKokushiWaits().size() == NUMBER_OF_YAOCHUU_TILES))
+	public boolean isCompleteKokushi(GameTileList checkTiles){
+		if ((checkTiles.size() == MAX_HAND_SIZE) &&
+			(isTenpaiKokushi(checkTiles)) &&
+			(getKokushiWaits(checkTiles).size() == NUMBER_OF_YAOCHUU_TILES))
 			return true;
 		
 		return false;
 	}
+	public boolean isCompleteKokushi(){return isCompleteKokushi(myHandTiles);}
 
 	//returns a list of the hand's waits, if it is in tenpai for kokushi musou
 	//returns an empty list if not in kokushi musou tenpai
@@ -364,11 +329,7 @@ public class HandChecker {
 	
 	
 	
-	
-	
-	//checks if the hand is in tenpai for chiitoitsu, and modifies the list of waits if so
-	public GameTileList getChiitoiWait(final GameTileList handTiles){
-		
+	public GameTileList getChiitoiWait(final GameTileList checkTiles){
 		GameTile missingTile = null;
 		//conditions:
 		//hand must be 13 tiles (no melds made)
@@ -376,14 +337,14 @@ public class HandChecker {
 		//hand must have no more than 2 of each tile
 		
 		//if any melds have been made, chiitoitsu is impossible, return false
-		if (handSize() != MAX_HAND_SIZE-1 || myHand.numberOfMeldsMade() > 0) return emptyWaitsList();
+		if (checkTiles.size() != MAX_HAND_SIZE-1 || myHand.numberOfMeldsMade() > 0) return emptyWaitsList();
 		
 		//the hand should have exactly 7 different types of tiles (4 of a kind != 2 pairs)
-		if (handTiles.makeCopyNoDuplicates().size() != 7) return emptyWaitsList();
+		if (checkTiles.makeCopyNoDuplicates().size() != 7) return emptyWaitsList();
 
 		//the hand must have no more than 2 of each tile
-		for(GameTile t: handTiles){
-			switch(handTiles.findHowManyOf(t)){
+		for(GameTile t: checkTiles){
+			switch(checkTiles.findHowManyOf(t)){
 			case 1: missingTile = t;
 			case 2: break;//intentionally blank
 			default: return emptyWaitsList();
@@ -401,22 +362,20 @@ public class HandChecker {
 	
 	
 	
-	
-	
 	//returns true if a 14-tile hand is a complete chiitoitsu
-	public boolean isCompleteChiitoitsu(final GameTileList handTiles){
-		
-		handTiles.sort();
+	public boolean isCompleteChiitoitsu(GameTileList checkTiles){
+		GameTileList checkTilesCopy = checkTiles.clone();
+		checkTilesCopy.sort();
 		
 		//chiitoitsu is impossible if a meld has been made
-		if (handTiles.size() < MAX_HAND_SIZE) return false;
+		if (checkTilesCopy.size() < MAX_HAND_SIZE) return false;
 		
 		//even tiles should equal odd tiles, if chiitoitsu
-		GameTileList evenTiles = handTiles.getMultiple(0,2,4,6,8,10,12);
-		GameTileList oddTiles = handTiles.getMultiple(1,3,5,7,9,11,13);
+		GameTileList evenTiles = checkTilesCopy.getMultiple(0,2,4,6,8,10,12);
+		GameTileList oddTiles = checkTilesCopy.getMultiple(1,3,5,7,9,11,13);
 		return evenTiles.equals(oddTiles);
 	}
-	public boolean isCompleteChiitoitsu(){return isCompleteChiitoitsu(myHandTiles.clone());}
+	public boolean isCompleteChiitoitsu(){return isCompleteChiitoitsu(myHandTiles);}
 	
 	
 	

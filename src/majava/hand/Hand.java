@@ -89,8 +89,6 @@ public class Hand implements Iterable<GameTile>{
 		if (size() >= MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*numberOfMeldsMade()) return false;
 		
 		tiles.add(addThisTile);
-		
-		__updateChecker();
 		return true;
 	}
 	public boolean addTile(int tileID){return addTile(new GameTile(tileID));}
@@ -112,24 +110,8 @@ public class Hand implements Iterable<GameTile>{
 	
 	
 	
-	private void __updateChecker(){
-		//check if modifying the hand put the hand in tenpai
-//		handChecker.updateTenpaiStatus();	/////this probably won't break it
-		
-		//update what turn actions are possible after modifying the hand
-		handChecker.updateTurnActions();
-	}
-	
-	
-	
-	
-	
-	
 	//sort the hand in ascending order
-	public void sort(){
-		tiles.sort();
-		__updateChecker();
-	}
+	public void sort(){tiles.sort();}
 	
 
 	

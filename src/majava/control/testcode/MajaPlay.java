@@ -380,9 +380,9 @@ public class MajaPlay {
 			System.out.print("\n\tKan?  : " + h.ableToKan());
 			if (h.ableToKan())	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.KAN, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.KAN));
 			
-			System.out.print("\n\tPair? : " + h.ableToPair());
-			if (h.ableToPair())	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.PAIR, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.PAIR));
-			println("\n\n\n\n");
+//			System.out.print("\n\tPair? : " + h.ableToPair());
+//			if (h.ableToPair())	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.PAIR, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.PAIR));
+//			println("\n\n\n\n");
 		}
 		
 	}

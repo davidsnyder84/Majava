@@ -12,55 +12,9 @@ import majava.enums.MeldType;
 import majava.enums.Wind;
 
 
-/*
-Class: HandChecker
-runs various checks on a player's hand
 
-data:
-	mHand - the hand that this object will be checking
-	mHandTiles - list of mHand's tiles
-	mHandMelds - list of mHand's melds
-	
-	mClosed - is true if the hand is fully concealed (no calls made on other discards)
-	mTenpaiStatus - is true if the hand is in tenpai (one tile away from winning)
-	
-	mCallCandidate - the most recently discarded tile. checks are run on it to see if it can be called.
-	mCanChiL, etc - flags, set to true if a call can be made on mCallCandidate
-	mCanAnkan, etc - flags, set to true if an action can be made
-	mPartnerIndicesChiL, etc - hold the hand indices of meld partners for mCallCandidate, if it can be called
-	
-	mTenpaiWaits - if the hand is in tenpai, this holds a list of the hand's waits 
-
-methods:
-	constructors:
-	3-arg: requires a hand, a list of the hand's tiles, and a list of the hand's melds (creates a LINK between this and the hand's tiles/melds)
- 	
- 	public:
- 	
-	 	mutators:
-	 	checkCallableTile - checks if a tile is callable. if it is callable, sets flag and populates partner index lists for that call
-		updateClosedStatus - checks if the hand is closed or open, sets flag accordingly
-		updateTenpaiStatus - checks if the hand is in tenpai, sets flag accordingly
-		updateTurnActions - updates what turn actions are possible, sets flags accordingly
-	 	
-	 	isComplete - returns true if a hand is complete (modifies wait lists)
-	 	isTenpaiKokushi, isCompleteKokushi - checks completeness, tenpai for kokushi (modifies wait lists)
-	 	isTenpaiChiitoitsu, isCompleteChiitoitsu - checks completeness, tenpai for chiitoi (modifies wait lists)
-	 	
-	 	
-	 	accessors:
-		getClosedStatus - returns true if the hand is fully concealed, false if an open meld has been made
-		getTenpaiStatus - returns true if the hand is in tenpai
-		getTenpaiWaits - returns the list of tenpai waits
-		
-		ableToChiL, etc - returns true if the corresponding call can be made on mCallCandidate
-		ableToAnkan, etc - returns true if the corresponding action is possible
-		getCallCandidate - returns mCallCandidate
-		getPartnerIndices - returns the partner indices list for a given meld type
-		getCandidateAn/MinkanIndex - get the index of the tile that can make a minkan/ankan
-*/
+//runs various checks on a player's hand
 public class HandChecker {
-	
 	private static final int NUM_PARTNERS_NEEDED_TO_CHI = 2;
 	private static final int NUM_PARTNERS_NEEDED_TO_PON = 2;
 	private static final int NUM_PARTNERS_NEEDED_TO_KAN = 3;
@@ -78,12 +32,9 @@ public class HandChecker {
 	
 	
 	
-	
-	
 	private final Hand myHand;
 	private final GameTileList myHandTiles;
 	private final List<Meld> handMelds;
-	
 	
 	//call flags and partner index lists
 	private boolean flagCanChiL, flagCanChiM, flagCanChiH, flagCanPon, flagCanKan, flagCanRon, flagCanPair;
@@ -100,8 +51,6 @@ public class HandChecker {
 	private final List<Meld> finishingMelds;
 	
 	private final GameTileList tenpaiWaits;
-	
-	
 	
 	
 	
@@ -139,24 +88,7 @@ public class HandChecker {
 	//~~~~BEGIN MELD CHECKERS
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
-	/*
-	private method: __canChiType
-	checks if a candidate tile can make a chi with other tiles in the hand
-	
-	input: candidate is the tile to search for chi partners for
-		   storePartnersHere is the list that will hold the partner indices, if chi is possible
-	 	   offset1 and offset2 are the offsets of mCallCandidate's ID to look for
-	
-	if chi type is possible: populates the meld partner list and returns true
-	
-	
-	tempPartnerIndices = search hand for (candidate's ID + offset1/2), take first occurence of each
-	if (indexes were found for both partners)
-		store partner indices in the received list
-		return true
-	end if
-	return false
-	*/
+	//checks if a candidate tile can make a chi with other tiles in the hand
 	private boolean __canChiType(GameTile candidate, List<Integer> storePartnersHere, int offset1, int offset2){
 		
 		//return false if the hand does not contain the partners
@@ -186,26 +118,8 @@ public class HandChecker {
 	private boolean __canChiH(){return __canChiH(callCandidate);}
 	
 	
-	
-	/*
-	private method: __canMultiType
-	checks if a multi (pair/pon/kan) can be made with the new tile
-	
-	input: candidate is the tile to search for chi partners for
-		   storePartnersHere is the list that will hold the partner indices, if chi is possible
-	 	   offset1 and offset2 are the offsets of mCallCandidate's ID to look for
-	 	   
-	if the multi type is possible: populates the meld partner list and returns true
-	
-	
-	if (there are enough partner tile in the hand to form the multi)
-		store the partner indices in the storePartnersHere list
-		return true
-	end if
-	else return false
-	*/
+	//checks if a multi (pair/pon/kan) can be made with the new tile
 	private boolean __canMultiType(GameTile candidate, List<Integer> storePartnersHere, int numPartnersNeeded){
-		
 		//count how many occurences of the tile, and store the indices of the occurences in tempPartnerIndices
 		List<Integer> tempPartnerIndices = myHandTiles.findAllIndicesOf(candidate);
 		
@@ -241,24 +155,11 @@ public class HandChecker {
 	
 	
 	
-	/*
-	method: checkCallableTile
-	checks if a tile is callable
-	if a call is possible, sets flag and populates partner index lists for that call
-	
-	input: candidate is the tile to check if callable
-	returns true if a call (any call) can be made for the tile
-	
-	
-	reset all call flags/lists
-	mCallCandidate = candidate
-	check if each type of call can be made (flags are set and lists are populated here)
-	if any call can be made, return true. else, return false
-	*/
+	//checks if a tile is callable. returns true if a call (any call) can be made for the tile
+	//if a call is possible, sets flag and populates partner index lists for that call.
 	//TODO checkCallableTile
 	public boolean checkCallableTile(GameTile candidate){
-		//store in temporary variable to avoid having to calculate twice
-		boolean handIsInTenpai = isInTenpai();
+		boolean handIsInTenpai = isInTenpai();	//use temporary variable to avoid having to calculate twice
 		
 		//check if tile candidate is a hot tile. if candidate is not a hot tile, return false
 		if (!__findAllHotTiles().contains(candidate.getId()) && !handIsInTenpai) return false;
@@ -270,7 +171,7 @@ public class HandChecker {
 		resetCallableFlags();
 		callCandidate = candidate;
 		
-		//~~~~runs checks, set flags to the check results
+		//~~~~runs checks, set flags to the check results (flags are set and lists are populated here)
 		//only allow chis from the player's kamicha, or from the player's own tiles. don't check chi if candidate is an honor tile
 		if (!candidate.isHonor() && (
 			(candidate.getOrignalOwner() == ownerSeatWind()) || 
@@ -341,13 +242,11 @@ public class HandChecker {
 		for (GameTile t: myHandTiles){
 			
 			if (__canClosedKan(t)){
-//				mTurnAnkanCandidate = t;
 				indexTurnAnkanCandidate = index;
 				flagCanAnkan = true;
 			}
 			
 			if (__canMinkan(t)){
-//				mTurnMinkanCandidate = t;
 				indexTurnMinkanCandidate = index;
 				flagCanMinkan = true;
 			}
@@ -655,15 +554,7 @@ public class HandChecker {
 	
 	
 	
-	/*
-	method: isTenpaiChiitoitsu
-	checks if the hand is in tenpai for chiitoitsu, and modifies the list of waits if so 
-	
-	input: handTiles is the list of Tiles to check for chiitoi tenpai
-	
-	returns true if the hand is in tenpai for chiitoitsu 
-	return false if either of them are missing
-	*/
+	//checks if the hand is in tenpai for chiitoitsu, and modifies the list of waits if so 
 	public boolean isTenpaiChiitoitsu(final GameTileList handTiles){
 		
 		GameTile missingTile = null;
@@ -825,20 +716,6 @@ public class HandChecker {
 	
 	
 	
-	
-	
-	
-	
-	//demo completed melds
-//	public boolean demoComplete(){
-//		boolean complete;
-//		if (complete = isCompleteNormal(mHandTiles)){
-//			for (Meld m: mFinishingMelds) mHandMelds.add(m);
-//			Collections.sort(mHandMelds);
-//		}
-//		
-//		return complete;
-//	}
 	public boolean DEMOisComplete(){return isComplete();}
 	
 	
@@ -1097,15 +974,21 @@ public class HandChecker {
 	//returns the partner indices list for a given meld type
 	public List<Integer> getPartnerIndices(MeldType meldType){
 		switch (meldType){
-		case CHI_L: return partnerIndicesChiL;
-		case CHI_M: return partnerIndicesChiM;
-		case CHI_H: return partnerIndicesChiH;
-		case PON: return partnerIndicesPon;
-		case KAN: return partnerIndicesKan;
-		case PAIR: return partnerIndicesPair;
+		case CHI_L: return getPartnerIndicesChiL();
+		case CHI_M: return getPartnerIndicesChiM();
+		case CHI_H: return getPartnerIndicesChiH();
+		case PON: return getPartnerIndicesPon();
+		case KAN: return getPartnerIndicesKan();
+		case PAIR: return getPartnerIndicesPair();
 		default: return null;
 		}
 	}
+	public List<Integer> getPartnerIndicesChiL(){return partnerIndicesChiL;}
+	public List<Integer> getPartnerIndicesChiM(){return partnerIndicesChiM;}
+	public List<Integer> getPartnerIndicesChiH(){return partnerIndicesChiH;}
+	public List<Integer> getPartnerIndicesPon(){return partnerIndicesPon;}
+	public List<Integer> getPartnerIndicesKan(){return partnerIndicesKan;}
+	public List<Integer> getPartnerIndicesPair(){return partnerIndicesPair;}
 	
 	//returns mCallCandidate
 	public GameTile getCallCandidate(){return callCandidate;}
@@ -1118,7 +1001,7 @@ public class HandChecker {
 	public boolean ableToPon(){return flagCanPon;}
 	public boolean ableToKan(){return flagCanKan;}
 	public boolean ableToRon(){return flagCanRon;}
-	public boolean ableToPair(){return flagCanPair;}
+//	public boolean ableToPair(){return flagCanPair;}
 	
 	
 	//turn actions
@@ -1134,7 +1017,6 @@ public class HandChecker {
 		for (Meld m: handMelds)
 			if (m.isOpen())
 				return false;
-		
 		return true;
 	}
 	

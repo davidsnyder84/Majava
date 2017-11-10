@@ -101,6 +101,7 @@ public abstract class PlayerBrain {
 		}
 
 		callStatus = chooseReaction(listOfPossibleReactions);
+//		return callStatus != CallType.NONE;
 	}
 
 	//get list of possible options

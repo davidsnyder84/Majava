@@ -166,7 +166,7 @@ public class Hand implements Iterable<GameTile>{
 	public boolean ableToPon(){return handChecker.ableToPon();}
 	public boolean ableToKan(){return handChecker.ableToKan();}
 	public boolean ableToRon(){return handChecker.ableToRon();}
-	public boolean ableToPair(){return handChecker.ableToPair();}
+//	public boolean ableToPair(){return handChecker.ableToPair();}
 	
 	//turn actions
 	public boolean ableToAnkan(){return handChecker.ableToAnkan();}

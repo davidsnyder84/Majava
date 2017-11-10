@@ -24,6 +24,7 @@ public class Round{
 	
 	//for debug use
 	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+//	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	
 	

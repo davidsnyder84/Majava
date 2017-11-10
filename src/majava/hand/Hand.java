@@ -21,7 +21,6 @@ data:
 	mMelds - list of melds made from the hand
 	mChecker - runs checks on the hand
 	
-	mNumMeldsMade - the number of melds made
 	mOwnerSeatWind - the seat wind of the player who owns the hand
 	
 	mRoundTracker - used to look at round info
@@ -82,9 +81,6 @@ public class Hand implements Iterable<GameTile>{
 	
 	private final Wind ownerSeatWind;
 	
-	private int numberOfMeldsMade;
-	
-	
 	private RoundTracker roundTracker;
 	
 	
@@ -94,7 +90,6 @@ public class Hand implements Iterable<GameTile>{
 		tiles = new GameTileList(MAX_HAND_SIZE);
 		melds = new ArrayList<Meld>(MAX_NUM_MELDS);
 		
-		numberOfMeldsMade = 0;
 		ownerSeatWind = playerWind;
 		
 		//make a checker for the hand
@@ -113,8 +108,8 @@ public class Hand implements Iterable<GameTile>{
 	
 	//returns a list of the melds that have been made (copy of actual melds), returns an empty list if no melds made
 	public List<Meld> getMelds(){
-		List<Meld> meldList = new ArrayList<Meld>(numberOfMeldsMade); 
-		for (int i = 0; i < numberOfMeldsMade; i++)
+		List<Meld> meldList = new ArrayList<Meld>(numberOfMeldsMade()); 
+		for (int i = 0; i < numberOfMeldsMade(); i++)
 			meldList.add(melds.get(i).clone());
 		
 		return meldList;
@@ -124,7 +119,7 @@ public class Hand implements Iterable<GameTile>{
 	
 	public int size(){return tiles.size();}
 	public boolean isClosed(){return handChecker.getClosedStatus();}
-	public int getNumMeldsMade(){return numberOfMeldsMade;}
+	public int numberOfMeldsMade(){return melds.size();}
 	
 	
 	//returns the number of kans the player has made
@@ -153,8 +148,7 @@ public class Hand implements Iterable<GameTile>{
 	//adds a tile to the hand (cannot add more than max hand size)
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand
 	public boolean addTile(GameTile addThisTile){
-		
-		if (size() >= MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*numberOfMeldsMade) return false;
+		if (size() >= MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*numberOfMeldsMade()) return false;
 		
 		addThisTile.setOwner(ownerSeatWind);
 		tiles.add(addThisTile);
@@ -286,7 +280,6 @@ public class Hand implements Iterable<GameTile>{
 		
 		//remove the tiles from the hand 
 		removeMultiple(partnerIndices);
-		numberOfMeldsMade++;
 		
 		handChecker.updateClosedStatus();
 		
@@ -330,8 +323,6 @@ public class Hand implements Iterable<GameTile>{
 			//remove the tiles from the hand
 			partnerIndices.add(candidateIndex);
 			removeMultiple(partnerIndices);
-			
-			numberOfMeldsMade++;
 		}
 	}
 	private void __makeClosedMeldKan(){__makeClosedMeld(MeldType.KAN);}

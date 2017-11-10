@@ -274,7 +274,7 @@ public class Player {
 	public boolean handIsFullyConcealed(){return hand.isClosed();}
 	
 	//returns the number of melds the player has made (open melds and ankans)
-	public int getNumMeldsMade(){return hand.getNumMeldsMade();}
+	public int getNumMeldsMade(){return hand.numberOfMeldsMade();}
 	
 	//returns a list of the melds that have been made (copy of actual melds), returns an empty list if no melds made
 	public List<Meld> getMelds(){return hand.getMelds();}

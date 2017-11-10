@@ -703,7 +703,7 @@ public class HandChecker {
 		//hand must have no more than 2 of each tile
 		
 		//if any melds have been made, chiitoitsu is impossible, return false
-		if (myHand.getNumMeldsMade() > 0) return false;
+		if (myHand.numberOfMeldsMade() > 0) return false;
 		
 		//the hand should have exactly 7 different types of tiles (4 of a kind != 2 pairs)
 		if (handTiles.makeCopyNoDuplicates().size() != 7) return false;

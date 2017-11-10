@@ -88,7 +88,6 @@ public class Hand implements Iterable<GameTile>{
 	public boolean addTile(GameTile addThisTile){
 		if (size() >= MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*numberOfMeldsMade()) return false;
 		
-		addThisTile.setOwner(getOwnerSeatWind());
 		tiles.add(addThisTile);
 		
 		__updateChecker();

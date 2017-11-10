@@ -86,7 +86,6 @@ public class HandChecker {
 	private final Hand myHand;
 	private final GameTileList myHandTiles;
 	private final List<Meld> handMelds;
-	private final Wind ownerWind;
 	
 	private boolean statusIsClosed;
 	private boolean statusIsTenpai;
@@ -118,7 +117,6 @@ public class HandChecker {
 		myHand = handToCheck;
 		myHandTiles = reveivedHandTiles;
 		handMelds = reveivedHandMelds;
-		ownerWind = myHand.getOwnerSeatWind();
 		
 		tenpaiWaits = new GameTileList();
 		statusIsTenpai = false;
@@ -145,7 +143,7 @@ public class HandChecker {
 	
 	
 	private int myHandSize(){return myHand.size();}
-	
+	private Wind ownerSeatWind(){return myHand.getOwnerSeatWind();}
 	
 	
 	
@@ -295,8 +293,8 @@ public class HandChecker {
 		//~~~~runs checks, set flags to the check results
 		//only allow chis from the player's kamicha, or from the player's own tiles. don't check chi if candidate is an honor tile
 		if (!candidate.isHonor() && (
-			(candidate.getOrignalOwner() == ownerWind) || 
-			(candidate.getOrignalOwner() == ownerWind.kamichaWind())) ){
+			(candidate.getOrignalOwner() == ownerSeatWind()) || 
+			(candidate.getOrignalOwner() == ownerSeatWind().kamichaWind())) ){
 			flagCanChiL = __canChiL();
 			flagCanChiM = __canChiM();
 			flagCanChiH = __canChiH();
@@ -889,7 +887,7 @@ public class HandChecker {
 		for (Integer id: hotTileIDs){
 			//get a hot tile (and mark it with the hand's seat wind, so chi is valid)
 			currentHotTile = new GameTile(id);
-			currentHotTile.setOwner(ownerWind);
+			currentHotTile.setOwner(ownerSeatWind());
 			
 			//make a copy of the hand, add the current hot tile to that copy
 			handTilesCopy.add(currentHotTile);

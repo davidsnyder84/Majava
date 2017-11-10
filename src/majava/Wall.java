@@ -112,40 +112,20 @@ public class Wall {
 	
 	//returns a list of the dora indicators tiles. if wantUraDora is true, the list will also contain the ura dora indicators
 	private GameTileList getDoraIndicators(boolean wantUraDora){
+		int indicatorsNeeded = getNumKansMade() + 1;
+		GameTileList indicators = new GameTileList(indicatorsNeeded); 
 		
-		int numKansMade = getNumKansMade();
-		int size = numKansMade + 1;
-		if (wantUraDora) size *= 2;
-		GameTileList indicators = new GameTileList(size);
+		for (int currentIndicator = 1; currentIndicator <= indicatorsNeeded; currentIndicator++)
+			indicators.add(getDoraIndicator(currentIndicator));
 		
-		//add the first dora indicator
-		indicators.add(getDoraIndicator(1));
-		
-		//add additional indicators if kans have been made
-		if (numKansMade >= 1) indicators.add(getDoraIndicator(2));
-		if (numKansMade >= 2) indicators.add(getDoraIndicator(3));
-		if (numKansMade >= 3) indicators.add(getDoraIndicator(4));
-		if (numKansMade == 4) indicators.add(getDoraIndicator(5));
-		
-		
-		//add ura dora indicators, if specified
-		if (wantUraDora){
-			//add the first ura dora indicator
-			indicators.add(getUraDoraIndicator(1));
-
-			//add additional ura indicators if kans have been made
-			if (numKansMade >= 1) indicators.add(getUraDoraIndicator(2));
-			if (numKansMade >= 2) indicators.add(getUraDoraIndicator(3));
-			if (numKansMade >= 3) indicators.add(getUraDoraIndicator(4));
-			if (numKansMade == 4) indicators.add(getUraDoraIndicator(5));
-		}
+		if (wantUraDora)
+			for (int currentIndicator = 1; currentIndicator <= indicatorsNeeded; currentIndicator++)
+				indicators.add(getUraDoraIndicator(currentIndicator));
 		
 		return indicators;
 	}
-	//methods to get a list of dora tiles, or a list of both dora and ura dora tiles 
 	public GameTileList getDoraIndicators(){return getDoraIndicators(false);}
 	public GameTileList getDoraIndicatorsWithUra(){return getDoraIndicators(true);}
-	
 	
 	//returns the specified dora indicator tile
 	private GameTile getDoraIndicator(int doraNumber){return getTile(indexOfDora(doraNumber));}
@@ -186,6 +166,8 @@ public class Wall {
 	
 	private GameTile getTile(int index){return wallTiles[index];}
 	private GameTile getDeadWallTile(int index){return getTile(OFFSET_DEAD_WALL + index);}
+	private void setTile(int index, GameTile tile){wallTiles[index] = tile;}
+	private void removeTile(int index){wallTiles[index] = null;}
 	
 	
 	

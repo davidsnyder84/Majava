@@ -57,7 +57,7 @@ public class Hand implements Iterable<GameTile>{
 	
 	
 	public int size(){return tiles.size();}
-	public boolean isClosed(){return handChecker.getClosedStatus();}
+	public boolean isClosed(){return handChecker.isClosed();}
 	public int numberOfMeldsMade(){return melds.size();}
 	
 	

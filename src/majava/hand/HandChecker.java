@@ -16,11 +16,9 @@ import majava.enums.Wind;
 
 //runs various checks on a player's hand
 public class HandChecker {
-	private static final int NUM_PARTNERS_NEEDED_TO_CHI = 2;
 	private static final int NUM_PARTNERS_NEEDED_TO_PON = 2;
 	private static final int NUM_PARTNERS_NEEDED_TO_KAN = 3;
 	private static final int NUM_PARTNERS_NEEDED_TO_PAIR = 1;
-	
 	private static final int OFFSET_CHI_L1 = 1, OFFSET_CHI_L2 = 2;
 	private static final int OFFSET_CHI_M1 = -1,  OFFSET_CHI_M2 = 1;
 	private static final int OFFSET_CHI_H1 = -2, OFFSET_CHI_H2 = -1;
@@ -48,7 +46,7 @@ public class HandChecker {
 	
 	
 	
-	//creates a LINK between this and the hand's tiles/melds
+	//creates a link between this and the hand's tiles/melds
 	public HandChecker(Hand handToCheck, GameTileList reveivedHandTiles, List<Meld> reveivedHandMelds){
 		myHand = handToCheck;
 		myHandTiles = reveivedHandTiles;
@@ -62,30 +60,27 @@ public class HandChecker {
 	private int handSize(){return myHand.size();}
 	private Wind ownerSeatWind(){return myHand.getOwnerSeatWind();}
 	
+	public boolean isClosed(){
+		for (Meld m: handMelds) if (m.isOpen()) return false;
+		return true;
+	}
 	
 	
 	
 	
 	
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	//~~~~BEGIN MELD CHECKERS
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
 	//checks if a tile is callable. returns true if a call (any call) can be made for the tile
 	//if a call is possible, sets flag and populates partner index lists for that call.
-	//TODO checkCallableTile
+	//TODO tileIsCallable
 	public boolean tileIsCallable(GameTile candidate){
 		boolean handIsInTenpai = isInTenpai();	//use temporary variable to avoid having to calculate twice
 		boolean flagCanChiL = false, flagCanChiM = false, flagCanChiH = false, flagCanPon = false, flagCanRon = false;
 		
 		//if candidate is not a hot tile, return false
-		if (!findAllHotTiles().contains(candidate.getId()) && !handIsInTenpai) return false;
-		
+		if (!tileIsHot(candidate) && !handIsInTenpai) return false;
 		
 		//check which melds candidate can be called for, if any
-		
-		//~~~~reset flags
-		resetCallableFlags();
 		
 		//~~~~runs checks, set flags to the check results (flags are set and lists are populated here)
 		//only allow chis from the player's kamicha, or from the player's own tiles. don't check chi if candidate is an honor tile
@@ -117,11 +112,6 @@ public class HandChecker {
 		indexTurnAnkanCandidate = indexTurnMinkanCandidate = -1; 
 	}
 	
-	
-	
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	//~~~~END MELD CHECKERS
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
 	
 	
@@ -237,23 +227,17 @@ public class HandChecker {
 		
 		//get hot tiles for each tile in the hand
 		for (GameTile t: tiles){
-			singleTileHotTiles = __findHotTilesOfTile(t);
+			singleTileHotTiles = findHotTilesOfTile(t);
 			for (Integer i: singleTileHotTiles) if (!allHotTileIds.contains(i)) allHotTileIds.add(i);
 		}
 		
 		return allHotTileIds;
 	}
 	private List<Integer> findAllHotTiles(){return findAllHotTiles(myHandTiles);}
+	private boolean tileIsHot(GameTile candidate){return findAllHotTiles().contains(candidate.getId());}
 	
-	/*
-	private static method: __findHotTilesOfTile
-	returns a list of integer IDs of hot tiles, for tile t
-	
-	add t to the list (because pon)
-	if (t is not honor): add all possible chi partners to the list
-	return list
-	*/
-	private static List<Integer> __findHotTilesOfTile(final TileInterface t){
+	//returns a list of integer IDs of hot tiles, for tile t
+	private static List<Integer> findHotTilesOfTile(final TileInterface t){
 		
 		List<Integer> hotTileIds = new ArrayList<Integer>(5); 
 		int id = t.getId(); char face = t.getFace();
@@ -273,62 +257,9 @@ public class HandChecker {
 	}
 	
 	
-	
-	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	//xxxxBEGIN DEMO METHODS
-	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	//returns a list of callable tile IDs for ALL tiles in the hand
-	private List<Integer> __findAllCallableTiles(){
-		
-		List<Integer> allCallableTileIds = new  ArrayList<Integer>(4);
-		List<Integer> hotTileIds = new ArrayList<Integer>(34);
-		
-		final boolean TEST_ALL_TILES = false;
-		
-		if (TEST_ALL_TILES) for (int i = 1; i <= 34; i++) hotTileIds.add(i);
-		else hotTileIds = findAllHotTiles();
-		
-		//examine all hot tiles
-		for (Integer i: hotTileIds)
-			//if tile i is callable
-			if (tileIsCallable(new GameTile(i)))
-				//add its id to the list of callable tiles
-				allCallableTileIds.add(i);
-		
-		return allCallableTileIds;
-	}
-	public List<Integer> DEMOfindAllCallableTiles(){return __findAllCallableTiles();}
-	public List<Integer> DEMOfindAllHotTiles(){return findAllHotTiles();}
-	public void findAllMachis(){}
-	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	//xxxxEND DEMO METHODS
-	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	
-	
 	//---------------------------------------------------------------------------------------------------
 	//----END FINDERS
 	//---------------------------------------------------------------------------------------------------
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -353,11 +284,11 @@ public class HandChecker {
 	
 	//returns the list of tenpai waits
 	public GameTileList getTenpaiWaits(){
-//		System.out.println("norm" + __findNormalTenpaiWaits(myHandTiles).toString());System.out.println("koku" + __getKokushiWaits(myHandTiles).toString());System.out.println("chit" + getChiitoiWait(myHandTiles).toString());
+//		System.out.println("norm" + findNormalTenpaiWaits(myHandTiles).toString());System.out.println("koku" + getKokushiWaits(myHandTiles).toString());System.out.println("chit" + getChiitoiWait(myHandTiles).toString());
 		
 		GameTileList waits = new GameTileList();
-		waits.addAll(__findNormalTenpaiWaits(myHandTiles));
-		if (waits.isEmpty()) waits.addAll(__getKokushiWaits(myHandTiles));
+		waits.addAll(findNormalTenpaiWaits(myHandTiles));
+		if (waits.isEmpty()) waits.addAll(getKokushiWaits(myHandTiles));
 		if (waits.isEmpty()) waits.addAll(getChiitoiWait(myHandTiles));
 		
 		return waits;
@@ -395,7 +326,7 @@ public class HandChecker {
 	public boolean isCompleteKokushi(){
 		if ((handSize() == MAX_HAND_SIZE) &&
 			(isTenpaiKokushi()) &&
-			(__getKokushiWaits().size() == NUMBER_OF_YAOCHUU_TILES))
+			(getKokushiWaits().size() == NUMBER_OF_YAOCHUU_TILES))
 			return true;
 		
 		return false;
@@ -403,7 +334,7 @@ public class HandChecker {
 
 	//returns a list of the hand's waits, if it is in tenpai for kokushi musou
 	//returns an empty list if not in kokushi musou tenpai
-	private GameTileList __getKokushiWaits(GameTileList checkTiles){
+	private GameTileList getKokushiWaits(GameTileList checkTiles){
 		
 		GameTileList waits = new GameTileList(1);
 		
@@ -424,9 +355,7 @@ public class HandChecker {
 		
 		return waits;
 	}
-	private GameTileList __getKokushiWaits(){return __getKokushiWaits(myHandTiles);}
-	public GameTileList DEMOgetKokushiWaits(){return __getKokushiWaits();}
-	
+	private GameTileList getKokushiWaits(){return getKokushiWaits(myHandTiles);}
 	
 	
 	
@@ -491,8 +420,6 @@ public class HandChecker {
 	
 	
 	
-	public boolean DEMOchiitoitsuInTenpai(){return isTenpaiChiitoitsu();}
-	
 	
 	
 	
@@ -521,16 +448,7 @@ public class HandChecker {
 	//====BEGIN CAN MELDS
 	//============================================================================
 	
-	/*
-	private method: __canClosedChiType
-	returns true if a candidate tile can make a chi with other tiles in the hand
-	
-	input: candidate is the tile to search for chi partners for
-	 	   offset1 and offset2 are the offsets of candidate's ID to look for
-	
-	return true if hand contains both (candidate's ID + offset1) and (candidate's ID + offset2)
-	return false if either of them are missing
-	*/
+	//returns true if a candidate tile can make a chi with other tiles in the hand
 	private boolean __canClosedChiType(GameTile candidate, GameTileList checkTiles, int offset1, int offset2){
 		return (checkTiles.contains(candidate.getId() + offset1) && checkTiles.contains(candidate.getId() + offset2));
 	}
@@ -539,12 +457,7 @@ public class HandChecker {
 	private boolean __canClosedChiH(GameTile candidate, GameTileList checkTiles){return ((candidate.getFace() != '1' && candidate.getFace() != '2') && __canClosedChiType(candidate, checkTiles, OFFSET_CHI_H1, OFFSET_CHI_H2));}
 	
 	
-	/*
-	private method: __canClosedMultiType
-	returns true if the hand contains at least "numPartnersNeeded" copies of candidate
-	
-	input: candidate is the tile to search for copies of, numPartnersNeeded is the number of copies needed
-	*/
+	//returns true if the hand contains at least "numPartnersNeeded" copies of candidate
 	private boolean __canClosedMultiType(GameTile candidate, int numPartnersNeeded){
 		//count how many occurences of the tile
 		return myHandTiles.findHowManyOf(candidate) >= numPartnersNeeded;
@@ -570,7 +483,7 @@ public class HandChecker {
 	(order of stack should be top->L,M,H,Pon,Pair)
 	return true if meldStack is not empty
 	*/
-	private boolean __checkMeldableTile(HandCheckerTile candidate, GameTileList checkTiles){
+	private boolean checkMeldableTile(HandCheckerTile candidate, GameTileList checkTiles){
 		
 		
 		//check pon. if can pon, push both pon and pair. if can't pon, check pair.
@@ -598,7 +511,6 @@ public class HandChecker {
 	
 	
 	
-	public boolean DEMOisComplete(){return isComplete();}
 	
 	
 	
@@ -607,7 +519,7 @@ public class HandChecker {
 	
 	
 	//TODO this is find tenpai waits
-	private GameTileList __findNormalTenpaiWaits(GameTileList checkTiles){		
+	private GameTileList findNormalTenpaiWaits(GameTileList checkTiles){		
 		final GameTileList waits = new GameTileList();
 		final GameTileList checkTilesCopy = checkTiles.clone();
 		
@@ -621,15 +533,14 @@ public class HandChecker {
 			checkTilesCopy.add(currentHotTile);
 			
 			//check if the copy, with the added tile, is complete
-			if (__isCompleteNormal(checkTilesCopy)) waits.add(currentHotTile);
+			if (isCompleteNormal(checkTilesCopy)) waits.add(currentHotTile);
 			
 			checkTilesCopy.remove(currentHotTile);
 		}
 		
 		return waits;
 	}
-	private GameTileList __findNormalTenpaiWaits(){return __findNormalTenpaiWaits(myHandTiles);}
-	public GameTileList DEMOfindNormalTenpaiWaits(){return __findNormalTenpaiWaits();}
+	private GameTileList findNormalTenpaiWaits(){return findNormalTenpaiWaits(myHandTiles);}
 	
 	
 	
@@ -637,12 +548,8 @@ public class HandChecker {
 	
 	
 	
-	/*
-	private method: __isCompleteNormal
-	returns true if list of handTiles is complete (is a winning hand)
-	*/
-	public boolean __isCompleteNormal(GameTileList handTiles){
-		
+	//returns true if list of handTiles is complete (is a winning hand)
+	public boolean isCompleteNormal(GameTileList handTiles){
 		if ((handTiles.size() % 3) != 2) return false;
 		
 		//make a list of checkTiles out of the handTiles
@@ -651,26 +558,22 @@ public class HandChecker {
 		
 		
 		//populate stacks
-		if (!__populateMeldStacks(checkTiles)) return false;
+		if (!populateMeldStacks(checkTiles)) return false;
 		
 		pairHasBeenChosen = false;
 		finishingMelds.clear();
 		
-		return __isCompleteNormalHand(checkTiles);
+		return isCompleteNormalHand(checkTiles);
 	}
 	//overloaded, checks mHandTiles by default
-	public boolean isCompleteNormal(){return __isCompleteNormal(myHandTiles);}
+	public boolean isCompleteNormal(){return isCompleteNormal(myHandTiles);}
 	
 	
-	
-	/*
-	private method: __populateMeldStacks
-	populates the meld type stacks for all of the tile in checkTiles
-	returns true if all tiles can make a meld, returns false if a tile cannot make a meld
-	*/
-	private boolean __populateMeldStacks(GameTileList checkTiles){
+	//populates the meld type stacks for all of the tile in checkTiles
+	//returns true if all tiles can make a meld, returns false if a tile cannot make a meld
+	private boolean populateMeldStacks(GameTileList checkTiles){
 		for (GameTile t: checkTiles)
-			if (!__checkMeldableTile((HandCheckerTile)t, checkTiles)) return false;
+			if (!checkMeldableTile((HandCheckerTile)t, checkTiles)) return false;
 		
 		return true;
 	}
@@ -721,7 +624,7 @@ public class HandChecker {
 	end while
 	return false (currentTile could not make any meld, so the hand cannot be complete)
 	*/
-	private boolean __isCompleteNormalHand(GameTileList checkTiles){
+	private boolean isCompleteNormalHand(GameTileList checkTiles){
 		
 		//if the hand is empty, it is complete
 		if (checkTiles.isEmpty()) return true;
@@ -806,7 +709,7 @@ public class HandChecker {
 				
 				
 				//~~~~Recursive call, check if the hand is still complete without the removed meld tiles
-				if (__isCompleteNormalHand(checkTilesMinusThisMeld)){
+				if (isCompleteNormalHand(checkTilesMinusThisMeld)){
 					finishingMelds.add(new Meld(toMeldTiles.clone(), currentTileMeldType));	//add the meld tiles to the finishing melds stack
 					return true;
 				}
@@ -816,11 +719,8 @@ public class HandChecker {
 						pairHasBeenChosen = false;
 				}
 				
-				
 			}
-			
 		}
-		
 		return false;
 	}
 	
@@ -834,20 +734,50 @@ public class HandChecker {
 	
 	
 	
-	public void DEMOprintFinishingMelds(){for (Meld m: finishingMelds) System.out.println(m.toString());}
 	
 	
 	
-	
-	
-	
-	//returns true if the hand is fully concealed, false if an open meld has been made
-	public boolean getClosedStatus(){
-		for (Meld m: handMelds)
-			if (m.isOpen())
-				return false;
-		return true;
+	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	//xxxxBEGIN DEMO METHODS
+	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	//returns a list of callable tile IDs for ALL tiles in the hand
+	private List<Integer> findAllCallableTiles(){
+		
+		List<Integer> allCallableTileIds = new  ArrayList<Integer>(4);
+		List<Integer> hotTileIds = new ArrayList<Integer>(34);
+		
+		final boolean TEST_ALL_TILES = false;
+		
+		if (TEST_ALL_TILES) for (int i = 1; i <= 34; i++) hotTileIds.add(i);
+		else hotTileIds = findAllHotTiles();
+		
+		//examine all hot tiles
+		for (Integer i: hotTileIds)
+			//if tile i is callable
+			if (tileIsCallable(new GameTile(i)))
+				//add its id to the list of callable tiles
+				allCallableTileIds.add(i);
+		
+		return allCallableTileIds;
 	}
+	public List<Integer> DEMOfindAllCallableTiles(){return findAllCallableTiles();}
+	public List<Integer> DEMOfindAllHotTiles(){return findAllHotTiles();}
+	public void findAllMachis(){}
+	
+	public GameTileList DEMOfindNormalTenpaiWaits(){return findNormalTenpaiWaits();}
+	public GameTileList DEMOgetKokushiWaits(){return getKokushiWaits();}
+
+	public boolean DEMOisComplete(){return isComplete();}
+	public boolean DEMOchiitoitsuInTenpai(){return isTenpaiChiitoitsu();}
+	
+	public void DEMOprintFinishingMelds(){for (Meld m: finishingMelds) System.out.println(m.toString());}
+	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	//xxxxEND DEMO METHODS
+	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	
+	
+	
+	
 	
 	
 	

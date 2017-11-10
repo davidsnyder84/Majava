@@ -11,37 +11,7 @@ import majava.util.GameTileList;
 
 
 
-/*
-Class: Wall
-represents the wall of tiles used in the game
-
-data:
-	mTiles - list of tiles in the wall (includes dead wall)
-	mCurrentWallPosition - marks the index of the current position in the wall
-	
-	mRoundTracker - used to look at round info
-	
-methods:
-	public:
-		mutators:
-		getStartingHands - fills the received lists with starting hands for each player
-		takeTile - removes a tile from the current wall position and returns it
-		takeTileFromDeadWall - removes a tile from the end of the dead wall and returns it
-	 	
-	 	accessors:
-		isEmpty - returns true if the main wall is empty (has no tiles left)
-		getNumTilesLeftInWall - returns the number of tiles left in the wall (not including dead wall)
-		getNumTilesLeftInDeadWall - returns the number of tiles left in the dead wall
-	 	getNumKansMade - returns the number of kans made
-	 	
-		getDoraIndicators/WithUra - returns a list of dora indicator tiles, including ura dora if specified
-		toStringDeadWall - returns a string representation of the dead wall
-		printWall, printDeadWall, printDoraIndicators - print wall information
-		
-	
-	other:
-		syncWithTracker - associates this wall with the round tracker
-*/
+//represents the wall (ŽR) of tiles used in the game
 public class Wall {
 	private static final int NUMBER_OF_DIFFERENT_TILES = 34;
 	private static final int MAX_SIZE_WALL = NUMBER_OF_DIFFERENT_TILES * 4;	//136
@@ -94,8 +64,29 @@ public class Wall {
 	public Wall(){
 		//fill and shuffle the wall
 		wallTiles = new GameTile[MAX_SIZE_WALL];
-		__initialize();
+		fillWall();
+		shuffle();
 	}
+	
+	private void fillWall(){
+		currentWallPosition = 0;
+				
+		//fill the wall with 4 of each tile, in sequential order
+		//make red doras accordingly for fives (1 in man, 2 in pin, 1 in sou)
+		final int IDM5 = 5, IDP5 = 14, IDS5 = 23;
+		int i = 0;
+		for (int id = 1; id <= NUMBER_OF_DIFFERENT_TILES; id++){
+			wallTiles[i++] = new GameTile(id);
+			wallTiles[i++] = new GameTile(id);
+			
+			if (id == IDP5) wallTiles[i++] = new GameTile(id, true);
+			else            wallTiles[i++] = new GameTile(id);
+			
+			if (id == IDM5 || id == IDP5 || id == IDS5) wallTiles[i++] = new GameTile(id, true);
+			else                                        wallTiles[i++] = new GameTile(id);
+		}
+	}
+	private void shuffle(){Collections.shuffle(Arrays.asList(wallTiles));}
 	
 	
 	
@@ -118,83 +109,12 @@ public class Wall {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*
-	private method: __initialize
-	fills and shuffles the wall
-	
-	fill the wall with 4 of each tile
-	mark the red dora 5 tiles (1 in man, 2 in pin, 1 in sou)
-	shuffle the wall
-	*/
-	private void __initialize(){
+	//returns a list of the dora indicators tiles. if wantUraDora is true, the list will also contain the ura dora indicators
+	private GameTileList getDoraIndicators(boolean wantUraDora){
 		
-		currentWallPosition = 0;
-		
-		final int IDM5 = 5, IDP5 = 14, IDS5 = 23;
-		
-		//fill the wall with 4 of each tile, in sequential order
-		//make red doras accordingly for fives (1 in man, 2 in pin, 1 in sou)
-		int i = 0;
-		for (int id = 1; id <= NUMBER_OF_DIFFERENT_TILES; id++){
-			wallTiles[i++] = new GameTile(id);
-			wallTiles[i++] = new GameTile(id);
-			
-			if (id == IDP5) wallTiles[i++] = new GameTile(id, true);
-			else            wallTiles[i++] = new GameTile(id);
-			
-			if (id == IDM5 || id == IDP5 || id == IDS5) wallTiles[i++] = new GameTile(id, true);
-			else                                        wallTiles[i++] = new GameTile(id);
-		}
-		
-		//shuffle the wall
-		Collections.shuffle(Arrays.asList(wallTiles));
-	}
-	
-	
-	
-	
-	
-	
-	
-	/*
-	private method: __getDoraIndicators
-	returns the dora indicators, as a list of Tiles
-	input: if getUraDora is true, the list will also contain the ura dora indicators
-	
-	
-	decide the exact size of the list
-	add first dora indicator
-	if kans have been made,  add more indicators to the list
-	if (getUraDora)
-		add first ura dora indicator
-		if kans have been made,  add more ura indicators to the list
-	return the list
-	*/
-	private GameTileList __getDoraIndicators(boolean getUraDora){
-		
-		int numKansMade = roundTracker.getNumKansMade();
+		int numKansMade = getNumKansMade();
 		int size = numKansMade + 1;
-		if (getUraDora) size *= 2;
+		if (wantUraDora) size *= 2;
 		GameTileList indicators = new GameTileList(size);
 		
 		//add the first dora indicator
@@ -208,7 +128,7 @@ public class Wall {
 		
 		
 		//add ura dora indicators, if specified
-		if (getUraDora){
+		if (wantUraDora){
 			//add the first ura dora indicator
 			indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_URADORA_1]);
 
@@ -222,8 +142,8 @@ public class Wall {
 		return indicators;
 	}
 	//methods to get a list of dora tiles, or a list of both dora and ura dora tiles 
-	public GameTileList getDoraIndicators(){return __getDoraIndicators(false);}
-	public GameTileList getDoraIndicatorsWithUra(){return __getDoraIndicators(true);}
+	public GameTileList getDoraIndicators(){return getDoraIndicators(false);}
+	public GameTileList getDoraIndicatorsWithUra(){return getDoraIndicators(true);}
 	
 	
 	
@@ -240,7 +160,7 @@ public class Wall {
 		}
 		return takenTile;
 	}
-	
+	//take multiple tiles at once
 	public List<GameTile> takeTiles(int numberOfTilesToTake){
 		ArrayList<GameTile> takenTiles = new ArrayList<GameTile>(numberOfTilesToTake);
 		for (int i = 0; i < numberOfTilesToTake; i++)
@@ -248,15 +168,10 @@ public class Wall {
 		return takenTiles;
 	}
 	
-	
-	
-	
 	//removes a tile from the end of the dead wall and returns it (for a rinshan draw)
 	public GameTile takeTileFromDeadWall(){
-		GameTile takenTile = null;
-
-		takenTile = wallTiles[OFFSET_DEAD_WALL + POS_KANDRAWS[roundTracker.getNumKansMade() - 1]];
-		wallTiles[OFFSET_DEAD_WALL + POS_KANDRAWS[roundTracker.getNumKansMade() - 1]] = null;
+		GameTile takenTile = wallTiles[OFFSET_DEAD_WALL + POS_KANDRAWS[getNumKansMade() - 1]];
+		wallTiles[OFFSET_DEAD_WALL + POS_KANDRAWS[getNumKansMade() - 1]] = null;
 		
 		return takenTile;
 	}
@@ -265,27 +180,11 @@ public class Wall {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//returns true if the wall is empty (has no tiles left)
 	public boolean isEmpty(){return (getNumTilesLeftInWall() == 0);}
 	//returns the number of tiles left in the wall (not including dead wall)
 	public int getNumTilesLeftInWall(){return MAX_SIZE_WALL - currentWallPosition - MAX_SIZE_DEAD_WALL;}
-	//returns the number of tiles left in the dead wall
-	public int getNumTilesLeftInDeadWall(){return MAX_SIZE_DEAD_WALL - roundTracker.getNumKansMade();}
+	public int getNumTilesLeftInDeadWall(){return MAX_SIZE_DEAD_WALL - getNumKansMade();}
 	
-	
-	//returns the number of kans made
 	public int getNumKansMade(){return roundTracker.getNumKansMade();}
 	
 	
@@ -527,34 +426,28 @@ public class Wall {
 	//tostring
 	@Override
 	public String toString(){
-		
-		int i, j;
 		String wallString = "";
 		
 		final int TILES_PER_LINE = 17;
-		for (i = 0; i < getNumTilesLeftInWall() / TILES_PER_LINE + 1; i++){
-			for (j = 0; j < TILES_PER_LINE && (j + TILES_PER_LINE*i < getNumTilesLeftInWall()); j++){
+		for (int i = 0; i < getNumTilesLeftInWall() / TILES_PER_LINE + 1; i++){
+			for (int j = 0; j < TILES_PER_LINE && (j + TILES_PER_LINE*i < getNumTilesLeftInWall()); j++)
 				wallString += wallTiles[currentWallPosition + TILES_PER_LINE*i + j].toString() + " ";
-			}
 			if (TILES_PER_LINE*i < getNumTilesLeftInWall())
 				wallString += "\n";
 		}
 		
-		String dWallString = toStringDeadWall();
-		return ("Wall: " + getNumTilesLeftInWall() + "\n" + wallString + "\n\n" + dWallString);
+		String deadWallString = toStringDeadWall();
+		return ("Wall: " + getNumTilesLeftInWall() + "\n" + wallString + "\n\n" + deadWallString);
 	}
 	
 	//string representation of deadwall
 	public String toStringDeadWall(){
-
 		String dwString = "";
-		String topRow = "";
-		String bottomRow = "";
+		String topRow = "", bottomRow = "";
 		
-		int tile;
-		for (tile = 0; tile < MAX_SIZE_DEAD_WALL / 2; tile++){
-			topRow += __deadWallTileToString(2*tile) + " ";
-			bottomRow += __deadWallTileToString(2*tile + 1) + " ";
+		for (int tile = 0; tile < MAX_SIZE_DEAD_WALL / 2; tile++){
+			topRow += deadWallTileToString(2*tile) + " ";
+			bottomRow += deadWallTileToString(2*tile + 1) + " ";
 		}
 		
 		dwString = "DeadWall: " + getNumTilesLeftInDeadWall() + "\n" + topRow + "\n" + bottomRow;
@@ -562,11 +455,11 @@ public class Wall {
 	}
 	
 	
-	private String __wallTileToString(int index){
+	private String singleTileToString(int index){
 		if (wallTiles[index] == null) return "  ";
 		else return wallTiles[index].toString();
 	}
-	private String __deadWallTileToString(int index){return __wallTileToString(OFFSET_DEAD_WALL + index);}
+	private String deadWallTileToString(int index){return singleTileToString(OFFSET_DEAD_WALL + index);}
 	
 	
 	

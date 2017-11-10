@@ -3,7 +3,7 @@ package majava.tiles;
 import java.util.Arrays;
 import java.util.List;
 
-public class ImmutableTile implements TileInterface{
+public final class ImmutableTile implements TileInterface{
 	
 	private static final String FACE_FOR_RED_DORA = "%";
 	private static final String[] STR_REPS = {"O0", 
@@ -71,7 +71,7 @@ public class ImmutableTile implements TileInterface{
 	private static final int ID_FIRST_HONOR_TILE = 28;
 	
 	
-	private static final TileInterface[] yaochuuIDs = {tiles[1], tiles[9], tiles[10], tiles[18], tiles[19], tiles[27], tiles[28], tiles[29], tiles[30], tiles[31], tiles[32], tiles[33], tiles[34]};
+	private static final TileInterface[] yaochuuTiles = {tiles[1], tiles[9], tiles[10], tiles[18], tiles[19], tiles[27], tiles[28], tiles[29], tiles[30], tiles[31], tiles[32], tiles[33], tiles[34]};
 	
 	
 	private final int tileID;
@@ -136,7 +136,7 @@ public class ImmutableTile implements TileInterface{
 		//at this point, both tiles have the same ID
 		//if both 5's, check if one is red dora
 		if (face == '5')
-			if (isRed && !other.isRedDora()) return 1;
+			if (isRedDora() && !other.isRedDora()) return 1;
 			else return -1;
 		
 		//if the tiles are not 5's, or if both or neither are red doras, return 0
@@ -181,7 +181,7 @@ public class ImmutableTile implements TileInterface{
 	public static final List<TileInterface> retrieveMultipleTiles(List<Integer> ids){return retrieveMultipleTiles((Integer[])ids.toArray());}
 	
 	//retrieve list of yaochuu tiles
-	public static final List<TileInterface> retrievelistOfYaochuuTiles(){return Arrays.asList(yaochuuIDs);}
+	public static final List<TileInterface> retrievelistOfYaochuuTiles(){return Arrays.asList(yaochuuTiles);}
 	public static final Integer[] retrieveYaochuuTileIDs(){return new Integer[]{1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34};}
 	
 	

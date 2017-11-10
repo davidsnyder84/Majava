@@ -23,19 +23,8 @@ import java.util.Map;
 
 import utility.Pauser;
 
-/*
-Class: GraphicalUI
-a GUI for viewing and interacting with the game
-	
-methods:
-	public:
-		mutators:
-		
-		accessors:
-		
-	other:
-	syncWithRoundTracker - associates the viewer with the round tracker
-*/
+
+//a GUI for viewing and interacting with the game
 public class GraphicalUI extends GameUI{
 	
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-//a wrapper class for an arraylist, adds extra functionalities (I think)
+//a wrapper class for an arraylist, adds extra conveniences (I think)
 public class ConviniList<T extends Comparable<? super T>> extends ArrayList<T>{
 //public class ConviniList<T extends Comparable<? extends T>> extends ArrayList<T>{
 	private static final long serialVersionUID = -6296356765155653731L;

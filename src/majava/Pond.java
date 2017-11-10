@@ -7,7 +7,7 @@ import majava.tiles.PondTile;
 import majava.tiles.GameTile;
 
 
-//represents a player's pond of discarded tiles
+//represents a player's pond (êÏ) of discarded tiles
 public class Pond {
 	private static final int SIZE_MAX = 30;
 	private static final int NO_RIICHI_INDEX = -1;

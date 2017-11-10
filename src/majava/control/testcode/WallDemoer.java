@@ -1,5 +1,8 @@
 package majava.control.testcode;
 
+import java.util.ArrayList;
+
+import majava.Wall;
 import majava.tiles.GameTile;
 import majava.util.GameTileList;
 
@@ -52,8 +55,9 @@ public class WallDemoer {
 		
 		//kokushi
 //		int[] h1 = {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 34, 34, 7};
-		int[] h1 = {1,1,1,2,3,4,5,6,7,8,9,9,9,15};
+//		int[] h1 = {1,1,1,2,3,4,5,6,7,8,9,9,9,15};
 //		int[] h1 = {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34, 7};
+		int[] h1 = {2,2,2,2,2,2,2,2,2,2,2,2,2,7};
 		int[] h2 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
 		int[] h3 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
 		int[] h4 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
@@ -148,6 +152,24 @@ public class WallDemoer {
 		}
 		h1[13] += 18;
 		*/
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		Integer h1i[] = new Integer[h1.length], h2i[] = new Integer[h2.length], h3i[] = new Integer[h3.length], h4i[] = new Integer[h4.length];
 		for (int i = 0; i < h1.length; i++) h1i[i] = h1[i];

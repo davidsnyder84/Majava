@@ -23,7 +23,7 @@ public class Wall {
 	
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN DEAD WALL CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	
-	private static final int OFFSET_DEAD_WALL = 122;
+	private static final int OFFSET_DEAD_WALL = POS_LAST_NORMAL_WALL_TILE + 1;
 	private static final int MAX_SIZE_DEAD_WALL = 14;
 	
 	//even numbers are top row, odd are bottom row
@@ -119,25 +119,25 @@ public class Wall {
 		GameTileList indicators = new GameTileList(size);
 		
 		//add the first dora indicator
-		indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_DORA_1]);
+		indicators.add(getDoraIndicator(1));
 		
 		//add additional indicators if kans have been made
-		if (numKansMade >= 1) indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_DORA_2]);
-		if (numKansMade >= 2) indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_DORA_3]);
-		if (numKansMade >= 3) indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_DORA_4]);
-		if (numKansMade == 4) indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_DORA_5]);
+		if (numKansMade >= 1) indicators.add(getDoraIndicator(2));
+		if (numKansMade >= 2) indicators.add(getDoraIndicator(3));
+		if (numKansMade >= 3) indicators.add(getDoraIndicator(4));
+		if (numKansMade == 4) indicators.add(getDoraIndicator(5));
 		
 		
 		//add ura dora indicators, if specified
 		if (wantUraDora){
 			//add the first ura dora indicator
-			indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_URADORA_1]);
+			indicators.add(getUraDoraIndicator(1));
 
 			//add additional ura indicators if kans have been made
-			if (numKansMade >= 1) indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_URADORA_2]);
-			if (numKansMade >= 2) indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_URADORA_3]);
-			if (numKansMade >= 3) indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_URADORA_4]);
-			if (numKansMade == 4) indicators.add(wallTiles[OFFSET_DEAD_WALL + POS_URADORA_5]);
+			if (numKansMade >= 1) indicators.add(getUraDoraIndicator(2));
+			if (numKansMade >= 2) indicators.add(getUraDoraIndicator(3));
+			if (numKansMade >= 3) indicators.add(getUraDoraIndicator(4));
+			if (numKansMade == 4) indicators.add(getUraDoraIndicator(5));
 		}
 		
 		return indicators;
@@ -146,6 +146,12 @@ public class Wall {
 	public GameTileList getDoraIndicators(){return getDoraIndicators(false);}
 	public GameTileList getDoraIndicatorsWithUra(){return getDoraIndicators(true);}
 	
+	
+	//returns the specified dora indicator tile
+	private GameTile getDoraIndicator(int doraNumber){return getTile(indexOfDora(doraNumber));}
+	private GameTile getUraDoraIndicator(int uraDoraNumber){return getTile(indexOfUraDora(uraDoraNumber));}
+	private int indexOfDora(int doraNumber){return OFFSET_DEAD_WALL + 10 - 2*doraNumber;}
+	private int indexOfUraDora(int uraDoraNumber){return indexOfDora(uraDoraNumber) + 1;}
 	
 	
 	
@@ -177,6 +183,9 @@ public class Wall {
 		return takenTile;
 	}
 	
+	
+	private GameTile getTile(int index){return wallTiles[index];}
+	private GameTile getDeadWallTile(int index){return getTile(OFFSET_DEAD_WALL + index);}
 	
 	
 	

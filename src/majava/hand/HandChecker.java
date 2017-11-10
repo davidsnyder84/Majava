@@ -201,60 +201,6 @@ public class HandChecker {
 	
 	
 	
-	
-	
-	public void updateTurnActions(){
-		
-		resetCallableFlags();
-		
-		int index = 0;
-		for (GameTile t: myHandTiles){
-			
-			if (__canClosedKan(t)){
-				indexTurnAnkanCandidate = index;
-				flagCanAnkan = true;
-			}
-			
-			if (__canMinkan(t)){
-				indexTurnMinkanCandidate = index;
-				flagCanMinkan = true;
-			}
-			
-			index++;
-		}
-		
-		if (__canTsumo()){
-			flagCanTsumo = true;
-		}
-	}
-	
-	private boolean __canTsumo(){return isComplete();}
-	
-	
-	
-	
-	private boolean __canMinkan(GameTile candidate){
-		for (Meld m: handMelds)
-			if (m.canMinkanWith(candidate))
-				return true;
-		return false;
-	}
-	
-	
-//	public Tile getCandidateMinkan(){return mTurnMinkanCandidate;}
-//	public Tile getCandidateAnkan(){return mTurnAnkanCandidate;}
-	public int getCandidateMinkanIndex(){return indexTurnMinkanCandidate;}
-	public int getCandidateAnkanIndex(){return indexTurnAnkanCandidate;}
-	
-//	public int numberOfTurnActionsPossible(){
-//		int count = 0;
-//		if (mCanAnkan) count++;
-//		if (mCanMinkan) count++;
-//		if (mCanTsumo) count++;
-//		return count;
-//	}
-	
-	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//~~~~END MELD CHECKERS
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -306,7 +252,41 @@ public class HandChecker {
 	
 	
 	
+	public void updateTurnActions(){
+		resetCallableFlags();
+		
+		int index = 0;
+		for (GameTile t: myHandTiles){
+			
+			if (__canClosedKan(t)){
+				indexTurnAnkanCandidate = index;
+				flagCanAnkan = true;
+			}
+			
+			if (__canMinkan(t)){
+				indexTurnMinkanCandidate = index;
+				flagCanMinkan = true;
+			}
+			
+			index++;
+		}
+		
+		if (__canTsumo()){
+			flagCanTsumo = true;
+		}
+	}
 	
+	private boolean __canTsumo(){return isComplete();}
+	
+	private boolean __canMinkan(GameTile candidate){
+		for (Meld m: handMelds)
+			if (m.canMinkanWith(candidate))
+				return true;
+		return false;
+	}
+	
+	public int getCandidateMinkanIndex(){return indexTurnMinkanCandidate;}
+	public int getCandidateAnkanIndex(){return indexTurnAnkanCandidate;}
 	
 	
 	

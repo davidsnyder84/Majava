@@ -112,35 +112,47 @@ public class HandChecker {
 		}
 	}
 	//シュンツ
-	private List<Integer> getPartnerIndicesChiType(GameTile candidate, int offset1, int offset2){
-		if (myHandTiles.contains(candidate.getId() + offset1) && myHandTiles.contains(candidate.getId() + offset2))
-			return Arrays.asList(myHandTiles.indexOf(candidate.getId() + offset1), myHandTiles.indexOf(candidate.getId() + offset2));
+	private List<Integer> getPartnerIndicesChiType(GameTileList checkTiles, GameTile candidate, int offset1, int offset2){
+		if (checkTiles.contains(candidate.getId() + offset1) && checkTiles.contains(candidate.getId() + offset2))
+			return Arrays.asList(checkTiles.indexOf(candidate.getId() + offset1), checkTiles.indexOf(candidate.getId() + offset2));
 		return emptyIndicesList();
 	}
-	private List<Integer> getPartnerIndicesChiL(GameTile candidate){return getPartnerIndicesChiType(candidate, OFFSET_CHI_L1, OFFSET_CHI_L2);}
-	private List<Integer> getPartnerIndicesChiM(GameTile candidate){return getPartnerIndicesChiType(candidate, OFFSET_CHI_M1, OFFSET_CHI_M2);}
-	private List<Integer> getPartnerIndicesChiH(GameTile candidate){return getPartnerIndicesChiType(candidate, OFFSET_CHI_H1, OFFSET_CHI_H2);}
+	private List<Integer> getPartnerIndicesChiL(GameTileList checkTiles, GameTile candidate){return getPartnerIndicesChiType(checkTiles, candidate, OFFSET_CHI_L1, OFFSET_CHI_L2);}
+	private List<Integer> getPartnerIndicesChiM(GameTileList checkTiles, GameTile candidate){return getPartnerIndicesChiType(checkTiles, candidate, OFFSET_CHI_M1, OFFSET_CHI_M2);}
+	private List<Integer> getPartnerIndicesChiH(GameTileList checkTiles, GameTile candidate){return getPartnerIndicesChiType(checkTiles, candidate, OFFSET_CHI_H1, OFFSET_CHI_H2);}
+	private List<Integer> getPartnerIndicesChiL(GameTile candidate){return getPartnerIndicesChiL(myHandTiles, candidate);}
+	private List<Integer> getPartnerIndicesChiM(GameTile candidate){return getPartnerIndicesChiM(myHandTiles, candidate);}
+	private List<Integer> getPartnerIndicesChiH(GameTile candidate){return getPartnerIndicesChiH(myHandTiles, candidate);}
 	//コーツ
-	private List<Integer> getPartnerIndicesMulti(GameTile candidate, int numPartnersNeeded){		
+	private List<Integer> getPartnerIndicesMulti(GameTileList checkTiles, GameTile candidate, int numPartnersNeeded){		
 		//meld is possible if there are enough partners in the hand to form the meld
 		List<Integer> partnerIndices = myHandTiles.findAllIndicesOf(candidate);
 		if (partnerIndices.size() >= numPartnersNeeded)
 			return partnerIndices.subList(0, numPartnersNeeded);
 		return emptyIndicesList();
 	}
-	public List<Integer> getPartnerIndicesPon(GameTile candidate){return getPartnerIndicesMulti(candidate, NUM_PARTNERS_NEEDED_TO_PON);}
-	public List<Integer> getPartnerIndicesKan(GameTile candidate){return getPartnerIndicesMulti(candidate, NUM_PARTNERS_NEEDED_TO_KAN);}
-	public List<Integer> getPartnerIndicesPair(GameTile candidate){return getPartnerIndicesMulti(candidate, NUM_PARTNERS_NEEDED_TO_PAIR);}
+	public List<Integer> getPartnerIndicesPon(GameTileList checkTiles, GameTile candidate){return getPartnerIndicesMulti(checkTiles, candidate, NUM_PARTNERS_NEEDED_TO_PON);}
+	public List<Integer> getPartnerIndicesKan(GameTileList checkTiles, GameTile candidate){return getPartnerIndicesMulti(checkTiles, candidate, NUM_PARTNERS_NEEDED_TO_KAN);}
+	public List<Integer> getPartnerIndicesPair(GameTileList checkTiles, GameTile candidate){return getPartnerIndicesMulti(checkTiles, candidate, NUM_PARTNERS_NEEDED_TO_PAIR);}
+	public List<Integer> getPartnerIndicesPon(GameTile candidate){return getPartnerIndicesPon(myHandTiles, candidate);}
+	public List<Integer> getPartnerIndicesKan(GameTile candidate){return getPartnerIndicesKan(myHandTiles, candidate);}
+	public List<Integer> getPartnerIndicesPair(GameTile candidate){return getPartnerIndicesPair(myHandTiles, candidate);}
 	private static List<Integer> emptyIndicesList(){return new ArrayList<Integer>();}
 	
-	
-	public boolean ableToChiL(GameTile candidate){return candidate.canCompleteChiL() && !getPartnerIndicesChiL(candidate).isEmpty();}
-	public boolean ableToChiM(GameTile candidate){return candidate.canCompleteChiM() && !getPartnerIndicesChiM(candidate).isEmpty();}
-	public boolean ableToChiH(GameTile candidate){return candidate.canCompleteChiH() && !getPartnerIndicesChiH(candidate).isEmpty();}
-	public boolean ableToPon(GameTile candidate){return !getPartnerIndicesPon(candidate).isEmpty();}
-	public boolean ableToKan(GameTile candidate){return !getPartnerIndicesKan(candidate).isEmpty();}
-	public boolean ableToRon(GameTile candidate){return getTenpaiWaits().contains(candidate);}
-//	public boolean ableToPair(GameTile candidate){return !getPartnerIndicesPair(candidate).isEmpty();}
+	public boolean ableToChiL(GameTileList checkTiles, GameTile candidate){return candidate.canCompleteChiL() && !getPartnerIndicesChiL(checkTiles, candidate).isEmpty();}
+	public boolean ableToChiM(GameTileList checkTiles, GameTile candidate){return candidate.canCompleteChiM() && !getPartnerIndicesChiM(checkTiles, candidate).isEmpty();}
+	public boolean ableToChiH(GameTileList checkTiles, GameTile candidate){return candidate.canCompleteChiH() && !getPartnerIndicesChiH(checkTiles, candidate).isEmpty();}
+	public boolean ableToPon(GameTileList checkTiles, GameTile candidate){return !getPartnerIndicesPon(candidate).isEmpty();}
+	public boolean ableToKan(GameTileList checkTiles, GameTile candidate){return !getPartnerIndicesKan(candidate).isEmpty();}
+	public boolean ableToPair(GameTileList checkTiles, GameTile candidate){return !getPartnerIndicesPair(checkTiles, candidate).isEmpty();}
+	public boolean ableToRon(GameTileList checkTiles, GameTile candidate){return getTenpaiWaits().contains(candidate);}
+	public boolean ableToChiL(GameTile candidate){return ableToChiL(myHandTiles, candidate);}
+	public boolean ableToChiM(GameTile candidate){return ableToChiM(myHandTiles, candidate);}
+	public boolean ableToChiH(GameTile candidate){return ableToChiH(myHandTiles, candidate);}
+	public boolean ableToPon(GameTile candidate){return ableToPon(myHandTiles, candidate);}
+	public boolean ableToKan(GameTile candidate){return ableToKan(myHandTiles, candidate);}
+	public boolean ableToPair(GameTile candidate){return ableToPair(myHandTiles, candidate);}
+	public boolean ableToRon(GameTile candidate){return ableToRon(myHandTiles, candidate);}
 	
 	
 	
@@ -160,7 +172,7 @@ public class HandChecker {
 	}
 	public int getCandidateAnkanIndex(){
 		for (int currentIndex = 0; currentIndex < myHandTiles.size(); currentIndex++)
-			if (__canClosedKan(myHand.getTile(currentIndex)))
+			if (canClosedKan(myHand.getTile(currentIndex)))
 				return currentIndex;
 		return INDEX_NOT_FOUND;
 	}
@@ -382,71 +394,29 @@ public class HandChecker {
 	
 	
 	
-	
-	//============================================================================
-	//====BEGIN CAN MELDS
-	//============================================================================
-	
-	//returns true if a candidate tile can make a chi with other tiles in the hand
-	private boolean __canClosedChiType(GameTile candidate, GameTileList checkTiles, int offset1, int offset2){
-		return (checkTiles.contains(candidate.getId() + offset1) && checkTiles.contains(candidate.getId() + offset2));
-	}
-	private boolean __canClosedChiL(GameTile candidate, GameTileList checkTiles){return ((candidate.getFace() != '8' && candidate.getFace() != '9') && __canClosedChiType(candidate, checkTiles, OFFSET_CHI_L1, OFFSET_CHI_L2));}
-	private boolean __canClosedChiM(GameTile candidate, GameTileList checkTiles){return ((candidate.getFace() != '1' && candidate.getFace() != '9') && __canClosedChiType(candidate, checkTiles, OFFSET_CHI_M1, OFFSET_CHI_M2));}
-	private boolean __canClosedChiH(GameTile candidate, GameTileList checkTiles){return ((candidate.getFace() != '1' && candidate.getFace() != '2') && __canClosedChiType(candidate, checkTiles, OFFSET_CHI_H1, OFFSET_CHI_H2));}
-	
-	
 	//returns true if the hand contains at least "numPartnersNeeded" copies of candidate
-	private boolean __canClosedMultiType(GameTile candidate, int numPartnersNeeded){
-		//count how many occurences of the tile
-		return myHandTiles.findHowManyOf(candidate) >= numPartnersNeeded;
+	private boolean canClosedMultiType(GameTileList checkTiles, GameTile candidate, int numPartnersNeeded){
+		return checkTiles.findHowManyOf(candidate) >= numPartnersNeeded;
 	}
-//	private boolean __canClosedPair(GameTile candidate){return __canClosedMultiType(candidate, NUM_PARTNERS_NEEDED_TO_PAIR + 1);}
-//	private boolean __canClosedPon(GameTile candidate){return __canClosedMultiType(candidate, NUM_PARTNERS_NEEDED_TO_PON + 1);}
-	private boolean __canClosedKan(GameTile candidate){return __canClosedMultiType(candidate, NUM_PARTNERS_NEEDED_TO_KAN + 1);}
-	
+	private boolean canClosedPair(GameTileList checkTiles, GameTile candidate){return canClosedMultiType(checkTiles, candidate, NUM_PARTNERS_NEEDED_TO_PAIR + 1);}
+	private boolean canClosedPon(GameTileList checkTiles, GameTile candidate){return canClosedMultiType(checkTiles, candidate, NUM_PARTNERS_NEEDED_TO_PON + 1);}
+	private boolean canClosedKan(GameTileList checkTiles, GameTile candidate){return canClosedMultiType(checkTiles, candidate, NUM_PARTNERS_NEEDED_TO_KAN + 1);}
+	private boolean canClosedPair(GameTile candidate){return canClosedPair(myHandTiles, candidate);}
+	private boolean canClosedPon(GameTile candidate){return canClosedPon(myHandTiles, candidate);}
+	private boolean canClosedKan(GameTile candidate){return canClosedKan(myHandTiles, candidate);}
 	
 		
-	/*
-	method: checkMeldableTile
-	checks if a tile is meldable
-	if a call is possible, pushes the meld type on meldStack and returns true
-	
-	input: candidate is the tile to check if callable
-		   meldStack will receive the types of melds that are possible for candidate
-		   
-	returns true if the tile can make a ChiL, ChiM, ChiH, Pon, or Pair
-	
-	
-	check pon/pair, check chi
-	(order of stack should be top->L,M,H,Pon,Pair)
-	return true if meldStack is not empty
-	*/
+	//checks if a tile is meldable, populates the meldStack for candidate. returns true if a meld (any meld) can be made
 	private boolean checkMeldableTile(HandCheckerTile candidate, GameTileList checkTiles){
-		//check pon. if can pon, push both pon and pair. if can't pon, check pair.
-		switch(checkTiles.findHowManyOf(candidate)){
-		case 2: candidate.mstackPush(MeldType.PAIR); break;
-		case 4: case 3: candidate.mstackPush(MeldType.PAIR); candidate.mstackPush(MeldType.PON);
-		default: break;
-		}
+		//order of stack should be top->L,M,H,Pon,Pair
+		if (canClosedPair(checkTiles, candidate)) candidate.mstackPush(MeldType.PAIR);
+		if (canClosedPon(checkTiles, candidate)) candidate.mstackPush(MeldType.PON);
+		if (ableToChiH(checkTiles, candidate)) candidate.mstackPush(MeldType.CHI_H);
+		if (ableToChiM(checkTiles, candidate)) candidate.mstackPush(MeldType.CHI_M);
+		if (ableToChiL(checkTiles, candidate)) candidate.mstackPush(MeldType.CHI_L);
 		
-		//don't check chi if candidate is an honor tile
-		if (!candidate.isHonor()){
-			if (__canClosedChiH(candidate, checkTiles)) candidate.mstackPush(MeldType.CHI_H);
-			if (__canClosedChiM(candidate, checkTiles)) candidate.mstackPush(MeldType.CHI_M);
-			if (__canClosedChiL(candidate, checkTiles)) candidate.mstackPush(MeldType.CHI_L);
-		}
-		
-		//~~~~return true if a call (any call) can be made
 		return (!candidate.mstackIsEmpty());
 	}
-	
-	//============================================================================
-	//====END CAN MELDS
-	//============================================================================
-	
-	
-	
 
 	
 	

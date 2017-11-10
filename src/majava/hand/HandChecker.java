@@ -7,6 +7,7 @@ import java.util.List;
 import majava.tiles.HandCheckerTile;
 import majava.tiles.GameTile;
 import majava.tiles.ImmutableTile;
+import majava.tiles.TileInterface;
 import majava.util.GameTileList;
 import majava.enums.MeldType;
 import majava.enums.Wind;
@@ -39,7 +40,6 @@ public class HandChecker {
 	//call flags and partner index lists
 	private boolean flagCanChiL, flagCanChiM, flagCanChiH, flagCanPon, flagCanKan, flagCanRon, flagCanPair;
 	private final List<Integer> partnerIndicesChiL, partnerIndicesChiM, partnerIndicesChiH, partnerIndicesPon, partnerIndicesKan, partnerIndicesPair;
-	private GameTile callCandidate;
 	
 	private boolean flagCanAnkan, flagCanMinkan, flagCanRiichi, flagCanTsumo;
 //	private Tile mTurnAnkanCandidate;
@@ -73,7 +73,6 @@ public class HandChecker {
 		finishingMelds = new ArrayList<Meld>(5);
 		
 		resetCallableFlags();
-		callCandidate = null;
 	}
 	
 	private int handSize(){return myHand.size();}
@@ -112,10 +111,6 @@ public class HandChecker {
 		if (candidate.getFace() == '1' || candidate.getFace() == '2') return false;
 		return __canChiType(candidate, partnerIndicesChiH, OFFSET_CHI_H1, OFFSET_CHI_H2);
 	}
-	//overloaded. if no tile argument given, candidate = mCallCandidate is passsed
-	private boolean __canChiL(){return __canChiL(callCandidate);}
-	private boolean __canChiM(){return __canChiM(callCandidate);}
-	private boolean __canChiH(){return __canChiH(callCandidate);}
 	
 	
 	//checks if a multi (pair/pon/kan) can be made with the new tile
@@ -136,10 +131,6 @@ public class HandChecker {
 	private boolean __canPair(GameTile candidate){return __canMultiType(candidate, partnerIndicesPair, NUM_PARTNERS_NEEDED_TO_PAIR);}
 	private boolean __canPon(GameTile candidate){return __canMultiType(candidate, partnerIndicesPon, NUM_PARTNERS_NEEDED_TO_PON);}
 	private boolean __canKan(GameTile candidate){return __canMultiType(candidate, partnerIndicesKan, NUM_PARTNERS_NEEDED_TO_KAN);}
-	//overloaded. if no tile argument given, candidate = mCallCandidate is passsed
-	private boolean __canPair(){return __canPair(callCandidate);}
-	private boolean __canPon(){return __canPon(callCandidate);}
-	private boolean __canKan(){return __canKan(callCandidate);}
 	
 	
 	
@@ -147,8 +138,6 @@ public class HandChecker {
 	private boolean __canRon(GameTile candidate){
 		return tenpaiWaits.contains(candidate);
 	}
-	//overloaded. if no tile argument given, candidate = mCallCandidate is passsed
-	private boolean __canRon(){return __canRon(callCandidate);}
 	
 	
 	
@@ -158,37 +147,36 @@ public class HandChecker {
 	//checks if a tile is callable. returns true if a call (any call) can be made for the tile
 	//if a call is possible, sets flag and populates partner index lists for that call.
 	//TODO checkCallableTile
-	public boolean checkCallableTile(GameTile candidate){
+	public boolean tileIsCallable(GameTile candidate){
 		boolean handIsInTenpai = isInTenpai();	//use temporary variable to avoid having to calculate twice
 		
-		//check if tile candidate is a hot tile. if candidate is not a hot tile, return false
-		if (!__findAllHotTiles().contains(candidate.getId()) && !handIsInTenpai) return false;
+		//if candidate is not a hot tile, return false
+		if (!findAllHotTiles().contains(candidate.getId()) && !handIsInTenpai) return false;
 		
 		
 		//check which melds candidate can be called for, if any
 		
 		//~~~~reset flags
 		resetCallableFlags();
-		callCandidate = candidate;
 		
 		//~~~~runs checks, set flags to the check results (flags are set and lists are populated here)
 		//only allow chis from the player's kamicha, or from the player's own tiles. don't check chi if candidate is an honor tile
 		if (!candidate.isHonor() && (
 			(candidate.getOrignalOwner() == ownerSeatWind()) || 
 			(candidate.getOrignalOwner() == ownerSeatWind().kamichaWind())) ){
-			flagCanChiL = __canChiL();
-			flagCanChiM = __canChiM();
-			flagCanChiH = __canChiH();
+			flagCanChiL = __canChiL(candidate);
+			flagCanChiM = __canChiM(candidate);
+			flagCanChiH = __canChiH(candidate);
 		}
 
 		//check pair. if can't pair, don't bother checking pon. check pon. if can't pon, don't bother checking kan.
-		if (flagCanPair = __canPair())
-			if (flagCanPon = __canPon())
-				flagCanKan = __canKan();
+		if (flagCanPair = __canPair(candidate))
+			if (flagCanPon = __canPon(candidate))
+				flagCanKan = __canKan(candidate);
 		
 		//if in tenpai, check ron
 		if (handIsInTenpai)
-			flagCanRon = __canRon();
+			flagCanRon = __canRon(candidate);
 		
 		//~~~~return true if a call (any call) can be made
 		return (flagCanChiL || flagCanChiM || flagCanChiH || flagCanPon || flagCanKan || flagCanRon);
@@ -208,27 +196,8 @@ public class HandChecker {
 		partnerIndicesPon.clear();
 		partnerIndicesKan.clear();
 		partnerIndicesPair.clear();
-//		mPartnerIndicesChiL = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
-//		mPartnerIndicesChiM = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
-//		mPartnerIndicesChiH = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
-//		mPartnerIndicesPon = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_PON);
-//		mPartnerIndicesKan = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_KAN);
-//		mPartnerIndicesPair = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_PAIR);
 		indexTurnAnkanCandidate = indexTurnMinkanCandidate = -1; 
 	}
-	
-	
-	//returns the number of different calls possible for mCallCandidate
-//	public int numberOfCallsPossible(){
-//		int count = 0;
-//		if (mCanChiL) count++;
-//		if (mCanChiM) count++;
-//		if (mCanChiH) count++;
-//		if (mCanPon) count++;
-//		if (mCanKan) count++;
-//		if (mCanRon) count++;
-//		return count;
-//	}
 	
 	
 	
@@ -292,10 +261,41 @@ public class HandChecker {
 	
 	
 	
+	//returns the partner indices list for a given meld type
+	public List<Integer> getPartnerIndices(MeldType meldType){
+		switch (meldType){
+		case CHI_L: return getPartnerIndicesChiL();
+		case CHI_M: return getPartnerIndicesChiM();
+		case CHI_H: return getPartnerIndicesChiH();
+		case PON: return getPartnerIndicesPon();
+		case KAN: return getPartnerIndicesKan();
+		case PAIR: return getPartnerIndicesPair();
+		default: return null;
+		}
+	}
+	public List<Integer> getPartnerIndicesChiL(){return partnerIndicesChiL;}
+	public List<Integer> getPartnerIndicesChiM(){return partnerIndicesChiM;}
+	public List<Integer> getPartnerIndicesChiH(){return partnerIndicesChiH;}
+	public List<Integer> getPartnerIndicesPon(){return partnerIndicesPon;}
+	public List<Integer> getPartnerIndicesKan(){return partnerIndicesKan;}
+	public List<Integer> getPartnerIndicesPair(){return partnerIndicesPair;}
 	
 	
+	public boolean ableToChiL(){return flagCanChiL;}
+	public boolean ableToChiM(){return flagCanChiM;}
+	public boolean ableToChiH(){return flagCanChiH;}
+	public boolean ableToPon(){return flagCanPon;}
+	public boolean ableToKan(){return flagCanKan;}
+	public boolean ableToRon(){return flagCanRon;}
+//	public boolean ableToPair(){return flagCanPair;}
 	
 	
+	//turn actions
+	public boolean ableToAnkan(){return flagCanAnkan;}
+	public boolean ableToMinkan(){return flagCanMinkan;}
+//	public boolean ableToRiichi(){return mCanRiichi;}
+	public boolean ableToRiichi(){return false;}
+	public boolean ableToTsumo(){return flagCanTsumo;}
 	
 	
 	
@@ -322,19 +322,19 @@ public class HandChecker {
 	//---------------------------------------------------------------------------------------------------
 	
 	//returns a list of hot tile IDs for ALL tiles in the hand
-	private List<Integer> __findAllHotTiles(){
-
+	private List<Integer> findAllHotTiles(List<GameTile> tiles){
 		List<Integer> allHotTileIds = new ArrayList<Integer>(32);
 		List<Integer> singleTileHotTiles = null;
 		
 		//get hot tiles for each tile in the hand
-		for (GameTile t: myHandTiles){
+		for (GameTile t: tiles){
 			singleTileHotTiles = __findHotTilesOfTile(t);
 			for (Integer i: singleTileHotTiles) if (!allHotTileIds.contains(i)) allHotTileIds.add(i);
 		}
 		
 		return allHotTileIds;
 	}
+	private List<Integer> findAllHotTiles(){return findAllHotTiles(myHandTiles);}
 	
 	/*
 	private static method: __findHotTilesOfTile
@@ -344,7 +344,7 @@ public class HandChecker {
 	if (t is not honor): add all possible chi partners to the list
 	return list
 	*/
-	private static List<Integer> __findHotTilesOfTile(final GameTile t){
+	private static List<Integer> __findHotTilesOfTile(final TileInterface t){
 		
 		List<Integer> hotTileIds = new ArrayList<Integer>(5); 
 		int id = t.getId(); char face = t.getFace();
@@ -377,19 +377,19 @@ public class HandChecker {
 		final boolean TEST_ALL_TILES = false;
 		
 		if (TEST_ALL_TILES) for (int i = 1; i <= 34; i++) hotTileIds.add(i);
-		else hotTileIds = __findAllHotTiles();
+		else hotTileIds = findAllHotTiles();
 		
 		//examine all hot tiles
 		for (Integer i: hotTileIds)
 			//if tile i is callable
-			if (checkCallableTile(new GameTile(i)))
+			if (tileIsCallable(new GameTile(i)))
 				//add its id to the list of callable tiles
 				allCallableTileIds.add(i);
 		
 		return allCallableTileIds;
 	}
 	public List<Integer> DEMOfindAllCallableTiles(){return __findAllCallableTiles();}
-	public List<Integer> DEMOfindAllHotTiles(){return __findAllHotTiles();}
+	public List<Integer> DEMOfindAllHotTiles(){return findAllHotTiles();}
 	public void findAllMachis(){}
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	//xxxxEND DEMO METHODS
@@ -730,7 +730,7 @@ public class HandChecker {
 		final GameTileList waits = new GameTileList();
 		
 		final GameTileList handTilesCopy = myHandTiles.clone();
-		final List<Integer> hotTileIDs = __findAllHotTiles();
+		final List<Integer> hotTileIDs = findAllHotTiles();
 		GameTile currentHotTile = null;
 		
 		for (Integer id: hotTileIDs){
@@ -966,50 +966,6 @@ public class HandChecker {
 	
 	
 	
-	
-	
-	
-	
-	
-	//returns the partner indices list for a given meld type
-	public List<Integer> getPartnerIndices(MeldType meldType){
-		switch (meldType){
-		case CHI_L: return getPartnerIndicesChiL();
-		case CHI_M: return getPartnerIndicesChiM();
-		case CHI_H: return getPartnerIndicesChiH();
-		case PON: return getPartnerIndicesPon();
-		case KAN: return getPartnerIndicesKan();
-		case PAIR: return getPartnerIndicesPair();
-		default: return null;
-		}
-	}
-	public List<Integer> getPartnerIndicesChiL(){return partnerIndicesChiL;}
-	public List<Integer> getPartnerIndicesChiM(){return partnerIndicesChiM;}
-	public List<Integer> getPartnerIndicesChiH(){return partnerIndicesChiH;}
-	public List<Integer> getPartnerIndicesPon(){return partnerIndicesPon;}
-	public List<Integer> getPartnerIndicesKan(){return partnerIndicesKan;}
-	public List<Integer> getPartnerIndicesPair(){return partnerIndicesPair;}
-	
-	//returns mCallCandidate
-	public GameTile getCallCandidate(){return callCandidate;}
-	
-	
-	//returns true if a specific call can be made on mCallCandidate
-	public boolean ableToChiL(){return flagCanChiL;}
-	public boolean ableToChiM(){return flagCanChiM;}
-	public boolean ableToChiH(){return flagCanChiH;}
-	public boolean ableToPon(){return flagCanPon;}
-	public boolean ableToKan(){return flagCanKan;}
-	public boolean ableToRon(){return flagCanRon;}
-//	public boolean ableToPair(){return flagCanPair;}
-	
-	
-	//turn actions
-	public boolean ableToAnkan(){return flagCanAnkan;}
-	public boolean ableToMinkan(){return flagCanMinkan;}
-//	public boolean ableToRiichi(){return mCanRiichi;}
-	public boolean ableToRiichi(){return false;}
-	public boolean ableToTsumo(){return flagCanTsumo;}
 	
 	
 	//returns true if the hand is fully concealed, false if an open meld has been made

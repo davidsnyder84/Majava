@@ -156,7 +156,7 @@ public class Hand implements Iterable<GameTile>{
 	*/
 	public boolean checkCallableTile(GameTile candidate){
 		//~~~~return true if a call (any call) can be made
-		return handChecker.checkCallableTile(candidate);
+		return handChecker.tileIsCallable(candidate);
 	}
 	
 	//returns true if a specific call can be made on mCallCandidate
@@ -174,31 +174,15 @@ public class Hand implements Iterable<GameTile>{
 	public boolean ableToRiichi(){return handChecker.ableToRiichi();}
 	public boolean ableToTsumo(){return handChecker.ableToTsumo();}
 	
-	//returns the number of different calls possible for callCandidate
-//	public int numberOfCallsPossible(){return mChecker.numberOfCallsPossible();}
-	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//~~~~END MELD CHECKERS
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
 	
 	
-	/*
-	method: makeMeld
-	forms a meld of the given type with mCallCandidate
-	
-	input: meldType is the type of meld to form
-	
-	
-	partnerIndices = choose which partner list to take indices from, based on meld type
-	for (each index in partnerIndices)
-		add hand(index) to tilesFromHand
-	end for	
-	
-	form a new meld with the tiles
-	remove the tiles from the hand
-	*/
-	private void __makeMeld(MeldType meldType){
+	//forms a meld of the given type. claimedTile = the tile that will complete the meld
+	//partnerIndices = choose which partner list to take indices from, based on meld type
+	private void __makeMeld(GameTile claimedTile, MeldType meldType){
 		
 		//~~~~gather the tiles from the hand that will be in the meld
 		//get the list of partner indices, based on the the meld type
@@ -207,20 +191,17 @@ public class Hand implements Iterable<GameTile>{
 		//list of TILES, will hold the tiles coming from the hand that will be in the meld
 		GameTileList tilesFromHand = tiles.getMultiple(partnerIndices);
 		
-		//candidateTile = the tile that will complete the meld
-		GameTile candidateTile = handChecker.getCallCandidate();
-		
 		//make the meld
-		melds.add(new Meld(tilesFromHand, candidateTile, meldType));
+		melds.add(new Meld(tilesFromHand, claimedTile, meldType));
 		
 		//remove the tiles from the hand 
 		removeMultiple(partnerIndices);		
 	}
-	public void makeMeldChiL(){__makeMeld(MeldType.CHI_L);}
-	public void makeMeldChiM(){__makeMeld(MeldType.CHI_M);}
-	public void makeMeldChiH(){__makeMeld(MeldType.CHI_H);}
-	public void makeMeldPon(){__makeMeld(MeldType.PON);}
-	public void makeMeldKan(){__makeMeld(MeldType.KAN);}
+	public void makeMeldChiL(GameTile claimedTile){__makeMeld(claimedTile, MeldType.CHI_L);}
+	public void makeMeldChiM(GameTile claimedTile){__makeMeld(claimedTile, MeldType.CHI_M);}
+	public void makeMeldChiH(GameTile claimedTile){__makeMeld(claimedTile, MeldType.CHI_H);}
+	public void makeMeldPon(GameTile claimedTile){__makeMeld(claimedTile, MeldType.PON);}
+	public void makeMeldKan(GameTile claimedTile){__makeMeld(claimedTile, MeldType.KAN);}
 	
 	
 	

@@ -203,16 +203,16 @@ public class Player {
 	
 	
 	//forms a meld using the given tile
-	public void makeMeld(GameTile t){
+	public void makeMeld(GameTile claimedTile){
 		//prevent an error case that will probably never happen
 		if (!called()){System.out.println("-----Error: No meld to make (the player didn't make a call!!)"); return;}
 		
 		//make the right type of meld, based on call status
-		if (calledChiL()) hand.makeMeldChiL();
-		else if (calledChiM()) hand.makeMeldChiM();
-		else if (calledChiH()) hand.makeMeldChiH();
-		else if (calledPon()) hand.makeMeldPon();
-		else if (calledKan()) hand.makeMeldKan();
+		if (calledChiL()) hand.makeMeldChiL(claimedTile);
+		else if (calledChiM()) hand.makeMeldChiM(claimedTile);
+		else if (calledChiH()) hand.makeMeldChiH(claimedTile);
+		else if (calledPon()) hand.makeMeldPon(claimedTile);
+		else if (calledKan()) hand.makeMeldKan(claimedTile);
 		
 		//update what the player will need to draw next turn (draw nothing if called chi/pon, rinshan draw if called kan)
 		if (calledChi() || calledPon())

@@ -117,9 +117,6 @@ public class HandChecker {
 		tenpaiWaits = new GameTileList();
 		statusIsTenpai = false;
 		
-		//reset callable flags
-		
-		
 
 		partnerIndicesChiL = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
 		partnerIndicesChiM = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
@@ -133,19 +130,8 @@ public class HandChecker {
 		callCandidate = null;
 	}
 	
-	
-	
-	
-	
-	private int myHandSize(){return myHand.size();}
+	private int handSize(){return myHand.size();}
 	private Wind ownerSeatWind(){return myHand.getOwnerSeatWind();}
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -618,7 +604,7 @@ public class HandChecker {
 	public boolean isTenpaiKokushi(){
 		
 		//if any melds have been made, kokushi musou is impossible, return false
-		if (myHandSize() < MAX_HAND_SIZE-1) return false;
+		if (handSize() < MAX_HAND_SIZE-1) return false;
 		//if the hand contains even one non-honor tile, return false
 		for (GameTile t: myHandTiles) if (!t.isYaochuu()) return false;
 		
@@ -637,7 +623,7 @@ public class HandChecker {
 	
 	//returns true if a 14-tile hand is a complete kokushi musou
 	public boolean isCompleteKokushi(){
-		if ((myHandSize() == MAX_HAND_SIZE) &&
+		if ((handSize() == MAX_HAND_SIZE) &&
 			(isTenpaiKokushi()) &&
 			(__getKokushiWaits().size() == NUMBER_OF_YAOCHUU_TILES))
 			return true;

@@ -61,9 +61,6 @@ methods:
 */
 public class HandChecker {
 	
-	
-	private static final boolean DEFAULT_CLOSED_STATUS = true;
-	
 	private static final int NUM_PARTNERS_NEEDED_TO_CHI = 2;
 	private static final int NUM_PARTNERS_NEEDED_TO_PON = 2;
 	private static final int NUM_PARTNERS_NEEDED_TO_KAN = 3;
@@ -87,7 +84,6 @@ public class HandChecker {
 	private final GameTileList myHandTiles;
 	private final List<Meld> handMelds;
 	
-	private boolean statusIsClosed;
 	private boolean statusIsTenpai;
 	
 	
@@ -120,7 +116,6 @@ public class HandChecker {
 		
 		tenpaiWaits = new GameTileList();
 		statusIsTenpai = false;
-		statusIsClosed = DEFAULT_CLOSED_STATUS;
 		
 		//reset callable flags
 		
@@ -1119,18 +1114,6 @@ public class HandChecker {
 	
 	
 	
-	//checks if the hand is closed or open, ajusts flag accordingly
-	public boolean updateClosedStatus(){
-		boolean meldsAreAllClosed = true;
-		//if all the melds are closed, then the hand is closed
-		for (Meld m: handMelds) meldsAreAllClosed = (meldsAreAllClosed && m.isClosed());
-		
-		return statusIsClosed = meldsAreAllClosed;
-	}
-	
-	
-	
-	
 	
 	
 	
@@ -1174,7 +1157,13 @@ public class HandChecker {
 	
 	
 	//returns true if the hand is fully concealed, false if an open meld has been made
-	public boolean getClosedStatus(){return statusIsClosed;}
+	public boolean getClosedStatus(){
+		for (Meld m: handMelds)
+			if (m.isOpen())
+				return false;
+		
+		return true;
+	}
 	
 	
 	

@@ -90,6 +90,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 				return false;
 		return true;
 	}
+	public boolean isOpen(){return !isClosed();}
 	public Wind windOfResponsiblePlayer(){return completedTile.getOrignalOwner();}
 	
 	

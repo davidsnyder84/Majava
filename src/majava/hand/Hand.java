@@ -197,8 +197,6 @@ public class Hand implements Iterable<GameTile>{
 	
 	form a new meld with the tiles
 	remove the tiles from the hand
-	numMeldsMade++
-	update hand's closed status after making the meld
 	*/
 	private void __makeMeld(MeldType meldType){
 		
@@ -216,10 +214,7 @@ public class Hand implements Iterable<GameTile>{
 		melds.add(new Meld(tilesFromHand, candidateTile, meldType));
 		
 		//remove the tiles from the hand 
-		removeMultiple(partnerIndices);
-		
-		handChecker.updateClosedStatus();
-		
+		removeMultiple(partnerIndices);		
 	}
 	public void makeMeldChiL(){__makeMeld(MeldType.CHI_L);}
 	public void makeMeldChiM(){__makeMeld(MeldType.CHI_M);}

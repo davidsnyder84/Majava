@@ -38,15 +38,12 @@ public class HandChecker {
 	private final List<Meld> handMelds;
 	
 	//call flags and partner index lists
-	private boolean flagCanRon;
 	private boolean flagCanAnkan, flagCanMinkan, flagCanRiichi, flagCanTsumo;
 	private int indexTurnAnkanCandidate, indexTurnMinkanCandidate;
 	
 	
 	private boolean pairHasBeenChosen = false;
 	private final List<Meld> finishingMelds;
-	
-	private final GameTileList tenpaiWaits;
 	
 	
 	
@@ -57,7 +54,6 @@ public class HandChecker {
 		myHandTiles = reveivedHandTiles;
 		handMelds = reveivedHandMelds;
 		
-		tenpaiWaits = new GameTileList();
 		finishingMelds = new ArrayList<Meld>(5);
 		
 		resetCallableFlags();
@@ -75,22 +71,12 @@ public class HandChecker {
 	//~~~~BEGIN MELD CHECKERS
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
-	
-	
-	//returns true if the player can call ron on the candidate tile
-	private boolean __canRon(GameTile candidate){
-		return tenpaiWaits.contains(candidate);
-	}
-	
-	
-	
-	
 	//checks if a tile is callable. returns true if a call (any call) can be made for the tile
 	//if a call is possible, sets flag and populates partner index lists for that call.
 	//TODO checkCallableTile
 	public boolean tileIsCallable(GameTile candidate){
 		boolean handIsInTenpai = isInTenpai();	//use temporary variable to avoid having to calculate twice
-		boolean flagCanChiL = false, flagCanChiM = false, flagCanChiH = false, flagCanPon = false;
+		boolean flagCanChiL = false, flagCanChiM = false, flagCanChiH = false, flagCanPon = false, flagCanRon = false;
 		
 		//if candidate is not a hot tile, return false
 		if (!findAllHotTiles().contains(candidate.getId()) && !handIsInTenpai) return false;
@@ -115,8 +101,7 @@ public class HandChecker {
 		flagCanPon = ableToPon(candidate);
 		
 		//if in tenpai, check ron
-		if (handIsInTenpai)
-			flagCanRon = __canRon(candidate);
+		flagCanRon = handIsInTenpai && ableToRon(candidate);
 		
 		//~~~~return true if a call (any call) can be made
 		return (flagCanChiL || flagCanChiM || flagCanChiH || flagCanPon || flagCanRon);
@@ -127,7 +112,6 @@ public class HandChecker {
 	
 	//resets call flags to false, creates new empty partner index lists
 	private void resetCallableFlags(){
-		flagCanRon = false;
 		flagCanAnkan = flagCanMinkan = flagCanRiichi = flagCanTsumo = false;
 		
 		indexTurnAnkanCandidate = indexTurnMinkanCandidate = -1; 
@@ -181,7 +165,8 @@ public class HandChecker {
 	public boolean ableToChiH(GameTile candidate){return candidate.canCompleteChiH() && !getPartnerIndicesChiH(candidate).isEmpty();}
 	public boolean ableToPon(GameTile candidate){return !getPartnerIndicesPon(candidate).isEmpty();}
 	public boolean ableToKan(GameTile candidate){return !getPartnerIndicesKan(candidate).isEmpty();}
-	public boolean ableToRon(GameTile candidate){return flagCanRon;}
+	public boolean ableToRon(GameTile candidate){return getTenpaiWaits().contains(candidate);}
+	
 	public boolean ableToPair(GameTile candidate){return !getPartnerIndicesPair(candidate).isEmpty();}
 	
 	//turn actions
@@ -364,50 +349,21 @@ public class HandChecker {
 	}
 	
 	
+	private GameTileList emptyWaitsList(){return new GameTileList();}
 	
-	
-	
-	
-	
-	
-	//returns true if the hand is in tenpai
-	public boolean isInTenpai(){
+	//returns the list of tenpai waits
+	public GameTileList getTenpaiWaits(){
+//		System.out.println("norm" + __findNormalTenpaiWaits(myHandTiles).toString());System.out.println("koku" + __getKokushiWaits(myHandTiles).toString());System.out.println("chit" + getChiitoiWait(myHandTiles).toString());
 		
-		boolean isKokushiTenpai = false, isChiitoitsuTenpai = false, isNormalTenpai = false;
+		GameTileList waits = new GameTileList();
+		waits.addAll(__findNormalTenpaiWaits(myHandTiles));
+		if (waits.isEmpty()) waits.addAll(__getKokushiWaits(myHandTiles));
+		if (waits.isEmpty()) waits.addAll(getChiitoiWait(myHandTiles));
 		
-//		mTenpaiWaits = new TileList();
-		tenpaiWaits.clear();
-		
-		//check for kokushi musou tenpai, waits are also found here
-		isKokushiTenpai = isTenpaiKokushi();
-		if (isKokushiTenpai){
-//			mTenpaiWaits.clear();
-			tenpaiWaits.addAll(__getKokushiWaits());
-		}
-		else{
-
-			//check if the hand is in normal tenpai, waits are also found here (don't check if in already kokushi tenpai)
-			isNormalTenpai = (!__findNormalTenpaiWaits().isEmpty());
-			
-			//check for chiitoitsu tenpai, wait is also found here (only check if no kokushi tenpai and no normal tenpai)
-			if (!isNormalTenpai)
-				isChiitoitsuTenpai = isTenpaiChiitoitsu();			
-		}		
-		
-		return (isKokushiTenpai || isChiitoitsuTenpai || isNormalTenpai);
+		return waits;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	//returns true if the hand is in tenpai
+	public boolean isInTenpai(){return !getTenpaiWaits().isEmpty();}
 	
 	
 	
@@ -447,7 +403,7 @@ public class HandChecker {
 
 	//returns a list of the hand's waits, if it is in tenpai for kokushi musou
 	//returns an empty list if not in kokushi musou tenpai
-	private GameTileList __getKokushiWaits(){
+	private GameTileList __getKokushiWaits(GameTileList checkTiles){
 		
 		GameTileList waits = new GameTileList(1);
 		
@@ -455,7 +411,7 @@ public class HandChecker {
 		if (isTenpaiKokushi()){
 			//look for a Yaochuu tile that the hand doesn't contain
 			for (Integer id: YAOCHUU_TILE_IDS)
-				if (!myHandTiles.contains(id))
+				if (!checkTiles.contains(id))
 					missingTYC = new GameTile(id);
 			
 			//if the hand contains exactly one of every Yaochuu tile, then it is a 13-sided wait for all Yaochuu tiles
@@ -468,6 +424,7 @@ public class HandChecker {
 		
 		return waits;
 	}
+	private GameTileList __getKokushiWaits(){return __getKokushiWaits(myHandTiles);}
 	public GameTileList DEMOgetKokushiWaits(){return __getKokushiWaits();}
 	
 	
@@ -478,8 +435,10 @@ public class HandChecker {
 	
 	
 	
-	//checks if the hand is in tenpai for chiitoitsu, and modifies the list of waits if so 
-	public boolean isTenpaiChiitoitsu(final GameTileList handTiles){
+	
+	
+	//checks if the hand is in tenpai for chiitoitsu, and modifies the list of waits if so
+	public GameTileList getChiitoiWait(final GameTileList handTiles){
 		
 		GameTile missingTile = null;
 		//conditions:
@@ -488,28 +447,27 @@ public class HandChecker {
 		//hand must have no more than 2 of each tile
 		
 		//if any melds have been made, chiitoitsu is impossible, return false
-		if (myHand.numberOfMeldsMade() > 0) return false;
+		if (handSize() != MAX_HAND_SIZE-1 || myHand.numberOfMeldsMade() > 0) return emptyWaitsList();
 		
 		//the hand should have exactly 7 different types of tiles (4 of a kind != 2 pairs)
-		if (handTiles.makeCopyNoDuplicates().size() != 7) return false;
+		if (handTiles.makeCopyNoDuplicates().size() != 7) return emptyWaitsList();
 
 		//the hand must have no more than 2 of each tile
 		for(GameTile t: handTiles){
 			switch(handTiles.findHowManyOf(t)){
 			case 1: missingTile = t;
 			case 2: break;//intentionally blank
-			default: return false;
+			default: return emptyWaitsList();
 			}
 		}
 		
 		//at this point, we know that the hand is in chiitoitsu tenpai
 		
-		
 		//add the missing tile to the wait list (it will be the only wait)
-		tenpaiWaits.clear();
-		if (missingTile != null) tenpaiWaits.add(missingTile);
-		return true;
+		//if NPO happens here, look at old code
+		return new GameTileList(missingTile);
 	}
+	public boolean isTenpaiChiitoitsu(final GameTileList handTiles){return !getChiitoiWait(handTiles).isEmpty();}
 	public boolean isTenpaiChiitoitsu(){return isTenpaiChiitoitsu(myHandTiles);}
 	
 	
@@ -648,33 +606,29 @@ public class HandChecker {
 	
 	
 	
-	private GameTileList __findNormalTenpaiWaits(){
-		//TODO this is find tenpai waits
-		
+	//TODO this is find tenpai waits
+	private GameTileList __findNormalTenpaiWaits(GameTileList checkTiles){		
 		final GameTileList waits = new GameTileList();
+		final GameTileList checkTilesCopy = checkTiles.clone();
 		
-		final GameTileList handTilesCopy = myHandTiles.clone();
 		final List<Integer> hotTileIDs = findAllHotTiles();
-		GameTile currentHotTile = null;
-		
 		for (Integer id: hotTileIDs){
 			//get a hot tile (and mark it with the hand's seat wind, so chi is valid)
-			currentHotTile = new GameTile(id);
+			GameTile currentHotTile = new GameTile(id);
 			currentHotTile.setOwner(ownerSeatWind());
 			
 			//make a copy of the hand, add the current hot tile to that copy
-			handTilesCopy.add(currentHotTile);
+			checkTilesCopy.add(currentHotTile);
 			
 			//check if the copy, with the added tile, is complete
-			if (__isCompleteNormal(handTilesCopy)) waits.add(currentHotTile);
+			if (__isCompleteNormal(checkTilesCopy)) waits.add(currentHotTile);
 			
-			handTilesCopy.remove(currentHotTile);
+			checkTilesCopy.remove(currentHotTile);
 		}
 		
-		//store the waits in mTenpaiWaits, if there are any
-		if (!waits.isEmpty()) tenpaiWaits.addAll(waits);
 		return waits;
 	}
+	private GameTileList __findNormalTenpaiWaits(){return __findNormalTenpaiWaits(myHandTiles);}
 	public GameTileList DEMOfindNormalTenpaiWaits(){return __findNormalTenpaiWaits();}
 	
 	
@@ -869,11 +823,6 @@ public class HandChecker {
 		
 		return false;
 	}
-	
-
-	
-	//returns the list of tenpai waits
-	public GameTileList getTenpaiWaits(){return tenpaiWaits;}
 	
 	
 	//***************************************************************************************************

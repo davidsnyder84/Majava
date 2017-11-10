@@ -31,6 +31,10 @@ public class DemoHandGen {
 	public static void main(String[] args) {
 		
 		runTenpaiSimulation(5000);
+//		runSingleTenpaiTest(generateSpecificHand());
+		
+		
+		
 //		runSimulationNoDisplay(5000);
 //		runSumulationRandom(15000);
 //		runSpecificTest();
@@ -109,7 +113,25 @@ public class DemoHandGen {
 		System.out.println("Total number of failures: " + numFailures);
 	}
 	
+
 	
+	
+	
+	
+	
+	public static void runSingleTenpaiTest(Hand hand){
+		System.out.println("\n" + hand + "\n");
+		
+		hand.DEMOgetChecker().isInTenpai();
+		GameTileList waits = hand.DEMOgetChecker().getTenpaiWaits();
+		
+		String waitString = "";
+		for (GameTile t: waits) waitString += t + ", ";
+		System.out.println("Waits: " + waitString);
+		System.out.println(waits.toString());
+		
+		hand.DEMOgetChecker().DEMOprintFinishingMelds();
+	}
 	
 	/*
 	static method: runTenpaiSimulation
@@ -273,7 +295,6 @@ public class DemoHandGen {
 	
 	
 	
-	
 	public static void runSpecificTest(){
 		
 		Hand hand = generateSpecificHand();
@@ -292,7 +313,9 @@ public class DemoHandGen {
 //		TileList tiles = new TileList(19,19,19,20,21,21,22,22,23,32,32,32,34,34);	//S1 S1 S1 S2 S3 S3 S4 S4 S5 DW DW DW DR DR
 //		TileList tiles = new TileList(21,22,23,32,32,32,34,34);
 //		TileList tiles = new TileList(2+9,3+9,4+9,1+18,1+18);	//P2 P3 P4 S1 S1
-		GameTileList tiles = new GameTileList(1,1,2+9,3+9,4+9);	//P2 P3 P4 S1 S1
+//		GameTileList tiles = new GameTileList(1,1,2+9,3+9,4+9);	//P2 P3 P4 S1 S1
+//		GameTileList tiles = new GameTileList(3,7,8,9,4+18,5+18,6+18);	//M3 M7 M8 M9 S4 S5 S6
+		GameTileList tiles = new GameTileList(1,2,2,3,3,4,7+9,9+9,18+5,18+5);	//
 		
 		for (GameTile t: tiles){
 			t.setOwner(OWNER_SEAT);

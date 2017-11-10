@@ -57,6 +57,13 @@ public class GameTileList extends ConviniList<GameTile>{
 		return new GameTileList(super.subList(fromIndex, toIndex));
 	}
 	
+//	@Override
+//	public String toString(){
+//		String listString = "";
+//		for (GameTile t: this) listString += t + ", ";
+//		return listString;
+//	}
+	
 	
 	//overloaded methods for tile id
 	public int indexOf(Integer id){return indexOf(new GameTile(id));}

@@ -70,7 +70,7 @@ public class Hand implements Iterable<GameTile>{
 	
 	public Wind getOwnerSeatWind(){return tiles.getFirst().getOrignalOwner();}
 	//returns true if the hand is in tenpai
-	public boolean getTenpaiStatus(){return handChecker.getTenpaiStatus();}
+	public boolean getTenpaiStatus(){return handChecker.isInTenpai();}
 	
 	//returns a list of the hand's tenpai waits
 //	public GameTileList getTenpaiWaits(){
@@ -114,7 +114,7 @@ public class Hand implements Iterable<GameTile>{
 	
 	private void __updateChecker(){
 		//check if modifying the hand put the hand in tenpai
-		handChecker.updateTenpaiStatus();
+//		handChecker.updateTenpaiStatus();	/////this probably won't break it
 		
 		//update what turn actions are possible after modifying the hand
 		handChecker.updateTurnActions();

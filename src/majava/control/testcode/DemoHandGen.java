@@ -137,7 +137,7 @@ public class DemoHandGen {
 
 			System.out.println(currentHand.toString() + "\n");
 			
-			currentHand.DEMOgetChecker().DEMOcheckIfTenpai();
+			currentHand.DEMOgetChecker().isInTenpai();
 			waits = currentHand.DEMOgetChecker().getTenpaiWaits();
 			
 			

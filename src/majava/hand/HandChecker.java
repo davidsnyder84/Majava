@@ -84,8 +84,6 @@ public class HandChecker {
 	private final GameTileList myHandTiles;
 	private final List<Meld> handMelds;
 	
-	private boolean statusIsTenpai;
-	
 	
 	//call flags and partner index lists
 	private boolean flagCanChiL, flagCanChiM, flagCanChiH, flagCanPon, flagCanKan, flagCanRon, flagCanPair;
@@ -115,7 +113,6 @@ public class HandChecker {
 		handMelds = reveivedHandMelds;
 		
 		tenpaiWaits = new GameTileList();
-		statusIsTenpai = false;
 		
 
 		partnerIndicesChiL = new ArrayList<Integer>(NUM_PARTNERS_NEEDED_TO_CHI);
@@ -260,9 +257,11 @@ public class HandChecker {
 	*/
 	//TODO checkCallableTile
 	public boolean checkCallableTile(GameTile candidate){
+		//store in temporary variable to avoid having to calculate twice
+		boolean handIsInTenpai = isInTenpai();
 		
 		//check if tile candidate is a hot tile. if candidate is not a hot tile, return false
-		if (!__findAllHotTiles().contains(candidate.getId()) && !statusIsTenpai) return false;
+		if (!__findAllHotTiles().contains(candidate.getId()) && !handIsInTenpai) return false;
 		
 		
 		//check which melds candidate can be called for, if any
@@ -287,7 +286,7 @@ public class HandChecker {
 				flagCanKan = __canKan();
 		
 		//if in tenpai, check ron
-		if (statusIsTenpai)
+		if (handIsInTenpai)
 			flagCanRon = __canRon();
 		
 		//~~~~return true if a call (any call) can be made
@@ -548,9 +547,8 @@ public class HandChecker {
 	
 	
 	
-	//checks if the hand is in tenpai
-	//sets mTenpaiStaus flag if it is, and returns true
-	private boolean __checkIfTenpai(){
+	//returns true if the hand is in tenpai
+	public boolean isInTenpai(){
 		
 		boolean isKokushiTenpai = false, isChiitoitsuTenpai = false, isNormalTenpai = false;
 		
@@ -564,7 +562,7 @@ public class HandChecker {
 			tenpaiWaits.addAll(__getKokushiWaits());
 		}
 		else{
-			
+
 			//check if the hand is in normal tenpai, waits are also found here (don't check if in already kokushi tenpai)
 			isNormalTenpai = (!__findNormalTenpaiWaits().isEmpty());
 			
@@ -573,15 +571,8 @@ public class HandChecker {
 				isChiitoitsuTenpai = isTenpaiChiitoitsu();			
 		}		
 		
-		statusIsTenpai = (isKokushiTenpai || isChiitoitsuTenpai || isNormalTenpai);
-		return statusIsTenpai;
+		return (isKokushiTenpai || isChiitoitsuTenpai || isNormalTenpai);
 	}
-	public boolean DEMOcheckIfTenpai(){return __checkIfTenpai();}
-	public boolean updateTenpaiStatus(){return __checkIfTenpai();}
-	
-	
-	
-	
 	
 	
 	
@@ -1136,10 +1127,6 @@ public class HandChecker {
 //	public boolean ableToRiichi(){return mCanRiichi;}
 	public boolean ableToRiichi(){return false;}
 	public boolean ableToTsumo(){return flagCanTsumo;}
-	
-	
-	//returns true if the hand is in tenpai
-	public boolean getTenpaiStatus(){return statusIsTenpai;}
 	
 	
 	//returns true if the hand is fully concealed, false if an open meld has been made

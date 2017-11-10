@@ -38,7 +38,6 @@ public class HandChecker {
 	
 	
 	private boolean pairHasBeenChosen = false;
-	private final List<Meld> finishingMelds;
 	
 	
 	
@@ -48,8 +47,6 @@ public class HandChecker {
 		myHand = handToCheck;
 		myHandTiles = reveivedHandTiles;
 		handMelds = reveivedHandMelds;
-		
-		finishingMelds = new ArrayList<Meld>(5);
 	}
 	
 //	private int handSize(){return myHand.size();}
@@ -452,23 +449,21 @@ public class HandChecker {
 	
 	
 	//returns true if list of handTiles is complete (is a winning hand)
-	public boolean isCompleteNormal(GameTileList handTiles){
+	public boolean isCompleteNormal(GameTileList handTiles, List<Meld> finishingMelds){
 		if ((handTiles.size() % 3) != 2) return false;
 		
 		//make a list of checkTiles out of the handTiles
 		GameTileList checkTiles = handTiles.makeCopyWithCheckers();
 		checkTiles.sort();
 		
-		
 		//populate stacks
 		if (!populateMeldStacks(checkTiles)) return false;
 		
 		pairHasBeenChosen = false;
-		finishingMelds.clear();
-		
-		return isCompleteNormalHand(checkTiles);
+		return isCompleteNormalHand(checkTiles, finishingMelds);
 	}
 	//overloaded, checks mHandTiles by default
+	public boolean isCompleteNormal(GameTileList checkTiles){return isCompleteNormal(myHandTiles, null);}
 	public boolean isCompleteNormal(){return isCompleteNormal(myHandTiles);}
 	
 	
@@ -522,7 +517,7 @@ public class HandChecker {
 	end while
 	return false (currentTile could not make any meld, so the hand cannot be complete)
 	*/
-	private boolean isCompleteNormalHand(GameTileList checkTiles){
+	private boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds){
 		
 		//if the hand is empty, it is complete
 		if (checkTiles.isEmpty()) return true;
@@ -607,8 +602,9 @@ public class HandChecker {
 				
 				
 				//~~~~Recursive call, check if the hand is still complete without the removed meld tiles
-				if (isCompleteNormalHand(checkTilesMinusThisMeld)){
-					finishingMelds.add(new Meld(toMeldTiles.clone(), currentTileMeldType));	//add the meld tiles to the finishing melds stack
+				if (isCompleteNormalHand(checkTilesMinusThisMeld, finishingMelds)){
+					if (finishingMelds != null)
+						finishingMelds.add(new Meld(toMeldTiles.clone(), currentTileMeldType));	//add the meld tiles to the finishing melds stack
 					return true;
 				}
 				else{
@@ -620,6 +616,13 @@ public class HandChecker {
 			}
 		}
 		return false;
+	}
+	private boolean isCompleteNormalHand(GameTileList checkTiles){return isCompleteNormalHand(checkTiles.makeCopyWithCheckers(), null);}
+	private boolean isCompleteNormalHand(){return isCompleteNormalHand(myHandTiles);}
+	public List<Meld> getFinishingMelds(){
+		List<Meld> finishingMelds = new ArrayList<Meld>(5);
+		isCompleteNormal(myHandTiles, finishingMelds);
+		return finishingMelds;
 	}
 	
 	
@@ -668,7 +671,11 @@ public class HandChecker {
 	public boolean DEMOisComplete(){return isComplete();}
 	public boolean DEMOchiitoitsuInTenpai(){return isTenpaiChiitoitsu();}
 	
-	public void DEMOprintFinishingMelds(){for (Meld m: finishingMelds) System.out.println(m.toString());}
+	public void DEMOprintFinishingMelds(){
+		List<Meld> fMelds = getFinishingMelds();
+		for (Meld m: fMelds)
+			System.out.println(m.toString());
+	}
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	//xxxxEND DEMO METHODS
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

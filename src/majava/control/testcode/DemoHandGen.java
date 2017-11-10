@@ -30,7 +30,7 @@ public class DemoHandGen {
 	
 	public static void main(String[] args) {
 		
-		runTenpaiSimulation(5000);
+//		runTenpaiSimulation(5000);
 //		runSingleTenpaiTest(generateSpecificHand());
 		
 		
@@ -41,7 +41,7 @@ public class DemoHandGen {
 		
 //		runTenpaiSimulation(500);
 		
-//		runSimulation(5000);
+		runSimulation(5000);
 	}
 	
 	
@@ -70,8 +70,9 @@ public class DemoHandGen {
 		for (int i = 0; i < howManyTimes; i++){
 			
 			currentHand = generateCompleteHand();
-
-			System.out.println(currentHand.toString() + "\n");
+			currentHand.sort();
+			
+			System.out.println(currentHand.toString());
 			
 			success = currentHand.DEMOgetChecker().DEMOisComplete();
 			System.out.println(currentHand.getAsStringMeldsCompact());
@@ -81,6 +82,8 @@ public class DemoHandGen {
 				numFailures++;
 				System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 			}
+			else
+				currentHand.DEMOgetChecker().DEMOprintFinishingMelds();
 			
 			System.out.println("\n\n");
 			totalNum++;
@@ -180,6 +183,7 @@ public class DemoHandGen {
 					maxWaitString = waitString;
 					maxNumWaits = waits.size();
 				}
+				currentHand.DEMOgetChecker().DEMOprintFinishingMelds();
 			}
 			System.out.println("\n\n");
 		}

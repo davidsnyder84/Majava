@@ -175,11 +175,11 @@ public class MajaPlay {
 	
 	public static void playFinishingMelds(){
 		
-		Hand h = new Hand(ownerSeat);
+		Hand h = new Hand();
 		
 		
 		for (int i = 1; i <= 9; i++){
-			h = new Hand(ownerSeat);
+			h = new Hand();
 			h.DEMOfillChuuren(i);
 			
 			println("\n\n\n" + h.toString());
@@ -197,7 +197,7 @@ public class MajaPlay {
 	
 	public static void testCompleteNormal(){
 		
-		Hand h = new Hand(ownerSeat);
+		Hand h = new Hand();
 		//Tile q = null;
 //		TileList waits = null;
 		
@@ -222,7 +222,7 @@ public class MajaPlay {
 	
 	public static void chiitoiTenpaiTest(){
 		
-		Hand h = new Hand(ownerSeat);
+		Hand h = new Hand();
 		GameTileList waits = new GameTileList();
 		
 		GameTileList handTiles = new GameTileList(2,2,5,5,7,7,10,10,20,20,21,21,30,30);
@@ -251,7 +251,7 @@ public class MajaPlay {
 		tlists.add(new GameTileList(1,3,3,5,5,7,7,9,9,11,11,13,13));
 		
 		for (GameTileList tl: tlists){
-			h = new Hand(ownerSeat);
+			h = new Hand();
 			for (GameTile t: tl) h.addTile(t);
 
 			println(h.toString());
@@ -277,7 +277,7 @@ public class MajaPlay {
 		
 		
 		for (GameTileList tl: badtlists){
-			h = new Hand(ownerSeat);
+			h = new Hand();
 			for (GameTile t: tl) h.addTile(t);
 
 			println(h.toString());
@@ -297,7 +297,7 @@ public class MajaPlay {
 
 	public static void kokushiTenpaiTest(){
 		
-		Hand h = new Hand(ownerSeat);
+		Hand h = new Hand();
 		//Tile q = null;
 		GameTileList waits = null;
 
@@ -336,7 +336,7 @@ public class MajaPlay {
 	public static void testCallPartners(){
 		
 		GameTile q = null;
-		Hand h = new Hand(ownerSeat);
+		Hand h = new Hand();
 
 		h.addTile(1);
 		h.addTile(2);
@@ -350,6 +350,7 @@ public class MajaPlay {
 		h.addTile(32);
 		h.addTile(32);
 		h.addTile(33);
+		h.DEMOsetOwner(ownerSeat);
 		
 		Integer[] dIDs = {1,2,3,4,5,6,7,8,9,10,11,30,31,32,33,34};
 		List<Integer> discardIDs = Arrays.asList(dIDs);
@@ -389,12 +390,13 @@ public class MajaPlay {
 	
 
 	public static void finishingMovePre(){
-		Hand h = new Hand(ownerSeat);
+		Hand h = new Hand();
 		GameTile q = null;
 
 		h.addTile(2);
 		h.addTile(3);
 		h.addTile(3);
+		h.DEMOsetOwner(ownerSeat);
 
 		println(h.toString());
 		
@@ -423,21 +425,18 @@ public class MajaPlay {
 	
 
 	public static void chiKamichaTest(){
-		Hand h = new Hand(ownerSeat);
+		Hand h = new Hand();
 		GameTile q = null;
 
 		h.addTile(2);
 		h.addTile(3);
 		h.addTile(3);
-		
+		h.DEMOsetOwner(ownerSeat);
 
 		println(h.toString());
 		
-		
-		
 		q = new GameTile(1);
 //		q.setOwner(ownerSeat);
-//		q.setOwner(Player.findKamichaOf(ownerSeat));
 		q.setOwner(Wind.WEST);
 		
 

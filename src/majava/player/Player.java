@@ -55,7 +55,7 @@ public class Player {
 	//initializes a player's resources for a new round
 	public void prepareForNewRound(){
 		
-		hand = new Hand(seatWind);
+		hand = new Hand();
 		pond = new Pond();
 		
 		//just in case, don't know if it's needed

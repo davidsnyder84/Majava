@@ -12,91 +12,30 @@ import majava.enums.Wind;
 import majava.enums.MeldType;
 
 
-/*
-Class: Hand
-represents a player's hand of tiles
-
-data:
-	mTiles - list of tiles in the hand
-	mMelds - list of melds made from the hand
-	mChecker - runs checks on the hand
-	
-	mOwnerSeatWind - the seat wind of the player who owns the hand
-	
-	mRoundTracker - used to look at round info
-	
-methods:
-	
-	constructors:
-	Requires player's seat wind - creates list of tiles and melds, initializes hand info, creates a checker
-	
-	
-	public:
-		mutators:
-		addTile - adds a tile to the hand  (and updates possible calls/actions)
-		removeTile - removes the tile at the given index (and updates possible calls/actions)
-		sortHand - sorts the hand in ascending order
-		
-		checkCallableTile - runs checks to see if a given tile is callable. returns true if the tile is callable. (modifies the checker)
-		makeMeldChiL, etc - forms a meld of the corresponding type with the most recent discard (mCallCandidate)
-		makeMeldTurnAnkan/makeMeldTurnMinkan - forms the corresponding turn meld
-	 	
-	 	
-	 	accessors:
-		getSize - returns the number of tiles in the hand
-		getTile - returns the tile at the given index in the hand
-		
-		getNumMeldsMade - returns the number of melds made
-		getMelds - returns a list of the melds that have been made (copy of actual melds)
-		
-		isClosed - returns true if the hand is fully concealed, false if an open meld has been made
-		getOwnerSeatWind - returns the hand owner's seat wind
-		getTenpaiStatus - returns true if the hand is in tenpai
-		getTenpaiWaits - returns the hand's waits, if it is in tenpai
-		
-		numberOfCallsPossible - returns the number of different calls that can be made on a tile
-		ableToChiL, etc - returns true if the corresponding call can be made
-		ableToAnkan, etc - returns true if the corresponding action is possible
-		
-		showMelds, showMeldsCompact - prints all melds to the screen
-		toString - returns a string of all tiles in the hand, and their indices
-		
-		
-		other:
-		syncWithRoundTracker - associates the hand with the tracker
-*/
+//represents a player's hand (Žè”v) of tiles
 public class Hand implements Iterable<GameTile>{	
 	private static final int MAX_HAND_SIZE = 14;
 	private static final int MAX_NUM_MELDS = 5;
 	private static final int AVG_NUM_TILES_PER_MELD = 3;
 	
-	//for debug use
-	private static final boolean DEBUG_SHOW_MELDS_ALONG_WITH_HAND = false;
-	
-	
 	
 	private final GameTileList tiles;
 	private final List<Meld> melds;
-	private final HandChecker handChecker;
 	
-	private final Wind ownerSeatWind;
+	private final HandChecker handChecker;
 	
 	private RoundTracker roundTracker;
 	
 	
 	
-	//1-arg constructor, takes player's seat wind
-	public Hand(Wind playerWind){
+	public Hand(){
 		tiles = new GameTileList(MAX_HAND_SIZE);
 		melds = new ArrayList<Meld>(MAX_NUM_MELDS);
-		
-		ownerSeatWind = playerWind;
 		
 		//make a checker for the hand
 		handChecker = new HandChecker(this, tiles, melds);
 		roundTracker = null;
 	}
-	public Hand(){this(Wind.UNKNOWN);}
 	
 	
 	
@@ -129,8 +68,7 @@ public class Hand implements Iterable<GameTile>{
 		return count;
 	}
 	
-	//returns the hand owner's seat wind
-	public Wind getOwnerSeatWind(){return ownerSeatWind;}
+	public Wind getOwnerSeatWind(){return tiles.getFirst().getOrignalOwner();}
 	//returns true if the hand is in tenpai
 	public boolean getTenpaiStatus(){return handChecker.getTenpaiStatus();}
 	
@@ -150,7 +88,7 @@ public class Hand implements Iterable<GameTile>{
 	public boolean addTile(GameTile addThisTile){
 		if (size() >= MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*numberOfMeldsMade()) return false;
 		
-		addThisTile.setOwner(ownerSeatWind);
+		addThisTile.setOwner(getOwnerSeatWind());
 		tiles.add(addThisTile);
 		
 		__updateChecker();
@@ -381,6 +319,8 @@ public class Hand implements Iterable<GameTile>{
 	}
 	public void DEMOfillChuuren(){DEMOfillChuuren(8);}
 	
+	public void DEMOsetOwner(Wind owner){for (GameTile t: tiles) t.setOwner(owner);}
+	
 	//true returns a string of indices (indices are +1 to match display)
 	//false returns a string of actual tile values
 	public String DEMOpartnerIndicesString(MeldType meldType, boolean wantActualTiles){
@@ -444,6 +384,7 @@ public class Hand implements Iterable<GameTile>{
 	@Override
 	public String toString(){
 		String handString = "";
+		final boolean DEBUG_SHOW_MELDS_ALONG_WITH_HAND = false;
 		
 		//show indices above the hand
 		for (int i = 0; i < size(); i++)

@@ -187,9 +187,8 @@ public class DemoHandGen {
 	//returns a hand that is complete
 	public static Hand generateCompleteHand(){
 
-		Hand hand = new Hand(OWNER_SEAT);
+		Hand hand = new Hand();
 		GameTileList listGT = Majenerator.generateWinningHandTiles();
-		
 		
 		for (GameTile t: listGT){
 			t.setOwner(OWNER_SEAT);
@@ -243,7 +242,7 @@ public class DemoHandGen {
 	
 	public static Hand generateRandomHand(){
 		
-		Hand hand = new Hand(OWNER_SEAT);
+		Hand hand = new Hand();
 		ConviniList<GameTile> tiles = new ConviniList<GameTile>();
 		GameTile currentTile = null;
 		int id = 0;
@@ -289,7 +288,7 @@ public class DemoHandGen {
 	}
 	
 	public static Hand generateSpecificHand(){
-		Hand hand = new Hand(OWNER_SEAT);
+		Hand hand = new Hand();
 //		TileList tiles = new TileList(19,19,19,20,21,21,22,22,23,32,32,32,34,34);	//S1 S1 S1 S2 S3 S3 S4 S4 S5 DW DW DW DR DR
 //		TileList tiles = new TileList(21,22,23,32,32,32,34,34);
 //		TileList tiles = new TileList(2+9,3+9,4+9,1+18,1+18);	//P2 P3 P4 S1 S1

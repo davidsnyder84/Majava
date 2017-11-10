@@ -154,18 +154,18 @@ public class Hand implements Iterable<GameTile>{
 	send candidate tile to checker (flags are set and lists are populated here)
 	if any call can be made, return true. else, return false
 	*/
-	public boolean checkCallableTile(GameTile candidate){
+	public boolean canCallTile(GameTile candidate){
 		//~~~~return true if a call (any call) can be made
 		return handChecker.tileIsCallable(candidate);
 	}
 	
 	//returns true if a specific call can be made on mCallCandidate
-	public boolean ableToChiL(){return handChecker.ableToChiL();}
-	public boolean ableToChiM(){return handChecker.ableToChiM();}
-	public boolean ableToChiH(){return handChecker.ableToChiH();}
-	public boolean ableToPon(){return handChecker.ableToPon();}
-	public boolean ableToKan(){return handChecker.ableToKan();}
-	public boolean ableToRon(){return handChecker.ableToRon();}
+	public boolean ableToChiL(GameTile tileToReactTo){return handChecker.ableToChiL(tileToReactTo);}
+	public boolean ableToChiM(GameTile tileToReactTo){return handChecker.ableToChiM(tileToReactTo);}
+	public boolean ableToChiH(GameTile tileToReactTo){return handChecker.ableToChiH(tileToReactTo);}
+	public boolean ableToPon(GameTile tileToReactTo){return handChecker.ableToPon(tileToReactTo);}
+	public boolean ableToKan(GameTile tileToReactTo){return handChecker.ableToKan(tileToReactTo);}
+	public boolean ableToRon(GameTile tileToReactTo){return handChecker.ableToRon(tileToReactTo);}
 //	public boolean ableToPair(){return handChecker.ableToPair();}
 	
 	//turn actions
@@ -186,7 +186,7 @@ public class Hand implements Iterable<GameTile>{
 		
 		//~~~~gather the tiles from the hand that will be in the meld
 		//get the list of partner indices, based on the the meld type
-		List<Integer> partnerIndices = handChecker.getPartnerIndices(meldType);
+		List<Integer> partnerIndices = handChecker.getPartnerIndices(claimedTile, meldType);
 
 		//list of TILES, will hold the tiles coming from the hand that will be in the meld
 		GameTileList tilesFromHand = tiles.getMultiple(partnerIndices);
@@ -296,22 +296,22 @@ public class Hand implements Iterable<GameTile>{
 	
 	public void DEMOsetOwner(Wind owner){for (GameTile t: tiles) t.setOwner(owner);}
 	
-	//true returns a string of indices (indices are +1 to match display)
-	//false returns a string of actual tile values
-	public String DEMOpartnerIndicesString(MeldType meldType, boolean wantActualTiles){
-		
-		String partnersString = "";
-		List<Integer> wantedIndices = null;
-		wantedIndices = handChecker.getPartnerIndices(meldType);
-		
-		for (Integer i: wantedIndices)
-			if (wantActualTiles) partnersString += getTile(i).toString() + ", ";
-			else partnersString += Integer.toString(i+1) + ", ";
-		
-		if (partnersString != "") partnersString = partnersString.substring(0, partnersString.length() - 2);
-		return partnersString;
-	}
-	public String DEMOpartnerIndicesString(MeldType meldType){return DEMOpartnerIndicesString(meldType, false);}
+//	//true returns a string of indices (indices are +1 to match display)
+//	//false returns a string of actual tile values
+//	public String DEMOpartnerIndicesString(MeldType meldType, boolean wantActualTiles){
+//		
+//		String partnersString = "";
+//		List<Integer> wantedIndices = null;
+//		wantedIndices = handChecker.getPartnerIndices(meldType);
+//		
+//		for (Integer i: wantedIndices)
+//			if (wantActualTiles) partnersString += getTile(i).toString() + ", ";
+//			else partnersString += Integer.toString(i+1) + ", ";
+//		
+//		if (partnersString != "") partnersString = partnersString.substring(0, partnersString.length() - 2);
+//		return partnersString;
+//	}
+//	public String DEMOpartnerIndicesString(MeldType meldType){return DEMOpartnerIndicesString(meldType, false);}
 	
 	//returns a list of hot tile IDs for ALL tiles in the hand
 	public List<Integer> DEMOfindAllHotTiles(){return handChecker.DEMOfindAllHotTiles();}

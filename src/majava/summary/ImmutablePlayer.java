@@ -60,12 +60,12 @@ public class ImmutablePlayer{
 	
 	
 	
-	public boolean ableToCallChiL(){return player.ableToCallChiL();}
-	public boolean ableToCallChiM(){return player.ableToCallChiM();}
-	public boolean ableToCallChiH(){return player.ableToCallChiH();}
-	public boolean ableToCallPon(){return player.ableToCallPon();}
-	public boolean ableToCallKan(){return player.ableToCallKan();}
-	public boolean ableToCallRon(){return player.ableToCallRon();}
+//	public boolean ableToCallChiL(){return player.ableToCallChiL();}
+//	public boolean ableToCallChiM(){return player.ableToCallChiM();}
+//	public boolean ableToCallChiH(){return player.ableToCallChiH();}
+//	public boolean ableToCallPon(){return player.ableToCallPon();}
+//	public boolean ableToCallKan(){return player.ableToCallKan();}
+//	public boolean ableToCallRon(){return player.ableToCallRon();}
 	
 	
 	

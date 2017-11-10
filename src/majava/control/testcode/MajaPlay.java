@@ -360,26 +360,30 @@ public class MajaPlay {
 			
 			q = new GameTile(id);
 			q.setOwner(ownerSeat.kamichaWind());
-			h.checkCallableTile(q);
+			h.canCallTile(q);
 			
 			println(h.toString());
 			println("\nDiscarded tile: " + q.toString());
 			
-			System.out.print("\n\tChi-L?: " + h.ableToChiL());
-			if (h.ableToChiL())	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.CHI_L, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.CHI_L));
-			
-			System.out.print("\n\tChi-M?: " + h.ableToChiM());
-			if (h.ableToChiM())	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.CHI_M, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.CHI_M));
-			
-			System.out.print("\n\tChi-H?: " + h.ableToChiH());
-			if (h.ableToChiH())	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.CHI_H, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.CHI_H));
-			
-			System.out.print("\n\tPon?  : " + h.ableToPon());
-			if (h.ableToPon())	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.PON, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.PON));
-
-			System.out.print("\n\tKan?  : " + h.ableToKan());
-			if (h.ableToKan())	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.KAN, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.KAN));
-			
+			System.out.print("\n\tChi-L?: " + h.ableToChiL(q));
+			////////THIS WORKS
+			////////THIS WORKS
+			////////THIS WORKS
+			////////THIS WORKS
+//			if (h.ableToChiL(q))	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.CHI_L, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.CHI_L));
+//			
+//			System.out.print("\n\tChi-M?: " + h.ableToChiM(q));
+//			if (h.ableToChiM(q))	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.CHI_M, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.CHI_M));
+//			
+//			System.out.print("\n\tChi-H?: " + h.ableToChiH(q));
+//			if (h.ableToChiH(q))	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.CHI_H, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.CHI_H));
+//			
+//			System.out.print("\n\tPon?  : " + h.ableToPon(q));
+//			if (h.ableToPon(q))	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.PON, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.PON));
+//
+//			System.out.print("\n\tKan?  : " + h.ableToKan(q));
+//			if (h.ableToKan(q))	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.KAN, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.KAN));
+//			
 //			System.out.print("\n\tPair? : " + h.ableToPair());
 //			if (h.ableToPair())	System.out.print(", Partners: " + h.DEMOpartnerIndicesString(MeldType.PAIR, true) + ", Ind: " + h.DEMOpartnerIndicesString(MeldType.PAIR));
 //			println("\n\n\n\n");
@@ -405,17 +409,17 @@ public class MajaPlay {
 		q.setOwner(ownerSeat.kamichaWind());
 //		println("\nDiscarded tile: " + q.toStringAllInfo());
 		println("\nDiscarded tile: " + q.toString());
-		h.checkCallableTile(q);
+		h.canCallTile(q);
 		
 		
 		
 		int count = 0;
-		if (h.ableToChiL()) count++;
-		if (h.ableToChiM()) count++;
-		if (h.ableToChiH()) count++;
-		if (h.ableToPon()) count++;
-		if (h.ableToKan()) count++;
-		if (h.ableToRon()) count++;
+		if (h.ableToChiL(q)) count++;
+		if (h.ableToChiM(q)) count++;
+		if (h.ableToChiH(q)) count++;
+		if (h.ableToPon(q)) count++;
+		if (h.ableToKan(q)) count++;
+		if (h.ableToRon(q)) count++;
 		
 		println("Number of calls possible: " + count);
 		
@@ -442,7 +446,7 @@ public class MajaPlay {
 
 //		println("\nDiscarded tile: " + q.toStringAllInfo());
 		println("\nDiscarded tile: " + q.toString());
-		println("Callable?: " + h.checkCallableTile(q));
+		println("Callable?: " + h.canCallTile(q));
 		
 	}
 	

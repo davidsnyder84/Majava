@@ -178,23 +178,23 @@ public class Player {
 	
 	
 	//checks if the player is able to make a call on Tile t (actual checks performed)
-	private boolean ableToCallTile(GameTile t){
+	private boolean ableToCallTile(GameTile tileToReactTo){
 		
 		//check if t can be called to make a meld
-		boolean ableToCall = hand.checkCallableTile(t);
+		boolean ableToCall = hand.canCallTile(tileToReactTo);
 		
 		//only allow ron if riichi
-		if (isInRiichi() && !hand.ableToRon()) ableToCall = false;
+		if (isInRiichi() && !hand.ableToRon(tileToReactTo)) ableToCall = false;
 		
 		return ableToCall;
 	}
 	
-	public boolean ableToCallChiL(){return !isInRiichi() && hand.ableToChiL();}
-	public boolean ableToCallChiM(){return !isInRiichi() && hand.ableToChiM();}
-	public boolean ableToCallChiH(){return !isInRiichi() && hand.ableToChiH();}
-	public boolean ableToCallPon(){return !isInRiichi() && hand.ableToPon();}
-	public boolean ableToCallKan(){return !isInRiichi() && hand.ableToKan();}
-	public boolean ableToCallRon(){return hand.ableToRon();}
+	public boolean ableToCallChiL(GameTile tileToReactTo){return !isInRiichi() && hand.ableToChiL(tileToReactTo);}
+	public boolean ableToCallChiM(GameTile tileToReactTo){return !isInRiichi() && hand.ableToChiM(tileToReactTo);}
+	public boolean ableToCallChiH(GameTile tileToReactTo){return !isInRiichi() && hand.ableToChiH(tileToReactTo);}
+	public boolean ableToCallPon(GameTile tileToReactTo){return !isInRiichi() && hand.ableToPon(tileToReactTo);}
+	public boolean ableToCallKan(GameTile tileToReactTo){return !isInRiichi() && hand.ableToKan(tileToReactTo);}
+	public boolean ableToCallRon(GameTile tileToReactTo){return hand.ableToRon(tileToReactTo);}
 	
 	
 	

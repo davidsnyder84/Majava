@@ -92,7 +92,7 @@ public abstract class PlayerBrain {
 	//template method pattern, final
 	public final void reactToDiscard(GameTile tileToReactTo) {
 		
-		List<CallType> listOfPossibleReactions = getListOfPossibleReactions();
+		List<CallType> listOfPossibleReactions = getListOfPossibleReactions(tileToReactTo);
 		
 		//return early if no call is possible
 		if (listOfPossibleReactions.isEmpty()){
@@ -105,15 +105,15 @@ public abstract class PlayerBrain {
 	}
 
 	//get list of possible options
-	private final List<CallType> getListOfPossibleReactions() {
+	private final List<CallType> getListOfPossibleReactions(GameTile tileToReactTo) {
 		List<CallType> listOfPossibleReactions = new ArrayList<CallType>();
 		
-		if (player.ableToCallChiL()) listOfPossibleReactions.add(CallType.CHI_L);
-		if (player.ableToCallChiM()) listOfPossibleReactions.add(CallType.CHI_M);
-		if (player.ableToCallChiH()) listOfPossibleReactions.add(CallType.CHI_H);
-		if (player.ableToCallPon()) listOfPossibleReactions.add(CallType.PON);
-		if (player.ableToCallKan()) listOfPossibleReactions.add(CallType.KAN);
-		if (player.ableToCallRon()) listOfPossibleReactions.add(CallType.RON);
+		if (player.ableToCallChiL(tileToReactTo)) listOfPossibleReactions.add(CallType.CHI_L);
+		if (player.ableToCallChiM(tileToReactTo)) listOfPossibleReactions.add(CallType.CHI_M);
+		if (player.ableToCallChiH(tileToReactTo)) listOfPossibleReactions.add(CallType.CHI_H);
+		if (player.ableToCallPon(tileToReactTo)) listOfPossibleReactions.add(CallType.PON);
+		if (player.ableToCallKan(tileToReactTo)) listOfPossibleReactions.add(CallType.KAN);
+		if (player.ableToCallRon(tileToReactTo)) listOfPossibleReactions.add(CallType.RON);
 		
 		return listOfPossibleReactions;
 	}

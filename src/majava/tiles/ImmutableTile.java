@@ -120,8 +120,16 @@ public final class ImmutableTile implements TileInterface{
 		else if (face == 'R') return tiles[tileID - 2];
 		else return tiles[tileID + 1];
 	}
-	
-	
+	//returns true if it's possible for Tile T to finish a Chi of the given type
+	final private boolean canCompleteChiType(char badface1, char badface2){
+		return !isHonor() && getFace() != badface1 && getFace() != badface2;
+	}
+	//Txx
+	final public boolean canCompleteChiL(){return canCompleteChiType('8', '9');}
+	//xTx
+	final public boolean canCompleteChiM(){return canCompleteChiType('1', '9');}
+	//xxT
+	final public boolean canCompleteChiH(){return canCompleteChiType('1', '2');}
 	
 	
 	

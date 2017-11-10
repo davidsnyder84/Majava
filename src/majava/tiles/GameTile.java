@@ -52,6 +52,12 @@ public class GameTile implements Cloneable, TileInterface {
 	
 	final public GameTile nextTile(){return new GameTile(baseTile.nextTile());}
 	
+
+	//returns true if it's possible for Tile T to finish a Chi of the given type
+	final public boolean canCompleteChiL(){return baseTile.canCompleteChiL();}
+	final public boolean canCompleteChiM(){return baseTile.canCompleteChiM(); }
+	final public boolean canCompleteChiH(){return baseTile.canCompleteChiH();}
+	
 	
 	@Override
 	final public int compareTo(TileInterface other){return baseTile.compareTo(other.getTileBase());}

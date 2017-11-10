@@ -131,7 +131,7 @@ public class HandChecker {
 	public List<Integer> getPartnerIndicesPon(GameTile candidate){return getPartnerIndicesMulti(candidate, NUM_PARTNERS_NEEDED_TO_PON);}
 	public List<Integer> getPartnerIndicesKan(GameTile candidate){return getPartnerIndicesMulti(candidate, NUM_PARTNERS_NEEDED_TO_KAN);}
 	public List<Integer> getPartnerIndicesPair(GameTile candidate){return getPartnerIndicesMulti(candidate, NUM_PARTNERS_NEEDED_TO_PAIR);}
-	private List<Integer> emptyIndicesList(){return new ArrayList<Integer>();}
+	private static List<Integer> emptyIndicesList(){return new ArrayList<Integer>();}
 	
 	
 	public boolean ableToChiL(GameTile candidate){return candidate.canCompleteChiL() && !getPartnerIndicesChiL(candidate).isEmpty();}
@@ -243,14 +243,14 @@ public class HandChecker {
 	}
 	
 	
-	private GameTileList emptyWaitsList(){return new GameTileList();}
+	private static GameTileList emptyWaitsList(){return new GameTileList();}
 	
 	//returns the list of tenpai waits
 	public GameTileList getTenpaiWaits(){
 //		System.out.println("norm" + findNormalTenpaiWaits(myHandTiles).toString());System.out.println("koku" + getKokushiWaits(myHandTiles).toString());System.out.println("chit" + getChiitoiWait(myHandTiles).toString());
 		
 		GameTileList waits = new GameTileList();
-		waits.addAll(findNormalTenpaiWaits(myHandTiles));
+		waits.addAll(getNormalTenpaiWaits(myHandTiles));
 		if (waits.isEmpty()) waits.addAll(getKokushiWaits(myHandTiles));
 		if (waits.isEmpty()) waits.addAll(getChiitoiWait(myHandTiles));
 		
@@ -326,9 +326,6 @@ public class HandChecker {
 	
 	
 	
-	
-	
-	
 	public GameTileList getChiitoiWait(final GameTileList checkTiles){
 		GameTile missingTile = null;
 		//conditions:
@@ -361,7 +358,6 @@ public class HandChecker {
 	public boolean isTenpaiChiitoitsu(){return isTenpaiChiitoitsu(myHandTiles);}
 	
 	
-	
 	//returns true if a 14-tile hand is a complete chiitoitsu
 	public boolean isCompleteChiitoitsu(GameTileList checkTiles){
 		GameTileList checkTilesCopy = checkTiles.clone();
@@ -376,22 +372,6 @@ public class HandChecker {
 		return evenTiles.equals(oddTiles);
 	}
 	public boolean isCompleteChiitoitsu(){return isCompleteChiitoitsu(myHandTiles);}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -443,8 +423,6 @@ public class HandChecker {
 	return true if meldStack is not empty
 	*/
 	private boolean checkMeldableTile(HandCheckerTile candidate, GameTileList checkTiles){
-		
-		
 		//check pon. if can pon, push both pon and pair. if can't pon, check pair.
 		switch(checkTiles.findHowManyOf(candidate)){
 		case 2: candidate.mstackPush(MeldType.PAIR); break;
@@ -469,16 +447,12 @@ public class HandChecker {
 	
 	
 	
-	
-	
-	
-	
 
 	
 	
 	
 	//TODO this is find tenpai waits
-	private GameTileList findNormalTenpaiWaits(GameTileList checkTiles){		
+	private GameTileList getNormalTenpaiWaits(GameTileList checkTiles){
 		final GameTileList waits = new GameTileList();
 		final GameTileList checkTilesCopy = checkTiles.clone();
 		
@@ -499,7 +473,7 @@ public class HandChecker {
 		
 		return waits;
 	}
-	private GameTileList findNormalTenpaiWaits(){return findNormalTenpaiWaits(myHandTiles);}
+	private GameTileList getNormalTenpaiWaits(){return getNormalTenpaiWaits(myHandTiles);}
 	
 	
 	
@@ -536,11 +510,6 @@ public class HandChecker {
 		
 		return true;
 	}
-	
-	
-	
-	
-	
 	
 	
 	
@@ -723,7 +692,7 @@ public class HandChecker {
 	public List<Integer> DEMOfindAllHotTiles(){return findAllHotTiles();}
 	public void findAllMachis(){}
 	
-	public GameTileList DEMOfindNormalTenpaiWaits(){return findNormalTenpaiWaits();}
+	public GameTileList DEMOfindNormalTenpaiWaits(){return getNormalTenpaiWaits();}
 	public GameTileList DEMOgetKokushiWaits(){return getKokushiWaits();}
 
 	public boolean DEMOisComplete(){return isComplete();}

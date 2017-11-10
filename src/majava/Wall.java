@@ -20,39 +20,9 @@ public class Wall {
 //	private static final int POS_LAST_DEAD_WALL_TILE = 135;
 //	private static final int FIRST_TILE_IN_WALL = 0;
 	
-	
-	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN DEAD WALL CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-	
+	//dead wall counstants
 	private static final int OFFSET_DEAD_WALL = POS_LAST_NORMAL_WALL_TILE + 1;
 	private static final int MAX_SIZE_DEAD_WALL = 14;
-	
-	//even numbers are top row, odd are bottom row
-	private static final int POS_KANDRAW_1 = 12;
-	private static final int POS_KANDRAW_2 = 13;
-	private static final int POS_KANDRAW_3 = 10;
-	private static final int POS_KANDRAW_4 = 11;
-	private static final Integer[] POS_KANDRAWS = {POS_KANDRAW_1, POS_KANDRAW_2, POS_KANDRAW_3, POS_KANDRAW_4};
-	
-	//dora indicators
-	private static final int POS_DORA_1 = 8;
-	private static final int POS_URADORA_1 = 9;
-	
-	private static final int POS_DORA_2 = 6;
-	private static final int POS_URADORA_2 = 7;
-	
-	private static final int POS_DORA_3 = 4;
-	private static final int POS_URADORA_3 = 5;
-	
-	private static final int POS_DORA_4 = 2;
-	private static final int POS_URADORA_4 = 3;
-	
-	//these are only used if a player makes 4 kans (making 5 dora indicators)
-	private static final int POS_DORA_5 = 0;
-	private static final int POS_URADORA_5 = 1;
-
-	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~END DEAD WALL CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-	
-	
 	
 	
 	
@@ -141,8 +111,7 @@ public class Wall {
 	public GameTile takeTile(){
 		GameTile takenTile = null;
 		if (currentWallPosition <= POS_LAST_NORMAL_WALL_TILE){
-			takenTile = wallTiles[currentWallPosition];
-			wallTiles[currentWallPosition] = null;
+			takenTile = removeTile(currentWallPosition);
 			currentWallPosition++;
 		}
 		return takenTile;
@@ -157,9 +126,11 @@ public class Wall {
 	
 	//removes a tile from the end of the dead wall and returns it (for a rinshan draw)
 	public GameTile takeTileFromDeadWall(){
-		GameTile takenTile = wallTiles[OFFSET_DEAD_WALL + POS_KANDRAWS[getNumKansMade() - 1]];
-		wallTiles[OFFSET_DEAD_WALL + POS_KANDRAWS[getNumKansMade() - 1]] = null;
+		//even numbers are top row, odd are bottom row
+		final int POS_KANDRAW_1 = 12, POS_KANDRAW_2 = 13, POS_KANDRAW_3 = 10, POS_KANDRAW_4 = 11;
+		final Integer[] POS_KANDRAWS = {POS_KANDRAW_1, POS_KANDRAW_2, POS_KANDRAW_3, POS_KANDRAW_4};
 		
+		GameTile takenTile = removeTile(OFFSET_DEAD_WALL + POS_KANDRAWS[getNumKansMade() - 1]);
 		return takenTile;
 	}
 	
@@ -167,15 +138,19 @@ public class Wall {
 	private GameTile getTile(int index){return wallTiles[index];}
 	private GameTile getDeadWallTile(int index){return getTile(OFFSET_DEAD_WALL + index);}
 	private void setTile(int index, GameTile tile){wallTiles[index] = tile;}
-	private void removeTile(int index){wallTiles[index] = null;}
+	private GameTile removeTile(int index){
+		GameTile tile = getTile(index);
+		setTile(index, null);
+		return tile;
+	}
 	
 	
 	
 	
-	public boolean isEmpty(){return (getNumTilesLeftInWall() == 0);}
+	public boolean isEmpty(){return (numTilesLeftInWall() == 0);}
 	//returns the number of tiles left in the wall (not including dead wall)
-	public int getNumTilesLeftInWall(){return MAX_SIZE_WALL - currentWallPosition - MAX_SIZE_DEAD_WALL;}
-	public int getNumTilesLeftInDeadWall(){return MAX_SIZE_DEAD_WALL - getNumKansMade();}
+	public int numTilesLeftInWall(){return MAX_SIZE_WALL - currentWallPosition - MAX_SIZE_DEAD_WALL;}
+	public int numTilesLeftInDeadWall(){return MAX_SIZE_DEAD_WALL - getNumKansMade();}
 	
 	public int getNumKansMade(){return roundTracker.getNumKansMade();}
 	
@@ -190,15 +165,15 @@ public class Wall {
 		String wallString = "";
 		
 		final int TILES_PER_LINE = 17;
-		for (int i = 0; i < getNumTilesLeftInWall() / TILES_PER_LINE + 1; i++){
-			for (int j = 0; j < TILES_PER_LINE && (j + TILES_PER_LINE*i < getNumTilesLeftInWall()); j++)
-				wallString += wallTiles[currentWallPosition + TILES_PER_LINE*i + j].toString() + " ";
-			if (TILES_PER_LINE*i < getNumTilesLeftInWall())
+		for (int i = 0; i < numTilesLeftInWall() / TILES_PER_LINE + 1; i++){
+			for (int j = 0; j < TILES_PER_LINE && (j + TILES_PER_LINE*i < numTilesLeftInWall()); j++)
+				wallString += getTile(currentWallPosition + TILES_PER_LINE*i + j) + " ";
+			if (TILES_PER_LINE*i < numTilesLeftInWall())
 				wallString += "\n";
 		}
 		
 		String deadWallString = toStringDeadWall();
-		return ("Wall: " + getNumTilesLeftInWall() + "\n" + wallString + "\n\n" + deadWallString);
+		return ("Wall: " + numTilesLeftInWall() + "\n" + wallString + "\n\n" + deadWallString);
 	}
 	
 	//string representation of deadwall
@@ -211,14 +186,14 @@ public class Wall {
 			bottomRow += deadWallTileToString(2*tile + 1) + " ";
 		}
 		
-		dwString = "DeadWall: " + getNumTilesLeftInDeadWall() + "\n" + topRow + "\n" + bottomRow;
+		dwString = "DeadWall: " + numTilesLeftInDeadWall() + "\n" + topRow + "\n" + bottomRow;
 		return dwString;
 	}
 	
 	
 	private String singleTileToString(int index){
-		if (wallTiles[index] == null) return "  ";
-		else return wallTiles[index].toString();
+		if (getTile(index) == null) return "  ";
+		else return getTile(index).toString();
 	}
 	private String deadWallTileToString(int index){return singleTileToString(OFFSET_DEAD_WALL + index);}
 	

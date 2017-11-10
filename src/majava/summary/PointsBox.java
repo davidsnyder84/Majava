@@ -3,9 +3,9 @@ package majava.summary;
 //Tenbako“_” 
 public class PointsBox {
 	
-	//for implementing point sticks later
-	private static final int[] STICK_VALUES = {100, 500, 1000, 5000, 10000};
-	private static final int[] STICK_FACE_DOTS = {8, 0, 1, 5, 9};
+	/////for implementing point sticks later
+//	private static final int[] STICK_VALUES = {100, 500, 1000, 5000, 10000};
+//	private static final int[] STICK_FACE_DOTS = {8, 0, 1, 5, 9};
 	
 	private static final int DEFAULT_STARTING_POINTS = 25000;
 	

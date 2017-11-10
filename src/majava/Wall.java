@@ -1,6 +1,7 @@
 package majava;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -101,19 +102,15 @@ public class Wall {
 	
 	//fills the received TileLists with each player's starting hands
 	public void takeStartingHands(List<GameTile> tilesE, List<GameTile> tilesS, List<GameTile> tilesW, List<GameTile> tilesN){
-		/*
-		East takes 4, South takes 4, West takes 4, North takes 4
-    	East takes 4, South takes 4, West takes 4, North takes 4
-    	East takes 4, South takes 4, West takes 4, North takes 4
-    	East takes 2, South takes 1, West takes 1, North takes 1
-		 */
 		
+		//[East takes 4, South takes 4, West takes 4, North takes 4] x3
 		for (int i = 0; i < 3; i++){
-			for (int j = 0; j < 4; j++) tilesE.add(takeTile());
-			for (int j = 0; j < 4; j++) tilesS.add(takeTile());
-			for (int j = 0; j < 4; j++) tilesW.add(takeTile());
-			for (int j = 0; j < 4; j++) tilesN.add(takeTile());
+			tilesE.addAll(takeTiles(4));
+			tilesS.addAll(takeTiles(4));
+			tilesW.addAll(takeTiles(4));
+			tilesN.addAll(takeTiles(4));
 		}
+		//East takes 2, South takes 1, West takes 1, North takes 1 x1
 		tilesE.add(takeTile()); tilesE.add(takeTile());
 		tilesS.add(takeTile());
 		tilesW.add(takeTile());
@@ -233,11 +230,7 @@ public class Wall {
 	
 	
 	
-	/*
-	method: takeTile
-	removes a tile from the current wall position and returns it
-	returns the tile, or returns null if the wall was empty
-	*/
+	//removes a tile from the current wall position and returns it. returns the tile, or returns null if the wall was empty
 	public GameTile takeTile(){
 		GameTile takenTile = null;
 		if (currentWallPosition <= POS_LAST_NORMAL_WALL_TILE){
@@ -245,9 +238,16 @@ public class Wall {
 			wallTiles[currentWallPosition] = null;
 			currentWallPosition++;
 		}
-		
 		return takenTile;
 	}
+	
+	public List<GameTile> takeTiles(int numberOfTilesToTake){
+		ArrayList<GameTile> takenTiles = new ArrayList<GameTile>(numberOfTilesToTake);
+		for (int i = 0; i < numberOfTilesToTake; i++)
+			takenTiles.add(takeTile());
+		return takenTiles;
+	}
+	
 	
 	
 	

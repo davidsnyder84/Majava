@@ -55,7 +55,7 @@ public class ImmutableTile implements TileInterface{
 		new ImmutableTile(34),
 		
 		
-		
+		//red 5's
 		new ImmutableTile(5, true),
 		new ImmutableTile(14, true),
 		new ImmutableTile(23, true)
@@ -159,16 +159,18 @@ public class ImmutableTile implements TileInterface{
 	
 	//factory methods
 	public static final ImmutableTile retrieveTile(int id){
-		if (id < 0 || id > NUMBER_OF_DIFFERENT_TILES) return tiles[INDEX_DUMMY];
+		if (id < 0 || id > NUMBER_OF_DIFFERENT_TILES) return dummyTile();
 		return tiles[id];
 	}
 	public static final ImmutableTile retrieveTile(String suitfaceString){return retrieveTile(Arrays.asList(STR_REPS).indexOf(suitfaceString.toUpperCase()));}
 	
 	public static final ImmutableTile retrieveTileRed(int id){
-		if (id < 0 || id > NUMBER_OF_DIFFERENT_TILES) return tiles[INDEX_DUMMY];
+		if (id < 0 || id > NUMBER_OF_DIFFERENT_TILES) return dummyTile();
 		if (id != 5 && id != 14 && id != 23) return retrieveTile(id);
 		return tiles[NUMBER_OF_DIFFERENT_TILES + 1 + (id/9)];
 	}
+	private static final ImmutableTile dummyTile(){return tiles[INDEX_DUMMY];}
+	
 	
 	//retrieve multiple tiles
 	public static final List<TileInterface> retrieveMultipleTiles(Integer... ids){

@@ -3,6 +3,7 @@ package majava.hand;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import majava.tiles.HandCheckerTile;
 import majava.tiles.GameTile;
@@ -35,9 +36,6 @@ public class HandChecker {
 	private final Hand myHand;
 	private final GameTileList myHandTiles;
 	private final List<Meld> handMelds;
-	
-	
-	private boolean pairHasBeenChosen = false;
 	
 	
 	
@@ -423,7 +421,7 @@ public class HandChecker {
 		final GameTileList waits = new GameTileList();
 		final GameTileList checkTilesCopy = checkTiles.clone();
 		
-		final List<Integer> hotTileIDs = findAllHotTiles();
+		final List<Integer> hotTileIDs = findAllHotTiles(checkTilesCopy);
 		for (Integer id: hotTileIDs){
 			//get a hot tile (and mark it with the hand's seat wind, so chi is valid)
 			GameTile currentHotTile = new GameTile(id);
@@ -458,12 +456,10 @@ public class HandChecker {
 		
 		//populate stacks
 		if (!populateMeldStacks(checkTiles)) return false;
-		
-		pairHasBeenChosen = false;
 		return isCompleteNormalHand(checkTiles, finishingMelds);
 	}
 	//overloaded, checks mHandTiles by default
-	public boolean isCompleteNormal(GameTileList checkTiles){return isCompleteNormal(myHandTiles, null);}
+	public boolean isCompleteNormal(GameTileList checkTiles){return isCompleteNormal(checkTiles, null);}
 	public boolean isCompleteNormal(){return isCompleteNormal(myHandTiles);}
 	
 	
@@ -496,9 +492,9 @@ public class HandChecker {
 		
 		currentTileMeldType = pop a meldtype off of currentTile's stack (this is the meld type we will try)
 		
-		if ((currentTile's partners for the meld are still in the hand) && (if pairHasBeenChosen, currentTileMeldType must not be a pair))
+		if ((currentTile's partners for the meld are still in the hand) && (if pairChosen, currentTileMeldType must not be a pair))
 			
-			if (currentTileMeldType is pair): pairHasBeenChosen = true (take the pair privelege)
+			if (currentTileMeldType is pair): pairChosen = true (take the pair privelege)
 			
 			partnerIndices = find the indices of currentTile's partners for the currentTileMeldType
 			toMeldTiles = list of tiles from the hand, includes currentTile and its partner tiles
@@ -509,7 +505,7 @@ public class HandChecker {
 			if (isCompleteHand(tiles/stacks minus this meld)) (recursive call)
 				return true (the hand is complete)
 			else
-				if (currentTileMeldType is pair): pairHasBeenChosen = false (relinquish the pair privelege)
+				if (currentTileMeldType is pair): pairChosen = false (relinquish the pair privelege)
 			end if
 			
 		end if
@@ -517,7 +513,7 @@ public class HandChecker {
 	end while
 	return false (currentTile could not make any meld, so the hand cannot be complete)
 	*/
-	private boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds){
+	private boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds, AtomicBoolean pairHasBeenChosen){
 		
 		//if the hand is empty, it is complete
 		if (checkTiles.isEmpty()) return true;
@@ -562,11 +558,11 @@ public class HandChecker {
 			
 			//~~~~Separate the tiles if the meld is possible
 			//if (currentTile's partners for the meld are still in the hand) AND (if pair has already been chosen, currentTileMeldType must not be a pair)
-			if (currentTilePartersAreStillHere && !(pairHasBeenChosen && currentTileMeldType == MeldType.PAIR)){
+			if (currentTilePartersAreStillHere && !(pairHasBeenChosen.get() && currentTileMeldType == MeldType.PAIR)){
 				
 				//take the pair privelige
 				if (currentTileMeldType == MeldType.PAIR)
-					pairHasBeenChosen = true;
+					pairHasBeenChosen.set(true);
 				
 				
 				//~~~~Find the inidces of currentTile's partners
@@ -610,15 +606,18 @@ public class HandChecker {
 				else{
 					//relinquish the pair privelege, if it was taken
 					if (currentTileMeldType == MeldType.PAIR)
-						pairHasBeenChosen = false;
+						pairHasBeenChosen.set(false);
 				}
 				
 			}
 		}
 		return false;
 	}
+	private boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds){return isCompleteNormalHand(checkTiles.makeCopyWithCheckers(), null, new AtomicBoolean(false));}
 	private boolean isCompleteNormalHand(GameTileList checkTiles){return isCompleteNormalHand(checkTiles.makeCopyWithCheckers(), null);}
 	private boolean isCompleteNormalHand(){return isCompleteNormalHand(myHandTiles);}
+	
+	
 	public List<Meld> getFinishingMelds(){
 		List<Meld> finishingMelds = new ArrayList<Meld>(5);
 		isCompleteNormal(myHandTiles, finishingMelds);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import utility.ConviniList;
 
@@ -30,8 +31,9 @@ public class DemoHandGen {
 	
 	public static void main(String[] args) {
 		
-//		runTenpaiSimulation(5000);
+		runTenpaiSimulation(5000);
 //		runSingleTenpaiTest(generateSpecificHand());
+//		runSimulation(5000);
 		
 		
 		
@@ -41,7 +43,6 @@ public class DemoHandGen {
 		
 //		runTenpaiSimulation(500);
 		
-		runSimulation(5000);
 	}
 	
 	
@@ -310,6 +311,12 @@ public class DemoHandGen {
 		boolean isComplete = checker.DEMOisComplete();
 		System.out.println("Hand is complete normal?: " + isComplete);
 		
+		
+
+		
+		System.out.println("\n\n\n\n\n");
+		System.out.println("Hand is tenpai:? " + "\n" + checker.DEMOfindNormalTenpaiWaits());
+		
 	}
 	
 	public static Hand generateSpecificHand(){
@@ -319,7 +326,9 @@ public class DemoHandGen {
 //		TileList tiles = new TileList(2+9,3+9,4+9,1+18,1+18);	//P2 P3 P4 S1 S1
 //		GameTileList tiles = new GameTileList(1,1,2+9,3+9,4+9);	//P2 P3 P4 S1 S1
 //		GameTileList tiles = new GameTileList(3,7,8,9,4+18,5+18,6+18);	//M3 M7 M8 M9 S4 S5 S6
-		GameTileList tiles = new GameTileList(1,2,2,3,3,4,7+9,9+9,18+5,18+5);	//
+//		GameTileList tiles = new GameTileList(1,2,2,3,3,4,7+9,9+9,18+5,18+5);	//
+		GameTileList tiles = new GameTileList(1,1,1,2,3,4,5,6,7,8,9,9,9);	//tenpai chuuren
+		
 		
 		for (GameTile t: tiles){
 			t.setOwner(OWNER_SEAT);

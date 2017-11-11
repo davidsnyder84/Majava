@@ -372,7 +372,7 @@ public class HandChecker {
 		if ((checkTiles.size() % 3) != 2) return false;
 		
 		//make a list of checkTiles out of the handTiles
-		GameTileList copyOfCheckTiles = checkTiles.makeCopyWithCheckers();
+		GameTileList copyOfCheckTiles = HandCheckerTile.makeCopyOfListWithCheckers(checkTiles);
 		copyOfCheckTiles.sort();
 		
 		//populate stacks
@@ -505,8 +505,7 @@ public class HandChecker {
 
 				//~~~~Add the tiles to a meld tile list
 				//make a copy of the hand, then remove the meld tiles from the copy and add them to the meld
-//				checkTilesMinusThisMeld = HandCheckerTile.makeCopyOfListWithCheckers(checkTiles);
-				checkTilesMinusThisMeld = checkTiles.makeCopyWithCheckers();
+				checkTilesMinusThisMeld = HandCheckerTile.makeCopyOfListWithCheckers(checkTiles);
 				toMeldTiles = new GameTileList();
 				
 				while (!partnerIndices.isEmpty())
@@ -533,7 +532,7 @@ public class HandChecker {
 		}
 		return false;
 	}
-	private static boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds){return isCompleteNormalHand(checkTiles.makeCopyWithCheckers(), finishingMelds, new AtomicBoolean(false));}
+	private static boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds){return isCompleteNormalHand(HandCheckerTile.makeCopyOfListWithCheckers(checkTiles), finishingMelds, new AtomicBoolean(false));}
 	
 	
 	

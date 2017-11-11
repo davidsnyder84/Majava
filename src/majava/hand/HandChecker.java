@@ -8,8 +8,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import majava.tiles.HandCheckerTile;
 import majava.tiles.GameTile;
 import majava.tiles.ImmutableTile;
-import majava.tiles.TileInterface;
 import majava.util.GameTileList;
+import majava.util.TileKnowledge;
 import majava.enums.MeldType;
 import majava.enums.Wind;
 
@@ -68,9 +68,11 @@ public class HandChecker {
 		//if candidate is not a hot tile, return false
 		if (!tileIsHot(candidate) && !handIsInTenpai) return false;
 		
-		flagCanChiL = ableToChiL(candidate);
-		flagCanChiM = ableToChiM(candidate);
-		flagCanChiH = ableToChiH(candidate);
+		if (tileCameFromChiablePlayer(candidate)){
+			flagCanChiL = ableToChiL(candidate);
+			flagCanChiM = ableToChiM(candidate);
+			flagCanChiH = ableToChiH(candidate);
+		}
 		//check pon (don't bother checking kan. you know why.)
 		flagCanPon = ableToPon(candidate);
 		
@@ -80,7 +82,7 @@ public class HandChecker {
 		//~~~~return true if a call (any call) can be made
 		return (flagCanChiL || flagCanChiM || flagCanChiH || flagCanPon || flagCanRon);
 	}
-	private boolean tileIsHot(GameTile candidate){return findAllHotTiles().contains(candidate.getId());}
+	private boolean tileIsHot(GameTile candidate){return TileKnowledge.findAllHotTiles(myHandTiles).contains(candidate.getId());}
 	
 	public boolean tileCameFromChiablePlayer(GameTile candidate){
 		return (candidate.getOrignalOwner() == ownerSeatWind()) || 
@@ -158,54 +160,6 @@ public class HandChecker {
 		return false;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	//---------------------------------------------------------------------------------------------------
-	//----BEGIN FINDERS
-	//---------------------------------------------------------------------------------------------------
-	
-	//returns a list of hot tile IDs for ALL tiles in the hand
-	private List<Integer> findAllHotTiles(List<GameTile> tiles){
-		List<Integer> allHotTileIds = new ArrayList<Integer>(32);
-		List<Integer> singleTileHotTiles = null;
-		
-		//get hot tiles for each tile in the hand
-		for (GameTile t: tiles){
-			singleTileHotTiles = findHotTilesOfTile(t);
-			for (Integer i: singleTileHotTiles) if (!allHotTileIds.contains(i)) allHotTileIds.add(i);
-		}
-		
-		return allHotTileIds;
-	}
-	private List<Integer> findAllHotTiles(){return findAllHotTiles(myHandTiles);}
-	
-	//returns a list of integer IDs of hot tiles, for tile t
-	private static List<Integer> findHotTilesOfTile(final TileInterface t){
-		
-		List<Integer> hotTileIds = new ArrayList<Integer>(5); 
-		int id = t.getId(); char face = t.getFace();
-		
-		//a tile is always its own hot tile (pon/kan/pair)
-		hotTileIds.add(id);
-		
-		//add possible chi partners, if tile is not an honor tile
-		if (!t.isHonor()){
-			if (face != '1' && face != '2') hotTileIds.add(id - 2);
-			if (face != '1') hotTileIds.add(id - 1);
-			if (face != '9') hotTileIds.add(id + 1);
-			if (face != '8' && face != '9') hotTileIds.add(id + 2);
-		}
-		//return list of integer IDs
-		return hotTileIds;
-	}
-	//---------------------------------------------------------------------------------------------------
-	//----END FINDERS
-	//---------------------------------------------------------------------------------------------------
 	
 	
 	
@@ -389,7 +343,7 @@ public class HandChecker {
 		final GameTileList waits = new GameTileList();
 		final GameTileList checkTilesCopy = myHandTiles.clone();
 		
-		final List<Integer> hotTileIDs = findAllHotTiles(checkTilesCopy);
+		final List<Integer> hotTileIDs = TileKnowledge.findAllHotTiles(myHandTiles);
 		for (Integer id: hotTileIDs){
 			//get a hot tile (and mark it with the hand's seat wind, so chi is valid)
 			GameTile currentHotTile = new GameTile(id);
@@ -595,52 +549,15 @@ public class HandChecker {
 	
 	
 	
-	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	//xxxxBEGIN DEMO METHODS
-	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	//returns a list of callable tile IDs for ALL tiles in the hand
-	private List<Integer> findAllCallableTiles(){
-		
-		List<Integer> allCallableTileIds = new  ArrayList<Integer>(4);
-		List<Integer> hotTileIds = new ArrayList<Integer>(34);
-		
-		final boolean TEST_ALL_TILES = false;
-		
-		if (TEST_ALL_TILES) for (int i = 1; i <= 34; i++) hotTileIds.add(i);
-		else hotTileIds = findAllHotTiles();
-		
-		//examine all hot tiles
-		for (Integer i: hotTileIds)
-			//if tile i is callable
-			if (tileIsCallable(new GameTile(i)))
-				//add its id to the list of callable tiles
-				allCallableTileIds.add(i);
-		
-		return allCallableTileIds;
-	}
-	public List<Integer> DEMOfindAllCallableTiles(){return findAllCallableTiles();}
-	public List<Integer> DEMOfindAllHotTiles(){return findAllHotTiles();}
-	public void findAllMachis(){}
+	//xxxxxxxxxBEGIN DEMO METHODS
+//	public List<Integer> DEMOfindAllCallableTiles(){return findAllCallableTiles();}
+	public List<Integer> DEMOfindAllHotTiles(){return TileKnowledge.findAllHotTiles(myHandTiles);}
 	
 	public GameTileList DEMOfindNormalTenpaiWaits(){return getNormalTenpaiWaits();}
 	public GameTileList DEMOgetKokushiWaits(){return getKokushiWaits();}
-
-	public boolean DEMOisComplete(){return isComplete();}
+	
 	public boolean DEMOchiitoitsuInTenpai(){return isTenpaiChiitoitsu();}
-	
-	public void DEMOprintFinishingMelds(){
-		List<Meld> fMelds = getFinishingMelds();
-		for (Meld m: fMelds)
-			System.out.println(m.toString());
-	}
-	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	//xxxxEND DEMO METHODS
-	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	
-	
-	
-	
-	
+	//xxxxxxxxxEND DEMO METHODS
 	
 	
 	//runs test code

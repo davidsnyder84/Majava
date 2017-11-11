@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 import majava.hand.Hand;
+import majava.hand.HandChecker;
+import majava.hand.Meld;
 import majava.RoundResult;
 import majava.enums.MeldType;
 import majava.enums.Wind;
@@ -184,11 +186,16 @@ public class MajaPlay {
 			
 			println("\n\n\n" + h.toString());
 			println("Complete?: " + h.DEMOgetChecker().isCompleteNormal());
-			h.DEMOgetChecker().DEMOprintFinishingMelds();
+			printFinishingMeldsFor(h.DEMOgetChecker());
 		}
 		
 	}
 	
+	private static void printFinishingMeldsFor(HandChecker hc){
+		List<Meld> fMelds = hc.getFinishingMelds();
+		for (Meld m: fMelds)
+			System.out.println(m.toString());
+	}
 	
 	
 	
@@ -486,13 +493,9 @@ public class MajaPlay {
 		println(h.toString());
 		
 		List<Integer> hots = h.DEMOfindAllHotTiles();
-		List<Integer> callables = h.DEMOfindAllCallableTiles();
-		
-		
-		
-		//sort the lists
 		Collections.sort(hots);
-		Collections.sort(callables);
+//		List<Integer> callables = h.DEMOfindAllCallableTiles();
+//		Collections.sort(callables);		
 		
 
 		println("\nHot Tiles: ");
@@ -501,10 +504,10 @@ public class MajaPlay {
 			System.out.print((new GameTile(i)).toString() + ", ");
 		
 		
-		println("\n\nCallable Tiles: ");
-		for (Integer i: callables)
-//			System.out.print(Tile.repr_stringReprOfId(i) + ", ");
-			System.out.print((new GameTile(i)).toString() + ", ");
+//		println("\n\nCallable Tiles: ");
+//		for (Integer i: callables)
+////			System.out.print(Tile.repr_stringReprOfId(i) + ", ");
+//			System.out.print((new GameTile(i)).toString() + ", ");
 		
 	}
 	

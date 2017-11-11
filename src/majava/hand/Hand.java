@@ -298,7 +298,7 @@ public class Hand implements Iterable<GameTile>{
 	//returns a list of hot tile IDs for ALL tiles in the hand
 	public List<Integer> DEMOfindAllHotTiles(){return handChecker.DEMOfindAllHotTiles();}
 	//returns a list of callable tile IDs for ALL tiles in the hand
-	public List<Integer> DEMOfindAllCallableTiles(){return handChecker.DEMOfindAllCallableTiles();}
+//	public List<Integer> DEMOfindAllCallableTiles(){return handChecker.DEMOfindAllCallableTiles();}
 	
 	public HandChecker DEMOgetChecker(){return handChecker;}
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

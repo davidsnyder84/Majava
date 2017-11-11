@@ -11,6 +11,7 @@ import utility.ConviniList;
 
 import majava.hand.Hand;
 import majava.hand.HandChecker;
+import majava.hand.Meld;
 import majava.enums.MeldType;
 import majava.enums.Wind;
 import majava.tiles.GameTile;
@@ -75,7 +76,7 @@ public class DemoHandGen {
 			
 			System.out.println(currentHand.toString());
 			
-			success = currentHand.DEMOgetChecker().DEMOisComplete();
+			success = currentHand.DEMOgetChecker().isComplete();
 			System.out.println(currentHand.getAsStringMeldsCompact());
 			System.out.println("Hand is complete?: " + success);
 			
@@ -84,7 +85,7 @@ public class DemoHandGen {
 				System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 			}
 			else
-				currentHand.DEMOgetChecker().DEMOprintFinishingMelds();
+				printFinishingMeldsFor(currentHand.DEMOgetChecker());
 			
 			System.out.println("\n\n");
 			totalNum++;
@@ -133,8 +134,8 @@ public class DemoHandGen {
 		for (GameTile t: waits) waitString += t + ", ";
 		System.out.println("Waits: " + waitString);
 		System.out.println(waits.toString());
-		
-		hand.DEMOgetChecker().DEMOprintFinishingMelds();
+
+		printFinishingMeldsFor(hand.DEMOgetChecker());
 	}
 	
 	/*
@@ -184,7 +185,7 @@ public class DemoHandGen {
 					maxWaitString = waitString;
 					maxNumWaits = waits.size();
 				}
-				currentHand.DEMOgetChecker().DEMOprintFinishingMelds();
+				printFinishingMeldsFor(currentHand.DEMOgetChecker());
 			}
 			System.out.println("\n\n");
 		}
@@ -255,10 +256,10 @@ public class DemoHandGen {
 			
 //			hit = currentHand.mChecker.DEMOisComplete();
 			
-			if (currentHand.DEMOgetChecker().DEMOisComplete()){
+			if (currentHand.DEMOgetChecker().isComplete()){
 				numHits++;
 				System.out.println("\n\n" + currentHand.toString());
-				currentHand.DEMOgetChecker().DEMOprintFinishingMelds();
+				printFinishingMeldsFor(currentHand.DEMOgetChecker());
 			}
 		}
 		
@@ -298,7 +299,11 @@ public class DemoHandGen {
 		return hand;
 	}
 	
-	
+	private static void printFinishingMeldsFor(HandChecker hc){
+		List<Meld> fMelds = hc.getFinishingMelds();
+		for (Meld m: fMelds)
+			System.out.println(m.toString());
+	}
 	
 	
 	
@@ -312,8 +317,8 @@ public class DemoHandGen {
 		HandChecker checker = hand.DEMOgetChecker();
 		boolean isCompleteNorm = checker.isCompleteNormal();
 		System.out.println("Hand is complete normal?: " + isCompleteNorm);
-		
-		hand.DEMOgetChecker().DEMOprintFinishingMelds();
+
+		printFinishingMeldsFor(hand.DEMOgetChecker());
 		
 		System.out.println("\n\n\n\n\n");
 		System.out.println("Hand is tenpai:? " + "\n" + checker.DEMOfindNormalTenpaiWaits());

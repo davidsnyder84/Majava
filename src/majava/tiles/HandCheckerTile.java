@@ -1,6 +1,7 @@
 package majava.tiles;
 
 import majava.enums.MeldType;
+import majava.util.GameTileList;
 
 
 
@@ -48,6 +49,13 @@ public class HandCheckerTile extends GameTile {
 		case PAIR: return new int[]{id};
 		default: return null;
 		}
+	}
+	
+	
+	public static final GameTileList makeCopyOfListWithCheckers(GameTileList tileList){
+		GameTileList copy = new GameTileList(tileList.size());
+		for (GameTile t: tileList) copy.add(new HandCheckerTile(t));
+		return copy;
 	}
 	
 	

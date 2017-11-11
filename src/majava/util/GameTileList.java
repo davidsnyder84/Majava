@@ -36,6 +36,12 @@ public class GameTileList extends ConviniList<GameTile>{
 	}
 	
 	
+	public GameTileList makeCopyWithCheckers(){
+		GameTileList copy = new GameTileList(DEFAULT_SIZE);
+		for (GameTile t: this) copy.add(new HandCheckerTile(t));
+		return copy;
+	}
+	
 	
 	
 	@Override public GameTileList getMultiple(Integer... indices){return new GameTileList(super.getMultiple(indices));}

@@ -31,14 +31,14 @@ public class DemoHandGen {
 	
 	public static void main(String[] args) {
 		
-//		runTenpaiSimulation(5000);
+		runTenpaiSimulation(5000);
 //		runSingleTenpaiTest(generateSpecificHand());
 //		runSimulation(5000);
 		
 		
 		
 //		runSimulationNoDisplay(5000);
-		runSumulationRandom(30000);
+//		runSumulationRandom(30000);
 //		runSpecificTest();
 		
 //		runTenpaiSimulation(500);

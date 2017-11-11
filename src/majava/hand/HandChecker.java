@@ -257,9 +257,9 @@ public class HandChecker {
 //		System.out.println("norm" + findNormalTenpaiWaits(myHandTiles).toString());System.out.println("koku" + getKokushiWaits(myHandTiles).toString());System.out.println("chit" + getChiitoiWait(myHandTiles).toString());
 		
 		GameTileList waits = new GameTileList();
-		waits.addAll(getNormalTenpaiWaits(myHandTiles));
-		if (waits.isEmpty()) waits.addAll(getKokushiWaits(myHandTiles));
-		if (waits.isEmpty()) waits.addAll(getChiitoiWait(myHandTiles));
+		waits.addAll(getNormalTenpaiWaits());
+		if (waits.isEmpty()) waits.addAll(getKokushiWaits());
+		if (waits.isEmpty()) waits.addAll(getChiitoiWait());
 		
 		return waits;
 	}
@@ -272,18 +272,18 @@ public class HandChecker {
 	
 	//returns true if the hand is in tenpai for kokushi musou
 	//if this is true, it means that: handsize >= 13, hand has at least 12 different TYC tiles
-	public boolean isTenpaiKokushi(GameTileList checkTiles){
+	public boolean isTenpaiKokushi(){
 		
 		//if any melds have been made, kokushi musou is impossible, return false
-		if (checkTiles.size() < MAX_HAND_SIZE-1) return false;
+		if (myHandTiles.size() < MAX_HAND_SIZE-1) return false;
 		//if the hand contains even one non-honor tile, return false
-		for (GameTile t: checkTiles) if (!t.isYaochuu()) return false;
+		for (GameTile t: myHandTiles) if (!t.isYaochuu()) return false;
 		
 		
 		//check if the hand contains at least 12 different TYC tiles
 		int countTYC = 0;
 		for (int id: YAOCHUU_TILE_IDS)
-			if (checkTiles.contains(id))
+			if (myHandTiles.contains(id))
 				countTYC++;
 		
 		//return false if the hand doesn't contain at least 12 different TYC tiles
@@ -291,22 +291,20 @@ public class HandChecker {
 		
 		return true;
 	}
-	public boolean isTenpaiKokushi(){return isTenpaiKokushi(myHandTiles);}
 	
 	//returns true if a 14-tile hand is a complete kokushi musou
-	public boolean isCompleteKokushi(GameTileList checkTiles){
-		if ((checkTiles.size() == MAX_HAND_SIZE) &&
-			(isTenpaiKokushi(checkTiles)) &&
-			(getKokushiWaits(checkTiles).size() == NUMBER_OF_YAOCHUU_TILES))
+	public boolean isCompleteKokushi(){
+		if ((myHandTiles.size() == MAX_HAND_SIZE) &&
+			(isTenpaiKokushi()) &&
+			(getKokushiWaits().size() == NUMBER_OF_YAOCHUU_TILES))
 			return true;
 		
 		return false;
 	}
-	public boolean isCompleteKokushi(){return isCompleteKokushi(myHandTiles);}
 
 	//returns a list of the hand's waits, if it is in tenpai for kokushi musou
 	//returns an empty list if not in kokushi musou tenpai
-	private GameTileList getKokushiWaits(GameTileList checkTiles){
+	private GameTileList getKokushiWaits(){
 		
 		GameTileList waits = new GameTileList(1);
 		
@@ -314,7 +312,7 @@ public class HandChecker {
 		if (isTenpaiKokushi()){
 			//look for a Yaochuu tile that the hand doesn't contain
 			for (Integer id: YAOCHUU_TILE_IDS)
-				if (!checkTiles.contains(id))
+				if (!myHandTiles.contains(id))
 					missingTYC = new GameTile(id);
 			
 			//if the hand contains exactly one of every Yaochuu tile, then it is a 13-sided wait for all Yaochuu tiles
@@ -327,13 +325,12 @@ public class HandChecker {
 		
 		return waits;
 	}
-	private GameTileList getKokushiWaits(){return getKokushiWaits(myHandTiles);}
 	
 	
 	
 	
 	
-	public GameTileList getChiitoiWait(final GameTileList checkTiles){
+	public GameTileList getChiitoiWait(){
 		GameTile missingTile = null;
 		//conditions:
 		//hand must be 13 tiles (no melds made)
@@ -341,14 +338,14 @@ public class HandChecker {
 		//hand must have no more than 2 of each tile
 		
 		//if any melds have been made, chiitoitsu is impossible, return false
-		if (checkTiles.size() != MAX_HAND_SIZE-1 || myHand.numberOfMeldsMade() > 0) return emptyWaitsList();
+		if (myHandTiles.size() != MAX_HAND_SIZE-1 || myHand.numberOfMeldsMade() > 0) return emptyWaitsList();
 		
 		//the hand should have exactly 7 different types of tiles (4 of a kind != 2 pairs)
-		if (checkTiles.makeCopyNoDuplicates().size() != 7) return emptyWaitsList();
+		if (myHandTiles.makeCopyNoDuplicates().size() != 7) return emptyWaitsList();
 
 		//the hand must have no more than 2 of each tile
-		for(GameTile t: checkTiles){
-			switch(checkTiles.findHowManyOf(t)){
+		for(GameTile t: myHandTiles){
+			switch(myHandTiles.findHowManyOf(t)){
 			case 1: missingTile = t;
 			case 2: break;//intentionally blank
 			default: return emptyWaitsList();
@@ -361,13 +358,12 @@ public class HandChecker {
 		//if NPO happens here, look at old code
 		return new GameTileList(missingTile);
 	}
-	public boolean isTenpaiChiitoitsu(final GameTileList handTiles){return !getChiitoiWait(handTiles).isEmpty();}
-	public boolean isTenpaiChiitoitsu(){return isTenpaiChiitoitsu(myHandTiles);}
+	public boolean isTenpaiChiitoitsu(){return !getChiitoiWait().isEmpty();}
 	
 	
 	//returns true if a 14-tile hand is a complete chiitoitsu
-	public boolean isCompleteChiitoitsu(GameTileList checkTiles){
-		GameTileList checkTilesCopy = checkTiles.clone();
+	public boolean isCompleteChiitoitsu(){
+		GameTileList checkTilesCopy = myHandTiles.clone();
 		checkTilesCopy.sort();
 		
 		//chiitoitsu is impossible if a meld has been made
@@ -378,7 +374,6 @@ public class HandChecker {
 		GameTileList oddTiles = checkTilesCopy.getMultiple(1,3,5,7,9,11,13);
 		return evenTiles.equals(oddTiles);
 	}
-	public boolean isCompleteChiitoitsu(){return isCompleteChiitoitsu(myHandTiles);}
 	
 	
 	
@@ -389,26 +384,33 @@ public class HandChecker {
 	
 	
 	
-	//returns true if the hand contains at least "numPartnersNeeded" copies of candidate
-	private boolean canClosedMultiType(GameTileList checkTiles, GameTile candidate, int numPartnersNeeded){
-		return checkTiles.findHowManyOf(candidate) >= numPartnersNeeded;
-	}
-	private boolean canClosedPair(GameTileList checkTiles, GameTile candidate){return canClosedMultiType(checkTiles, candidate, NUM_PARTNERS_NEEDED_TO_PAIR + 1);}
-	private boolean canClosedPon(GameTileList checkTiles, GameTile candidate){return canClosedMultiType(checkTiles, candidate, NUM_PARTNERS_NEEDED_TO_PON + 1);}
 	private boolean canClosedKan(GameTileList checkTiles, GameTile candidate){return canClosedMultiType(checkTiles, candidate, NUM_PARTNERS_NEEDED_TO_KAN + 1);}
-	private boolean canClosedPair(GameTile candidate){return canClosedPair(myHandTiles, candidate);}
-	private boolean canClosedPon(GameTile candidate){return canClosedPon(myHandTiles, candidate);}
 	private boolean canClosedKan(GameTile candidate){return canClosedKan(myHandTiles, candidate);}
 	
-		
+	
+	//シュンツ
+	private static boolean canClosedChiType(GameTileList checkTiles, GameTile candidate, int offset1, int offset2){
+		return (checkTiles.contains(candidate.getId() + offset1) && checkTiles.contains(candidate.getId() + offset2));
+	}
+	private static boolean canClosedChiL(GameTileList checkTiles, GameTile candidate){return candidate.canCompleteChiL() && canClosedChiType(checkTiles, candidate, OFFSET_CHI_L1, OFFSET_CHI_L2);}
+	private static boolean canClosedChiM(GameTileList checkTiles, GameTile candidate){return candidate.canCompleteChiM() && canClosedChiType(checkTiles, candidate, OFFSET_CHI_M1, OFFSET_CHI_M2);}
+	private static boolean canClosedChiH(GameTileList checkTiles, GameTile candidate){return candidate.canCompleteChiH() && canClosedChiType(checkTiles, candidate, OFFSET_CHI_H1, OFFSET_CHI_H2);}
+	//コーツ
+	private static boolean canClosedMultiType(GameTileList checkTiles, GameTile candidate, int numPartnersNeeded){
+		return checkTiles.findHowManyOf(candidate) >= numPartnersNeeded;
+	}
+	private static boolean canClosedPair(GameTileList checkTiles, GameTile candidate){return canClosedMultiType(checkTiles, candidate, NUM_PARTNERS_NEEDED_TO_PAIR + 1);}
+	private static boolean canClosedPon(GameTileList checkTiles, GameTile candidate){return canClosedMultiType(checkTiles, candidate, NUM_PARTNERS_NEEDED_TO_PON + 1);}
+	
+	
 	//checks if a tile is meldable, populates the meldStack for candidate. returns true if a meld (any meld) can be made
-	private boolean checkMeldableTile(HandCheckerTile candidate, GameTileList checkTiles){
+	private static boolean checkMeldableTile(HandCheckerTile candidate, GameTileList checkTiles){
 		//order of stack should be top->L,M,H,Pon,Pair
 		if (canClosedPair(checkTiles, candidate)) candidate.mstackPush(MeldType.PAIR);
 		if (canClosedPon(checkTiles, candidate)) candidate.mstackPush(MeldType.PON);
-		if (ableToChiH(checkTiles, candidate)) candidate.mstackPush(MeldType.CHI_H);
-		if (ableToChiM(checkTiles, candidate)) candidate.mstackPush(MeldType.CHI_M);
-		if (ableToChiL(checkTiles, candidate)) candidate.mstackPush(MeldType.CHI_L);
+		if (canClosedChiH(checkTiles, candidate)) candidate.mstackPush(MeldType.CHI_H);
+		if (canClosedChiM(checkTiles, candidate)) candidate.mstackPush(MeldType.CHI_M);
+		if (canClosedChiL(checkTiles, candidate)) candidate.mstackPush(MeldType.CHI_L);
 		
 		return (!candidate.mstackIsEmpty());
 	}
@@ -417,9 +419,9 @@ public class HandChecker {
 	
 	
 	//TODO this is find tenpai waits
-	private GameTileList getNormalTenpaiWaits(GameTileList checkTiles){
+	private GameTileList getNormalTenpaiWaits(){
 		final GameTileList waits = new GameTileList();
-		final GameTileList checkTilesCopy = checkTiles.clone();
+		final GameTileList checkTilesCopy = myHandTiles.clone();
 		
 		final List<Integer> hotTileIDs = findAllHotTiles(checkTilesCopy);
 		for (Integer id: hotTileIDs){
@@ -438,7 +440,6 @@ public class HandChecker {
 		
 		return waits;
 	}
-	private GameTileList getNormalTenpaiWaits(){return getNormalTenpaiWaits(myHandTiles);}
 	
 	
 	
@@ -447,45 +448,44 @@ public class HandChecker {
 	
 	
 	//returns true if list of handTiles is complete (is a winning hand)
-	public boolean isCompleteNormal(GameTileList handTiles, List<Meld> finishingMelds){
-		if ((handTiles.size() % 3) != 2) return false;
+	public static boolean isCompleteNormal(GameTileList checkTiles, List<Meld> finishingMelds){
+		if ((checkTiles.size() % 3) != 2) return false;
 		
 		//make a list of checkTiles out of the handTiles
-		GameTileList checkTiles = handTiles.makeCopyWithCheckers();
-		checkTiles.sort();
+		GameTileList copyOfCheckTiles = checkTiles.makeCopyWithCheckers();
+		copyOfCheckTiles.sort();
 		
 		//populate stacks
-		if (!populateMeldStacks(checkTiles)) return false;
-		return isCompleteNormalHand(checkTiles, finishingMelds);
+		if (!populateMeldStacks(copyOfCheckTiles)) return false;
+		return isCompleteNormalHand(copyOfCheckTiles, finishingMelds);
 	}
 	//overloaded, checks mHandTiles by default
-	public boolean isCompleteNormal(GameTileList checkTiles){return isCompleteNormal(checkTiles, null);}
+	public static boolean isCompleteNormal(GameTileList checkTiles){return isCompleteNormal(checkTiles, null);}
+	public boolean isCompleteNormal(List<Meld> finishingMelds){return isCompleteNormal(myHandTiles, null);}
 	public boolean isCompleteNormal(){return isCompleteNormal(myHandTiles);}
 	
 	
 	//populates the meld type stacks for all of the tile in checkTiles
 	//returns true if all tiles can make a meld, returns false if a tile cannot make a meld
-	private boolean populateMeldStacks(GameTileList checkTiles){
+	private static boolean populateMeldStacks(GameTileList checkTiles){
 		for (GameTile t: checkTiles)
 			if (!checkMeldableTile((HandCheckerTile)t, checkTiles)) return false;
 		
 		return true;
 	}
 	
+	public List<Meld> getFinishingMelds(){
+		List<Meld> finishingMelds = new ArrayList<Meld>(5);
+		isCompleteNormal(finishingMelds);
+		return finishingMelds;
+	}
 	
 	
 	/*
-	private method: isCompleteNormalHand
 	checks if a hand is complete
-	if a hand is complete, should populate meld lists and flags and stuff (it doesn't yet)
-	
-	input: handTiles is the list of hand tiles to check for completeness
-		   listMTSL is a list of MeldType stacks corresponding to each tile in handTiles
-		   
-	returns true if the list of hand tiles is complete (is a winner)
 	
 	
-	if (handTiles is empty): return true (an empty hand is complete)
+	if (handtiles is empty): return true (an empty hand is complete)
 	currentTile = first tile in handTiles
 	
 	while (currentTile's stack of valid meld types is not empty)
@@ -499,7 +499,7 @@ public class HandChecker {
 			partnerIndices = find the indices of currentTile's partners for the currentTileMeldType
 			toMeldTiles = list of tiles from the hand, includes currentTile and its partner tiles
 			
-			handTilesMinusThisMeld = copy of handTiles, but with the toMeldTiles removed
+			handtilessMinusThisMeld = copy of handtiles, but with the toMeldTiles removed
 			listMTSLMinusThisMeld = copy of listMTSL, but with the stacks for toMeldTiles removed
 			
 			if (isCompleteHand(tiles/stacks minus this meld)) (recursive call)
@@ -513,7 +513,7 @@ public class HandChecker {
 	end while
 	return false (currentTile could not make any meld, so the hand cannot be complete)
 	*/
-	private boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds, AtomicBoolean pairHasBeenChosen){
+	private static boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds, AtomicBoolean pairHasBeenChosen){
 		
 		//if the hand is empty, it is complete
 		if (checkTiles.isEmpty()) return true;
@@ -613,16 +613,8 @@ public class HandChecker {
 		}
 		return false;
 	}
-	private boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds){return isCompleteNormalHand(checkTiles.makeCopyWithCheckers(), finishingMelds, new AtomicBoolean(false));}
-	private boolean isCompleteNormalHand(GameTileList checkTiles){return isCompleteNormalHand(checkTiles.makeCopyWithCheckers(), null);}
-	private boolean isCompleteNormalHand(){return isCompleteNormalHand(myHandTiles);}
+	private static boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds){return isCompleteNormalHand(checkTiles.makeCopyWithCheckers(), finishingMelds, new AtomicBoolean(false));}
 	
-	
-	public List<Meld> getFinishingMelds(){
-		List<Meld> finishingMelds = new ArrayList<Meld>(5);
-		isCompleteNormal(myHandTiles, finishingMelds);
-		return finishingMelds;
-	}
 	
 	
 	//***************************************************************************************************

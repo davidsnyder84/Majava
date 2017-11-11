@@ -80,6 +80,8 @@ public class HandChecker {
 		//~~~~return true if a call (any call) can be made
 		return (flagCanChiL || flagCanChiM || flagCanChiH || flagCanPon || flagCanRon);
 	}
+	private boolean tileIsHot(GameTile candidate){return findAllHotTiles().contains(candidate.getId());}
+	
 	public boolean tileCameFromChiablePlayer(GameTile candidate){
 		return (candidate.getOrignalOwner() == ownerSeatWind()) || 
 				(candidate.getOrignalOwner() == ownerSeatWind().kamichaWind());
@@ -181,7 +183,6 @@ public class HandChecker {
 		return allHotTileIds;
 	}
 	private List<Integer> findAllHotTiles(){return findAllHotTiles(myHandTiles);}
-	private boolean tileIsHot(GameTile candidate){return findAllHotTiles().contains(candidate.getId());}
 	
 	//returns a list of integer IDs of hot tiles, for tile t
 	private static List<Integer> findHotTilesOfTile(final TileInterface t){

@@ -5,9 +5,11 @@ package majava.player;
 public class DrawingNeed {
 	private static enum DrawType{NONE, NORMAL, RINSHAN;}
 	
-	DrawType drawType;
+	private DrawType drawType;
 	
-	public DrawingNeed(){setNone();}
+	public DrawingNeed(){
+		setNone();
+	}
 	
 	//check if the players needs to draw a tile, and what type of draw (normal vs rinshan)
 	public boolean needsToDraw(){return (needsNormal() || needsRinshan());}

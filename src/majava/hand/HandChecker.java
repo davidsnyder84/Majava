@@ -141,7 +141,7 @@ public class HandChecker {
 	
 	public int getCandidateMinkanIndex(){
 		for (int currentIndex = 0; currentIndex < myHandTiles.size(); currentIndex++)
-			if (__canMinkan(myHand.getTile(currentIndex)))
+			if (canMinkan(myHand.getTile(currentIndex)))
 				return currentIndex;
 		return INDEX_NOT_FOUND;
 	}
@@ -153,7 +153,7 @@ public class HandChecker {
 	}
 	private boolean canClosedKan(GameTile candidate){return myHandTiles.findHowManyOf(candidate) >= (NUM_PARTNERS_NEEDED_TO_KAN + 1);}
 	
-	private boolean __canMinkan(GameTile candidate){
+	private boolean canMinkan(GameTile candidate){
 		for (Meld m: handMelds)
 			if (m.canMinkanWith(candidate))
 				return true;

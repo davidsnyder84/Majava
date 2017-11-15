@@ -20,7 +20,7 @@ import majava.tiles.GameTile;
 //represents a player in the game
 public class Player {
 	
-	private PlayerBrain myBrain;
+	private PlayerBrain brain;
 	private PlayerProfile profile;
 	private PointsBox pointsBox;
 	
@@ -44,7 +44,7 @@ public class Player {
 	
 	public Player(PlayerProfile newProfile){
 		//always generate a default null brain. we don't want brainless players
-		myBrain = new NullPlayerBrain(this);
+		brain = new NullPlayerBrain(this);
 		profile = newProfile;
 		pointsBox = new PointsBox();
 		
@@ -63,8 +63,8 @@ public class Player {
 		pond = new Pond();
 		
 		//just in case, don't know if it's needed
-		myBrain.clearCallStatus();
-		myBrain.clearTurnActionStatus();
+		brain.clearCallStatus();
+		brain.clearTurnActionStatus();
 		
 		setDrawNeededNormal();
 		isRiichi = false;
@@ -84,7 +84,7 @@ public class Player {
 	public GameTile takeTurn(){
 		lastDiscard = null;
 		
-		myBrain.chooseTurnAction();
+		brain.chooseTurnAction();
 		if (turnActionChoseDiscard()){
 			
 			//discard and return the chosen tile
@@ -108,7 +108,7 @@ public class Player {
 	
 	private GameTile discardChosenTile(){
 		//remove the chosen discard tile from hand
-		GameTile discardedTile = hand.removeTile(myBrain.getChosenDiscardIndex());
+		GameTile discardedTile = hand.removeTile(brain.getChosenDiscardIndex());
 		
 		putTileInPond(discardedTile);
 		
@@ -126,11 +126,11 @@ public class Player {
 	
 	
 	public boolean turnActionMadeKan(){return (turnActionMadeAnkan() || turnActionMadeMinkan());}
-	public boolean turnActionMadeAnkan(){return myBrain.turnActionMadeAnkan();}
-	public boolean turnActionMadeMinkan(){return myBrain.turnActionMadeMinkan();}
-	public boolean turnActionCalledTsumo(){return myBrain.turnActionCalledTsumo();}
-	public boolean turnActionChoseDiscard(){return myBrain.turnActionChoseDiscard();}
-	public boolean turnActionRiichi(){return myBrain.turnActionRiichi();}
+	public boolean turnActionMadeAnkan(){return brain.turnActionMadeAnkan();}
+	public boolean turnActionMadeMinkan(){return brain.turnActionMadeMinkan();}
+	public boolean turnActionCalledTsumo(){return brain.turnActionCalledTsumo();}
+	public boolean turnActionChoseDiscard(){return brain.turnActionChoseDiscard();}
+	public boolean turnActionRiichi(){return brain.turnActionRiichi();}
 	
 	
 	//turn actions
@@ -170,13 +170,13 @@ public class Player {
 	
 	//shows a player a tile, and gets their reaction (call or no call) for it
 	public boolean reactToDiscard(GameTile tileToReactTo){
-		myBrain.clearCallStatus();
+		brain.clearCallStatus();
 		
 		//if able to call the tile, ask brain for reaction
 		if (ableToCallTile(tileToReactTo))
-			myBrain.reactToDiscard(tileToReactTo);
+			brain.reactToDiscard(tileToReactTo);
 		
-		return myBrain.called();
+		return brain.called();
 	}
 	
 	
@@ -226,7 +226,7 @@ public class Player {
 			setDrawNeededRinshan();
 		
 		//clear call status because the call has been completed
-		myBrain.clearCallStatus();	//don't know how needed this is
+		brain.clearCallStatus();	//don't know how needed this is
 	}
 	
 	
@@ -244,18 +244,18 @@ public class Player {
 	
 	
 	//returns call status as an exclamation
-	public Exclamation getCallStatusExclamation(){return myBrain.getCallStatusExclamation();}
+	public Exclamation getCallStatusExclamation(){return brain.getCallStatusExclamation();}
 	
 	//returns true if the player called a tile
-	public boolean called(){return myBrain.called();}
+	public boolean called(){return brain.called();}
 	//individual call statuses
 	public boolean calledChi(){return (calledChiL() || calledChiM() || calledChiH());}
-	public boolean calledChiL(){return myBrain.calledChiL();}
-	public boolean calledChiM(){return myBrain.calledChiM();}
-	public boolean calledChiH(){return myBrain.calledChiH();}
-	public boolean calledPon(){return myBrain.calledPon();}
-	public boolean calledKan(){return myBrain.calledKan();}
-	public boolean calledRon(){return myBrain.calledRon();}
+	public boolean calledChiL(){return brain.calledChiL();}
+	public boolean calledChiM(){return brain.calledChiM();}
+	public boolean calledChiH(){return brain.calledChiH();}
+	public boolean calledPon(){return brain.calledPon();}
+	public boolean calledKan(){return brain.calledKan();}
+	public boolean calledRon(){return brain.calledRon();}
 	
 	
 	//check if the players needs to draw a tile, and what type of draw (normal vs rinshan)
@@ -309,15 +309,15 @@ public class Player {
 	
 	
 	//controller methods
-	private void setController(PlayerBrain desiredBrain){myBrain = desiredBrain;}
+	private void setController(PlayerBrain desiredBrain){brain = desiredBrain;}
 	public void setControllerHuman(){setController(new HumanBrain(this, userInterface));}
 	public void setControllerComputer(){
 		SimpleRobot robot = new SimpleRobot(this);
 		setController(robot);
 	}
-	public String getControllerAsString(){return myBrain.toString();}
-	public boolean controllerIsHuman(){return myBrain.isHuman();}
-	public boolean controllerIsComputer(){return myBrain.isComputer();}
+	public String getControllerAsString(){return brain.toString();}
+	public boolean controllerIsHuman(){return brain.isHuman();}
+	public boolean controllerIsComputer(){return brain.isComputer();}
 	
 	
 	//point methods
@@ -340,7 +340,7 @@ public class Player {
 	//get hand as string
 	public String getAsStringHand(){
 		String hs = "";
-		hs += seatWind + " Player's hand (controller: " + myBrain + ", " + getPlayerName() + "):";
+		hs += seatWind + " Player's hand (controller: " + brain + ", " + getPlayerName() + "):";
 		if (hand.getTenpaiStatus()) hs += "     $$$$!Tenpai!$$$$";
 		hs += "\n" + hand;
 		return hs;
@@ -363,7 +363,7 @@ public class Player {
 	public void setUI(GameUI ui){
 		userInterface = ui;
 		if (controllerIsHuman())
-			((HumanBrain) myBrain).setUI(userInterface);
+			((HumanBrain) brain).setUI(userInterface);
 	}
 	
 	//sync player's hand and pond with tracker

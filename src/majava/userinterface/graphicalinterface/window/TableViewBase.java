@@ -782,20 +782,13 @@ public class TableViewBase extends JFrame{
 	
 	//TODO start of constructor
 	public TableViewBase(){
-		
-		
 		cheatRevealAllWall = DEFAULT_OPTION_REVEAL_WALL;
 		cheatRevealAllHands = DEFAULT_OPTION_REVEAL_HANDS;
-
-
-		//load image icons into arrays
-		__loadImagesIntoArrays();
 		
-
+		__loadImagesIntoArrays();
 		
 		final int WINDOW_BOUND_WIDTH = WINDOW_WIDTH + 2*WINDOW_SIDE_BORDER_SIZE;
 		final int WINDOW_BOUND_HEIGHT = WINDOW_HEIGHT + WINDOW_TOP_BORDER_SIZE + WINDOW_MENU_SIZE;
-
 		
 		setIconImage(garryWinds[BIG][EAST].getImage());
 		
@@ -808,24 +801,16 @@ public class TableViewBase extends JFrame{
 		setJMenuBar(menuBar);
 		
 		
-		
 		//panel declarations
 		JPanel panelTable = new JPanel();
 		JPanel panelSidebar = new JPanel();
 		JPanel panelMidTable = new JPanel();
 		
 		
-		/*................................................DEMO PURPOSES.......................................................*/
-		/*................................................DEMO PURPOSES.......................................................*/
-		
-		
-		
-		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
 		
 		
 		panResult = new ResultPanel();
@@ -903,7 +888,6 @@ public class TableViewBase extends JFrame{
 		
 		
 		
-		
 		panelMidTable.setBounds(143, 116, 428, 420);
 		panelMidTable.setBackground(COLOR_MID_TABLE);
 		panelMidTable.setLayout(null);
@@ -929,21 +913,12 @@ public class TableViewBase extends JFrame{
 		panDebugButtons.setLocation(204, 333);
 		
 		
-		panDebugButtons.setVisible(false);	////////////////////////////////////////////////////
+		panDebugButtons.setVisible(false);
 		
 		
-		
-		
-		///////////
-		
-		
-		
-		////////////////////////////////////////////////////////////
 		panTable = panelTable;
 		panSidebar = panelSidebar;
-		
 		panMidTable = panelMidTable;
-		
 		
 		
 		//get labels

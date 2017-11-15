@@ -684,10 +684,12 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	private void __setDiscardChosen(int discardIndex){
+	private void __setDiscardChosen(int seatNumberWhoClicked, int discardIndex){
+		if (seatNumberWhoClicked != roundTracker.whoseTurn()) return;
 		chosenTurnAction = TURN_ACTION_DISCARD;
 		chosenDiscard = discardIndex;
 	}
+	private void __setDiscardChosen(int discardIndex){__setDiscardChosen(roundTracker.whoseTurn(), discardIndex);}
 	
 	
 	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){
@@ -1197,13 +1199,15 @@ public class TableViewBase extends JFrame{
 	protected class PlayerPanelClickable extends PlayerPanel{
 		private static final long serialVersionUID = -8026283033946280711L;
 		
-		public PlayerPanelClickable(int seat){
+		public PlayerPanelClickable(final int seat){
 			super(seat);
 			
 			//add mouse listeners to hand tile labels
-			if (seat == SEAT1) for (int i = 0; i < this.panelH.larryH.length; i++){
+			for (int i = 0; i < this.panelH.larryH.length; i++){
 				final int discChoice = i + 1;
-				panelH.larryH[i].addMouseListener(new MouseAdapter() {public void mouseClicked(MouseEvent arg0) {__setDiscardChosen(discChoice);}});
+				panelH.larryH[i].addMouseListener(new MouseAdapter() {public void mouseClicked(MouseEvent arg0){
+					__setDiscardChosen(seat, discChoice);}}
+				);
 			}
 			
 			for (JLabel l: panelH.larryH) l.setIcon(garryTiles[seat][BIG][1]);

@@ -82,6 +82,7 @@ public class Table {
 	
 	private void generatePlayers(){
 		String[] names = {"HughMan", "Albert", "Brenda", "Carl"};
+//		boolean[] humanController = {true,true,true,true};
 //		boolean[] humanController = {true,true,false,true};
 		boolean[] humanController = {false, false, false, false};
 		if (optionDoSinglePlayer) humanController[0] = true;

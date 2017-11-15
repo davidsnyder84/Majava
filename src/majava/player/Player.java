@@ -9,6 +9,9 @@ import majava.RoundTracker;
 import majava.enums.Exclamation;
 import majava.enums.Wind;
 import majava.userinterface.GameUI;
+import majava.player.brains.HumanBrain;
+import majava.player.brains.PlayerBrain;
+import majava.player.brains.SimpleRobot;
 import majava.summary.PointsBox;
 import majava.tiles.GameTile;
 
@@ -153,6 +156,7 @@ public class Player {
 		hand.sort();
 		
 		//if the player isn't east, they will need to draw
+//		if (!seatWind.isDealerWind())	//could use either logic check ^v
 		if (hand.size() < Hand.maxHandSize())
 			setDrawNeededNormal();
 	}

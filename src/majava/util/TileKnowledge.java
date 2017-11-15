@@ -7,9 +7,9 @@ import majava.tiles.GameTile;
 import majava.tiles.ImmutableTile;
 import majava.tiles.TileInterface;
 
+
+//inherent charactistic information about a tile
 public class TileKnowledge {
-	
-	
 	
 	
 	//returns a list of hot tile IDs for ALL tiles in the hand
@@ -61,5 +61,9 @@ public class TileKnowledge {
 	final static public boolean tileCanCompleteChiM(TileInterface t){return tileCanCompleteChiL(t, '1', '9');}
 	//xxT
 	final static public boolean tileCanCompleteChiH(TileInterface t){return tileCanCompleteChiL(t, '1', '2');}
+	
+	
+	
+	
 	
 }

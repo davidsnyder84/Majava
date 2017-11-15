@@ -1,4 +1,6 @@
-package majava.player;
+package majava.player.brains;
+
+import majava.player.Player;
 
 
 
@@ -11,6 +13,7 @@ public abstract class RobotBrain extends PlayerBrain {
 	
 	
 	
+	@Override
 	public final boolean isHuman(){return false;}
 	
 	

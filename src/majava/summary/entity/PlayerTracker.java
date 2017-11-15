@@ -23,13 +23,6 @@ public final class PlayerTracker{
 	
 	public final List<Meld> melds;
 	
-	//private Wind seatWind;
-	//private int points;
-	//private boolean riichiStatus;
-	//private String playerName;
-	
-	//private List<Meld> melds = new ArrayList<Meld>(NUM_MELDS_TO_TRACK);
-	
 	public PlayerTracker(Player p, Hand ha, GameTileList tH, Pond po, List<PondTile> tP, List<Meld> ms){
 		player = p;
 		hand = ha; handTiles = tH;

@@ -1,9 +1,10 @@
-package majava.player;
+package majava.player.brains;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import majava.enums.Exclamation;
+import majava.player.Player;
 import majava.tiles.GameTile;
 
 

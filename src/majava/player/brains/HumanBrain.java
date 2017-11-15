@@ -1,8 +1,9 @@
-package majava.player;
+package majava.player.brains;
 
 import java.util.List;
 
 import majava.enums.GameplayEvent;
+import majava.player.Player;
 import majava.userinterface.GameUI;
 
 public class HumanBrain extends PlayerBrain {
@@ -84,7 +85,7 @@ public class HumanBrain extends PlayerBrain {
 	
 	
 	
-	
+	@Override
 	public boolean isHuman(){return true;}
 	
 	public void setUI(GameUI ui){

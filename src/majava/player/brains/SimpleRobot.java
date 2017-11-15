@@ -1,7 +1,9 @@
-package majava.player;
+package majava.player.brains;
 
 import java.util.List;
 import java.util.Random;
+
+import majava.player.Player;
 
 
 public class SimpleRobot extends RobotBrain {

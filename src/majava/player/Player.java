@@ -10,6 +10,7 @@ import majava.enums.Exclamation;
 import majava.enums.Wind;
 import majava.userinterface.GameUI;
 import majava.player.brains.HumanBrain;
+import majava.player.brains.NullPlayerBrain;
 import majava.player.brains.PlayerBrain;
 import majava.player.brains.SimpleRobot;
 import majava.summary.PointsBox;
@@ -42,8 +43,8 @@ public class Player {
 	
 	
 	public Player(PlayerProfile newProfile){
-		//always generate a default brain just in case. we don't want brainless players
-		myBrain = PlayerBrain.generateGenericBrain(this);
+		//always generate a default null brain. we don't want brainless players
+		myBrain = new NullPlayerBrain(this);
 		profile = newProfile;
 		pointsBox = new PointsBox();
 		

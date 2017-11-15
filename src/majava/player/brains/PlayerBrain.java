@@ -161,8 +161,6 @@ public abstract class PlayerBrain {
 	
 	
 	
-	public static final PlayerBrain generateGenericBrain(Player p){return new SimpleRobot(p);}
-	
 	
 	//enums
 	//used to indicate what call a player wants to make on another player's discard

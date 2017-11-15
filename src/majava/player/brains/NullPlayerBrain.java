@@ -18,7 +18,7 @@ public class NullPlayerBrain extends PlayerBrain {
 	
 	@Override
 	//Null behavior: always discard the tsumo tile (tsumogiri/ÉcÉÇêÿÇË)
-	protected int selectDiscardIndex(){return playerHandSize();}
+	protected int selectDiscardIndex(){return tsumoTileIndex();}
 	
 	@Override
 	//Null behavior: never react to another player's tile

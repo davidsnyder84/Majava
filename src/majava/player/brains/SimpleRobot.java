@@ -51,6 +51,17 @@ public class SimpleRobot extends RobotBrain {
 		return preferredDiscardIndex();
 	}
 	
+	private int preferredDiscardIndex(){
+		switch(myDiscardBehavior){
+		case DISCARD_FIRST: return 0;
+		case DISCARD_LAST: return tsumoTileIndex();
+		case DISCARD_RANDOM: return (new Random()).nextInt(playerHandSize());
+		default: return 0;
+		}
+	}
+	
+	
+	
 	
 	
 	
@@ -65,20 +76,6 @@ public class SimpleRobot extends RobotBrain {
 		return CallType.NONE;
 	}
 	
-	
-	
-	
-	
-	
-	
-	private int preferredDiscardIndex(){
-		switch(myDiscardBehavior){
-		case DISCARD_FIRST: return 0;
-		case DISCARD_LAST: return player.handSize()-1;
-		case DISCARD_RANDOM: return (new Random()).nextInt(player.handSize());
-		default: return 0;
-		}
-	}
 	
 	
 	//setters for behavior

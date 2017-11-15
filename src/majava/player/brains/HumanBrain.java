@@ -29,7 +29,7 @@ public class HumanBrain extends PlayerBrain {
 		
 		//get the player's desired action through the UI
 		userInterface.askUserInputTurnAction(
-				player.handSize(),
+				playerHandSize(),
 				listOfPossibleTurnActions.contains(ActionType.RIICHI),
 				listOfPossibleTurnActions.contains(ActionType.ANKAN),
 				listOfPossibleTurnActions.contains(ActionType.MINKAN),

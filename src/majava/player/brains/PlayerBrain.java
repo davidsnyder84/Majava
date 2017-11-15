@@ -14,7 +14,7 @@ public abstract class PlayerBrain {
 	private static final int NO_DISCARD_CHOSEN = -94564;
 	
 	
-	protected Player player;
+	private Player player;
 	
 	private CallType callStatus;
 	private ActionType turnAction;
@@ -23,8 +23,7 @@ public abstract class PlayerBrain {
 	
 	
 	public PlayerBrain(Player p){
-		player = p;
-		if (player == null) System.out.println("null player in PlayerBrain, shouldn't be here");
+		player = p;	//if (player == null) System.out.println("null in PlayerBrain constructor, shouldn't be here");
 		
 		callStatus = CallType.NONE;
 	}
@@ -153,13 +152,16 @@ public abstract class PlayerBrain {
 	public abstract boolean isHuman();
 	public final boolean isComputer(){return !isHuman();}
 	
-	public static final PlayerBrain generateGenericBrain(Player p){return new SimpleRobot(p);}
+	protected final int playerHandSize(){return player.handSize();}
+	protected final int tsumoTileIndex(){return playerHandSize() - 1;}
+	
 	
 	@Override
 	public String toString(){return "UnknownBrain";}
 	
 	
 	
+	public static final PlayerBrain generateGenericBrain(Player p){return new SimpleRobot(p);}
 	
 	
 	//enums

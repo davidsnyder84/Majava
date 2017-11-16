@@ -120,14 +120,6 @@ public class TableViewBase extends JFrame{
 	
 	
 	private static final int[][] EXCLAMATION_LOCS =  {{99, 594}, {570, 298}, {480, 36}, {3, 298}};
-	protected static final Map<Exclamation, String> exclamationToString;
-	static {
-		Map<Exclamation, String> aMap = new HashMap<Exclamation, String>();
-		aMap.put(Exclamation.CHI, "Chi");aMap.put(Exclamation.PON, "Pon");aMap.put(Exclamation.KAN, "Kan");aMap.put(Exclamation.RON, "Ron");
-		aMap.put(Exclamation.RIICHI, "Riichi");aMap.put(Exclamation.OWN_KAN, "Kan~!");aMap.put(Exclamation.TSUMO, "Tsumo");
-		aMap.put(Exclamation.NONE, Exclamation.NONE.toString());aMap.put(Exclamation.UNKNOWN, Exclamation.UNKNOWN.toString());
-		exclamationToString = Collections.unmodifiableMap(aMap);
-	}
 	
 	private static final double SCALER_SMALL = .775, SCALER_TINY = .3;
 	protected static final ImageRotator[] rotators = {new ImageRotator(0), new ImageRotator(-90), new ImageRotator(180), new ImageRotator(90)};
@@ -424,7 +416,7 @@ public class TableViewBase extends JFrame{
 	
 	public void exclamationShow(Exclamation exclamation, int seat){
 		//show the label
-		lblExclamation.setText(exclamationToString.get(exclamation));
+		lblExclamation.setText(exclamation.toString());
 		lblExclamation.setLocation(seat);
 		lblExclamation.setVisible(true);
 	}

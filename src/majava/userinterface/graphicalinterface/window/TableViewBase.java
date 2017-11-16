@@ -128,7 +128,6 @@ public class TableViewBase extends JFrame{
 	
 	protected static final int NUM_PLAYERS = 4, NUM_SEATS = NUM_PLAYERS;
 	protected static final int NUM_WINDS = 4;
-	private static final int NUMBER_OF_DIFFERENT_TILES = 34;
 	protected static final int SIZE_HAND = 14;
 	protected static final int SIZE_MELDPANEL = 4;
 	protected static final int SIZE_MELD = 4;
@@ -292,7 +291,6 @@ public class TableViewBase extends JFrame{
 	
 	protected JPanel contentPane;
 	
-	
 	protected boolean cheatRevealAllWall;
 	protected boolean cheatRevealAllHands;
 	protected boolean[] whichHandsToReveal;
@@ -306,10 +304,8 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	
-	
 	private int newTurn = -1, oldTurn = -1;
-
+	
 	private int chosenCall;
 	private int chosenTurnAction;
 	private int chosenDiscard;
@@ -330,33 +326,25 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	private int __getImageIdOfTile(TileInterface t){
-		if (t == null) return 0;
-		if (!t.isRedDora()) return t.getId();
-		switch (t.getId()){
-		case 5: return RED5M;
-		case 14: return RED5P;
-		case 23: default: return RED5S;		
-		}
-	}
 	
-	private ImageIcon __getImageIcon(List<? extends TileInterface> tList, int index, int seatNum, int tileSize, boolean reveal){
+	
+	private ImageIcon getImageIconForTile(List<? extends TileInterface> tList, int index, int seatNum, int tileSize, boolean reveal){
 		if (tList.size() <= index) return null;
 		
 		if (!reveal) return garryTiles[seatNum][tileSize][TILEBACK];
 		
-		int id =__getImageID(tList.get(index));
+		int id = getImageIdForTile(tList.get(index));
 		if (id == NULL_TILE_IMAGE_ID) return null;
 		
 		return garryTiles[seatNum][tileSize][id];
 	}
-	private ImageIcon __getImageIcon(List<? extends TileInterface> tList, int index, int seatNum, int tileSize){return __getImageIcon(tList, index, seatNum, tileSize, true);}
+	private ImageIcon getImageIconForTile(List<? extends TileInterface> tList, int index, int seatNum, int tileSize){return getImageIconForTile(tList, index, seatNum, tileSize, true);}
 	
 	
-	private ImageIcon __getImageIconPond(List<PondTile> tList, int index, int seatNum){
+	private ImageIcon getImageIconPond(List<PondTile> tList, int index, int seatNum){
 		if (tList.size() <= index) return null;
 		
-		int id =__getImageID(tList.get(index));
+		int id = getImageIdForTile(tList.get(index));
 		if (id == NULL_TILE_IMAGE_ID) return null;
 		
 		
@@ -375,32 +363,32 @@ public class TableViewBase extends JFrame{
 	
 	
 	//gets icon for wall tile array
-	protected ImageIcon __getImageIconWall(TileInterface[] tList, int index, int seatNum, boolean reveal){
+	protected ImageIcon getImageIconWall(TileInterface[] tList, int index, int seatNum, boolean reveal){
 		if (seatNum == SEAT2) seatNum = SEAT4; else if (seatNum == SEAT4) seatNum = SEAT2;
 		
-		int id = __getImageID(tList[index]);
+		int id = getImageIdForTile(tList[index]);
 		if (id == NULL_TILE_IMAGE_ID) return null;
 		
 		if (!reveal) id = TILEBACK;
 		return garryTiles[seatNum][SMALL][id];
 	}
-	protected ImageIcon __getImageIconWall(TileInterface[] tList, int index, int seatNum){return __getImageIconWall(tList, index, seatNum, true);}
+	protected ImageIcon getImageIconWall(TileInterface[] tList, int index, int seatNum){return getImageIconWall(tList, index, seatNum, true);}
 	
 	
 	//returns the image ID number for the tile at the given index of tList
-	private int __getImageID(TileInterface t){
+	private static int getImageIdForTile(TileInterface t){
 		if (t == null) return NULL_TILE_IMAGE_ID;
 		if (t.isRedDora())
 			switch(t.getId()){
-			case 5: return NUMBER_OF_DIFFERENT_TILES + 1;
-			case 14: return NUMBER_OF_DIFFERENT_TILES + 2;
-			case 23: return NUMBER_OF_DIFFERENT_TILES + 3;
+			case 5: return RED5M;
+			case 14: return RED5P;
+			case 23: return RED5S;
 		}
 		return t.getId();
 	}
 	
 	//gets icon for the given wind of the given size
-	private ImageIcon __getImageIconWind(Wind wind, int windSize){
+	private ImageIcon getImageIconWind(Wind wind, int windSize){
 		int windNum = -1;
 		windNum = wind.getNum();
 		
@@ -434,12 +422,10 @@ public class TableViewBase extends JFrame{
 	
 	
 	public void updateEverything(){
-		
-		__updateDiscardMarker();
+		updateDiscardMarker();
 		
 		int currentPlayer, currentTile;
 		int currentMeld;
-		
 		
 		//show end of round result if round is over
 		if (roundTracker.roundIsOver()){
@@ -449,35 +435,31 @@ public class TableViewBase extends JFrame{
 			for (int i = 0; i < whichHandsToReveal.length; i++) whichHandsToReveal[i] = true;
 		}
 		
-		
-		
 		//update hands
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_HAND; currentTile++){
-				larryHands[currentPlayer][currentTile].setIcon(__getImageIcon(playerTrackers[currentPlayer].handTiles, currentTile, currentPlayer, BIG, whichHandsToReveal[currentPlayer]));
+				larryHands[currentPlayer][currentTile].setIcon(getImageIconForTile(playerTrackers[currentPlayer].handTiles, currentTile, currentPlayer, BIG, whichHandsToReveal[currentPlayer]));
 			}
 		}
-		
 		
 		//update ponds
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_POND; currentTile++){
-				larryPonds[currentPlayer][currentTile].setIcon(__getImageIconPond(playerTrackers[currentPlayer].pondTiles, currentTile, currentPlayer));
+				larryPonds[currentPlayer][currentTile].setIcon(getImageIconPond(playerTrackers[currentPlayer].pondTiles, currentTile, currentPlayer));
 			}
 		}
 		
-		
 		//update wall summary
 		for (currentTile = 0; currentTile < SIZE_DEAD_WALL; currentTile++){
-			larryDW[currentTile].setIcon(__getImageIconWall(wallTiles, currentTile + OFFSET_DEAD_WALL, SEAT1, cheatRevealAllWall));
+			larryDW[currentTile].setIcon(getImageIconWall(wallTiles, currentTile + OFFSET_DEAD_WALL, SEAT1, cheatRevealAllWall));
 		}
 		for (currentTile = POS_DORA_1; currentTile >= 2*(4 - roundTracker.getNumKansMade()); currentTile -= 2){
-			larryDW[currentTile].setIcon(__getImageIconWall(wallTiles, currentTile + OFFSET_DEAD_WALL, SEAT1));
+			larryDW[currentTile].setIcon(getImageIconWall(wallTiles, currentTile + OFFSET_DEAD_WALL, SEAT1));
 		}
 		lblWallTilesLeft.setText(Integer.toString(roundTracker.getNumTilesLeftInWall()));
 		currentTile = 0;
 		while (wallTiles[SIZE_NORMAL_WALL-1-currentTile] != null){
-			if (cheatRevealAllWall) larryTinyW[currentTile].setIcon(garryTilesTiny[__getImageIdOfTile(wallTiles[SIZE_NORMAL_WALL-1-currentTile])]);
+			if (cheatRevealAllWall) larryTinyW[currentTile].setIcon(garryTilesTiny[getImageIdForTile(wallTiles[SIZE_NORMAL_WALL-1-currentTile])]);
 			else larryTinyW[currentTile].setIcon(garryTilesTiny[TILEBACK]);
 			currentTile++;
 		}
@@ -492,14 +474,14 @@ public class TableViewBase extends JFrame{
 			for (currentMeld = 0; currentMeld < meldList.size(); currentMeld++){
 				tList = meldList.get(currentMeld).getAllTiles();
 				for (currentTile = 0; currentTile < SIZE_MELD; currentTile++)
-					larryHandMelds[currentPlayer][currentMeld][currentTile].setIcon(__getImageIcon(tList, currentTile, currentPlayer, SMALL));
+					larryHandMelds[currentPlayer][currentMeld][currentTile].setIcon(getImageIconForTile(tList, currentTile, currentPlayer, SMALL));
 			}
 		}
 		
 		
 		//update player info
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
-			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_SEATWIND].setIcon(__getImageIconWind(playerTrackers[currentPlayer].player.getSeatWind(), SMALL));
+			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_SEATWIND].setIcon(getImageIconWind(playerTrackers[currentPlayer].player.getSeatWind(), SMALL));
 			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_POINTS].setText(Integer.toString(playerTrackers[currentPlayer].player.getPoints()));
 			if (playerTrackers[currentPlayer].player.isInRiichi())
 				larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_RIICHI].setIcon(garryOther[GARRYINDEX_OTHER_RIICHI]);
@@ -507,7 +489,7 @@ public class TableViewBase extends JFrame{
 		
 		
 		//update round info
-		larryInfoRound[LARRY_INFOROUND_ROUNDWIND].setIcon(__getImageIconWind(roundTracker.getRoundWind(), BIG));
+		larryInfoRound[LARRY_INFOROUND_ROUNDWIND].setIcon(getImageIconWind(roundTracker.getRoundWind(), BIG));
 		larryInfoRound[LARRY_INFOROUND_ROUNDNUM].setText(Integer.toString(roundTracker.getRoundNum()));
 		larryInfoRound[LARRY_INFOROUND_BONUSNUM].setText(Integer.toString(roundTracker.getRoundBonusNum()));
 		
@@ -520,27 +502,27 @@ public class TableViewBase extends JFrame{
 	}
 	
 	//highlights the most recent discard
-	private void __updateDiscardMarker(){
+	private void updateDiscardMarker(){
 		
 		newTurn = roundTracker.whoseTurn();
-		__discardMarkerErase();
-		__discardMarkerSet();
+		discardMarkerErase();
+		discardMarkerSet();
 		oldTurn = newTurn;
 	}
-	private void __discardMarkerSet(){
+	private void discardMarkerSet(){
 		if (!playerTrackers[newTurn].pondTiles.isEmpty() && playerTrackers[newTurn].player.needsDraw()){
 			if (newTurn == oldTurn &&  playerTrackers[newTurn].player.needsDrawRinshan()) return;
-			__getLastLabelInPond(newTurn).setOpaque(true);
-			__getLastLabelInPond(newTurn).setBackground(COLOR_POND_DISCARD_TILE);
+			getLastLabelInPond(newTurn).setOpaque(true);
+			getLastLabelInPond(newTurn).setBackground(COLOR_POND_DISCARD_TILE);
 		}
 	}
-	private void __discardMarkerErase(){
+	private void discardMarkerErase(){
 		if (oldTurn >= 0 && !playerTrackers[oldTurn].pondTiles.isEmpty()){
-			__getLastLabelInPond(oldTurn).setOpaque(false);
-			__getLastLabelInPond(oldTurn).setBackground(COLOR_TRANSPARENT);
+			getLastLabelInPond(oldTurn).setOpaque(false);
+			getLastLabelInPond(oldTurn).setBackground(COLOR_TRANSPARENT);
 		}
 	}
-	private JLabel __getLastLabelInPond(int seatNum){
+	private JLabel getLastLabelInPond(int seatNum){
 		if (playerTrackers[seatNum].pondTiles.isEmpty()) return null;
 		else return larryPonds[seatNum][playerTrackers[seatNum].pondTiles.size() - 1];
 	}
@@ -653,7 +635,7 @@ public class TableViewBase extends JFrame{
 		
 		
 		while (chosenCall == NO_CALL_CHOSEN)
-			__avoidBusyWaitForClick();
+			waitAroundForClick();
 		
 		if (chosenCall == CALL_CHI) chosenCall = chiType;
 		
@@ -672,18 +654,16 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	private void __setDiscardChosen(int seatNumberWhoClicked, int discardIndex){
+	private void setDiscardChosen(int seatNumberWhoClicked, int discardIndex){
 		if (seatNumberWhoClicked != roundTracker.whoseTurn()) return;
 		chosenTurnAction = TURN_ACTION_DISCARD;
 		chosenDiscard = discardIndex;
 	}
-	private void __setDiscardChosen(int discardIndex){__setDiscardChosen(roundTracker.whoseTurn(), discardIndex);}
+	private void setDiscardChosen(int discardIndex){setDiscardChosen(roundTracker.whoseTurn(), discardIndex);}
 	
 	
 	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){
-//////////////////////////////////////////////////////////
-		canRiichi = false;	//////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////
+		canRiichi = false;	/////no riichi implemented yet
 		
 		chosenTurnAction = NO_ACTION_CHOSEN;
 		chosenDiscard = NO_DISCARD_CHOSEN;
@@ -696,9 +676,9 @@ public class TableViewBase extends JFrame{
 		
 		chosenTurnAction = NO_ACTION_CHOSEN;
 		while (chosenTurnAction == NO_ACTION_CHOSEN)
-			__avoidBusyWaitForClick();
+			waitAroundForClick();
 		
-		if (chosenDiscard > handSize) __setDiscardChosen(DEFAULT_DISCARD);
+		if (chosenDiscard > handSize) setDiscardChosen(DEFAULT_DISCARD);
 		if (chosenDiscard == DEFAULT_DISCARD) chosenDiscard = handSize;
 		
 		
@@ -717,7 +697,7 @@ public class TableViewBase extends JFrame{
 	}
 	
 	//avoids buggy behavior that can happen if busy waits are used while waiting for mouseclick input
-	private void __avoidBusyWaitForClick(){
+	private void waitAroundForClick(){
 		int sleepTime = 100;
 		Pauser.pauseFor(sleepTime);
 	}
@@ -726,8 +706,6 @@ public class TableViewBase extends JFrame{
 	
 	
 	public void showResult(RoundResultSummary resum){
-		
-		
 		panResult.setVisible(true);
 		panResult.showResult(resum);
 	}
@@ -764,6 +742,7 @@ public class TableViewBase extends JFrame{
 //		TableViewSmall viewer = new TableViewSmall();
 		TableViewBase viewer = new TableViewBase();
 		viewer.setVisible(true);
+		viewer.panDebugButtons.setVisible(true);
 		
 //		viewer.showResult();
 	}
@@ -837,7 +816,7 @@ public class TableViewBase extends JFrame{
 			public void mouseClicked(MouseEvent arg0) {
 				if (arg0.getClickCount() == 2){
 					chosenCall = DEFAULT_CALL;
-					__setDiscardChosen(DEFAULT_DISCARD);
+					setDiscardChosen(DEFAULT_DISCARD);
 				}
 			}
 		});
@@ -1166,7 +1145,7 @@ public class TableViewBase extends JFrame{
 			for (int i = 0; i < this.panelH.larryH.length; i++){
 				final int discChoice = i + 1;
 				panelH.larryH[i].addMouseListener(new MouseAdapter() {public void mouseClicked(MouseEvent arg0){
-					__setDiscardChosen(seat, discChoice);}}
+					setDiscardChosen(seat, discChoice);}}
 				);
 			}
 			

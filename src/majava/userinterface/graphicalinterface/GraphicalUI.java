@@ -10,6 +10,7 @@ import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
 import majava.userinterface.GameUI;
 import majava.userinterface.graphicalinterface.window.TableViewBase;
+import majava.userinterface.graphicalinterface.window.TableViewLarge;
 import majava.player.Player;
 import majava.summary.RoundResultSummary;
 import majava.summary.entity.RoundEntities;
@@ -196,8 +197,7 @@ public class GraphicalUI extends GameUI{
 	public GraphicalUI(){
 		
 		tableWindow = new TableViewBase();
-		
-		
+//		tableWindow = new TableViewLarge();
 		
 	}
 	

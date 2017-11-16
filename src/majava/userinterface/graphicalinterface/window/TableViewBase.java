@@ -121,9 +121,9 @@ public class TableViewBase extends JFrame{
 	
 	private static final int[][] EXCLAMATION_LOCS =  {{99, 594}, {570, 298}, {480, 36}, {3, 298}};
 	
-	private static final double SCALER_SMALL = .775, SCALER_TINY = .3;
+	private static final double SCALER_TINY = .3;
 	protected static final ImageRotator[] rotators = {new ImageRotator(0), new ImageRotator(-90), new ImageRotator(180), new ImageRotator(90)};
-	protected static final ImageResizer[] resizers = {new ImageResizer(1), new ImageResizer(SCALER_SMALL), new ImageResizer(SCALER_TINY)};
+	protected static final ImageResizer tinyResizer = new ImageResizer(SCALER_TINY);
 	
 	
 	protected static final int NUM_PLAYERS = 4, NUM_SEATS = NUM_PLAYERS;
@@ -276,7 +276,7 @@ public class TableViewBase extends JFrame{
 	
 	protected static final int SEAT1 = 0, SEAT2 = 1, SEAT3 = 2, SEAT4 = 3;
 	protected static final int EAST = 0, SOUTH = 1, WEST = 2, NORTH = 3;
-	protected static final int BIG = 0, SMALL = 1, TINY = 2;
+	protected static final int BIG = 0, SMALL = 1;
 	protected final static int X = 0, Y = 1, W = 2, H = 3;
 	
 	/*+++++++++++++++++++++++++++++++++++++++END IMAGE ARRAYS+++++++++++++++++++++++++++++++++++++++*/
@@ -773,7 +773,7 @@ public class TableViewBase extends JFrame{
 		cheatRevealAllWall = DEFAULT_OPTION_REVEAL_WALL;
 		cheatRevealAllHands = DEFAULT_OPTION_REVEAL_HANDS;
 		
-		__loadImagesIntoArrays();
+		loadImagesIntoArrays();
 		
 		final int WINDOW_BOUND_WIDTH = WINDOW_WIDTH + 2*WINDOW_SIDE_BORDER_SIZE;
 		final int WINDOW_BOUND_HEIGHT = WINDOW_HEIGHT + WINDOW_TOP_BORDER_SIZE + WINDOW_MENU_SIZE;
@@ -939,8 +939,7 @@ public class TableViewBase extends JFrame{
 	
 	
 	//put image icons into arrays
-	private void __loadImagesIntoArrays(){
-		
+	private void loadImagesIntoArrays(){
 		final int NUM_TILES_PLUS_TILEBACK = 35;
 		
 		//load Tile images into array
@@ -962,10 +961,8 @@ public class TableViewBase extends JFrame{
 			garryTiles[seat][SMALL][RED5S] = rotators[seat].rotateImage(new ImageIcon(getClass().getResource("/res/img/tiles/small/23r.png")));
 		}
 		
-		//load tiny tile images
-		for (int i = 0; i < garryTiles[BIG][SEAT1].length; i++) garryTilesTiny[i] = resizers[TINY].resizeImage(garryTiles[BIG][SEAT1][i]);
-//		for (int seat = SEAT1; seat <= SEAT4; seat++) for (int i = 0; i < garryTiles[BIG][SEAT1].length; i++) garryTiles[seat][SMALL][i] = resizers[SMALL].resizeImage(garryTiles[seat][BIG][i]);
-		
+		//load tiny tile images (for tiny wall)
+		for (int i = 0; i < garryTiles[BIG][SEAT1].length; i++) garryTilesTiny[i] = tinyResizer.resizeImage(garryTiles[BIG][SEAT1][i]);
 		
 		//load Wind images into array
 		garryWinds[BIG][EAST] = new ImageIcon(getClass().getResource("/res/img/winds/transE.png"));

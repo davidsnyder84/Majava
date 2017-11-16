@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import majava.enums.Exclamation;
+import majava.hand.Hand;
 import majava.player.Player;
 import majava.tiles.GameTile;
 
@@ -14,7 +15,7 @@ public abstract class PlayerBrain {
 	private static final int NO_DISCARD_CHOSEN = -94564;
 	
 	
-	private Player player;
+	private final Player player;
 	
 	private CallType callStatus;
 	private ActionType turnAction;
@@ -27,19 +28,22 @@ public abstract class PlayerBrain {
 		
 		callStatus = CallType.NONE;
 	}
+
+//	private Hand hand;
+//	public void setHand(Hand newHand){hand = newHand;}
 	
 	
 	
 	
 	//template method pattern, final
-	public final void chooseTurnAction(){
+	public final void chooseTurnAction(Hand hand){
 		ActionType chosenAction = ActionType.DISCARD;
 		int discardIndex = NO_DISCARD_CHOSEN;
 		
 		//force auto discard if in riichi and unable to tsumo/kan
 		if (player.isInRiichi() && (!player.ableToTsumo() && !player.ableToAnkan())){
 			turnAction = ActionType.DISCARD;
-			discardIndex = player.handSize() - 1;
+			discardIndex = tsumoTileIndex(hand);
 			return;
 		}
 		
@@ -47,11 +51,11 @@ public abstract class PlayerBrain {
 		List<ActionType> listOfPossibleTurnActions = listOfPossibleTurnActions();
 		
 		//ask to pick a turn action (abstract)
-		chosenAction = selectTurnAction(listOfPossibleTurnActions);
+		chosenAction = selectTurnAction(hand, listOfPossibleTurnActions);
 		
 		//if discard was chosen, ask to pick a discard (abstract)
 		if (chosenAction == ActionType.DISCARD){
-			discardIndex = selectDiscardIndex();
+			discardIndex = selectDiscardIndex(hand);
 			chosenDiscardIndex = discardIndex;
 		}
 		
@@ -70,8 +74,8 @@ public abstract class PlayerBrain {
 		return listOfPossibleTurnActions;
 	}
 	//how the turn action is chosen left abstract and must be defined by the subclass
-	protected abstract ActionType selectTurnAction(List<ActionType> listOfPossibleTurnActions);
-	protected abstract int selectDiscardIndex();
+	protected abstract ActionType selectTurnAction(Hand hand, List<ActionType> listOfPossibleTurnActions);
+	protected abstract int selectDiscardIndex(Hand hand);
 	
 	
 	public boolean turnActionMadeKan(){return (turnActionMadeAnkan() || turnActionMadeMinkan());}
@@ -90,7 +94,7 @@ public abstract class PlayerBrain {
 	
 	
 	//template method pattern, final
-	public final void reactToDiscard(GameTile tileToReactTo) {
+	public final void reactToDiscard(Hand hand, GameTile tileToReactTo) {
 		
 		List<CallType> listOfPossibleReactions = getListOfPossibleReactions(tileToReactTo);
 		
@@ -100,7 +104,7 @@ public abstract class PlayerBrain {
 			return;
 		}
 
-		callStatus = chooseReaction(listOfPossibleReactions);
+		callStatus = chooseReaction(hand, listOfPossibleReactions);
 //		return callStatus != CallType.NONE;
 	}
 
@@ -118,7 +122,7 @@ public abstract class PlayerBrain {
 		return listOfPossibleReactions;
 	}
 	//how the reaction is chosen left abstract and must be defined by the subclass
-	protected abstract CallType chooseReaction(List<CallType> listOfPossibleReactions);
+	protected abstract CallType chooseReaction(Hand hand, List<CallType> listOfPossibleReactions);
 	
 	
 	
@@ -152,8 +156,9 @@ public abstract class PlayerBrain {
 	public abstract boolean isHuman();
 	public final boolean isComputer(){return !isHuman();}
 	
-	protected final int playerHandSize(){return player.handSize();}
-	protected final int tsumoTileIndex(){return playerHandSize() - 1;}
+	protected static final int tsumoTileIndex(Hand hand){return hand.size() - 1;}
+	
+	
 	
 	
 	@Override

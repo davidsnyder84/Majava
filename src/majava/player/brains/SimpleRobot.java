@@ -3,6 +3,7 @@ package majava.player.brains;
 import java.util.List;
 import java.util.Random;
 
+import majava.hand.Hand;
 import majava.player.Player;
 
 
@@ -39,7 +40,7 @@ public class SimpleRobot extends RobotBrain {
 
 	
 	@Override
-	protected ActionType selectTurnAction(List<ActionType> listOfPossibleTurnActions){
+	protected ActionType selectTurnAction(Hand hand, List<ActionType> listOfPossibleTurnActions){
 		if (likesToMakeTurnActions && !listOfPossibleTurnActions.isEmpty())
 			return listOfPossibleTurnActions.get(listOfPossibleTurnActions.size()-1);
 		else
@@ -47,15 +48,15 @@ public class SimpleRobot extends RobotBrain {
 	}
 	
 	@Override
-	protected int selectDiscardIndex(){
-		return preferredDiscardIndex();
+	protected int selectDiscardIndex(Hand hand){
+		return preferredDiscardIndex(hand);
 	}
 	
-	private int preferredDiscardIndex(){
+	private int preferredDiscardIndex(Hand hand){
 		switch(myDiscardBehavior){
 		case DISCARD_FIRST: return 0;
-		case DISCARD_LAST: return tsumoTileIndex();
-		case DISCARD_RANDOM: return (new Random()).nextInt(playerHandSize());
+		case DISCARD_LAST: return tsumoTileIndex(hand);
+		case DISCARD_RANDOM: return (new Random()).nextInt(hand.size());
 		default: return 0;
 		}
 	}
@@ -66,7 +67,7 @@ public class SimpleRobot extends RobotBrain {
 	
 	
 	@Override
-	protected CallType chooseReaction(List<CallType> listOfPossibleReactions){
+	protected CallType chooseReaction(Hand hand, List<CallType> listOfPossibleReactions){
 		//listOfPossibleReactions is guaranteed to be non-empty (see superclass's template method)
 		
 		//choose the biggest call I possibly can

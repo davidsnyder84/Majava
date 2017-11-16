@@ -3,6 +3,7 @@ package majava.player.brains;
 import java.util.List;
 
 import majava.enums.GameplayEvent;
+import majava.hand.Hand;
 import majava.player.Player;
 import majava.userinterface.GameUI;
 
@@ -21,7 +22,7 @@ public class HumanBrain extends PlayerBrain {
 	
 	
 	@Override
-	protected ActionType selectTurnAction(List<ActionType> listOfPossibleTurnActions){
+	protected ActionType selectTurnAction(Hand hand, List<ActionType> listOfPossibleTurnActions){
 		ActionType chosenAction = ActionType.DISCARD;
 		
 		//show hand
@@ -29,7 +30,7 @@ public class HumanBrain extends PlayerBrain {
 		
 		//get the player's desired action through the UI
 		userInterface.askUserInputTurnAction(
-				playerHandSize(),
+				hand.size(),
 				listOfPossibleTurnActions.contains(ActionType.RIICHI),
 				listOfPossibleTurnActions.contains(ActionType.ANKAN),
 				listOfPossibleTurnActions.contains(ActionType.MINKAN),
@@ -47,7 +48,7 @@ public class HumanBrain extends PlayerBrain {
 	}
 	
 	@Override
-	protected int selectDiscardIndex(){
+	protected int selectDiscardIndex(Hand hand){
 		//the human has already chosen the discard index through the user interface, just need to return that
 		return userInterface.resultChosenDiscardIndex() - 1;
 	}
@@ -57,7 +58,7 @@ public class HumanBrain extends PlayerBrain {
 	
 	
 	@Override
-	public CallType chooseReaction(List<CallType> listOfPossibleReactions){
+	public CallType chooseReaction(Hand hand, List<CallType> listOfPossibleReactions){
 		
 		//get user's choice through UI
 		boolean called = userInterface.askUserInputCall(

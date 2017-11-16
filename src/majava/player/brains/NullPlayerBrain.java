@@ -2,6 +2,7 @@ package majava.player.brains;
 
 import java.util.List;
 
+import majava.hand.Hand;
 import majava.player.Player;
 
 //(Null object pattern)
@@ -14,15 +15,15 @@ public class NullPlayerBrain extends PlayerBrain {
 	
 	@Override
 	//Null behavior: always choose discard as your action
-	protected ActionType selectTurnAction(List<ActionType> listOfPossibleTurnActions){return ActionType.DISCARD;}
+	protected ActionType selectTurnAction(Hand hand, List<ActionType> listOfPossibleTurnActions){return ActionType.DISCARD;}
 	
 	@Override
 	//Null behavior: always discard the tsumo tile (tsumogiri/ÉcÉÇêÿÇË)
-	protected int selectDiscardIndex(){return tsumoTileIndex();}
+	protected int selectDiscardIndex(Hand hand){return tsumoTileIndex(hand);}
 	
 	@Override
 	//Null behavior: never react to another player's tile
-	protected CallType chooseReaction(List<CallType> listOfPossibleReactions){return CallType.NONE;}
+	protected CallType chooseReaction(Hand hand, List<CallType> listOfPossibleReactions){return CallType.NONE;}
 	
 	@Override
 	//Null behavior: is not considered human

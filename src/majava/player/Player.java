@@ -43,7 +43,7 @@ public class Player {
 	
 	
 	public Player(PlayerProfile newProfile){
-		//always generate a default null brain. we don't want brainless players
+		//always generate a default null brain, we don't want brainless players
 		brain = new NullPlayerBrain(this);
 		profile = newProfile;
 		pointsBox = new PointsBox();
@@ -84,7 +84,7 @@ public class Player {
 	public GameTile takeTurn(){
 		lastDiscard = null;
 		
-		brain.chooseTurnAction();
+		brain.chooseTurnAction(hand);
 		if (turnActionChoseDiscard()){
 			
 			//discard and return the chosen tile
@@ -174,7 +174,7 @@ public class Player {
 		
 		//if able to call the tile, ask brain for reaction
 		if (ableToCallTile(tileToReactTo))
-			brain.reactToDiscard(tileToReactTo);
+			brain.reactToDiscard(hand, tileToReactTo);
 		
 		return brain.called();
 	}

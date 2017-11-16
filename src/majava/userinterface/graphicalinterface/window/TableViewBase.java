@@ -28,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
 
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
@@ -529,8 +530,7 @@ public class TableViewBase extends JFrame{
 		larryInfoRound[LARRY_INFOROUND_ROUNDWIND].setIcon(null);larryInfoRound[LARRY_INFOROUND_ROUNDNUM].setText(null);larryInfoRound[LARRY_INFOROUND_BONUSNUM].setText(null);
 		
 		//turn indicators
-		for (JPanel p: parryTurnInds)
-			p.setVisible(false);
+		hideAll(parryTurnInds);
 		
 		//round result
 		panRoundResultLabel.setVisible(false);
@@ -544,12 +544,9 @@ public class TableViewBase extends JFrame{
 		}
 		
 		//call buttons
-		for (JButton b: barryCalls)
-			b.setVisible(false);
-		
+		hideAll(barryCalls);
 		//turn action buttons
-		for (JButton b: barryTActions)
-			b.setVisible(false);
+		hideAll(barryTActions);
 		
 		//dead wall and tiny wall
 		for (JLabel l: larryDW)  l.setIcon(null);
@@ -559,7 +556,7 @@ public class TableViewBase extends JFrame{
 		repaint();
 	}
 	
-	
+	private void hideAll(JComponent[] components){for (JComponent c: components) c.setVisible(false);}
 	
 	
 	
@@ -577,14 +574,10 @@ public class TableViewBase extends JFrame{
 	
 
 	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
-		
-		chosenCall = NO_CALL_CHOSEN;
 		boolean onlyOneChiPossible = ((canChiL ^ canChiM ^ canChiH) ^ (canChiL && canChiM && canChiH));
 		int chiType = -1;
 		
-		for (JButton b: barryCalls) b.setVisible(false);
-		
-		
+		hideAll(barryCalls);
 		barryCalls[CALL_NONE].setVisible(true);
 		
 		//if only one type of chi is possible, just show a single Chi button
@@ -609,12 +602,13 @@ public class TableViewBase extends JFrame{
 		repaint();
 		
 		
+		chosenCall = NO_CALL_CHOSEN;
 		while (chosenCall == NO_CALL_CHOSEN)
 			waitAroundForClick();
 		
 		if (chosenCall == CALL_CHI) chosenCall = chiType;
 		
-		for (JButton b: barryCalls) b.setVisible(false);
+		hideAll(barryCalls);
 		return (chosenCall != NO_CALL_CHOSEN);
 	}
 	public boolean resultChosenCallWasNone(){return (chosenCall == NO_CALL_CHOSEN);}
@@ -656,8 +650,7 @@ public class TableViewBase extends JFrame{
 		if (chosenDiscard > handSize) setDiscardChosen(DEFAULT_DISCARD);
 		if (chosenDiscard == DEFAULT_DISCARD) chosenDiscard = handSize;
 		
-		
-		for (JButton b: barryTActions) b.setVisible(false);
+		hideAll(barryTActions);
 	}
 	public boolean resultChosenTurnActionWasDiscard(){return (chosenTurnAction == TURN_ACTION_DISCARD);}
 	public boolean resultChosenTurnActionWasAnkan(){return (chosenTurnAction == TURN_ACTION_ANKAN);}
@@ -1545,7 +1538,7 @@ public class TableViewBase extends JFrame{
 						if (randGen.nextBoolean()) infoP[LARRY_INFOPLAYER_RIICHI].setIcon(null); else infoP[LARRY_INFOPLAYER_RIICHI].setIcon(garryOther[GARRYINDEX_OTHER_RIICHI]);}
 					lblExclamation.setVisible(true);lblExclamation.setLocation(randGen.nextInt(NUM_SEATS));
 					String[] results = {"Draw (Washout)", "Draw (Kyuushuu)", "Draw (4 kans)", "Draw (4 riichi)", "Draw (4 wind)", "East wins! (TSUMO)", "East wins! (RON)", "South wins! (TSUMO)", "South wins! (RON)", "West wins! (TSUMO)", "West wins! (RON)", "North wins! (TSUMO)", "North wins! (RON)" };panRoundResultLabel.setVisible(true);lblResult.setText(results[randGen.nextInt(results.length)]);
-					for (JPanel p: parryTurnInds) p.setVisible(false);	parryTurnInds[randGen.nextInt(parryTurnInds.length)].setVisible(true); //randomize turn indicator
+					hideAll(parryTurnInds);	parryTurnInds[randGen.nextInt(parryTurnInds.length)].setVisible(true); //randomize turn indicator
 					lblFun.setIcon(garryOmake[randGen.nextInt(garryOmake.length)]);
 					frame.repaint();
 				}

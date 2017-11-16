@@ -170,7 +170,6 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	
 	/*......................................BEGIN LABEL ARRAYS......................................*/
 	
 	protected final JLabel[] larryH1 = new JLabel[SIZE_HAND], larryH2 = new JLabel[SIZE_HAND], larryH3 = new JLabel[SIZE_HAND], larryH4 = new JLabel[SIZE_HAND];
@@ -235,7 +234,6 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	
 	/*+++++++++++++++++++++++++++++++++++++++BEGIN IMAGE ARRAYS+++++++++++++++++++++++++++++++++++++++*/
 	
 	protected ImageIcon[] garryTileS1big = new ImageIcon[SIZE_GARRY_TILES];
@@ -285,8 +283,6 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	
-	
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^BEGIN MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 	
 	protected JPanel contentPane;
@@ -311,13 +307,6 @@ public class TableViewBase extends JFrame{
 	private int chosenDiscard;
 	
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^END MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -353,7 +342,7 @@ public class TableViewBase extends JFrame{
 			larryPonds[seatNum][index].setOpaque(true);
 			larryPonds[seatNum][index].setBackground(COLOR_POND_CALLED_TILE);
 		}
-//		riichi not implemented yet
+/////	riichi not implemented yet
 //		if (tList.get(index).isRiichiTile()){
 //			seatNum = (seatNum + 1) % NUM_PLAYERS;
 //		}
@@ -399,22 +388,8 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	
-	
-	
-	public void exclamationShow(Exclamation exclamation, int seat){
-		//show the label
-		lblExclamation.setText(exclamation.toString());
-		lblExclamation.setLocation(seat);
-		lblExclamation.setVisible(true);
-	}
-	public void exclamationErase(){lblExclamation.setVisible(false);}
-	
-	
-	
-	
-	
-	
+	public void exclamationShow(Exclamation exclamation, int seat){lblExclamation.showExclamation(exclamation, seat);}
+	public void exclamationErase(){lblExclamation.erase();}
 	
 	
 	
@@ -1487,6 +1462,14 @@ public class TableViewBase extends JFrame{
 			if (seatLocs == null || seatLocs.length != NUM_SEATS) return; for (int iarr[]: seatLocs) if (iarr == null || iarr.length != 2) return;
 			for (int seat = 0; seat < 4; seat++) for (int XorY = 0; XorY < 2; XorY++) LOCS[seat][XorY] = seatLocs[seat][XorY];
 		}
+		
+		public void showExclamation(Exclamation exclamation, int seat){
+			//show the label
+			setText(exclamation.toString());
+			setLocation(seat);
+			setVisible(true);
+		}
+		public void erase(){setVisible(false);}
 	}
 	
 	

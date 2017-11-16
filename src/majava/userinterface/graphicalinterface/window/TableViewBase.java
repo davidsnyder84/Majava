@@ -70,12 +70,10 @@ public class TableViewBase extends JFrame{
 	
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	
-	//Control constants
+	//debgug flags
 	protected static final boolean DEFAULT_OPTION_REVEAL_WALL = true;
 	protected static final boolean DEFAULT_OPTION_REVEAL_HANDS = true;
-	
-	//debug buttons
-	protected static final boolean DEBUG_BUTTONS_VISIBLE = true;
+	protected static final boolean DEBUG_BUTTONS_VISIBLE = false;
 	
 	
 	//window constants
@@ -88,8 +86,6 @@ public class TableViewBase extends JFrame{
 	protected static final int WINDOW_SIDE_BORDER_SIZE = 2;
 	protected static final int WINDOW_BOTTOM_BORDER_SIZE = 8;
 	protected static final int WINDOW_MENU_SIZE = 23;
-	
-	
 	
 
 	
@@ -913,7 +909,7 @@ public class TableViewBase extends JFrame{
 		panDebugButtons.setLocation(204, 333);
 		
 		
-		panDebugButtons.setVisible(false);
+		panDebugButtons.setVisible(DEBUG_BUTTONS_VISIBLE);
 		
 		
 		panTable = panelTable;
@@ -993,7 +989,7 @@ public class TableViewBase extends JFrame{
 		garryOther[0] = new ImageIcon(getClass().getResource("/res/img/other/riichiStick.png"));
 		
 		//load omake imgaes into array
-		garryOmake[0] = new ImageIcon(getClass().getResource("/res/img/omake/sheepy2trans.png"));
+		garryOmake[0] = new ImageIcon(getClass().getResource("/res/img/omake/sheep2toumei.png"));
 		garryOmake[1] = new ImageIcon(getClass().getResource("/res/img/omake/birdClipart1.png"));
 		garryOmake[2] = new ImageIcon(getClass().getResource("/res/img/omake/birdClipart2.png"));
 		garryOmake[3] = new ImageIcon(getClass().getResource("/res/img/omake/birdClipart3.png"));

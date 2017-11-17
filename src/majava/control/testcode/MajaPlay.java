@@ -772,42 +772,42 @@ public class MajaPlay {
 		println("t2: " + t2.toString() + ", owner: " + t2.getOrignalOwner() + "\n");
 	}
 	
-	public static void playImmutableTileTests(){
-		System.out.println();
-//		List<TileInterface> il = ImmutableTile.retrieveMultipleTiles(5,6,7,8,9);
-//		for (TileInterface t: il) System.out.println(t.toString());
-		for (TileInterface t: ImmutableTile.retrieveMultipleTiles(5,6,7,8,9)) System.out.println(t.toString());
-//		for (int i = 0; i < ImmutableTile.retrieveMultipleTiles(5,6,7,8,9).size(); i++)System.out.println(i);
-		System.out.println("\n\n"); 
-		
-		
-//		List<ImmutableTile> list = new ArrayList<ImmutableTile>();
-//		for (int i = 0; i <= NUMBER_OF_DIFFERENT_TILES; i++) list.add(ImmutableTile.retrieveTile(i));
-//		for (ImmutableTile t: list) System.out.println(t.toString());
-		
-		
-//		ImmutableTile it = tiles[3];
-		ImmutableTile it = ImmutableTile.retrieveTile(3);
-		System.out.println(it.toString());
-		
-		GameTile gt= new GameTile(3);
-		System.out.println(gt.toString());
-		
-		System.out.println(it.equals(gt));
-		System.out.println(gt.equals(it));
-		
-		System.out.println();
-		System.out.println(new Integer(3).equals(it));
-		System.out.println(it.equals(new Integer(3)));
-
-		System.out.println();
-		List<Integer> a = Arrays.asList(new Integer(2),new Integer(3),new Integer(4));
-		List<TileInterface> ls = ImmutableTile.retrieveMultipleTiles(2,3,4);
-		System.out.println(a.toString());
-		System.out.println(a.contains(it));
-		System.out.println(ls.toString());
-		System.out.println(ls.contains(3));
-	}
+//	public static void playImmutableTileTests(){
+//		System.out.println();
+////		List<TileInterface> il = ImmutableTile.retrieveMultipleTiles(5,6,7,8,9);
+////		for (TileInterface t: il) System.out.println(t.toString());
+//		for (TileInterface t: ImmutableTile.retrieveMultipleTiles(5,6,7,8,9)) System.out.println(t.toString());
+////		for (int i = 0; i < ImmutableTile.retrieveMultipleTiles(5,6,7,8,9).size(); i++)System.out.println(i);
+//		System.out.println("\n\n"); 
+//		
+//		
+////		List<ImmutableTile> list = new ArrayList<ImmutableTile>();
+////		for (int i = 0; i <= NUMBER_OF_DIFFERENT_TILES; i++) list.add(ImmutableTile.retrieveTile(i));
+////		for (ImmutableTile t: list) System.out.println(t.toString());
+//		
+//		
+////		ImmutableTile it = tiles[3];
+//		ImmutableTile it = ImmutableTile.retrieveTile(3);
+//		System.out.println(it.toString());
+//		
+//		GameTile gt= new GameTile(3);
+//		System.out.println(gt.toString());
+//		
+//		System.out.println(it.equals(gt));
+//		System.out.println(gt.equals(it));
+//		
+//		System.out.println();
+//		System.out.println(new Integer(3).equals(it));
+//		System.out.println(it.equals(new Integer(3)));
+//
+//		System.out.println();
+//		List<Integer> a = Arrays.asList(new Integer(2),new Integer(3),new Integer(4));
+//		List<TileInterface> ls = ImmutableTile.retrieveMultipleTiles(2,3,4);
+//		System.out.println(a.toString());
+//		System.out.println(a.contains(it));
+//		System.out.println(ls.toString());
+//		System.out.println(ls.contains(3));
+//	}
 	
 	
 	

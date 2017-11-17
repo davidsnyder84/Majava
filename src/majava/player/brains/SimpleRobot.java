@@ -5,6 +5,7 @@ import java.util.Random;
 
 import majava.hand.Hand;
 import majava.player.Player;
+import majava.tiles.GameTile;
 
 
 public class SimpleRobot extends RobotBrain {
@@ -41,10 +42,9 @@ public class SimpleRobot extends RobotBrain {
 	
 	@Override
 	protected ActionType selectTurnAction(Hand hand, List<ActionType> listOfPossibleTurnActions){
-		if (likesToMakeTurnActions && !listOfPossibleTurnActions.isEmpty())
-			return listOfPossibleTurnActions.get(listOfPossibleTurnActions.size()-1);
-		else
-			return ActionType.DISCARD;
+		if (likesToMakeTurnActions)
+			return biggestTurnAction(listOfPossibleTurnActions);
+		return ActionType.DISCARD;
 	}
 	
 	@Override
@@ -67,13 +67,11 @@ public class SimpleRobot extends RobotBrain {
 	
 	
 	@Override
-	protected CallType chooseReaction(Hand hand, List<CallType> listOfPossibleReactions){
-		//listOfPossibleReactions is guaranteed to be non-empty (see superclass's template method)
-		
+	protected CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions){
+		//listOfPossibleReactions is guaranteed to be non-empty (see superclass's template method)	
 		//choose the biggest call I possibly can
 		if (likesToMakeCalls)
-			return listOfPossibleReactions.get(listOfPossibleReactions.size()-1);
-		
+			return biggestReaction(listOfPossibleReactions);
 		return CallType.NONE;
 	}
 	

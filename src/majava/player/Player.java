@@ -12,7 +12,9 @@ import majava.userinterface.GameUI;
 import majava.player.brains.HumanBrain;
 import majava.player.brains.NullPlayerBrain;
 import majava.player.brains.PlayerBrain;
+import majava.player.brains.RobotBrain;
 import majava.player.brains.SimpleRobot;
+import majava.player.brains.TseIiMenBot;
 import majava.summary.PointsBox;
 import majava.tiles.GameTile;
 
@@ -312,7 +314,8 @@ public class Player {
 	private void setController(PlayerBrain desiredBrain){brain = desiredBrain;}
 	public void setControllerHuman(){setController(new HumanBrain(this, userInterface));}
 	public void setControllerComputer(){
-		SimpleRobot robot = new SimpleRobot(this);
+//		RobotBrain robot = new SimpleRobot(this);
+		RobotBrain robot = new TseIiMenBot(this);
 		setController(robot);
 	}
 	public String getControllerAsString(){return brain.toString();}

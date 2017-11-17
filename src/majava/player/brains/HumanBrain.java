@@ -5,6 +5,7 @@ import java.util.List;
 import majava.enums.GameplayEvent;
 import majava.hand.Hand;
 import majava.player.Player;
+import majava.tiles.GameTile;
 import majava.userinterface.GameUI;
 
 public class HumanBrain extends PlayerBrain {
@@ -58,7 +59,7 @@ public class HumanBrain extends PlayerBrain {
 	
 	
 	@Override
-	public CallType chooseReaction(Hand hand, List<CallType> listOfPossibleReactions){
+	public CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions){
 		
 		//get user's choice through UI
 		boolean called = userInterface.askUserInputCall(

@@ -104,7 +104,7 @@ public abstract class PlayerBrain {
 			return;
 		}
 
-		callStatus = chooseReaction(hand, listOfPossibleReactions);
+		callStatus = chooseReaction(hand, tileToReactTo, listOfPossibleReactions);
 //		return callStatus != CallType.NONE;
 	}
 
@@ -122,8 +122,16 @@ public abstract class PlayerBrain {
 		return listOfPossibleReactions;
 	}
 	//how the reaction is chosen left abstract and must be defined by the subclass
-	protected abstract CallType chooseReaction(Hand hand, List<CallType> listOfPossibleReactions);
+	protected abstract CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions);
 	
+	protected final ActionType biggestTurnAction(List<ActionType> actions){
+		if (actions.isEmpty()) return ActionType.DISCARD;
+		return actions.get(actions.size()-1);
+	}
+	protected final CallType biggestReaction(List<CallType> calls){
+		if (calls.isEmpty()) return CallType.NONE;
+		return calls.get(calls.size()-1);
+	}
 	
 	
 	

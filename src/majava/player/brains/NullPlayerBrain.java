@@ -4,6 +4,7 @@ import java.util.List;
 
 import majava.hand.Hand;
 import majava.player.Player;
+import majava.tiles.GameTile;
 
 //(Null object pattern)
 //represents a player brain with defined null behavior. (ie, a player with no set controller)
@@ -23,7 +24,7 @@ public class NullPlayerBrain extends PlayerBrain {
 	
 	@Override
 	//Null behavior: never react to another player's tile
-	protected CallType chooseReaction(Hand hand, List<CallType> listOfPossibleReactions){return CallType.NONE;}
+	protected CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions){return CallType.NONE;}
 	
 	@Override
 	//Null behavior: is not considered human

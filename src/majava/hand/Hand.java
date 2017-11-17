@@ -63,6 +63,10 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		
 		return meldList;
 	}
+
+	public List<Meld> getFinishingMelds(){return handChecker.getFinishingMelds();}
+	
+	public boolean isFull(){return (size() % 3) == (MAX_HAND_SIZE % 3);}
 	
 	
 	

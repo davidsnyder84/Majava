@@ -393,6 +393,8 @@ public class Player {
 
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand (for debug use)
 	public void addTileToHand(int tileID){addTileToHand(new GameTile(tileID));}
+	
+	public Hand DEMOgetHand(){return hand;}
 	////////////////////////////////////////////////////////////////////////////////////
 	//////END DEMO METHODS
 	////////////////////////////////////////////////////////////////////////////////////

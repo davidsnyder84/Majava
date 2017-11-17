@@ -381,7 +381,7 @@ public class HandChecker {
 	}
 	//overloaded, checks mHandTiles by default
 	public static boolean isCompleteNormal(GameTileList checkTiles){return isCompleteNormal(checkTiles, null);}
-	public boolean isCompleteNormal(List<Meld> finishingMelds){return isCompleteNormal(myHandTiles, null);}
+	public boolean isCompleteNormal(List<Meld> finishingMelds){return isCompleteNormal(myHandTiles, finishingMelds);}
 	public boolean isCompleteNormal(){return isCompleteNormal(myHandTiles);}
 	
 	

@@ -38,8 +38,8 @@ public class DemoHandGen {
 		
 		
 //		runSimulationNoDisplay(50000);
-		runSumulationRandom(300000);
-//		runSpecificTest();
+//		runSumulationRandom(300000);
+		runSpecificTest();
 		
 //		runTenpaiSimulation(500);
 		
@@ -319,7 +319,7 @@ public class DemoHandGen {
 
 		printFinishingMeldsFor(hand.DEMOgetChecker());
 		
-		System.out.println("\n\n\n\n\n");
+		System.out.println("\n\n\n");
 		System.out.println("Hand is tenpai:? " + "\n" + checker.DEMOfindNormalTenpaiWaits());
 		
 	}
@@ -328,12 +328,12 @@ public class DemoHandGen {
 		Hand hand = new Hand();
 //		TileList tiles = new TileList(19,19,19,20,21,21,22,22,23,32,32,32,34,34);	//S1 S1 S1 S2 S3 S3 S4 S4 S5 DW DW DW DR DR
 //		TileList tiles = new TileList(21,22,23,32,32,32,34,34);
-//		TileList tiles = new TileList(2+9,3+9,4+9,1+18,1+18);	//P2 P3 P4 S1 S1
+		GameTileList tiles = new GameTileList(2+9,3+9,4+9,1+18,1+18);	//P2 P3 P4 S1 S1
 //		GameTileList tiles = new GameTileList(1,1,2+9,3+9,4+9);	//P2 P3 P4 S1 S1
 //		GameTileList tiles = new GameTileList(3,7,8,9,4+18,5+18,6+18);	//M3 M7 M8 M9 S4 S5 S6
 //		GameTileList tiles = new GameTileList(1,2,2,3,3,4,7+9,9+9,18+5,18+5);	//
 //		GameTileList tiles = new GameTileList(1,1,1,2,3,4,5,6,7,8,9,9,9);	//tenpai chuuren
-		GameTileList tiles = new GameTileList(2,2,8+9,8+9,6+18,6+18,33,33);	//error case
+//		GameTileList tiles = new GameTileList(2,2,8+9,8+9,6+18,6+18,33,33);	//error case
 		
 		
 		for (GameTile t: tiles){

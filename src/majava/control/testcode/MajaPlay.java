@@ -90,7 +90,8 @@ public class MajaPlay {
 		h1.addTile(new GameTile(Janpai.M4));
 		
 		
-		Hand h2 = new Hand(h1);
+		Hand h2 = h1.clone();
+//		Hand h2 = new Hand(h1);
 		h2.addTile(new GameTile(Janpai.P6));
 		h2.addTile(new GameTile(Janpai.P7));
 		h2.addTile(new GameTile(Janpai.P8));

@@ -11,6 +11,7 @@ import majava.tiles.GameTile;
 import majava.enums.GameplayEvent;
 import majava.enums.Wind;
 import majava.enums.Exclamation;
+import majava.hand.AgariHand;
 
 
 
@@ -86,17 +87,23 @@ public class Round{
 		while (!roundIsOver()){
 			doPlayerTurn(roundTracker.currentPlayer());
 			
-			if (!roundIsOver())
-				if (roundTracker.callWasMadeOnDiscard())
-					handleReaction();
+			if (roundIsOver())
+				break;
+			
+			if (roundTracker.callWasMadeOnDiscard())
+				handleReaction();
 		}
-		
 		handleRoundEnd();
 	}
 	
 	
 	private void handleRoundEnd(){
 		doPointPayments();
+		
+		///////////////////////////////
+		AgariHand agariHand = new AgariHand(roundResult.getWinningPlayer().DEMOgetHand(), roundResult.getWinningTile());
+		System.out.println(agariHand.toString());
+		
 		
 		if (userInterface != null) userInterface.setRoundResult(roundResult.getSummary());
 		

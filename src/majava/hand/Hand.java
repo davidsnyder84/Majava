@@ -13,7 +13,7 @@ import majava.enums.MeldType;
 
 
 //represents a player's hand (Žè”v) of tiles
-public class Hand implements Iterable<GameTile>{	
+public class Hand implements Iterable<GameTile>, Cloneable{	
 	private static final int MAX_HAND_SIZE = 14;
 	private static final int MAX_NUM_MELDS = 5;
 	private static final int AVG_NUM_TILES_PER_MELD = 3;
@@ -36,6 +36,15 @@ public class Hand implements Iterable<GameTile>{
 		handChecker = new HandChecker(this, tiles, melds);
 		roundTracker = null;
 	}
+	public Hand (Hand other){
+		tiles = other.tiles.clone();
+		melds = new ArrayList<Meld>(MAX_NUM_MELDS);
+		for (Meld m: other.melds) melds.add(m.clone());
+		
+		handChecker = new HandChecker(this, tiles, melds);
+		roundTracker = other.roundTracker;
+	}
+	public Hand clone(){return new Hand(this);}
 	
 	
 	

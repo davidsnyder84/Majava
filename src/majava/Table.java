@@ -21,8 +21,8 @@ public class Table {
 	
 	private GameUI userInterface;	
 	//options
-	private boolean optionDoSinglePlayer;
-	private boolean optionDoFastGameplay;
+	private boolean optionDoSinglePlayer = DEFAULT_DO_SINGLE_PLAYER;
+	private boolean optionDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
 	
 	
 	
@@ -30,9 +30,6 @@ public class Table {
 	public Table(){
 		userInterface = null;
 		userInterface = generateGameUI();
-		
-		optionDoSinglePlayer = DEFAULT_DO_SINGLE_PLAYER;
-		optionDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
 	}
 	
 	

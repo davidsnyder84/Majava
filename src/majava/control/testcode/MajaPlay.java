@@ -14,6 +14,7 @@ import majava.enums.Wind;
 import majava.player.Player;
 import majava.tiles.GameTile;
 import majava.tiles.HandCheckerTile;
+import majava.tiles.Janpai;
 import majava.tiles.PondTile;
 import majava.tiles.TileInterface;
 import majava.util.GameTileList;
@@ -61,7 +62,7 @@ public class MajaPlay {
 		
 		
 		
-		kokushiTenpaiTest();
+//		kokushiTenpaiTest();
 		
 //		chiitoiTenpaiTest();
 		
@@ -76,9 +77,37 @@ public class MajaPlay {
 		
 //		playNewTileInhertance();
 		
+		testHandClone();
+		
 	}
 	public static void println(String prints){System.out.println(prints);}public static void println(){println("");}
 	
+	public static void testHandClone(){
+		
+		Hand h1 = new Hand();
+		h1.addTile(new GameTile(Janpai.M2));
+		h1.addTile(new GameTile(Janpai.M3));
+		h1.addTile(new GameTile(Janpai.M4));
+		
+		
+		Hand h2 = new Hand(h1);
+		h2.addTile(new GameTile(Janpai.P6));
+		h2.addTile(new GameTile(Janpai.P7));
+		h2.addTile(new GameTile(Janpai.P8));
+		
+		println(h1.toString());
+		println(h2.toString());
+		
+		
+		Meld m1 = new Meld(new GameTileList(new GameTile(Janpai.P8), new GameTile(Janpai.P8), new GameTile(Janpai.P8)), MeldType.PON);
+		Meld m2 = m1.clone();
+		
+		m2.upgradeToMinkan(new GameTile(Janpai.P8));
+		
+		println("\n\n");
+		println(m1.toString());
+		println(m2.toString());
+	}
 	
 	
 	

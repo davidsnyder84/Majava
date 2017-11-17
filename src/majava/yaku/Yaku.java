@@ -5,7 +5,6 @@ import java.util.List;
 
 
 public enum Yaku {
-	
 	DORA("Dora", 1),
 	DORA_RED("Red Dora", 1),
 	DORA_URA("Ura Dora", 1),
@@ -40,6 +39,7 @@ public enum Yaku {
 	YAKUHAI_DRAGON_HAKU("Yakuhai Haku", 1),
 	YAKUHAI_DRAGON_HATSU("Yakuhai Hatsu", 1),
 	YAKUHAI_DRAGON_CHUN("Yakuhai Chun", 1),
+	//bakaze, jikaze
 	YAKUHAI_WIND_EAST("Yakuhai East", 1),
 	YAKUHAI_WIND_SOUTH("Yakuhai South", 1),
 	YAKUHAI_WIND_WEST("Yakuhai West", 1),
@@ -68,12 +68,7 @@ public enum Yaku {
 	YKM_CHIIHOU("Chiihou", Yaku.YAKUMAN, Yaku.DISALLOW_OPEN),
 	YKM_RENHOU("Renhou", Yaku.YAKUMAN, Yaku.DISALLOW_OPEN),
 	
-	
-	NAGASHI_MANGAN("Nagashi mangan", Yaku.MANGAN);
-	
-	
-	
-	
+	NAGASHI_MANGAN("Nagashi Mangan", Yaku.MANGAN);
 	
 	
 	private static final int YAKUMAN = 13;
@@ -84,18 +79,9 @@ public enum Yaku {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	private final String yakuName;
 	private final int openValue, closedValue;
 	
-	
-
 	//for yaku whose open/closed values differ
 	private Yaku(String name, int closedVal, int openVal){
 		yakuName = name;
@@ -112,13 +98,8 @@ public enum Yaku {
 	
 	public boolean isYakuman(){return closedValue == YAKUMAN;}
 	public boolean allowedOpen(){return openValue != DISALLOW_OPEN;}
-	
-	public String toString(){return yakuName;}
-	
-	
-	
-	
-	
+	@Override
+	public String toString(){return getName();}
 	
 	
 	
@@ -143,9 +124,8 @@ public enum Yaku {
 							);
 	}
 	
-	
 	public static void main(String[]s){
-		listOfAllYaku();
+		System.out.println(listOfAllYaku());
 	}
 	
 }

@@ -33,6 +33,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	private Meld(Meld other){		
 		meldTiles = other.getAllTiles();
 		completedTile = other.completedTile;
+		meldType = other.meldType;
 	}
 	public Meld clone(){return new Meld(this);}
 	

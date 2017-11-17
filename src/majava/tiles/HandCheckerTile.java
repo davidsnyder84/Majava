@@ -21,7 +21,7 @@ public class HandCheckerTile extends GameTile {
 		else
 			meldTypeStack = new MeldTypeStack();
 	}
-	public HandCheckerTile(TileInterface t){this(new GameTile(t));}
+	public HandCheckerTile(Janpai t){this(new GameTile(t));}
 	public HandCheckerTile clone(){return new HandCheckerTile(this);}
 	
 	

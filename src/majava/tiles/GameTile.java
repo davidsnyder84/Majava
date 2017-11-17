@@ -3,37 +3,42 @@ package majava.tiles;
 import majava.enums.Wind;
 
 
-//represents a single game tile (”v), has information for who originally owned the tile
+//represents a single game tile (”v), has information for red dora and for who originally owned the tile
 public class GameTile implements Cloneable, TileInterface {
+	private static final String FACE_FOR_RED_DORA = "%";
 	
 	private final Janpai baseTile;
+	
+	private final boolean isRed;
 	private Wind originalOwnerWind;
 	
 	
 
-	public GameTile(Janpai tilebase){
+	public GameTile(Janpai tilebase, boolean wantRedDora){
 		baseTile = tilebase;
 		originalOwnerWind = Wind.UNKNOWN;
+		isRed = wantRedDora && (baseTile.getFace() == '5');
 	}
-	public GameTile(TileInterface tileInterface){this(tileInterface.getTileBase());}
-	public GameTile(int id, boolean isRed){this(Janpai.retrieveTileRed(id));}
-	public GameTile(int id){this(Janpai.retrieveTile(id));}
-	public GameTile(String suitfaceString){this(Janpai.retrieveTile(suitfaceString));}
+	public GameTile(Janpai tilebase){this(tilebase, false);}
+	public GameTile(int id, boolean wantRedDora){this(Janpai.retrieveTile(id), wantRedDora);}
+	public GameTile(int id){this(id, false);}
+	public GameTile(String suitfaceString){this(Janpai.valueOf(suitfaceString), false);}
 	
 	//copy constructor
 	public GameTile(GameTile other){
 		baseTile = other.baseTile;
 		originalOwnerWind = other.originalOwnerWind;
+		isRed = other.isRed;
 	}
 	public GameTile clone(){return new GameTile(this);}
-	
 	
 	
 	//Owner methods (the player who drew the tile from the wall)
 	final public Wind getOrignalOwner(){return originalOwnerWind;}
 	final public void setOwner(Wind owner){originalOwnerWind = owner;}
 	
-	
+	//dora method
+	final public boolean isRedDora(){return isRed;}
 	
 	
 	
@@ -42,7 +47,6 @@ public class GameTile implements Cloneable, TileInterface {
 	final public int getId(){return baseTile.getId();}
 	final public char getSuit(){return baseTile.getSuit();}
 	final public char getFace(){return baseTile.getFace();}
-	final public boolean isRedDora(){return baseTile.isRedDora();}
 	
 	final public boolean isYaochuu(){return baseTile.isYaochuu();}
 	final public boolean isHonor(){return baseTile.isHonor();}
@@ -60,9 +64,27 @@ public class GameTile implements Cloneable, TileInterface {
 	
 	
 	@Override
-	final public int compareTo(TileInterface other){return baseTile.compareTo(other.getTileBase());}
+	final public int compareTo(TileInterface other){
+		if (getId() != other.getId())
+			return (getId() - other.getId());
+		
+		if (getFace() == '5')
+			if (isRedDora() && !other.isRedDora()) return 1;
+			else return -1;
+		
+		return 0;
+	}
 	@Override
-	final public boolean equals(Object other){return baseTile.equals(other);}
+	final public boolean equals(Object other){
+		if (other == null || !(other instanceof TileInterface)) return false;
+		return getId() == ((TileInterface)other).getId();
+	}
+	
+	
 	@Override
-	public String toString(){return baseTile.toString();}
+	public String toString(){
+		if (isRedDora()) return redDoraToString();
+		return baseTile.toString();
+	}
+	private String redDoraToString(){return getSuit() + FACE_FOR_RED_DORA;}
 }

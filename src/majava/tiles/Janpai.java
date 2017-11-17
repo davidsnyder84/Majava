@@ -7,6 +7,7 @@ import majava.control.testcode.TestingJanpai;
 
 
 
+//enum representing each of the 34 tiles
 public enum Janpai{	
 	O0, 
 	M1, M2, M3, M4, M5, M6, M7, M8, M9,
@@ -62,12 +63,6 @@ public enum Janpai{
 	public static final Janpai retrieveTile(int id){
 		if (id < 0 || id > NUMBER_OF_DIFFERENT_TILES) return DUMMY_TILE;
 		return tiles[id];
-	}
-	public static final Janpai retrieveTile(String suitfaceString){
-		String[] STR_REPS = new String[NUMBER_OF_DIFFERENT_TILES+1];
-		for (int i = 0; i < NUMBER_OF_DIFFERENT_TILES; i++)
-			STR_REPS[i] = tiles[i].toString();
-		return retrieveTile(Arrays.asList(STR_REPS).indexOf(suitfaceString.toUpperCase()));
 	}
 	
 	

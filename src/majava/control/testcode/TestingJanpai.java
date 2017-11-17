@@ -8,11 +8,11 @@ public class TestingJanpai {
 	
 	
 	public static void main(String[] args) {
-//		nextTests();
-//		canchitests();
-//		retrievefromIDtest();
+		nextTests();
+		canchitests();
+		retrievefromIDtest();
 		
-//		equalstesting();
+		equalstesting();
 		valueoftest();
 		
 	}

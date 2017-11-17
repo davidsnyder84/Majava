@@ -24,9 +24,7 @@ public class TseIiMenBot extends RobotBrain {
 	public TseIiMenBot(Player p){this(p, DEFAULT_SUIT_TO_CUT);}
 
 	@Override
-	protected ActionType selectTurnAction(Hand hand, List<ActionType> listOfPossibleTurnActions){
-		return biggestTurnAction(listOfPossibleTurnActions);
-	}
+	protected ActionType selectTurnAction(Hand hand, List<ActionType> listOfPossibleTurnActions){return biggestTurnAction(listOfPossibleTurnActions);}
 	@Override
 	protected int selectDiscardIndex(Hand hand){
 		if (findCutSuitIndex(hand) != NOT_FOUND)
@@ -49,11 +47,7 @@ public class TseIiMenBot extends RobotBrain {
 		return NOT_FOUND;
 	}
 	
-	
-	
 	@Override
-	protected CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions) {
-		return biggestReaction(listOfPossibleReactions);
-	}
+	protected CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions) {return biggestReaction(listOfPossibleReactions);}
 
 }

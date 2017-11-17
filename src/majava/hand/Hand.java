@@ -44,6 +44,7 @@ public class Hand implements Iterable<GameTile>{
 		if (index > size() || index < 0 ) return null;
 		return tiles.get(index);
 	}
+	public int findHowManyOf(GameTile t){return tiles.findHowManyOf(t);}
 	
 	//returns a list of the melds that have been made (copy of actual melds), returns an empty list if no melds made
 	public List<Meld> getMelds(){

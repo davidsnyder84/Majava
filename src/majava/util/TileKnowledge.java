@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import majava.tiles.GameTile;
-import majava.tiles.ImmutableTile;
 import majava.tiles.TileInterface;
 
 

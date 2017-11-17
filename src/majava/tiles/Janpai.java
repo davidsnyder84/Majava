@@ -28,26 +28,26 @@ public enum Janpai{
 	
 	
 	
-	final public int tileID(){return ordinal();}
-	final public char suit(){return toString().charAt(0);}
-	final public char face(){return toString().charAt(1);}
+	final public int getId(){return ordinal();}
+	final public char getSuit(){return toString().charAt(0);}
+	final public char getFace(){return toString().charAt(1);}
 	
 	final public boolean isTanyao(){return !isYaochuu();}
 	final public boolean isYaochuu(){return (isHonor() || isTerminal());}
-	final public boolean isHonor(){return (tileID() >= ID_FIRST_HONOR_TILE);}
-	final public boolean isTerminal(){return (face() == '1' || face() == '9');}
+	final public boolean isHonor(){return (getId() >= ID_FIRST_HONOR_TILE);}
+	final public boolean isTerminal(){return (getFace() == '1' || getFace() == '9');}
 	
 	
 	//returns the tile that follows this one (used to find a dora from a dora indicator)
 	final public Janpai nextTile(){
-		if (face() == '9') return tiles[tileID() - 8];
-		else if (face() == 'N') return tiles[tileID() - 3];
-		else if (face() == 'R') return tiles[tileID() - 2];
-		else return tiles[tileID() + 1];
+		if (getFace() == '9') return tiles[getId() - 8];
+		else if (getFace() == 'N') return tiles[getId() - 3];
+		else if (getFace() == 'R') return tiles[getId() - 2];
+		else return tiles[getId() + 1];
 	}
 	//returns true if it's possible for Tile T to finish a Chi of the given type
 	final private boolean canCompleteChiType(char badface1, char badface2){
-		return !isHonor() && face() != badface1 && face() != badface2;
+		return !isHonor() && getFace() != badface1 && getFace() != badface2;
 	}
 	//Txx
 	final public boolean canCompleteChiL(){return canCompleteChiType('8', '9');}
@@ -63,7 +63,12 @@ public enum Janpai{
 		if (id < 0 || id > NUMBER_OF_DIFFERENT_TILES) return DUMMY_TILE;
 		return tiles[id];
 	}
-//	public static final ImmutableTile retrieveTile(String suitfaceString){return retrieveTile(Arrays.asList(STR_REPS).indexOf(suitfaceString.toUpperCase()));}
+	public static final Janpai retrieveTile(String suitfaceString){
+		String[] STR_REPS = new String[NUMBER_OF_DIFFERENT_TILES+1];
+		for (int i = 0; i < NUMBER_OF_DIFFERENT_TILES; i++)
+			STR_REPS[i] = tiles[i].toString();
+		return retrieveTile(Arrays.asList(STR_REPS).indexOf(suitfaceString.toUpperCase()));
+	}
 	
 	
 	//retrieve multiple tiles

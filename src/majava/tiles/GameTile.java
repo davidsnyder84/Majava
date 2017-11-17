@@ -6,19 +6,19 @@ import majava.enums.Wind;
 //represents a single game tile (”v), has information for who originally owned the tile
 public class GameTile implements Cloneable, TileInterface {
 	
-	private final ImmutableTile baseTile;
+	private final Janpai baseTile;
 	private Wind originalOwnerWind;
 	
 	
 
-	public GameTile(ImmutableTile tilebase){
+	public GameTile(Janpai tilebase){
 		baseTile = tilebase;
 		originalOwnerWind = Wind.UNKNOWN;
 	}
 	public GameTile(TileInterface tileInterface){this(tileInterface.getTileBase());}
-	public GameTile(int id, boolean isRed){this(ImmutableTile.retrieveTileRed(id));}
-	public GameTile(int id){this(ImmutableTile.retrieveTile(id));}
-	public GameTile(String suitfaceString){this(ImmutableTile.retrieveTile(suitfaceString));}
+	public GameTile(int id, boolean isRed){this(Janpai.retrieveTileRed(id));}
+	public GameTile(int id){this(Janpai.retrieveTile(id));}
+	public GameTile(String suitfaceString){this(Janpai.retrieveTile(suitfaceString));}
 	
 	//copy constructor
 	public GameTile(GameTile other){
@@ -48,7 +48,7 @@ public class GameTile implements Cloneable, TileInterface {
 	final public boolean isHonor(){return baseTile.isHonor();}
 	final public boolean isTerminal(){return baseTile.isTerminal();}
 
-	final public ImmutableTile getTileBase(){return baseTile;}
+	final public Janpai getTileBase(){return baseTile;}
 	
 	final public GameTile nextTile(){return new GameTile(baseTile.nextTile());}
 	

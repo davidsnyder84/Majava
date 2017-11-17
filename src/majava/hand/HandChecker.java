@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import majava.tiles.HandCheckerTile;
 import majava.tiles.GameTile;
-import majava.tiles.ImmutableTile;
+import majava.tiles.Janpai;
 import majava.util.GameTileList;
 import majava.util.TileKnowledge;
 import majava.enums.MeldType;
@@ -27,7 +27,7 @@ public class HandChecker {
 	
 	private static final int MAX_HAND_SIZE = 14;
 	
-	private static final Integer[] YAOCHUU_TILE_IDS = ImmutableTile.retrieveYaochuuTileIDs();
+	private static final Integer[] YAOCHUU_TILE_IDS = Janpai.retrieveYaochuuTileIDs();
 	private static final int NUMBER_OF_YAOCHUU_TILES = YAOCHUU_TILE_IDS.length;
 	
 	

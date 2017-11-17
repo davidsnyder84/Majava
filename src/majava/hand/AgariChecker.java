@@ -8,7 +8,7 @@ import majava.enums.MeldType;
 import majava.enums.Wind;
 import majava.tiles.GameTile;
 import majava.tiles.HandCheckerTile;
-import majava.tiles.ImmutableTile;
+import majava.tiles.Janpai;
 import majava.tiles.TileInterface;
 import majava.util.GameTileList;
 
@@ -21,7 +21,7 @@ public class AgariChecker {
 	
 	private static final int MAX_HAND_SIZE = 14;
 	
-	private static final Integer[] YAOCHUU_TILE_IDS = ImmutableTile.retrieveYaochuuTileIDs();
+	private static final Integer[] YAOCHUU_TILE_IDS = Janpai.retrieveYaochuuTileIDs();
 	private static final int NUMBER_OF_YAOCHUU_TILES = YAOCHUU_TILE_IDS.length;
 	
 	private final Hand myHand;

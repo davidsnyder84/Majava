@@ -21,7 +21,7 @@ import majava.player.Player;
 import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
-import majava.tiles.ImmutableTile;
+import majava.tiles.Janpai;
 import majava.tiles.TileInterface;
 
 
@@ -239,7 +239,7 @@ public class Majenerator {
 		return tlist;
 	}
 	public static GameTileList generateHandTilesKokushi(){
-		Integer[] yaochuuIDs = ImmutableTile.retrieveYaochuuTileIDs();
+		Integer[] yaochuuIDs = Janpai.retrieveYaochuuTileIDs();
 		GameTileList tlist = new GameTileList(yaochuuIDs);
 		tlist.add(yaochuuIDs[randGen.nextInt(13)]);
 		tlist.sort();
@@ -271,7 +271,7 @@ public class Majenerator {
 	public static Meld generateMeld(MeldType mt){return generateMeld(mt, true);}
 	public static Meld generateMeld(){return generateMeld(randomMeldType());}
 	
-	public static boolean tileCanMeldMeldType(TileInterface tile, MeldType mt){
+	public static boolean tileCanMeldMeldType(Janpai tile, MeldType mt){
 		if (tile.getId() == 0) return false;
 		
 		//pon/kan/pair
@@ -287,7 +287,7 @@ public class Majenerator {
 		default: return false;
 		}
 	}
-	public static boolean tileCanMeldMeldType(int tId, MeldType mt){return tileCanMeldMeldType(ImmutableTile.retrieveTile(tId), mt);}
+	public static boolean tileCanMeldMeldType(int tId, MeldType mt){return tileCanMeldMeldType(Janpai.retrieveTile(tId), mt);}
 	
 	
 	public static MeldType randomMeldType(){final MeldType[] mts = {MeldType.CHI_L, MeldType.CHI_M, MeldType.CHI_H, MeldType.PON, MeldType.KAN}; return mts[randGen.nextInt(mts.length)];}

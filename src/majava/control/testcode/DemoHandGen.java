@@ -15,7 +15,6 @@ import majava.hand.Meld;
 import majava.enums.MeldType;
 import majava.enums.Wind;
 import majava.tiles.GameTile;
-import majava.tiles.ImmutableTile;
 import majava.tiles.TileInterface;
 import majava.util.GameTileList;
 

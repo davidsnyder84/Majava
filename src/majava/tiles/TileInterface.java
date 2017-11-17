@@ -12,7 +12,7 @@ public interface TileInterface extends Comparable<TileInterface>{
 	public boolean isHonor();
 	public boolean isTerminal();
 	
-	public ImmutableTile getTileBase();
+	public Janpai getTileBase();
 	
 	
 //	public boolean canChiL();

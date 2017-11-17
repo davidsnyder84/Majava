@@ -315,9 +315,9 @@ public class Player {
 	private void setController(PlayerBrain desiredBrain){brain = desiredBrain;}
 	public void setControllerHuman(){setController(new HumanBrain(this, userInterface));}
 	public void setControllerComputer(){
-//		RobotBrain robot = new SimpleRobot(this);
+		RobotBrain robot = new SimpleRobot(this);
 //		RobotBrain robot = new TseIiMenBot(this);
-		RobotBrain robot = new PonMonsterBot(this);
+//		RobotBrain robot = new PonMonsterBot(this);
 		setController(robot);
 	}
 	public String getControllerAsString(){return brain.toString();}

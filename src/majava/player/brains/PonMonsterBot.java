@@ -1,6 +1,7 @@
 package majava.player.brains;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -8,9 +9,15 @@ import majava.hand.Hand;
 import majava.player.Player;
 import majava.tiles.GameTile;
 
+//a bot that likes making pon yaku (toitoi hands)
 public class PonMonsterBot extends RobotBrain {
+	
+	private boolean hatesChi;
 
-	public PonMonsterBot(Player p) {super(p);}
+	public PonMonsterBot(Player p) {
+		super(p);
+		hatesChi = true;
+	}
 	
 
 	@Override
@@ -36,11 +43,19 @@ public class PonMonsterBot extends RobotBrain {
 		if (!triplesIndices.isEmpty()) return pickRandomlyFrom(triplesIndices);
 		
 		return tsumoTileIndex(hand);
-	}
-	
+	}	
 	private int pickRandomlyFrom(List<Integer> choices){return choices.get((new Random()).nextInt(choices.size()));}
 	
 	
+	public void setChiBehavior(boolean willCallChi){hatesChi = !willCallChi;}
+	
+	
 	@Override
-	protected CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions) {return biggestReaction(listOfPossibleReactions);}
+	protected CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions) {
+		//don't call chi
+		if (hatesChi)
+			listOfPossibleReactions.removeAll(Arrays.asList(CallType.CHI_L, CallType.CHI_M, CallType.CHI_H));
+		
+		return biggestReaction(listOfPossibleReactions);
+	}
 }

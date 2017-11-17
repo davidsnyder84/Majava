@@ -28,76 +28,16 @@ import utility.Pauser;
 //a GUI for viewing and interacting with the game
 public class GraphicalUI extends GameUI{
 	
-	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BEGIN CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-	
-	//Control constants
-	protected static final boolean DEFAULT_OPTION_REVEAL_WALL = false;
-	protected static final boolean DEFAULT_OPTION_REVEAL_HANDS = false;
-	
-	//debug buttons
-	protected static final boolean DEBUG_BUTTONS_VISIBLE = true;
-	
-	
-	
-
-
-	protected static final int DEAFULT_SLEEPTIME = 400, DEAFULT_SLEEPTIME_EXCLAMATION = 1500, DEAFULT_SLEEPTIME_ROUND_END = 2000;
-	
-	
-	
-
-	
-	
-	//click action constants
-	protected static final int NO_CALL_CHOSEN = -1;
-	protected static final int CALL_NONE = 0, CALL_CHI_L = 1, CALL_CHI_M = 2, CALL_CHI_H = 3, CALL_PON = 4, CALL_KAN = 5, CALL_RON = 6, CALL_CHI = 7;
-	protected static final int DEFAULT_CALL = CALL_NONE;
-	
-	protected static final int NO_ACTION_CHOSEN = -1;
-	protected static final int TURN_ACTION_DISCARD = -10, TURN_ACTION_ANKAN = -20, TURN_ACTION_MINKAN = -30, TURN_ACTION_RIICHI = -40, TURN_ACTION_TSUMO = -50;
-
-	protected static final int NO_DISCARD_CHOSEN = -1;
-	protected static final int DEFAULT_DISCARD = 0;
-	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~END CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-	
-	
-	
-	
-	
-	
-	protected static final int SEAT1 = 0, SEAT2 = 1, SEAT3 = 2, SEAT4 = 3;
-	protected static final int EAST = 0, SOUTH = 1, WEST = 2, NORTH = 3;
-	protected static final int BIG = 0, SMALL = 1, TINY = 2;
-	protected final static int X = 0, Y = 1, W = 2, H = 3;
-	
-	
-	
-	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^BEGIN MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
-	
-//	protected boolean mOptionRevealWall;
-//	protected boolean mOptionRevealHands;
-//	protected boolean[] mRevealHands;
-	
-
-//	private int mChosenCall;
-//	private int mChosenTurnAction;
-//	private int mChosenDiscard;
-	
+	private static final int DEAFULT_SLEEPTIME = 400, DEAFULT_SLEEPTIME_EXCLAMATION = 1500, DEAFULT_SLEEPTIME_ROUND_END = 2000;
 	
 	
 	private TableViewBase tableWindow;
 	
-	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^END MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public GraphicalUI(){		
+		tableWindow = new TableViewBase();
+//		tableWindow = new TableViewLarge();
+	}
 	
 	
 	protected void __displayEventDiscardedTile(){tableWindow.updateEverything();}
@@ -161,13 +101,6 @@ public class GraphicalUI extends GameUI{
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	public void startUI(){tableWindow.blankEverything(); tableWindow.setVisible(true);}
 	public void endUI(){tableWindow.dispose();}
 	
@@ -179,30 +112,15 @@ public class GraphicalUI extends GameUI{
 		tableWindow.syncWithRoundTracker(roundEntities);
 	}
 	
+	public void printErrorRoundAlreadyOver(){System.out.println("----Error: Round is already over, cannot play");}
 	
 	
 	
-	
-	
-	//launch the application TODO MAIN
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) {		
 		GraphicalUI viewer = new GraphicalUI();
 		
 		viewer.startUI();
 //		viewer.showResult();
 	}
 	
-	//TODO start of constructor
-	public GraphicalUI(){
-		
-		tableWindow = new TableViewBase();
-//		tableWindow = new TableViewLarge();
-		
-	}
-	
-	
-
-	
-	public void printErrorRoundAlreadyOver(){System.out.println("----Error: Round is already over, cannot play");}
 }

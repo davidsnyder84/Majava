@@ -263,12 +263,12 @@ public class Round{
 		__updateUI(GameplayEvent.DISCARDED_TILE);
 		
 		//~~~~~~get reactions from the other players
-		players[(p.getPlayerNumber() + 1) % NUM_PLAYERS].reactToDiscard(discardedTile);
-		players[(p.getPlayerNumber() + 2) % NUM_PLAYERS].reactToDiscard(discardedTile);
-		players[(p.getPlayerNumber() + 3) % NUM_PLAYERS].reactToDiscard(discardedTile);
-//		mRoundTracker.neighborShimochaOf(p).reactToDiscard(discardedTile);
-//		mRoundTracker.neighborToimenOf(p).reactToDiscard(discardedTile);
-//		mRoundTracker.neighborKamichaOf(p).reactToDiscard(discardedTile);
+//		players[(p.getPlayerNumber() + 1) % NUM_PLAYERS].reactToDiscard(discardedTile);
+//		players[(p.getPlayerNumber() + 2) % NUM_PLAYERS].reactToDiscard(discardedTile);
+//		players[(p.getPlayerNumber() + 3) % NUM_PLAYERS].reactToDiscard(discardedTile);
+		roundTracker.neighborShimochaOf(p).reactToDiscard(discardedTile);
+		roundTracker.neighborToimenOf(p).reactToDiscard(discardedTile);
+		roundTracker.neighborKamichaOf(p).reactToDiscard(discardedTile);
 		
 		if (!roundTracker.callWasMadeOnDiscard()){
 			//update turn indicator

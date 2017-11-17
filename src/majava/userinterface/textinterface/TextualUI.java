@@ -1,9 +1,6 @@
 package majava.userinterface.textinterface;
 
 import java.io.PrintStream;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 import majava.enums.Exclamation;
 import majava.enums.GameplayEvent;
@@ -16,30 +13,13 @@ import majava.userinterface.GameUI;
 
 public abstract class TextualUI extends GameUI{
 	
-	protected static final Map<Exclamation, String> exclamationToString;
-	static {
-		Map<Exclamation, String> aMap = new HashMap<Exclamation, String>();
-		aMap.put(Exclamation.CHI, "Chi");aMap.put(Exclamation.PON, "Pon");aMap.put(Exclamation.KAN, "Kan");aMap.put(Exclamation.RON, "Ron");
-		aMap.put(Exclamation.RIICHI, "Riichi");aMap.put(Exclamation.OWN_KAN, "Kan~");aMap.put(Exclamation.TSUMO, "Tsumo");
-		aMap.put(Exclamation.NONE, Exclamation.NONE.toString());aMap.put(Exclamation.UNKNOWN, Exclamation.UNKNOWN.toString());
-		exclamationToString = Collections.unmodifiableMap(aMap);
-	}
-	
-	
 	protected final PrintStream outStream;
-	
-	
 	
 	public TextualUI(){
 		outStream = System.out;
 		roundEntities = null;
 //		mRoundTracker = null; mWall = null; mPTrackers = null;
 	}
-	
-	
-	
-	
-	
 	
 	
 	protected abstract void __displayEventDiscardedTile();
@@ -72,13 +52,6 @@ public abstract class TextualUI extends GameUI{
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	//user interaction (not yet implemented)
 	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){}
 	public boolean resultChosenTurnActionWasDiscard(){return false;}
@@ -99,17 +72,8 @@ public abstract class TextualUI extends GameUI{
 	
 	
 	
-	
-	
-	
-	
-	
-	
 	public void startUI(){/*intentionally blank*/}
 	public void endUI(){/*intentionally blank*/}
-	
-	
-	
 	
 	
 	
@@ -119,7 +83,5 @@ public abstract class TextualUI extends GameUI{
 	
 	
 	public void printErrorRoundAlreadyOver(){println("----Error: Round is already over, cannot play");}
-	
-	
 	
 }

@@ -202,11 +202,11 @@ public class DetailedTextualUI extends TextualUI{
 		
 		if (exclamation.isCall())
 			println("\n*********************************************************" + 
-					"\n**********" + roundEntities.playerTrackers[seat].player.getSeatWind() + " Player called the tile (" + roundEntities.roundTracker.getMostRecentDiscard().toString() + ")! " + exclamationToString.get(exclamation) + "!!!**********" + 
+					"\n**********" + roundEntities.playerTrackers[seat].player.getSeatWind() + " Player called the tile (" + roundEntities.roundTracker.getMostRecentDiscard() + ")! " + exclamation + "!!!**********" + 
 					"\n*********************************************************");
 		else
 			println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
-					"\n~~~~~~~~~~~" + roundEntities.playerTrackers[seat].player.getSeatWind() + " Player declared " + exclamationToString.get(exclamation) + "!!!~~~~~~~~~~~" + 
+					"\n~~~~~~~~~~~" + roundEntities.playerTrackers[seat].player.getSeatWind() + " Player declared " + exclamation + "!!!~~~~~~~~~~~" + 
 					"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		
 

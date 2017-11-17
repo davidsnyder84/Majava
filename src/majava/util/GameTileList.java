@@ -4,10 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import majava.tiles.GameTile;
-import majava.tiles.HandCheckerTile;
 import utility.ConviniList;
 
-
+//a list of tiles with extra methods for convenience
 public class GameTileList extends ConviniList<GameTile>{
 	private static final long serialVersionUID = 5627551401426889451L;
 	

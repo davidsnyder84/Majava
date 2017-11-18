@@ -60,6 +60,7 @@ public class RoundTracker {
 		indexOfWhoseTurn = getDealerSeatNum();
 		mostRecentDiscard = null;
 	}
+	//overloaded without UI
 	public RoundTracker(RoundResult result, Wind windOfRound, int roundNum, int roundBonusNum, Wall receivedWall, Player[] playerArray){this(null, result, windOfRound, roundNum, roundBonusNum, receivedWall, playerArray);}
 	
 	
@@ -171,7 +172,6 @@ public class RoundTracker {
 		
 		roundResult.setWinningHand(winningHandTiles, roundEntities.playerTrackers[winner.getPlayerNumber()].melds, winningTile);
 	}
-	public void setResultRyuukyokuWashout(){roundResult.setResultRyuukyokuWashout();}
 	
 //	public Player getWinningPlayer(){return mRoundResult.getWinningPlayer();}
 //	public Player getFurikondaPlayer(){return mRoundResult.getFurikondaPlayer();}
@@ -223,17 +223,6 @@ public class RoundTracker {
 	}
 	
 	
-	
-	
-	
-	//checks if the wall is empty, and sets the round result if so	
-	public boolean checkIfWallIsEmpty(){
-		if (wall.isEmpty()){
-			setResultRyuukyokuWashout();
-			return true;
-		}
-		return false;
-	}
 	
 	public int getNumTilesLeftInWall(){return wall.numTilesLeftInWall();}
 	

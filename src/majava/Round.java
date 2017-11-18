@@ -25,8 +25,8 @@ public class Round{
 	private static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
 	//for debug use
-	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
-//	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+//	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	
 	
@@ -291,7 +291,9 @@ public class Round{
 		
 		if (!roundTracker.callWasMadeOnDiscard()){
 			//update turn indicator
-			if (!roundTracker.checkIfWallIsEmpty())
+			if (wallIsEmpty())
+				setResultRyuukyokuWashout();
+			else
 				roundTracker.nextTurn();
 		}
 	}
@@ -310,8 +312,9 @@ public class Round{
 		//draw from wall or dead wall, depending on what player needs
 		if (p.needsDrawNormal()){
 			
-			if (roundTracker.checkIfWallIsEmpty()){
+			if (wallIsEmpty()){
 				//no tiles left in wall, round over
+				setResultRyuukyokuWashout();
 				return;
 			}
 			else{
@@ -340,10 +343,13 @@ public class Round{
 	
 	private void setResultVictory(Player winner){roundTracker.setResultVictory(winner);}
 	
+	private boolean wallIsEmpty(){return wall.isEmpty();}
+	private void setResultRyuukyokuWashout(){roundResult.setResultRyuukyokuWashout();}
+	
 	/////these aren't implemented yet in gameplay
-	public void setResultRyuukyokuKyuushu(){roundResult.setResultRyuukyokuKyuushu();}
-	public void setResultRyuukyoku4Riichi(){roundResult.setResultRyuukyoku4Riichi();}
-	public void setResultRyuukyoku4Wind(){roundResult.setResultRyuukyoku4Wind();}
+	private void setResultRyuukyokuKyuushu(){roundResult.setResultRyuukyokuKyuushu();}
+	private void setResultRyuukyoku4Riichi(){roundResult.setResultRyuukyoku4Riichi();}
+	private void setResultRyuukyoku4Wind(){roundResult.setResultRyuukyoku4Wind();}
 	
 	
 	

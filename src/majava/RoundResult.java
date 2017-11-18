@@ -82,6 +82,7 @@ public class RoundResult {
 		flagRoundIsOver = true;
 	}
 	
+	/////荒牌平局（ホワンパイピンチュー、こうはいへいきょく）、または荒牌（ホワンパイ、こうはい）と呼ぶ
 	public void setResultRyuukyokuWashout(){__setRoundOver(ResultType.createResultRyuukyokuWashout());}
 	public void setResultRyuukyokuKyuushu(){__setRoundOver(ResultType.createResultRyuukyokuKyuushu());}
 	public void setResultRyuukyoku4Kan(){__setRoundOver(ResultType.createResultRyuukyoku4Kan());}

@@ -41,28 +41,20 @@ methods:
 	 	getWinTypeString - returns the win type as a string (tsumo, ron)
 */
 public class RoundResult {
-	
-	
 	private boolean flagRoundIsOver;
 	
 	private ResultType resultType;
 	private RoundResultSummary resultSummary;
-
-
+	
 	private Player winningPlayer;
 	private Player furikondaPlayer;
 	
 	private GameTile winningTile;
-
 	
 	private GameTileList winnerHand;
 	private List<Meld> winnerMelds;
 	
 	private PaymentMap payments;
-	
-	
-	
-	
 	
 	
 	public RoundResult(){
@@ -72,7 +64,6 @@ public class RoundResult {
 		winningPlayer = furikondaPlayer = null;
 		winningTile = null;
 	}
-	
 	
 	
 	
@@ -119,12 +110,7 @@ public class RoundResult {
 	
 	
 	
-	
-	
-	
-	
 	//accessors
-	
 	public boolean isOver(){return flagRoundIsOver;}
 	public boolean isDraw(){return isOver() && resultType.isDraw();}
 	public boolean isDrawWashout(){return isOver() && resultType.isDrawWashout();}
@@ -171,7 +157,6 @@ public class RoundResult {
 	
 	
 	
-	//returns the round result as a string
 	@Override
 	public String toString(){
 		String resString = "";

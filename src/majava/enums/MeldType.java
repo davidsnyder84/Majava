@@ -26,4 +26,5 @@ public enum MeldType {
 		
 		public boolean isPon(){return (this == PON);}
 		public boolean isKan(){return (this == KAN);}
+		public boolean isPair(){return (this == PAIR);}
 }

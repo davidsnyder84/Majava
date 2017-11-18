@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import majava.userinterface.GameUI;
+import majava.yaku.YakuAnalyzer;
 import majava.player.Player;
 import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
@@ -101,8 +102,7 @@ public class Round{
 		doPointPayments();
 		
 		///////////////////////////////
-		AgariHand agariHand = new AgariHand(roundResult.getWinningPlayer().DEMOgetHand(), roundResult.getWinningTile());
-		System.out.println(agariHand.toString());
+		yakuDriveby();
 		
 		
 		if (userInterface != null) userInterface.setRoundResult(roundResult.getSummary());
@@ -111,6 +111,13 @@ public class Round{
 		displayRoundResult();
 	}
 	
+	private void yakuDriveby(){
+		AgariHand agariHand = new AgariHand(roundResult.getWinningPlayer().DEMOgetHand(), roundResult.getWinningTile());
+		System.out.println(agariHand.toString());
+		
+		YakuAnalyzer yakuana = new YakuAnalyzer(roundResult.getWinningPlayer().DEMOgetHand(), roundResult);
+		System.out.println("YAKUANALYZERSAYS: "  + yakuana.getYakuList());
+	}
 	
 	
 	private void doPointPayments(){

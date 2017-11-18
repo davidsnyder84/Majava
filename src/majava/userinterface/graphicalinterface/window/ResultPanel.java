@@ -117,7 +117,7 @@ public class ResultPanel extends JPanel{
 			winningTile = resum.getWinningTile();
 			
 			//***panel/list of yaku
-			yakuList = Majenerator.generateYakuList();
+			yakuList = Majenerator.generateYakuList();	/////////////////////YAKU HERE
 			yakuWorth = yakuList.totalHan();
 			
 			//***hand score label

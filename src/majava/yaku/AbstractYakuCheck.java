@@ -1,13 +1,19 @@
 package majava.yaku;
 
+import majava.hand.AgariHand;
 import majava.hand.Hand;
+import majava.util.YakuList;
 
 public abstract class AbstractYakuCheck {
-	protected final Hand hand;
+	protected final AgariHand hand;
 	
-	public AbstractYakuCheck(Hand aHand){
-		hand = aHand;
+	public AbstractYakuCheck(AgariHand h){
+		hand = h;
 	}
+	
+	public abstract YakuList calculateElligibleYaku();
+	
+	
 	
 	
 	protected Hand getHand(){return hand;}

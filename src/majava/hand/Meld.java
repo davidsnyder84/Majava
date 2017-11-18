@@ -107,6 +107,8 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	public boolean isChi(){return meldType.isChi();}
 	public boolean isPon(){return meldType.isPon();}
 	public boolean isKan(){return meldType.isKan();}
+	public boolean isPair(){return meldType.isPair();}
+	public boolean isMulti(){return meldType.isMulti();}
 //	public MeldType getMeldType(){return mMeldType;}
 	
 	

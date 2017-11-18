@@ -4,23 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import majava.RoundResult;
+import majava.hand.AgariHand;
 import majava.hand.Hand;
 import majava.util.YakuList;
 
 public class YakuAnalyzer {
 	
 	
-	private Hand hand;
-	private RoundResult roundResult;
+	private final AgariHand hand;
+	private final RoundResult roundResult;
 	
-	private List<AbstractYakuCheck> checks;
+	private final List<AbstractYakuCheck> checks;
 	
 	
 	public YakuAnalyzer(Hand receivedHand, RoundResult result){
-		hand = receivedHand;
 		roundResult = result;
-		
-		
+		hand = new AgariHand(receivedHand, roundResult.getWinningTile());		
 		
 		checks = new ArrayList<AbstractYakuCheck>();
 		makeCheckers();
@@ -32,7 +31,11 @@ public class YakuAnalyzer {
 	
 	
 	public YakuList getYakuList(){
-		return null;
+		YakuList elligibleYakus = new YakuList();
+		for (AbstractYakuCheck checker: checks)
+			elligibleYakus.addAll(checker.calculateElligibleYaku());
+		
+		return elligibleYakus;
 	}
 	
 }

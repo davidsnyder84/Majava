@@ -67,6 +67,9 @@ public class Round{
 		
 		//initialize Round Tracker
 		roundResult = new RoundResult();
+		
+		/////PLAYERS must be prepared before this line
+		/////suggestion: can we refactor to do players.prepareForNewRound() and initialize roundTracker in the same line?
 		roundTracker = new RoundTracker(userInterface, roundResult, roundWind,roundNumber,roundBonusNumber, wall, players);
 		
 		setOptionFastGameplay(DEFAULT_DO_FAST_GAMEPLAY);

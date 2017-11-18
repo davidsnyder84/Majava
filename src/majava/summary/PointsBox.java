@@ -26,6 +26,7 @@ public class PointsBox {
 	//mutators for points, increase or decrease
 	public void add(int amount){pointTotal += amount;}
 	public void subtract(int amount){pointTotal -= amount;}
+	public boolean isHakoshita(){return pointTotal <= 0;}
 	
 	
 	@Override

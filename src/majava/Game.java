@@ -198,7 +198,7 @@ public class Game {
 	//returns true if any player has run out of points (ハコシタ/とび)
 	private boolean hakoShita(){
 		for (Player p: players)
-			if (p.getPoints() <= 0 && gameType != GameType.SIMULATION)
+			if (p.pointsIsHakoshita() && gameType != GameType.SIMULATION)
 				return true;
 		return false;
 	}

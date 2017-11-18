@@ -54,7 +54,7 @@ public class Player {
 		setSeatWind(Wind.UNKNOWN);
 		playerNum = 0;
 		drawNeeded = new DrawingNeed();
-		prepareForNewRound();
+		prepareForNewRound();	/////////////////////refactor later
 	}
 	public Player(String name){this(new PlayerProfile(name));}
 	public Player(){this((String)null);}
@@ -328,7 +328,8 @@ public class Player {
 	//point methods
 	public int getPoints(){return pointsBox.getPoints();}
 	public void pointsIncrease(int amount){pointsBox.add(amount);}
-	public void pointsDecrease(int amount){pointsBox.subtract(amount);}	
+	public void pointsDecrease(int amount){pointsBox.subtract(amount);}
+	public boolean pointsIsHakoshita(){return pointsBox.isHakoshita();}
 
 	//profile methods
 	public String getPlayerName(){return profile.getPlayerName();}

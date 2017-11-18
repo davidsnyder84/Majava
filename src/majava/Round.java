@@ -25,8 +25,8 @@ public class Round{
 	private static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
 	//for debug use
-	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
-//	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+//	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	
 //	private static final boolean DEBUG_EXHAUSTED_WALL = true;
 	private static final boolean DEBUG_EXHAUSTED_WALL = false;
@@ -170,9 +170,7 @@ public class Round{
 			discardedTile = p.takeTurn();
 			roundTracker.setMostRecentDiscard(discardedTile);
 			
-			//if the player made an ankan or minkan, they need a rinshan draw
-			if (p.needsDrawRinshan()){
-				
+			if (madeKan(p)){
 				GameplayEvent kanEvent = GameplayEvent.DECLARED_OWN_KAN;
 				kanEvent.setExclamation(Exclamation.OWN_KAN, p.getPlayerNumber());
 				__updateUI(kanEvent);
@@ -186,9 +184,10 @@ public class Round{
 				GameplayEvent tsumoEvent = GameplayEvent.DECLARED_TSUMO;
 				tsumoEvent.setExclamation(Exclamation.TSUMO, p.getPlayerNumber());
 				__updateUI(tsumoEvent);
+				
 				setResultVictory(p);
 			}
-
+			
 			//return early if the round is over (tsumo or 4kan or 4riichi or kyuushu)
 			if (roundIsOver()) return;
 		}
@@ -203,8 +202,7 @@ public class Round{
 		roundTracker.neighborToimenOf(p).reactToDiscard(discardedTile);
 		roundTracker.neighborKamichaOf(p).reactToDiscard(discardedTile);
 	}
-	
-	
+	private boolean madeKan(Player p){return p.needsDrawRinshan();}
 	private boolean callWasMadeOnDiscard(){return roundTracker.callWasMadeOnDiscard();}
 	
 	

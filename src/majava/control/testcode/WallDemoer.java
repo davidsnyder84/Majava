@@ -11,6 +11,7 @@ public class WallDemoer {
 	private static final int MAX_SIZE_WALL = NUMBER_OF_DIFFERENT_TILES * 4;	//136
 	private static final int POS_LAST_NORMAL_WALL_TILE = 121;
 	private static final int[] debugHandSizes = {14,13,13,13};
+	private static final int OFFSET_DEAD_WALL = POS_LAST_NORMAL_WALL_TILE + 1;
 	
 	
 	
@@ -54,27 +55,37 @@ public class WallDemoer {
 		
 		
 		//kokushi
-//		int[] h1 = {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 34, 34, 7};
-//		int[] h1 = {1,1,1,2,3,4,5,6,7,8,9,9,9,15};
-//		int[] h1 = {1,1,1,3,3,3,5,5,5,7,7,7,15,15};
-//		int[] h1 = {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34, 7};
-//		int[] h1 = {2,2,2,2,2,2,2,2,2,2,2,2,2,7};	//KANS
-		int[] h1 = {2,2,2,2,2,2,2,2,2,2,2,2,2,7};	//CALL PRIORITY
-		
-//		int[] h2 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
-//		int[] h2 = {4,4,4,4,10,12,14,16,18,20,22,24,26};	//KANS
-//		int[] h2 = {4,4,5,5,10,12,14,16,18,20,22,24,26};	//ENDGAME
-		int[] h2 = {-2,0,5,5,10,12,14,16,18,20,22,24,26};	//CALL PRIORITY
-		
-		int[] h3 = {2,4,6,8,10,12,14,16,18,20,22,24,26};	//ENDGAME
-//		int[] h3 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
-		
-		int[] h4 = {0,0,6,8,10,12,14,16,18,20,22,24,26};	//ENDGAME
-//		int[] h4 = {0,0,6,8,10,12,14,16,18,20,22,24,26};	//CALL PRIORYT
-//		int[] h4 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
-		for (int i = 0; i < h2.length; i++){h2[i] += 3;	h3[i] -= 1;	h4[i] += 2;}
+////		int[] h1 = {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 34, 34, 7};
+////		int[] h1 = {1,1,1,2,3,4,5,6,7,8,9,9,9,15};
+////		int[] h1 = {1,1,1,3,3,3,5,5,5,7,7,7,15,15};
+////		int[] h1 = {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34, 7};
+////		int[] h1 = {2,2,2,2,2,2,2,2,2,2,2,2,2,7};	//KANS
+//		int[] h1 = {2,2,2,2,2,2,2,2,2,2,2,2,2,7};	//CALL PRIORITY
+//		
+////		int[] h2 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
+////		int[] h2 = {4,4,4,4,10,12,14,16,18,20,22,24,26};	//KANS
+////		int[] h2 = {4,4,5,5,10,12,14,16,18,20,22,24,26};	//ENDGAME
+//		int[] h2 = {-2,0,5,5,10,12,14,16,18,20,22,24,26};	//CALL PRIORITY
+//		
+//		int[] h3 = {2,4,6,8,10,12,14,16,18,20,22,24,26};	//ENDGAME
+////		int[] h3 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
+//		
+//		int[] h4 = {0,0,6,8,10,12,14,16,18,20,22,24,26};	//ENDGAME
+////		int[] h4 = {0,0,6,8,10,12,14,16,18,20,22,24,26};	//CALL PRIORYT
+////		int[] h4 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
+//		for (int i = 0; i < h2.length; i++){h2[i] += 3;	h3[i] -= 1;	h4[i] += 2;}
 		tsumo2 = tsumo3 = tsumo4 = tsumo5 = tsumo6 = tsumo7 = tsumo8 = 2;
 		tsumo9 = 1;
+		
+		//5 kans
+		int[] h1 = {2,2,2,2,2,2,2,2,2,2,2,2,2,7};
+		int[] h2 = {2,2,2,2,2,2,2,2,2,2,2,2,5,7};
+		int[] h3 = {2,2,2,2,2,2,2,2,2,2,2,2,5,7};
+		int[] h4 = {2,2,2,2,2,2,2,2,2,2,2,2,5,7};
+//		for (int i = 0; i < h2.length; i++){h2[i] += 3;	h3[i] -= 1;	h4[i] += 2;}
+//		int[] h2 = {0,0,6,8,10,12,14,16,18,20,22,24,26};
+//		int[] h3 = {0,0,6,8,10,12,14,16,18,20,22,24,26};
+//		int[] h4 = {0,0,6,8,10,12,14,16,18,20,22,24,26};
 		
 		
 		
@@ -248,10 +259,16 @@ public class WallDemoer {
 		
 		if (tsumo9 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 8 + offset] = new GameTile(tsumo9);
 		
+		scamDeadWall(wallTiles, 2);
 	}
 	public static void loadDebugWall(GameTile[] wallTiles){loadDebugWall(wallTiles, 0);}
 	public int[] DEMOgetDebugPlayerHandSizes(){return debugHandSizes;}
 	
+	
+	public static void scamDeadWall(GameTile[] wallTiles, int scam){		
+		for(int i = OFFSET_DEAD_WALL; i < MAX_SIZE_WALL; i++)
+			wallTiles[i] = new GameTile(scam);
+	}
 	
 	
 	

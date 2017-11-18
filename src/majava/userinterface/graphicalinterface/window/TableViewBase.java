@@ -430,7 +430,8 @@ public class TableViewBase extends JFrame{
 			larryDW[currentTile].setIcon(getImageIconWall(wallTiles, currentTile + OFFSET_DEAD_WALL, SEAT1, cheatRevealAllWall));
 		}
 		for (currentTile = POS_DORA_1; currentTile >= 2*(4 - roundTracker.getNumKansMade()); currentTile -= 2){
-			larryDW[currentTile].setIcon(getImageIconWall(wallTiles, currentTile + OFFSET_DEAD_WALL, SEAT1));
+			if (currentTile >= 0)/////////////////////For 5 kans to avoid -2 array index
+				larryDW[currentTile].setIcon(getImageIconWall(wallTiles, currentTile + OFFSET_DEAD_WALL, SEAT1));
 		}
 		lblWallTilesLeft.setText(Integer.toString(roundTracker.getNumTilesLeftInWall()));
 		currentTile = 0;

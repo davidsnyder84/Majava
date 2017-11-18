@@ -25,8 +25,8 @@ public class Round{
 	private static final int DEFAULT_ROUND_BONUS_NUM = 0;
 	
 	//for debug use
-//	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
-	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+//	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	
 //	private static final boolean DEBUG_EXHAUSTED_WALL = true;
 	private static final boolean DEBUG_EXHAUSTED_WALL = false;
@@ -263,13 +263,7 @@ public class Round{
 	
 	//handles a call made on a discarded tile
 	private void handleReaction(){
-		GameTile discardedTile = currentPlayer().getLastDiscard();		
 		Player priorityCaller = whoCalled();
-		
-		//remove the tile from the discarder's pond (because it is being called), unless the call was Ron
-		if (!priorityCaller.calledRon())
-			currentPlayer().removeTileFromPond();
-		
 		displayCallFrom(priorityCaller);
 		
 		if (priorityCaller.calledRon()){
@@ -277,8 +271,9 @@ public class Round{
 			return;
 		}
 		
-		//give the caller the discarded tile so they can make their meld
-		priorityCaller.makeMeld(discardedTile);
+		//remove tile from discarder's pond and make meld
+		GameTile calledTile = currentPlayer().removeTileFromPond();
+		priorityCaller.makeMeld(calledTile);
 		__updateUI(GameplayEvent.MADE_OPEN_MELD);
 		
 		//it is now the calling player's turn

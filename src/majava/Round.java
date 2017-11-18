@@ -296,11 +296,10 @@ public class Round{
 	
 	//decides who gets to call the tile
 	private Player whoCalled(){
-		
 		Player callingPlayer = null;
-		Player callerPon = null, callerRon = null;
-		
+		Player callerPon = null, callerRON = null;
 		int numCallers = 0;
+		
 		for (Player p: players)
 			if (p.called()){
 				callingPlayer = p;
@@ -308,26 +307,20 @@ public class Round{
 			}
 		
 		//if only one player called, return that player
-		if (numCallers == 1){
-			return callingPlayer;
+		if (numCallers == 1) return callingPlayer;
+		
+		//if p called something other than a chi... if he called pon/kan, he is the pon caller (there can't be 2 pon callers, not enough tiles in the game). if he called ron, he is the ron caller (if there is already a ron caller, do nothing, because that caller has seat order priority)
+		for (int i = players.length - 1; i >= 0 ; i--){
+			if (players[i].called() && !players[i].calledChi())
+				if (players[i].calledPon() || players[i].calledKan())
+					callerPon = players[i];
+				else
+					callerRON = players[i];
 		}
-		else {
-			//else, if more than one player called, figure out who has more priority
-			//if p called something other than a chi...
-				//if he called pon/kan, he is the pon caller (there can't be 2 pon callers, not enough tiles in the game)
-				//if he called ron, he is the ron caller (if there is already a ron caller, do nothing, because that caller has seat order priority)
-			for (int i = players.length - 1; i >= 0 ; i--){
-				if (players[i].called() && !players[i].calledChi())
-					if (players[i].calledPon() || players[i].calledKan())
-						callerPon = players[i];
-					else
-						callerRon = players[i];
-			}
-			
-			//return the first ron caller, or return the pon caller if there was no ron caller
-			if (callerRon != null) return callerRon;
-			return callerPon;
-		}
+		
+		//return the first ron caller, or return the pon caller if there was no ron caller
+		if (callerRON != null) return callerRON;
+		return callerPon;
 	}
 	
 	
@@ -363,21 +356,14 @@ public class Round{
 	
 	
 	public void setOptionFastGameplay(boolean doFastGameplay){
-		
 		optionDoFastGameplay = doFastGameplay;
 
 		final int DEAFULT_SLEEPTIME = 400;
 		final int DEAFULT_SLEEPTIME_EXCLAMATION = 1500;
-//		final int DEAFULT_SLEEPTIME_ROUND_END = 2000;
-//		final int DEAFULT_SLEEPTIME_ROUND_END = 7000;
 		final int DEAFULT_SLEEPTIME_ROUND_END = 18000;
-		
 		final int FAST_SLEEPTIME = 0;
 		final int FAST_SLEEPTIME_EXCLAMATION = 0;
-//		final int FAST_SLEEPTIME_EXCLAMATION = DEAFULT_SLEEPTIME_EXCLAMATION;
 		final int FAST_SLEEPTIME_ROUND_END = 0;
-//		final int FAST_SLEEPTIME_ROUND_END = DEAFULT_SLEEPTIME_ROUND_END;
-		
 		
 		if (optionDoFastGameplay){
 			sleepTime = FAST_SLEEPTIME;
@@ -389,11 +375,8 @@ public class Round{
 			sleepTimeExclamation = DEAFULT_SLEEPTIME_EXCLAMATION;
 			sleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
 		}
-		
 		if (userInterface != null) userInterface.setSleepTimes(sleepTime, sleepTimeExclamation, sleepTimeRoundEnd);
 	}
-	
-	
 	
 	public static void main(String[] args) {
 		

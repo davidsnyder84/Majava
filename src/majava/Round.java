@@ -155,18 +155,16 @@ public class Round{
 	
 	//handles player p's turn, and gets the other players' reactions to the p's turn
 	private void doPlayerTurn(Player p){
-		
-		if (p.needsDraw()){
-			givePlayerTile(p);
-		}
-		else __updateUI(GameplayEvent.PLACEHOLDER);
+		if (p.needsDraw())
+			letPlayerDraw(p);
+		else
+			__updateUI(GameplayEvent.PLACEHOLDER);
 		
 		//return early if the round is over (4kan or washout)
 		if (roundIsOver()) return;
 		
 		//~~~~~~get player's discard (kans and riichi are handled inside here)
-		//loop until the player has chosen a discard
-		//loop until the player stops making kans
+		//loop until the player has chosen a discard (loop until the player stops making kans)
 		GameTile discardedTile = null;
 		do{
 			discardedTile = p.takeTurn();
@@ -181,8 +179,7 @@ public class Round{
 				__updateUI(GameplayEvent.MADE_OWN_KAN);
 				
 				//give player a rinshan draw
-				givePlayerTile(p);
-				
+				letPlayerDraw(p);
 			}
 			
 			if (p.turnActionCalledTsumo()){
@@ -191,12 +188,12 @@ public class Round{
 				__updateUI(tsumoEvent);
 				setResultVictory(p);
 			}
-			
+
+			//return early if the round is over (tsumo or 4kan or 4riichi or kyuushu)
+			if (roundIsOver()) return;
 		}
-		while (!p.turnActionChoseDiscard() && !roundIsOver());
+		while (!p.turnActionChoseDiscard());
 		
-		//return early if the round is over (tsumo or 4kan or 4riichi or kyuushu)
-		if (roundIsOver()) return;
 		
 		//show the human player their hand, show the discarded tile and the discarder's pond
 		__updateUI(GameplayEvent.DISCARDED_TILE);
@@ -214,32 +211,24 @@ public class Round{
 	
 	
 	//gives a player a tile from the wall or dead wall
-	private void givePlayerTile(Player p){
+	private void letPlayerDraw(Player p){
 		if (!p.needsDraw()) return;
-		GameTile drawnTile = null;
 		
-		//draw from wall or dead wall, depending on what player needs
+		GameTile drawnTile = null;
 		if (p.needsDrawNormal()){
-			
 			if (wallIsEmpty()){
 				setResultRyuukyokuWashout();
 				return;
 			}
-			else{
-				drawnTile = wall.takeTile();
-			}
+			drawnTile = wall.takeTile();
 		}
 		else if (p.needsDrawRinshan()){
-			
-			//check if too many kans have been made before making a rinshan draw
 			if (tooManyKans()){
 				setResultRyuukyoku4Kan();
 				return;
 			}
-			else{
-				drawnTile = wall.takeTileFromDeadWall();
-				__updateUI(GameplayEvent.NEW_DORA_INDICATOR);
-			}			
+			drawnTile = wall.takeTileFromDeadWall();
+			__updateUI(GameplayEvent.NEW_DORA_INDICATOR);
 		}
 		
 		p.addTileToHand(drawnTile);

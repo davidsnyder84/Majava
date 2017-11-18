@@ -201,7 +201,7 @@ public class RoundTracker {
 	
 	
 	//returns true if multiple players have made kans, returns false if only one player or no players have made kans
-	private boolean __multiplePlayersHaveMadeKans(){
+	private boolean multiplePlayersHaveMadeKans(){
 		//count the number of players who have made kans
 		int count = 0;
 		for (Player p: players){
@@ -212,12 +212,10 @@ public class RoundTracker {
 	}
 	//returns true if a round-ending number of kans have been made
 	//returns true if 5 kans have been made, or if 4 kans have been made by multiple players
-	private boolean __tooManyKans(){
-		
+	private boolean tooManyKans(){
 		final int KAN_LIMIT = 4;
 		if (getNumKansMade() < KAN_LIMIT) return false;
-		if (getNumKansMade() == KAN_LIMIT && !__multiplePlayersHaveMadeKans()) return false;
-		
+		if (getNumKansMade() == KAN_LIMIT && !multiplePlayersHaveMadeKans()) return false;		
 		return true;
 	}
 	
@@ -230,7 +228,7 @@ public class RoundTracker {
 	
 	//checks if too many kans have been made, and sets the round result if so
 	public boolean checkIfTooManyKans(){
-		if (__tooManyKans()){
+		if (tooManyKans()){
 			setResultRyuukyoku4Kan();
 			return true;
 		}

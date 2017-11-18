@@ -267,7 +267,7 @@ public class Round{
 				GameplayEvent tsumoEvent = GameplayEvent.DECLARED_TSUMO;
 				tsumoEvent.setExclamation(Exclamation.TSUMO, p.getPlayerNumber());
 				__updateUI(tsumoEvent);
-				roundTracker.setResultVictory(p);
+				setResultVictory(p);
 			}
 			
 		}
@@ -357,7 +357,7 @@ public class Round{
 		//give the caller the discarded tile so they can make their meld
 		//if the caller called Ron, handle that instead
 		if (priorityCaller.calledRon()){
-			roundTracker.setResultVictory(priorityCaller);
+			setResultVictory(priorityCaller);
 		}
 		else{
 			//make the meld
@@ -407,6 +407,9 @@ public class Round{
 	}
 	
 	
+	private void setResultVictory(Player winner){
+		roundTracker.setResultVictory(winner);
+	}
 	
 	
 	
@@ -416,6 +419,7 @@ public class Round{
 	public int getRoundNum(){return roundNumber;}
 	public int getRoundBonusNum(){return roundBonusNumber;}
 	
+	//round result methods
 	public boolean roundIsOver(){return roundResult.isOver();}
 	public boolean endedWithVictory(){return roundResult.isVictory();}
 	public String getWinningHandString(){return roundResult.getAsStringWinningHand();}

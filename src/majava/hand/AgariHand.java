@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
+import majava.enums.Wind;
 import majava.tiles.GameTile;
 import majava.util.GameTileList;
 
@@ -13,6 +14,7 @@ public class AgariHand extends Hand {
 	private GameTile winningTile;
 	private List<Meld> finishedMeldForm;
 	
+	private final Wind ownerWind;
 	
 	public AgariHand (Hand baseHand, GameTile agarihai){
 		super(baseHand);
@@ -22,6 +24,7 @@ public class AgariHand extends Hand {
 		finishedMeldForm = new ArrayList<Meld>();
 		finishedMeldForm = getMeldForm();
 		
+		ownerWind = baseHand.getOwnerSeatWind();
 		
 		//add winning tile to hand
 		if (!isFull()){
@@ -32,6 +35,7 @@ public class AgariHand extends Hand {
 	public AgariHand (AgariHand other){
 		super(other);
 		winningTile = other.winningTile;
+		ownerWind = other.ownerWind;
 		
 		finishedMeldForm = new ArrayList<Meld>();
 		for (Meld m: other.finishedMeldForm)
@@ -50,6 +54,12 @@ public class AgariHand extends Hand {
 		return meldForm;
 	}
 	
+	
+	
+	//need to override because adding WinningTile screws up Hand's getOwnerSeatWind() logic.
+	//AgariHand's OwnerWind could also be derived with a calculation, but a final member variable is more intuitive
+	@Override
+	public Wind getOwnerSeatWind(){return ownerWind;}
 	
 	@Override
 	public String toString(){

@@ -27,6 +27,7 @@ public class Round{
 	//for debug use
 //	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
 	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+	
 //	private static final boolean DEBUG_EXHAUSTED_WALL = true;
 	private static final boolean DEBUG_EXHAUSTED_WALL = false;
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
@@ -114,114 +115,33 @@ public class Round{
 	private void handleRoundEnd(){
 		doPointPayments();
 		
-		///////////////////////////////
-		if (roundResult.isVictory()) yakuDriveby();
-		///////////////////////////////
-		
-		
-		if (userInterface != null) userInterface.setRoundResult(roundResult.getSummary());
-		
-		//display end of round result
 		displayRoundResult();
 	}
-	
-	private void yakuDriveby(){
-		AgariHand agariHand = new AgariHand(roundResult.getWinningPlayer().DEMOgetHand(), roundResult.getWinningTile());
-		System.out.println(agariHand.toString());
-		
-		YakuAnalyzer yakuana = new YakuAnalyzer(roundResult.getWinningPlayer().DEMOgetHand(), roundResult);
-		System.out.println("YAKUANALYZERSAYS: "  + yakuana.getYakuList());
-	}
-	
-	
 	private void doPointPayments(){
-		final int PAYMENT_DUE = 8000;
-		int paymentDue = PAYMENT_DUE;
-		
-		PaymentMap payments = null;
-
-		//find who has to pay what
-		if (roundResult.isDraw())
-			payments = mapPaymentsForDraw();
-		else
-			payments = mapPaymentsForWin(paymentDue);
+		Scorer scorer = new Scorer(roundResult, roundTracker);
+		PaymentMap payments = scorer.getPaymentMap();
 		
 		//carry out payments
 		for (Player p: players)
 			p.pointsIncrease(payments.get(p));
 		
 		roundResult.recordPayments(payments);
+		
+		scorer.printWinningYaku();/////demo
 	}
-
-	
-	
-	//maps payments to players, for the case of a win
-	private PaymentMap mapPaymentsForWin(int handValue){
-		PaymentMap payments = new PaymentMap();
-		
-		final double DEALER_WIN_MULTIPLIER = 1.5, DEALER_TSUMO_MULTIPLIER = 2;
-		
-		int paymentDue = handValue;
-		int tsumoPointsNonDealer = paymentDue / 4;
-		int tsumoPointsDealer = (int) (DEALER_TSUMO_MULTIPLIER * tsumoPointsNonDealer);
-		
-		
-		//find who the winner is
-		Player winner = roundResult.getWinningPlayer();
-		Player[] losers = {roundTracker.neighborShimochaOf(winner), roundTracker.neighborToimenOf(winner), roundTracker.neighborKamichaOf(winner)};
-		Player furikonda = null;
-		
-		if (winner.isDealer()) paymentDue *= DEALER_WIN_MULTIPLIER;
-		
-		///////add in honba here
-		
-		payments.put(winner, paymentDue);
-		
-		
-		//find who has to pay
-		if (roundResult.isVictoryRon()){
-			furikonda = roundResult.getFurikondaPlayer();
-			for (Player p: losers)
-				if (p == furikonda) payments.put(p, -paymentDue);
-				else payments.put(p, 0);
-		}
-		else{//tsumo
-			for (Player p: losers){
-				if (p.isDealer() || winner.isDealer()) payments.put(p, -tsumoPointsDealer);
-				else  payments.put(p, -tsumoPointsNonDealer);
-			}
-		}
-		///////add in riichi sticks here
-		return payments;
-	}
-	
-	//maps payments to players, for the case of a draw
-	private PaymentMap mapPaymentsForDraw(){
-		PaymentMap payments = new PaymentMap();
-		/////implement no-ten bappu here 
-		
-		for (Player p: players)
-			payments.put(p, 0);
-		return payments;
-	}
-	
-	
 	
 	
 	
 	
 	//deals players their starting hands
 	private void dealHands(){
-		if (DEBUG_EXHAUSTED_WALL) wall.DEMOexhaustWall();
-		if (DEBUG_LOAD_DEBUG_WALL) wall.DEMOloadDebugWall();	//DEBUG
+		if (DEBUG_EXHAUSTED_WALL) wall.DEMOexhaustWall(); if (DEBUG_LOAD_DEBUG_WALL) wall.DEMOloadDebugWall();	//DEBUG
 		
 		//get starting hands from the wall
 		List<GameTile> tilesE = new ArrayList<GameTile>(), tilesS = new ArrayList<GameTile>(), tilesW = new ArrayList<GameTile>(), tilesN = new ArrayList<GameTile>();
 		wall.takeStartingHands(tilesE, tilesS, tilesW, tilesN);
 		
-		
 		Player eastPlayer = currentPlayer();
-		//give dealer their tiles
 		eastPlayer.giveStartingHand(tilesE);
 		roundTracker.neighborShimochaOf(eastPlayer).giveStartingHand(tilesS);
 		roundTracker.neighborToimenOf(eastPlayer).giveStartingHand(tilesW);
@@ -430,6 +350,7 @@ public class Round{
 	
 	
 	public void displayRoundResult(){
+		if (userInterface != null) userInterface.setRoundResult(roundResult.getSummary());
 		__updateUI(GameplayEvent.END_OF_ROUND);
 	}
 	

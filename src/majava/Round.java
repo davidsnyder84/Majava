@@ -89,7 +89,7 @@ public class Round{
 		
 		dealHands();
 		while (!roundIsOver()){
-			doPlayerTurn(roundTracker.currentPlayer());
+			doPlayerTurn(currentPlayer());
 			
 			if (roundIsOver())
 				break;
@@ -100,12 +100,14 @@ public class Round{
 		handleRoundEnd();
 	}
 	
+	private Player currentPlayer(){return roundTracker.currentPlayer();}
 	
 	private void handleRoundEnd(){
 		doPointPayments();
 		
 		///////////////////////////////
-		yakuDriveby();
+		if (roundResult.isVictory()) yakuDriveby();
+		///////////////////////////////
 		
 		
 		if (userInterface != null) userInterface.setRoundResult(roundResult.getSummary());
@@ -209,7 +211,7 @@ public class Round{
 		wall.takeStartingHands(tilesE, tilesS, tilesW, tilesN);
 		
 		
-		Player eastPlayer = roundTracker.currentPlayer();
+		Player eastPlayer = currentPlayer();
 		//give dealer their tiles
 		eastPlayer.giveStartingHand(tilesE);
 		roundTracker.neighborShimochaOf(eastPlayer).giveStartingHand(tilesS);
@@ -319,8 +321,8 @@ public class Round{
 		else if (p.needsDrawRinshan()){
 			
 			//check if too many kans have been made before making a rinshan draw
-			if (roundTracker.checkIfTooManyKans()){
-				//too many kans, round over
+			if (tooManyKans()){
+				setResultRyuukyoku4Kan();
 				return;
 			}
 			else{
@@ -333,21 +335,29 @@ public class Round{
 		__updateUI(GameplayEvent.DREW_TILE);
 	}
 	
+	private boolean tooManyKans(){return roundTracker.tooManyKans();}
+	private void setResultRyuukyoku4Kan(){roundResult.setResultRyuukyoku4Kan();}
 	
+	private void setResultVictory(Player winner){roundTracker.setResultVictory(winner);}
+	
+	/////these aren't implemented yet in gameplay
+	public void setResultRyuukyokuKyuushu(){roundResult.setResultRyuukyokuKyuushu();}
+	public void setResultRyuukyoku4Riichi(){roundResult.setResultRyuukyoku4Riichi();}
+	public void setResultRyuukyoku4Wind(){roundResult.setResultRyuukyoku4Wind();}
 	
 	
 	
 	//handles a call made on a discarded tile
 	private void handleReaction(){
 		//get the discarded tile
-		GameTile discardedTile = roundTracker.currentPlayer().getLastDiscard();
+		GameTile discardedTile = currentPlayer().getLastDiscard();
 		
 		//figure out who called the tile, and if multiple players called, who gets priority
 		Player priorityCaller = whoCalled();
 		
 		//remove the tile from the discarder's pond (because it is being called), unless the call was Ron
 		if (!priorityCaller.calledRon())
-			roundTracker.currentPlayer().removeTileFromPond();
+			currentPlayer().removeTileFromPond();
 		
 		//show the call
 		GameplayEvent callEvent = GameplayEvent.CALLED_TILE;
@@ -406,10 +416,6 @@ public class Round{
 		}
 	}
 	
-	
-	private void setResultVictory(Player winner){
-		roundTracker.setResultVictory(winner);
-	}
 	
 	
 	

@@ -172,10 +172,6 @@ public class RoundTracker {
 		roundResult.setWinningHand(winningHandTiles, roundEntities.playerTrackers[winner.getPlayerNumber()].melds, winningTile);
 	}
 	public void setResultRyuukyokuWashout(){roundResult.setResultRyuukyokuWashout();}
-	public void setResultRyuukyokuKyuushu(){roundResult.setResultRyuukyokuKyuushu();}
-	public void setResultRyuukyoku4Kan(){roundResult.setResultRyuukyoku4Kan();}
-	public void setResultRyuukyoku4Riichi(){roundResult.setResultRyuukyoku4Riichi();}
-	public void setResultRyuukyoku4Wind(){roundResult.setResultRyuukyoku4Wind();}
 	
 //	public Player getWinningPlayer(){return mRoundResult.getWinningPlayer();}
 //	public Player getFurikondaPlayer(){return mRoundResult.getFurikondaPlayer();}
@@ -212,7 +208,7 @@ public class RoundTracker {
 	}
 	//returns true if a round-ending number of kans have been made
 	//returns true if 5 kans have been made, or if 4 kans have been made by multiple players
-	private boolean tooManyKans(){
+	public boolean tooManyKans(){
 		final int KAN_LIMIT = 4;
 		if (getNumKansMade() < KAN_LIMIT) return false;
 		if (getNumKansMade() == KAN_LIMIT && !multiplePlayersHaveMadeKans()) return false;		
@@ -224,15 +220,6 @@ public class RoundTracker {
 		int count = 0;
 		for (Player p: players) count += p.getNumKansMade();
 		return count;
-	}
-	
-	//checks if too many kans have been made, and sets the round result if so
-	public boolean checkIfTooManyKans(){
-		if (tooManyKans()){
-			setResultRyuukyoku4Kan();
-			return true;
-		}
-		return false;
 	}
 	
 	

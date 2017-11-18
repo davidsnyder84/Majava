@@ -207,5 +207,6 @@ public class Wall {
 	
 	
 	//DEMO METHODS
-	public void DEMOloadDebugWall(){WallDemoer.loadDebugWall(wallTiles);}
+	public void DEMOloadDebugWall(){WallDemoer.loadDebugWall(wallTiles, currentWallPosition);}
+	public void DEMOexhaustWall(){currentWallPosition = 68;}
 }

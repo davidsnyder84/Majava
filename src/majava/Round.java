@@ -27,6 +27,8 @@ public class Round{
 	//for debug use
 //	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
 	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+//	private static final boolean DEBUG_EXHAUSTED_WALL = true;
+	private static final boolean DEBUG_EXHAUSTED_WALL = false;
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	
 	
@@ -96,11 +98,18 @@ public class Round{
 			
 			if (callWasMadeOnDiscard())
 				handleReaction();
+			else
+				goToNextTurn();
 		}
 		handleRoundEnd();
 	}
-	
+	private void goToNextTurn(){		
+		if (wallIsEmpty())
+			return;
+		roundTracker.nextTurn();
+	}
 	private Player currentPlayer(){return roundTracker.currentPlayer();}
+	
 	
 	private void handleRoundEnd(){
 		doPointPayments();
@@ -203,7 +212,7 @@ public class Round{
 	
 	//deals players their starting hands
 	private void dealHands(){
-		
+		if (DEBUG_EXHAUSTED_WALL) wall.DEMOexhaustWall();
 		if (DEBUG_LOAD_DEBUG_WALL) wall.DEMOloadDebugWall();	//DEBUG
 		
 		//get starting hands from the wall
@@ -224,16 +233,7 @@ public class Round{
 	
 	
 	
-
-	
-	/*
 	//handles player p's turn, and gets the other players' reactions to the p's turn
-	
- 	display what the player discarded
- 	get the other players' reactions to the discarded tile (the players will "make a call", the call won't actually be handled yet)
- 	
-	if the wall is not empty and no one made a call, move to the next player's turn
-	*/
 	private void doPlayerTurn(Player p){
 		
 		if (p.needsDraw()){
@@ -285,20 +285,11 @@ public class Round{
 		roundTracker.neighborShimochaOf(p).reactToDiscard(discardedTile);
 		roundTracker.neighborToimenOf(p).reactToDiscard(discardedTile);
 		roundTracker.neighborKamichaOf(p).reactToDiscard(discardedTile);
-		
-		if (!callWasMadeOnDiscard()){
-			//update turn indicator
-			if (wallIsEmpty())
-				setResultRyuukyokuWashout();
-			else
-				roundTracker.nextTurn();
-		}
 	}
 	
 	
-	
-	
 	private boolean callWasMadeOnDiscard(){return roundTracker.callWasMadeOnDiscard();}
+	
 	
 	
 	
@@ -311,7 +302,6 @@ public class Round{
 		if (p.needsDrawNormal()){
 			
 			if (wallIsEmpty()){
-				//no tiles left in wall, round over
 				setResultRyuukyokuWashout();
 				return;
 			}

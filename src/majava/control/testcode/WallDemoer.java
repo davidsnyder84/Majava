@@ -14,7 +14,7 @@ public class WallDemoer {
 	
 	
 	
-	public static void loadDebugWall(GameTile[] wallTiles){
+	public static void loadDebugWall(GameTile[] wallTiles, int offset){
 		
 		int tsumo2, tsumo3, tsumo4, tsumo5, tsumo6, tsumo7, tsumo8, tsumo9;
 		tsumo2 = tsumo3 = tsumo4 = tsumo5 = tsumo6 = tsumo7 = tsumo8 = tsumo9 = 0;
@@ -61,9 +61,12 @@ public class WallDemoer {
 		int[] h1 = {2,2,2,2,2,2,2,2,2,2,2,2,2,7};	//KANS
 		
 //		int[] h2 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
-		int[] h2 = {4,4,4,4,10,12,14,16,18,20,22,24,26};	//KANS
-		int[] h3 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
-		int[] h4 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
+//		int[] h2 = {4,4,4,4,10,12,14,16,18,20,22,24,26};	//KANS
+		int[] h2 = {4,4,5,5,10,12,14,16,18,20,22,24,26};	//ENDGAME
+		int[] h3 = {2,4,6,8,10,12,14,16,18,20,22,24,26};	//ENDGAME
+//		int[] h3 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
+		int[] h4 = {0,0,6,8,10,12,14,16,18,20,22,24,26};	//ENDGAME
+//		int[] h4 = {2,4,6,8,10,12,14,16,18,20,22,24,26};
 		for (int i = 0; i < h2.length; i++){h2[i] += 3;	h3[i] -= 1;	h4[i] += 2;}
 		tsumo2 = tsumo3 = tsumo4 = tsumo5 = tsumo6 = tsumo7 = tsumo8 = 28;
 		tsumo9 = 1;
@@ -203,44 +206,45 @@ public class WallDemoer {
 		for (i = 0; i < 3; i++){
 			//east takes 4
 			for (j = 0; j < 4; j++)
-				wallTiles[TAKEN_PER_ROUND*i + j + 0*TAKEN_PER_PLAYER] = tilesE.remove(0);
+				wallTiles[TAKEN_PER_ROUND*i + j + 0*TAKEN_PER_PLAYER + offset] = tilesE.remove(0);
 			//south takes 4
 			for (j = 0; j < 4; j++)
-				wallTiles[TAKEN_PER_ROUND*i + j + 1*TAKEN_PER_PLAYER] = tilesS.remove(0);
+				wallTiles[TAKEN_PER_ROUND*i + j + 1*TAKEN_PER_PLAYER + offset] = tilesS.remove(0);
 			//west takes 4
 			for (j = 0; j < 4; j++)
-				wallTiles[TAKEN_PER_ROUND*i + j + 2*TAKEN_PER_PLAYER] = tilesW.remove(0);
+				wallTiles[TAKEN_PER_ROUND*i + j + 2*TAKEN_PER_PLAYER + offset] = tilesW.remove(0);
 			//north takes 4
 			for (j = 0; j < 4; j++)
-				wallTiles[TAKEN_PER_ROUND*i + j + 3*TAKEN_PER_PLAYER] = tilesN.remove(0);
+				wallTiles[TAKEN_PER_ROUND*i + j + 3*TAKEN_PER_PLAYER + offset] = tilesN.remove(0);
 		}
 		//east takes 2
-		wallTiles[3*TAKEN_PER_ROUND + 0] = tilesE.remove(0);
-		wallTiles[3*TAKEN_PER_ROUND + 1] = tilesE.remove(0);
+		wallTiles[3*TAKEN_PER_ROUND + 0 + offset] = tilesE.remove(0);
+		wallTiles[3*TAKEN_PER_ROUND + 1 + offset] = tilesE.remove(0);
 
 		//south takes 1
-		wallTiles[3*TAKEN_PER_ROUND + 2] = tilesS.remove(0);
+		wallTiles[3*TAKEN_PER_ROUND + 2 + offset] = tilesS.remove(0);
 
 		//west takes 1
-		wallTiles[3*TAKEN_PER_ROUND + 3] = tilesW.remove(0);
+		wallTiles[3*TAKEN_PER_ROUND + 3 + offset] = tilesW.remove(0);
 
 		//north takes 1
-		wallTiles[3*TAKEN_PER_ROUND + 4] = tilesN.remove(0);
+		wallTiles[3*TAKEN_PER_ROUND + 4 + offset] = tilesN.remove(0);
 		
 		
-		if (tsumo2 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 1] = new GameTile(tsumo2);
-		if (tsumo3 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 2] = new GameTile(tsumo3);
-		if (tsumo4 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 3] = new GameTile(tsumo4);
+		if (tsumo2 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 1 + offset] = new GameTile(tsumo2);
+		if (tsumo3 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 2 + offset] = new GameTile(tsumo3);
+		if (tsumo4 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 3 + offset] = new GameTile(tsumo4);
 		
 		
-		if (tsumo5 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 4] = new GameTile(tsumo5);
-		if (tsumo6 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 5] = new GameTile(tsumo6);
-		if (tsumo7 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 6] = new GameTile(tsumo7);
-		if (tsumo8 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 7] = new GameTile(tsumo8);
+		if (tsumo5 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 4 + offset] = new GameTile(tsumo5);
+		if (tsumo6 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 5 + offset] = new GameTile(tsumo6);
+		if (tsumo7 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 6 + offset] = new GameTile(tsumo7);
+		if (tsumo8 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 7 + offset] = new GameTile(tsumo8);
 		
-		if (tsumo9 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 8] = new GameTile(tsumo9);
+		if (tsumo9 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 8 + offset] = new GameTile(tsumo9);
 		
 	}
+	public static void loadDebugWall(GameTile[] wallTiles){loadDebugWall(wallTiles, 0);}
 	public int[] DEMOgetDebugPlayerHandSizes(){return debugHandSizes;}
 	
 	

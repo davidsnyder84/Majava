@@ -263,35 +263,31 @@ public class Round{
 	
 	//handles a call made on a discarded tile
 	private void handleReaction(){
-		//get the discarded tile
-		GameTile discardedTile = currentPlayer().getLastDiscard();
-		
-		//figure out who called the tile, and if multiple players called, who gets priority
+		GameTile discardedTile = currentPlayer().getLastDiscard();		
 		Player priorityCaller = whoCalled();
 		
 		//remove the tile from the discarder's pond (because it is being called), unless the call was Ron
 		if (!priorityCaller.calledRon())
 			currentPlayer().removeTileFromPond();
 		
-		//show the call
+		displayCallFrom(priorityCaller);
+		
+		if (priorityCaller.calledRon()){
+			setResultVictory(priorityCaller);
+			return;
+		}
+		
+		//give the caller the discarded tile so they can make their meld
+		priorityCaller.makeMeld(discardedTile);
+		__updateUI(GameplayEvent.MADE_OPEN_MELD);
+		
+		//it is now the calling player's turn
+		roundTracker.setTurn(priorityCaller);
+	}
+	private void displayCallFrom(Player priorityCaller){
 		GameplayEvent callEvent = GameplayEvent.CALLED_TILE;
 		callEvent.setExclamation(priorityCaller.getCallStatusExclamation(), priorityCaller.getPlayerNumber());
 		__updateUI(callEvent);
-		
-		//give the caller the discarded tile so they can make their meld
-		//if the caller called Ron, handle that instead
-		if (priorityCaller.calledRon()){
-			setResultVictory(priorityCaller);
-		}
-		else{
-			//make the meld
-			priorityCaller.makeMeld(discardedTile);
-			__updateUI(GameplayEvent.MADE_OPEN_MELD);
-		}
-		
-		//it is now the calling player's turn (if the round isn't over)
-		if (!roundIsOver())
-			roundTracker.setTurn(priorityCaller);
 	}
 	
 	//decides who gets to call the tile

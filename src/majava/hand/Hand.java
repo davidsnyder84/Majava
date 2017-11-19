@@ -390,7 +390,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	public void syncWithRoundTracker(RoundTracker tracker){
 		if (roundTracker != null) return;
 		roundTracker = tracker;
-		roundTracker.syncHand(tiles, melds);
+		roundTracker.syncHand(tiles);
 	}
 	
 	

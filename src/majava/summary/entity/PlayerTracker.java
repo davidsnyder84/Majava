@@ -18,17 +18,14 @@ public final class PlayerTracker{
 	public final Hand hand;
 	public final GameTileList handTiles;
 	
-	public final Pond pond;
-	public final List<PondTile> pondTiles;
-	
-	public final List<Meld> melds;
-	
-	public PlayerTracker(Player p, Hand ha, GameTileList tH, Pond po, List<PondTile> tP, List<Meld> ms){
+	public PlayerTracker(Player p, Hand ha, GameTileList tH){
 		player = p;
 		hand = ha; handTiles = tH;
-		pond = po; pondTiles = tP;
-		melds = ms;
 	}
+
+	public final List<Meld> melds(){return player.getMelds();}
+	public final Pond pond(){return player.getPond();}
+	public final List<PondTile> pondTiles(){return pond().getTilesAsList();}
 }
 
 

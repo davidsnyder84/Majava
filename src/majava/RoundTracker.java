@@ -61,7 +61,7 @@ public class RoundTracker {
 	
 	private int numPlayersSynched; private boolean wallSynched;
 	private GameTile[] tempSyncWallTiles = null;
-	private Player tempSyncPlayer = null; private GameTileList tempSyncHandTiles = null; private List<PondTile> tempSyncPondTiles = null; private Hand tempSyncHand = null; private Pond tempSyncPond = null; private List<Meld> tempSyncMelds = null;
+	private Player tempSyncPlayer = null; private GameTileList tempSyncHandTiles = null; private Hand tempSyncHand = null;
 	
 	public void syncWall(GameTile[] tilesOfWall){
 		if (wallSynched) return;
@@ -79,27 +79,20 @@ public class RoundTracker {
 			tempSyncPlayer = players[numPlayersSynched];	//link
 			tempSyncPlayer.syncWithRoundTracker(this);
 			tempSyncHand.syncWithRoundTracker(this);
-			tempSyncPond.syncWithRoundTracker(this);
 			
-			trackers[numPlayersSynched] = new PlayerTracker(tempSyncPlayer, tempSyncHand, tempSyncHandTiles, tempSyncPond, tempSyncPondTiles, tempSyncMelds);
+			trackers[numPlayersSynched] = new PlayerTracker(tempSyncPlayer, tempSyncHand, tempSyncHandTiles);
 		}
-		tempSyncPlayer = null;tempSyncHandTiles = null;tempSyncPondTiles = null;tempSyncHand = null;tempSyncPond = null;tempSyncMelds = null;
+		tempSyncPlayer = null;tempSyncHandTiles = null;
 		return trackers;
 	}
 	
-	public void syncPlayer(Hand h, Pond p){
+	public void syncPlayer(Hand h){
 		if (numPlayersSynched > NUM_PLAYERS) return;
 		tempSyncHand = h;
-		tempSyncPond = p;
 	}
-	public void syncHand(GameTileList handTiles, List<Meld> handMelds){
+	public void syncHand(GameTileList handTiles){
 		if (numPlayersSynched > NUM_PLAYERS) return;
 		tempSyncHandTiles = handTiles;
-		tempSyncMelds = handMelds;
-	}
-	public void syncPond(List<PondTile> pondTiles){
-		if (numPlayersSynched > NUM_PLAYERS) return;
-		tempSyncPondTiles = pondTiles;
 	}
 	
 	private void __syncWithUI(GameUI ui){
@@ -223,6 +216,5 @@ Class: RoundTracker
 		
 		syncPlayer - called by a player, associates that player with the tracker
 		syncHand - called by a hand, associates that hand with the tracker
-		syncPond - called by a pond, associates that pond with the tracker
 */
 

@@ -373,7 +373,7 @@ public class Player {
 	//sync player's hand and pond with tracker
 	public void syncWithRoundTracker(RoundTracker tracker){
 		roundTracker = tracker;
-		roundTracker.syncPlayer(hand, pond);
+		roundTracker.syncPlayer(hand);
 	}
 	
 	

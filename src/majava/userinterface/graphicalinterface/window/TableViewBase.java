@@ -421,7 +421,7 @@ public class TableViewBase extends JFrame{
 		//update ponds
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_POND; currentTile++){
-				larryPonds[currentPlayer][currentTile].setIcon(getImageIconPond(playerTrackers[currentPlayer].pondTiles, currentTile, currentPlayer));
+				larryPonds[currentPlayer][currentTile].setIcon(getImageIconPond(playerTrackers[currentPlayer].pondTiles(), currentTile, currentPlayer));
 			}
 		}
 		
@@ -487,21 +487,21 @@ public class TableViewBase extends JFrame{
 		oldTurn = newTurn;
 	}
 	private void discardMarkerSet(){
-		if (!playerTrackers[newTurn].pondTiles.isEmpty() && playerTrackers[newTurn].player.needsDraw()){
+		if (!playerTrackers[newTurn].pondTiles().isEmpty() && playerTrackers[newTurn].player.needsDraw()){
 			if (newTurn == oldTurn &&  playerTrackers[newTurn].player.needsDrawRinshan()) return;
 			getLastLabelInPond(newTurn).setOpaque(true);
 			getLastLabelInPond(newTurn).setBackground(COLOR_POND_DISCARD_TILE);
 		}
 	}
 	private void discardMarkerErase(){
-		if (oldTurn >= 0 && !playerTrackers[oldTurn].pondTiles.isEmpty()){
+		if (oldTurn >= 0 && !playerTrackers[oldTurn].pondTiles().isEmpty()){
 			getLastLabelInPond(oldTurn).setOpaque(false);
 			getLastLabelInPond(oldTurn).setBackground(COLOR_TRANSPARENT);
 		}
 	}
 	private JLabel getLastLabelInPond(int seatNum){
-		if (playerTrackers[seatNum].pondTiles.isEmpty()) return null;
-		else return larryPonds[seatNum][playerTrackers[seatNum].pondTiles.size() - 1];
+		if (playerTrackers[seatNum].pondTiles().isEmpty()) return null;
+		else return larryPonds[seatNum][playerTrackers[seatNum].pondTiles().size() - 1];
 	}
 	
 	

@@ -37,7 +37,7 @@ public class Pond implements Cloneable{
 	public int size(){return tiles.size();}
 	
 	public PondTile getTile(int index){return tiles.get(index);}
-	public GameTileList getTilesAsList(){return new GameTileList(tiles);}
+	public List<PondTile> getTilesAsList(){return new ArrayList<PondTile>(tiles);}
 	
 	//nagashi mangan = composed of only TYC, and no tiles have been called
 	public boolean isElligibleForNagashiMangan(){
@@ -75,12 +75,4 @@ public class Pond implements Cloneable{
 		
 		return pondString;
 	}
-	
-	
-	
-	//sync pond tilelist with tracker
-	public void syncWithRoundTracker(RoundTracker tracker){
-		tracker.syncPond(tiles);
-	}
-	
 }

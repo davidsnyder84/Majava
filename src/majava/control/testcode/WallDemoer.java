@@ -12,7 +12,9 @@ public class WallDemoer {
 	private static final int POS_LAST_NORMAL_WALL_TILE = 121;
 	private static final int[] debugHandSizes = {14,13,13,13};
 	private static final int OFFSET_DEAD_WALL = POS_LAST_NORMAL_WALL_TILE + 1;
-	
+
+	private static final boolean SCAM_DEAD_WALL = true;
+//	private static final boolean SCAM_DEAD_WALL = false;
 	
 	
 	public static void loadDebugWall(GameTile[] wallTiles, int offset){
@@ -260,7 +262,9 @@ public class WallDemoer {
 		
 		if (tsumo9 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 8 + offset] = new GameTile(tsumo9);
 		
-		scamDeadWall(wallTiles, 2);
+		
+		if (SCAM_DEAD_WALL)
+			scamDeadWall(wallTiles, 2);
 	}
 	public static void loadDebugWall(GameTile[] wallTiles){loadDebugWall(wallTiles, 0);}
 	public int[] DEMOgetDebugPlayerHandSizes(){return debugHandSizes;}

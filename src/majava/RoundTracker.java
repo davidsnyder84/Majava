@@ -46,42 +46,21 @@ public class RoundTracker {
 		turnIndicator = indicator;
 		
 		wall = receivedWall;
-		wall.syncWithTracker(this);
-		wallTiles = tempSyncWallTiles;
+		wallTiles = wall.syncWithTracker(this);
 		
 		players = playerArray.clone();
-		roundEntities = new RoundEntities(this, __setupPlayerTrackers(), wall, wallTiles);
-		tempSyncWallTiles = null;
+		for (Player p: players)
+			p.syncWithRoundTracker(this);
+		
+		roundEntities = new RoundEntities(this, makePlayerTrackers(), wall, wallTiles);
 		
 		__syncWithUI(ui);
 	}
 	//overloaded without UI
 	public RoundTracker(RoundResult result, Wind windOfRound, int roundNum, int roundBonusNum, Wall receivedWall, Player[] playerArray, TurnIndicator indicator){this(null, result, windOfRound, roundNum, roundBonusNum, receivedWall, playerArray, indicator);}
-	
-	
-	private int numPlayersSynched; private boolean wallSynched;
-	private GameTile[] tempSyncWallTiles = null;
-	private Player tempSyncPlayer = null;
-	
-	public void syncWall(GameTile[] tilesOfWall){
-		if (wallSynched) return;
-		tempSyncWallTiles = tilesOfWall;
-	}
 
-	private PlayerTracker[] __setupPlayerTrackers(){
-		if (numPlayersSynched > NUM_PLAYERS) return null;
-		
-		numPlayersSynched = 0;
-		PlayerTracker[] trackers = new PlayerTracker[NUM_PLAYERS];
-		
-		for (numPlayersSynched = 0; numPlayersSynched < NUM_PLAYERS; numPlayersSynched++){
-			
-			tempSyncPlayer = players[numPlayersSynched];	//link
-			tempSyncPlayer.syncWithRoundTracker(this);
-			
-			trackers[numPlayersSynched] = new PlayerTracker(tempSyncPlayer);
-		}
-		tempSyncPlayer = null;
+	private PlayerTracker[] makePlayerTrackers(){
+		PlayerTracker[] trackers = {new PlayerTracker(players[0]), new PlayerTracker(players[1]), new PlayerTracker(players[2]), new PlayerTracker(players[3])};		
 		return trackers;
 	}
 	
@@ -89,6 +68,7 @@ public class RoundTracker {
 		if (ui == null) return;
 		ui.syncWithRoundTracker(roundEntities);
 	}
+	
 	
 	
 	

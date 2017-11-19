@@ -199,9 +199,9 @@ public class Wall {
 	
 	
 	
-	public void syncWithTracker(RoundTracker tracker){
+	public GameTile[] syncWithTracker(RoundTracker tracker){
 		roundTracker = tracker; 
-		roundTracker.syncWall(wallTiles);
+		return wallTiles;
 	}
 	
 	

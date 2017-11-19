@@ -13,7 +13,7 @@ public class PlayerSummary{
 		private final Wind seatWind;
 		private final int points;
 		
-		public PlayerSummary(String name, int id, String controllerstring, int playernum, Wind seatwind, int pointsAmount){
+		private PlayerSummary(String name, int id, String controllerstring, int playernum, Wind seatwind, int pointsAmount){
 			playerName = name;
 			playerID = id;
 			controllerString = controllerstring;
@@ -37,11 +37,13 @@ public class PlayerSummary{
 		
 		public int getPoints(){return points;}
 		
-		
+		@Override
 		public String toString(){return "Player " + playerNumber + " (" + seatWind.toChar() + ")";}
+		@Override
 		public boolean equals(Object other){
 			return ((PlayerSummary)other).playerNumber == playerNumber;
 		}
+		@Override
 		public int hashCode(){
 			return playerID + playerNumber + points;
 		}

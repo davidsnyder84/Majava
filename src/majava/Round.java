@@ -21,11 +21,9 @@ import majava.hand.AgariHand;
 
 //represents a single round (ˆê‹Ç) of mahjong
 public class Round{
-
 	private static final int NUM_PLAYERS = 4;
 	private static final Wind DEFAULT_ROUND_WIND = Wind.EAST;
-	private static final int DEFAULT_ROUND_NUM = 1;
-	private static final int DEFAULT_ROUND_BONUS_NUM = 0;
+	private static final int DEFAULT_ROUND_NUM = 1 , DEFAULT_ROUND_BONUS_NUM = 0;
 	
 	//for debug use
 //	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
@@ -39,15 +37,16 @@ public class Round{
 	
 	
 	private final Player[] players;	
+	private final Wind roundWind;
+	private final int roundNumber, roundBonusNumber;
+	private final GameUI userInterface;
+	
+	private final Wall wall;
 	
 	private final RoundTracker roundTracker;
 	private final TurnIndicator turnIndicator;
 	private final RoundResult roundResult;
-	private final GameUI userInterface;
 	
-	private final Wall wall;
-	private final Wind roundWind;
-	private final int roundNumber, roundBonusNumber;
 	
 	
 	//options
@@ -58,27 +57,26 @@ public class Round{
 	
 	//constructor
 	public Round(GameUI ui, Player[] playerArray, Wind roundWindToSet, int roundNum, int roundBonusNum){
-		
 		players = playerArray;
-		for (Player p: players)
-			p.prepareForNewRound();
 		
-		wall = new Wall();
-		
-		//initializes round info
 		roundWind = roundWindToSet;
 		roundNumber = roundNum;
 		roundBonusNumber = roundBonusNum;
 		
 		userInterface = ui;
 		
-		//initialize Round Tracker
+		
+		//prepare for new round
+		for (Player p: players)
+			p.prepareForNewRound();
+		
+		wall = new Wall();
 		roundResult = new RoundResult();
-		turnIndicator = new TurnIndicator(playerArray);
+		turnIndicator = new TurnIndicator(players);	/////Does TurnIndicator really need players?
 		
 		/////PLAYERS must be prepared before this line
 		/////suggestion: can we refactor to do players.prepareForNewRound() and initialize round Tracker in the same line?
-		roundTracker = new RoundTracker(userInterface, roundResult, roundWind,roundNumber,roundBonusNumber, wall, players, turnIndicator);
+		roundTracker = new RoundTracker(this, wall, players, userInterface);
 		
 		setOptionFastGameplay(DEFAULT_DO_FAST_GAMEPLAY);
 	}
@@ -119,8 +117,11 @@ public class Round{
 		turnIndicator.nextTurn();
 	}
 	private void setTurnToPriorityCaller(){turnIndicator.setTurnToPriorityCaller();}
-	private boolean callWasMadeOnDiscard(){return roundTracker.callWasMadeOnDiscard();}
-	private Player currentPlayer(){return turnIndicator.currentPlayer();}
+	
+	public boolean callWasMadeOnDiscard(){return turnIndicator.callWasMadeOnDiscard();}
+	public GameTile mostRecentDiscard(){return turnIndicator.getMostRecentDiscard();}
+	public Player currentPlayer(){return turnIndicator.currentPlayer();}
+	public int whoseTurnNumber(){return turnIndicator.whoseTurnNumber();}
 	
 	private void handleRoundEnd(){
 		doPointPayments();
@@ -246,7 +247,7 @@ public class Round{
 		}
 		else{ 
 			roundResult.setVictoryRon(winner, currentPlayer());			
-			winningTile = turnIndicator.getMostRecentDiscard();
+			winningTile = mostRecentDiscard();
 		}
 		roundResult.setWinningHand(winningHandTiles, winner.DEMOgetHand().getMelds(), winningTile);
 	}
@@ -267,9 +268,9 @@ public class Round{
 	
 	
 	private void letOtherPlayersReactToDiscard(){
-		roundTracker.neighborShimochaOf(currentPlayer()).reactToDiscard(turnIndicator.getMostRecentDiscard());
-		roundTracker.neighborToimenOf(currentPlayer()).reactToDiscard(turnIndicator.getMostRecentDiscard());
-		roundTracker.neighborKamichaOf(currentPlayer()).reactToDiscard(turnIndicator.getMostRecentDiscard());
+		roundTracker.neighborShimochaOf(currentPlayer()).reactToDiscard(mostRecentDiscard());
+		roundTracker.neighborToimenOf(currentPlayer()).reactToDiscard(mostRecentDiscard());
+		roundTracker.neighborKamichaOf(currentPlayer()).reactToDiscard(mostRecentDiscard());
 	}
 	
 	
@@ -341,8 +342,13 @@ public class Round{
 	public boolean endedWithVictory(){return roundResult.isVictory();}
 	public String getWinningHandString(){return roundResult.getAsStringWinningHand();}
 	public RoundResultSummary getResultSummary(){return roundResult.getSummary();}
+	public String getRoundResultString(){return roundResult.toString();}
 	
-	public boolean qualifiesForRenchan(){return roundTracker.qualifiesForRenchan();}
+	public boolean qualifiesForRenchan(){
+		return roundEndedWithDealerVictory();
+		//or if the dealer is in tenpai, or a certain ryuukyoku happens
+	}
+	public boolean roundEndedWithDealerVictory(){return roundResult.isDealerVictory();}	
 	
 	
 	

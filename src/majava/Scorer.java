@@ -74,6 +74,7 @@ public class Scorer {
 		PaymentMap payments = new PaymentMap();
 		/////implement no-ten bappu here 
 		
+		/////want a better way to get players here
 		payments.put(roundTracker.currentPlayer(), 0);
 		payments.put(roundTracker.neighborShimochaOf(roundTracker.currentPlayer()), 0);
 		payments.put(roundTracker.neighborToimenOf(roundTracker.currentPlayer()), 0);

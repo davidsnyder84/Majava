@@ -23,7 +23,7 @@ public class RoundTracker {
 	private static final int NUM_MELDS_TO_TRACK = 5;
 	
 	
-	//tracks information for a player
+	private final Round round;
 	private final RoundEntities roundEntities;
 	private final Wall wall;	//duplicate
 	private final GameTile[] wallTiles;	//duplicate
@@ -31,19 +31,8 @@ public class RoundTracker {
 	private final Player[] players;
 	
 	
-	private final Wind roundWind;
-	private final int roundNumber;
-	private final int roundBonusNumber;
-	
-	private final RoundResult roundResult;
-	private final TurnIndicator turnIndicator;
-	
-	
-	public RoundTracker(GameUI ui, RoundResult result, Wind windOfRound, int roundNum, int roundBonusNum, Wall receivedWall, Player[] playerArray, TurnIndicator indicator){
-		roundWind = windOfRound; roundNumber = roundNum; roundBonusNumber = roundBonusNum;
-		
-		roundResult = result;
-		turnIndicator = indicator;
+	public RoundTracker(Round roundToTrack, Wall receivedWall, Player[] playerArray, GameUI ui){
+		round = roundToTrack;	
 		
 		wall = receivedWall;
 		wallTiles = wall.syncWithTracker(this);
@@ -57,7 +46,7 @@ public class RoundTracker {
 		__syncWithUI(ui);
 	}
 	//overloaded without UI
-	public RoundTracker(RoundResult result, Wind windOfRound, int roundNum, int roundBonusNum, Wall receivedWall, Player[] playerArray, TurnIndicator indicator){this(null, result, windOfRound, roundNum, roundBonusNum, receivedWall, playerArray, indicator);}
+	public RoundTracker(Round roundToTrack, Wall receivedWall, Player[] playerArray){this(roundToTrack, receivedWall, playerArray, null);}
 
 	private PlayerTracker[] makePlayerTrackers(){
 		PlayerTracker[] trackers = {new PlayerTracker(players[0]), new PlayerTracker(players[1]), new PlayerTracker(players[2]), new PlayerTracker(players[3])};		
@@ -74,9 +63,15 @@ public class RoundTracker {
 	
 	
 	
-	/////I want to get rid of these soon, but they're used by the UIs
-	public int whoseTurn(){return turnIndicator.whoseTurnNumber();}
-	public Player currentPlayer(){return turnIndicator.currentPlayer();}
+	/////I want to get rid of these eventually, but they're used by the UIs
+	public int whoseTurn(){return round.whoseTurnNumber();}
+	public Player currentPlayer(){return round.currentPlayer();}	//used by Scorer
+	public boolean callWasMadeOnDiscard(){return round.callWasMadeOnDiscard();}
+	public GameTile getMostRecentDiscard(){return round.mostRecentDiscard();}
+	//these too, maybe
+	public RoundResultSummary getResultSummary(){return round.getResultSummary();}	
+	public String getRoundResultString(){return round.getRoundResultString();}
+	public boolean roundIsOver(){return round.roundIsOver();}
 	
 	
 	private Player neighborOffsetOf(Player p, int offset){
@@ -86,28 +81,6 @@ public class RoundTracker {
 	public Player neighborShimochaOf(Player p){return neighborOffsetOf(p, 1);}
 	public Player neighborToimenOf(Player p){return neighborOffsetOf(p, 2);}
 	public Player neighborKamichaOf(Player p){return neighborOffsetOf(p, 3);}
-	
-	
-	public boolean callWasMadeOnDiscard(){return turnIndicator.callWasMadeOnDiscard();}
-	public GameTile getMostRecentDiscard(){return turnIndicator.getMostRecentDiscard();}
-	
-	
-	public RoundResultSummary getResultSummary(){return roundResult.getSummary();}
-	
-	public String getRoundResultString(){return roundResult.toString();}
-	
-	public boolean roundIsOver(){return roundResult.isOver();}
-//	public boolean roundEndedWithDraw(){return roundResult.isDraw();}
-//	public boolean roundEndedWithVictory(){return roundResult.isVictory();}
-	public boolean roundEndedWithDealerVictory(){return roundResult.isDealerVictory();}
-	
-	public boolean qualifiesForRenchan(){return roundEndedWithDealerVictory();}	//or if the dealer is in tenpai, or a certain ryuukyoku happens
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -131,7 +104,6 @@ public class RoundTracker {
 		return true;
 	}
 	
-	//returns the number of kans made on the table
 	public int getNumKansMade(){
 		int count = 0;
 		for (Player p: players) count += p.getNumKansMade();
@@ -143,9 +115,9 @@ public class RoundTracker {
 	public int getNumTilesLeftInWall(){return wall.numTilesLeftInWall();}
 	
 	
-	public Wind getRoundWind(){return roundWind;}
-	public int getRoundNum(){return roundNumber;}
-	public int getRoundBonusNum(){return roundBonusNumber;}
+	public Wind getRoundWind(){return round.getRoundWind();}
+	public int getRoundNum(){return round.getRoundNum();}
+	public int getRoundBonusNum(){return round.getRoundBonusNum();}
 	
 	
 	public Wind getWindOfSeat(int seat){

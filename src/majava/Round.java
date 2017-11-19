@@ -1,9 +1,11 @@
 package majava;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import majava.userinterface.GameUI;
+import majava.util.GameTileList;
 import majava.yaku.YakuAnalyzer;
 import majava.player.Player;
 import majava.summary.PaymentMap;
@@ -38,8 +40,9 @@ public class Round{
 	private final Player[] players;	
 	
 	private final RoundTracker roundTracker;
+	private final TurnIndicator turnIndicator;
 	private final RoundResult roundResult;
-	private final GameUI userInterface;	
+	private final GameUI userInterface;
 	
 	private final Wall wall;
 	private final Wind roundWind;
@@ -70,10 +73,11 @@ public class Round{
 		
 		//initialize Round Tracker
 		roundResult = new RoundResult();
+		turnIndicator = new TurnIndicator(playerArray);
 		
 		/////PLAYERS must be prepared before this line
-		/////suggestion: can we refactor to do players.prepareForNewRound() and initialize roundTracker in the same line?
-		roundTracker = new RoundTracker(userInterface, roundResult, roundWind,roundNumber,roundBonusNumber, wall, players);
+		/////suggestion: can we refactor to do players.prepareForNewRound() and initialize round Tracker in the same line?
+		roundTracker = new RoundTracker(userInterface, roundResult, roundWind,roundNumber,roundBonusNumber, wall, players, turnIndicator);
 		
 		setOptionFastGameplay(DEFAULT_DO_FAST_GAMEPLAY);
 	}
@@ -104,12 +108,13 @@ public class Round{
 		}
 		handleRoundEnd();
 	}
+	
 	private void goToNextTurn(){		
 		if (wallIsEmpty())
 			return;
-		roundTracker.nextTurn();
+		turnIndicator.nextTurn();
 	}
-	private Player currentPlayer(){return roundTracker.currentPlayer();}
+	private Player currentPlayer(){return turnIndicator.currentPlayer();}
 	
 	
 	private void handleRoundEnd(){
@@ -168,7 +173,7 @@ public class Round{
 		GameTile discardedTile = null;
 		do{
 			discardedTile = p.takeTurn();
-			roundTracker.setMostRecentDiscard(discardedTile);
+			turnIndicator.setMostRecentDiscard(discardedTile);
 			
 			if (madeKan(p)){
 				GameplayEvent kanEvent = GameplayEvent.DECLARED_OWN_KAN;
@@ -205,7 +210,7 @@ public class Round{
 	private boolean madeKan(Player p){return p.needsDrawRinshan();}
 	private boolean callWasMadeOnDiscard(){return roundTracker.callWasMadeOnDiscard();}
 	
-	
+//	private List<Player> playersOtherThan(Player p){return Arrays.asList(roundTracker.neighborShimochaOf(p), roundTracker.neighborToimenOf(p), roundTracker.neighborKamichaOf(p));}
 	
 	
 	//gives a player a tile from the wall or dead wall
@@ -236,7 +241,21 @@ public class Round{
 	private boolean tooManyKans(){return roundTracker.tooManyKans();}
 	private void setResultRyuukyoku4Kan(){roundResult.setResultRyuukyoku4Kan();}
 	
-	private void setResultVictory(Player winner){roundTracker.setResultVictory(winner);}
+	private void setResultVictory(Player winner){
+		GameTile winningTile = null;
+		GameTileList winningHandTiles = winner.DEMOgetHand().DEMOgetTilesAsList().clone();	/////Need this for now, will make more elegant later
+		
+		if (winner == currentPlayer()){
+			roundResult.setVictoryTsumo(winner);			
+			winningTile = winner.getTsumoTile();
+			winningHandTiles.removeLast();
+		}
+		else{ 
+			roundResult.setVictoryRon(winner, currentPlayer());			
+			winningTile = turnIndicator.getMostRecentDiscard();
+		}
+		roundResult.setWinningHand(winningHandTiles, winner.DEMOgetHand().getMelds(), winningTile);
+	}
 	
 	private boolean wallIsEmpty(){return wall.isEmpty();}
 	private void setResultRyuukyokuWashout(){roundResult.setResultRyuukyokuWashout();}
@@ -264,7 +283,7 @@ public class Round{
 		__updateUI(GameplayEvent.MADE_OPEN_MELD);
 		
 		//it is now the calling player's turn
-		roundTracker.setTurn(priorityCaller);
+		turnIndicator.setTurn(priorityCaller);
 	}
 	private void displayCallFrom(Player priorityCaller){
 		GameplayEvent callEvent = GameplayEvent.CALLED_TILE;

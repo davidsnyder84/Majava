@@ -36,15 +36,14 @@ public class RoundTracker {
 	private final int roundBonusNumber;
 	
 	private final RoundResult roundResult;
-	
-	private int indexOfWhoseTurn;
-	private GameTile mostRecentDiscard;
+	private final TurnIndicator turnIndicator;
 	
 	
-	public RoundTracker(GameUI ui, RoundResult result, Wind windOfRound, int roundNum, int roundBonusNum, Wall receivedWall, Player[] playerArray){
+	public RoundTracker(GameUI ui, RoundResult result, Wind windOfRound, int roundNum, int roundBonusNum, Wall receivedWall, Player[] playerArray, TurnIndicator indicator){
 		roundWind = windOfRound; roundNumber = roundNum; roundBonusNumber = roundBonusNum;
 		
 		roundResult = result;
+		turnIndicator = indicator;
 		
 		wall = receivedWall;
 		wall.syncWithTracker(this);
@@ -55,13 +54,9 @@ public class RoundTracker {
 		tempSyncWallTiles = null;
 		
 		__syncWithUI(ui);
-		
-		//the dealer starts first
-		indexOfWhoseTurn = getDealerSeatNum();
-		mostRecentDiscard = null;
 	}
 	//overloaded without UI
-	public RoundTracker(RoundResult result, Wind windOfRound, int roundNum, int roundBonusNum, Wall receivedWall, Player[] playerArray){this(null, result, windOfRound, roundNum, roundBonusNum, receivedWall, playerArray);}
+	public RoundTracker(RoundResult result, Wind windOfRound, int roundNum, int roundBonusNum, Wall receivedWall, Player[] playerArray, TurnIndicator indicator){this(null, result, windOfRound, roundNum, roundBonusNum, receivedWall, playerArray, indicator);}
 	
 	
 	private int numPlayersSynched; private boolean wallSynched;
@@ -116,22 +111,9 @@ public class RoundTracker {
 	
 	
 	
-	
-	
-	//mutators
-	public void nextTurn(){indexOfWhoseTurn = (indexOfWhoseTurn + 1) % NUM_PLAYERS;}
-	public void setTurn(int turn){if (turn < NUM_PLAYERS) indexOfWhoseTurn = turn;}
-	public void setTurn(Player p){setTurn(p.getPlayerNumber());}	//overloaded to accept a player
-	public void setMostRecentDiscard(GameTile discard){mostRecentDiscard = discard;}
-	
-	public int whoseTurn(){return indexOfWhoseTurn;}
-	
-	public int getDealerSeatNum(){
-		for (int i = 0; i < NUM_PLAYERS; i++) if (players[i].isDealer()) return i;
-		return -1;
-	}
-	
-	public Player currentPlayer(){return players[indexOfWhoseTurn];}
+	/////I want to get rid of these soon, but they're used by the UIs
+	public int whoseTurn(){return turnIndicator.whoseTurnNumber();}
+	public Player currentPlayer(){return turnIndicator.currentPlayer();}
 	
 	
 	private Player neighborOffsetOf(Player p, int offset){
@@ -144,45 +126,20 @@ public class RoundTracker {
 	
 	
 	public boolean callWasMadeOnDiscard(){
-		for (int i = 1; i < NUM_PLAYERS; i++) if (players[(indexOfWhoseTurn + i) % NUM_PLAYERS].called()) return true;
+		for (int i = 1; i < NUM_PLAYERS; i++) if (players[(turnIndicator.whoseTurnNumber() + i) % NUM_PLAYERS].called()) return true;
 		return false;
 	}
 	
-	public GameTile getMostRecentDiscard(){return mostRecentDiscard;}
+	public GameTile getMostRecentDiscard(){return turnIndicator.getMostRecentDiscard();}
 	
-	
-	
-
-	public void setResultVictory(Player winner){
-		GameTile winningTile = null;
-//		GameTileList winningHandTiles = new GameTileList(mRoundEntities.mPTrackers[winner.getPlayerNumber()].tilesH);
-		GameTileList winningHandTiles = roundEntities.playerTrackers[winner.getPlayerNumber()].handTiles.clone();
-		
-		if (winner == currentPlayer()){
-			roundResult.setVictoryTsumo(winner);
-			
-			winningTile = winner.getTsumoTile();
-			winningHandTiles.removeLast();
-		}
-		else{ 
-			roundResult.setVictoryRon(winner, currentPlayer());
-			
-			winningTile = mostRecentDiscard;
-		}
-		
-		roundResult.setWinningHand(winningHandTiles, roundEntities.playerTrackers[winner.getPlayerNumber()].melds, winningTile);
-	}
-	
-//	public Player getWinningPlayer(){return mRoundResult.getWinningPlayer();}
-//	public Player getFurikondaPlayer(){return mRoundResult.getFurikondaPlayer();}
 	
 	public RoundResultSummary getResultSummary(){return roundResult.getSummary();}
 	
 	public String getRoundResultString(){return roundResult.toString();}
 	
 	public boolean roundIsOver(){return roundResult.isOver();}
-//	public boolean roundEndedWithDraw(){return mRoundResult.isDraw();}
-//	public boolean roundEndedWithVictory(){return mRoundResult.isVictory();}
+//	public boolean roundEndedWithDraw(){return roundResult.isDraw();}
+//	public boolean roundEndedWithVictory(){return roundResult.isVictory();}
 	public boolean roundEndedWithDealerVictory(){return roundResult.isDealerVictory();}
 	
 	public boolean qualifiesForRenchan(){return roundEndedWithDealerVictory();}	//or if the dealer is in tenpai, or a certain ryuukyoku happens
@@ -242,34 +199,7 @@ public class RoundTracker {
 
 /*
 Class: RoundTracker
-
-data:
-	mRoundWind - the round wind
-	mRoundNum - the round number
-	mRoundBonusNum - the round bonus number
-	mRoundResult - the result of the round
-	
-	mPTrackers - array of tracked info for each player
-	mWhoseTurn - indicates whose turn it is (number 0..3)
-	mMostRecentDiscard - the most recently discarded tile
-	
-	checks:
-		numPlayersSynched - used to check how many players are synched
-		wallSynched - used to check if the wall is synched
-	
-methods:
-	constructors:
-	requires: (TableViewer GUI, round wind, round num, round bonus num, a wall, and four players)
-	
-	
 	public:
-	
-		mutators:
-		nextTurn - advances the turn to the next player
-		setTurn - advances the turn to the given player
-		setMostRecentDiscard - sets the most recently discarded tile to the given tile
-		
-		
 	 	accessors:
 	 	getRoundWind, getRoundNum, getRoundBonusNum - return the corresponding round info
 	 	
@@ -289,8 +219,6 @@ methods:
 	 	getRoundResultString - returns the round result as a string
 	 	getWinningHandString - returns a string representation of the winner's winning hand
 	 	
- 	
-	
 	setup:
 		syncWall
 		setupPlayerTrackers - sets up player trackers (track players, their hands, and their ponds)

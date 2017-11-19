@@ -315,6 +315,8 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 //	public List<Integer> DEMOfindAllCallableTiles(){return handChecker.DEMOfindAllCallableTiles();}
 	
 	public HandChecker DEMOgetChecker(){return handChecker;}
+	
+	public GameTileList DEMOgetTilesAsList(){return tiles;}
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	//xxxxEND DEMO METHODS
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

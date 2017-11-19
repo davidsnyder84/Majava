@@ -61,7 +61,7 @@ public class RoundTracker {
 	
 	private int numPlayersSynched; private boolean wallSynched;
 	private GameTile[] tempSyncWallTiles = null;
-	private Player tempSyncPlayer = null; private GameTileList tempSyncHandTiles = null; private Hand tempSyncHand = null;
+	private Player tempSyncPlayer = null;
 	
 	public void syncWall(GameTile[] tilesOfWall){
 		if (wallSynched) return;
@@ -78,21 +78,11 @@ public class RoundTracker {
 			
 			tempSyncPlayer = players[numPlayersSynched];	//link
 			tempSyncPlayer.syncWithRoundTracker(this);
-			tempSyncHand.syncWithRoundTracker(this);
 			
-			trackers[numPlayersSynched] = new PlayerTracker(tempSyncPlayer, tempSyncHand, tempSyncHandTiles);
+			trackers[numPlayersSynched] = new PlayerTracker(tempSyncPlayer);
 		}
-		tempSyncPlayer = null;tempSyncHandTiles = null;
+		tempSyncPlayer = null;
 		return trackers;
-	}
-	
-	public void syncPlayer(Hand h){
-		if (numPlayersSynched > NUM_PLAYERS) return;
-		tempSyncHand = h;
-	}
-	public void syncHand(GameTileList handTiles){
-		if (numPlayersSynched > NUM_PLAYERS) return;
-		tempSyncHandTiles = handTiles;
 	}
 	
 	private void __syncWithUI(GameUI ui){

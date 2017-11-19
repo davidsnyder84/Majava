@@ -414,7 +414,7 @@ public class TableViewBase extends JFrame{
 		//update hands
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_HAND; currentTile++){
-				larryHands[currentPlayer][currentTile].setIcon(getImageIconForTile(playerTrackers[currentPlayer].handTiles, currentTile, currentPlayer, BIG, whichHandsToReveal[currentPlayer]));
+				larryHands[currentPlayer][currentTile].setIcon(getImageIconForTile(playerTrackers[currentPlayer].handTiles(), currentTile, currentPlayer, BIG, whichHandsToReveal[currentPlayer]));
 			}
 		}
 		

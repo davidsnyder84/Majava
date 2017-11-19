@@ -15,14 +15,12 @@ public final class PlayerTracker{
 	
 	public final Player player;
 	
-	public final Hand hand;
-	public final GameTileList handTiles;
-	
-	public PlayerTracker(Player p, Hand ha, GameTileList tH){
+	public PlayerTracker(Player p){
 		player = p;
-		hand = ha; handTiles = tH;
 	}
-
+	
+	public final GameTileList handTiles(){return player.DEMOgetHand().DEMOgetTilesAsList();}
+	
 	public final List<Meld> melds(){return player.getMelds();}
 	public final Pond pond(){return player.getPond();}
 	public final List<PondTile> pondTiles(){return pond().getTilesAsList();}

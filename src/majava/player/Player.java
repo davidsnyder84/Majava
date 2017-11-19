@@ -370,10 +370,8 @@ public class Player {
 			((HumanBrain) brain).setUI(userInterface);
 	}
 	
-	//sync player's hand and pond with tracker
 	public void syncWithRoundTracker(RoundTracker tracker){
 		roundTracker = tracker;
-		roundTracker.syncPlayer(hand);
 	}
 	
 	

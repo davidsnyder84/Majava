@@ -24,8 +24,6 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	
 	private final HandChecker handChecker;
 	
-	private RoundTracker roundTracker;
-	
 	
 	
 	public Hand(){
@@ -34,7 +32,6 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		
 		//make a checker for the hand
 		handChecker = new HandChecker(this, tiles, melds);
-		roundTracker = null;
 	}
 	public Hand (Hand other){
 		tiles = other.tiles.clone();
@@ -42,7 +39,6 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		for (Meld m: other.melds) melds.add(m.clone());
 		
 		handChecker = new HandChecker(this, tiles, melds);
-		roundTracker = other.roundTracker;
 	}
 	public Hand clone(){return new Hand(this);}
 	
@@ -351,9 +347,6 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	
 	
 	
-	
-	
-	//returns string of all tiles in the hand, and their indices
 	@Override
 	public String toString(){
 		String handString = "";
@@ -377,24 +370,8 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		return handString;
 	}
 	
-	//iterator, returns mTile's iterator
 	@Override
 	public Iterator<GameTile> iterator() {return tiles.iterator();}
-	
-	
-	
-	
-	
-	
-	//sync hand tilelist and meldlist with tracker
-	public void syncWithRoundTracker(RoundTracker tracker){
-		if (roundTracker != null) return;
-		roundTracker = tracker;
-		roundTracker.syncHand(tiles);
-	}
-	
-	
-	
 	
 	public static int maxHandSize(){return Hand.MAX_HAND_SIZE;}
 }

@@ -11,6 +11,7 @@ import majava.player.Player;
 import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
+import majava.tiles.Janpai;
 import majava.enums.GameplayEvent;
 import majava.enums.Wind;
 import majava.enums.Exclamation;
@@ -101,8 +102,11 @@ public class Round{
 			if (roundIsOver())
 				break;
 			
-			if (callWasMadeOnDiscard())
+			letOtherPlayersReactToDiscard();
+			if (callWasMadeOnDiscard()){
 				handleReaction();
+				setTurnToPriorityCaller();
+			}
 			else
 				goToNextTurn();
 		}
@@ -114,8 +118,9 @@ public class Round{
 			return;
 		turnIndicator.nextTurn();
 	}
+	private void setTurnToPriorityCaller(){turnIndicator.setTurnToPriorityCaller();}
+	private boolean callWasMadeOnDiscard(){return roundTracker.callWasMadeOnDiscard();}
 	private Player currentPlayer(){return turnIndicator.currentPlayer();}
-	
 	
 	private void handleRoundEnd(){
 		doPointPayments();
@@ -165,15 +170,13 @@ public class Round{
 		else
 			__updateUI(GameplayEvent.PLACEHOLDER);
 		
-		//return early if the round is over (4kan or washout)
-		if (roundIsOver()) return;
+		if (roundIsOver()) return;	//return early if (4kan or washout)
 		
-		//~~~~~~get player's discard (kans and riichi are handled inside here)
-		//loop until the player has chosen a discard (loop until the player stops making kans)
+		//loop until the player has chosen a discard (loop until the player stops making kans) (kans and riichi are handled inside here)
 		GameTile discardedTile = null;
 		do{
 			discardedTile = p.takeTurn();
-			turnIndicator.setMostRecentDiscard(discardedTile);
+			turnIndicator.setMostRecentDiscard(discardedTile);	//discardedTile will be null if the player made a kan/tsumo, but that's ok
 			
 			if (madeKan(p)){
 				GameplayEvent kanEvent = GameplayEvent.DECLARED_OWN_KAN;
@@ -193,23 +196,14 @@ public class Round{
 				setResultVictory(p);
 			}
 			
-			//return early if the round is over (tsumo or 4kan or 4riichi or kyuushu)
-			if (roundIsOver()) return;
+			if (roundIsOver()) return;	//return early if (tsumo or 4kan or 4riichi or kyuushu)
 		}
 		while (!p.turnActionChoseDiscard());
 		
-		
 		//show the human player their hand, show the discarded tile and the discarder's pond
 		__updateUI(GameplayEvent.DISCARDED_TILE);
-		
-		//~~~~~~get reactions from the other players
-		roundTracker.neighborShimochaOf(p).reactToDiscard(discardedTile);
-		roundTracker.neighborToimenOf(p).reactToDiscard(discardedTile);
-		roundTracker.neighborKamichaOf(p).reactToDiscard(discardedTile);
 	}
 	private boolean madeKan(Player p){return p.needsDrawRinshan();}
-	private boolean callWasMadeOnDiscard(){return roundTracker.callWasMadeOnDiscard();}
-	
 //	private List<Player> playersOtherThan(Player p){return Arrays.asList(roundTracker.neighborShimochaOf(p), roundTracker.neighborToimenOf(p), roundTracker.neighborKamichaOf(p));}
 	
 	
@@ -267,9 +261,24 @@ public class Round{
 	
 	
 	
+	
+	
+	
+	
+	
+	private void letOtherPlayersReactToDiscard(){
+		roundTracker.neighborShimochaOf(currentPlayer()).reactToDiscard(turnIndicator.getMostRecentDiscard());
+		roundTracker.neighborToimenOf(currentPlayer()).reactToDiscard(turnIndicator.getMostRecentDiscard());
+		roundTracker.neighborKamichaOf(currentPlayer()).reactToDiscard(turnIndicator.getMostRecentDiscard());
+	}
+	
+	
+	
 	//handles a call made on a discarded tile
 	private void handleReaction(){
 		Player priorityCaller = whoCalled();
+		turnIndicator.setPriorityCaller(priorityCaller);
+		
 		displayCallFrom(priorityCaller);
 		
 		if (priorityCaller.calledRon()){
@@ -280,10 +289,8 @@ public class Round{
 		//remove tile from discarder's pond and make meld
 		GameTile calledTile = currentPlayer().removeTileFromPond();
 		priorityCaller.makeMeld(calledTile);
-		__updateUI(GameplayEvent.MADE_OPEN_MELD);
 		
-		//it is now the calling player's turn
-		turnIndicator.setTurn(priorityCaller);
+		__updateUI(GameplayEvent.MADE_OPEN_MELD);
 	}
 	private void displayCallFrom(Player priorityCaller){
 		GameplayEvent callEvent = GameplayEvent.CALLED_TILE;

@@ -125,11 +125,7 @@ public class RoundTracker {
 	public Player neighborKamichaOf(Player p){return neighborOffsetOf(p, 3);}
 	
 	
-	public boolean callWasMadeOnDiscard(){
-		for (int i = 1; i < NUM_PLAYERS; i++) if (players[(turnIndicator.whoseTurnNumber() + i) % NUM_PLAYERS].called()) return true;
-		return false;
-	}
-	
+	public boolean callWasMadeOnDiscard(){return turnIndicator.callWasMadeOnDiscard();}
 	public GameTile getMostRecentDiscard(){return turnIndicator.getMostRecentDiscard();}
 	
 	

@@ -229,9 +229,8 @@ public class Player {
 			setDrawNeededRinshan();
 		
 		//clear call status because the call has been completed
-		brain.clearCallStatus();	//don't know how needed this is
+		brain.clearCallStatus();	//this is needed to make sure a player can't call their own discard
 	}
-	
 	
 	
 	
@@ -379,7 +378,7 @@ public class Player {
 	}
 	
 	
-
+	
 	
 	
 	

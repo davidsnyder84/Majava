@@ -10,13 +10,16 @@ public class TurnIndicator {
 	
 	private final Player[] players;
 	private int indexOfWhoseTurn;
+	
 	private GameTile mostRecentDiscard;
+	private Player priorityCaller;
 	
 	public TurnIndicator(Player[] ps) {
 		players = ps;
 		
 		indexOfWhoseTurn = getDealerSeatNum();
-		mostRecentDiscard = new GameTile(0);
+		mostRecentDiscard = null;
+		priorityCaller = null;
 	}
 	
 	
@@ -33,6 +36,11 @@ public class TurnIndicator {
 	
 	public void setMostRecentDiscard(GameTile discard){mostRecentDiscard = discard;}
 	public GameTile getMostRecentDiscard(){return mostRecentDiscard;}
+	
+	public void setTurnToPriorityCaller(){setTurn(priorityCaller);}
+	public void setPriorityCaller(Player caller){priorityCaller = caller;}
+	public Player getPriorityCaller(){return priorityCaller;}
+	
 	
 	public boolean callWasMadeOnDiscard(){
 		for (int i = 1; i < NUM_PLAYERS; i++) if (players[(indexOfWhoseTurn + i) % NUM_PLAYERS].called()) return true;

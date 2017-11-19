@@ -124,6 +124,7 @@ public class Player {
 	
 	//removes the most recent tile from the player's pond (because another player called it)
 	public GameTile removeTileFromPond(){return pond.removeMostRecentTile();}
+	public Pond getPond(){return pond.clone();}
 	
 	public GameTile getLastDiscard(){return lastDiscard;}
 	
@@ -282,8 +283,6 @@ public class Player {
 	
 	//returns the number of melds the player has made (open melds and ankans)
 	public int getNumMeldsMade(){return hand.numberOfMeldsMade();}
-	
-	//returns a list of the melds that have been made (copy of actual melds), returns an empty list if no melds made
 	public List<Meld> getMelds(){return hand.getMelds();}
 	
 	

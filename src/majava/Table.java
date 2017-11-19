@@ -52,12 +52,13 @@ public class Table {
 	
 	//play one game
 	private void playNewGame(){
-		long time = System.currentTimeMillis();
+		final long time = System.currentTimeMillis();
 		currentGame = new Game(userInterface, players);
 		currentGame.setOptionFastGameplay(optionDoFastGameplay);
 		currentGame.play();
 		
 		System.out.println("Time elapsed: " + (System.currentTimeMillis() - time));
+		System.out.println("Games played: " + currentGame.getNumberOfRoundsPlayed());
 	}
 	
 	private GameUI generateGameUI(){

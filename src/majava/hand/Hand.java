@@ -57,9 +57,9 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	
 	//returns a list of the melds that have been made (copy of actual melds), returns an empty list if no melds made
 	public List<Meld> getMelds(){
-		List<Meld> meldList = new ArrayList<Meld>(numberOfMeldsMade()); 
-		for (int i = 0; i < numberOfMeldsMade(); i++)
-			meldList.add(melds.get(i).clone());
+		List<Meld> meldList = new ArrayList<Meld>();
+		for (Meld m: melds)
+			meldList.add(m.clone());
 		
 		return meldList;
 	}

@@ -31,7 +31,7 @@ public class Game {
 			default: return "unknown";
 			}
 		}
-		public Wind finalWind(){
+		public final Wind finalWind(){
 			switch (this){
 			case TONPUUSEN: return Wind.EAST;
 			case HANCHAN: return Wind.SOUTH;
@@ -41,7 +41,7 @@ public class Game {
 	}
 
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
-	private static final int NUM_SIMULATIONS_TO_RUN = 50;
+	private static final int NUM_SIMULATIONS_TO_RUN = 55;
 	
 	
 	
@@ -202,6 +202,7 @@ public class Game {
 				return true;
 		return false;
 	}
+	public int getNumberOfRoundsPlayed(){return numRoundsPlayed;}
 	
 	
 	

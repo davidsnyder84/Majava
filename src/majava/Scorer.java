@@ -12,8 +12,8 @@ public class Scorer {
 	private final RoundResult roundResult;
 	private final RoundTracker roundTracker;
 	
-	public Scorer(RoundResult res, RoundTracker tracker) {
-		roundResult = res;
+	public Scorer(RoundResult result, RoundTracker tracker) {
+		roundResult = result;
 		roundTracker = tracker;
 	}
 	

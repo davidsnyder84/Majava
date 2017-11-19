@@ -16,7 +16,7 @@ public class GameTileList extends ConviniList<GameTile>{
 	
 	//takes a List
 	public GameTileList(int capacity){super(capacity);}
-	public GameTileList(List<GameTile> tiles){
+	public GameTileList(List<? extends GameTile> tiles){
 		this(DEFAULT_SIZE);
 		addAll(tiles);
 	}

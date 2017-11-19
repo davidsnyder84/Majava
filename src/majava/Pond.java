@@ -5,10 +5,11 @@ import java.util.List;
 
 import majava.tiles.PondTile;
 import majava.tiles.GameTile;
+import majava.util.GameTileList;
 
 
 //represents a player's pond (êÏ) of discarded tiles
-public class Pond {
+public class Pond implements Cloneable{
 	private static final int SIZE_MAX = 30;
 	private static final int NO_RIICHI_INDEX = -1;
 	
@@ -22,6 +23,14 @@ public class Pond {
 		tiles = new ArrayList<PondTile>(SIZE_MAX);
 		indexOfRiichiTile = NO_RIICHI_INDEX;
 	}
+	public Pond(Pond other){
+		tiles = new ArrayList<PondTile>(SIZE_MAX);
+		for (PondTile t: other.tiles) tiles.add(t.clone());
+		
+		indexOfRiichiTile = other.indexOfRiichiTile;
+	}
+	public Pond clone(){return new Pond(this);}
+	
 	
 	public void addTile(GameTile t){tiles.add(new PondTile(t));}
 	
@@ -29,7 +38,8 @@ public class Pond {
 	public PondTile getMostRecentTile(){return getTile(size() - 1);}
 	public int size(){return tiles.size();}
 	
-	private PondTile getTile(int index){return tiles.get(index);}
+	public PondTile getTile(int index){return tiles.get(index);}
+	public GameTileList getTilesAsList(){return new GameTileList(tiles);}
 	
 	
 	//marks the most recent tile as missing (because it was callled)
@@ -41,9 +51,12 @@ public class Pond {
 	
 	
 	
-	public boolean isNagashiMangan(){
-		/////implement nagashi mangan here
-		return false;
+	//nagashi mangan = composed of only TYC, and no tiles have been called
+	public boolean isElligibleForNagashiMangan(){
+		for (PondTile t: tiles)
+			if (!t.isYaochuu() || t.wasCalled())
+				return false;
+		return true;
 	}
 	
 	

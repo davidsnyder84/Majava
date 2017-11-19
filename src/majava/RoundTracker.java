@@ -118,10 +118,11 @@ public class RoundTracker {
 	
 	
 	
-	
+	//mutators
 	public void nextTurn(){indexOfWhoseTurn = (indexOfWhoseTurn + 1) % NUM_PLAYERS;}
 	public void setTurn(int turn){if (turn < NUM_PLAYERS) indexOfWhoseTurn = turn;}
 	public void setTurn(Player p){setTurn(p.getPlayerNumber());}	//overloaded to accept a player
+	public void setMostRecentDiscard(GameTile discard){mostRecentDiscard = discard;}
 	
 	public int whoseTurn(){return indexOfWhoseTurn;}
 	
@@ -147,7 +148,6 @@ public class RoundTracker {
 		return false;
 	}
 	
-	public void setMostRecentDiscard(GameTile discard){mostRecentDiscard = discard;}
 	public GameTile getMostRecentDiscard(){return mostRecentDiscard;}
 	
 	
@@ -268,12 +268,6 @@ methods:
 		nextTurn - advances the turn to the next player
 		setTurn - advances the turn to the given player
 		setMostRecentDiscard - sets the most recently discarded tile to the given tile
-		
-		setResultVictory - sets the round result to victory for the given player
-		setResultRyuukyoku.., etc - sets the round result a certain type of Ryuukyoku (draw)
-		
-		checkIfTooManyKans - checks if too many kans have been made, and sets the round to over if so
-		checkIfWallIsEmpty - checks if the wall is empty, and sets the round to over if so
 		
 		
 	 	accessors:

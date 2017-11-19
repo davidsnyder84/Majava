@@ -328,7 +328,6 @@ public class Round{
 	
 	private void __updateUI(GameplayEvent event){
 		if (userInterface == null) return;
-		
 		userInterface.displayEvent(event);
 	}
 	
@@ -339,9 +338,7 @@ public class Round{
 		final int DEAFULT_SLEEPTIME = 400;
 		final int DEAFULT_SLEEPTIME_EXCLAMATION = 1500;
 		final int DEAFULT_SLEEPTIME_ROUND_END = 18000;
-		final int FAST_SLEEPTIME = 0;
-		final int FAST_SLEEPTIME_EXCLAMATION = 0;
-		final int FAST_SLEEPTIME_ROUND_END = 0;
+		final int FAST_SLEEPTIME = 0, FAST_SLEEPTIME_EXCLAMATION = 0, FAST_SLEEPTIME_ROUND_END = 0;
 		
 		if (optionDoFastGameplay){
 			sleepTime = FAST_SLEEPTIME;

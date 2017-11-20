@@ -50,7 +50,7 @@ public class DetailedTextualUI extends TextualUI{
 	}
 
 	protected void __displayEventHumanTurnStart(){
-		__showPlayerHand(roundTracker.currentPlayer());
+		__showPlayerHand(roundTracker.whoseTurn());
 	}
 	
 	protected void __displayEventStartOfRound(){
@@ -71,9 +71,8 @@ public class DetailedTextualUI extends TextualUI{
 	
 	
 	
-	
-	//prints the hand of a player
-	protected void __showPlayerHand(Player p){println(p.getAsStringHand());}
+	@Override
+	protected void __showPlayerHand(int seatNum) {println(godsEye.getHandAsString(seatNum));}
 	
 	protected void __showWall(){println(godsEye.wallToString());}
 	
@@ -208,6 +207,4 @@ public class DetailedTextualUI extends TextualUI{
 		//pause
 		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);
 	}
-	
-	
 }

@@ -42,11 +42,6 @@ public class RoundTracker {
 	}
 	//overloaded without UI
 	public RoundTracker(Round roundToTrack, Wall receivedWall, Player[] playerArray){this(roundToTrack, receivedWall, playerArray, null);}
-
-//	private PlayerTracker[] makePlayerTrackers(){
-//		PlayerTracker[] trackers = {new PlayerTracker(players[0]), new PlayerTracker(players[1]), new PlayerTracker(players[2]), new PlayerTracker(players[3])};		
-//		return trackers;
-//	}
 	
 	private void __syncWithUI(GameUI ui){
 		if (ui == null) return;

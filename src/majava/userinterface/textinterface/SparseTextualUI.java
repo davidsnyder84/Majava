@@ -79,8 +79,9 @@ public class SparseTextualUI extends TextualUI{
 	
 	
 	//prints the hands of a player
-	protected void __showPlayerHand(int seatNum){__showPlayerHand(godsEye.playerTrackers[seatNum].player);}
-	protected void __showPlayerHand(Player p){println(p.getAsStringHandCompact());}
+	protected void __showPlayerHand(int seatNum){
+		println(godsEye.getHandAsStringCompact(seatNum));
+	}
 	
 	protected void __showWall(){println(godsEye.wallToString());}
 	protected void __showDoraIndicators(){println(",,,Dora Indicators: " + roundTracker.getDoraIndicators());}

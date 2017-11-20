@@ -15,8 +15,7 @@ public abstract class TextualUI extends GameUI{
 	
 	public TextualUI(){
 		outStream = System.out;
-		godsEye = null;
-//		mRoundTracker = null; mWall = null; mPTrackers = null;
+		godsEye = null;/////why?
 	}
 	
 	
@@ -36,9 +35,13 @@ public abstract class TextualUI extends GameUI{
 	
 	
 
-	protected void __showHandsOfAllPlayers(){println(); for (PlayerTracker pt: godsEye.playerTrackers) __showPlayerHand(pt.player); println();}
-	protected void __showPlayerHand(int seatNum){__showPlayerHand(godsEye.playerTrackers[seatNum].player);}
-	protected abstract void __showPlayerHand(Player p);
+	protected void __showHandsOfAllPlayers(){
+		println();
+		for (int i = 0; i < NUM_PLAYERS; i++)
+			__showPlayerHand(i);
+		println();
+	}
+	protected abstract void __showPlayerHand(int seatNum);
 	
 	protected abstract void __showWall();
 	protected abstract void __showDeadWall();

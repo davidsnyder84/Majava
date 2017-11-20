@@ -15,6 +15,7 @@ import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
 import majava.tiles.PondTile;
+import majava.util.GameTileList;
 import utility.ImageResizer;
 import utility.ImageRotator;
 import utility.Pauser;
@@ -292,7 +293,6 @@ public class TableViewBase extends JFrame{
 	protected boolean[] whichHandsToReveal;
 	
 	
-	protected PlayerTracker[] playerTrackers;
 	protected RoundTracker roundTracker;
 	protected GodsEye godsEye;
 	
@@ -409,15 +409,17 @@ public class TableViewBase extends JFrame{
 		
 		//update hands
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
+			GameTileList handTiles = godsEye.getHandTilesForPlayer(currentPlayer);
 			for (currentTile = 0; currentTile < SIZE_HAND; currentTile++){
-				larryHands[currentPlayer][currentTile].setIcon(getImageIconForTile(playerTrackers[currentPlayer].handTiles(), currentTile, currentPlayer, BIG, whichHandsToReveal[currentPlayer]));
+				larryHands[currentPlayer][currentTile].setIcon(getImageIconForTile(handTiles, currentTile, currentPlayer, BIG, whichHandsToReveal[currentPlayer]));
 			}
 		}
 		
 		//update ponds
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
+			List<PondTile> pondTiles = godsEye.getPondTilesForPlayer(currentPlayer);
 			for (currentTile = 0; currentTile < SIZE_POND; currentTile++){
-				larryPonds[currentPlayer][currentTile].setIcon(getImageIconPond(playerTrackers[currentPlayer].pondTiles(), currentTile, currentPlayer));
+				larryPonds[currentPlayer][currentTile].setIcon(getImageIconPond(pondTiles, currentTile, currentPlayer));
 			}
 		}
 		
@@ -441,12 +443,10 @@ public class TableViewBase extends JFrame{
 		
 		
 		//update melds
-		List<Meld> meldList = null;
-		List<GameTile> tList = null;
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
-			meldList = playerTrackers[currentPlayer].player.getMelds();
+			List<Meld> meldList = godsEye.getPlayerMelds(currentPlayer);
 			for (currentMeld = 0; currentMeld < meldList.size(); currentMeld++){
-				tList = meldList.get(currentMeld).getAllTiles();
+				List<GameTile> tList = meldList.get(currentMeld).getAllTiles();
 				for (currentTile = 0; currentTile < SIZE_MELD; currentTile++)
 					larryHandMelds[currentPlayer][currentMeld][currentTile].setIcon(getImageIconForTile(tList, currentTile, currentPlayer, SMALL));
 			}
@@ -455,9 +455,9 @@ public class TableViewBase extends JFrame{
 		
 		//update player info
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
-			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_SEATWIND].setIcon(getImageIconWind(playerTrackers[currentPlayer].player.getSeatWind(), SMALL));
-			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_POINTS].setText(Integer.toString(playerTrackers[currentPlayer].player.getPoints()));
-			if (playerTrackers[currentPlayer].player.isInRiichi())
+			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_SEATWIND].setIcon(getImageIconWind(godsEye.seatWindOfPlayer(currentPlayer), SMALL));
+			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_POINTS].setText(Integer.toString(godsEye.pointsForPlayer(currentPlayer)));
+			if (godsEye.playerIsInRiichi(currentPlayer))
 				larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_RIICHI].setIcon(garryOther[GARRYINDEX_OTHER_RIICHI]);
 		}
 		
@@ -484,21 +484,22 @@ public class TableViewBase extends JFrame{
 		oldTurn = newTurn;
 	}
 	private void discardMarkerSet(){
-		if (!playerTrackers[newTurn].pondTiles().isEmpty() && playerTrackers[newTurn].player.needsDraw()){
-			if (newTurn == oldTurn &&  playerTrackers[newTurn].player.needsDrawRinshan()) return;
+		if (!godsEye.getPondTilesForPlayer(newTurn).isEmpty() && godsEye.playerNeedsDraw(newTurn)){
+			if (newTurn == oldTurn && godsEye.playerNeedsDrawRinshan(newTurn)) return;
+//			if (newTurn == oldTurn &&  playerTrackers[newTurn].player.needsDrawRinshan()) return;
 			getLastLabelInPond(newTurn).setOpaque(true);
 			getLastLabelInPond(newTurn).setBackground(COLOR_POND_DISCARD_TILE);
 		}
 	}
 	private void discardMarkerErase(){
-		if (oldTurn >= 0 && !playerTrackers[oldTurn].pondTiles().isEmpty()){
+		if (oldTurn >= 0 && !godsEye.getPondTilesForPlayer(oldTurn).isEmpty()){
 			getLastLabelInPond(oldTurn).setOpaque(false);
 			getLastLabelInPond(oldTurn).setBackground(COLOR_TRANSPARENT);
 		}
 	}
 	private JLabel getLastLabelInPond(int seatNum){
-		if (playerTrackers[seatNum].pondTiles().isEmpty()) return null;
-		else return larryPonds[seatNum][playerTrackers[seatNum].pondTiles().size() - 1];
+		if (godsEye.getPondTilesForPlayer(seatNum).isEmpty()) return null;
+		else return larryPonds[seatNum][godsEye.getPondTilesForPlayer(seatNum).size() - 1];
 	}
 	
 	
@@ -684,16 +685,14 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	public void syncWithRoundTracker(RoundTracker tracker, GodsEye eye){
-		
+	public void syncWithRoundTracker(RoundTracker tracker, GodsEye eye){		
 		roundTracker = tracker;
-		playerTrackers = eye.playerTrackers;
-		playerTrackers = eye.playerTrackers;
 		godsEye = eye;
 		
 		//hand revealing options
 		whichHandsToReveal = new boolean[NUM_PLAYERS];
-		for (int i = 0; i < NUM_PLAYERS; i++) whichHandsToReveal[i] = (cheatRevealAllHands || playerTrackers[i].player.controllerIsHuman());
+		for (int i = 0; i < NUM_PLAYERS; i++)
+			whichHandsToReveal[i] = (cheatRevealAllHands || godsEye.playerIsHuman(i));
 		
 		blankEverything();
 	}
@@ -1639,7 +1638,7 @@ public class TableViewBase extends JFrame{
 				checkboxRevealHands.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						cheatRevealAllHands = !cheatRevealAllHands;
-						for (int i = 0; i < whichHandsToReveal.length; i++) whichHandsToReveal[i] = (cheatRevealAllHands || playerTrackers[i].player.controllerIsHuman());
+						for (int i = 0; i < whichHandsToReveal.length; i++) whichHandsToReveal[i] = (cheatRevealAllHands || godsEye.playerIsHuman(i));
 						updateEverything();
 					}
 				});

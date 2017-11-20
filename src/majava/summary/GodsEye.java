@@ -19,7 +19,6 @@ import majava.util.GameTileList;
 //this class gives the UI an immutable view of this data
 public class GodsEye {	
 	private final PlayerTracker[] playerTrackers;
-	private final GameTile[] wallTiles;
 	private final Wall wall;
 	
 	private final RoundTracker roundTracker;
@@ -29,7 +28,6 @@ public class GodsEye {
 		roundTracker = rTracker;
 		playerTrackers = makePlayerTrackers(playerArray);
 		wall = reveivedWall;
-		wallTiles = wall.DEMOpleaseGiveMeYourTiles();
 	}
 	private PlayerTracker[] makePlayerTrackers(Player[] playerArray){return new PlayerTracker[]{new PlayerTracker(playerArray[0]), new PlayerTracker(playerArray[1]), new PlayerTracker(playerArray[2]), new PlayerTracker(playerArray[3])};}
 	
@@ -56,7 +54,7 @@ public class GodsEye {
 	
 	
 	//wall methods
-	public final GameTile[] getWallTiles(){return wallTiles.clone();}
+	public final GameTile[] getWallTiles(){return wall.getTilesAsList();}
 	public final String wallToString(){return wall.toString();}
 	public final String deadWallToString(){return wall.toStringDeadWall();}
 
@@ -77,12 +75,14 @@ public class GodsEye {
 		}
 		
 		//all of these are clones
+		//this is normally hidden information
 		public final GameTileList handTiles(){return hand.getTilesAsList();}
-		public final List<Meld> melds(){return player.getMelds();}
 		public final String getHandAsString(){return player.getAsStringHand();}
 		public final String getHandAsStringCompact(){return player.getAsStringHandCompact();}
 		public final GameTile getTsumoTile(){return player.getTsumoTile();}
 		
+		//below is all public and could (shoud?) be learned from asking RoundTracker
+		public final List<Meld> melds(){return player.getMelds();}
 		public final Pond pond(){return player.getPond();}
 		public final List<PondTile> pondTiles(){return pond().getTilesAsList();}
 		public final String getPondAsString(){return player.getAsStringPond();}

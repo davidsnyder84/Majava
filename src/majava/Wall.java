@@ -134,6 +134,7 @@ public class Wall {
 	
 	
 	private GameTile getTile(int index){return wallTiles[index];}
+	public GameTile[] getTilesAsList(){return wallTiles.clone();}
 	private GameTile getDeadWallTile(int index){return getTile(OFFSET_DEAD_WALL + index);}
 	private void setTile(int index, GameTile tile){wallTiles[index] = tile;}
 	private GameTile removeTile(int index){
@@ -212,7 +213,6 @@ public class Wall {
 	//DEMO METHODS
 	public void DEMOloadDebugWall(){WallDemoer.loadDebugWall(wallTiles, currentWallPosition);}
 	public void DEMOexhaustWall(){currentWallPosition = 68;}
-	public GameTile[] DEMOpleaseGiveMeYourTiles(){return wallTiles;}
 //	public void printWall(){System.out.println(toString());}
 //	public void printDeadWall(){System.out.println(toStringDeadWall());}
 }

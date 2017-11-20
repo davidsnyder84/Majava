@@ -62,7 +62,6 @@ public class ComboTextGraphicalUI extends GameUI{
 		graphicalUI.printErrorRoundAlreadyOver();
 	}
 	
-//	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] tilesW){
 	public void syncWithRoundTracker(RoundTracker tracker, GodsEye eye){
 		textualUI.syncWithRoundTracker(tracker, eye);
 		graphicalUI.syncWithRoundTracker(tracker, eye);
@@ -102,7 +101,7 @@ public class ComboTextGraphicalUI extends GameUI{
 	
 
 	
-	/*intentionally blank*/
+	/*intentionally blank*/ /////but not really sure why
 	protected void __displayEventDiscardedTile(){}protected void __displayEventMadeOpenMeld(){}protected void __displayEventDrewTile(){}protected void __displayEventMadeOwnKan(){}protected void __displayEventNewDoraIndicator(){}protected void __displayEventHumanTurnStart(){}
 	protected void __displayEventStartOfRound(){}protected void __displayEventEndOfRound(){}protected void __displayEventPlaceholder(){}protected void __showExclamation(Exclamation exclamation, int seat){}
 }

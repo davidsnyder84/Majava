@@ -1,5 +1,8 @@
 package majava;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import majava.hand.AgariHand;
 import majava.player.Player;
 import majava.summary.PaymentMap;
@@ -8,13 +11,14 @@ import majava.yaku.YakuAnalyzer;
 
 //class for calculating point amounts and payments
 public class Scorer {
+	private static final int NUM_PLAYERS = 4;
 	
 	private final RoundResult roundResult;
-	private final RoundTracker roundTracker;
+	private final Player[] players;
 	
-	public Scorer(RoundResult result, RoundTracker tracker) {
+	public Scorer(RoundResult result, Player[] playerArray) {
 		roundResult = result;
-		roundTracker = tracker;
+		players = playerArray;
 	}
 	
 	
@@ -43,7 +47,7 @@ public class Scorer {
 		
 		//find who the winner is
 		Player winner = roundResult.getWinningPlayer();
-		Player[] losers = {roundTracker.neighborShimochaOf(winner), roundTracker.neighborToimenOf(winner), roundTracker.neighborKamichaOf(winner)};
+		List<Player> losers = playersOtherThan(winner);
 		Player furikonda = null;
 		
 		if (winner.isDealer()) paymentDue *= DEALER_WIN_MULTIPLIER;
@@ -57,28 +61,39 @@ public class Scorer {
 		if (roundResult.isVictoryRon()){
 			furikonda = roundResult.getFurikondaPlayer();
 			for (Player p: losers)
-				if (p == furikonda) payments.put(p, -paymentDue);
-				else payments.put(p, 0);
+				if (p == furikonda)
+					payments.put(p, -paymentDue);
+				else
+					payments.put(p, 0);
 		}
 		else{//tsumo
 			for (Player p: losers){
-				if (p.isDealer() || winner.isDealer()) payments.put(p, -tsumoPointsDealer);
-				else  payments.put(p, -tsumoPointsNonDealer);
+				if (p.isDealer() || winner.isDealer())
+					payments.put(p, -tsumoPointsDealer);
+				else 
+					payments.put(p, -tsumoPointsNonDealer);
 			}
 		}
 		///////add in riichi sticks here
 		return payments;
 	}
+	private List<Player> playersOtherThan(Player excludeMe){
+		List<Player> others = new ArrayList<Player>();
+		for (Player p: players)
+			if (p != excludeMe)
+				others.add(p);			
+		return others;
+	}
 	
 	private PaymentMap mapPaymentsForDraw(){
 		PaymentMap payments = new PaymentMap();
-		/////implement no-ten bappu here 
+		/////implement no-ten bappu here 		
 		
-		/////want a better way to get players here
-		payments.put(roundTracker.currentPlayer(), 0);
-		payments.put(roundTracker.neighborShimochaOf(roundTracker.currentPlayer()), 0);
-		payments.put(roundTracker.neighborToimenOf(roundTracker.currentPlayer()), 0);
-		payments.put(roundTracker.neighborKamichaOf(roundTracker.currentPlayer()), 0);
+		//map everyone to 0 points
+		for (Player p: players)
+			payments.put(p, 0);
+//		for (int playerNum = 0; playerNum < NUM_PLAYERS; playerNum++)
+//			payments.put(roundTracker.getSummaryForPlayer(playerNum), 0);
 		
 		return payments;
 	}

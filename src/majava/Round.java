@@ -79,9 +79,7 @@ public class Round{
 		
 		setOptionFastGameplay(DEFAULT_DO_FAST_GAMEPLAY);
 	}
-	//no bonus round info
 	public Round(GameUI ui, Player[] playerArray, Wind roundWindToSet, int roundNum){this(ui, playerArray, roundWindToSet, roundNum, DEFAULT_ROUND_BONUS_NUM);}
-	//no round info
 	public Round(GameUI ui, Player[] playerArray){this(ui, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
 	
 	
@@ -128,7 +126,7 @@ public class Round{
 		displayRoundResult();
 	}
 	private void doPointPayments(){
-		Scorer scorer = new Scorer(roundResult, roundTracker);
+		Scorer scorer = new Scorer(roundResult, players);
 		PaymentMap payments = scorer.getPaymentMap();
 		
 		//carry out payments
@@ -153,9 +151,9 @@ public class Round{
 		
 		Player eastPlayer = currentPlayer();
 		eastPlayer.giveStartingHand(tilesE);
-		roundTracker.neighborShimochaOf(eastPlayer).giveStartingHand(tilesS);
-		roundTracker.neighborToimenOf(eastPlayer).giveStartingHand(tilesW);
-		roundTracker.neighborKamichaOf(eastPlayer).giveStartingHand(tilesN);
+		turnIndicator.neighborShimochaOf(eastPlayer).giveStartingHand(tilesS);
+		turnIndicator.neighborToimenOf(eastPlayer).giveStartingHand(tilesW);
+		turnIndicator.neighborKamichaOf(eastPlayer).giveStartingHand(tilesN);
 		
 		__updateUI(GameplayEvent.startOfRoundEvent());
 	}
@@ -259,9 +257,9 @@ public class Round{
 	
 	
 	private void letOtherPlayersReactToDiscard(){
-		roundTracker.neighborShimochaOf(currentPlayer()).reactToDiscard(mostRecentDiscard());
-		roundTracker.neighborToimenOf(currentPlayer()).reactToDiscard(mostRecentDiscard());
-		roundTracker.neighborKamichaOf(currentPlayer()).reactToDiscard(mostRecentDiscard());
+		turnIndicator.neighborShimochaOf(currentPlayer()).reactToDiscard(mostRecentDiscard());
+		turnIndicator.neighborToimenOf(currentPlayer()).reactToDiscard(mostRecentDiscard());
+		turnIndicator.neighborKamichaOf(currentPlayer()).reactToDiscard(mostRecentDiscard());
 	}
 	
 	

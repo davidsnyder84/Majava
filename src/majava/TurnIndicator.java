@@ -47,12 +47,12 @@ public class TurnIndicator {
 		return false;
 	}
 	
-//	private Player neighborOffsetOf(Player p, int offset){
-//		return players[(p.getPlayerNumber() + offset) % NUM_PLAYERS];
-//	}
-//	public Player neighborNextPlayer(Player p){return neighborShimochaOf(p);}
-//	public Player neighborShimochaOf(Player p){return neighborOffsetOf(p, 1);}
-//	public Player neighborToimenOf(Player p){return neighborOffsetOf(p, 2);}
-//	public Player neighborKamichaOf(Player p){return neighborOffsetOf(p, 3);}
+	private Player neighborOffsetOf(Player p, int offset){
+		return players[(p.getPlayerNumber() + offset) % NUM_PLAYERS];
+	}
+	public Player neighborNextPlayer(Player p){return neighborShimochaOf(p);}
+	public Player neighborShimochaOf(Player p){return neighborOffsetOf(p, 1);}
+	public Player neighborToimenOf(Player p){return neighborOffsetOf(p, 2);}
+	public Player neighborKamichaOf(Player p){return neighborOffsetOf(p, 3);}
 	
 }

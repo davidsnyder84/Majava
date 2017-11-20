@@ -49,6 +49,7 @@ public class GodsEye {
 	public final boolean playerIsInRiichi(int playerNum){return playerTrackers[playerNum].isInRiichi();}
 	public final boolean playerNeedsDraw(int playerNum){return playerTrackers[playerNum].needsDraw();}
 	public final boolean playerNeedsDrawRinshan(int playerNum){return playerTrackers[playerNum].needsDrawRinshan();}
+	public final PlayerSummary getSummary(int playerNum){return playerTrackers[playerNum].getSummary();}
 	
 	public final int pointsForPlayer(int playerNum){return playerTrackers[playerNum].points();}
 	public final Wind seatWindOfPlayer(int playerNum){return playerTrackers[playerNum].seatWind();}
@@ -90,6 +91,7 @@ public class GodsEye {
 		public final boolean isInRiichi(){return player.isInRiichi();}
 		public final boolean needsDraw(){return player.needsDraw();}
 		public final boolean needsDrawRinshan(){return player.needsDrawRinshan();}
+		public final PlayerSummary getSummary(){return PlayerSummary.getSummaryFor(player);}
 		
 		public final int points(){return player.getPoints();}
 		public final Wind seatWind(){return player.getSeatWind();}

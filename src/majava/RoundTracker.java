@@ -8,6 +8,7 @@ import majava.userinterface.GameUI;
 import majava.util.GameTileList;
 import majava.player.Player;
 import majava.summary.GodsEye;
+import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
 import majava.enums.Wind;
@@ -51,7 +52,6 @@ public class RoundTracker {
 	
 	/////I want to get rid of these eventually, but they're used by the UIs
 	public int whoseTurn(){return round.whoseTurnNumber();}
-	public Player currentPlayer(){return round.currentPlayer();}	//used by Scorer
 	public boolean callWasMadeOnDiscard(){return round.callWasMadeOnDiscard();}
 	public GameTile getMostRecentDiscard(){return round.mostRecentDiscard();}
 	//these too, maybe
@@ -60,13 +60,17 @@ public class RoundTracker {
 	public boolean roundIsOver(){return round.roundIsOver();}
 	
 	
-	private Player neighborOffsetOf(Player p, int offset){
-		return players[(p.getPlayerNumber() + offset) % NUM_PLAYERS];
-	}
-	public Player neighborNextPlayer(Player p){return neighborShimochaOf(p);}
-	public Player neighborShimochaOf(Player p){return neighborOffsetOf(p, 1);}
-	public Player neighborToimenOf(Player p){return neighborOffsetOf(p, 2);}
-	public Player neighborKamichaOf(Player p){return neighborOffsetOf(p, 3);}
+	////////////ONLY SCORER NEEDS THESE (and now it doesn't)
+//	public Player currentPlayer(){return round.currentPlayer();}	//used by Scorer
+//	private Player neighborOffsetOf(Player p, int offset){
+//		return players[(p.getPlayerNumber() + offset) % NUM_PLAYERS];
+//	}
+//	public Player neighborNextPlayer(Player p){return neighborShimochaOf(p);}
+//	public Player neighborShimochaOf(Player p){return neighborOffsetOf(p, 1);}
+//	public Player neighborToimenOf(Player p){return neighborOffsetOf(p, 2);}
+//	public Player neighborKamichaOf(Player p){return neighborOffsetOf(p, 3);}
+//	public PlayerSummary getSummaryForPlayer(int playerNum){return PlayerSummary.getSummaryFor(players[playerNum]);}
+	
 	
 	
 	

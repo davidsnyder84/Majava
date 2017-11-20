@@ -10,9 +10,8 @@ import majava.enums.Exclamation;
 import majava.events.GameplayEvent;
 import majava.enums.Wind;
 import majava.player.Player;
+import majava.summary.GodsEye;
 import majava.summary.RoundResultSummary;
-import majava.summary.entity.PlayerTracker;
-import majava.summary.entity.RoundEntities;
 import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
 import majava.tiles.PondTile;
@@ -295,7 +294,7 @@ public class TableViewBase extends JFrame{
 	
 	protected PlayerTracker[] playerTrackers;
 	protected RoundTracker roundTracker;
-	protected RoundEntities roundEntities;
+	protected GodsEye godsEye;
 	
 	
 	private int newTurn = -1, oldTurn = -1;
@@ -422,7 +421,7 @@ public class TableViewBase extends JFrame{
 			}
 		}
 		
-		GameTile[] wallTiles = roundEntities.getWallTiles();
+		GameTile[] wallTiles = godsEye.getWallTiles();
 		//update wall summary
 		for (currentTile = 0; currentTile < SIZE_DEAD_WALL; currentTile++){
 			larryDW[currentTile].setIcon(getImageIconWall(wallTiles, currentTile + OFFSET_DEAD_WALL, SEAT1, cheatRevealAllWall));
@@ -685,12 +684,12 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	public void syncWithRoundTracker(RoundTracker tracker, RoundEntities receivedRoundEntities){
+	public void syncWithRoundTracker(RoundTracker tracker, GodsEye eye){
 		
 		roundTracker = tracker;
-		playerTrackers = receivedRoundEntities.playerTrackers;
-		playerTrackers = receivedRoundEntities.playerTrackers;
-		roundEntities = receivedRoundEntities;
+		playerTrackers = eye.playerTrackers;
+		playerTrackers = eye.playerTrackers;
+		godsEye = eye;
 		
 		//hand revealing options
 		whichHandsToReveal = new boolean[NUM_PLAYERS];

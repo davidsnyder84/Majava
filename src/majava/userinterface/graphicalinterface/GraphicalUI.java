@@ -12,8 +12,8 @@ import majava.userinterface.GameUI;
 import majava.userinterface.graphicalinterface.window.TableViewBase;
 import majava.userinterface.graphicalinterface.window.TableViewLarge;
 import majava.player.Player;
+import majava.summary.GodsEye;
 import majava.summary.RoundResultSummary;
-import majava.summary.entity.RoundEntities;
 import majava.tiles.GameTile;
 
 import java.util.ArrayList;
@@ -107,9 +107,9 @@ public class GraphicalUI extends GameUI{
 	
 	
 	
-	public void syncWithRoundTracker(RoundTracker tracker, RoundEntities roundEntities){
-		super.syncWithRoundTracker(tracker, roundEntities);
-		tableWindow.syncWithRoundTracker(tracker, roundEntities);
+	public void syncWithRoundTracker(RoundTracker tracker, GodsEye eye){
+		super.syncWithRoundTracker(tracker, eye);
+		tableWindow.syncWithRoundTracker(tracker, eye);
 	}
 	
 	public void printErrorRoundAlreadyOver(){System.out.println("----Error: Round is already over, cannot play");}

@@ -7,9 +7,8 @@ import java.util.List;
 import majava.userinterface.GameUI;
 import majava.util.GameTileList;
 import majava.player.Player;
+import majava.summary.GodsEye;
 import majava.summary.RoundResultSummary;
-import majava.summary.entity.PlayerTracker;
-import majava.summary.entity.RoundEntities;
 import majava.tiles.GameTile;
 import majava.tiles.PondTile;
 import majava.enums.Wind;
@@ -44,14 +43,14 @@ public class RoundTracker {
 	//overloaded without UI
 	public RoundTracker(Round roundToTrack, Wall receivedWall, Player[] playerArray){this(roundToTrack, receivedWall, playerArray, null);}
 
-	private PlayerTracker[] makePlayerTrackers(){
-		PlayerTracker[] trackers = {new PlayerTracker(players[0]), new PlayerTracker(players[1]), new PlayerTracker(players[2]), new PlayerTracker(players[3])};		
-		return trackers;
-	}
+//	private PlayerTracker[] makePlayerTrackers(){
+//		PlayerTracker[] trackers = {new PlayerTracker(players[0]), new PlayerTracker(players[1]), new PlayerTracker(players[2]), new PlayerTracker(players[3])};		
+//		return trackers;
+//	}
 	
 	private void __syncWithUI(GameUI ui){
 		if (ui == null) return;
-		RoundEntities roundEntities = new RoundEntities(this, makePlayerTrackers(), wall, wallTiles);
+		GodsEye roundEntities = new GodsEye(this, players, wall, wallTiles);
 		ui.syncWithRoundTracker(this, roundEntities);
 	}
 	

@@ -48,6 +48,7 @@ public class GodsEye {
 	public final String deadWallToString(){return wall.toStringDeadWall();}
 	
 	
+//	public final boolean playerIsHuman(){}
 	
 	
 	

@@ -12,8 +12,8 @@ import majava.userinterface.textinterface.DetailedTextualUI;
 import majava.userinterface.textinterface.SparseTextualUI;
 import majava.userinterface.textinterface.TextualUI;
 import majava.player.Player;
+import majava.summary.GodsEye;
 import majava.summary.RoundResultSummary;
-import majava.summary.entity.RoundEntities;
 
 
 public class ComboTextGraphicalUI extends GameUI{
@@ -63,9 +63,9 @@ public class ComboTextGraphicalUI extends GameUI{
 	}
 	
 //	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] tilesW){
-	public void syncWithRoundTracker(RoundTracker tracker, RoundEntities roundEntities){
-		textualUI.syncWithRoundTracker(tracker, roundEntities);
-		graphicalUI.syncWithRoundTracker(tracker, roundEntities);
+	public void syncWithRoundTracker(RoundTracker tracker, GodsEye eye){
+		textualUI.syncWithRoundTracker(tracker, eye);
+		graphicalUI.syncWithRoundTracker(tracker, eye);
 	}
 	
 	

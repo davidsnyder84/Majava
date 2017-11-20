@@ -8,8 +8,8 @@ import majava.Wall;
 import majava.enums.Exclamation;
 import majava.events.GameplayEvent;
 import majava.player.Player;
+import majava.summary.GodsEye;
 import majava.summary.RoundResultSummary;
-import majava.summary.entity.RoundEntities;
 
 public abstract class GameUI {
 
@@ -21,7 +21,7 @@ public abstract class GameUI {
 	
 	
 	protected RoundTracker roundTracker = null;
-	protected RoundEntities roundEntities = null;
+	protected GodsEye godsEye = null;
 	protected RoundResultSummary resultSummary = null;
 	
 	
@@ -74,9 +74,9 @@ public abstract class GameUI {
 	
 	
 	
-	public void syncWithRoundTracker(RoundTracker tracker, RoundEntities receivedRoundEntities){
+	public void syncWithRoundTracker(RoundTracker tracker, GodsEye eye){
 		roundTracker = tracker;
-		roundEntities = receivedRoundEntities;
+		godsEye = eye;
 	}
 	
 //	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] tilesW){

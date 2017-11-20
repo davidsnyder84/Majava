@@ -5,8 +5,6 @@ import java.io.PrintStream;
 import majava.enums.Exclamation;
 import majava.events.GameplayEvent;
 import majava.player.Player;
-import majava.summary.entity.PlayerTracker;
-import majava.summary.entity.RoundEntities;
 import majava.userinterface.GameUI;
 
 
@@ -17,7 +15,7 @@ public abstract class TextualUI extends GameUI{
 	
 	public TextualUI(){
 		outStream = System.out;
-		roundEntities = null;
+		godsEye = null;
 //		mRoundTracker = null; mWall = null; mPTrackers = null;
 	}
 	
@@ -38,8 +36,8 @@ public abstract class TextualUI extends GameUI{
 	
 	
 
-	protected void __showHandsOfAllPlayers(){println(); for (PlayerTracker pt: roundEntities.playerTrackers) __showPlayerHand(pt.player); println();}
-	protected void __showPlayerHand(int seatNum){__showPlayerHand(roundEntities.playerTrackers[seatNum].player);}
+	protected void __showHandsOfAllPlayers(){println(); for (PlayerTracker pt: godsEye.playerTrackers) __showPlayerHand(pt.player); println();}
+	protected void __showPlayerHand(int seatNum){__showPlayerHand(godsEye.playerTrackers[seatNum].player);}
 	protected abstract void __showPlayerHand(Player p);
 	
 	protected abstract void __showWall();

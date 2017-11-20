@@ -396,9 +396,6 @@ public class TableViewBase extends JFrame{
 	public void updateEverything(){
 		updateDiscardMarker();
 		
-		int currentPlayer, currentTile;
-		int currentMeld;
-		
 		//show end of round result if round is over
 		if (roundTracker.roundIsOver()){
 			lblResult.setText(roundTracker.getRoundResultString());
@@ -408,57 +405,56 @@ public class TableViewBase extends JFrame{
 		}
 		
 		//update hands
-		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
-			GameTileList handTiles = godsEye.getHandTilesForPlayer(currentPlayer);
-			for (currentTile = 0; currentTile < SIZE_HAND; currentTile++){
-				larryHands[currentPlayer][currentTile].setIcon(getImageIconForTile(handTiles, currentTile, currentPlayer, BIG, whichHandsToReveal[currentPlayer]));
+		for (int playerIndex = SEAT1; playerIndex <= SEAT4; playerIndex++){
+			GameTileList handTiles = godsEye.getHandTilesForPlayer(playerIndex);
+			for (int tile = 0; tile < SIZE_HAND; tile++){
+				larryHands[playerIndex][tile].setIcon(getImageIconForTile(handTiles, tile, playerIndex, BIG, whichHandsToReveal[playerIndex]));
 			}
 		}
 		
 		//update ponds
-		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
-			List<PondTile> pondTiles = pondTilesFor(currentPlayer);
-			for (currentTile = 0; currentTile < SIZE_POND; currentTile++){
-				larryPonds[currentPlayer][currentTile].setIcon(getImageIconPond(pondTiles, currentTile, currentPlayer));
+		for (int playerIndex = SEAT1; playerIndex <= SEAT4; playerIndex++){
+			List<PondTile> pondTiles = pondTilesFor(playerIndex);
+			for (int tileIndex = 0; tileIndex < SIZE_POND; tileIndex++){
+				larryPonds[playerIndex][tileIndex].setIcon(getImageIconPond(pondTiles, tileIndex, playerIndex));
 			}
 		}
 		
 		GameTile[] wallTiles = godsEye.getWallTiles();
 		//update wall summary
-		for (currentTile = 0; currentTile < SIZE_DEAD_WALL; currentTile++){
-			larryDW[currentTile].setIcon(getImageIconWall(wallTiles, currentTile + OFFSET_DEAD_WALL, SEAT1, cheatRevealAllWall));
+		for (int tileIndex = 0; tileIndex < SIZE_DEAD_WALL; tileIndex++){
+			larryDW[tileIndex].setIcon(getImageIconWall(wallTiles, tileIndex + OFFSET_DEAD_WALL, SEAT1, cheatRevealAllWall));
 		}
-		for (currentTile = POS_DORA_1; currentTile >= 2*(4 - roundTracker.getNumKansMade()); currentTile -= 2){
-			if (currentTile >= 0)/////////////////////For 5 kans to avoid -2 array index
-				larryDW[currentTile].setIcon(getImageIconWall(wallTiles, currentTile + OFFSET_DEAD_WALL, SEAT1));
+		for (int tileIndex = POS_DORA_1; tileIndex >= 2*(4 - roundTracker.getNumKansMade()); tileIndex -= 2){
+			if (tileIndex >= 0)/////////////////////For 5 kans to avoid -2 array index
+				larryDW[tileIndex].setIcon(getImageIconWall(wallTiles, tileIndex + OFFSET_DEAD_WALL, SEAT1));
 		}
-		lblWallTilesLeft.setText(Integer.toString(roundTracker.getNumTilesLeftInWall()));
-		currentTile = 0;
-		while (wallTiles[SIZE_NORMAL_WALL-1-currentTile] != null){
-			if (cheatRevealAllWall) larryTinyW[currentTile].setIcon(garryTilesTiny[getImageIdForTile(wallTiles[SIZE_NORMAL_WALL-1-currentTile])]);
-			else larryTinyW[currentTile].setIcon(garryTilesTiny[TILEBACK]);
-			currentTile++;
+		lblWallTilesLeft.setText(Integer.toString(roundTracker.getNumTilesLeftInWall()));		
+		int walltileIndex = 0;
+		while (wallTiles[SIZE_NORMAL_WALL-1-walltileIndex] != null){
+			if (cheatRevealAllWall) larryTinyW[walltileIndex].setIcon(garryTilesTiny[getImageIdForTile(wallTiles[SIZE_NORMAL_WALL-1-walltileIndex])]);
+			else larryTinyW[walltileIndex].setIcon(garryTilesTiny[TILEBACK]);
+			walltileIndex++;
 		}
-		if (currentTile < SIZE_TINY_WALL) larryTinyW[currentTile].setIcon(null);
-		
+		if (walltileIndex < SIZE_TINY_WALL) larryTinyW[walltileIndex].setIcon(null);
 		
 		//update melds
-		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
-			List<Meld> meldList = godsEye.getPlayerMelds(currentPlayer);
-			for (currentMeld = 0; currentMeld < meldList.size(); currentMeld++){
-				List<GameTile> tList = meldList.get(currentMeld).getAllTiles();
-				for (currentTile = 0; currentTile < SIZE_MELD; currentTile++)
-					larryHandMelds[currentPlayer][currentMeld][currentTile].setIcon(getImageIconForTile(tList, currentTile, currentPlayer, SMALL));
+		for (int playerIndex = SEAT1; playerIndex <= SEAT4; playerIndex++){
+			List<Meld> meldList = godsEye.getPlayerMelds(playerIndex);
+			for (int meldIndex = 0; meldIndex < meldList.size(); meldIndex++){
+				List<GameTile> tList = meldList.get(meldIndex).getAllTiles();
+				for (int tileIndex = 0; tileIndex < SIZE_MELD; tileIndex++)
+					larryHandMelds[playerIndex][meldIndex][tileIndex].setIcon(getImageIconForTile(tList, tileIndex, playerIndex, SMALL));
 			}
 		}
 		
 		
 		//update player info
-		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
-			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_SEATWIND].setIcon(getImageIconWind(godsEye.seatWindOfPlayer(currentPlayer), SMALL));
-			larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_POINTS].setText(Integer.toString(godsEye.pointsForPlayer(currentPlayer)));
-			if (godsEye.playerIsInRiichi(currentPlayer))
-				larryInfoPlayers[currentPlayer][LARRY_INFOPLAYER_RIICHI].setIcon(garryOther[GARRYINDEX_OTHER_RIICHI]);
+		for (int playerIndex = SEAT1; playerIndex <= SEAT4; playerIndex++){
+			larryInfoPlayers[playerIndex][LARRY_INFOPLAYER_SEATWIND].setIcon(getImageIconWind(godsEye.seatWindOfPlayer(playerIndex), SMALL));
+			larryInfoPlayers[playerIndex][LARRY_INFOPLAYER_POINTS].setText(Integer.toString(godsEye.pointsForPlayer(playerIndex)));
+			if (godsEye.playerIsInRiichi(playerIndex))
+				larryInfoPlayers[playerIndex][LARRY_INFOPLAYER_RIICHI].setIcon(garryOther[GARRYINDEX_OTHER_RIICHI]);
 		}
 		
 		
@@ -468,8 +464,8 @@ public class TableViewBase extends JFrame{
 		larryInfoRound[LARRY_INFOROUND_BONUSNUM].setText(Integer.toString(roundTracker.getRoundBonusNum()));
 		
 		//update turn indicators
-		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
-			parryTurnInds[currentPlayer].setVisible(roundTracker.whoseTurn() == currentPlayer);
+		for (int playerIndex = SEAT1; playerIndex <= SEAT4; playerIndex++){
+			parryTurnInds[playerIndex].setVisible(roundTracker.whoseTurn() == playerIndex);
 		}
 		
 		repaint();

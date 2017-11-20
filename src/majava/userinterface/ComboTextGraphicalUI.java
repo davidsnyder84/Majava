@@ -63,9 +63,9 @@ public class ComboTextGraphicalUI extends GameUI{
 	}
 	
 //	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] tilesW){
-	public void syncWithRoundTracker(RoundEntities roundEntities){
-		textualUI.syncWithRoundTracker(roundEntities);
-		graphicalUI.syncWithRoundTracker(roundEntities);
+	public void syncWithRoundTracker(RoundTracker tracker, RoundEntities roundEntities){
+		textualUI.syncWithRoundTracker(tracker, roundEntities);
+		graphicalUI.syncWithRoundTracker(tracker, roundEntities);
 	}
 	
 	

@@ -107,8 +107,8 @@ public class GraphicalUI extends GameUI{
 	
 	
 	
-	public void syncWithRoundTracker(RoundEntities roundEntities){
-		super.syncWithRoundTracker(roundEntities);
+	public void syncWithRoundTracker(RoundTracker tracker, RoundEntities roundEntities){
+		super.syncWithRoundTracker(tracker, roundEntities);
 		tableWindow.syncWithRoundTracker(roundEntities);
 	}
 	

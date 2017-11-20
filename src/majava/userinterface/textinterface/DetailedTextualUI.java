@@ -32,9 +32,9 @@ public class DetailedTextualUI extends TextualUI{
 		__showHandsOfAllPlayers();
 		
 		//show the discarded tile and the discarder's pond
-		println("\n\n\tTiles left: " + roundEntities.roundTracker.getNumTilesLeftInWall());
-		println("\t" + roundEntities.roundTracker.currentPlayer().getSeatWind() + " Player's discard: ^^^^^" + roundEntities.roundTracker.getMostRecentDiscard().toString() + "^^^^^");
-		println("\t" + roundEntities.roundTracker.currentPlayer().getAsStringPond());
+		println("\n\n\tTiles left: " + roundTracker.getNumTilesLeftInWall());
+		println("\t" + roundTracker.currentPlayer().getSeatWind() + " Player's discard: ^^^^^" + roundTracker.getMostRecentDiscard().toString() + "^^^^^");
+		println("\t" + roundTracker.currentPlayer().getAsStringPond());
 	}
 	
 	
@@ -50,7 +50,7 @@ public class DetailedTextualUI extends TextualUI{
 	}
 
 	protected void __displayEventHumanTurnStart(){
-		__showPlayerHand(roundEntities.roundTracker.currentPlayer());
+		__showPlayerHand(roundTracker.currentPlayer());
 	}
 	
 	protected void __displayEventStartOfRound(){
@@ -88,15 +88,15 @@ public class DetailedTextualUI extends TextualUI{
 	}
 	
 	protected void __showRoundResultOLD(){
-		if (!roundEntities.roundTracker.roundIsOver()) return;
+		if (!roundTracker.roundIsOver()) return;
 		
 		System.out.println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 		 					"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 				 			"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		
-		RoundResultSummary result = roundEntities.roundTracker.getResultSummary();
+		RoundResultSummary result = roundTracker.getResultSummary();
 		
-		String resultStr = "Result: " + roundEntities.roundTracker.getRoundResultString();
+		String resultStr = "Result: " + roundTracker.getRoundResultString();
 		System.out.println(resultStr);
 		
 		if (result.isVictory());
@@ -104,22 +104,13 @@ public class DetailedTextualUI extends TextualUI{
 	}
 	
 	protected void __showRoundResult(){
-		if (!roundEntities.roundTracker.roundIsOver()) return;
+		if (!roundTracker.roundIsOver()) return;
 		
 		println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 		 		"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 				"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		
-		RoundResultSummary resum = roundEntities.roundTracker.getResultSummary();
-		
-//		String resultStr = "Result: " + mRoundEntities.mRoundTracker.getRoundResultString();
-//		System.out.println(resultStr);
-		
-//		if (result.isVictory()) System.out.println(mRoundResult.getAsStringWinningHand());
-//		mRoundEntities.mRoundTracker.printRoundResult();
-		
-		
-		
+		RoundResultSummary resum = roundTracker.getResultSummary();
 		
 		//for all
 		String resultLabel = null;
@@ -128,7 +119,6 @@ public class DetailedTextualUI extends TextualUI{
 		PlayerSummary winner = null, furikon = null;
 		GameTileList winnerHandTiles = null; List<Meld> winnerMelds = null; GameTile winningTile = null;
 		YakuList yakuList = null; int yakuWorth = -1; int handScore = -1; 
-		
 		
 		
 		//***result label (Player 1 wins!, Draw!, etc)
@@ -154,8 +144,6 @@ public class DetailedTextualUI extends TextualUI{
 			//***hand score label
 			handScore = payments.get(winner);
 		}
-		
-		
 		
 		
 		System.out.println("Result: " + resultLabel);
@@ -203,11 +191,11 @@ public class DetailedTextualUI extends TextualUI{
 		
 		if (exclamation.isCall())
 			println("\n*********************************************************" + 
-					"\n**********" + roundEntities.playerTrackers[seat].player.getSeatWind() + " Player called the tile (" + roundEntities.roundTracker.getMostRecentDiscard() + ")! " + exclamation + "!!!**********" + 
+					"\n**********" + roundTracker.getWindOfSeat(seat) + " Player called the tile (" + roundTracker.getMostRecentDiscard() + ")! " + exclamation + "!!!**********" + 
 					"\n*********************************************************");
 		else
 			println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
-					"\n~~~~~~~~~~~" + roundEntities.playerTrackers[seat].player.getSeatWind() + " Player declared " + exclamation + "!!!~~~~~~~~~~~" + 
+					"\n~~~~~~~~~~~" + roundTracker.getWindOfSeat(seat) + " Player declared " + exclamation + "!!!~~~~~~~~~~~" + 
 					"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		
 

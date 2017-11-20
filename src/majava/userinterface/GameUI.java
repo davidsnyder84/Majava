@@ -20,15 +20,13 @@ public abstract class GameUI {
 	protected int mSleepTime = DEAFULT_SLEEPTIME, mSleepTimeExclamation = DEAFULT_SLEEPTIME_EXCLAMATION, mSleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
 	
 	
-//	protected RoundTracker mRoundTracker;
+	protected RoundTracker roundTracker = null;
 	protected RoundEntities roundEntities = null;
 	protected RoundResultSummary resultSummary = null;
 	
 	
 	
-	public GameUI(){
-		
-	}
+	public GameUI(){}
 	
 	
 	public abstract void startUI();
@@ -76,7 +74,8 @@ public abstract class GameUI {
 	
 	
 	
-	public void syncWithRoundTracker(RoundEntities receivedRoundEntities){
+	public void syncWithRoundTracker(RoundTracker tracker, RoundEntities receivedRoundEntities){
+		roundTracker = tracker;
 		roundEntities = receivedRoundEntities;
 	}
 	

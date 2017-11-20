@@ -293,7 +293,6 @@ public class TableViewBase extends JFrame{
 	protected boolean[] whichHandsToReveal;
 	
 	
-	protected RoundEntities roundEntities;
 	protected PlayerTracker[] playerTrackers;
 	protected TileInterface[] wallTiles;
 	protected Wall wall;
@@ -689,10 +688,10 @@ public class TableViewBase extends JFrame{
 	
 	public void syncWithRoundTracker(RoundEntities receivedRoundEntities){
 		
-		roundEntities = receivedRoundEntities;
-		roundTracker = roundEntities.roundTracker;
-		playerTrackers = roundEntities.playerTrackers;
-		wall = roundEntities.wall;wallTiles = roundEntities.wallTiles;
+		roundTracker = receivedRoundEntities.roundTracker;
+		playerTrackers = receivedRoundEntities.playerTrackers;
+		wall = receivedRoundEntities.wall;
+		wallTiles = receivedRoundEntities.wallTiles;
 		
 		//hand revealing options
 		whichHandsToReveal = new boolean[NUM_PLAYERS];

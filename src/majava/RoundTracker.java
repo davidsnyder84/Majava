@@ -20,11 +20,9 @@ import majava.hand.Meld;
 //other objects can ask a RoundTracker for information about the round
 public class RoundTracker {
 	private static final int NUM_PLAYERS = 4;
-	private static final int NUM_MELDS_TO_TRACK = 5;
 	
 	
 	private final Round round;
-	private final RoundEntities roundEntities;
 	private final Wall wall;	//duplicate
 	private final GameTile[] wallTiles;	//duplicate
 	
@@ -41,8 +39,6 @@ public class RoundTracker {
 		for (Player p: players)
 			p.syncWithRoundTracker(this);
 		
-		roundEntities = new RoundEntities(this, makePlayerTrackers(), wall, wallTiles);
-		
 		__syncWithUI(ui);
 	}
 	//overloaded without UI
@@ -55,7 +51,8 @@ public class RoundTracker {
 	
 	private void __syncWithUI(GameUI ui){
 		if (ui == null) return;
-		ui.syncWithRoundTracker(roundEntities);
+		RoundEntities roundEntities = new RoundEntities(this, makePlayerTrackers(), wall, wallTiles);
+		ui.syncWithRoundTracker(this, roundEntities);
 	}
 	
 	
@@ -126,37 +123,4 @@ public class RoundTracker {
 	}
 	
 }
-
-
-/*
-Class: RoundTracker
-	public:
-	 	accessors:
-	 	getRoundWind, getRoundNum, getRoundBonusNum - return the corresponding round info
-	 	
-	 	currentPlayer - returns the Player whose turn it is (reference to mutable object)
-	 	neighborShimochaOf, etc - returns the corresponding neighbor Player of the given player (reference to mutable object)
-	 	getSeatNumber - returns the seat number of the given player
-	 	
-	 	getMostRecentDiscard - returns the most recently discarded tile
-	 	callWasMadeOnDiscard - returns true if any player made a call on the most recent discard
-	 	
-	 	getNumKansMade - returns the number of kans made in the round
-	 	getNumTilesLeftInWall - returns the number of tiles left in the wall
-	 	
-	 	roundIsOver - returns true if the round has ended
-	 	roundEndedWithDraw, roundEndedWithVictory - returns true if the round ended with the corresponding result
-	 	printRoundResult - prints the round result
-	 	getRoundResultString - returns the round result as a string
-	 	getWinningHandString - returns a string representation of the winner's winning hand
-	 	
-	setup:
-		syncWall
-		setupPlayerTrackers - sets up player trackers (track players, their hands, and their ponds)
-		syncWithWall - set up association with the wall
-		syncWithViewer - set up association with the GUI
-		
-		syncPlayer - called by a player, associates that player with the tracker
-		syncHand - called by a hand, associates that hand with the tracker
-*/
 

@@ -28,7 +28,7 @@ public class SparseTextualUI extends TextualUI{
 	protected void __displayEventDiscardedTile(){
 		
 		//show the discarded tile
-		println("\t" + roundEntities.roundTracker.currentPlayer().getSeatWind().toChar() + " discard: " + roundEntities.roundTracker.getMostRecentDiscard());
+		println("\t" + roundTracker.currentPlayer().getSeatWind().toChar() + " discard: " + roundTracker.getMostRecentDiscard());
 //		mRoundTracker.currentPlayer().showPond();
 	}
 	
@@ -38,7 +38,7 @@ public class SparseTextualUI extends TextualUI{
 	
 	protected void __displayEventMadeOpenMeld(){}
 	protected void __displayEventDrewTile(){
-		print("\t" + roundEntities.roundTracker.currentPlayer().getSeatWind().toChar() + " draw: " + roundEntities.roundTracker.currentPlayer().getTsumoTile());
+		print("\t" + roundTracker.currentPlayer().getSeatWind().toChar() + " draw: " + roundTracker.currentPlayer().getTsumoTile());
 	}
 	protected void __displayEventMadeOwnKan(){}
 	
@@ -49,7 +49,7 @@ public class SparseTextualUI extends TextualUI{
 	}
 	
 	protected void __displayEventHumanTurnStart(){
-		println();__showPlayerHand(roundEntities.roundTracker.whoseTurn());
+		println();__showPlayerHand(roundTracker.whoseTurn());
 	}
 	
 	protected void __displayEventStartOfRound(){
@@ -87,13 +87,13 @@ public class SparseTextualUI extends TextualUI{
 	protected void __showDeadWall(){__showDoraIndicators();}
 	
 	protected void __showRoundResult(){
-		if (!roundEntities.roundTracker.roundIsOver()) return;
+		if (!roundTracker.roundIsOver()) return;
 		
 		println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 		 		"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 				"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		
-		RoundResultSummary resum = roundEntities.roundTracker.getResultSummary();
+		RoundResultSummary resum = roundTracker.getResultSummary();
 		
 //		String resultStr = "Result: " + mRoundEntities.mRoundTracker.getRoundResultString();
 //		System.out.println(resultStr);
@@ -194,9 +194,9 @@ public class SparseTextualUI extends TextualUI{
 	protected void __showExclamation(Exclamation exclamation, int seat){
 		
 		if (exclamation.isCall())
-			println("..." + roundEntities.playerTrackers[seat].player.getSeatWind() + " Player called " + exclamation.toString().toUpperCase() + " on the tile (" + roundEntities.roundTracker.getMostRecentDiscard() + ")");
+			println("..." + roundTracker.getWindOfSeat(seat) + " Player called " + exclamation.toString().toUpperCase() + " on the tile (" + roundTracker.getMostRecentDiscard() + ")");
 		else
-			println(",,," + roundEntities.playerTrackers[seat].player.getSeatWind() + " Player declared " + exclamation.toString().toUpperCase());
+			println(",,," + roundTracker.getWindOfSeat(seat) + " Player declared " + exclamation.toString().toUpperCase());
 		
 		//pause
 		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);

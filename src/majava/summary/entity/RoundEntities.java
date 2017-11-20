@@ -8,10 +8,15 @@ public class RoundEntities {
 	
 	public final PlayerTracker[] playerTrackers;
 	public final GameTile[] wallTiles;
-	public final Wall wall;
+	private final Wall wall;
 	
 	public final RoundTracker roundTracker;
 	
+////////////////////
+	public final GameTile[] getWallTiles(){return wallTiles.clone();}
+	public final String wallToString(){return wall.toString();}
+	public final String deadWallToString(){return wall.toStringDeadWall();}
+/////////////////////
 	
 	
 	public RoundEntities(RoundTracker rTracker, PlayerTracker[] ptrackers, Wall reveivedWall, GameTile[] tilesW){

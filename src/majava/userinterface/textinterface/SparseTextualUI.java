@@ -82,7 +82,7 @@ public class SparseTextualUI extends TextualUI{
 	protected void __showPlayerHand(int seatNum){__showPlayerHand(roundEntities.playerTrackers[seatNum].player);}
 	protected void __showPlayerHand(Player p){println(p.getAsStringHandCompact());}
 	
-	protected void __showWall(){println(roundEntities.wall.toString());}
+	protected void __showWall(){println(roundEntities.wallToString());}
 	protected void __showDoraIndicators(){println(",,,Dora Indicators: " + roundTracker.getDoraIndicators());}
 	protected void __showDeadWall(){__showDoraIndicators();}
 	

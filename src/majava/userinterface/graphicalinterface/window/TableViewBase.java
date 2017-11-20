@@ -295,7 +295,6 @@ public class TableViewBase extends JFrame{
 	
 	protected PlayerTracker[] playerTrackers;
 	protected TileInterface[] wallTiles;
-	protected Wall wall;
 	protected RoundTracker roundTracker;
 	
 	
@@ -690,7 +689,6 @@ public class TableViewBase extends JFrame{
 		
 		roundTracker = receivedRoundEntities.roundTracker;
 		playerTrackers = receivedRoundEntities.playerTrackers;
-		wall = receivedRoundEntities.wall;
 		wallTiles = receivedRoundEntities.wallTiles;
 		
 		//hand revealing options

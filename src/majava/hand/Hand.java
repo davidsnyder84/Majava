@@ -50,6 +50,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		return tiles.get(index);
 	}
 	public int findHowManyOf(GameTile t){return tiles.findHowManyOf(t);}
+	public GameTileList getTilesAsList(){return tiles.clone();}
 	
 	//returns a list of the melds that have been made (copy of actual melds), returns an empty list if no melds made
 	public List<Meld> getMelds(){

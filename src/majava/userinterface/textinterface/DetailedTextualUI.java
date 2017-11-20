@@ -75,16 +75,16 @@ public class DetailedTextualUI extends TextualUI{
 	//prints the hand of a player
 	protected void __showPlayerHand(Player p){println(p.getAsStringHand());}
 	
-	protected void __showWall(){println(roundEntities.wall.toString());}
+	protected void __showWall(){println(roundEntities.wallToString());}
 	
 	protected void __showDoraIndicators(){
-		GameTileList doraIndicators = roundEntities.wall.getDoraIndicators();
+		GameTileList doraIndicators = roundTracker.getDoraIndicators();
 		println("Dora Indicators: " + doraIndicators + "\n\n");
 	}
 	
 	protected void __showDeadWall(){
 		__showDoraIndicators();
-		println(roundEntities.wall.toStringDeadWall());
+		println(roundEntities.deadWallToString());
 	}
 	
 	protected void __showRoundResultOLD(){

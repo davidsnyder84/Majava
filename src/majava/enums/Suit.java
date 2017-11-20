@@ -1,5 +1,6 @@
 package majava.enums;
 
+//not implemented in game yet
 public enum Suit {
 	MANZU,
 	PINZU,
@@ -9,6 +10,6 @@ public enum Suit {
 	;
 	
 	@Override
-	public String toString(){return toChar() + "";}
+	public String toString(){return Character.toString(toChar());}
 	public char toChar(){return super.toString().charAt(0);}
 }

@@ -14,32 +14,7 @@ import majava.util.GameTileList;
 
 
 
-/*
-Class: RoundResult
-
-data:
-	mRoundIsOver - is true if the round is over
-	mResult - the result of the round (washout, 4kan, victoryE, etc)
-	mWinType - the type of win (tsumo, ron)
-	
-	mWinningPlayer - the player who won
-	mFurikondaPlayer - the player who discarded into the winner's ron, if any
-	mWinningTile - the winner's winning tile
-	mWinnerHand - a list of tiles in the winner's hand
-	mWinnerMelds - a list of the winner's melds
-	
-methods:
-	public:
-		mutators:
-	 	setVictoryRon, setVictoryTsumo - sets the result to victory for the given player, for the corresponding win type
-	 	setWinningHand - used to set the winning hand
-	 	
-	 	accessors:
-	 	isOver - returns true if the round has ended
-	 	isDraw, isVictory - returns true if the result is the corresponding result
-	 	getWinningHandString - returns string representation of the winning hand
-	 	getWinTypeString - returns the win type as a string (tsumo, ron)
-*/
+//used to record information about how the round ended (who won, the winner's hand, poing payments, etc)
 public class RoundResult {
 	private boolean flagRoundIsOver;
 	

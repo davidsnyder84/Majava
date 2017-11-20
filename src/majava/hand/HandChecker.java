@@ -15,7 +15,7 @@ import majava.enums.Wind;
 
 
 
-//runs various checks on a player's hand
+//runs various checks on a player's hand for tenpai, completeness, whether a tile can be called, whether kan can be made, etc
 public class HandChecker {
 	private static final int NUM_PARTNERS_NEEDED_TO_PON = 2;
 	private static final int NUM_PARTNERS_NEEDED_TO_KAN = 3;

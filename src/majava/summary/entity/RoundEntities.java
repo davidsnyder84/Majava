@@ -7,7 +7,7 @@ import majava.tiles.GameTile;
 public class RoundEntities {
 	
 	public final PlayerTracker[] playerTrackers;
-	public final GameTile[] wallTiles;
+	private final GameTile[] wallTiles;
 	private final Wall wall;
 	
 	public final RoundTracker roundTracker;

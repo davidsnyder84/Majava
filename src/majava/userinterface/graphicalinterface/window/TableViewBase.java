@@ -294,9 +294,8 @@ public class TableViewBase extends JFrame{
 	
 	
 	protected PlayerTracker[] playerTrackers;
-	protected TileInterface[] wallTiles;
 	protected RoundTracker roundTracker;
-	
+	protected RoundEntities roundEntities;
 	
 	
 	private int newTurn = -1, oldTurn = -1;
@@ -423,6 +422,7 @@ public class TableViewBase extends JFrame{
 			}
 		}
 		
+		GameTile[] wallTiles = roundEntities.getWallTiles();
 		//update wall summary
 		for (currentTile = 0; currentTile < SIZE_DEAD_WALL; currentTile++){
 			larryDW[currentTile].setIcon(getImageIconWall(wallTiles, currentTile + OFFSET_DEAD_WALL, SEAT1, cheatRevealAllWall));
@@ -689,7 +689,8 @@ public class TableViewBase extends JFrame{
 		
 		roundTracker = receivedRoundEntities.roundTracker;
 		playerTrackers = receivedRoundEntities.playerTrackers;
-		wallTiles = receivedRoundEntities.wallTiles;
+		playerTrackers = receivedRoundEntities.playerTrackers;
+		roundEntities = receivedRoundEntities;
 		
 		//hand revealing options
 		whichHandsToReveal = new boolean[NUM_PLAYERS];

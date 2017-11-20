@@ -28,7 +28,7 @@ public class SparseTextualUI extends TextualUI{
 	protected void __displayEventDiscardedTile(){
 		
 		//show the discarded tile
-		println("\t" + roundTracker.currentPlayer().getSeatWind().toChar() + " discard: " + roundTracker.getMostRecentDiscard());
+		println("\t" + godsEye.seatWindOfPlayer(roundTracker.whoseTurn()).toChar() + " discard: " + roundTracker.getMostRecentDiscard());
 //		mRoundTracker.currentPlayer().showPond();
 	}
 	
@@ -38,7 +38,7 @@ public class SparseTextualUI extends TextualUI{
 	
 	protected void __displayEventMadeOpenMeld(){}
 	protected void __displayEventDrewTile(){
-		print("\t" + roundTracker.currentPlayer().getSeatWind().toChar() + " draw: " + roundTracker.currentPlayer().getTsumoTile());
+		print("\t" + godsEye.seatWindOfPlayer(roundTracker.whoseTurn()).toChar() + " draw: " + godsEye.getTsumoTileFor(roundTracker.whoseTurn()));
 	}
 	protected void __displayEventMadeOwnKan(){}
 	
@@ -195,9 +195,10 @@ public class SparseTextualUI extends TextualUI{
 	protected void __showExclamation(Exclamation exclamation, int seat){
 		
 		if (exclamation.isCall())
-			println("..." + roundTracker.getWindOfSeat(seat) + " Player called " + exclamation.toString().toUpperCase() + " on the tile (" + roundTracker.getMostRecentDiscard() + ")");
+			println("..." + godsEye.seatWindOfPlayer(seat) + " Player called " + exclamation.toString().toUpperCase() + " on the tile (" + roundTracker.getMostRecentDiscard() + ")");
+//			println("..." + roundTracker.getWindOfSeat(seat) + " Player called " + exclamation.toString().toUpperCase() + " on the tile (" + roundTracker.getMostRecentDiscard() + ")");
 		else
-			println(",,," + roundTracker.getWindOfSeat(seat) + " Player declared " + exclamation.toString().toUpperCase());
+			println(",,," + godsEye.seatWindOfPlayer(seat) + " Player declared " + exclamation.toString().toUpperCase());
 		
 		//pause
 		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);

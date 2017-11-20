@@ -395,8 +395,8 @@ public class Round{
 	
 	public static void main(String[] args) {
 		
-//		GameSimulation.main(args);
-//		if (args.equals(args)) return;
+		GameSimulation.main(args);
+		if (args.equals(args)) return;
 		
 		System.out.println("Welcome to Majava (Round)!");
 		

@@ -25,11 +25,11 @@ public class GodsEye {
 	private final RoundTracker roundTracker;
 	
 	
-	public GodsEye(RoundTracker rTracker, Player[] playerArray, Wall reveivedWall, GameTile[] tilesW){
+	public GodsEye(RoundTracker rTracker, Player[] playerArray, Wall reveivedWall){
 		roundTracker = rTracker;
 		playerTrackers = makePlayerTrackers(playerArray);
 		wall = reveivedWall;
-		wallTiles = tilesW;
+		wallTiles = wall.DEMOpleaseGiveMeYourTiles();
 	}
 	private PlayerTracker[] makePlayerTrackers(Player[] playerArray){return new PlayerTracker[]{new PlayerTracker(playerArray[0]), new PlayerTracker(playerArray[1]), new PlayerTracker(playerArray[2]), new PlayerTracker(playerArray[3])};}
 	
@@ -39,9 +39,11 @@ public class GodsEye {
 	public final List<Meld> getPlayerMelds(int playerNum){return playerTrackers[playerNum].melds();}
 	public final String getHandAsString(int playerNum){return playerTrackers[playerNum].getHandAsString();}
 	public final String getHandAsStringCompact(int playerNum){return playerTrackers[playerNum].getHandAsStringCompact();}
+	public final GameTile getTsumoTileFor(int playerNum){return playerTrackers[playerNum].getTsumoTile();}
 	
 	public final Pond getPondForPlayer(int playerNum){return playerTrackers[playerNum].pond();}
 	public final List<PondTile> getPondTilesForPlayer(int playerNum){return playerTrackers[playerNum].pondTiles();}
+	public final String getPondAsString(int playerNum){return playerTrackers[playerNum].getPondAsString();}
 	
 	public final boolean playerIsHuman(int playerNum){return playerTrackers[playerNum].controllerIsHuman();}
 	public final boolean playerIsInRiichi(int playerNum){return playerTrackers[playerNum].isInRiichi();}
@@ -78,9 +80,11 @@ public class GodsEye {
 		public final List<Meld> melds(){return player.getMelds();}
 		public final String getHandAsString(){return player.getAsStringHand();}
 		public final String getHandAsStringCompact(){return player.getAsStringHandCompact();}
+		public final GameTile getTsumoTile(){return player.getTsumoTile();}
 		
 		public final Pond pond(){return player.getPond();}
 		public final List<PondTile> pondTiles(){return pond().getTilesAsList();}
+		public final String getPondAsString(){return player.getAsStringPond();}
 		
 		public final boolean controllerIsHuman(){return player.controllerIsHuman();}
 		public final boolean isInRiichi(){return player.isInRiichi();}

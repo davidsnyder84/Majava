@@ -33,8 +33,10 @@ public class DetailedTextualUI extends TextualUI{
 		
 		//show the discarded tile and the discarder's pond
 		println("\n\n\tTiles left: " + roundTracker.getNumTilesLeftInWall());
-		println("\t" + roundTracker.currentPlayer().getSeatWind() + " Player's discard: ^^^^^" + roundTracker.getMostRecentDiscard().toString() + "^^^^^");
-		println("\t" + roundTracker.currentPlayer().getAsStringPond());
+		println("\t" + godsEye.seatWindOfPlayer(roundTracker.whoseTurn()) + " Player's discard: ^^^^^" + roundTracker.getMostRecentDiscard().toString() + "^^^^^");
+		println("\t" + godsEye.getPondAsString(roundTracker.whoseTurn()));
+		
+		
 	}
 	
 	
@@ -190,11 +192,11 @@ public class DetailedTextualUI extends TextualUI{
 		
 		if (exclamation.isCall())
 			println("\n*********************************************************" + 
-					"\n**********" + roundTracker.getWindOfSeat(seat) + " Player called the tile (" + roundTracker.getMostRecentDiscard() + ")! " + exclamation + "!!!**********" + 
+					"\n**********" + godsEye.seatWindOfPlayer(seat) + " Player called the tile (" + roundTracker.getMostRecentDiscard() + ")! " + exclamation + "!!!**********" +  
 					"\n*********************************************************");
 		else
 			println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
-					"\n~~~~~~~~~~~" + roundTracker.getWindOfSeat(seat) + " Player declared " + exclamation + "!!!~~~~~~~~~~~" + 
+					"\n~~~~~~~~~~~" + godsEye.seatWindOfPlayer(seat) + " Player declared " + exclamation + "!!!~~~~~~~~~~~" + 
 					"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		
 

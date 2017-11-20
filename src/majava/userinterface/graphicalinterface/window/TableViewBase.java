@@ -417,7 +417,7 @@ public class TableViewBase extends JFrame{
 		
 		//update ponds
 		for (currentPlayer = SEAT1; currentPlayer <= SEAT4; currentPlayer++){
-			List<PondTile> pondTiles = godsEye.getPondTilesForPlayer(currentPlayer);
+			List<PondTile> pondTiles = pondTilesFor(currentPlayer);
 			for (currentTile = 0; currentTile < SIZE_POND; currentTile++){
 				larryPonds[currentPlayer][currentTile].setIcon(getImageIconPond(pondTiles, currentTile, currentPlayer));
 			}
@@ -484,24 +484,26 @@ public class TableViewBase extends JFrame{
 		oldTurn = newTurn;
 	}
 	private void discardMarkerSet(){
-		if (!godsEye.getPondTilesForPlayer(newTurn).isEmpty() && godsEye.playerNeedsDraw(newTurn)){
+		if (!pondTilesFor(newTurn).isEmpty() && godsEye.playerNeedsDraw(newTurn)){
 			if (newTurn == oldTurn && godsEye.playerNeedsDrawRinshan(newTurn)) return;
-//			if (newTurn == oldTurn &&  playerTrackers[newTurn].player.needsDrawRinshan()) return;
 			getLastLabelInPond(newTurn).setOpaque(true);
 			getLastLabelInPond(newTurn).setBackground(COLOR_POND_DISCARD_TILE);
 		}
 	}
 	private void discardMarkerErase(){
-		if (oldTurn >= 0 && !godsEye.getPondTilesForPlayer(oldTurn).isEmpty()){
+		if (oldTurn >= 0 && !pondTilesFor(oldTurn).isEmpty()){
 			getLastLabelInPond(oldTurn).setOpaque(false);
 			getLastLabelInPond(oldTurn).setBackground(COLOR_TRANSPARENT);
 		}
 	}
 	private JLabel getLastLabelInPond(int seatNum){
-		if (godsEye.getPondTilesForPlayer(seatNum).isEmpty()) return null;
-		else return larryPonds[seatNum][godsEye.getPondTilesForPlayer(seatNum).size() - 1];
+		if (pondTilesFor(seatNum).isEmpty()) return null;
+		else return larryPonds[seatNum][pondTilesFor(seatNum).size() - 1];
 	}
 	
+	private List<PondTile> pondTilesFor(int seat){
+		return godsEye.getPondTilesForPlayer(seat);
+	}
 	
 	
 	

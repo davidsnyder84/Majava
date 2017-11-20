@@ -10,10 +10,7 @@ import majava.player.Player;
 import majava.summary.GodsEye;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
-import majava.tiles.PondTile;
 import majava.enums.Wind;
-import majava.hand.Hand;
-import majava.hand.Meld;
 
 
 //other objects can ask a RoundTracker for information about the round
@@ -23,7 +20,6 @@ public class RoundTracker {
 	
 	private final Round round;
 	private final Wall wall;	//duplicate
-	private final GameTile[] wallTiles;	//duplicate
 	
 	private final Player[] players;
 	
@@ -32,7 +28,6 @@ public class RoundTracker {
 		round = roundToTrack;	
 		
 		wall = receivedWall;
-		wallTiles = wall.DEMOpleaseGiveMeYourTiles();
 		
 		players = playerArray.clone();
 		for (Player p: players)
@@ -45,8 +40,8 @@ public class RoundTracker {
 	
 	private void __syncWithUI(GameUI ui){
 		if (ui == null) return;
-		GodsEye roundEntities = new GodsEye(this, players, wall, wallTiles);
-		ui.syncWithRoundTracker(this, roundEntities);
+		GodsEye eye = new GodsEye(this, players, wall);
+		ui.syncWithRoundTracker(this, eye);
 	}
 	
 	
@@ -111,12 +106,5 @@ public class RoundTracker {
 	public Wind getRoundWind(){return round.getRoundWind();}
 	public int getRoundNum(){return round.getRoundNum();}
 	public int getRoundBonusNum(){return round.getRoundBonusNum();}
-	
-	
-	public Wind getWindOfSeat(int seat){
-		if (seat < 0 || seat >= NUM_PLAYERS) return null;
-		return players[seat].getSeatWind();
-	}
-	
 }
 

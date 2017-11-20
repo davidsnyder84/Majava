@@ -6,7 +6,7 @@ import majava.Pond;
 import majava.RoundTracker;
 import majava.Wall;
 import majava.enums.Exclamation;
-import majava.enums.GameplayEvent;
+import majava.events.GameplayEvent;
 import majava.player.Player;
 import majava.summary.RoundResultSummary;
 import majava.summary.entity.RoundEntities;

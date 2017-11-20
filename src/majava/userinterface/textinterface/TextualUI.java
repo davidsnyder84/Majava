@@ -3,7 +3,7 @@ package majava.userinterface.textinterface;
 import java.io.PrintStream;
 
 import majava.enums.Exclamation;
-import majava.enums.GameplayEvent;
+import majava.events.GameplayEvent;
 import majava.player.Player;
 import majava.summary.entity.PlayerTracker;
 import majava.summary.entity.RoundEntities;

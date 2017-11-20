@@ -13,10 +13,9 @@ import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
 import majava.tiles.Janpai;
 import majava.control.testcode.GameSimulation;
-import majava.enums.GameplayEvent;
+import majava.events.GameplayEvent;
 import majava.enums.Wind;
 import majava.enums.Exclamation;
-import majava.events.GameeventClass;
 import majava.hand.AgariHand;
 
 
@@ -350,10 +349,7 @@ public class Round{
 	
 	private void displayCallFrom(Player caller){
 		GameplayEvent callEvent = GameplayEvent.CALLED_TILE;
-		GameplayEvent a1 = GameplayEvent.calledTileEvent();
-		GameplayEvent a2 = GameplayEvent.CALLED_TILE();
-		GameplayEvent a3 = GameplayEvent.CALLED_TILE_EVENT();
-//		GameeventClass ev = GameeventClass.calledTileEvent(caller.getCallStatusExclamation(), caller.getPlayerNumber(), currentPlayer().getPlayerNumber());
+//		GameplayEvent ev = GameplayEvent.calledTileEvent(caller.getCallStatusExclamation(), caller.getPlayerNumber(), currentPlayer().getPlayerNumber());
 		callEvent.setExclamation(caller.getCallStatusExclamation(), caller.getPlayerNumber());
 		__updateUI(callEvent);
 	}

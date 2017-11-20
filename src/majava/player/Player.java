@@ -14,6 +14,7 @@ import majava.player.brains.NullPlayerBrain;
 import majava.player.brains.PlayerBrain;
 import majava.player.brains.PonMonsterBot;
 import majava.player.brains.RobotBrain;
+import majava.player.brains.SevenTwinBot;
 import majava.player.brains.SimpleRobot;
 import majava.player.brains.TseIiMenBot;
 import majava.summary.PointsBox;
@@ -314,6 +315,7 @@ public class Player {
 	public void setControllerHuman(){setController(new HumanBrain(this, userInterface));}
 	public void setControllerComputer(){
 		RobotBrain robot = new SimpleRobot(this);
+//		RobotBrain robot = new SevenTwinBot(this);
 //		RobotBrain robot = new TseIiMenBot(this);
 //		RobotBrain robot = new PonMonsterBot(this);
 		setController(robot);

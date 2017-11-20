@@ -43,8 +43,7 @@ public class PonMonsterBot extends RobotBrain {
 		if (!triplesIndices.isEmpty()) return pickRandomlyFrom(triplesIndices);
 		
 		return tsumoTileIndex(hand);
-	}	
-	private int pickRandomlyFrom(List<Integer> choices){return choices.get((new Random()).nextInt(choices.size()));}
+	}
 	
 	
 	public void setChiBehavior(boolean willCallChi){hatesChi = !willCallChi;}

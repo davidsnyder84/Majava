@@ -189,7 +189,7 @@ public class SparseTextualUI extends TextualUI{
 	
 	
 	
-	
+	//info needed: seat wind of caller, most recent discard
 	@Override
 	protected void __showExclamation(Exclamation exclamation, int seat){
 		

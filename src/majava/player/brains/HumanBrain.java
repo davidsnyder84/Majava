@@ -2,7 +2,7 @@ package majava.player.brains;
 
 import java.util.List;
 
-import majava.enums.GameplayEvent;
+import majava.events.GameplayEvent;
 import majava.hand.Hand;
 import majava.player.Player;
 import majava.tiles.GameTile;
@@ -27,7 +27,7 @@ public class HumanBrain extends PlayerBrain {
 		ActionType chosenAction = ActionType.DISCARD;
 		
 		//show hand
-		userInterface.displayEvent(GameplayEvent.HUMAN_PLAYER_TURN_START);
+		userInterface.displayEvent(GameplayEvent.humanPlayerTurnStartEvent());
 		
 		//get the player's desired action through the UI
 		userInterface.askUserInputTurnAction(

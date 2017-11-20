@@ -6,7 +6,6 @@ import java.util.List;
 
 import majava.userinterface.GameUI;
 import majava.util.GameTileList;
-import majava.yaku.YakuAnalyzer;
 import majava.player.Player;
 import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
@@ -16,7 +15,6 @@ import majava.control.testcode.GameSimulation;
 import majava.events.GameplayEvent;
 import majava.enums.Wind;
 import majava.enums.Exclamation;
-import majava.hand.AgariHand;
 
 
 
@@ -159,7 +157,7 @@ public class Round{
 		roundTracker.neighborToimenOf(eastPlayer).giveStartingHand(tilesW);
 		roundTracker.neighborKamichaOf(eastPlayer).giveStartingHand(tilesN);
 		
-		__updateUI(GameplayEvent.START_OF_ROUND);
+		__updateUI(GameplayEvent.startOfRoundEvent());
 	}
 	
 	
@@ -170,7 +168,7 @@ public class Round{
 		if (p.needsDraw())
 			letPlayerDraw(p);
 		else
-			__updateUI(GameplayEvent.PLACEHOLDER);
+			__updateUI(GameplayEvent.placeholderEvent());
 		
 		if (roundIsOver()) return;	//return early if (4kan or washout)
 		
@@ -195,7 +193,7 @@ public class Round{
 		while (!p.turnActionChoseDiscard());
 		
 		//show the human player their hand, show the discarded tile and the discarder's pond
-		__updateUI(GameplayEvent.DISCARDED_TILE);
+		__updateUI(GameplayEvent.discardedTileEvent());
 	}
 	private boolean madeKan(Player p){return p.needsDrawRinshan();}
 //	private List<Player> playersOtherThan(Player p){return Arrays.asList(roundTracker.neighborShimochaOf(p), roundTracker.neighborToimenOf(p), roundTracker.neighborKamichaOf(p));}
@@ -219,11 +217,11 @@ public class Round{
 				return;
 			}
 			drawnTile = wall.takeTileFromDeadWall();
-			__updateUI(GameplayEvent.NEW_DORA_INDICATOR);
+			__updateUI(GameplayEvent.newDoraIndicatorEvent());
 		}
 		
 		p.addTileToHand(drawnTile);
-		__updateUI(GameplayEvent.DREW_TILE);
+		__updateUI(GameplayEvent.drewTileEvent());
 	}
 	
 	private boolean tooManyKans(){return roundTracker.tooManyKans();}
@@ -284,7 +282,7 @@ public class Round{
 		GameTile calledTile = currentPlayer().removeTileFromPond();
 		priorityCaller.makeMeld(calledTile);
 		
-		__updateUI(GameplayEvent.MADE_OPEN_MELD);
+		__updateUI(GameplayEvent.madeOpenMeldEvent());
 	}
 	
 	//decides who gets to call the tile
@@ -342,26 +340,26 @@ public class Round{
 	
 	public void displayRoundResult(){
 		if (userInterface != null) userInterface.setRoundResult(roundResult.getSummary());
-		__updateUI(GameplayEvent.END_OF_ROUND);
+		__updateUI(GameplayEvent.endOfRoundEvent());
 	}
 	
 	
-	
+	///////////////////THESE REQUIRE MORE PARAMETERS
 	private void displayCallFrom(Player caller){
-		GameplayEvent callEvent = GameplayEvent.CALLED_TILE;
+		GameplayEvent callEvent = GameplayEvent.calledTileEvent();
 //		GameplayEvent ev = GameplayEvent.calledTileEvent(caller.getCallStatusExclamation(), caller.getPlayerNumber(), currentPlayer().getPlayerNumber());
 		callEvent.setExclamation(caller.getCallStatusExclamation(), caller.getPlayerNumber());
 		__updateUI(callEvent);
 	}
 	private void tellGuiAboutSelfKan(Player fromPlayer){
-		GameplayEvent kanEvent = GameplayEvent.DECLARED_OWN_KAN;
+		GameplayEvent kanEvent = GameplayEvent.declaredOwnKanEvent();
 		kanEvent.setExclamation(Exclamation.OWN_KAN, fromPlayer.getPlayerNumber());
 		__updateUI(kanEvent);
-		__updateUI(GameplayEvent.MADE_OWN_KAN);
+		__updateUI(GameplayEvent.madeOwnKanEvent());
 		
 	}
 	private void tellGuiAboutTsumo(Player fromPlayer){
-		GameplayEvent tsumoEvent = GameplayEvent.DECLARED_TSUMO;
+		GameplayEvent tsumoEvent = GameplayEvent.declaredTsumoEvent();
 		tsumoEvent.setExclamation(Exclamation.TSUMO, fromPlayer.getPlayerNumber());
 		__updateUI(tsumoEvent);
 	}

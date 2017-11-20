@@ -38,7 +38,7 @@ public abstract class GameUI {
 	
 	
 	public void displayEvent(final GameplayEvent event){
-		switch(event){
+		switch(event.getEventType()){
 		case DISCARDED_TILE: __displayEventDiscardedTile(); break;
 		case MADE_OPEN_MELD: __displayEventMadeOpenMeld(); break;
 		case DREW_TILE: __displayEventDrewTile(); break;
@@ -55,8 +55,8 @@ public abstract class GameUI {
 		
 		if (event.isExclamation()) __showExclamation(event.getExclamation(), event.getSeat());
 		
-		
-		if (mSleepTime > 0 && !event.isExclamation() && event != GameplayEvent.PLACEHOLDER) Pauser.pauseFor(mSleepTime);
+		if (mSleepTime > 0 && !event.isExclamation() && !event.isPlaceholder())
+			Pauser.pauseFor(mSleepTime);
 	}
 	
 	protected abstract void __displayEventDiscardedTile();

@@ -9,17 +9,24 @@ public class GameplayEvent {
 
 	private static final int SEAT_NOT_SET = -1;
 	
-	private GameEventType eventType = null;
-	private Exclamation exclamation = null;
-	private int seatNumber = SEAT_NOT_SET;
+	private GameEventType eventType;
+	private Exclamation exclamation;
+	private int seatNumber;
 	
-	private int seatExclaimer = SEAT_NOT_SET;
-	private int seatVictim = SEAT_NOT_SET;
-	private GameTile relatedTile = null;
+	private int seatExclaimer;
+	private int seatVictim;
+	private GameTile relatedTile;
 	
 	
 	private GameplayEvent(GameEventType evType){
+		eventType = evType;
+		exclamation = null;
 		
+		seatNumber = SEAT_NOT_SET;
+		seatExclaimer = SEAT_NOT_SET;
+		seatVictim = SEAT_NOT_SET;
+		
+		relatedTile = null;
 	}
 //	private GameplayEvent(){}
 	
@@ -32,6 +39,8 @@ public class GameplayEvent {
 	public int getSeat(){return seatNumber;}
 	
 	public boolean isExclamation(){return eventType.isExclamation();}
+	public boolean isPlaceholder(){return eventType == PLACEHOLDER;}
+	public GameEventType getEventType(){return eventType;}
 	
 	
 	

@@ -685,9 +685,9 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	public void syncWithRoundTracker(RoundEntities receivedRoundEntities){
+	public void syncWithRoundTracker(RoundTracker tracker, RoundEntities receivedRoundEntities){
 		
-		roundTracker = receivedRoundEntities.roundTracker;
+		roundTracker = tracker;
 		playerTrackers = receivedRoundEntities.playerTrackers;
 		playerTrackers = receivedRoundEntities.playerTrackers;
 		roundEntities = receivedRoundEntities;

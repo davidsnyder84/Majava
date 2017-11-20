@@ -109,7 +109,7 @@ public class GraphicalUI extends GameUI{
 	
 	public void syncWithRoundTracker(RoundTracker tracker, RoundEntities roundEntities){
 		super.syncWithRoundTracker(tracker, roundEntities);
-		tableWindow.syncWithRoundTracker(roundEntities);
+		tableWindow.syncWithRoundTracker(tracker, roundEntities);
 	}
 	
 	public void printErrorRoundAlreadyOver(){System.out.println("----Error: Round is already over, cannot play");}

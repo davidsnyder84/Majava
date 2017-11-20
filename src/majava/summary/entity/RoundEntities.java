@@ -10,7 +10,7 @@ public class RoundEntities {
 	private final GameTile[] wallTiles;
 	private final Wall wall;
 	
-	public final RoundTracker roundTracker;
+	private final RoundTracker roundTracker;
 	
 ////////////////////
 	public final GameTile[] getWallTiles(){return wallTiles.clone();}
@@ -25,4 +25,6 @@ public class RoundEntities {
 		wall = reveivedWall;
 		wallTiles = tilesW;
 	}
+	
+	
 }

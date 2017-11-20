@@ -12,7 +12,7 @@ import majava.util.GameTileList;
 
 
 
-//represents the wall (ŽR) of tiles used in the game
+//represents the wall (ŽR/•Ç) of tiles used in the game
 public class Wall {
 	private static final int NUMBER_OF_DIFFERENT_TILES = 34;
 	private static final int MAX_SIZE_WALL = NUMBER_OF_DIFFERENT_TILES * 4;	//136
@@ -26,10 +26,8 @@ public class Wall {
 	
 	
 	
-	private GameTile[] wallTiles;
+	private final GameTile[] wallTiles;
 	private int currentWallPosition;
-	
-	private RoundTracker roundTracker;
 	
 	
 	public Wall(){
@@ -130,7 +128,7 @@ public class Wall {
 		final int POS_KANDRAW_1 = 12, POS_KANDRAW_2 = 13, POS_KANDRAW_3 = 10, POS_KANDRAW_4 = 11;
 		final Integer[] POS_KANDRAWS = {POS_KANDRAW_1, POS_KANDRAW_2, POS_KANDRAW_3, POS_KANDRAW_4};
 		
-		GameTile takenTile = removeTile(OFFSET_DEAD_WALL + POS_KANDRAWS[getNumKansMade() - 1]);
+		GameTile takenTile = removeTile(OFFSET_DEAD_WALL + POS_KANDRAWS[getNumKansMade()]);
 		return takenTile;
 	}
 	
@@ -152,12 +150,21 @@ public class Wall {
 	public int numTilesLeftInWall(){return MAX_SIZE_WALL - currentWallPosition - MAX_SIZE_DEAD_WALL;}
 	public int numTilesLeftInDeadWall(){return MAX_SIZE_DEAD_WALL - getNumKansMade();}
 	
-	public int getNumKansMade(){return roundTracker.getNumKansMade();}
+	private int getNumKansMade(){
+		int numberOfTilesMissingFromDeadWall = 0;
+		for (int index = 0; index < MAX_SIZE_DEAD_WALL; index++)
+			if (getDeadWallTile(index) == null) numberOfTilesMissingFromDeadWall++;
+//		for (GameTile t: deadWallTiles()) if (t == null) numberOfTilesMissingFromDeadWall++;
+		return numberOfTilesMissingFromDeadWall;
+	}
+	private GameTile[] deadWallTiles(){
+		GameTile[] deadWallSection = new GameTile[MAX_SIZE_DEAD_WALL];
+		for (int index = 0; index < MAX_SIZE_DEAD_WALL; index++)
+			deadWallSection[index] = getDeadWallTile(index);
+		return deadWallSection;
+	}
 	
 	
-	
-//	public void printWall(){System.out.println(toString());}
-//	public void printDeadWall(){System.out.println(toStringDeadWall());}
 	
 	//tostring
 	@Override
@@ -199,14 +206,13 @@ public class Wall {
 	
 	
 	
-	public GameTile[] syncWithTracker(RoundTracker tracker){
-		roundTracker = tracker; 
-		return wallTiles;
-	}
 	
 	
 	
 	//DEMO METHODS
 	public void DEMOloadDebugWall(){WallDemoer.loadDebugWall(wallTiles, currentWallPosition);}
 	public void DEMOexhaustWall(){currentWallPosition = 68;}
+	public GameTile[] DEMOpleaseGiveMeYourTiles(){return wallTiles;}
+//	public void printWall(){System.out.println(toString());}
+//	public void printDeadWall(){System.out.println(toStringDeadWall());}
 }

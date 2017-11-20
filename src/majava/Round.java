@@ -179,12 +179,12 @@ public class Round{
 			turnIndicator.setMostRecentDiscard(discardedTile);	//discardedTile will be null if the player made a kan/tsumo, but that's ok
 			
 			if (madeKan(p)){
-				tellGuiAboutSelfKan(p);
+				tellUiAboutSelfKan(p);
 				letPlayerDraw(p);	//give player a rinshan draw
 			}
 			
 			if (p.turnActionCalledTsumo()){
-				tellGuiAboutTsumo(p);
+				tellUiAboutTsumo(p);
 				setResultVictory(p);
 			}
 			
@@ -344,21 +344,21 @@ public class Round{
 	}
 	
 	
-	///////////////////THESE REQUIRE MORE PARAMETERS
+	/////can add smarter parameters in these
 	private void displayCallFrom(Player caller){
 		GameplayEvent callEvent = GameplayEvent.calledTileEvent();
 //		GameplayEvent ev = GameplayEvent.calledTileEvent(caller.getCallStatusExclamation(), caller.getPlayerNumber(), currentPlayer().getPlayerNumber());
 		callEvent.setExclamation(caller.getCallStatusExclamation(), caller.getPlayerNumber());
 		__updateUI(callEvent);
 	}
-	private void tellGuiAboutSelfKan(Player fromPlayer){
+	private void tellUiAboutSelfKan(Player fromPlayer){
 		GameplayEvent kanEvent = GameplayEvent.declaredOwnKanEvent();
 		kanEvent.setExclamation(Exclamation.OWN_KAN, fromPlayer.getPlayerNumber());
 		__updateUI(kanEvent);
 		__updateUI(GameplayEvent.madeOwnKanEvent());
 		
 	}
-	private void tellGuiAboutTsumo(Player fromPlayer){
+	private void tellUiAboutTsumo(Player fromPlayer){
 		GameplayEvent tsumoEvent = GameplayEvent.declaredTsumoEvent();
 		tsumoEvent.setExclamation(Exclamation.TSUMO, fromPlayer.getPlayerNumber());
 		__updateUI(tsumoEvent);

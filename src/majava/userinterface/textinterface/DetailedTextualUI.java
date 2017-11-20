@@ -78,8 +78,8 @@ public class DetailedTextualUI extends TextualUI{
 	protected void __showWall(){println(roundEntities.wall.toString());}
 	
 	protected void __showDoraIndicators(){
-		GameTileList tl = roundEntities.wall.getDoraIndicators();
-		println("Dora Indicators: " + tl.toString() + "\n\n");
+		GameTileList doraIndicators = roundEntities.wall.getDoraIndicators();
+		println("Dora Indicators: " + doraIndicators + "\n\n");
 	}
 	
 	protected void __showDeadWall(){

@@ -83,7 +83,7 @@ public class SparseTextualUI extends TextualUI{
 	protected void __showPlayerHand(Player p){println(p.getAsStringHandCompact());}
 	
 	protected void __showWall(){println(roundEntities.wall.toString());}
-	protected void __showDoraIndicators(){println(",,,New Dora Indicator: " + roundEntities.wall.getDoraIndicators().get(roundEntities.wall.getNumKansMade()));}
+	protected void __showDoraIndicators(){println(",,,Dora Indicators: " + roundTracker.getDoraIndicators());}
 	protected void __showDeadWall(){__showDoraIndicators();}
 	
 	protected void __showRoundResult(){

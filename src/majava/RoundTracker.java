@@ -33,7 +33,7 @@ public class RoundTracker {
 		round = roundToTrack;	
 		
 		wall = receivedWall;
-		wallTiles = wall.syncWithTracker(this);
+		wallTiles = wall.DEMOpleaseGiveMeYourTiles();
 		
 		players = playerArray.clone();
 		for (Player p: players)
@@ -110,6 +110,8 @@ public class RoundTracker {
 	
 	
 	public int getNumTilesLeftInWall(){return wall.numTilesLeftInWall();}
+	public GameTileList getDoraIndicators(){return wall.getDoraIndicators();}
+	public GameTileList getDoraIndicatorsWithUra(){return wall.getDoraIndicatorsWithUra();}
 	
 	
 	public Wind getRoundWind(){return round.getRoundWind();}

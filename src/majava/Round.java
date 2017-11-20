@@ -12,9 +12,11 @@ import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
 import majava.tiles.Janpai;
+import majava.control.testcode.GameSimulation;
 import majava.enums.GameplayEvent;
 import majava.enums.Wind;
 import majava.enums.Exclamation;
+import majava.events.GameeventClass;
 import majava.hand.AgariHand;
 
 
@@ -180,20 +182,12 @@ public class Round{
 			turnIndicator.setMostRecentDiscard(discardedTile);	//discardedTile will be null if the player made a kan/tsumo, but that's ok
 			
 			if (madeKan(p)){
-				GameplayEvent kanEvent = GameplayEvent.DECLARED_OWN_KAN;
-				kanEvent.setExclamation(Exclamation.OWN_KAN, p.getPlayerNumber());
-				__updateUI(kanEvent);
-				__updateUI(GameplayEvent.MADE_OWN_KAN);
-				
-				//give player a rinshan draw
-				letPlayerDraw(p);
+				tellGuiAboutSelfKan(p);
+				letPlayerDraw(p);	//give player a rinshan draw
 			}
 			
 			if (p.turnActionCalledTsumo()){
-				GameplayEvent tsumoEvent = GameplayEvent.DECLARED_TSUMO;
-				tsumoEvent.setExclamation(Exclamation.TSUMO, p.getPlayerNumber());
-				__updateUI(tsumoEvent);
-				
+				tellGuiAboutTsumo(p);
 				setResultVictory(p);
 			}
 			
@@ -293,11 +287,6 @@ public class Round{
 		
 		__updateUI(GameplayEvent.MADE_OPEN_MELD);
 	}
-	private void displayCallFrom(Player priorityCaller){
-		GameplayEvent callEvent = GameplayEvent.CALLED_TILE;
-		callEvent.setExclamation(priorityCaller.getCallStatusExclamation(), priorityCaller.getPlayerNumber());
-		__updateUI(callEvent);
-	}
 	
 	//decides who gets to call the tile
 	private Player whoCalled(){
@@ -358,10 +347,35 @@ public class Round{
 	}
 	
 	
+	
+	private void displayCallFrom(Player caller){
+		GameplayEvent callEvent = GameplayEvent.CALLED_TILE;
+		GameplayEvent a1 = GameplayEvent.calledTileEvent();
+		GameplayEvent a2 = GameplayEvent.CALLED_TILE();
+		GameplayEvent a3 = GameplayEvent.CALLED_TILE_EVENT();
+//		GameeventClass ev = GameeventClass.calledTileEvent(caller.getCallStatusExclamation(), caller.getPlayerNumber(), currentPlayer().getPlayerNumber());
+		callEvent.setExclamation(caller.getCallStatusExclamation(), caller.getPlayerNumber());
+		__updateUI(callEvent);
+	}
+	private void tellGuiAboutSelfKan(Player fromPlayer){
+		GameplayEvent kanEvent = GameplayEvent.DECLARED_OWN_KAN;
+		kanEvent.setExclamation(Exclamation.OWN_KAN, fromPlayer.getPlayerNumber());
+		__updateUI(kanEvent);
+		__updateUI(GameplayEvent.MADE_OWN_KAN);
+		
+	}
+	private void tellGuiAboutTsumo(Player fromPlayer){
+		GameplayEvent tsumoEvent = GameplayEvent.DECLARED_TSUMO;
+		tsumoEvent.setExclamation(Exclamation.TSUMO, fromPlayer.getPlayerNumber());
+		__updateUI(tsumoEvent);
+	}
 	private void __updateUI(GameplayEvent event){
 		if (userInterface == null) return;
 		userInterface.displayEvent(event);
 	}
+	
+	
+	
 	
 	
 	public void setOptionFastGameplay(boolean doFastGameplay){
@@ -386,6 +400,9 @@ public class Round{
 	}
 	
 	public static void main(String[] args) {
+		
+		GameSimulation.main(args);
+		if (args.equals(args)) return;
 		
 		System.out.println("Welcome to Majava (Round)!");
 		

@@ -23,7 +23,9 @@ public enum GameplayEvent{
 	private GameplayEvent(Exclamation ex){exclamation = ex;}
 	private GameplayEvent(){this(null);}
 	
-	
+	public static GameplayEvent calledTileEvent(){return null;}/////////////////////
+	public static GameplayEvent CALLED_TILE(){return null;}/////////////////////
+	public static GameplayEvent CALLED_TILE_EVENT(){return null;}/////////////////////
 	
 	public void setExclamation(Exclamation ex, int seat){exclamation = ex; seatNumber = seat;}
 	public void setExclamation(Exclamation ex){exclamation = ex;}

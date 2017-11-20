@@ -31,32 +31,12 @@ public class Wall {
 	
 	
 	public Wall(){
-		//fill and shuffle the wall
-		wallTiles = new GameTile[MAX_SIZE_WALL];
-		fillWall();
+		currentWallPosition = 0;
+		
+		wallTiles = generateStandardSetOf134Tiles();
 		shuffle();
 	}
-	
-	private void fillWall(){
-		currentWallPosition = 0;
-				
-		//fill the wall with 4 of each tile, in sequential order
-		//make red doras accordingly for fives (1 in man, 2 in pin, 1 in sou)
-		final int IDM5 = 5, IDP5 = 14, IDS5 = 23;
-		int i = 0;
-		for (int id = 1; id <= NUMBER_OF_DIFFERENT_TILES; id++){
-			wallTiles[i++] = new GameTile(id);
-			wallTiles[i++] = new GameTile(id);
-			
-			if (id == IDP5) wallTiles[i++] = new GameTile(id, true);
-			else            wallTiles[i++] = new GameTile(id);
-			
-			if (id == IDM5 || id == IDP5 || id == IDS5) wallTiles[i++] = new GameTile(id, true);
-			else                                        wallTiles[i++] = new GameTile(id);
-		}
-	}
 	private void shuffle(){Collections.shuffle(Arrays.asList(wallTiles));}
-	
 	
 	
 	
@@ -215,4 +195,24 @@ public class Wall {
 	public void DEMOexhaustWall(){currentWallPosition = 68;}
 //	public void printWall(){System.out.println(toString());}
 //	public void printDeadWall(){System.out.println(toStringDeadWall());}
+	
+	
+	public static GameTile[] generateStandardSetOf134Tiles(){
+		final GameTile[] tiles = new GameTile[MAX_SIZE_WALL];
+		final int IDM5 = 5, IDP5 = 14, IDS5 = 23;
+		int index = 0;
+		//fill the set with 4 of each tile, in sequential order
+		//make red doras accordingly for fives (1 in man, 2 in pin, 1 in sou)
+		for (int id = 1; id <= NUMBER_OF_DIFFERENT_TILES; id++){
+			tiles[index++] = new GameTile(id);
+			tiles[index++] = new GameTile(id);
+			
+			if (id == IDP5) tiles[index++] = new GameTile(id, true);
+			else            tiles[index++] = new GameTile(id);
+			
+			if (id == IDM5 || id == IDP5 || id == IDS5) tiles[index++] = new GameTile(id, true);
+			else                                        tiles[index++] = new GameTile(id);
+		}
+		return tiles;
+	}
 }

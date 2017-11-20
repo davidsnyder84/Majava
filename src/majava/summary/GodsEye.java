@@ -17,7 +17,7 @@ import majava.util.GameTileList;
 
 //the UI needs to be able to look at things that are normally hidden (like the wall and all players' hands)
 //this class gives the UI an immutable view of this data
-public class GodsEye {	
+public final class GodsEye {	
 	private final PlayerTracker[] playerTrackers;
 	private final Wall wall;
 	
@@ -33,30 +33,31 @@ public class GodsEye {
 	
 	
 	//player methods
-	public final GameTileList getHandTilesForPlayer(int playerNum){return playerTrackers[playerNum].handTiles();}	
-	public final List<Meld> getPlayerMelds(int playerNum){return playerTrackers[playerNum].melds();}
-	public final String getHandAsString(int playerNum){return playerTrackers[playerNum].getHandAsString();}
-	public final String getHandAsStringCompact(int playerNum){return playerTrackers[playerNum].getHandAsStringCompact();}
-	public final GameTile getTsumoTileFor(int playerNum){return playerTrackers[playerNum].getTsumoTile();}
+	public GameTileList getHandTilesForPlayer(int playerNum){return playerTrackers[playerNum].handTiles();}	
+	public String getHandAsString(int playerNum){return playerTrackers[playerNum].getHandAsString();}
+	public String getHandAsStringCompact(int playerNum){return playerTrackers[playerNum].getHandAsStringCompact();}
+	public GameTile getTsumoTileFor(int playerNum){return playerTrackers[playerNum].getTsumoTile();}
 	
-	public final Pond getPondForPlayer(int playerNum){return playerTrackers[playerNum].pond();}
-	public final List<PondTile> getPondTilesForPlayer(int playerNum){return playerTrackers[playerNum].pondTiles();}
-	public final String getPondAsString(int playerNum){return playerTrackers[playerNum].getPondAsString();}
+	//below is all public and could (shoud?) be learned from asking RoundTracker
+	public List<Meld> getPlayerMelds(int playerNum){return playerTrackers[playerNum].melds();}
+	public Pond getPondForPlayer(int playerNum){return playerTrackers[playerNum].pond();}
+	public List<PondTile> getPondTilesForPlayer(int playerNum){return playerTrackers[playerNum].pondTiles();}
+	public String getPondAsString(int playerNum){return playerTrackers[playerNum].getPondAsString();}
 	
-	public final boolean playerIsHuman(int playerNum){return playerTrackers[playerNum].controllerIsHuman();}
-	public final boolean playerIsInRiichi(int playerNum){return playerTrackers[playerNum].isInRiichi();}
-	public final boolean playerNeedsDraw(int playerNum){return playerTrackers[playerNum].needsDraw();}
-	public final boolean playerNeedsDrawRinshan(int playerNum){return playerTrackers[playerNum].needsDrawRinshan();}
-	public final PlayerSummary getSummary(int playerNum){return playerTrackers[playerNum].getSummary();}
+	public boolean playerIsHuman(int playerNum){return playerTrackers[playerNum].controllerIsHuman();}
+	public boolean playerIsInRiichi(int playerNum){return playerTrackers[playerNum].isInRiichi();}
+	public boolean playerNeedsDraw(int playerNum){return playerTrackers[playerNum].needsDraw();}
+	public boolean playerNeedsDrawRinshan(int playerNum){return playerTrackers[playerNum].needsDrawRinshan();}
+	public PlayerSummary getSummary(int playerNum){return playerTrackers[playerNum].getSummary();}
 	
-	public final int pointsForPlayer(int playerNum){return playerTrackers[playerNum].points();}
-	public final Wind seatWindOfPlayer(int playerNum){return playerTrackers[playerNum].seatWind();}
+	public int pointsForPlayer(int playerNum){return playerTrackers[playerNum].points();}
+	public Wind seatWindOfPlayer(int playerNum){return playerTrackers[playerNum].seatWind();}
 	
 	
 	//wall methods
-	public final GameTile[] getWallTiles(){return wall.getTilesAsList();}
-	public final String wallToString(){return wall.toString();}
-	public final String deadWallToString(){return wall.toStringDeadWall();}
+	public GameTile[] getWallTiles(){return wall.getTilesAsList();}
+	public String wallToString(){return wall.toString();}
+	public String deadWallToString(){return wall.toStringDeadWall();}
 
 	
 	
@@ -64,7 +65,7 @@ public class GodsEye {
 	
 	
 	//inner class
-	private static class PlayerTracker{
+	private static final class PlayerTracker{
 		
 		public final Player player;
 		public final Hand hand;
@@ -76,24 +77,24 @@ public class GodsEye {
 		
 		//all of these are clones
 		//this is normally hidden information
-		public final GameTileList handTiles(){return hand.getTilesAsList();}
-		public final String getHandAsString(){return player.getAsStringHand();}
-		public final String getHandAsStringCompact(){return player.getAsStringHandCompact();}
-		public final GameTile getTsumoTile(){return player.getTsumoTile();}
+		public GameTileList handTiles(){return hand.getTilesAsList();}
+		public String getHandAsString(){return player.getAsStringHand();}
+		public String getHandAsStringCompact(){return player.getAsStringHandCompact();}
+		public GameTile getTsumoTile(){return player.getTsumoTile();}
 		
 		//below is all public and could (shoud?) be learned from asking RoundTracker
-		public final List<Meld> melds(){return player.getMelds();}
-		public final Pond pond(){return player.getPond();}
-		public final List<PondTile> pondTiles(){return pond().getTilesAsList();}
-		public final String getPondAsString(){return player.getAsStringPond();}
+		public List<Meld> melds(){return player.getMelds();}
+		public Pond pond(){return player.getPond();}
+		public List<PondTile> pondTiles(){return pond().getTilesAsList();}
+		public String getPondAsString(){return player.getAsStringPond();}
 		
-		public final boolean controllerIsHuman(){return player.controllerIsHuman();}
-		public final boolean isInRiichi(){return player.isInRiichi();}
-		public final boolean needsDraw(){return player.needsDraw();}
-		public final boolean needsDrawRinshan(){return player.needsDrawRinshan();}
-		public final PlayerSummary getSummary(){return PlayerSummary.getSummaryFor(player);}
+		public boolean controllerIsHuman(){return player.controllerIsHuman();}
+		public boolean isInRiichi(){return player.isInRiichi();}
+		public boolean needsDraw(){return player.needsDraw();}
+		public boolean needsDrawRinshan(){return player.needsDrawRinshan();}
+		public PlayerSummary getSummary(){return PlayerSummary.getSummaryFor(player);}
 		
-		public final int points(){return player.getPoints();}
-		public final Wind seatWind(){return player.getSeatWind();}
+		public int points(){return player.getPoints();}
+		public Wind seatWind(){return player.getSeatWind();}
 	}
 }

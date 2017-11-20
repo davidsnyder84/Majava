@@ -165,6 +165,7 @@ public abstract class PlayerBrain {
 	public final boolean isComputer(){return !isHuman();}
 	
 	protected static final int tsumoTileIndex(Hand hand){return hand.size() - 1;}
+	protected static final int firstTileIndex(Hand hand){return 0;}
 	
 	
 	

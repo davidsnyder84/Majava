@@ -8,17 +8,10 @@ import majava.player.Player;
 import majava.player.brains.PlayerBrain.CallType;
 import majava.tiles.GameTile;
 
+//a bot that tries to form a seven pairs hand (chiitoitsu/Žµ‘ÎŽq)
 public class SevenTwinBot extends RobotBrain {
 	
 	public SevenTwinBot(Player p) {super(p);}
-	
-	@Override
-	protected ActionType selectTurnAction(Hand hand, List<ActionType> listOfPossibleTurnActions) {
-		//don't kan, only tsumo
-		if (listOfPossibleTurnActions.contains(ActionType.TSUMO))
-			return ActionType.TSUMO;
-		return ActionType.DISCARD;
-	}
 	
 	@Override
 	protected int selectDiscardIndex(Hand hand) {
@@ -35,14 +28,6 @@ public class SevenTwinBot extends RobotBrain {
 		return pickRandomlyFrom(nonPairs);
 	}
 	
-	
-	
 	@Override
-	protected CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions) {
-		//only call ron
-		if (listOfPossibleReactions.contains(CallType.RON))
-			return CallType.RON;
-		return CallType.NONE;
-	}
-	
+	public String toString(){return "SevenTwinBot";}
 }

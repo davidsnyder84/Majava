@@ -9,7 +9,7 @@ import majava.hand.Hand;
 import majava.player.Player;
 import majava.tiles.GameTile;
 
-//a bot that likes making pon yaku (toitoi hands)
+//a bot that likes making pon-related yaku (toitoi hands)
 public class PonMonsterBot extends RobotBrain {
 	
 	private boolean hatesChi;
@@ -29,7 +29,7 @@ public class PonMonsterBot extends RobotBrain {
 	}
 	
 	private int findLoneliestIndex(Hand hand){
-		List<Integer> singlesIndices = new ArrayList<Integer>(), doublesIndices = new ArrayList<Integer>(), triplesIndices = new ArrayList<Integer>();		
+		List<Integer> singlesIndices = new ArrayList<Integer>(), doublesIndices = new ArrayList<Integer>(), triplesIndices = new ArrayList<Integer>();
 		for (int index = 0; index < hand.size(); index++){
 			switch (hand.findHowManyOf(hand.getTile(index))){
 			case 1: singlesIndices.add(index); break; 
@@ -57,4 +57,7 @@ public class PonMonsterBot extends RobotBrain {
 		
 		return biggestReaction(listOfPossibleReactions);
 	}
+	
+	@Override
+	public String toString(){return "PonMonsterBot";}
 }

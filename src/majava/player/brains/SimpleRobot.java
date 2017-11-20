@@ -54,7 +54,7 @@ public class SimpleRobot extends RobotBrain {
 	
 	private int preferredDiscardIndex(Hand hand){
 		switch(myDiscardBehavior){
-		case DISCARD_FIRST: return 0;
+		case DISCARD_FIRST: return firstTileIndex(hand);
 		case DISCARD_LAST: return tsumoTileIndex(hand);
 		case DISCARD_RANDOM: return (new Random()).nextInt(hand.size());
 		default: return 0;

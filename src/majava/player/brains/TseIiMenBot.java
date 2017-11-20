@@ -50,4 +50,6 @@ public class TseIiMenBot extends RobotBrain {
 	@Override
 	protected CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions) {return biggestReaction(listOfPossibleReactions);}
 
+	@Override
+	public String toString(){return "TseIiiMenBot";}
 }

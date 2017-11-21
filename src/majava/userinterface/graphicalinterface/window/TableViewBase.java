@@ -20,17 +20,23 @@ import utility.ImageResizer;
 import utility.ImageRotator;
 import utility.Pauser;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Graphics;
+import java.awt.LayoutManager;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
+import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.event.MouseInputAdapter;
@@ -385,7 +391,10 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	public void exclamationShow(Exclamation exclamation, int seat){lblExclamation.showExclamation(exclamation, seat);}
+	public void exclamationShow(Exclamation exclamation, int seat){
+		lblExclamation.showExclamation(exclamation, seat);
+		repaint();
+	}
 	public void exclamationErase(){lblExclamation.erase();}
 	
 	
@@ -567,13 +576,22 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	
+	private void movePromptPanelToSeat(int seat){
+		switch(seat){
+		case SEAT1: panCalls.setLocation(475, 420); break;
+		case SEAT2: panCalls.setLocation(475, 420); break;
+		case SEAT3: panCalls.setLocation(475, 420); break;
+		case SEAT4: panCalls.setLocation(475, 420); break;
+		default: break;
+		}
+	}
 	
 
 	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
 		boolean onlyOneChiPossible = ((canChiL ^ canChiM ^ canChiH) ^ (canChiL && canChiM && canChiH));
 		int chiType = -1;
 		
+		movePromptPanelToSeat(SEAT1);///////
 		hideAll(barryCalls);
 		barryCalls[CALL_NONE].setVisible(true);
 		
@@ -633,12 +651,14 @@ public class TableViewBase extends JFrame{
 		
 		chosenTurnAction = NO_ACTION_CHOSEN;
 		chosenDiscard = NO_DISCARD_CHOSEN;
+		System.out.println("AAAAAAAAAAAAAAAAAAAAAA");
 		
 		//add appropriate turn action buttons
 		barryTActions[BARRY_TACTIONS_RIICHI].setVisible(canRiichi);
 		barryTActions[BARRY_TACTIONS_ANKAN].setVisible(canAnkan);
 		barryTActions[BARRY_TACTIONS_MINKAN].setVisible(canMinkan);
 		barryTActions[BARRY_TACTIONS_TSUMO].setVisible(canTsumo);
+		this.repaint();
 		
 		chosenTurnAction = NO_ACTION_CHOSEN;
 		while (chosenTurnAction == NO_ACTION_CHOSEN)
@@ -774,6 +794,7 @@ public class TableViewBase extends JFrame{
 		contentPane.add(panelSidebar);
 		
 		
+		//listener for double click
 		panelTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -788,6 +809,8 @@ public class TableViewBase extends JFrame{
 		panelTable.setLayout(null);
 		
 		panelTable.add(lblExclamation);
+		panCalls.setLocation(475, 420);/////////////////////
+		panelTable.add(panCalls);//////////////////////////
 		panelTable.add(panelMidTable);
 		panelTable.add(panPlayer1);panelTable.add(panPlayer2);panelTable.add(panPlayer3);panelTable.add(panPlayer4);
 		
@@ -813,7 +836,7 @@ public class TableViewBase extends JFrame{
 		lblExclamation.setSeatCoordinates(EXCLAMATION_LOCS);
 		lblExclamation.setLocation(SEAT1);
 		
-		panCalls.setLocation(28, 475);
+//		panCalls.setLocation(28, 475);
 		
 		
 		
@@ -835,7 +858,8 @@ public class TableViewBase extends JFrame{
 		
 		panelSidebar.add(lblFun);
 		panelSidebar.add(panDebugButtons);
-		panelSidebar.add(panCalls);
+//		panelSidebar.add(panCalls);
+		
 		panelSidebar.add(panWallSummary);
 		panelSidebar.add(panRoundResultLabel);
 		
@@ -1535,6 +1559,9 @@ public class TableViewBase extends JFrame{
 					String[] results = {"Draw (Washout)", "Draw (Kyuushuu)", "Draw (4 kans)", "Draw (4 riichi)", "Draw (4 wind)", "East wins! (TSUMO)", "East wins! (RON)", "South wins! (TSUMO)", "South wins! (RON)", "West wins! (TSUMO)", "West wins! (RON)", "North wins! (TSUMO)", "North wins! (RON)" };panRoundResultLabel.setVisible(true);lblResult.setText(results[randGen.nextInt(results.length)]);
 					hideAll(parryTurnInds);	parryTurnInds[randGen.nextInt(parryTurnInds.length)].setVisible(true); //randomize turn indicator
 					lblFun.setIcon(garryOmake[randGen.nextInt(garryOmake.length)]);
+					hideAll(barryCalls);hideAll(barryTActions);
+					if (randGen.nextBoolean()) for (JButton b: barryCalls) b.setVisible(randGen.nextBoolean());
+					else for (JButton b: barryTActions) b.setVisible(randGen.nextBoolean());
 					frame.repaint();
 				}
 			});
@@ -1543,8 +1570,14 @@ public class TableViewBase extends JFrame{
 	}
 	
 	
+	private static final Color COLOR_COOL_BUTTON = new Color(0, 50, 250);
+//	private static final Color BORDER_COOL_BUTTON = new ;
+	//TODO promtpanel
 	protected class PromptPanel extends JPanel{
 		private static final long serialVersionUID = -2942085357712026377L;
+		
+		private static final int BUTON_HEIGHT = 23, BIG_BUTON_HEIGHT = 51;
+		private static final int BUTON_WIDTH = 52, BIG_BUTON_WIDTH = 103;
 		
 		protected class TurnActionPanel extends JPanel{
 			private static final long serialVersionUID = -4659522187187470904L;
@@ -1556,7 +1589,7 @@ public class TableViewBase extends JFrame{
 			public TurnActionPanel(){
 				super();
 				setBounds(0, 0, WIDTH, HEIGHT);
-				setOpaque(false);setLayout(null);
+				setOpaque(false);//setLayout(null);
 				
 				String texts[] = {"Riichi?", "Ankan?", "Minkan?", "Tsumo!!!"};
 				String commands[] = {"Riichi", "Ankan", "Minkan", "Tsumo"};
@@ -1566,21 +1599,25 @@ public class TableViewBase extends JFrame{
 					barryTB[i] = new JButton(texts[i]);
 					barryTB[i].setActionCommand(commands[i]);
 					barryTB[i].setBounds(BOUNDS_B[i][X], BOUNDS_B[i][Y], BOUNDS_B[i][W], BOUNDS_B[i][H]);
-
+					
 					barryTB[i].addActionListener(taListener);
-					barryTB[i].setContentAreaFilled(false);
+//					barryTB[i].setContentAreaFilled(false);
 					barryTB[i].setRolloverEnabled(false);
 					barryTB[i].setFocusPainted(false);
-					barryTB[i].setOpaque(false);
 					
-					add(barryTB[i]);
+					barryTB[i].setOpaque(true);
+					barryTB[i].setBackground(COLOR_COOL_BUTTON);
+					barryTB[i].setForeground(Color.WHITE);
+//					barryTB[i].setBorder(BorderFactory.createEtchedBorder());
+					
+//					add(barryTB[i]);
 				}
 			}
 			public void getButtons(JButton[] taBarry){for (int i = 0; i < barryTB.length; i++) taBarry[i] = barryTB[i];}
 		}
 		
-		private static final int WIDTH = 204, HEIGHT = 147;
-		private static final int BUTON_HEIGHT = 23, BIG_BUTON_HEIGHT = 51;
+//		private static final int WIDTH = 204, HEIGHT = 147;
+		private static final int WIDTH = 150, HEIGHT = 147;
 		
 		protected final JButton[] barryCB = new JButton[8];
 		protected final TurnActionPanel panelTB = new TurnActionPanel();
@@ -1589,11 +1626,13 @@ public class TableViewBase extends JFrame{
 			super();
 			setBounds(0, 0, WIDTH, HEIGHT);
 			setBackground(COLOR_CALL_PANEL);
-			setLayout(null);
+			setOpaque(false);
+//			setLayout(null);
+			setLayout(new FlowLayout(FlowLayout.LEADING));
 			
 			String texts[] = {"No call", "Chi-L", "Chi-M", "Chi-H", "Pon", "Kan", "Ron!!!", "Chi"};
 			String commands[] = {"None", "Chi-L", "Chi-M", "Chi-H", "Pon", "Kan", "Ron", "Chi"};
-			int[][] BOUNDS_B = {{0, 0, 89, BUTON_HEIGHT}, {0, 48, 67, BUTON_HEIGHT}, {67, 48, 67, BUTON_HEIGHT}, {135, 48, 67, BUTON_HEIGHT}, {1, 72, 64, BUTON_HEIGHT}, {65, 72, 64, BUTON_HEIGHT}, {2, 96, 103, BIG_BUTON_HEIGHT}, {1, 24, 60, BUTON_HEIGHT}};
+			int[][] BOUNDS_B = {{0, 0, 89, BUTON_HEIGHT}, {0, 48, BUTON_WIDTH, BUTON_HEIGHT}, {67, 48, BUTON_WIDTH, BUTON_HEIGHT}, {135, 48, BUTON_WIDTH, BUTON_HEIGHT}, {1, 72, BUTON_WIDTH, BUTON_HEIGHT}, {65, 72, BUTON_WIDTH, BUTON_HEIGHT}, {2, 96, BIG_BUTON_WIDTH, BIG_BUTON_HEIGHT}, {1, 24, BUTON_WIDTH, BUTON_HEIGHT}};
 			CallListener callListener = new CallListener();
 			for (int i = 0; i < barryCB.length; i++){
 				barryCB[i] = new JButton(texts[i]);
@@ -1601,18 +1640,26 @@ public class TableViewBase extends JFrame{
 				barryCB[i].setBounds(BOUNDS_B[i][X], BOUNDS_B[i][Y], BOUNDS_B[i][W], BOUNDS_B[i][H]);
 
 				barryCB[i].addActionListener(callListener);
-				barryCB[i].setContentAreaFilled(false);
+//				barryCB[i].setContentAreaFilled(false);
 				barryCB[i].setRolloverEnabled(false);
 				barryCB[i].setFocusPainted(false);
-				barryCB[i].setOpaque(false);
+				
+				barryCB[i].setOpaque(true);
+				barryCB[i].setBackground(COLOR_COOL_BUTTON);
+				barryCB[i].setForeground(Color.WHITE);
+				barryCB[i].setHorizontalAlignment(SwingConstants.LEFT);
+				
 				
 				add(barryCB[i]);
 			}
-			panelTB.setLocation(104, 0);
-			add(panelTB);
+			for (JButton b: panelTB.barryTB) add(b);
+//			panelTB.setLocation(104, 0);
+			panelTB.setLocation(0, 0);
+//			add(panelTB);
 		}
 		public void getButtonsCalls(JButton[] cbBarry){for (int i = 0; i < barryCB.length; i++) cbBarry[i] = barryCB[i];}
 		public void getButtonsTurnActions(JButton[] taBarry){panelTB.getButtons(taBarry);}
+		
 	}
 	
 	
@@ -1651,7 +1698,6 @@ public class TableViewBase extends JFrame{
 			add(menuCheats);
 		}
 	}
-	
 	
 	
 }

@@ -4,6 +4,9 @@ package majava;
 import majava.player.Player;
 import majava.userinterface.ComboTextGraphicalUI;
 import majava.userinterface.GameUI;
+import majava.userinterface.graphicalinterface.GraphicalUI;
+import majava.userinterface.textinterface.DetailedTextualUI;
+import majava.userinterface.textinterface.SparseTextualUI;
 import utility.Pauser;
 
 
@@ -61,12 +64,10 @@ public class Table {
 		System.out.println("Games played: " + currentGame.getNumberOfRoundsPlayed());
 	}
 	
-	private GameUI generateGameUI(){
+	private static GameUI generateGameUI(){
 		GameUI ui = null;
 		
 		ui = new ComboTextGraphicalUI();
-//		ui = new TableViewSmall();
-//		ui = new TableViewerLarge();
 //		ui = new SparseTextualUI();
 //		ui = new DetailedTextualUI();
 //		ui = new GraphicalUI();

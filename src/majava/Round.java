@@ -25,8 +25,8 @@ public class Round{
 	private static final int DEFAULT_ROUND_NUM = 1 , DEFAULT_ROUND_BONUS_NUM = 0;
 	
 	//for debug use
-//	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
-	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+//	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	
 //	private static final boolean DEBUG_EXHAUSTED_WALL = true;
 	private static final boolean DEBUG_EXHAUSTED_WALL = false;
@@ -393,8 +393,8 @@ public class Round{
 	
 	public static void main(String[] args) {
 		
-		GameSimulation.main(args);
-		if (args.equals(args)) return;
+//		GameSimulation.main(args);
+//		if (args.equals(args)) return;
 		
 		System.out.println("Welcome to Majava (Round)!");
 		

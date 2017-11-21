@@ -15,7 +15,7 @@ public abstract class PlayerBrain {
 	private static final int NO_DISCARD_CHOSEN = -94564;
 	
 	
-	private final Player player;
+	protected final Player player;
 	
 	private CallType callStatus;
 	private ActionType turnAction;

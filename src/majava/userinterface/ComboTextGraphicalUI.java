@@ -104,4 +104,6 @@ public class ComboTextGraphicalUI extends GameUI{
 	/*intentionally blank*/ /////but not really sure why
 	protected void __displayEventDiscardedTile(){}protected void __displayEventMadeOpenMeld(){}protected void __displayEventDrewTile(){}protected void __displayEventMadeOwnKan(){}protected void __displayEventNewDoraIndicator(){}protected void __displayEventHumanTurnStart(){}
 	protected void __displayEventStartOfRound(){}protected void __displayEventEndOfRound(){}protected void __displayEventPlaceholder(){}protected void __showExclamation(Exclamation exclamation, int seat){}
+	
+	public void movePromptPanelToSeat(int seat){graphicalUI.movePromptPanelToSeat(seat);}
 }

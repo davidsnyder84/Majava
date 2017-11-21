@@ -576,12 +576,12 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	private void movePromptPanelToSeat(int seat){
+	public void movePromptPanelToSeat(int seat){
 		switch(seat){
 		case SEAT1: panCalls.setLocation(475, 420); break;
-		case SEAT2: panCalls.setLocation(475, 420); break;
-		case SEAT3: panCalls.setLocation(475, 420); break;
-		case SEAT4: panCalls.setLocation(475, 420); break;
+		case SEAT2: panCalls.setLocation(455, 85); break;
+		case SEAT3: panCalls.setLocation(90, 100); break;
+		case SEAT4: panCalls.setLocation(100, 470); break;
 		default: break;
 		}
 	}
@@ -591,7 +591,6 @@ public class TableViewBase extends JFrame{
 		boolean onlyOneChiPossible = ((canChiL ^ canChiM ^ canChiH) ^ (canChiL && canChiM && canChiH));
 		int chiType = -1;
 		
-		movePromptPanelToSeat(SEAT1);///////
 		hideAll(barryCalls);
 		barryCalls[CALL_NONE].setVisible(true);
 		
@@ -651,7 +650,6 @@ public class TableViewBase extends JFrame{
 		
 		chosenTurnAction = NO_ACTION_CHOSEN;
 		chosenDiscard = NO_DISCARD_CHOSEN;
-		System.out.println("AAAAAAAAAAAAAAAAAAAAAA");
 		
 		//add appropriate turn action buttons
 		barryTActions[BARRY_TACTIONS_RIICHI].setVisible(canRiichi);

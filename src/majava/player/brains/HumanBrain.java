@@ -28,6 +28,7 @@ public class HumanBrain extends PlayerBrain {
 		
 		//show hand
 		userInterface.displayEvent(GameplayEvent.humanPlayerTurnStartEvent());
+		userInterface.movePromptPanelToSeat(player.getPlayerNumber());
 		
 		//get the player's desired action through the UI
 		userInterface.askUserInputTurnAction(
@@ -60,6 +61,7 @@ public class HumanBrain extends PlayerBrain {
 	
 	@Override
 	public CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions){
+		userInterface.movePromptPanelToSeat(player.getPlayerNumber());
 		
 		//get user's choice through UI
 		boolean called = userInterface.askUserInputCall(

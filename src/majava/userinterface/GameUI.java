@@ -127,4 +127,5 @@ public abstract class GameUI {
 	
 	public abstract void printErrorRoundAlreadyOver();
 	
+	public void movePromptPanelToSeat(int seat){}
 }

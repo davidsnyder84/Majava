@@ -123,4 +123,5 @@ public class GraphicalUI extends GameUI{
 //		viewer.showResult();
 	}
 	
+	public void movePromptPanelToSeat(int seat){tableWindow.movePromptPanelToSeat(seat);}
 }

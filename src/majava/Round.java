@@ -25,8 +25,8 @@ public class Round{
 	private static final int DEFAULT_ROUND_NUM = 1 , DEFAULT_ROUND_BONUS_NUM = 0;
 	
 	//for debug use
-//	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
-	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+//	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	
 //	private static final boolean DEBUG_EXHAUSTED_WALL = true;
 	private static final boolean DEBUG_EXHAUSTED_WALL = false;
@@ -75,9 +75,11 @@ public class Round{
 	
 	//plays a single round of mahjong with the round's players
 	public void play(){
-//		if (roundIsOver()){userInterfacprintErrorRoundAlreadyOver();return;}
+		if (roundIsOver()) return;	//don't allow the same round to be played twice
 		
 		dealHands();
+		announceEvent(GameplayEvent.startOfRoundEvent());
+		
 		while (!roundIsOver()){
 			doPlayerTurn(currentPlayer());
 			
@@ -110,7 +112,7 @@ public class Round{
 	private void handleRoundEnd(){
 		doPointPayments();
 		
-		displayRoundResult();
+		announceEndOfRoundEvent();
 	}
 	private void doPointPayments(){
 		Scorer scorer = new Scorer(roundResult, players);
@@ -141,8 +143,6 @@ public class Round{
 		turnIndicator.neighborShimochaOf(eastPlayer).giveStartingHand(tilesS);
 		turnIndicator.neighborToimenOf(eastPlayer).giveStartingHand(tilesW);
 		turnIndicator.neighborKamichaOf(eastPlayer).giveStartingHand(tilesN);
-		
-		__updateUI(GameplayEvent.startOfRoundEvent());
 	}
 	
 	
@@ -152,25 +152,25 @@ public class Round{
 	private void doPlayerTurn(Player p){
 		if (p.needsDraw())
 			letPlayerDraw(p);
-		__updateUI(GameplayEvent.playerTurnStartEvent());
+		announceEvent(GameplayEvent.playerTurnStartEvent());
 		
 		if (roundIsOver()) return;	//return early if (4kan or washout)
 		
 		//loop until the player has chosen a discard (loop until the player stops making kans) (kans and riichi are handled inside here)
 		GameTile discardedTile = null;
 		do{
-			if (p.controllerIsHuman()) tellUiAboutHumanPlayerTurnStart(p);
+			if (p.controllerIsHuman()) announceHumanTurnStartEvent(p);
 			
 			discardedTile = p.takeTurn();
 			turnIndicator.setMostRecentDiscard(discardedTile);	//discardedTile will be null if the player made a kan/tsumo, but that's ok
 			
 			if (madeKan(p)){
-				tellUiAboutSelfKan(p);
+				announceSelfKanEvent(p);
 				letPlayerDraw(p);	//give player a rinshan draw
 			}
 			
 			if (p.turnActionCalledTsumo()){
-				tellUiAboutTsumo(p);
+				announceTsumoEvent(p);
 				setResultVictory(p);
 			}
 			
@@ -178,8 +178,7 @@ public class Round{
 		}
 		while (!p.turnActionChoseDiscard());
 		
-		//show the human player their hand, show the discarded tile and the discarder's pond
-		__updateUI(GameplayEvent.discardedTileEvent());
+		announceEvent(GameplayEvent.discardedTileEvent());
 	}
 	private boolean madeKan(Player p){return p.needsDrawRinshan();}
 //	private List<Player> playersOtherThan(Player p){return Arrays.asList(roundTracker.neighborShimochaOf(p), roundTracker.neighborToimenOf(p), roundTracker.neighborKamichaOf(p));}
@@ -203,11 +202,11 @@ public class Round{
 				return;
 			}
 			drawnTile = wall.takeTileFromDeadWall();
-			__updateUI(GameplayEvent.newDoraIndicatorEvent());
+			announceEvent(GameplayEvent.newDoraIndicatorEvent());
 		}
 		
 		p.addTileToHand(drawnTile);
-		__updateUI(GameplayEvent.drewTileEvent());
+		announceEvent(GameplayEvent.drewTileEvent());
 	}
 	
 	private boolean tooManyKans(){return roundTracker.tooManyKans();}
@@ -252,7 +251,7 @@ public class Round{
 	private void letReact(Player p){
 		if (!p.ableToCallTile(mostRecentDiscard())) return;
 		if (p.controllerIsHuman())
-			tellUiAboutHumanReactionChance(p);
+			announceHumanReactionChanceEvent(p);
 		p.reactToDiscard(mostRecentDiscard());
 	}
 	
@@ -263,7 +262,7 @@ public class Round{
 		Player priorityCaller = whoCalled();
 		turnIndicator.setPriorityCaller(priorityCaller);
 		
-		displayCallFrom(priorityCaller);
+		announceCallEventFrom(priorityCaller);
 		
 		if (priorityCaller.calledRon()){
 			setResultVictory(priorityCaller);
@@ -274,7 +273,7 @@ public class Round{
 		GameTile calledTile = currentPlayer().removeTileFromPond();
 		priorityCaller.makeMeld(calledTile);
 		
-		__updateUI(GameplayEvent.madeOpenMeldEvent());
+		announceEvent(GameplayEvent.madeOpenMeldEvent());
 	}
 	
 	//decides who gets to call the tile
@@ -331,42 +330,41 @@ public class Round{
 	
 	
 	
-	
-	public void displayRoundResult(){
-		GameplayEvent endOfRoundEvent = GameplayEvent.endOfRoundEvent();
-		__updateUI(endOfRoundEvent);
+
+	private void announceEvent(GameplayEvent event){
+		gameEventListener.postNewEvent(event, gameState);
 	}
-	private void displayCallFrom(Player caller){
+	public void announceEndOfRoundEvent(){
+		announceEvent(GameplayEvent.endOfRoundEvent());
+	}
+	private void announceCallEventFrom(Player caller){
 		GameplayEvent callEvent = GameplayEvent.calledTileEvent();
 		callEvent.setExclamation(caller.getCallStatusExclamation());
 		callEvent.packInfo(caller, mostRecentDiscard(), whoseTurnNumber());
-		__updateUI(callEvent);
+		announceEvent(callEvent);
 	}
-	private void tellUiAboutSelfKan(Player fromPlayer){
+	private void announceSelfKanEvent(Player fromPlayer){
 		GameplayEvent kanEvent = GameplayEvent.declaredOwnKanEvent();
 		kanEvent.setExclamation(Exclamation.OWN_KAN);
 		kanEvent.packInfo(fromPlayer);
-		__updateUI(kanEvent);
-		__updateUI(GameplayEvent.madeOwnKanEvent());
+		announceEvent(kanEvent);
+		announceEvent(GameplayEvent.madeOwnKanEvent());
 	}
-	private void tellUiAboutTsumo(Player fromPlayer){
+	private void announceTsumoEvent(Player fromPlayer){
 		GameplayEvent tsumoEvent = GameplayEvent.declaredTsumoEvent();
 		tsumoEvent.setExclamation(Exclamation.TSUMO);
 		tsumoEvent.packInfo(fromPlayer);
-		__updateUI(tsumoEvent);
+		announceEvent(tsumoEvent);
 	}
-	private void __updateUI(GameplayEvent event){
-		gameEventListener.postNewEvent(event, gameState);
-	}
-	private void tellUiAboutHumanPlayerTurnStart(Player p){
+	private void announceHumanTurnStartEvent(Player p){
 		GameplayEvent humanTurnStartEvent = GameplayEvent.humanPlayerTurnStartEvent();
 		humanTurnStartEvent.packInfo(p);
-		__updateUI(humanTurnStartEvent);
+		announceEvent(humanTurnStartEvent);
 	}
-	private void tellUiAboutHumanReactionChance(Player p){
+	private void announceHumanReactionChanceEvent(Player p){
 		GameplayEvent humanReactionEvent = GameplayEvent.humanReactionEvent();
 		humanReactionEvent.packInfo(p, mostRecentDiscard(), whoseTurnNumber());
-		__updateUI(humanReactionEvent);
+		announceEvent(humanReactionEvent);
 	}
 	
 	

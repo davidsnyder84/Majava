@@ -393,7 +393,10 @@ public class TableViewBase extends JFrame{
 		lblExclamation.showExclamation(exclamation, seat);
 		repaint();
 	}
-	public void exclamationErase(){lblExclamation.erase();}
+	public void exclamationErase(){
+		lblExclamation.erase();
+		repaint();/////
+	}
 	
 	
 	

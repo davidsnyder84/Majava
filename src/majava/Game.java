@@ -15,7 +15,6 @@ import majava.events.GameEventListener;
 
 //represents one game (tonpuusen, hanchan, etc) of mahjong
 public class Game {
-	
 	private static final int NUM_PLAYERS = 4;
 	private static final int MAX_NUM_ROUNDS = NUM_PLAYERS;
 	private static final Wind DEFAULT_ROUND_WIND = Wind.EAST;
@@ -40,8 +39,6 @@ public class Game {
 			}
 		}
 	}
-
-	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	private static final int NUM_SIMULATIONS_TO_RUN = 50;
 	
 	
@@ -61,7 +58,6 @@ public class Game {
 	
 	private final GameEventListener gameEventListener;
 	private final GameUI userInterface;
-	private boolean doFastGameplay;
 	
 	
 	
@@ -80,10 +76,7 @@ public class Game {
 		
 		gameEventListener = eventListener;
 		userInterface = ui;
-		
-		doFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
 	}
-	
 	
 	
 	//set the game type
@@ -96,13 +89,8 @@ public class Game {
 	
 	
 	
-	
-	
-	
 	//plays a full game of mahjong
 	public void play(){
-		checkPlayersAndUI();
-		
 		//game loop
 		while (!gameIsOver()){
 			playNewRound();
@@ -113,7 +101,6 @@ public class Game {
 	}
 	private void playNewRound(){
 		currentRound = new Round(userInterface, gameEventListener, players, currentRoundWind, currentRoundNum, currentRoundBonusNum);
-		currentRound.setOptionFastGameplay(doFastGameplay);
 		currentRound.play();
 	}
 	
@@ -146,18 +133,6 @@ public class Game {
 		}
 	}
 	
-	private void checkPlayersAndUI(){
-		if (userInterface == null)
-			for (Player p: players) p.setControllerComputer();
-		
-		if (doFastGameplay && allPlayersAreComputers())
-			setGameTypeSimulation();
-	}
-	private boolean allPlayersAreComputers(){
-		for (Player p: players) if (p.controllerIsHuman()) return false;
-		return true;
-	}
-	
 	
 	//just print the game results
 	private void handleEndGame(){
@@ -165,15 +140,11 @@ public class Game {
 	}
 	
 	
-
-	
 	//rotates seats
 	private void rotateSeats(){
 		for (Player p: players)
 			p.rotateSeat();
 	}
-	
-	public void setOptionFastGameplay(boolean doFast){doFastGameplay = doFast;}
 	
 	
 	//game is over if there are no rounds left, or if someone has run out of points
@@ -199,7 +170,6 @@ public class Game {
 		return false;
 	}
 	public int getNumberOfRoundsPlayed(){return numRoundsPlayed;}
-	
 	
 	
 	

@@ -1,7 +1,11 @@
 package majava;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import majava.events.GameEventListener;
+import majava.events.JanObserver;
 import majava.player.Player;
 import majava.userinterface.GameUI;
 import majava.userinterface.MajavaGUI;
@@ -27,6 +31,7 @@ public class Table {
 	//options
 	private boolean optionDoSinglePlayer = DEFAULT_DO_SINGLE_PLAYER;
 	private boolean optionDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
+	private int sleepTime, sleepTimeExclamation, sleepTimeRoundEnd;
 	
 	private GameEventListener gameEventListener;
 	
@@ -34,19 +39,24 @@ public class Table {
 	
 	
 	public Table(){
-		userInterface = null;
-		userInterface = generateGameUI();
-		
-		
-		
-		TextualUI textualUI = new SparseTextualUI();
-		textualUI.setSleepTimes(0,0,0);
-//		TextualUI textualUI = new DetailedTextualUI();
-		
 		gameEventListener = new GameEventListener();
-		gameEventListener.registerObserver(userInterface);
-		gameEventListener.registerObserver(textualUI);
 	}
+	private void setUpObservers(){		
+		GameUI gui = new MajavaGUI();
+		setSleepTimesForUI(gui);
+		GameUI textUI = new SparseTextualUI();
+		textUI.setSleepTimes(0,0,0);
+		
+		List<GameUI> userInterfaces = new ArrayList<GameUI>();
+		userInterfaces.add(gui);
+		userInterfaces.add(textUI);
+				
+		for (GameUI ui: userInterfaces){
+			ui.startUI();
+			gameEventListener.registerObserver(ui);
+		}	
+	}
+	
 	
 	
 	//plays a new game of mahjong with the table's four players
@@ -56,8 +66,7 @@ public class Table {
 		
 		decideSeats();
 		
-		if (userInterface != null)
-			userInterface.startUI();
+		setUpObservers();
 		
 		playNewGame();
 		
@@ -70,26 +79,41 @@ public class Table {
 	private void playNewGame(){
 		final long time = System.currentTimeMillis();
 		currentGame = new Game(userInterface, players, gameEventListener);
-		currentGame.setOptionFastGameplay(optionDoFastGameplay);
+		if (optionDoFastGameplay && allPlayersAreComputers()) currentGame.setGameTypeSimulation();
+		
 		currentGame.play();
 		
 		System.out.println("Time elapsed: " + (System.currentTimeMillis() - time));
 		System.out.println("Games played: " + currentGame.getNumberOfRoundsPlayed());
 	}
+
 	
-	private static GameUI generateGameUI(){
-		GameUI ui = null;
-		
-		ui = new MajavaGUI();
-//		ui = new SparseTextualUI();
-//		ui = new DetailedTextualUI();
-//		ui = new GraphicalUI();
-		return ui;
+	private boolean allPlayersAreComputers(){
+		for (Player p: players) if (p.controllerIsHuman()) return false;
+		return true;
 	}
-		
 	
 	public void setOptionSinglePlayerMode(boolean doSinglePlayer){optionDoSinglePlayer = doSinglePlayer;}
 	public void setOptionFastGameplay(boolean doFastGameplay){optionDoFastGameplay = doFastGameplay;}
+	
+	private void setSleepTimesForUI(GameUI ui){
+		final int DEAFULT_SLEEPTIME = 400;
+		final int DEAFULT_SLEEPTIME_EXCLAMATION = 1500;
+		final int DEAFULT_SLEEPTIME_ROUND_END = 18000;
+		final int FAST_SLEEPTIME = 0, FAST_SLEEPTIME_EXCLAMATION = 0, FAST_SLEEPTIME_ROUND_END = 0;
+		
+		if (optionDoFastGameplay){
+			sleepTime = FAST_SLEEPTIME;
+			sleepTimeExclamation = FAST_SLEEPTIME_EXCLAMATION;
+			sleepTimeRoundEnd = FAST_SLEEPTIME_ROUND_END;
+		}
+		else{
+			sleepTime = DEAFULT_SLEEPTIME;
+			sleepTimeExclamation = DEAFULT_SLEEPTIME_EXCLAMATION;
+			sleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
+		}
+		ui.setSleepTimes(sleepTime, sleepTimeExclamation, sleepTimeRoundEnd);
+	}
 	
 	
 	private void generatePlayers(){

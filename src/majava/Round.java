@@ -31,8 +31,6 @@ public class Round{
 	
 //	private static final boolean DEBUG_EXHAUSTED_WALL = true;
 	private static final boolean DEBUG_EXHAUSTED_WALL = false;
-	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
-	
 	
 	
 	
@@ -49,13 +47,6 @@ public class Round{
 	private final RoundTracker roundTracker;
 	private final TurnIndicator turnIndicator;
 	private final RoundResult roundResult;
-	
-	
-	
-	//options
-	private boolean optionDoFastGameplay;
-	private int sleepTime, sleepTimeExclamation, sleepTimeRoundEnd;
-	
 	
 	
 	//constructor
@@ -81,8 +72,6 @@ public class Round{
 		/////PLAYERS must be prepared before this line
 		roundTracker = new RoundTracker(this, wall, players);		
 		gameState = new StateOfGame(roundTracker, players, wall);
-		
-		setOptionFastGameplay(DEFAULT_DO_FAST_GAMEPLAY);
 	}
 	public Round(GameUI ui, GameEventListener eventListener, Player[] playerArray, Wind roundWindToSet, int roundNum){this(ui, eventListener, playerArray, roundWindToSet, roundNum, DEFAULT_ROUND_BONUS_NUM);}
 	public Round(GameUI ui, GameEventListener eventListener, Player[] playerArray){this(ui, eventListener, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
@@ -390,29 +379,6 @@ public class Round{
 	}
 	
 	
-	
-	
-	
-	public void setOptionFastGameplay(boolean doFastGameplay){
-		optionDoFastGameplay = doFastGameplay;
-
-		final int DEAFULT_SLEEPTIME = 400;
-		final int DEAFULT_SLEEPTIME_EXCLAMATION = 1500;
-		final int DEAFULT_SLEEPTIME_ROUND_END = 18000;
-		final int FAST_SLEEPTIME = 0, FAST_SLEEPTIME_EXCLAMATION = 0, FAST_SLEEPTIME_ROUND_END = 0;
-		
-		if (optionDoFastGameplay){
-			sleepTime = FAST_SLEEPTIME;
-			sleepTimeExclamation = FAST_SLEEPTIME_EXCLAMATION;
-			sleepTimeRoundEnd = FAST_SLEEPTIME_ROUND_END;
-		}
-		else{
-			sleepTime = DEAFULT_SLEEPTIME;
-			sleepTimeExclamation = DEAFULT_SLEEPTIME_EXCLAMATION;
-			sleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
-		}
-		if (userInterface != null) userInterface.setSleepTimes(sleepTime, sleepTimeExclamation, sleepTimeRoundEnd);
-	}
 	
 	public static void main(String[] args) {
 		

@@ -173,19 +173,13 @@ public class Player {
 	
 	
 	
-	//shows a player a tile, and gets their reaction (call or no call) for it
+	
+	//ask brain for reaction
 	public boolean reactToDiscard(GameTile tileToReactTo){
 		brain.clearCallStatus();
-		
-		//if able to call the tile, ask brain for reaction
-		if (ableToCallTile(tileToReactTo))
-			brain.reactToDiscard(hand, tileToReactTo);
-		
+		brain.reactToDiscard(hand, tileToReactTo);
 		return brain.called();
 	}
-	
-	
-	
 	
 	//checks if the player is able to make a call on Tile t (actual checks performed)
 	public boolean ableToCallTile(GameTile tileToReactTo){

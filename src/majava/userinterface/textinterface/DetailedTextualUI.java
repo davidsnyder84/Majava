@@ -10,6 +10,7 @@ import majava.util.GameTileList;
 import majava.util.YakuList;
 import majava.yaku.Yaku;
 import majava.enums.Exclamation;
+import majava.events.GameplayEvent;
 import majava.player.Player;
 import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;
@@ -26,7 +27,7 @@ public class DetailedTextualUI extends TextualUI{
 	
 	
 
-	protected void __displayEventDiscardedTile(){
+	protected void __displayEventDiscardedTile(GameplayEvent event){
 		
 		//show the human player their hand
 		__showHandsOfAllPlayers();
@@ -41,25 +42,25 @@ public class DetailedTextualUI extends TextualUI{
 	
 	
 	
-	protected void __displayEventMadeOpenMeld(){}
-	protected void __displayEventDrewTile(){}
-	protected void __displayEventMadeOwnKan(){}
+	protected void __displayEventMadeOpenMeld(GameplayEvent event){}
+	protected void __displayEventDrewTile(GameplayEvent event){}
+	protected void __displayEventMadeOwnKan(GameplayEvent event){}
+	protected void __displayEventHumanReactionStart(GameplayEvent event) {}
 	
 	
-	
-	protected void __displayEventNewDoraIndicator(){
+	protected void __displayEventNewDoraIndicator(GameplayEvent event){
 		__showDeadWall();
 	}
 
-	protected void __displayEventHumanTurnStart(){
+	protected void __displayEventHumanTurnStart(GameplayEvent event){
 		__showPlayerHand(roundTracker.whoseTurn());
 	}
 	
-	protected void __displayEventStartOfRound(){
+	protected void __displayEventStartOfRound(GameplayEvent event){
 		__showWall();__showDoraIndicators();
 	}
 	
-	protected void __displayEventEndOfRound(){
+	protected void __displayEventEndOfRound(GameplayEvent event){
 		__showRoundResult();
 		__showHandsOfAllPlayers();
 		println("\n\n");
@@ -67,7 +68,7 @@ public class DetailedTextualUI extends TextualUI{
 		if (mSleepTimeRoundEnd > 0) Pauser.pauseFor(mSleepTimeRoundEnd);
 	}
 	
-	protected void __displayEventPlaceholder(){/*blank*/}
+	protected void __displayEventPlaceholder(GameplayEvent event){/*blank*/}
 	
 	
 	
@@ -209,4 +210,5 @@ public class DetailedTextualUI extends TextualUI{
 		//pause
 		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);
 	}
+
 }

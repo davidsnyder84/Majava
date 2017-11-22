@@ -32,13 +32,13 @@ public class HumanBrain extends PlayerBrain {
 	@Override
 	protected TurnActionType selectTurnAction(Hand hand, List<TurnActionType> listOfPossibleTurnActions){
 		//get the player's desired action through the UI
-		userInterface.askUserInputTurnAction(
-				hand.size(),
-				listOfPossibleTurnActions.contains(TurnActionType.RIICHI),
-				listOfPossibleTurnActions.contains(TurnActionType.ANKAN),
-				listOfPossibleTurnActions.contains(TurnActionType.MINKAN),
-				listOfPossibleTurnActions.contains(TurnActionType.TSUMO)
-				);
+//		userInterface.askUserInputTurnAction(
+//				hand.size(),
+//				listOfPossibleTurnActions.contains(TurnActionType.RIICHI),
+//				listOfPossibleTurnActions.contains(TurnActionType.ANKAN),
+//				listOfPossibleTurnActions.contains(TurnActionType.MINKAN),
+//				listOfPossibleTurnActions.contains(TurnActionType.TSUMO)
+//				);
 		
 		return turnActionChosenByHuman;
 	}

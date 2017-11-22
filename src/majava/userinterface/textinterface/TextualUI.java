@@ -3,6 +3,7 @@ package majava.userinterface.textinterface;
 import java.io.PrintStream;
 
 import majava.enums.Exclamation;
+import majava.events.GameplayEvent;
 import majava.player.Player;
 import majava.userinterface.GameUI;
 
@@ -18,16 +19,16 @@ public abstract class TextualUI extends GameUI{
 	}
 	
 	
-	protected abstract void __displayEventDiscardedTile();
-	protected abstract void __displayEventMadeOpenMeld();
-	protected abstract void __displayEventDrewTile();
-	protected abstract void __displayEventMadeOwnKan();
-	protected abstract void __displayEventNewDoraIndicator();
-	protected abstract void __displayEventHumanTurnStart();
-	protected abstract void __displayEventPlaceholder();
+	protected abstract void __displayEventDiscardedTile(GameplayEvent event);
+	protected abstract void __displayEventMadeOpenMeld(GameplayEvent event);
+	protected abstract void __displayEventDrewTile(GameplayEvent event);
+	protected abstract void __displayEventMadeOwnKan(GameplayEvent event);
+	protected abstract void __displayEventNewDoraIndicator(GameplayEvent event);
+	protected abstract void __displayEventHumanTurnStart(GameplayEvent event);
+	protected abstract void __displayEventPlaceholder(GameplayEvent event);
 	
-	protected abstract void __displayEventStartOfRound();
-	protected abstract void __displayEventEndOfRound();
+	protected abstract void __displayEventStartOfRound(GameplayEvent event);
+	protected abstract void __displayEventEndOfRound(GameplayEvent event);
 	
 	protected abstract void __showExclamation(Exclamation exclamation, int seat);
 	

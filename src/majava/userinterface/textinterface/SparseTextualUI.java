@@ -5,6 +5,7 @@ import java.util.List;
 
 import majava.hand.Meld;
 import majava.enums.Exclamation;
+import majava.events.GameplayEvent;
 import majava.player.Player;
 import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;
@@ -25,7 +26,7 @@ public class SparseTextualUI extends TextualUI{
 	
 	
 	
-	protected void __displayEventDiscardedTile(){
+	protected void __displayEventDiscardedTile(GameplayEvent event){
 		
 		//show the discarded tile
 		println("\t" + gameState.seatWindOfPlayer(roundTracker.whoseTurn()).toChar() + " discard: " + roundTracker.getMostRecentDiscard());
@@ -36,27 +37,28 @@ public class SparseTextualUI extends TextualUI{
 	
 	
 	
-	protected void __displayEventMadeOpenMeld(){}
-	protected void __displayEventDrewTile(){
+	protected void __displayEventMadeOpenMeld(GameplayEvent event){}
+	protected void __displayEventDrewTile(GameplayEvent event){
 		print("\t" + gameState.seatWindOfPlayer(roundTracker.whoseTurn()).toChar() + " draw: " + gameState.getTsumoTileFor(roundTracker.whoseTurn()));
 	}
-	protected void __displayEventMadeOwnKan(){}
+	protected void __displayEventMadeOwnKan(GameplayEvent event){}
+	protected void __displayEventHumanReactionStart(GameplayEvent event) {}
 	
 	
 	
-	protected void __displayEventNewDoraIndicator(){
+	protected void __displayEventNewDoraIndicator(GameplayEvent event){
 		__showDeadWall();
 	}
 	
-	protected void __displayEventHumanTurnStart(){
+	protected void __displayEventHumanTurnStart(GameplayEvent event){
 		println();__showPlayerHand(roundTracker.whoseTurn());
 	}
 	
-	protected void __displayEventStartOfRound(){
+	protected void __displayEventStartOfRound(GameplayEvent event){
 		__showWall(); __showDoraIndicators();
 	}
 	
-	protected void __displayEventEndOfRound(){
+	protected void __displayEventEndOfRound(GameplayEvent event){
 		__showRoundResult();
 		__showHandsOfAllPlayers();
 		println("\n\n");
@@ -64,7 +66,7 @@ public class SparseTextualUI extends TextualUI{
 		if (mSleepTimeRoundEnd > 0) Pauser.pauseFor(mSleepTimeRoundEnd);
 	}
 
-	protected void __displayEventPlaceholder(){/*blank*/}
+	protected void __displayEventPlaceholder(GameplayEvent event){/*blank*/}
 	
 	
 	

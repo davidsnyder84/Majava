@@ -39,17 +39,18 @@ public abstract class GameUI implements JanObserver{
 	
 	public void displayEvent(final GameplayEvent event){
 		switch(event.getEventType()){
-		case DISCARDED_TILE: __displayEventDiscardedTile(); break;
-		case MADE_OPEN_MELD: __displayEventMadeOpenMeld(); break;
-		case DREW_TILE: __displayEventDrewTile(); break;
-		case MADE_OWN_KAN: __displayEventMadeOwnKan(); break;
-		case NEW_DORA_INDICATOR: __displayEventNewDoraIndicator(); break;
+		case DISCARDED_TILE: __displayEventDiscardedTile(event); break;
+		case MADE_OPEN_MELD: __displayEventMadeOpenMeld(event); break;
+		case DREW_TILE: __displayEventDrewTile(event); break;
+		case MADE_OWN_KAN: __displayEventMadeOwnKan(event); break;
+		case NEW_DORA_INDICATOR: __displayEventNewDoraIndicator(event); break;
 		
-		case HUMAN_PLAYER_TURN_START: __displayEventHumanTurnStart(); break;
+		case HUMAN_PLAYER_TURN_START: __displayEventHumanTurnStart(event); break;
+		case HUMAN_PLAYER_REACTION_START: __displayEventHumanReactionStart(event); break;
 		
-		case START_OF_ROUND: __displayEventStartOfRound(); break;
-		case PLACEHOLDER: __displayEventPlaceholder(); break;
-		case END_OF_ROUND: __displayEventEndOfRound(); break;
+		case START_OF_ROUND: __displayEventStartOfRound(event); break;
+		case PLACEHOLDER: __displayEventPlaceholder(event); break;
+		case END_OF_ROUND: __displayEventEndOfRound(event); break;
 		default: break;
 		}
 		
@@ -59,16 +60,17 @@ public abstract class GameUI implements JanObserver{
 			Pauser.pauseFor(mSleepTime);
 	}
 	
-	protected abstract void __displayEventDiscardedTile();
-	protected abstract void __displayEventMadeOpenMeld();
-	protected abstract void __displayEventDrewTile();
-	protected abstract void __displayEventMadeOwnKan();
-	protected abstract void __displayEventNewDoraIndicator();
-	protected abstract void __displayEventHumanTurnStart();
-	protected abstract void __displayEventPlaceholder();
+	protected abstract void __displayEventDiscardedTile(GameplayEvent event);
+	protected abstract void __displayEventMadeOpenMeld(GameplayEvent event);
+	protected abstract void __displayEventDrewTile(GameplayEvent event);
+	protected abstract void __displayEventMadeOwnKan(GameplayEvent event);
+	protected abstract void __displayEventNewDoraIndicator(GameplayEvent event);
+	protected abstract void __displayEventHumanTurnStart(GameplayEvent event);
+	protected abstract void __displayEventHumanReactionStart(GameplayEvent event);
+	protected abstract void __displayEventPlaceholder(GameplayEvent event);
 	
-	protected abstract void __displayEventStartOfRound();
-	protected abstract void __displayEventEndOfRound();
+	protected abstract void __displayEventStartOfRound(GameplayEvent event);
+	protected abstract void __displayEventEndOfRound(GameplayEvent event);
 	
 	protected abstract void __showExclamation(Exclamation exclamation, int seat);
 	

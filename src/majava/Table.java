@@ -3,8 +3,8 @@ package majava;
 
 import majava.events.GameEventListener;
 import majava.player.Player;
-import majava.userinterface.ComboTextGraphicalUI;
 import majava.userinterface.GameUI;
+import majava.userinterface.MajavaGUI;
 import majava.userinterface.textinterface.DetailedTextualUI;
 import majava.userinterface.textinterface.SparseTextualUI;
 import utility.Pauser;
@@ -72,7 +72,7 @@ public class Table {
 	private static GameUI generateGameUI(){
 		GameUI ui = null;
 		
-		ui = new ComboTextGraphicalUI();
+		ui = new MajavaGUI();
 //		ui = new SparseTextualUI();
 //		ui = new DetailedTextualUI();
 //		ui = new GraphicalUI();

@@ -95,7 +95,7 @@ public class Round{
 	
 	//plays a single round of mahjong with the round's players
 	public void play(){
-		if (roundIsOver()){userInterface.printErrorRoundAlreadyOver();return;}
+//		if (roundIsOver()){userInterfacprintErrorRoundAlreadyOver();return;}
 		
 		dealHands();
 		while (!roundIsOver()){
@@ -271,11 +271,10 @@ public class Round{
 		letReact(turnIndicator.neighborKamichaOf(currentPlayer()));
 	}
 	private void letReact(Player p){
-//		if (p.controllerIsHuman())
-//			tellUiAboutHumanReactionChance();
+		if (!p.ableToCallTile(mostRecentDiscard())) return;
+		if (p.controllerIsHuman())
+			tellUiAboutHumanReactionChance(p);
 		p.reactToDiscard(mostRecentDiscard());
-//		turnIndicator.neighborToimenOf(currentPlayer()).reactToDiscard(mostRecentDiscard());
-//		turnIndicator.neighborKamichaOf(currentPlayer()).reactToDiscard(mostRecentDiscard());
 	}
 	
 	
@@ -361,33 +360,36 @@ public class Round{
 	/////can add smarter parameters in these
 	private void displayCallFrom(Player caller){
 		GameplayEvent callEvent = GameplayEvent.calledTileEvent();
-//		GameplayEvent ev = GameplayEvent.calledTileEvent(caller.getCallStatusExclamation(), caller.getPlayerNumber(), currentPlayer().getPlayerNumber());
-		callEvent.setExclamation(caller.getCallStatusExclamation(), caller.getPlayerNumber());
+		callEvent.setExclamation(caller.getCallStatusExclamation());
+		callEvent.packInfo(caller, mostRecentDiscard(), whoseTurnNumber());
 		__updateUI(callEvent);
 	}
 	private void tellUiAboutSelfKan(Player fromPlayer){
 		GameplayEvent kanEvent = GameplayEvent.declaredOwnKanEvent();
-		kanEvent.setExclamation(Exclamation.OWN_KAN, fromPlayer.getPlayerNumber());
+		kanEvent.setExclamation(Exclamation.OWN_KAN);
+		kanEvent.packInfo(fromPlayer);
 		__updateUI(kanEvent);
 		__updateUI(GameplayEvent.madeOwnKanEvent());
 		
 	}
 	private void tellUiAboutTsumo(Player fromPlayer){
 		GameplayEvent tsumoEvent = GameplayEvent.declaredTsumoEvent();
-		tsumoEvent.setExclamation(Exclamation.TSUMO, fromPlayer.getPlayerNumber());
+		tsumoEvent.setExclamation(Exclamation.TSUMO);
+		tsumoEvent.packInfo(fromPlayer);
 		__updateUI(tsumoEvent);
 	}
 	private void __updateUI(GameplayEvent event){
-//		if (userInterface == null) return;
-//		userInterface.displayEvent(event);
-		
 		gameEventListener.postNewEvent(event, gameState);
 	}
 	private void tellUiAboutHumanPlayerTurnStart(Player p){
-		
 		GameplayEvent humanTurnStartEvent = GameplayEvent.humanPlayerTurnStartEvent();
-		if (userInterface != null) userInterface.movePromptPanelToSeat(p.getPlayerNumber());
+		humanTurnStartEvent.packInfo(p);
 		__updateUI(humanTurnStartEvent);
+	}
+	private void tellUiAboutHumanReactionChance(Player p){
+		GameplayEvent humanReactionEvent = GameplayEvent.humanReactionEvent();
+		humanReactionEvent.packInfo(p, mostRecentDiscard(), whoseTurnNumber());
+		__updateUI(humanReactionEvent);
 	}
 	
 	

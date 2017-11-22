@@ -63,8 +63,9 @@ public final class StateOfGame {
 	
 	
 	public RoundTracker getRoundTracker(){return roundTracker;}
-	
 	public PlayerBrain getControllerForPlayer(int playerNum){return playerTrackers[playerNum].getController();}
+	public Player getPlayer(int playerNum){return playerTrackers[playerNum].getPlayer();}
+	public Player currentPlayer(){return getPlayer(roundTracker.whoseTurn());}
 	
 	
 	
@@ -88,6 +89,7 @@ public final class StateOfGame {
 		public GameTile getTsumoTile(){return player.getTsumoTile();}
 		
 		public PlayerBrain getController() {return player.getController();}
+		public Player getPlayer(){return player;}
 		
 		//below is all public and could (shoud?) be learned from asking RoundTracker
 		public List<Meld> melds(){return player.getMelds();}

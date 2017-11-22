@@ -3,54 +3,56 @@ package majava.events;
 import majava.enums.Exclamation;
 import majava.enums.GameEventType;
 import static majava.enums.GameEventType.*;
+import majava.player.Player;
 import majava.player.brains.HumanBrain;
 import majava.summary.StateOfGame;
 import majava.tiles.GameTile;
 
 public class GameplayEvent {
 
-	private static final int SEAT_NOT_SET = -1;
+	private static final int VICTIM_SEAT_NOT_SET = -58;
+	private static final GameTile RELATED_TILE_NOT_SET = null;
 	
 	private GameEventType eventType;
 	private Exclamation exclamation;
-	private int seatNumber;
+//	private int seatNumber;
 	
 	/////no one is using these yet
-	private int seatExclaimer;
+//	private int seatExclaimer;
+	
+	
 	private int seatVictim;
+	private Player relatedPlayer;
 	private GameTile relatedTile;
 	
-	private HumanBrain relatedHumanBrain;
-	
-	private StateOfGame gameState;
 	
 	
 	private GameplayEvent(GameEventType evType){
 		eventType = evType;
 		exclamation = null;
 		
-		seatNumber = SEAT_NOT_SET;
-		seatExclaimer = SEAT_NOT_SET;
-		seatVictim = SEAT_NOT_SET;
+//		seatNumber = SEAT_NOT_SET;
+//		seatExclaimer = SEAT_NOT_SET;
+		seatVictim = VICTIM_SEAT_NOT_SET;
 		
 		relatedTile = null;
-		relatedHumanBrain = null;
+		relatedPlayer = null;
 		
-		gameState = null;
 	}
 //	private GameplayEvent(){}
 	
-	
-	public StateOfGame getGameState(){return gameState;}
-	
-	public void setExclamation(Exclamation ex, int seat){exclamation = ex; seatNumber = seat;}
-//	public void setExclamation(Exclamation ex){exclamation = ex;}
+//	public void setExclamation(Exclamation ex, int seat){
+//		exclamation = ex; seatNumber = seat;
+//	}
+	public void setExclamation(Exclamation ex){exclamation = ex;}
 	public Exclamation getExclamation(){return exclamation;}
 	
-	public int getSeat(){return seatNumber;}
+//	public int getSeat(){return seatNumber;}
+//	public int getGetExclaimerSeatNumber(){return seatExclaimer;}
 	public int getGetVictimSeatNumber(){return seatVictim;}
-	public int getGetExclaimerSeatNumber(){return seatExclaimer;}
 	public GameTile getRelatedTile(){return relatedTile;}
+	public Player getRelatedPlayer(){return relatedPlayer;}
+	public int getSeat(){return relatedPlayer.getPlayerNumber();}
 	
 	public boolean isExclamation(){return eventType.isExclamation();}
 	public boolean isPlaceholder(){return eventType == PLACEHOLDER;}
@@ -75,8 +77,19 @@ public class GameplayEvent {
 	public static final GameplayEvent declaredTsumoEvent(){return new GameplayEvent(DECLARED_TSUMO);}
 
 	public static final GameplayEvent humanPlayerTurnStartEvent(){return new GameplayEvent(HUMAN_PLAYER_TURN_START);}
+	public static final GameplayEvent humanReactionEvent(){return new GameplayEvent(HUMAN_PLAYER_REACTION_START);}
 	public static final GameplayEvent unknownEvent(){return new GameplayEvent(UNKNOWN);}
 	public static final GameplayEvent placeholderEvent(){return new GameplayEvent(PLACEHOLDER);}
+
+
+//	public void packInfo(Player p, GameTile tile, int eventRaisedByplayerNumber, int whoseTurnNumber) {
+	public void packInfo(Player p, GameTile tile, int whoseTurnNumber) {
+		relatedPlayer = p;
+		relatedTile = tile;
+		seatVictim = whoseTurnNumber;
+	}
+	public void packInfo(Player p, GameTile tile) {packInfo(p, tile, VICTIM_SEAT_NOT_SET);}
+	public void packInfo(Player p) {packInfo(p, RELATED_TILE_NOT_SET, VICTIM_SEAT_NOT_SET);}
 	
 //	public static final GameplayEvent newEvent(GameEventType event){return null;}
 	

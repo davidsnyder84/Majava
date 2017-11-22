@@ -4,6 +4,7 @@ import majava.RoundTracker;
 import majava.enums.CallType;
 import majava.enums.Exclamation;
 import majava.enums.TurnActionType;
+import majava.events.GameplayEvent;
 import majava.player.brains.HumanBrain;
 import majava.summary.StateOfGame;
 import majava.userinterface.graphicalinterface.window.TableViewBase;
@@ -24,17 +25,17 @@ public class MajavaGUI extends GameUI{
 	}
 	
 	
-	protected void __displayEventDiscardedTile(){tableWindow.updateEverything();}
-	protected void __displayEventMadeOpenMeld(){tableWindow.updateEverything();}
-	protected void __displayEventDrewTile(){tableWindow.updateEverything();}
-	protected void __displayEventMadeOwnKan(){tableWindow.updateEverything();}
-	protected void __displayEventNewDoraIndicator(){/*intentionally blank, don't need to show new indicator because it is shown automatically*/}
-	protected void __displayEventHumanTurnStart(){tableWindow.updateEverything();}
-	protected void __displayEventPlaceholder(){tableWindow.updateEverything();}
+	protected void __displayEventDiscardedTile(GameplayEvent event){tableWindow.updateEverything();}
+	protected void __displayEventMadeOpenMeld(GameplayEvent event){tableWindow.updateEverything();}
+	protected void __displayEventDrewTile(GameplayEvent event){tableWindow.updateEverything();}
+	protected void __displayEventMadeOwnKan(GameplayEvent event){tableWindow.updateEverything();}
+	protected void __displayEventNewDoraIndicator(GameplayEvent event){/*intentionally blank, don't need to show new indicator because it is shown automatically*/}
+	protected void __displayEventHumanTurnStart(GameplayEvent event){tableWindow.updateEverything();}
+	protected void __displayEventPlaceholder(GameplayEvent event){tableWindow.updateEverything();}
 	
-	protected void __displayEventStartOfRound(){tableWindow.updateEverything();}
+	protected void __displayEventStartOfRound(GameplayEvent event){tableWindow.updateEverything();}
 	
-	protected void __displayEventEndOfRound(){
+	protected void __displayEventEndOfRound(GameplayEvent event){
 		tableWindow.showResult(resultSummary);
 		tableWindow.updateEverything();
 		
@@ -110,4 +111,10 @@ public class MajavaGUI extends GameUI{
 	}
 	
 	public void movePromptPanelToSeat(int seat){tableWindow.movePromptPanelToSeat(seat);}
+
+
+	@Override
+	protected void __displayEventHumanReactionStart(GameplayEvent event) {
+		
+	}
 }

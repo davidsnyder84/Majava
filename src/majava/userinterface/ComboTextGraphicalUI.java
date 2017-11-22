@@ -6,7 +6,6 @@ import majava.RoundTracker;
 import majava.Wall;
 import majava.enums.Exclamation;
 import majava.events.GameplayEvent;
-import majava.userinterface.graphicalinterface.GraphicalUI;
 import majava.userinterface.graphicalinterface.window.TableViewBase;
 import majava.userinterface.textinterface.DetailedTextualUI;
 import majava.userinterface.textinterface.SparseTextualUI;
@@ -19,7 +18,7 @@ import majava.summary.RoundResultSummary;
 public class ComboTextGraphicalUI extends GameUI{
 
 	private TextualUI textualUI;
-	private GraphicalUI graphicalUI;
+	private MajavaGUI graphicalUI;
 	
 	
 	public ComboTextGraphicalUI(){
@@ -27,8 +26,8 @@ public class ComboTextGraphicalUI extends GameUI{
 		graphicalUI = __generateGraphicalUI();
 	}
 
-	private GraphicalUI __generateGraphicalUI(){
-		return new GraphicalUI();
+	private MajavaGUI __generateGraphicalUI(){
+		return new MajavaGUI();
 //		return new TableViewSmall();
 //		return new TableViewer();
 	}

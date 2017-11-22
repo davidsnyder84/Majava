@@ -32,7 +32,8 @@ public abstract class GameUI implements JanObserver{
 	
 	
 	@Override
-	public void update(GameplayEvent gameplayEvent, StateOfGame gameState) {
+	public void update(GameplayEvent gameplayEvent, StateOfGame stateOfGame) {
+		gameState = stateOfGame;
 		displayEvent(gameplayEvent);
 	}
 	

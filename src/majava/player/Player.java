@@ -323,6 +323,7 @@ public class Player {
 	public String getControllerAsString(){return brain.toString();}
 	public boolean controllerIsHuman(){return brain.isHuman();}
 	public boolean controllerIsComputer(){return brain.isComputer();}
+	public PlayerBrain getController(){return brain;}
 	
 	
 	//point methods
@@ -397,6 +398,7 @@ public class Player {
 	////////////////////////////////////////////////////////////////////////////////////
 	//////END DEMO METHODS
 	////////////////////////////////////////////////////////////////////////////////////
+	
 	
 	//will implement these for chankan later
 //	public boolean reactToAnkan(GameTile t){return false;}

@@ -9,6 +9,7 @@ import majava.enums.Wind;
 import majava.hand.Hand;
 import majava.hand.Meld;
 import majava.player.Player;
+import majava.player.brains.PlayerBrain;
 import majava.tiles.GameTile;
 import majava.tiles.PondTile;
 import majava.util.GameTileList;
@@ -63,6 +64,7 @@ public final class StateOfGame {
 	
 	public RoundTracker getRoundTracker(){return roundTracker;}
 	
+	public PlayerBrain getControllerForPlayer(int playerNum){return playerTrackers[playerNum].getController();}
 	
 	
 	
@@ -77,13 +79,15 @@ public final class StateOfGame {
 			player = p;
 			hand = player.DEMOgetHand();/////////
 		}
-		
+
 		//all of these are clones
 		//this is normally hidden information
 		public GameTileList handTiles(){return hand.getTilesAsList();}
 		public String getHandAsString(){return player.getAsStringHand();}
 		public String getHandAsStringCompact(){return player.getAsStringHandCompact();}
 		public GameTile getTsumoTile(){return player.getTsumoTile();}
+		
+		public PlayerBrain getController() {return player.getController();}
 		
 		//below is all public and could (shoud?) be learned from asking RoundTracker
 		public List<Meld> melds(){return player.getMelds();}

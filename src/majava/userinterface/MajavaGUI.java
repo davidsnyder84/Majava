@@ -1,31 +1,16 @@
+package majava.userinterface;
 
-package majava.userinterface.graphicalinterface;
-
-import majava.hand.Hand;
-import majava.hand.Meld;
-import majava.Pond;
 import majava.RoundTracker;
-import majava.Wall;
+import majava.enums.CallType;
 import majava.enums.Exclamation;
-import majava.userinterface.GameUI;
-import majava.userinterface.graphicalinterface.window.TableViewBase;
-import majava.userinterface.graphicalinterface.window.TableViewLarge;
-import majava.player.Player;
+import majava.enums.TurnActionType;
+import majava.player.brains.HumanBrain;
 import majava.summary.StateOfGame;
-import majava.summary.RoundResultSummary;
-import majava.tiles.GameTile;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import majava.userinterface.graphicalinterface.window.TableViewBase;
 import utility.Pauser;
 
+public class MajavaGUI extends GameUI{
 
-//a GUI for viewing and interacting with the game
-public class GraphicalUI extends GameUI{
 	
 	private static final int DEAFULT_SLEEPTIME = 400, DEAFULT_SLEEPTIME_EXCLAMATION = 1500, DEAFULT_SLEEPTIME_ROUND_END = 2000;
 	
@@ -33,7 +18,7 @@ public class GraphicalUI extends GameUI{
 	private TableViewBase tableWindow;
 	
 	
-	public GraphicalUI(){		
+	public MajavaGUI(){		
 		tableWindow = new TableViewBase();
 //		tableWindow = new TableViewLarge();
 	}
@@ -75,7 +60,20 @@ public class GraphicalUI extends GameUI{
 	
 	//get user input from window
 	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
-		return tableWindow.askUserInputCall(canChiL, canChiM, canChiH, canPon, canKan, canRon);
+		boolean called = tableWindow.askUserInputCall(canChiL, canChiM, canChiH, canPon, canKan, canRon);
+		CallType chosenCallType = CallType.NONE;
+		if (called){
+			if (tableWindow.resultChosenCallWasChiL()) chosenCallType = CallType.CHI_L;
+			else if (tableWindow.resultChosenCallWasChiM()) chosenCallType = CallType.CHI_M;
+			else if (tableWindow.resultChosenCallWasChiH()) chosenCallType = CallType.CHI_H;
+			else if (tableWindow.resultChosenCallWasPon()) chosenCallType = CallType.PON;
+			else if (tableWindow.resultChosenCallWasKan()) chosenCallType = CallType.KAN;
+			else if (tableWindow.resultChosenCallWasRon()) chosenCallType = CallType.RON;
+		}
+		/////////NEED TO KNOW PLAYER NUMBER OF WHO WE'RE ASKING TO CALL
+//		((HumanBrain) gameState.getControllerForPlayer((gameState.getRoundTracker().whoseTurn()))).setCallChosenByHuman(chosenCallType);
+		((HumanBrain) gameState.getControllerForPlayer(0)).setCallChosenByHuman(chosenCallType);
+		return called;
 	}
 	public boolean resultChosenCallWasNone(){return tableWindow.resultChosenCallWasNone();}
 	public boolean resultChosenCallWasChiL(){return tableWindow.resultChosenCallWasChiL();}
@@ -87,6 +85,18 @@ public class GraphicalUI extends GameUI{
 	
 	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){
 		tableWindow.askUserInputTurnAction(handSize, canRiichi, canAnkan, canMinkan, canTsumo);
+		
+		TurnActionType chosenAction = TurnActionType.DISCARD;
+		if (tableWindow.resultChosenTurnActionWasDiscard()) chosenAction = TurnActionType.DISCARD;
+		else if (tableWindow.resultChosenTurnActionWasAnkan()) chosenAction = TurnActionType.ANKAN;
+		else if (tableWindow.resultChosenTurnActionWasMinkan()) chosenAction = TurnActionType.MINKAN;
+		else if (tableWindow.resultChosenTurnActionWasRiichi()) chosenAction = TurnActionType.RIICHI;
+		else if (tableWindow.resultChosenTurnActionWasTsumo()) chosenAction = TurnActionType.TSUMO;
+		
+		((HumanBrain) gameState.getControllerForPlayer((gameState.getRoundTracker().whoseTurn()))).setTurnActionChosenByHuman(chosenAction);
+		
+		if (chosenAction == TurnActionType.DISCARD)
+			((HumanBrain) gameState.getControllerForPlayer((gameState.getRoundTracker().whoseTurn()))).setDiscardIndexChosenByHuman(tableWindow.resultChosenDiscardIndex() - 1);
 	}
 	public boolean resultChosenTurnActionWasDiscard(){return tableWindow.resultChosenTurnActionWasDiscard();}
 	public boolean resultChosenTurnActionWasAnkan(){return tableWindow.resultChosenTurnActionWasAnkan();}
@@ -116,7 +126,7 @@ public class GraphicalUI extends GameUI{
 	
 	
 	public static void main(String[] args) {		
-		GraphicalUI viewer = new GraphicalUI();
+		MajavaGUI viewer = new MajavaGUI();
 		
 		viewer.startUI();
 //		viewer.showResult();

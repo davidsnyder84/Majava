@@ -5,7 +5,6 @@ import majava.events.GameEventListener;
 import majava.player.Player;
 import majava.userinterface.ComboTextGraphicalUI;
 import majava.userinterface.GameUI;
-import majava.userinterface.graphicalinterface.GraphicalUI;
 import majava.userinterface.textinterface.DetailedTextualUI;
 import majava.userinterface.textinterface.SparseTextualUI;
 import utility.Pauser;

@@ -1,6 +1,7 @@
 package majava;
 
 
+import majava.events.GameEventListener;
 import majava.player.Player;
 import majava.userinterface.ComboTextGraphicalUI;
 import majava.userinterface.GameUI;
@@ -27,12 +28,17 @@ public class Table {
 	private boolean optionDoSinglePlayer = DEFAULT_DO_SINGLE_PLAYER;
 	private boolean optionDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
 	
+	private GameEventListener eventListener;
+	
 	
 	
 	
 	public Table(){
 		userInterface = null;
 		userInterface = generateGameUI();
+		
+		eventListener = new GameEventListener();
+		eventListener.registerObserver(userInterface);
 	}
 	
 	

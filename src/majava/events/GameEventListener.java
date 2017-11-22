@@ -3,51 +3,33 @@ package majava.events;
 import java.util.ArrayList;
 import java.util.List;
 
-import utility.Pauser;
+import majava.summary.StateOfGame;
 
+
+//Observer pattern (this is the Subject)
 public class GameEventListener {
-	
-	private final List<MyObserver> observers;
-	private final List<String> eventLog;
+	private final List<JanObserver> observers;
 	
 	public GameEventListener() {
-		observers = new ArrayList<MyObserver>();
-		
-		eventLog = new ArrayList<String>();
+		observers = new ArrayList<JanObserver>();
 	}
 	
-	public void postNewEvent(final GameplayEvent event){
-//		switch(event.getEventType()){
-//		case DISCARDED_TILE: __displayEventDiscardedTile(); break;
-//		case MADE_OPEN_MELD: __displayEventMadeOpenMeld(); break;
-//		case DREW_TILE: __displayEventDrewTile(); break;
-//		case MADE_OWN_KAN: __displayEventMadeOwnKan(); break;
-//		case NEW_DORA_INDICATOR: __displayEventNewDoraIndicator(); break;
-//		
-//		case HUMAN_PLAYER_TURN_START: __displayEventHumanTurnStart(); break;
-//		
-//		case START_OF_ROUND: __displayEventStartOfRound(); break;
-//		case PLACEHOLDER: __displayEventPlaceholder(); break;
-//		case END_OF_ROUND: __displayEventEndOfRound(); break;
-//		default: break;
-//		}
-//		
-//		if (event.isExclamation()) __showExclamation(event.getExclamation(), event.getSeat());
-//		
-//		if (mSleepTime > 0 && !event.isExclamation() && !event.isPlaceholder())
-//			Pauser.pauseFor(mSleepTime);
+	public void postNewEvent(GameplayEvent event, StateOfGame gameState){
+		notifyObservers(event, gameState);
 	}
 	
 	
-	public void registerObserver(MyObserver newObserver){
+	
+	
+	private void notifyObservers(GameplayEvent event, StateOfGame gameState){
+		for (JanObserver o: observers)
+			o.update(event, gameState);
+	}
+	
+	public void registerObserver(JanObserver newObserver){
 		observers.add(newObserver);
 	}
-	public void removeObserver(MyObserver removeThisObserver){
+	public void removeObserver(JanObserver removeThisObserver){
 		observers.remove(removeThisObserver);
-	}
-	
-	private void notifyObservers(){
-		for (MyObserver o: observers)
-			;
 	}
 }

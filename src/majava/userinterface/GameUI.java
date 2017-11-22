@@ -1,18 +1,15 @@
 package majava.userinterface;
 
 import utility.Pauser;
-import majava.hand.Hand;
-import majava.Pond;
 import majava.RoundTracker;
-import majava.Wall;
 import majava.enums.Exclamation;
 import majava.events.GameplayEvent;
-import majava.player.Player;
+import majava.events.JanObserver;
 import majava.summary.StateOfGame;
 import majava.summary.RoundResultSummary;
 
-public abstract class GameUI {
-
+public abstract class GameUI implements JanObserver{
+	
 	
 	protected static final int NUM_PLAYERS = 4;
 	
@@ -34,6 +31,10 @@ public abstract class GameUI {
 	
 	
 	
+	@Override
+	public void update(GameplayEvent gameplayEvent, StateOfGame gameState) {
+		displayEvent(gameplayEvent);
+	}
 	
 	public void displayEvent(final GameplayEvent event){
 		switch(event.getEventType()){
@@ -78,16 +79,6 @@ public abstract class GameUI {
 		roundTracker = tracker;
 		gameState = stateOfGame;
 	}
-	
-//	public void syncWithRoundTracker(RoundTracker rTracker, Player[] pPlayers, Hand[] pHands, TileList[] pHandTiles, Pond[] pPonds, TileList[] pPondTiles, Wall wall, Tile[] tilesW){
-//		
-//		mRoundTracker = rTracker;
-//
-//		mPTrackers = new PlayerTracker[NUM_PLAYERS];
-//		for (int i = 0; i < NUM_PLAYERS; i++) mPTrackers[i] = new PlayerTracker(pPlayers[i], pHands[i], pHandTiles[i], pPonds[i], pPondTiles[i]);
-//		
-//		mWall = wall;mTilesW = tilesW;
-//	}
 	
 	
 	public void setRoundResult(RoundResultSummary resum){

@@ -4,6 +4,7 @@ import majava.enums.Exclamation;
 import majava.enums.GameEventType;
 import static majava.enums.GameEventType.*;
 import majava.player.brains.HumanBrain;
+import majava.summary.StateOfGame;
 import majava.tiles.GameTile;
 
 public class GameplayEvent {
@@ -21,6 +22,8 @@ public class GameplayEvent {
 	
 	private HumanBrain relatedHumanBrain;
 	
+	private StateOfGame gameState;
+	
 	
 	private GameplayEvent(GameEventType evType){
 		eventType = evType;
@@ -32,10 +35,13 @@ public class GameplayEvent {
 		
 		relatedTile = null;
 		relatedHumanBrain = null;
+		
+		gameState = null;
 	}
 //	private GameplayEvent(){}
 	
 	
+	public StateOfGame getGameState(){return gameState;}
 	
 	public void setExclamation(Exclamation ex, int seat){exclamation = ex; seatNumber = seat;}
 //	public void setExclamation(Exclamation ex){exclamation = ex;}

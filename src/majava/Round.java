@@ -338,33 +338,20 @@ public class Round{
 		announceEvent(GameplayEvent.endOfRoundEvent());
 	}
 	private void announceCallEventFrom(Player caller){
-		GameplayEvent callEvent = GameplayEvent.calledTileEvent();
-		callEvent.setExclamation(caller.getCallStatusExclamation());
-		callEvent.packInfo(caller, mostRecentDiscard(), whoseTurnNumber());
-		announceEvent(callEvent);
+		announceEvent(GameplayEvent.calledTileEvent(caller.getCallStatusExclamation(), caller, mostRecentDiscard(), whoseTurnNumber()));
 	}
 	private void announceSelfKanEvent(Player fromPlayer){
-		GameplayEvent kanEvent = GameplayEvent.declaredOwnKanEvent();
-		kanEvent.setExclamation(Exclamation.OWN_KAN);
-		kanEvent.packInfo(fromPlayer);
-		announceEvent(kanEvent);
+		announceEvent(GameplayEvent.declaredOwnKanEvent(fromPlayer));
 		announceEvent(GameplayEvent.madeOwnKanEvent());
 	}
 	private void announceTsumoEvent(Player fromPlayer){
-		GameplayEvent tsumoEvent = GameplayEvent.declaredTsumoEvent();
-		tsumoEvent.setExclamation(Exclamation.TSUMO);
-		tsumoEvent.packInfo(fromPlayer);
-		announceEvent(tsumoEvent);
+		announceEvent(GameplayEvent.declaredTsumoEvent(fromPlayer));
 	}
 	private void announceHumanTurnStartEvent(Player p){
-		GameplayEvent humanTurnStartEvent = GameplayEvent.humanPlayerTurnStartEvent();
-		humanTurnStartEvent.packInfo(p);
-		announceEvent(humanTurnStartEvent);
+		announceEvent(GameplayEvent.humanPlayerTurnStartEvent(p));
 	}
 	private void announceHumanReactionChanceEvent(Player p){
-		GameplayEvent humanReactionEvent = GameplayEvent.humanReactionEvent();
-		humanReactionEvent.packInfo(p, mostRecentDiscard(), whoseTurnNumber());
-		announceEvent(humanReactionEvent);
+		announceEvent(GameplayEvent.humanReactionEvent(p, mostRecentDiscard(), whoseTurnNumber()));
 	}
 	
 	

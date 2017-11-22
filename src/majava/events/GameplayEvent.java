@@ -1,5 +1,6 @@
 package majava.events;
 
+import majava.enums.CallType;
 import majava.enums.Exclamation;
 import majava.enums.GameEventType;
 import static majava.enums.GameEventType.*;
@@ -57,27 +58,52 @@ public class GameplayEvent {
 	public static final GameplayEvent madeOwnKanEvent(){return new GameplayEvent(MADE_OWN_KAN);}
 	public static final GameplayEvent endOfRoundEvent(){return new GameplayEvent(END_OF_ROUND);}
 
-	public static final GameplayEvent calledTileEvent(){return new GameplayEvent(CALLED_TILE);}
+	public static final GameplayEvent calledTileEvent(Exclamation exclaim, Player caller, GameTile tile, int whoseTurnNumber){
+		GameplayEvent event = new GameplayEvent(CALLED_TILE);
+		event.setExclamation(exclaim);
+		event.packInfo(caller, tile, whoseTurnNumber);
+		return event;	
+	}
 	public static final GameplayEvent declaredRiichiEvent(){return new GameplayEvent(DECLARED_RIICHI);}
-	public static final GameplayEvent declaredOwnKanEvent(){return new GameplayEvent(DECLARED_OWN_KAN);}
-	public static final GameplayEvent declaredTsumoEvent(){return new GameplayEvent(DECLARED_TSUMO);}
+	public static final GameplayEvent declaredOwnKanEvent(Player p){
+		GameplayEvent event = new GameplayEvent(DECLARED_OWN_KAN);
+		event.setExclamation(Exclamation.OWN_KAN);
+		event.packInfo(p);
+		return event;
+	}
+	public static final GameplayEvent declaredTsumoEvent(Player p){
+		GameplayEvent event = new GameplayEvent(DECLARED_TSUMO);
+		event.setExclamation(Exclamation.TSUMO);
+		event.packInfo(p);
+		return event;
+	}
 
-	public static final GameplayEvent humanPlayerTurnStartEvent(){return new GameplayEvent(HUMAN_PLAYER_TURN_START);}
-	public static final GameplayEvent humanReactionEvent(){return new GameplayEvent(HUMAN_PLAYER_REACTION_START);}
+	public static final GameplayEvent humanPlayerTurnStartEvent(Player p){
+		GameplayEvent event = new GameplayEvent(HUMAN_PLAYER_TURN_START);
+		event.packInfo(p);
+		return event;
+	}
+	public static final GameplayEvent humanReactionEvent(Player p, GameTile tile, int whoseTurnNumber){
+		GameplayEvent event = new GameplayEvent(HUMAN_PLAYER_REACTION_START);
+		event.packInfo(p, tile, whoseTurnNumber);
+		return event;
+	}
 	public static final GameplayEvent unknownEvent(){return new GameplayEvent(UNKNOWN);}
 	public static final GameplayEvent playerTurnStartEvent(){return new GameplayEvent(PLAYER_TURN_START);}
 	public static final GameplayEvent endingEvent(){return new GameplayEvent(END);}
 	public static final GameplayEvent startingEvent(){return new GameplayEvent(START);}
-
-
-//	public void packInfo(Player p, GameTile tile, int eventRaisedByplayerNumber, int whoseTurnNumber) {
-	public void packInfo(Player p, GameTile tile, int whoseTurnNumber) {
+	
+	
+	
+	
+	private void packInfo(Player p, GameTile tile, int whoseTurnNumber) {
 		relatedPlayer = p;
 		relatedTile = tile;
 		seatVictim = whoseTurnNumber;
 	}
-	public void packInfo(Player p, GameTile tile) {packInfo(p, tile, VICTIM_SEAT_NOT_SET);}
-	public void packInfo(Player p) {packInfo(p, RELATED_TILE_NOT_SET, VICTIM_SEAT_NOT_SET);}
+	private void packInfo(Player p, GameTile tile) {packInfo(p, tile, VICTIM_SEAT_NOT_SET);}
+	private void packInfo(Player p) {packInfo(p, RELATED_TILE_NOT_SET, VICTIM_SEAT_NOT_SET);}
+
 	
 //	public static final GameplayEvent newEvent(GameEventType event){return null;}
 	

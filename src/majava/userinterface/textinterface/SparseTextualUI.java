@@ -26,7 +26,7 @@ public class SparseTextualUI extends TextualUI{
 	
 	
 	
-	protected void __displayEventDiscardedTile(GameplayEvent event){
+	protected void displayEventDiscardedTile(GameplayEvent event){
 		
 		//show the discarded tile
 		println("\t" + gameState.seatWindOfPlayer(roundTracker.whoseTurn()).toChar() + " discard: " + roundTracker.getMostRecentDiscard());
@@ -37,36 +37,36 @@ public class SparseTextualUI extends TextualUI{
 	
 	
 	
-	protected void __displayEventMadeOpenMeld(GameplayEvent event){}
-	protected void __displayEventDrewTile(GameplayEvent event){
+	protected void displayEventMadeOpenMeld(GameplayEvent event){}
+	protected void displayEventDrewTile(GameplayEvent event){
 		print("\t" + gameState.seatWindOfPlayer(roundTracker.whoseTurn()).toChar() + " draw: " + gameState.getTsumoTileFor(roundTracker.whoseTurn()));
 	}
-	protected void __displayEventMadeOwnKan(GameplayEvent event){}
-	protected void __displayEventHumanReactionStart(GameplayEvent event) {}
+	protected void displayEventMadeOwnKan(GameplayEvent event){}
+	protected void displayEventHumanReactionStart(GameplayEvent event) {}
 	
 	
 	
-	protected void __displayEventNewDoraIndicator(GameplayEvent event){
+	protected void displayEventNewDoraIndicator(GameplayEvent event){
 		__showDeadWall();
 	}
 	
-	protected void __displayEventHumanTurnStart(GameplayEvent event){
+	protected void displayEventHumanTurnStart(GameplayEvent event){
 		println();__showPlayerHand(roundTracker.whoseTurn());
 	}
 	
-	protected void __displayEventStartOfRound(GameplayEvent event){
+	protected void displayEventStartOfRound(GameplayEvent event){
 		__showWall(); __showDoraIndicators();
 	}
 	
-	protected void __displayEventEndOfRound(GameplayEvent event){
+	protected void displayEventEndOfRound(GameplayEvent event){
 		__showRoundResult();
 		__showHandsOfAllPlayers();
 		println("\n\n");
 		
-		if (mSleepTimeRoundEnd > 0) Pauser.pauseFor(mSleepTimeRoundEnd);
+		if (sleepTimeRoundEnd > 0) Pauser.pauseFor(sleepTimeRoundEnd);
 	}
 
-	protected void __displayEventPlaceholder(GameplayEvent event){/*blank*/}
+	protected void displayEventPlaceholder(GameplayEvent event){/*blank*/}
 	
 	
 	
@@ -194,7 +194,7 @@ public class SparseTextualUI extends TextualUI{
 	
 	//info needed: seat wind of caller, most recent discard
 	@Override
-	protected void __showExclamation(Exclamation exclamation, int seat){
+	protected void showExclamation(Exclamation exclamation, int seat){
 		
 		if (exclamation.isCall())
 			println("..." + gameState.seatWindOfPlayer(seat) + " Player called " + exclamation.toString().toUpperCase() + " on the tile (" + roundTracker.getMostRecentDiscard() + ")");
@@ -203,7 +203,7 @@ public class SparseTextualUI extends TextualUI{
 			println(",,," + gameState.seatWindOfPlayer(seat) + " Player declared " + exclamation.toString().toUpperCase());
 		
 		//pause
-		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);
+		if (sleepTimeExclamation > 0) Pauser.pauseFor(sleepTimeExclamation);
 	}
 	
 }

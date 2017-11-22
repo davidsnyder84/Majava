@@ -628,13 +628,6 @@ public class TableViewBase extends JFrame{
 		repaint();	/////questionable if needed
 		return (chosenCall != CallType.NONE);
 	}
-	public boolean resultChosenCallWasNone(){return (chosenCall == CallType.NONE);}
-	public boolean resultChosenCallWasChiL(){return (chosenCall == CallType.CHI_L);}
-	public boolean resultChosenCallWasChiM(){return (chosenCall == CallType.CHI_M);}
-	public boolean resultChosenCallWasChiH(){return (chosenCall == CallType.CHI_H);}
-	public boolean resultChosenCallWasPon(){return (chosenCall == CallType.PON);}
-	public boolean resultChosenCallWasKan(){return (chosenCall == CallType.KAN);}
-	public boolean resultChosenCallWasRon(){return (chosenCall == CallType.RON);}
 	public CallType resultChosenCall(){return chosenCall;}
 	
 	
@@ -671,16 +664,11 @@ public class TableViewBase extends JFrame{
 		hideAll(barryTActions);
 		repaint();	/////questionable if needed
 	}
-	public boolean resultChosenTurnActionWasDiscard(){return (chosenTurnAction == TurnActionType.DISCARD);}
-	public boolean resultChosenTurnActionWasAnkan(){return (chosenTurnAction == TurnActionType.ANKAN);}
-	public boolean resultChosenTurnActionWasMinkan(){return (chosenTurnAction == TurnActionType.MINKAN);}
-	public boolean resultChosenTurnActionWasRiichi(){return (chosenTurnAction == TurnActionType.RIICHI);}
-	public boolean resultChosenTurnActionWasTsumo(){return (chosenTurnAction == TurnActionType.TSUMO);}
 	public TurnActionType resultChosenTurnAction(){return chosenTurnAction;}
 	
 	//returns the index of the clicked discard. returns negative if no discard chosen.
 	public int resultChosenDiscardIndex(){
-		if (resultChosenTurnActionWasDiscard()) return chosenDiscard;
+		if (chosenTurnAction == TurnActionType.DISCARD) return chosenDiscard;
 		else return NO_DISCARD_CHOSEN;
 	}
 	

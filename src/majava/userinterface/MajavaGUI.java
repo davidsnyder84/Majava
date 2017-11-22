@@ -25,31 +25,31 @@ public class MajavaGUI extends GameUI{
 	}
 	
 	
-	protected void __displayEventDiscardedTile(GameplayEvent event){tableWindow.updateEverything();}
-	protected void __displayEventMadeOpenMeld(GameplayEvent event){tableWindow.updateEverything();}
-	protected void __displayEventDrewTile(GameplayEvent event){tableWindow.updateEverything();}
-	protected void __displayEventMadeOwnKan(GameplayEvent event){tableWindow.updateEverything();}
-	protected void __displayEventNewDoraIndicator(GameplayEvent event){/*intentionally blank, don't need to show new indicator because it is shown automatically*/}
-	protected void __displayEventPlaceholder(GameplayEvent event){tableWindow.updateEverything();}
+	protected void displayEventDiscardedTile(GameplayEvent event){tableWindow.updateEverything();}
+	protected void displayEventMadeOpenMeld(GameplayEvent event){tableWindow.updateEverything();}
+	protected void displayEventDrewTile(GameplayEvent event){tableWindow.updateEverything();}
+	protected void displayEventMadeOwnKan(GameplayEvent event){tableWindow.updateEverything();}
+	protected void displayEventNewDoraIndicator(GameplayEvent event){/*intentionally blank, don't need to show new indicator because it is shown automatically*/}
+	protected void displayEventPlaceholder(GameplayEvent event){tableWindow.updateEverything();}
 	
-	protected void __displayEventStartOfRound(GameplayEvent event){
+	protected void displayEventStartOfRound(GameplayEvent event){
 		tableWindow.giveGameState(gameState);
 		tableWindow.updateEverything();
 	}
 	
-	protected void __displayEventEndOfRound(GameplayEvent event){
+	protected void displayEventEndOfRound(GameplayEvent event){
 		tableWindow.showResult(event.getResultSummary());
 		tableWindow.updateEverything();
 		
-		if (mSleepTimeRoundEnd > 0) Pauser.pauseFor(mSleepTimeRoundEnd);
+		if (sleepTimeRoundEnd > 0) Pauser.pauseFor(sleepTimeRoundEnd);
 	}
 	
 	
 	
 	
-	protected void __showExclamation(Exclamation exclamation, int seat){
+	protected void showExclamation(Exclamation exclamation, int seat){
 		tableWindow.exclamationShow(exclamation, seat);
-		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);
+		if (sleepTimeExclamation > 0) Pauser.pauseFor(sleepTimeExclamation);
 		tableWindow.exclamationErase();
 	}
 	
@@ -97,7 +97,7 @@ public class MajavaGUI extends GameUI{
 	
 	
 	
-	protected void __displayEventHumanTurnStart(GameplayEvent event){
+	protected void displayEventHumanTurnStart(GameplayEvent event){
 		tableWindow.updateEverything();
 		
 		Player p = event.getRelatedPlayer();
@@ -113,7 +113,7 @@ public class MajavaGUI extends GameUI{
 	}
 
 	@Override
-	protected void __displayEventHumanReactionStart(GameplayEvent event) {
+	protected void displayEventHumanReactionStart(GameplayEvent event) {
 		Player p = event.getRelatedPlayer();
 		GameTile tile = event.getRelatedTile();
 		

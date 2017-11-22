@@ -19,18 +19,18 @@ public abstract class TextualUI extends GameUI{
 	}
 	
 	
-	protected abstract void __displayEventDiscardedTile(GameplayEvent event);
-	protected abstract void __displayEventMadeOpenMeld(GameplayEvent event);
-	protected abstract void __displayEventDrewTile(GameplayEvent event);
-	protected abstract void __displayEventMadeOwnKan(GameplayEvent event);
-	protected abstract void __displayEventNewDoraIndicator(GameplayEvent event);
-	protected abstract void __displayEventHumanTurnStart(GameplayEvent event);
-	protected abstract void __displayEventPlaceholder(GameplayEvent event);
+	protected abstract void displayEventDiscardedTile(GameplayEvent event);
+	protected abstract void displayEventMadeOpenMeld(GameplayEvent event);
+	protected abstract void displayEventDrewTile(GameplayEvent event);
+	protected abstract void displayEventMadeOwnKan(GameplayEvent event);
+	protected abstract void displayEventNewDoraIndicator(GameplayEvent event);
+	protected abstract void displayEventHumanTurnStart(GameplayEvent event);
+	protected abstract void displayEventPlaceholder(GameplayEvent event);
 	
-	protected abstract void __displayEventStartOfRound(GameplayEvent event);
-	protected abstract void __displayEventEndOfRound(GameplayEvent event);
+	protected abstract void displayEventStartOfRound(GameplayEvent event);
+	protected abstract void displayEventEndOfRound(GameplayEvent event);
 	
-	protected abstract void __showExclamation(Exclamation exclamation, int seat);
+	protected abstract void showExclamation(Exclamation exclamation, int seat);
 	
 	
 	

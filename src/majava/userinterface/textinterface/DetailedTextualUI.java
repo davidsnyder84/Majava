@@ -27,7 +27,7 @@ public class DetailedTextualUI extends TextualUI{
 	
 	
 
-	protected void __displayEventDiscardedTile(GameplayEvent event){
+	protected void displayEventDiscardedTile(GameplayEvent event){
 		
 		//show the human player their hand
 		__showHandsOfAllPlayers();
@@ -42,33 +42,33 @@ public class DetailedTextualUI extends TextualUI{
 	
 	
 	
-	protected void __displayEventMadeOpenMeld(GameplayEvent event){}
-	protected void __displayEventDrewTile(GameplayEvent event){}
-	protected void __displayEventMadeOwnKan(GameplayEvent event){}
-	protected void __displayEventHumanReactionStart(GameplayEvent event) {}
+	protected void displayEventMadeOpenMeld(GameplayEvent event){}
+	protected void displayEventDrewTile(GameplayEvent event){}
+	protected void displayEventMadeOwnKan(GameplayEvent event){}
+	protected void displayEventHumanReactionStart(GameplayEvent event) {}
 	
 	
-	protected void __displayEventNewDoraIndicator(GameplayEvent event){
+	protected void displayEventNewDoraIndicator(GameplayEvent event){
 		__showDeadWall();
 	}
 
-	protected void __displayEventHumanTurnStart(GameplayEvent event){
+	protected void displayEventHumanTurnStart(GameplayEvent event){
 		__showPlayerHand(roundTracker.whoseTurn());
 	}
 	
-	protected void __displayEventStartOfRound(GameplayEvent event){
+	protected void displayEventStartOfRound(GameplayEvent event){
 		__showWall();__showDoraIndicators();
 	}
 	
-	protected void __displayEventEndOfRound(GameplayEvent event){
+	protected void displayEventEndOfRound(GameplayEvent event){
 		__showRoundResult();
 		__showHandsOfAllPlayers();
 		println("\n\n");
 		
-		if (mSleepTimeRoundEnd > 0) Pauser.pauseFor(mSleepTimeRoundEnd);
+		if (sleepTimeRoundEnd > 0) Pauser.pauseFor(sleepTimeRoundEnd);
 	}
 	
-	protected void __displayEventPlaceholder(GameplayEvent event){/*blank*/}
+	protected void displayEventPlaceholder(GameplayEvent event){/*blank*/}
 	
 	
 	
@@ -189,7 +189,7 @@ public class DetailedTextualUI extends TextualUI{
 	
 	//info needed: seat wind of caller, most recent discard
 	@Override
-	protected void __showExclamation(Exclamation exclamation, int seat){
+	protected void showExclamation(Exclamation exclamation, int seat){
 		
 		if (exclamation.isCall())
 			println("\n*********************************************************" + 
@@ -208,7 +208,7 @@ public class DetailedTextualUI extends TextualUI{
 //		System.out.println();
 		
 		//pause
-		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);
+		if (sleepTimeExclamation > 0) Pauser.pauseFor(sleepTimeExclamation);
 	}
 
 }

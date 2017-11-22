@@ -54,20 +54,8 @@ public abstract class TextualUI extends GameUI{
 	
 	//user interaction (not yet implemented)
 	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){}
-	public boolean resultChosenTurnActionWasDiscard(){return false;}
-	public boolean resultChosenTurnActionWasAnkan(){return false;}
-	public boolean resultChosenTurnActionWasMinkan(){return false;}
-	public boolean resultChosenTurnActionWasRiichi(){return false;}
-	public boolean resultChosenTurnActionWasTsumo(){return false;}
 	public int resultChosenDiscardIndex(){return -1;}
 	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){return false;}
-	public boolean resultChosenCallWasNone(){return false;}
-	public boolean resultChosenCallWasChiL(){return false;}
-	public boolean resultChosenCallWasChiM(){return false;}
-	public boolean resultChosenCallWasChiH(){return false;}
-	public boolean resultChosenCallWasPon(){return false;}
-	public boolean resultChosenCallWasKan(){return false;}
-	public boolean resultChosenCallWasRon(){return false;}
 	
 	
 	

@@ -75,13 +75,6 @@ public class MajavaGUI extends GameUI{
 		((HumanBrain) gameState.getControllerForPlayer(0)).setCallChosenByHuman(chosenCallType);
 		return called;
 	}
-	public boolean resultChosenCallWasNone(){return tableWindow.resultChosenCallWasNone();}
-	public boolean resultChosenCallWasChiL(){return tableWindow.resultChosenCallWasChiL();}
-	public boolean resultChosenCallWasChiM(){return tableWindow.resultChosenCallWasChiM();}
-	public boolean resultChosenCallWasChiH(){return tableWindow.resultChosenCallWasChiH();}
-	public boolean resultChosenCallWasPon(){return tableWindow.resultChosenCallWasPon();}
-	public boolean resultChosenCallWasKan(){return tableWindow.resultChosenCallWasKan();}
-	public boolean resultChosenCallWasRon(){return tableWindow.resultChosenCallWasRon();}
 	
 	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){
 		tableWindow.askUserInputTurnAction(handSize, canRiichi, canAnkan, canMinkan, canTsumo);
@@ -98,11 +91,6 @@ public class MajavaGUI extends GameUI{
 		if (chosenAction == TurnActionType.DISCARD)
 			((HumanBrain) gameState.getControllerForPlayer((gameState.getRoundTracker().whoseTurn()))).setDiscardIndexChosenByHuman(tableWindow.resultChosenDiscardIndex() - 1);
 	}
-	public boolean resultChosenTurnActionWasDiscard(){return tableWindow.resultChosenTurnActionWasDiscard();}
-	public boolean resultChosenTurnActionWasAnkan(){return tableWindow.resultChosenTurnActionWasAnkan();}
-	public boolean resultChosenTurnActionWasMinkan(){return tableWindow.resultChosenTurnActionWasMinkan();}
-	public boolean resultChosenTurnActionWasRiichi(){return tableWindow.resultChosenTurnActionWasRiichi();}
-	public boolean resultChosenTurnActionWasTsumo(){return tableWindow.resultChosenTurnActionWasTsumo();}
 	//returns the index of the clicked discard. returns negative if no discard chosen.
 	public int resultChosenDiscardIndex(){return tableWindow.resultChosenDiscardIndex();}
 	

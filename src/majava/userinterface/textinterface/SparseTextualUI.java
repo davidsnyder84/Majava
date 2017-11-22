@@ -66,7 +66,7 @@ public class SparseTextualUI extends TextualUI{
 		if (sleepTimeRoundEnd > 0) Pauser.pauseFor(sleepTimeRoundEnd);
 	}
 
-	protected void displayEventPlaceholder(GameplayEvent event){/*blank*/}
+	protected void displayEventPlayerTurnStart(GameplayEvent event){/*blank*/}
 	
 	
 	

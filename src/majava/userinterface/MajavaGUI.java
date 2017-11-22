@@ -30,7 +30,7 @@ public class MajavaGUI extends GameUI{
 	protected void displayEventDrewTile(GameplayEvent event){tableWindow.updateEverything();}
 	protected void displayEventMadeOwnKan(GameplayEvent event){tableWindow.updateEverything();}
 	protected void displayEventNewDoraIndicator(GameplayEvent event){/*intentionally blank, don't need to show new indicator because it is shown automatically*/}
-	protected void displayEventPlaceholder(GameplayEvent event){tableWindow.updateEverything();}
+	protected void displayEventPlayerTurnStart(GameplayEvent event){tableWindow.updateEverything();}
 	
 	protected void displayEventStartOfRound(GameplayEvent event){
 		tableWindow.giveGameState(gameState);

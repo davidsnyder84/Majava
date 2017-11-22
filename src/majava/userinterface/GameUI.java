@@ -3,10 +3,10 @@ package majava.userinterface;
 import utility.Pauser;
 import majava.RoundTracker;
 import majava.enums.Exclamation;
+import majava.enums.GameEventType;
 import majava.events.GameplayEvent;
 import majava.events.JanObserver;
 import majava.summary.StateOfGame;
-import majava.summary.RoundResultSummary;
 
 public abstract class GameUI implements JanObserver{
 	protected static final int NUM_PLAYERS = 4;
@@ -47,7 +47,7 @@ public abstract class GameUI implements JanObserver{
 		case HUMAN_PLAYER_REACTION_START: displayEventHumanReactionStart(event); break;
 		
 		case START_OF_ROUND: displayEventStartOfRound(event); break;
-		case PLACEHOLDER: displayEventPlaceholder(event); break;
+		case PLAYER_TURN_START: displayEventPlayerTurnStart(event); break;
 		case END_OF_ROUND: displayEventEndOfRound(event); break;
 		case END: endUI(); break;
 		case START: startUI(); break;
@@ -61,7 +61,7 @@ public abstract class GameUI implements JanObserver{
 	}
 	private boolean shouldSleepForEvent(GameplayEvent event){
 		if (sleepTime < 0) return false;
-		if (event.isExclamation() || event.isPlaceholder() || event.isForHuman() || event.isStartEnd())
+		if (event.isExclamation() || event.getEventType() == GameEventType.PLAYER_TURN_START || event.isForHuman() || event.isStartEnd())
 			return false;
 		return true;
 	}
@@ -73,7 +73,7 @@ public abstract class GameUI implements JanObserver{
 	protected abstract void displayEventNewDoraIndicator(GameplayEvent event);
 	protected abstract void displayEventHumanTurnStart(GameplayEvent event);
 	protected abstract void displayEventHumanReactionStart(GameplayEvent event);
-	protected abstract void displayEventPlaceholder(GameplayEvent event);
+	protected abstract void displayEventPlayerTurnStart(GameplayEvent event);
 	
 	protected abstract void displayEventStartOfRound(GameplayEvent event);
 	protected abstract void displayEventEndOfRound(GameplayEvent event);

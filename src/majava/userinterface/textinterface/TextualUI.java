@@ -25,7 +25,7 @@ public abstract class TextualUI extends GameUI{
 	protected abstract void displayEventMadeOwnKan(GameplayEvent event);
 	protected abstract void displayEventNewDoraIndicator(GameplayEvent event);
 	protected abstract void displayEventHumanTurnStart(GameplayEvent event);
-	protected abstract void displayEventPlaceholder(GameplayEvent event);
+	protected abstract void displayEventPlayerTurnStart(GameplayEvent event);
 	
 	protected abstract void displayEventStartOfRound(GameplayEvent event);
 	protected abstract void displayEventEndOfRound(GameplayEvent event);

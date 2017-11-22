@@ -14,7 +14,7 @@ public abstract class TextualUI extends GameUI{
 	
 	public TextualUI(){
 		outStream = System.out;
-		godsEye = null;/////why?
+		gameState = null;/////why?
 	}
 	
 	

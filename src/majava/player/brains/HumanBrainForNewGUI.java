@@ -13,7 +13,7 @@ import majava.userinterface.GameUI;
 public class HumanBrainForNewGUI extends PlayerBrain {
 	
 	
-//	GameUI userInterface;
+	GameUI userInterface;
 	private CallType callChosenByHuman;
 	private TurnActionType turnActionChosenByHuman;
 	private int discardIndexChosenByHuman;
@@ -35,10 +35,6 @@ public class HumanBrainForNewGUI extends PlayerBrain {
 	@Override
 	protected TurnActionType selectTurnAction(Hand hand, List<TurnActionType> listOfPossibleTurnActions){
 		TurnActionType chosenAction = TurnActionType.DISCARD;
-		
-		//show hand
-		userInterface.displayEvent(GameplayEvent.humanPlayerTurnStartEvent());
-		userInterface.movePromptPanelToSeat(player.getPlayerNumber());
 		
 		//get the player's desired action through the UI
 		userInterface.askUserInputTurnAction(

@@ -7,7 +7,7 @@ import java.util.List;
 import majava.userinterface.GameUI;
 import majava.util.GameTileList;
 import majava.player.Player;
-import majava.summary.GodsEye;
+import majava.summary.StateOfGame;
 import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
@@ -42,8 +42,8 @@ public class RoundTracker {
 	
 	private void __syncWithUI(GameUI ui){
 		if (ui == null) return;
-		GodsEye eye = new GodsEye(this, players, wall);
-		ui.syncWithRoundTracker(this, eye);
+		StateOfGame stateOfGame = new StateOfGame(this, players, wall);
+		ui.syncWithRoundTracker(this, stateOfGame);
 	}
 	
 	

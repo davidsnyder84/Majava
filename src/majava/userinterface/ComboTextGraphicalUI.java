@@ -12,7 +12,7 @@ import majava.userinterface.textinterface.DetailedTextualUI;
 import majava.userinterface.textinterface.SparseTextualUI;
 import majava.userinterface.textinterface.TextualUI;
 import majava.player.Player;
-import majava.summary.GodsEye;
+import majava.summary.StateOfGame;
 import majava.summary.RoundResultSummary;
 
 
@@ -62,9 +62,9 @@ public class ComboTextGraphicalUI extends GameUI{
 		graphicalUI.printErrorRoundAlreadyOver();
 	}
 	
-	public void syncWithRoundTracker(RoundTracker tracker, GodsEye eye){
-		textualUI.syncWithRoundTracker(tracker, eye);
-		graphicalUI.syncWithRoundTracker(tracker, eye);
+	public void syncWithRoundTracker(RoundTracker tracker, StateOfGame stateOfGame){
+		textualUI.syncWithRoundTracker(tracker, stateOfGame);
+		graphicalUI.syncWithRoundTracker(tracker, stateOfGame);
 	}
 	
 	

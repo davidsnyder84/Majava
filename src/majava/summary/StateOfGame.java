@@ -17,14 +17,14 @@ import majava.util.GameTileList;
 
 //the UI needs to be able to look at things that are normally hidden (like the wall and all players' hands)
 //this class gives the UI an immutable view of this data
-public final class GodsEye {	
+public final class StateOfGame {	
 	private final PlayerTracker[] playerTrackers;
 	private final Wall wall;
 	
 	private final RoundTracker roundTracker;
 	
 	
-	public GodsEye(RoundTracker rTracker, Player[] playerArray, Wall reveivedWall){
+	public StateOfGame(RoundTracker rTracker, Player[] playerArray, Wall reveivedWall){
 		roundTracker = rTracker;
 		playerTrackers = makePlayerTrackers(playerArray);
 		wall = reveivedWall;

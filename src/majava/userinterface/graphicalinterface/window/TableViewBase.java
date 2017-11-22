@@ -9,7 +9,7 @@ import majava.Wall;
 import majava.enums.Exclamation;
 import majava.enums.Wind;
 import majava.player.Player;
-import majava.summary.GodsEye;
+import majava.summary.StateOfGame;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
@@ -299,7 +299,7 @@ public class TableViewBase extends JFrame{
 	
 	
 	protected RoundTracker roundTracker;
-	protected GodsEye godsEye;
+	protected StateOfGame gameState;
 	
 	
 	private int newTurn = -1, oldTurn = -1;
@@ -418,7 +418,7 @@ public class TableViewBase extends JFrame{
 		
 		//update hands
 		for (int playerIndex = SEAT1; playerIndex <= SEAT4; playerIndex++){
-			GameTileList handTiles = godsEye.getHandTilesForPlayer(playerIndex);
+			GameTileList handTiles = gameState.getHandTilesForPlayer(playerIndex);
 			for (int tile = 0; tile < SIZE_HAND; tile++){
 				larryHands[playerIndex][tile].setIcon(getImageIconForTile(handTiles, tile, playerIndex, BIG, whichHandsToReveal[playerIndex]));
 			}
@@ -432,7 +432,7 @@ public class TableViewBase extends JFrame{
 			}
 		}
 		
-		GameTile[] wallTiles = godsEye.getWallTiles();
+		GameTile[] wallTiles = gameState.getWallTiles();
 		//update wall summary
 		for (int tileIndex = 0; tileIndex < SIZE_DEAD_WALL; tileIndex++){
 			larryDW[tileIndex].setIcon(getImageIconWall(wallTiles, tileIndex + OFFSET_DEAD_WALL, SEAT1, cheatRevealAllWall));
@@ -452,7 +452,7 @@ public class TableViewBase extends JFrame{
 		
 		//update melds
 		for (int playerIndex = SEAT1; playerIndex <= SEAT4; playerIndex++){
-			List<Meld> meldList = godsEye.getPlayerMelds(playerIndex);
+			List<Meld> meldList = gameState.getPlayerMelds(playerIndex);
 			for (int meldIndex = 0; meldIndex < meldList.size(); meldIndex++){
 				List<GameTile> tList = meldList.get(meldIndex).getAllTiles();
 				for (int tileIndex = 0; tileIndex < SIZE_MELD; tileIndex++)
@@ -463,9 +463,9 @@ public class TableViewBase extends JFrame{
 		
 		//update player info
 		for (int playerIndex = SEAT1; playerIndex <= SEAT4; playerIndex++){
-			larryInfoPlayers[playerIndex][LARRY_INFOPLAYER_SEATWIND].setIcon(getImageIconWind(godsEye.seatWindOfPlayer(playerIndex), SMALL));
-			larryInfoPlayers[playerIndex][LARRY_INFOPLAYER_POINTS].setText(Integer.toString(godsEye.pointsForPlayer(playerIndex)));
-			if (godsEye.playerIsInRiichi(playerIndex))
+			larryInfoPlayers[playerIndex][LARRY_INFOPLAYER_SEATWIND].setIcon(getImageIconWind(gameState.seatWindOfPlayer(playerIndex), SMALL));
+			larryInfoPlayers[playerIndex][LARRY_INFOPLAYER_POINTS].setText(Integer.toString(gameState.pointsForPlayer(playerIndex)));
+			if (gameState.playerIsInRiichi(playerIndex))
 				larryInfoPlayers[playerIndex][LARRY_INFOPLAYER_RIICHI].setIcon(garryOther[GARRYINDEX_OTHER_RIICHI]);
 		}
 		
@@ -492,8 +492,8 @@ public class TableViewBase extends JFrame{
 		oldTurn = newTurn;
 	}
 	private void discardMarkerSet(){
-		if (!pondTilesFor(newTurn).isEmpty() && godsEye.playerNeedsDraw(newTurn)){
-			if (newTurn == oldTurn && godsEye.playerNeedsDrawRinshan(newTurn)) return;
+		if (!pondTilesFor(newTurn).isEmpty() && gameState.playerNeedsDraw(newTurn)){
+			if (newTurn == oldTurn && gameState.playerNeedsDrawRinshan(newTurn)) return;
 			getLastLabelInPond(newTurn).setOpaque(true);
 			getLastLabelInPond(newTurn).setBackground(COLOR_POND_DISCARD_TILE);
 		}
@@ -510,7 +510,7 @@ public class TableViewBase extends JFrame{
 	}
 	
 	private List<PondTile> pondTilesFor(int seat){
-		return godsEye.getPondTilesForPlayer(seat);
+		return gameState.getPondTilesForPlayer(seat);
 	}
 	
 	
@@ -704,14 +704,14 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	public void syncWithRoundTracker(RoundTracker tracker, GodsEye eye){		
+	public void syncWithRoundTracker(RoundTracker tracker, StateOfGame stateOfGame){		
 		roundTracker = tracker;
-		godsEye = eye;
+		gameState = stateOfGame;
 		
 		//hand revealing options
 		whichHandsToReveal = new boolean[NUM_PLAYERS];
 		for (int i = 0; i < NUM_PLAYERS; i++)
-			whichHandsToReveal[i] = (cheatRevealAllHands || godsEye.playerIsHuman(i));
+			whichHandsToReveal[i] = (cheatRevealAllHands || gameState.playerIsHuman(i));
 		
 		blankEverything();
 	}
@@ -1684,7 +1684,7 @@ public class TableViewBase extends JFrame{
 				checkboxRevealHands.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						cheatRevealAllHands = !cheatRevealAllHands;
-						for (int i = 0; i < whichHandsToReveal.length; i++) whichHandsToReveal[i] = (cheatRevealAllHands || godsEye.playerIsHuman(i));
+						for (int i = 0; i < whichHandsToReveal.length; i++) whichHandsToReveal[i] = (cheatRevealAllHands || gameState.playerIsHuman(i));
 						updateEverything();
 					}
 				});

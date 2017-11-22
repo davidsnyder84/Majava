@@ -28,7 +28,7 @@ public class SparseTextualUI extends TextualUI{
 	protected void __displayEventDiscardedTile(){
 		
 		//show the discarded tile
-		println("\t" + godsEye.seatWindOfPlayer(roundTracker.whoseTurn()).toChar() + " discard: " + roundTracker.getMostRecentDiscard());
+		println("\t" + gameState.seatWindOfPlayer(roundTracker.whoseTurn()).toChar() + " discard: " + roundTracker.getMostRecentDiscard());
 //		mRoundTracker.currentPlayer().showPond();
 	}
 	
@@ -38,7 +38,7 @@ public class SparseTextualUI extends TextualUI{
 	
 	protected void __displayEventMadeOpenMeld(){}
 	protected void __displayEventDrewTile(){
-		print("\t" + godsEye.seatWindOfPlayer(roundTracker.whoseTurn()).toChar() + " draw: " + godsEye.getTsumoTileFor(roundTracker.whoseTurn()));
+		print("\t" + gameState.seatWindOfPlayer(roundTracker.whoseTurn()).toChar() + " draw: " + gameState.getTsumoTileFor(roundTracker.whoseTurn()));
 	}
 	protected void __displayEventMadeOwnKan(){}
 	
@@ -80,10 +80,10 @@ public class SparseTextualUI extends TextualUI{
 	
 	//prints the hands of a player
 	protected void __showPlayerHand(int seatNum){
-		println(godsEye.getHandAsStringCompact(seatNum));
+		println(gameState.getHandAsStringCompact(seatNum));
 	}
 	
-	protected void __showWall(){println(godsEye.wallToString());}
+	protected void __showWall(){println(gameState.wallToString());}
 	protected void __showDoraIndicators(){println(",,,Dora Indicators: " + roundTracker.getDoraIndicators());}
 	protected void __showDeadWall(){__showDoraIndicators();}
 	
@@ -195,10 +195,10 @@ public class SparseTextualUI extends TextualUI{
 	protected void __showExclamation(Exclamation exclamation, int seat){
 		
 		if (exclamation.isCall())
-			println("..." + godsEye.seatWindOfPlayer(seat) + " Player called " + exclamation.toString().toUpperCase() + " on the tile (" + roundTracker.getMostRecentDiscard() + ")");
+			println("..." + gameState.seatWindOfPlayer(seat) + " Player called " + exclamation.toString().toUpperCase() + " on the tile (" + roundTracker.getMostRecentDiscard() + ")");
 //			println("..." + roundTracker.getWindOfSeat(seat) + " Player called " + exclamation.toString().toUpperCase() + " on the tile (" + roundTracker.getMostRecentDiscard() + ")");
 		else
-			println(",,," + godsEye.seatWindOfPlayer(seat) + " Player declared " + exclamation.toString().toUpperCase());
+			println(",,," + gameState.seatWindOfPlayer(seat) + " Player declared " + exclamation.toString().toUpperCase());
 		
 		//pause
 		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);

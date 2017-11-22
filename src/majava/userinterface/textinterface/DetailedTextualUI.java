@@ -33,8 +33,8 @@ public class DetailedTextualUI extends TextualUI{
 		
 		//show the discarded tile and the discarder's pond
 		println("\n\n\tTiles left: " + roundTracker.getNumTilesLeftInWall());
-		println("\t" + godsEye.seatWindOfPlayer(roundTracker.whoseTurn()) + " Player's discard: ^^^^^" + roundTracker.getMostRecentDiscard().toString() + "^^^^^");
-		println("\t" + godsEye.getPondAsString(roundTracker.whoseTurn()));
+		println("\t" + gameState.seatWindOfPlayer(roundTracker.whoseTurn()) + " Player's discard: ^^^^^" + roundTracker.getMostRecentDiscard().toString() + "^^^^^");
+		println("\t" + gameState.getPondAsString(roundTracker.whoseTurn()));
 		
 		
 	}
@@ -74,9 +74,9 @@ public class DetailedTextualUI extends TextualUI{
 	
 	
 	@Override
-	protected void __showPlayerHand(int seatNum) {println(godsEye.getHandAsString(seatNum));}
+	protected void __showPlayerHand(int seatNum) {println(gameState.getHandAsString(seatNum));}
 	
-	protected void __showWall(){println(godsEye.wallToString());}
+	protected void __showWall(){println(gameState.wallToString());}
 	
 	protected void __showDoraIndicators(){
 		GameTileList doraIndicators = roundTracker.getDoraIndicators();
@@ -85,7 +85,7 @@ public class DetailedTextualUI extends TextualUI{
 	
 	protected void __showDeadWall(){
 		__showDoraIndicators();
-		println(godsEye.deadWallToString());
+		println(gameState.deadWallToString());
 	}
 	
 	protected void __showRoundResultOLD(){
@@ -192,11 +192,11 @@ public class DetailedTextualUI extends TextualUI{
 		
 		if (exclamation.isCall())
 			println("\n*********************************************************" + 
-					"\n**********" + godsEye.seatWindOfPlayer(seat) + " Player called the tile (" + roundTracker.getMostRecentDiscard() + ")! " + exclamation + "!!!**********" +  
+					"\n**********" + gameState.seatWindOfPlayer(seat) + " Player called the tile (" + roundTracker.getMostRecentDiscard() + ")! " + exclamation + "!!!**********" +  
 					"\n*********************************************************");
 		else
 			println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
-					"\n~~~~~~~~~~~" + godsEye.seatWindOfPlayer(seat) + " Player declared " + exclamation + "!!!~~~~~~~~~~~" + 
+					"\n~~~~~~~~~~~" + gameState.seatWindOfPlayer(seat) + " Player declared " + exclamation + "!!!~~~~~~~~~~~" + 
 					"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		
 

@@ -110,7 +110,7 @@ public class TableViewLarge extends TableViewBase{
 		
 		int currentPlayer, currentTile;
 		
-		GameTile[] wallTiles = godsEye.getWallTiles();
+		GameTile[] wallTiles = gameState.getWallTiles();
 		//update wall(s)
 		for (currentPlayer = 0; currentPlayer < NUM_PLAYERS; currentPlayer++){
 			for (currentTile = 0; currentTile < SIZE_WALL; currentTile++)

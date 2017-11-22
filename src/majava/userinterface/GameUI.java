@@ -19,7 +19,6 @@ public abstract class GameUI implements JanObserver{
 	
 	protected RoundTracker roundTracker = null;
 	protected StateOfGame gameState = null;
-	protected RoundResultSummary resultSummary = null;
 	
 	
 	
@@ -80,12 +79,6 @@ public abstract class GameUI implements JanObserver{
 	protected abstract void __displayEventEndOfRound(GameplayEvent event);
 	
 	protected abstract void __showExclamation(Exclamation exclamation, int seat);
-	
-	
-	
-	public void setRoundResult(RoundResultSummary resum){
-		resultSummary = resum;
-	}
 	
 	
 	public void setSleepTimes(int sleepTime, int sleepTimeExclamation, int sleepTimeRoundEnd){

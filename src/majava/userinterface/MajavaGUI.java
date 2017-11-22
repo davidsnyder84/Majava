@@ -38,7 +38,7 @@ public class MajavaGUI extends GameUI{
 	}
 	
 	protected void __displayEventEndOfRound(GameplayEvent event){
-		tableWindow.showResult(resultSummary);
+		tableWindow.showResult(event.getResultSummary());
 		tableWindow.updateEverything();
 		
 		if (mSleepTimeRoundEnd > 0) Pauser.pauseFor(mSleepTimeRoundEnd);

@@ -26,8 +26,8 @@ public class Round{
 	private static final int DEFAULT_ROUND_NUM = 1 , DEFAULT_ROUND_BONUS_NUM = 0;
 	
 	//for debug use
-//	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
-	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+//	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	
 //	private static final boolean DEBUG_EXHAUSTED_WALL = true;
 	private static final boolean DEBUG_EXHAUSTED_WALL = false;
@@ -349,17 +349,13 @@ public class Round{
 	
 	
 	
+	
+	
 	public void displayRoundResult(){
-		if (userInterface != null) userInterface.setRoundResult(roundResult.getSummary());	
-		
 		GameplayEvent endOfRoundEvent = GameplayEvent.endOfRoundEvent();
 		endOfRoundEvent.packInfo(roundResult.getSummary());
-		
 		__updateUI(endOfRoundEvent);
 	}
-	
-	
-	/////can add smarter parameters in these
 	private void displayCallFrom(Player caller){
 		GameplayEvent callEvent = GameplayEvent.calledTileEvent();
 		callEvent.setExclamation(caller.getCallStatusExclamation());
@@ -372,7 +368,6 @@ public class Round{
 		kanEvent.packInfo(fromPlayer);
 		__updateUI(kanEvent);
 		__updateUI(GameplayEvent.madeOwnKanEvent());
-		
 	}
 	private void tellUiAboutTsumo(Player fromPlayer){
 		GameplayEvent tsumoEvent = GameplayEvent.declaredTsumoEvent();

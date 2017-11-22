@@ -28,7 +28,7 @@ public class MajavaGUI extends GameUI{
 	protected void __displayEventMadeOpenMeld(){tableWindow.updateEverything();}
 	protected void __displayEventDrewTile(){tableWindow.updateEverything();}
 	protected void __displayEventMadeOwnKan(){tableWindow.updateEverything();}
-	protected void __displayEventNewDoraIndicator(){/*blank*/}
+	protected void __displayEventNewDoraIndicator(){/*intentionally blank, don't need to show new indicator because it is shown automatically*/}
 	protected void __displayEventHumanTurnStart(){tableWindow.updateEverything();}
 	protected void __displayEventPlaceholder(){tableWindow.updateEverything();}
 	
@@ -45,11 +45,8 @@ public class MajavaGUI extends GameUI{
 	
 	
 	protected void __showExclamation(Exclamation exclamation, int seat){
-		//show the label
 		tableWindow.exclamationShow(exclamation, seat);
-		//pause
 		if (mSleepTimeExclamation > 0) Pauser.pauseFor(mSleepTimeExclamation);
-		//get rid of label
 		tableWindow.exclamationErase();
 	}
 	
@@ -86,13 +83,16 @@ public class MajavaGUI extends GameUI{
 		else if (tableWindow.resultChosenTurnActionWasRiichi()) chosenAction = TurnActionType.RIICHI;
 		else if (tableWindow.resultChosenTurnActionWasTsumo()) chosenAction = TurnActionType.TSUMO;
 		
-		((HumanBrain) gameState.getControllerForPlayer((gameState.getRoundTracker().whoseTurn()))).setTurnActionChosenByHuman(chosenAction);
+		controllerOfCurrentPlayer().setTurnActionChosenByHuman(chosenAction);
 		
 		if (chosenAction == TurnActionType.DISCARD)
-			((HumanBrain) gameState.getControllerForPlayer((gameState.getRoundTracker().whoseTurn()))).setDiscardIndexChosenByHuman(tableWindow.resultChosenDiscardIndex() - 1);
+			controllerOfCurrentPlayer().setDiscardIndexChosenByHuman(tableWindow.resultChosenDiscardIndex() - 1);
 	}
 	//returns the index of the clicked discard. returns negative if no discard chosen.
 	public int resultChosenDiscardIndex(){return tableWindow.resultChosenDiscardIndex();}
+	
+	private HumanBrain controllerOfCurrentPlayer(){return controllerOfPlayer(gameState.getRoundTracker().whoseTurn());}
+	private HumanBrain controllerOfPlayer(int playerNum){return (HumanBrain) gameState.getControllerForPlayer(playerNum);}
 	
 	
 	

@@ -6,7 +6,9 @@ import majava.hand.Meld;
 import majava.Pond;
 import majava.RoundTracker;
 import majava.Wall;
+import majava.enums.CallType;
 import majava.enums.Exclamation;
+import majava.enums.TurnActionType;
 import majava.enums.Wind;
 import majava.player.Player;
 import majava.summary.StateOfGame;
@@ -157,17 +159,16 @@ public class TableViewBase extends JFrame{
 	private static final int LARRY_INFOPLAYER_SEATWIND = 0, LARRY_INFOPLAYER_POINTS = 1, LARRY_INFOPLAYER_RIICHI = 2;
 	
 	private static final int BARRY_TACTIONS_RIICHI = 0, BARRY_TACTIONS_ANKAN = 1, BARRY_TACTIONS_MINKAN = 2, BARRY_TACTIONS_TSUMO = 3;
+	private static final int BARRY_CALLS_NONE = 0, BARRY_CALLS_CHI_L = 1, BARRY_CALLS_CHI_M = 2, BARRY_CALLS_CHI_H = 3, BARRY_CALLS_PON = 4, BARRY_CALLS_KAN = 5, BARRY_CALLS_RON = 6, BARRY_CALLS_CHI = 7;
 	
 	
 	//click action constants
-	protected static final int NO_CALL_CHOSEN = -1;
-	protected static final int CALL_NONE = 0, CALL_CHI_L = 1, CALL_CHI_M = 2, CALL_CHI_H = 3, CALL_PON = 4, CALL_KAN = 5, CALL_RON = 6, CALL_CHI = 7;
-	private static final int DEFAULT_CALL = CALL_NONE;
+	private static final CallType DEFAULT_CALL = CallType.NONE;
 	
-	protected static final int NO_ACTION_CHOSEN = -1;
+	protected static final TurnActionType NO_ACTION_CHOSEN = TurnActionType.UNDECIDED;
 	protected static final int TURN_ACTION_DISCARD = -10, TURN_ACTION_ANKAN = -20, TURN_ACTION_MINKAN = -30, TURN_ACTION_RIICHI = -40, TURN_ACTION_TSUMO = -50;
 
-	protected static final int NO_DISCARD_CHOSEN = -1;
+	protected static final int NO_DISCARD_CHOSEN = -99778;
 	protected static final int DEFAULT_DISCARD = 0;
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~END CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	
@@ -304,8 +305,10 @@ public class TableViewBase extends JFrame{
 	
 	private int newTurn = -1, oldTurn = -1;
 	
-	private int chosenCall;
-	private int chosenTurnAction;
+//	private int chosenCall;
+//	private int chosenTurnAction;
+	private CallType chosenCall;
+	private TurnActionType chosenTurnAction;
 	private int chosenDiscard;
 	
 	/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^END MEMBER VARIABLES^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
@@ -592,49 +595,49 @@ public class TableViewBase extends JFrame{
 
 	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
 		boolean onlyOneChiPossible = ((canChiL ^ canChiM ^ canChiH) ^ (canChiL && canChiM && canChiH));
-		int chiType = -1;
+		CallType chiType = CallType.NONE;
 		
 		hideAll(barryCalls);
-		barryCalls[CALL_NONE].setVisible(true);
+		barryCalls[BARRY_CALLS_NONE].setVisible(true);
 		
 		//if only one type of chi is possible, just show a single Chi button
 		if (onlyOneChiPossible){
-			barryCalls[CALL_CHI].setVisible(true);
+			barryCalls[BARRY_CALLS_CHI].setVisible(true);
 			
-			if (canChiL) chiType = CALL_CHI_L;
-			else if (canChiM) chiType = CALL_CHI_M;
-			else if (canChiH) chiType = CALL_CHI_H;
+			if (canChiL) chiType = CallType.CHI_L;
+			else if (canChiM) chiType = CallType.CHI_M;
+			else if (canChiH) chiType = CallType.CHI_H;
 		}
 		else{
 			//else, show multiple chi buttons
-			barryCalls[CALL_CHI_L].setVisible(canChiL);
-			barryCalls[CALL_CHI_M].setVisible(canChiM);
-			barryCalls[CALL_CHI_H].setVisible(canChiH);
+			barryCalls[BARRY_CALLS_CHI_L].setVisible(canChiL);
+			barryCalls[BARRY_CALLS_CHI_M].setVisible(canChiM);
+			barryCalls[BARRY_CALLS_CHI_H].setVisible(canChiH);
 		}
 		
-		barryCalls[CALL_PON].setVisible(canPon);
-		barryCalls[CALL_KAN].setVisible(canKan);
-		barryCalls[CALL_RON].setVisible(canRon);
+		barryCalls[BARRY_CALLS_PON].setVisible(canPon);
+		barryCalls[BARRY_CALLS_KAN].setVisible(canKan);
+		barryCalls[BARRY_CALLS_RON].setVisible(canRon);
 		
 		repaint();
 		
 		
-		chosenCall = NO_CALL_CHOSEN;
-		while (chosenCall == NO_CALL_CHOSEN)
+		chosenCall = CallType.NONE;
+		while (chosenCall == CallType.NONE)
 			waitAroundForClick();
 		
-		if (chosenCall == CALL_CHI) chosenCall = chiType;
+		if (chosenCall == CallType.NONSPECIFIC_CHI) chosenCall = chiType;
 		
 		hideAll(barryCalls);
-		return (chosenCall != NO_CALL_CHOSEN);
+		return (chosenCall != CallType.NONE);
 	}
-	public boolean resultChosenCallWasNone(){return (chosenCall == NO_CALL_CHOSEN);}
-	public boolean resultChosenCallWasChiL(){return (chosenCall == CALL_CHI_L);}
-	public boolean resultChosenCallWasChiM(){return (chosenCall == CALL_CHI_M);}
-	public boolean resultChosenCallWasChiH(){return (chosenCall == CALL_CHI_H);}
-	public boolean resultChosenCallWasPon(){return (chosenCall == CALL_PON);}
-	public boolean resultChosenCallWasKan(){return (chosenCall == CALL_KAN);}
-	public boolean resultChosenCallWasRon(){return (chosenCall == CALL_RON);}
+	public boolean resultChosenCallWasNone(){return (chosenCall == CallType.NONE);}
+	public boolean resultChosenCallWasChiL(){return (chosenCall == CallType.CHI_L);}
+	public boolean resultChosenCallWasChiM(){return (chosenCall == CallType.CHI_M);}
+	public boolean resultChosenCallWasChiH(){return (chosenCall == CallType.CHI_H);}
+	public boolean resultChosenCallWasPon(){return (chosenCall == CallType.PON);}
+	public boolean resultChosenCallWasKan(){return (chosenCall == CallType.KAN);}
+	public boolean resultChosenCallWasRon(){return (chosenCall == CallType.RON);}
 	
 	
 	
@@ -642,7 +645,7 @@ public class TableViewBase extends JFrame{
 	
 	private void setDiscardChosen(int seatNumberWhoClicked, int discardIndex){
 		if (seatNumberWhoClicked != roundTracker.whoseTurn()) return;
-		chosenTurnAction = TURN_ACTION_DISCARD;
+		chosenTurnAction = TurnActionType.DISCARD;
 		chosenDiscard = discardIndex;
 	}
 	private void setDiscardChosen(int discardIndex){setDiscardChosen(roundTracker.whoseTurn(), discardIndex);}
@@ -670,11 +673,11 @@ public class TableViewBase extends JFrame{
 		
 		hideAll(barryTActions);
 	}
-	public boolean resultChosenTurnActionWasDiscard(){return (chosenTurnAction == TURN_ACTION_DISCARD);}
-	public boolean resultChosenTurnActionWasAnkan(){return (chosenTurnAction == TURN_ACTION_ANKAN);}
-	public boolean resultChosenTurnActionWasMinkan(){return (chosenTurnAction == TURN_ACTION_MINKAN);}
-	public boolean resultChosenTurnActionWasRiichi(){return (chosenTurnAction == TURN_ACTION_RIICHI);}
-	public boolean resultChosenTurnActionWasTsumo(){return (chosenTurnAction == TURN_ACTION_TSUMO);}
+	public boolean resultChosenTurnActionWasDiscard(){return (chosenTurnAction == TurnActionType.DISCARD);}
+	public boolean resultChosenTurnActionWasAnkan(){return (chosenTurnAction == TurnActionType.ANKAN);}
+	public boolean resultChosenTurnActionWasMinkan(){return (chosenTurnAction == TurnActionType.MINKAN);}
+	public boolean resultChosenTurnActionWasRiichi(){return (chosenTurnAction == TurnActionType.RIICHI);}
+	public boolean resultChosenTurnActionWasTsumo(){return (chosenTurnAction == TurnActionType.TSUMO);}
 	
 	//returns the index of the clicked discard. returns negative if no discard chosen.
 	public int resultChosenDiscardIndex(){
@@ -982,24 +985,24 @@ public class TableViewBase extends JFrame{
 	private class CallListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			String command = e.getActionCommand();
-			if (command.equals("Chi-L")) chosenCall = CALL_CHI_L;
-			else if (command.equals("Chi-M")) chosenCall = CALL_CHI_M;
-			else if (command.equals("Chi-H")) chosenCall = CALL_CHI_H;
-			else if (command.equals("Pon")) chosenCall = CALL_PON;
-			else if (command.equals("Kan")) chosenCall = CALL_KAN;
-			else if (command.equals("Ron")) chosenCall = CALL_RON;
-			else if (command.equals("None")) chosenCall = CALL_NONE;
-			else if (command.equals("Chi")) chosenCall = CALL_CHI;
+			if (command.equals("Chi-L")) chosenCall = CallType.CHI_L;
+			else if (command.equals("Chi-M")) chosenCall = CallType.CHI_M;
+			else if (command.equals("Chi-H")) chosenCall = CallType.CHI_H;
+			else if (command.equals("Pon")) chosenCall = CallType.PON;
+			else if (command.equals("Kan")) chosenCall = CallType.KAN;
+			else if (command.equals("Ron")) chosenCall = CallType.RON;
+			else if (command.equals("None")) chosenCall = CallType.NONE;
+			else if (command.equals("Chi")) chosenCall = CallType.NONSPECIFIC_CHI;
 		}		
 	}
 	
 	private class TurnActionListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			String command = e.getActionCommand();
-			if (command.equals("Ankan")) chosenTurnAction = TURN_ACTION_ANKAN;
-			else if (command.equals("Minkan")) chosenTurnAction = TURN_ACTION_MINKAN;
-			else if (command.equals("Riichi")) chosenTurnAction = TURN_ACTION_RIICHI;
-			else if (command.equals("Tsumo")) chosenTurnAction = TURN_ACTION_TSUMO;
+			if (command.equals("Ankan")) chosenTurnAction = TurnActionType.ANKAN;
+			else if (command.equals("Minkan")) chosenTurnAction = TurnActionType.MINKAN;
+			else if (command.equals("Riichi")) chosenTurnAction = TurnActionType.RIICHI;
+			else if (command.equals("Tsumo")) chosenTurnAction = TurnActionType.TSUMO;
 		}		
 	}
 	

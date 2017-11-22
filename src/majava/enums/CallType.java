@@ -1,7 +1,7 @@
 package majava.enums;
 
 public enum CallType {
-	NONE, CHI_L, CHI_M, CHI_H, PON, KAN, RON, CHI, UNDECIDED;
+	NONE, CHI_L, CHI_M, CHI_H, PON, KAN, RON, NONSPECIFIC_CHI, UNDECIDED;
 	
 	@Override
 	public String toString(){

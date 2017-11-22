@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import majava.userinterface.GameUI;
 import majava.util.GameTileList;
 import majava.player.Player;
 import majava.summary.PaymentMap;
@@ -40,7 +39,6 @@ public class Round{
 	
 	private final StateOfGame gameState;
 	private final GameEventListener gameEventListener;
-	private final GameUI userInterface;
 	
 	private final Wall wall;
 	
@@ -50,17 +48,12 @@ public class Round{
 	
 	
 	//constructor
-	public Round(GameUI ui, GameEventListener eventListener, Player[] playerArray, Wind roundWindToSet, int roundNum, int roundBonusNum){
+	public Round(GameEventListener eventListener, Player[] playerArray, Wind roundWindToSet, int roundNum, int roundBonusNum){
 		players = playerArray;
-		
-		roundWind = roundWindToSet;
-		roundNumber = roundNum;
-		roundBonusNumber = roundBonusNum;
-		
-		userInterface = ui;
 		gameEventListener = eventListener;
 		
-		
+		roundWind = roundWindToSet; roundNumber = roundNum; roundBonusNumber = roundBonusNum;
+				
 		//prepare for new round
 		for (Player p: players)
 			p.prepareForNewRound();
@@ -73,8 +66,8 @@ public class Round{
 		roundTracker = new RoundTracker(this, wall, players);		
 		gameState = new StateOfGame(roundTracker, players, wall);
 	}
-	public Round(GameUI ui, GameEventListener eventListener, Player[] playerArray, Wind roundWindToSet, int roundNum){this(ui, eventListener, playerArray, roundWindToSet, roundNum, DEFAULT_ROUND_BONUS_NUM);}
-	public Round(GameUI ui, GameEventListener eventListener, Player[] playerArray){this(ui, eventListener, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
+	public Round(GameEventListener eventListener, Player[] playerArray, Wind roundWindToSet, int roundNum){this(eventListener, playerArray, roundWindToSet, roundNum, DEFAULT_ROUND_BONUS_NUM);}
+	public Round(GameEventListener eventListener, Player[] playerArray){this(eventListener, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
 	
 	
 	

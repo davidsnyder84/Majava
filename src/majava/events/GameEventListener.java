@@ -17,6 +17,7 @@ public class GameEventListener {
 	public void postNewEvent(GameplayEvent event, StateOfGame gameState){
 		notifyObservers(event, gameState);
 	}
+	public void postNewEvent(GameplayEvent event){notifyObservers(event, null);}
 	
 	
 	

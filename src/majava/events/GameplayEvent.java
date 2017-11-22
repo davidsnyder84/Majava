@@ -48,6 +48,7 @@ public class GameplayEvent {
 	public boolean isExclamation(){return eventType.isExclamation();}
 	public boolean isPlaceholder(){return eventType == PLACEHOLDER;}
 	public boolean isForHuman(){return eventType == HUMAN_PLAYER_REACTION_START || eventType == HUMAN_PLAYER_TURN_START;}
+	public boolean isStartEnd(){return eventType == START || eventType == END;}
 	public GameEventType getEventType(){return eventType;}
 	
 	
@@ -72,6 +73,8 @@ public class GameplayEvent {
 	public static final GameplayEvent humanReactionEvent(){return new GameplayEvent(HUMAN_PLAYER_REACTION_START);}
 	public static final GameplayEvent unknownEvent(){return new GameplayEvent(UNKNOWN);}
 	public static final GameplayEvent placeholderEvent(){return new GameplayEvent(PLACEHOLDER);}
+	public static final GameplayEvent endingEvent(){return new GameplayEvent(END);}
+	public static final GameplayEvent startingEvent(){return new GameplayEvent(START);}
 
 
 //	public void packInfo(Player p, GameTile tile, int eventRaisedByplayerNumber, int whoseTurnNumber) {

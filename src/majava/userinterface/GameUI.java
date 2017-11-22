@@ -9,8 +9,6 @@ import majava.summary.StateOfGame;
 import majava.summary.RoundResultSummary;
 
 public abstract class GameUI implements JanObserver{
-	
-	
 	protected static final int NUM_PLAYERS = 4;
 	
 	protected static final int DEAFULT_SLEEPTIME = 400, DEAFULT_SLEEPTIME_EXCLAMATION = 1500, DEAFULT_SLEEPTIME_ROUND_END = 2000;
@@ -33,7 +31,7 @@ public abstract class GameUI implements JanObserver{
 	@Override
 	public void update(GameplayEvent gameplayEvent, StateOfGame stateOfGame) {
 		gameState = stateOfGame;
-		roundTracker = gameState.getRoundTracker();
+		if (gameState != null) roundTracker = gameState.getRoundTracker();
 		displayEvent(gameplayEvent);
 	}
 	
@@ -51,6 +49,8 @@ public abstract class GameUI implements JanObserver{
 		case START_OF_ROUND: __displayEventStartOfRound(event); break;
 		case PLACEHOLDER: __displayEventPlaceholder(event); break;
 		case END_OF_ROUND: __displayEventEndOfRound(event); break;
+		case END: endUI(); break;
+		case START: startUI(); break;
 		default: break;
 		}
 		
@@ -61,7 +61,7 @@ public abstract class GameUI implements JanObserver{
 	}
 	private boolean shouldSleepForEvent(GameplayEvent event){
 		if (mSleepTime < 0) return false;
-		if (event.isExclamation() || event.isPlaceholder() || event.isForHuman())
+		if (event.isExclamation() || event.isPlaceholder() || event.isForHuman() || event.isStartEnd())
 			return false;
 		return true;
 	}

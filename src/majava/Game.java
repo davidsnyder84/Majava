@@ -57,11 +57,10 @@ public class Game {
 	private final List<RoundResultSummary> roundResults;
 	
 	private final GameEventListener gameEventListener;
-	private final GameUI userInterface;
 	
 	
 	
-	public Game(GameUI ui, Player[] playerArray, GameEventListener eventListener){
+	public Game(Player[] playerArray, GameEventListener eventListener){
 
 		setGameTypeDefault();
 		
@@ -75,7 +74,6 @@ public class Game {
 		roundResults = new ArrayList<RoundResultSummary>();
 		
 		gameEventListener = eventListener;
-		userInterface = ui;
 	}
 	
 	
@@ -100,7 +98,7 @@ public class Game {
 		handleEndGame();
 	}
 	private void playNewRound(){
-		currentRound = new Round(userInterface, gameEventListener, players, currentRoundWind, currentRoundNum, currentRoundBonusNum);
+		currentRound = new Round(gameEventListener, players, currentRoundWind, currentRoundNum, currentRoundBonusNum);
 		currentRound.play();
 	}
 	

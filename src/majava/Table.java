@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import majava.events.GameEventListener;
+import majava.events.GameplayEvent;
 import majava.events.JanObserver;
 import majava.player.Player;
 import majava.userinterface.GameUI;
@@ -18,7 +19,6 @@ import utility.Pauser;
 
 //a table for four players to sit at and play various types of mahjong games
 public class Table {
-	
 	private static final int NUM_PLAYERS = 4;
 	private static final boolean DEFAULT_DO_FAST_GAMEPLAY = false;
 	private static final boolean DEFAULT_DO_SINGLE_PLAYER = true;
@@ -27,7 +27,6 @@ public class Table {
 	private Player[] players;
 	private Game currentGame;
 	
-	private GameUI userInterface;	
 	//options
 	private boolean optionDoSinglePlayer = DEFAULT_DO_SINGLE_PLAYER;
 	private boolean optionDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
@@ -41,7 +40,7 @@ public class Table {
 	public Table(){
 		gameEventListener = new GameEventListener();
 	}
-	private void setUpObservers(){		
+	private void setupUserInterfaces(){		
 		GameUI gui = new MajavaGUI();
 		setSleepTimesForUI(gui);
 		GameUI textUI = new SparseTextualUI();
@@ -51,10 +50,8 @@ public class Table {
 		userInterfaces.add(gui);
 		userInterfaces.add(textUI);
 				
-		for (GameUI ui: userInterfaces){
-			ui.startUI();
+		for (GameUI ui: userInterfaces)
 			gameEventListener.registerObserver(ui);
-		}	
 	}
 	
 	
@@ -66,21 +63,23 @@ public class Table {
 		
 		decideSeats();
 		
-		setUpObservers();
+		setupUserInterfaces();
 		
 		playNewGame();
 		
 		//close the window
-		Pauser.pauseFor(5000);
-		if (userInterface != null) userInterface.endUI();
+		end();
 	}
 	
 	//play one game
 	private void playNewGame(){
 		final long time = System.currentTimeMillis();
-		currentGame = new Game(userInterface, players, gameEventListener);
+		
+		currentGame = new Game(players, gameEventListener);
 		if (optionDoFastGameplay && allPlayersAreComputers()) currentGame.setGameTypeSimulation();
 		
+		//start a game
+		gameEventListener.postNewEvent(GameplayEvent.startingEvent());
 		currentGame.play();
 		
 		System.out.println("Time elapsed: " + (System.currentTimeMillis() - time));
@@ -149,6 +148,11 @@ public class Table {
 	
 	//accessors
 	public boolean gameIsOver(){return currentGame.gameIsOver();}
+	
+	private void end(){
+		Pauser.pauseFor(5000);
+		gameEventListener.postNewEvent(GameplayEvent.endingEvent(), null);
+	}
 	
 	
 	

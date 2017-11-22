@@ -3,7 +3,9 @@ package majava.player.brains;
 import java.util.ArrayList;
 import java.util.List;
 
+import majava.enums.CallType;
 import majava.enums.Exclamation;
+import majava.enums.TurnActionType;
 import majava.hand.Hand;
 import majava.player.Player;
 import majava.tiles.GameTile;
@@ -18,7 +20,7 @@ public abstract class PlayerBrain {
 	protected final Player player;
 	
 	private CallType callStatus;
-	private ActionType turnAction;
+	private TurnActionType turnAction;
 	private int chosenDiscardIndex;
 	
 	
@@ -37,24 +39,24 @@ public abstract class PlayerBrain {
 	
 	//template method pattern, final
 	public final void chooseTurnAction(Hand hand){
-		ActionType chosenAction = ActionType.DISCARD;
+		TurnActionType chosenAction = TurnActionType.DISCARD;
 		int discardIndex = NO_DISCARD_CHOSEN;
 		
 		//force auto discard if in riichi and unable to tsumo/kan
 		if (player.isInRiichi() && (!player.ableToTsumo() && !player.ableToAnkan())){
-			turnAction = ActionType.DISCARD;
+			turnAction = TurnActionType.DISCARD;
 			discardIndex = tsumoTileIndex(hand);
 			return;
 		}
 		
 		//get list of possible turn actions
-		List<ActionType> listOfPossibleTurnActions = listOfPossibleTurnActions();
+		List<TurnActionType> listOfPossibleTurnActions = listOfPossibleTurnActions();
 		
 		//ask to pick a turn action (abstract)
 		chosenAction = selectTurnAction(hand, listOfPossibleTurnActions);
 		
 		//if discard was chosen, ask to pick a discard (abstract)
-		if (chosenAction == ActionType.DISCARD){
+		if (chosenAction == TurnActionType.DISCARD){
 			discardIndex = selectDiscardIndex(hand);
 			chosenDiscardIndex = discardIndex;
 		}
@@ -62,28 +64,28 @@ public abstract class PlayerBrain {
 		turnAction = chosenAction;
 	}
 	//get list of possible options
-	private final List<ActionType> listOfPossibleTurnActions() {
-		List<ActionType> listOfPossibleTurnActions = new ArrayList<ActionType>();
+	private final List<TurnActionType> listOfPossibleTurnActions() {
+		List<TurnActionType> listOfPossibleTurnActions = new ArrayList<TurnActionType>();
 		
 		//discard is always possible, don't add it to the list
-		if (player.ableToAnkan()) listOfPossibleTurnActions.add(ActionType.ANKAN);
-		if (player.ableToMinkan()) listOfPossibleTurnActions.add(ActionType.MINKAN);
-		if (player.ableToRiichi()) listOfPossibleTurnActions.add(ActionType.RIICHI);
-		if (player.ableToTsumo()) listOfPossibleTurnActions.add(ActionType.TSUMO);
+		if (player.ableToAnkan()) listOfPossibleTurnActions.add(TurnActionType.ANKAN);
+		if (player.ableToMinkan()) listOfPossibleTurnActions.add(TurnActionType.MINKAN);
+		if (player.ableToRiichi()) listOfPossibleTurnActions.add(TurnActionType.RIICHI);
+		if (player.ableToTsumo()) listOfPossibleTurnActions.add(TurnActionType.TSUMO);
 		
 		return listOfPossibleTurnActions;
 	}
 	//how the turn action is chosen left abstract and must be defined by the subclass
-	protected abstract ActionType selectTurnAction(Hand hand, List<ActionType> listOfPossibleTurnActions);
+	protected abstract TurnActionType selectTurnAction(Hand hand, List<TurnActionType> listOfPossibleTurnActions);
 	protected abstract int selectDiscardIndex(Hand hand);
 	
 	
 	public boolean turnActionMadeKan(){return (turnActionMadeAnkan() || turnActionMadeMinkan());}
-	public boolean turnActionMadeAnkan(){return (turnAction == ActionType.ANKAN);}
-	public boolean turnActionMadeMinkan(){return (turnAction == ActionType.MINKAN);}
-	public boolean turnActionCalledTsumo(){return (turnAction == ActionType.TSUMO);}
-	public boolean turnActionChoseDiscard(){return (turnAction == ActionType.DISCARD);}
-	public boolean turnActionRiichi(){return (turnAction == ActionType.RIICHI);}
+	public boolean turnActionMadeAnkan(){return (turnAction == TurnActionType.ANKAN);}
+	public boolean turnActionMadeMinkan(){return (turnAction == TurnActionType.MINKAN);}
+	public boolean turnActionCalledTsumo(){return (turnAction == TurnActionType.TSUMO);}
+	public boolean turnActionChoseDiscard(){return (turnAction == TurnActionType.DISCARD);}
+	public boolean turnActionRiichi(){return (turnAction == TurnActionType.RIICHI);}
 	
 	public int getChosenDiscardIndex(){return chosenDiscardIndex;}
 	
@@ -124,8 +126,8 @@ public abstract class PlayerBrain {
 	//how the reaction is chosen left abstract and must be defined by the subclass
 	protected abstract CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions);
 	
-	protected final ActionType biggestTurnAction(List<ActionType> actions){
-		if (actions.isEmpty()) return ActionType.DISCARD;
+	protected final TurnActionType biggestTurnAction(List<TurnActionType> actions){
+		if (actions.isEmpty()) return TurnActionType.DISCARD;
 		return actions.get(actions.size()-1);
 	}
 	protected final CallType biggestReaction(List<CallType> calls){
@@ -153,7 +155,7 @@ public abstract class PlayerBrain {
 	
 	public void clearCallStatus(){callStatus = CallType.NONE;}
 	public void clearTurnActionStatus(){
-		turnAction = ActionType.UNDECIDED;
+		turnAction = TurnActionType.UNDECIDED;
 		chosenDiscardIndex = NO_DISCARD_CHOSEN;
 	}
 	
@@ -172,39 +174,4 @@ public abstract class PlayerBrain {
 	
 	@Override
 	public String toString(){return "UnknownBrain";}
-	
-	
-	
-	
-	//enums
-	//used to indicate what call a player wants to make on another player's discard
-	protected static enum CallType{
-		NONE, CHI_L, CHI_M, CHI_H, PON, KAN, RON, CHI, UNDECIDED;
-		
-		@Override
-		public String toString(){
-			switch (this){
-			case CHI_L: case CHI_M: case CHI_H: return "Chi";
-			case PON: return "Pon";
-			case KAN: return "Kan";
-			case RON: return "Ron";
-			default: return "None";
-			}
-		}
-		public Exclamation toExclamation(){
-			switch (this){
-			case CHI_L: case CHI_M: case CHI_H: return Exclamation.CHI;
-			case PON: return Exclamation.PON;
-			case KAN: return Exclamation.KAN;
-			case RON: return Exclamation.RON;
-			case NONE: return Exclamation.NONE;
-			default: return Exclamation.UNKNOWN;
-			}
-		}
-	}
-	
-	//used to indicate what action the player wants to do on their turn
-	protected static enum ActionType{
-		DISCARD, ANKAN, MINKAN, RIICHI, TSUMO, UNDECIDED;
-	}
 }

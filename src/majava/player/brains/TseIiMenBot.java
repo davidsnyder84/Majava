@@ -2,6 +2,8 @@ package majava.player.brains;
 
 import java.util.List;
 
+import majava.enums.TurnActionType;
+import majava.enums.CallType;
 import majava.enums.Suit;
 import majava.hand.Hand;
 import majava.player.Player;
@@ -24,7 +26,7 @@ public class TseIiMenBot extends RobotBrain {
 	public TseIiMenBot(Player p){this(p, DEFAULT_SUIT_TO_CUT);}
 
 	@Override
-	protected ActionType selectTurnAction(Hand hand, List<ActionType> listOfPossibleTurnActions){return biggestTurnAction(listOfPossibleTurnActions);}
+	protected TurnActionType selectTurnAction(Hand hand, List<TurnActionType> listOfPossibleTurnActions){return biggestTurnAction(listOfPossibleTurnActions);}
 	@Override
 	protected int selectDiscardIndex(Hand hand){
 		if (findCutSuitIndex(hand) != NOT_FOUND)

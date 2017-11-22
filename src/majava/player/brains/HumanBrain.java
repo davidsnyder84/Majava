@@ -2,6 +2,8 @@ package majava.player.brains;
 
 import java.util.List;
 
+import majava.enums.TurnActionType;
+import majava.enums.CallType;
 import majava.events.GameplayEvent;
 import majava.hand.Hand;
 import majava.player.Player;
@@ -23,24 +25,24 @@ public class HumanBrain extends PlayerBrain {
 	
 	
 	@Override
-	protected ActionType selectTurnAction(Hand hand, List<ActionType> listOfPossibleTurnActions){
-		ActionType chosenAction = ActionType.DISCARD;
+	protected TurnActionType selectTurnAction(Hand hand, List<TurnActionType> listOfPossibleTurnActions){
+		TurnActionType chosenAction = TurnActionType.DISCARD;
 		
 		//get the player's desired action through the UI
 		userInterface.askUserInputTurnAction(
 				hand.size(),
-				listOfPossibleTurnActions.contains(ActionType.RIICHI),
-				listOfPossibleTurnActions.contains(ActionType.ANKAN),
-				listOfPossibleTurnActions.contains(ActionType.MINKAN),
-				listOfPossibleTurnActions.contains(ActionType.TSUMO)
+				listOfPossibleTurnActions.contains(TurnActionType.RIICHI),
+				listOfPossibleTurnActions.contains(TurnActionType.ANKAN),
+				listOfPossibleTurnActions.contains(TurnActionType.MINKAN),
+				listOfPossibleTurnActions.contains(TurnActionType.TSUMO)
 				);
 		
 		//decide action based on player's choice
-		if (userInterface.resultChosenTurnActionWasDiscard()) chosenAction = ActionType.DISCARD;
-		else if (userInterface.resultChosenTurnActionWasAnkan()) chosenAction = ActionType.ANKAN;
-		else if (userInterface.resultChosenTurnActionWasMinkan()) chosenAction = ActionType.MINKAN;
-		else if (userInterface.resultChosenTurnActionWasRiichi()) chosenAction = ActionType.RIICHI;
-		else if (userInterface.resultChosenTurnActionWasTsumo()) chosenAction = ActionType.TSUMO;
+		if (userInterface.resultChosenTurnActionWasDiscard()) chosenAction = TurnActionType.DISCARD;
+		else if (userInterface.resultChosenTurnActionWasAnkan()) chosenAction = TurnActionType.ANKAN;
+		else if (userInterface.resultChosenTurnActionWasMinkan()) chosenAction = TurnActionType.MINKAN;
+		else if (userInterface.resultChosenTurnActionWasRiichi()) chosenAction = TurnActionType.RIICHI;
+		else if (userInterface.resultChosenTurnActionWasTsumo()) chosenAction = TurnActionType.TSUMO;
 		
 		return chosenAction;
 	}

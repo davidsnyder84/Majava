@@ -2,6 +2,8 @@ package majava.player.brains;
 
 import java.util.List;
 
+import majava.enums.TurnActionType;
+import majava.enums.CallType;
 import majava.hand.Hand;
 import majava.player.Player;
 import majava.tiles.GameTile;
@@ -16,7 +18,7 @@ public class NullPlayerBrain extends PlayerBrain {
 	
 	@Override
 	//Null behavior: always choose discard as your action
-	protected ActionType selectTurnAction(Hand hand, List<ActionType> listOfPossibleTurnActions){return ActionType.DISCARD;}
+	protected TurnActionType selectTurnAction(Hand hand, List<TurnActionType> listOfPossibleTurnActions){return TurnActionType.DISCARD;}
 	
 	@Override
 	//Null behavior: always discard the tsumo tile (tsumogiri/ÉcÉÇêÿÇË)

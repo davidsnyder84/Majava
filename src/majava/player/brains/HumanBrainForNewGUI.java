@@ -2,11 +2,11 @@ package majava.player.brains;
 
 import java.util.List;
 
+import majava.enums.TurnActionType;
+import majava.enums.CallType;
 import majava.events.GameplayEvent;
 import majava.hand.Hand;
 import majava.player.Player;
-import majava.player.brains.PlayerBrain.ActionType;
-import majava.player.brains.PlayerBrain.CallType;
 import majava.tiles.GameTile;
 import majava.userinterface.GameUI;
 
@@ -15,7 +15,7 @@ public class HumanBrainForNewGUI extends PlayerBrain {
 	
 //	GameUI userInterface;
 	private CallType callChosenByHuman;
-	private ActionType turnActionChosenByHuman;
+	private TurnActionType turnActionChosenByHuman;
 	private int discardIndexChosenByHuman;
 	
 	
@@ -27,9 +27,14 @@ public class HumanBrainForNewGUI extends PlayerBrain {
 	
 	
 	
+	public void setCallChosenByHuman(CallType call) {callChosenByHuman = call;}
+	public void setTurnActionChosenByHuman(TurnActionType turnaction) {turnActionChosenByHuman = turnaction;}
+	public void setDiscardIndexChosenByHuman(int discardindex) {discardIndexChosenByHuman = discardindex;}
+	
+	
 	@Override
-	protected ActionType selectTurnAction(Hand hand, List<ActionType> listOfPossibleTurnActions){
-		ActionType chosenAction = ActionType.DISCARD;
+	protected TurnActionType selectTurnAction(Hand hand, List<TurnActionType> listOfPossibleTurnActions){
+		TurnActionType chosenAction = TurnActionType.DISCARD;
 		
 		//show hand
 		userInterface.displayEvent(GameplayEvent.humanPlayerTurnStartEvent());
@@ -38,18 +43,18 @@ public class HumanBrainForNewGUI extends PlayerBrain {
 		//get the player's desired action through the UI
 		userInterface.askUserInputTurnAction(
 				hand.size(),
-				listOfPossibleTurnActions.contains(ActionType.RIICHI),
-				listOfPossibleTurnActions.contains(ActionType.ANKAN),
-				listOfPossibleTurnActions.contains(ActionType.MINKAN),
-				listOfPossibleTurnActions.contains(ActionType.TSUMO)
+				listOfPossibleTurnActions.contains(TurnActionType.RIICHI),
+				listOfPossibleTurnActions.contains(TurnActionType.ANKAN),
+				listOfPossibleTurnActions.contains(TurnActionType.MINKAN),
+				listOfPossibleTurnActions.contains(TurnActionType.TSUMO)
 				);
 		
 		//decide action based on player's choice
-		if (userInterface.resultChosenTurnActionWasDiscard()) chosenAction = ActionType.DISCARD;
-		else if (userInterface.resultChosenTurnActionWasAnkan()) chosenAction = ActionType.ANKAN;
-		else if (userInterface.resultChosenTurnActionWasMinkan()) chosenAction = ActionType.MINKAN;
-		else if (userInterface.resultChosenTurnActionWasRiichi()) chosenAction = ActionType.RIICHI;
-		else if (userInterface.resultChosenTurnActionWasTsumo()) chosenAction = ActionType.TSUMO;
+		if (userInterface.resultChosenTurnActionWasDiscard()) chosenAction = TurnActionType.DISCARD;
+		else if (userInterface.resultChosenTurnActionWasAnkan()) chosenAction = TurnActionType.ANKAN;
+		else if (userInterface.resultChosenTurnActionWasMinkan()) chosenAction = TurnActionType.MINKAN;
+		else if (userInterface.resultChosenTurnActionWasRiichi()) chosenAction = TurnActionType.RIICHI;
+		else if (userInterface.resultChosenTurnActionWasTsumo()) chosenAction = TurnActionType.TSUMO;
 		
 		return chosenAction;
 	}

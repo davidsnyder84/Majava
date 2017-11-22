@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import majava.enums.TurnActionType;
+import majava.enums.CallType;
 import majava.hand.Hand;
 import majava.player.Player;
 import majava.tiles.GameTile;
@@ -21,7 +23,7 @@ public class PonMonsterBot extends RobotBrain {
 	
 
 	@Override
-	protected ActionType selectTurnAction(Hand hand, List<ActionType> listOfPossibleTurnActions) {return biggestTurnAction(listOfPossibleTurnActions);}
+	protected TurnActionType selectTurnAction(Hand hand, List<TurnActionType> listOfPossibleTurnActions) {return biggestTurnAction(listOfPossibleTurnActions);}
 	
 	@Override
 	protected int selectDiscardIndex(Hand hand){

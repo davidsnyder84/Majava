@@ -3,6 +3,8 @@ package majava.player.brains;
 import java.util.List;
 import java.util.Random;
 
+import majava.enums.TurnActionType;
+import majava.enums.CallType;
 import majava.hand.Hand;
 import majava.player.Player;
 import majava.tiles.GameTile;
@@ -41,10 +43,10 @@ public class SimpleRobot extends RobotBrain {
 
 	
 	@Override
-	protected ActionType selectTurnAction(Hand hand, List<ActionType> listOfPossibleTurnActions){
+	protected TurnActionType selectTurnAction(Hand hand, List<TurnActionType> listOfPossibleTurnActions){
 		if (likesToMakeTurnActions)
 			return biggestTurnAction(listOfPossibleTurnActions);
-		return ActionType.DISCARD;
+		return TurnActionType.DISCARD;
 	}
 	
 	@Override

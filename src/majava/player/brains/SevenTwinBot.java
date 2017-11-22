@@ -5,7 +5,6 @@ import java.util.List;
 
 import majava.hand.Hand;
 import majava.player.Player;
-import majava.player.brains.PlayerBrain.CallType;
 import majava.tiles.GameTile;
 
 //a bot that tries to form a seven pairs hand (chiitoitsu/Žµ‘ÎŽq)

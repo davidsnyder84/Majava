@@ -28,7 +28,7 @@ public class Table {
 	private boolean optionDoSinglePlayer = DEFAULT_DO_SINGLE_PLAYER;
 	private boolean optionDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
 	
-	private GameEventListener eventListener;
+	private GameEventListener gameEventListener;
 	
 	
 	
@@ -37,8 +37,8 @@ public class Table {
 		userInterface = null;
 		userInterface = generateGameUI();
 		
-		eventListener = new GameEventListener();
-		eventListener.registerObserver(userInterface);
+		gameEventListener = new GameEventListener();
+		gameEventListener.registerObserver(userInterface);
 	}
 	
 	
@@ -62,7 +62,7 @@ public class Table {
 	//play one game
 	private void playNewGame(){
 		final long time = System.currentTimeMillis();
-		currentGame = new Game(userInterface, players);
+		currentGame = new Game(userInterface, players, gameEventListener);
 		currentGame.setOptionFastGameplay(optionDoFastGameplay);
 		currentGame.play();
 		

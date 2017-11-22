@@ -9,9 +9,10 @@ import majava.util.GameTileList;
 import majava.player.Player;
 import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
+import majava.summary.StateOfGame;
 import majava.tiles.GameTile;
-import majava.tiles.Janpai;
 import majava.control.testcode.GameSimulation;
+import majava.events.GameEventListener;
 import majava.events.GameplayEvent;
 import majava.enums.Wind;
 import majava.enums.Exclamation;
@@ -38,6 +39,9 @@ public class Round{
 	private final Player[] players;	
 	private final Wind roundWind;
 	private final int roundNumber, roundBonusNumber;
+	
+	private final StateOfGame gameState;
+	private final GameEventListener gameEventListener;
 	private final GameUI userInterface;
 	
 	private final Wall wall;
@@ -55,7 +59,7 @@ public class Round{
 	
 	
 	//constructor
-	public Round(GameUI ui, Player[] playerArray, Wind roundWindToSet, int roundNum, int roundBonusNum){
+	public Round(GameUI ui, GameEventListener eventListener, Player[] playerArray, Wind roundWindToSet, int roundNum, int roundBonusNum){
 		players = playerArray;
 		
 		roundWind = roundWindToSet;
@@ -63,6 +67,7 @@ public class Round{
 		roundBonusNumber = roundBonusNum;
 		
 		userInterface = ui;
+		gameEventListener = eventListener;
 		
 		
 		//prepare for new round
@@ -77,10 +82,12 @@ public class Round{
 		/////suggestion: can we refactor to do players.prepareForNewRound() and initialize round Tracker in the same line?
 		roundTracker = new RoundTracker(this, wall, players, userInterface);
 		
+		gameState = new StateOfGame(roundTracker, players, wall);
+		
 		setOptionFastGameplay(DEFAULT_DO_FAST_GAMEPLAY);
 	}
-	public Round(GameUI ui, Player[] playerArray, Wind roundWindToSet, int roundNum){this(ui, playerArray, roundWindToSet, roundNum, DEFAULT_ROUND_BONUS_NUM);}
-	public Round(GameUI ui, Player[] playerArray){this(ui, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
+	public Round(GameUI ui, GameEventListener eventListener, Player[] playerArray, Wind roundWindToSet, int roundNum){this(ui, eventListener, playerArray, roundWindToSet, roundNum, DEFAULT_ROUND_BONUS_NUM);}
+	public Round(GameUI ui, GameEventListener eventListener, Player[] playerArray){this(ui, eventListener, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
 	
 	
 	
@@ -364,8 +371,10 @@ public class Round{
 		__updateUI(tsumoEvent);
 	}
 	private void __updateUI(GameplayEvent event){
-		if (userInterface == null) return;
-		userInterface.displayEvent(event);
+//		if (userInterface == null) return;
+//		userInterface.displayEvent(event);
+		
+		gameEventListener.postNewEvent(event, gameState);
 	}
 	private void tellUiAboutHumanPlayerTurnStart(Player p){
 		

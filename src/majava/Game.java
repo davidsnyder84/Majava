@@ -9,6 +9,7 @@ import majava.summary.GameResultPrinter;
 import majava.summary.RoundResultSummary;
 import majava.control.Majava;
 import majava.enums.Wind;
+import majava.events.GameEventListener;
 
 
 
@@ -58,12 +59,13 @@ public class Game {
 	private final List<String> winStrings;
 	private final List<RoundResultSummary> roundResults;
 	
+	private final GameEventListener gameEventListener;
 	private final GameUI userInterface;
 	private boolean doFastGameplay;
 	
 	
 	
-	public Game(GameUI ui, Player[] playerArray){
+	public Game(GameUI ui, Player[] playerArray, GameEventListener eventListener){
 
 		setGameTypeDefault();
 		
@@ -76,6 +78,7 @@ public class Game {
 		winStrings = new ArrayList<String>();
 		roundResults = new ArrayList<RoundResultSummary>();
 		
+		gameEventListener = eventListener;
 		userInterface = ui;
 		__setUIs();
 		
@@ -110,7 +113,7 @@ public class Game {
 		handleEndGame();
 	}
 	private void playNewRound(){
-		currentRound = new Round(userInterface, players, currentRoundWind, currentRoundNum, currentRoundBonusNum);
+		currentRound = new Round(userInterface, gameEventListener, players, currentRoundWind, currentRoundNum, currentRoundBonusNum);
 		currentRound.setOptionFastGameplay(doFastGameplay);
 		currentRound.play();
 	}

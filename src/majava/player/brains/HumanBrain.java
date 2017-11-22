@@ -26,10 +26,6 @@ public class HumanBrain extends PlayerBrain {
 	protected ActionType selectTurnAction(Hand hand, List<ActionType> listOfPossibleTurnActions){
 		ActionType chosenAction = ActionType.DISCARD;
 		
-		//show hand
-		userInterface.displayEvent(GameplayEvent.humanPlayerTurnStartEvent());
-		userInterface.movePromptPanelToSeat(player.getPlayerNumber());
-		
 		//get the player's desired action through the UI
 		userInterface.askUserInputTurnAction(
 				hand.size(),

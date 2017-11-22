@@ -173,6 +173,8 @@ public class Round{
 		//loop until the player has chosen a discard (loop until the player stops making kans) (kans and riichi are handled inside here)
 		GameTile discardedTile = null;
 		do{
+			if (p.controllerIsHuman()) tellUiAboutHumanPlayerTurnStart(p);
+			
 			discardedTile = p.takeTurn();
 			turnIndicator.setMostRecentDiscard(discardedTile);	//discardedTile will be null if the player made a kan/tsumo, but that's ok
 			
@@ -364,6 +366,12 @@ public class Round{
 	private void __updateUI(GameplayEvent event){
 		if (userInterface == null) return;
 		userInterface.displayEvent(event);
+	}
+	private void tellUiAboutHumanPlayerTurnStart(Player p){
+		
+		GameplayEvent humanTurnStartEvent = GameplayEvent.humanPlayerTurnStartEvent();
+		if (userInterface != null) userInterface.movePromptPanelToSeat(p.getPlayerNumber());
+		__updateUI(humanTurnStartEvent);
 	}
 	
 	

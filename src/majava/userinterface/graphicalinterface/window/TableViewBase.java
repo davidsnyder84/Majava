@@ -625,7 +625,7 @@ public class TableViewBase extends JFrame{
 		if (chosenCall == CallType.NONSPECIFIC_CHI) chosenCall = chiType;
 		
 		hideAll(barryCalls);
-		repaint();
+		repaint();	/////questionable if needed
 		return (chosenCall != CallType.NONE);
 	}
 	public boolean resultChosenCallWasNone(){return (chosenCall == CallType.NONE);}
@@ -669,7 +669,7 @@ public class TableViewBase extends JFrame{
 		if (chosenDiscard == DEFAULT_DISCARD) chosenDiscard = handSize;
 		
 		hideAll(barryTActions);
-		repaint();
+		repaint();	/////questionable if needed
 	}
 	public boolean resultChosenTurnActionWasDiscard(){return (chosenTurnAction == TurnActionType.DISCARD);}
 	public boolean resultChosenTurnActionWasAnkan(){return (chosenTurnAction == TurnActionType.ANKAN);}

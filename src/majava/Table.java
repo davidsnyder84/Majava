@@ -7,6 +7,7 @@ import majava.userinterface.GameUI;
 import majava.userinterface.MajavaGUI;
 import majava.userinterface.textinterface.DetailedTextualUI;
 import majava.userinterface.textinterface.SparseTextualUI;
+import majava.userinterface.textinterface.TextualUI;
 import utility.Pauser;
 
 
@@ -36,8 +37,14 @@ public class Table {
 		userInterface = null;
 		userInterface = generateGameUI();
 		
+		
+		
+		TextualUI textualUI = new SparseTextualUI();
+//		TextualUI textualUI = new DetailedTextualUI();
+		
 		gameEventListener = new GameEventListener();
 		gameEventListener.registerObserver(userInterface);
+//		gameEventListener.registerObserver(textualUI);
 	}
 	
 	

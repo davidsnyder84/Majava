@@ -103,16 +103,5 @@ public abstract class GameUI implements JanObserver{
 	
 	
 	
-	
-	//user input
-	public abstract void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo);
-	//returns the index of the clicked discard. returns negative if no discard chosen.
-	public abstract int resultChosenDiscardIndex();
-	public abstract boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon);
-	
-	
-	
 	public abstract void printErrorRoundAlreadyOver();
-	
-	public void movePromptPanelToSeat(int seat){}
 }

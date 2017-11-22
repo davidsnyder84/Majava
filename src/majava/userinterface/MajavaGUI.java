@@ -13,8 +13,6 @@ import majava.userinterface.graphicalinterface.window.TableViewBase;
 import utility.Pauser;
 
 public class MajavaGUI extends GameUI{
-
-	
 	private static final int DEAFULT_SLEEPTIME = 400, DEAFULT_SLEEPTIME_EXCLAMATION = 1500, DEAFULT_SLEEPTIME_ROUND_END = 2000;
 	
 	
@@ -58,13 +56,11 @@ public class MajavaGUI extends GameUI{
 	
 	
 	//get user input from window
-	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
+	public boolean askUserInputCall(int seatNumber, boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
 		boolean called = tableWindow.askUserInputCall(canChiL, canChiM, canChiH, canPon, canKan, canRon);
 		CallType chosenCallType = tableWindow.resultChosenCall();
 		
-		/////////NEED TO KNOW PLAYER NUMBER OF WHO WE'RE ASKING TO CALL
-//		((HumanBrain) gameState.getControllerForPlayer((gameState.getRoundTracker().whoseTurn()))).setCallChosenByHuman(chosenCallType);
-		((HumanBrain) gameState.getControllerForPlayer(0)).setCallChosenByHuman(chosenCallType);
+		controllerOfPlayer(seatNumber).setCallChosenByHuman(chosenCallType);
 		return called;
 	}
 	
@@ -104,34 +100,13 @@ public class MajavaGUI extends GameUI{
 	
 	
 	
-	public static void main(String[] args) {		
-		MajavaGUI viewer = new MajavaGUI();
-		
-		viewer.startUI();
-//		viewer.showResult();
-	}
 	
-	public void movePromptPanelToSeat(int seat){tableWindow.movePromptPanelToSeat(seat);}
-	//get user's choice through UI
-//	boolean called = userInterface.askUserInputCall(
-//			listOfPossibleReactions.contains(CallType.CHI_L),
-//			listOfPossibleReactions.contains(CallType.CHI_M),
-//			listOfPossibleReactions.contains(CallType.CHI_H),
-//			listOfPossibleReactions.contains(CallType.PON),
-//			listOfPossibleReactions.contains(CallType.KAN),
-//			listOfPossibleReactions.contains(CallType.RON)
-//			);
-//	userInterface.askUserInputTurnAction(
-//	hand.size(),
-//	listOfPossibleTurnActions.contains(TurnActionType.RIICHI),
-//	listOfPossibleTurnActions.contains(TurnActionType.ANKAN),
-//	listOfPossibleTurnActions.contains(TurnActionType.MINKAN),
-//	listOfPossibleTurnActions.contains(TurnActionType.TSUMO)
-//	);
 	protected void __displayEventHumanTurnStart(GameplayEvent event){
 		tableWindow.updateEverything();
 		
 		Player p = event.getRelatedPlayer();
+		
+		tableWindow.movePromptPanelToSeat(p.getPlayerNumber());
 		askUserInputTurnAction(
 				p.handSize(),
 				p.ableToRiichi(),
@@ -145,7 +120,10 @@ public class MajavaGUI extends GameUI{
 	protected void __displayEventHumanReactionStart(GameplayEvent event) {
 		Player p = event.getRelatedPlayer();
 		GameTile tile = event.getRelatedTile();
+		
+		tableWindow.movePromptPanelToSeat(p.getPlayerNumber());
 		askUserInputCall(
+				p.getPlayerNumber(),
 				p.ableToCallChiL(tile),
 				p.ableToCallChiM(tile),
 				p.ableToCallChiH(tile),

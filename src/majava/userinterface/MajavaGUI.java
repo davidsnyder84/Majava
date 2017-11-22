@@ -59,27 +59,23 @@ public class MajavaGUI extends GameUI{
 	
 	
 	//get user input from window
-	public boolean askUserInputCall(int seatNumber, boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
-		boolean called = tableWindow.askUserInputCall(canChiL, canChiM, canChiH, canPon, canKan, canRon);
-		CallType chosenCallType = tableWindow.resultChosenCall();
+	public void askUserInputCall(int seatNumber, boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
+		CallType chosenCallType = tableWindow.askUserInputCall(canChiL, canChiM, canChiH, canPon, canKan, canRon);;
 		
 		controllerOfPlayer(seatNumber).setCallChosenByHuman(chosenCallType);
-		return called;
 	}
 	
 	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){
-		tableWindow.askUserInputTurnAction(handSize, canRiichi, canAnkan, canMinkan, canTsumo);
-		
-		//chosen action
-		TurnActionType chosenAction = tableWindow.resultChosenTurnAction();
+		TurnActionType chosenAction = tableWindow.askUserInputTurnAction(handSize, canRiichi, canAnkan, canMinkan, canTsumo);
 		controllerOfCurrentPlayer().setTurnActionChosenByHuman(chosenAction);
 		
-		//chosen discard index
-		if (chosenAction == TurnActionType.DISCARD)
-			controllerOfCurrentPlayer().setDiscardIndexChosenByHuman(tableWindow.resultChosenDiscardIndex() - 1);
+		if (chosenAction == TurnActionType.DISCARD){
+			int chosenIndex = tableWindow.getChosenDiscardIndex() - 1;
+			controllerOfCurrentPlayer().setDiscardIndexChosenByHuman(chosenIndex);
+		}
 	}
 	//returns the index of the clicked discard. returns negative if no discard chosen.
-	public int resultChosenDiscardIndex(){return tableWindow.resultChosenDiscardIndex();}
+	public int resultChosenDiscardIndex(){return tableWindow.getChosenDiscardIndex();}
 	
 	private HumanBrain controllerOfCurrentPlayer(){return controllerOfPlayer(gameState.getRoundTracker().whoseTurn());}
 	private HumanBrain controllerOfPlayer(int playerNum){return (HumanBrain) gameState.getControllerForPlayer(playerNum);}

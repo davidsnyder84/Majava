@@ -589,7 +589,7 @@ public class TableViewBase extends JFrame{
 	}
 	
 
-	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
+	public CallType askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
 		boolean onlyOneChiPossible = ((canChiL ^ canChiM ^ canChiH) ^ (canChiL && canChiM && canChiH));
 		CallType chiType = CallType.NONE;
 		
@@ -617,7 +617,6 @@ public class TableViewBase extends JFrame{
 		
 		repaint();
 		
-		
 		chosenCall = CallType.UNDECIDED;
 		while (chosenCall == CallType.UNDECIDED)
 			waitAroundForClick();
@@ -626,9 +625,8 @@ public class TableViewBase extends JFrame{
 		
 		hideAll(barryCalls);
 		repaint();	/////questionable if needed
-		return (chosenCall != CallType.NONE);
+		return chosenCall;
 	}
-	public CallType resultChosenCall(){return chosenCall;}
 	
 	
 	
@@ -641,7 +639,7 @@ public class TableViewBase extends JFrame{
 	private void setDiscardChosen(int discardIndex){setDiscardChosen(roundTracker.whoseTurn(), discardIndex);}
 	
 	
-	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){
+	public TurnActionType askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){
 		canRiichi = false;	/////no riichi implemented yet
 		
 		chosenTurnAction = TurnActionType.UNDECIDED;
@@ -663,11 +661,12 @@ public class TableViewBase extends JFrame{
 		
 		hideAll(barryTActions);
 		repaint();	/////questionable if needed
+		
+		return chosenTurnAction;
 	}
-	public TurnActionType resultChosenTurnAction(){return chosenTurnAction;}
 	
 	//returns the index of the clicked discard. returns negative if no discard chosen.
-	public int resultChosenDiscardIndex(){
+	public int getChosenDiscardIndex(){
 		if (chosenTurnAction == TurnActionType.DISCARD) return chosenDiscard;
 		else return NO_DISCARD_CHOSEN;
 	}

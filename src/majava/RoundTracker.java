@@ -26,7 +26,7 @@ public class RoundTracker {
 	private final Player[] players;
 	
 	
-	public RoundTracker(Round roundToTrack, Wall receivedWall, Player[] playerArray, GameUI ui){
+	public RoundTracker(Round roundToTrack, Wall receivedWall, Player[] playerArray){
 		round = roundToTrack;	
 		
 		wall = receivedWall;
@@ -34,16 +34,6 @@ public class RoundTracker {
 		players = playerArray.clone();
 		for (Player p: players)
 			p.syncWithRoundTracker(this);
-		
-		__syncWithUI(ui);
-	}
-	//overloaded without UI
-	public RoundTracker(Round roundToTrack, Wall receivedWall, Player[] playerArray){this(roundToTrack, receivedWall, playerArray, null);}
-	
-	private void __syncWithUI(GameUI ui){
-		if (ui == null) return;
-		StateOfGame stateOfGame = new StateOfGame(this, players, wall);
-		ui.syncWithRoundTracker(this, stateOfGame);
 	}
 	
 	

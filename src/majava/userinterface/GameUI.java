@@ -34,6 +34,7 @@ public abstract class GameUI implements JanObserver{
 	@Override
 	public void update(GameplayEvent gameplayEvent, StateOfGame stateOfGame) {
 		gameState = stateOfGame;
+		roundTracker = gameState.getRoundTracker();
 		displayEvent(gameplayEvent);
 	}
 	
@@ -80,14 +81,6 @@ public abstract class GameUI implements JanObserver{
 	
 	protected abstract void __showExclamation(Exclamation exclamation, int seat);
 	
-	
-	
-	
-	
-	public void syncWithRoundTracker(RoundTracker tracker, StateOfGame stateOfGame){
-		roundTracker = tracker;
-		gameState = stateOfGame;
-	}
 	
 	
 	public void setRoundResult(RoundResultSummary resum){

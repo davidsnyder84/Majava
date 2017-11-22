@@ -32,7 +32,10 @@ public class MajavaGUI extends GameUI{
 	protected void __displayEventNewDoraIndicator(GameplayEvent event){/*intentionally blank, don't need to show new indicator because it is shown automatically*/}
 	protected void __displayEventPlaceholder(GameplayEvent event){tableWindow.updateEverything();}
 	
-	protected void __displayEventStartOfRound(GameplayEvent event){tableWindow.updateEverything();}
+	protected void __displayEventStartOfRound(GameplayEvent event){
+		tableWindow.giveGameState(gameState);
+		tableWindow.updateEverything();
+	}
 	
 	protected void __displayEventEndOfRound(GameplayEvent event){
 		tableWindow.showResult(resultSummary);
@@ -88,13 +91,6 @@ public class MajavaGUI extends GameUI{
 	public void startUI(){tableWindow.blankEverything(); tableWindow.setVisible(true);}
 	public void endUI(){tableWindow.dispose();}
 	
-	
-	
-	
-	public void syncWithRoundTracker(RoundTracker tracker, StateOfGame stateOfGame){
-		super.syncWithRoundTracker(tracker, stateOfGame);
-		tableWindow.syncWithRoundTracker(tracker, stateOfGame);
-	}
 	
 	public void printErrorRoundAlreadyOver(){System.out.println("----Error: Round is already over, cannot play");}
 	

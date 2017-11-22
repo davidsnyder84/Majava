@@ -40,11 +40,12 @@ public class Table {
 		
 		
 		TextualUI textualUI = new SparseTextualUI();
+		textualUI.setSleepTimes(0,0,0);
 //		TextualUI textualUI = new DetailedTextualUI();
 		
 		gameEventListener = new GameEventListener();
 		gameEventListener.registerObserver(userInterface);
-//		gameEventListener.registerObserver(textualUI);
+		gameEventListener.registerObserver(textualUI);
 	}
 	
 	

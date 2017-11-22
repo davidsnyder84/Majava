@@ -79,9 +79,7 @@ public class Round{
 		turnIndicator = new TurnIndicator(players);	/////Does TurnIndicator really need players?
 		
 		/////PLAYERS must be prepared before this line
-		/////suggestion: can we refactor to do players.prepareForNewRound() and initialize round Tracker in the same line?
-		roundTracker = new RoundTracker(this, wall, players, userInterface);
-		
+		roundTracker = new RoundTracker(this, wall, players);		
 		gameState = new StateOfGame(roundTracker, players, wall);
 		
 		setOptionFastGameplay(DEFAULT_DO_FAST_GAMEPLAY);
@@ -352,8 +350,12 @@ public class Round{
 	
 	
 	public void displayRoundResult(){
-		if (userInterface != null) userInterface.setRoundResult(roundResult.getSummary());
-		__updateUI(GameplayEvent.endOfRoundEvent());
+		if (userInterface != null) userInterface.setRoundResult(roundResult.getSummary());	
+		
+		GameplayEvent endOfRoundEvent = GameplayEvent.endOfRoundEvent();
+		endOfRoundEvent.packInfo(roundResult.getSummary());
+		
+		__updateUI(endOfRoundEvent);
 	}
 	
 	
@@ -419,8 +421,8 @@ public class Round{
 	
 	public static void main(String[] args) {
 		
-		GameSimulation.main(args);
-		if (args.equals(args)) return;
+//		GameSimulation.main(args);
+//		if (args.equals(args)) return;
 		
 		System.out.println("Welcome to Majava (Round)!");
 		

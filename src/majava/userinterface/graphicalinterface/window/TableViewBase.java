@@ -706,9 +706,9 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	public void syncWithRoundTracker(RoundTracker tracker, StateOfGame stateOfGame){		
-		roundTracker = tracker;
+	public void giveGameState(StateOfGame stateOfGame){		
 		gameState = stateOfGame;
+		roundTracker = gameState.getRoundTracker();
 		
 		//hand revealing options
 		whichHandsToReveal = new boolean[NUM_PLAYERS];

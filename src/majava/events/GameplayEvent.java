@@ -5,54 +5,45 @@ import majava.enums.GameEventType;
 import static majava.enums.GameEventType.*;
 import majava.player.Player;
 import majava.player.brains.HumanBrain;
+import majava.summary.RoundResultSummary;
 import majava.summary.StateOfGame;
 import majava.tiles.GameTile;
 
 public class GameplayEvent {
-
 	private static final int VICTIM_SEAT_NOT_SET = -58;
 	private static final GameTile RELATED_TILE_NOT_SET = null;
 	
 	private GameEventType eventType;
 	private Exclamation exclamation;
-//	private int seatNumber;
-	
-	/////no one is using these yet
-//	private int seatExclaimer;
 	
 	
 	private int seatVictim;
 	private Player relatedPlayer;
 	private GameTile relatedTile;
 	
+	private RoundResultSummary resultSummary;
 	
 	
 	private GameplayEvent(GameEventType evType){
 		eventType = evType;
 		exclamation = null;
 		
-//		seatNumber = SEAT_NOT_SET;
-//		seatExclaimer = SEAT_NOT_SET;
-		seatVictim = VICTIM_SEAT_NOT_SET;
-		
+		seatVictim = VICTIM_SEAT_NOT_SET;		
 		relatedTile = null;
 		relatedPlayer = null;
 		
+		resultSummary = null;
 	}
 //	private GameplayEvent(){}
 	
-//	public void setExclamation(Exclamation ex, int seat){
-//		exclamation = ex; seatNumber = seat;
-//	}
 	public void setExclamation(Exclamation ex){exclamation = ex;}
 	public Exclamation getExclamation(){return exclamation;}
 	
-//	public int getSeat(){return seatNumber;}
-//	public int getGetExclaimerSeatNumber(){return seatExclaimer;}
 	public int getGetVictimSeatNumber(){return seatVictim;}
 	public GameTile getRelatedTile(){return relatedTile;}
 	public Player getRelatedPlayer(){return relatedPlayer;}
 	public int getSeat(){return relatedPlayer.getPlayerNumber();}
+	public RoundResultSummary getResultSummary(){return resultSummary;}
 	
 	public boolean isExclamation(){return eventType.isExclamation();}
 	public boolean isPlaceholder(){return eventType == PLACEHOLDER;}
@@ -91,6 +82,10 @@ public class GameplayEvent {
 	}
 	public void packInfo(Player p, GameTile tile) {packInfo(p, tile, VICTIM_SEAT_NOT_SET);}
 	public void packInfo(Player p) {packInfo(p, RELATED_TILE_NOT_SET, VICTIM_SEAT_NOT_SET);}
+
+	public void packInfo(RoundResultSummary summary) {
+		resultSummary = summary;
+	}
 	
 //	public static final GameplayEvent newEvent(GameEventType event){return null;}
 	

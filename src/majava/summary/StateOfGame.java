@@ -63,6 +63,8 @@ public final class StateOfGame {
 	
 	
 	public RoundTracker getRoundTracker(){return roundTracker;}
+	public RoundResultSummary getResultSummary(){return roundTracker.getResultSummary();}
+	
 	public PlayerBrain getControllerForPlayer(int playerNum){return playerTrackers[playerNum].getController();}
 	public Player getPlayer(int playerNum){return playerTrackers[playerNum].getPlayer();}
 	public Player currentPlayer(){return getPlayer(roundTracker.whoseTurn());}

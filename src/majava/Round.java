@@ -335,7 +335,6 @@ public class Round{
 	
 	public void displayRoundResult(){
 		GameplayEvent endOfRoundEvent = GameplayEvent.endOfRoundEvent();
-		endOfRoundEvent.packInfo(roundResult.getSummary());
 		__updateUI(endOfRoundEvent);
 	}
 	private void displayCallFrom(Player caller){

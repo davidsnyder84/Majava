@@ -16,12 +16,9 @@ public class GameplayEvent {
 	private GameEventType eventType;
 	private Exclamation exclamation;
 	
-	
-	private int seatVictim;
 	private Player relatedPlayer;
 	private GameTile relatedTile;
-	
-	private RoundResultSummary resultSummary;
+	private int seatVictim;	//no one uses this field yet
 	
 	
 	private GameplayEvent(GameEventType evType){
@@ -31,8 +28,6 @@ public class GameplayEvent {
 		seatVictim = VICTIM_SEAT_NOT_SET;		
 		relatedTile = null;
 		relatedPlayer = null;
-		
-		resultSummary = null;
 	}
 //	private GameplayEvent(){}
 	
@@ -43,7 +38,6 @@ public class GameplayEvent {
 	public GameTile getRelatedTile(){return relatedTile;}
 	public Player getRelatedPlayer(){return relatedPlayer;}
 	public int getSeat(){return relatedPlayer.getPlayerNumber();}
-	public RoundResultSummary getResultSummary(){return resultSummary;}
 	
 	public boolean isExclamation(){return eventType.isExclamation();}
 	public boolean isPlaceholder(){return eventType == PLACEHOLDER;}
@@ -85,10 +79,6 @@ public class GameplayEvent {
 	}
 	public void packInfo(Player p, GameTile tile) {packInfo(p, tile, VICTIM_SEAT_NOT_SET);}
 	public void packInfo(Player p) {packInfo(p, RELATED_TILE_NOT_SET, VICTIM_SEAT_NOT_SET);}
-
-	public void packInfo(RoundResultSummary summary) {
-		resultSummary = summary;
-	}
 	
 //	public static final GameplayEvent newEvent(GameEventType event){return null;}
 	

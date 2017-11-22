@@ -3,6 +3,7 @@ package majava.events;
 import majava.enums.Exclamation;
 import majava.enums.GameEventType;
 import static majava.enums.GameEventType.*;
+import majava.player.brains.HumanBrain;
 import majava.tiles.GameTile;
 
 public class GameplayEvent {
@@ -18,6 +19,8 @@ public class GameplayEvent {
 	private int seatVictim;
 	private GameTile relatedTile;
 	
+	private HumanBrain relatedHumanBrain;
+	
 	
 	private GameplayEvent(GameEventType evType){
 		eventType = evType;
@@ -28,6 +31,7 @@ public class GameplayEvent {
 		seatVictim = SEAT_NOT_SET;
 		
 		relatedTile = null;
+		relatedHumanBrain = null;
 	}
 //	private GameplayEvent(){}
 	

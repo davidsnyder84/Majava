@@ -7,7 +7,6 @@ import majava.Pond;
 import majava.RoundTracker;
 import majava.Wall;
 import majava.enums.Exclamation;
-import majava.events.GameplayEvent;
 import majava.userinterface.GameUI;
 import majava.userinterface.graphicalinterface.window.TableViewBase;
 import majava.userinterface.graphicalinterface.window.TableViewLarge;

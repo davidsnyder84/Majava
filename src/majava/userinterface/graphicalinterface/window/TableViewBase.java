@@ -7,7 +7,6 @@ import majava.Pond;
 import majava.RoundTracker;
 import majava.Wall;
 import majava.enums.Exclamation;
-import majava.events.GameplayEvent;
 import majava.enums.Wind;
 import majava.player.Player;
 import majava.summary.GodsEye;
@@ -403,6 +402,10 @@ public class TableViewBase extends JFrame{
 	
 	
 	public void updateEverything(){
+		
+//		Pauser.pauseFor(1000);/////////////////////////////////////////////////////////////////////////////
+		
+		
 		updateDiscardMarker();
 		
 		//show end of round result if round is over

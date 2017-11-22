@@ -80,7 +80,6 @@ public class Game {
 		
 		gameEventListener = eventListener;
 		userInterface = ui;
-		__setUIs();
 		
 		doFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
 	}
@@ -172,12 +171,6 @@ public class Game {
 	private void rotateSeats(){
 		for (Player p: players)
 			p.rotateSeat();
-	}
-	
-	private void __setUIs(){
-		for (Player p: players){
-			p.setUI(userInterface);
-		}
 	}
 	
 	public void setOptionFastGameplay(boolean doFast){doFastGameplay = doFast;}

@@ -56,6 +56,7 @@ public class GameplayEvent {
 	
 	public boolean isExclamation(){return eventType.isExclamation();}
 	public boolean isPlaceholder(){return eventType == PLACEHOLDER;}
+	public boolean isForHuman(){return eventType == HUMAN_PLAYER_REACTION_START || eventType == HUMAN_PLAYER_TURN_START;}
 	public GameEventType getEventType(){return eventType;}
 	
 	

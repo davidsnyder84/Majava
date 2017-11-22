@@ -56,8 +56,14 @@ public abstract class GameUI implements JanObserver{
 		
 		if (event.isExclamation()) __showExclamation(event.getExclamation(), event.getSeat());
 		
-		if (mSleepTime > 0 && !event.isExclamation() && !event.isPlaceholder())
+		if (shouldSleepForEvent(event))
 			Pauser.pauseFor(mSleepTime);
+	}
+	private boolean shouldSleepForEvent(GameplayEvent event){
+		if (mSleepTime < 0) return false;
+		if (event.isExclamation() || event.isPlaceholder() || event.isForHuman())
+			return false;
+		return true;
 	}
 	
 	protected abstract void __displayEventDiscardedTile(GameplayEvent event);

@@ -29,7 +29,6 @@ public class Player {
 	private PointsBox pointsBox;
 	
 	private RoundTracker roundTracker;
-	private GameUI userInterface;
 	
 	//data that changes between rounds
 	private Hand hand;
@@ -175,14 +174,15 @@ public class Player {
 	
 	
 	//ask brain for reaction
-	public boolean reactToDiscard(GameTile tileToReactTo){
+	public void reactToDiscard(GameTile tileToReactTo){
 		brain.clearCallStatus();
 		brain.reactToDiscard(hand, tileToReactTo);
-		return brain.called();
+//		return brain.called();
 	}
 	
 	//checks if the player is able to make a call on Tile t (actual checks performed)
 	public boolean ableToCallTile(GameTile tileToReactTo){
+		brain.clearCallStatus();
 		
 		//check if t can be called to make a meld
 		boolean ableToCall = hand.canCallTile(tileToReactTo);
@@ -306,7 +306,7 @@ public class Player {
 	
 	//controller methods
 	private void setController(PlayerBrain desiredBrain){brain = desiredBrain;}
-	public void setControllerHuman(){setController(new HumanBrain(this, userInterface));}
+	public void setControllerHuman(){setController(new HumanBrain(this));}
 	public void setControllerComputer(){
 		RobotBrain robot = new SimpleRobot(this);
 //		RobotBrain robot = new SevenTwinBot(this);
@@ -360,12 +360,6 @@ public class Player {
 	public String toString(){return (getPlayerName() + " (" + seatWind.toChar() +" player) ");}
 	
 	
-	
-	public void setUI(GameUI ui){
-		userInterface = ui;
-		if (controllerIsHuman())
-			((HumanBrain) brain).setUI(userInterface);
-	}
 	
 	public void syncWithRoundTracker(RoundTracker tracker){
 		roundTracker = tracker;

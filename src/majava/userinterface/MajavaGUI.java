@@ -5,8 +5,10 @@ import majava.enums.CallType;
 import majava.enums.Exclamation;
 import majava.enums.TurnActionType;
 import majava.events.GameplayEvent;
+import majava.player.Player;
 import majava.player.brains.HumanBrain;
 import majava.summary.StateOfGame;
+import majava.tiles.GameTile;
 import majava.userinterface.graphicalinterface.window.TableViewBase;
 import utility.Pauser;
 
@@ -30,7 +32,6 @@ public class MajavaGUI extends GameUI{
 	protected void __displayEventDrewTile(GameplayEvent event){tableWindow.updateEverything();}
 	protected void __displayEventMadeOwnKan(GameplayEvent event){tableWindow.updateEverything();}
 	protected void __displayEventNewDoraIndicator(GameplayEvent event){/*intentionally blank, don't need to show new indicator because it is shown automatically*/}
-	protected void __displayEventHumanTurnStart(GameplayEvent event){tableWindow.updateEverything();}
 	protected void __displayEventPlaceholder(GameplayEvent event){tableWindow.updateEverything();}
 	
 	protected void __displayEventStartOfRound(GameplayEvent event){tableWindow.updateEverything();}
@@ -111,10 +112,46 @@ public class MajavaGUI extends GameUI{
 	}
 	
 	public void movePromptPanelToSeat(int seat){tableWindow.movePromptPanelToSeat(seat);}
-
+	//get user's choice through UI
+//	boolean called = userInterface.askUserInputCall(
+//			listOfPossibleReactions.contains(CallType.CHI_L),
+//			listOfPossibleReactions.contains(CallType.CHI_M),
+//			listOfPossibleReactions.contains(CallType.CHI_H),
+//			listOfPossibleReactions.contains(CallType.PON),
+//			listOfPossibleReactions.contains(CallType.KAN),
+//			listOfPossibleReactions.contains(CallType.RON)
+//			);
+//	userInterface.askUserInputTurnAction(
+//	hand.size(),
+//	listOfPossibleTurnActions.contains(TurnActionType.RIICHI),
+//	listOfPossibleTurnActions.contains(TurnActionType.ANKAN),
+//	listOfPossibleTurnActions.contains(TurnActionType.MINKAN),
+//	listOfPossibleTurnActions.contains(TurnActionType.TSUMO)
+//	);
+	protected void __displayEventHumanTurnStart(GameplayEvent event){
+		tableWindow.updateEverything();
+		
+		Player p = event.getRelatedPlayer();
+		askUserInputTurnAction(
+				p.handSize(),
+				p.ableToRiichi(),
+				p.ableToAnkan(),
+				p.ableToMinkan(),
+				p.ableToTsumo()
+				);
+	}
 
 	@Override
 	protected void __displayEventHumanReactionStart(GameplayEvent event) {
-		
+		Player p = event.getRelatedPlayer();
+		GameTile tile = event.getRelatedTile();
+		askUserInputCall(
+				p.ableToCallChiL(tile),
+				p.ableToCallChiM(tile),
+				p.ableToCallChiH(tile),
+				p.ableToCallPon(tile),
+				p.ableToCallKan(tile),
+				p.ableToCallRon(tile)
+				);
 	}
 }

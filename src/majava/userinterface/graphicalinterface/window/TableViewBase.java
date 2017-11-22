@@ -162,14 +162,10 @@ public class TableViewBase extends JFrame{
 	private static final int BARRY_CALLS_NONE = 0, BARRY_CALLS_CHI_L = 1, BARRY_CALLS_CHI_M = 2, BARRY_CALLS_CHI_H = 3, BARRY_CALLS_PON = 4, BARRY_CALLS_KAN = 5, BARRY_CALLS_RON = 6, BARRY_CALLS_CHI = 7;
 	
 	
-	//click action constants
+	//call/action constants
 	private static final CallType DEFAULT_CALL = CallType.NONE;
-	
-	protected static final TurnActionType NO_ACTION_CHOSEN = TurnActionType.UNDECIDED;
-	protected static final int TURN_ACTION_DISCARD = -10, TURN_ACTION_ANKAN = -20, TURN_ACTION_MINKAN = -30, TURN_ACTION_RIICHI = -40, TURN_ACTION_TSUMO = -50;
-
-	protected static final int NO_DISCARD_CHOSEN = -99778;
 	protected static final int DEFAULT_DISCARD = 0;
+	protected static final int NO_DISCARD_CHOSEN = -99778;
 	/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~END CONSTANTS~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 	
 	
@@ -622,8 +618,8 @@ public class TableViewBase extends JFrame{
 		repaint();
 		
 		
-		chosenCall = CallType.NONE;
-		while (chosenCall == CallType.NONE)
+		chosenCall = CallType.UNDECIDED;
+		while (chosenCall == CallType.UNDECIDED)
 			waitAroundForClick();
 		
 		if (chosenCall == CallType.NONSPECIFIC_CHI) chosenCall = chiType;
@@ -638,7 +634,7 @@ public class TableViewBase extends JFrame{
 	public boolean resultChosenCallWasPon(){return (chosenCall == CallType.PON);}
 	public boolean resultChosenCallWasKan(){return (chosenCall == CallType.KAN);}
 	public boolean resultChosenCallWasRon(){return (chosenCall == CallType.RON);}
-	
+	public CallType resultChosenCall(){return chosenCall;}
 	
 	
 	
@@ -654,7 +650,7 @@ public class TableViewBase extends JFrame{
 	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){
 		canRiichi = false;	/////no riichi implemented yet
 		
-		chosenTurnAction = NO_ACTION_CHOSEN;
+		chosenTurnAction = TurnActionType.UNDECIDED;
 		chosenDiscard = NO_DISCARD_CHOSEN;
 		
 		//add appropriate turn action buttons
@@ -664,8 +660,8 @@ public class TableViewBase extends JFrame{
 		barryTActions[BARRY_TACTIONS_TSUMO].setVisible(canTsumo);
 		this.repaint();
 		
-		chosenTurnAction = NO_ACTION_CHOSEN;
-		while (chosenTurnAction == NO_ACTION_CHOSEN)
+		chosenTurnAction = TurnActionType.UNDECIDED;
+		while (chosenTurnAction == TurnActionType.UNDECIDED)
 			waitAroundForClick();
 		
 		if (chosenDiscard > handSize) setDiscardChosen(DEFAULT_DISCARD);
@@ -678,6 +674,7 @@ public class TableViewBase extends JFrame{
 	public boolean resultChosenTurnActionWasMinkan(){return (chosenTurnAction == TurnActionType.MINKAN);}
 	public boolean resultChosenTurnActionWasRiichi(){return (chosenTurnAction == TurnActionType.RIICHI);}
 	public boolean resultChosenTurnActionWasTsumo(){return (chosenTurnAction == TurnActionType.TSUMO);}
+	public TurnActionType resultChosenTurnAction(){return chosenTurnAction;}
 	
 	//returns the index of the clicked discard. returns negative if no discard chosen.
 	public int resultChosenDiscardIndex(){

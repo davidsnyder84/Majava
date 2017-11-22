@@ -188,7 +188,7 @@ public class Player {
 	
 	
 	//checks if the player is able to make a call on Tile t (actual checks performed)
-	private boolean ableToCallTile(GameTile tileToReactTo){
+	public boolean ableToCallTile(GameTile tileToReactTo){
 		
 		//check if t can be called to make a meld
 		boolean ableToCall = hand.canCallTile(tileToReactTo);

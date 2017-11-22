@@ -58,15 +58,8 @@ public class MajavaGUI extends GameUI{
 	//get user input from window
 	public boolean askUserInputCall(boolean canChiL, boolean canChiM, boolean canChiH, boolean canPon, boolean canKan, boolean canRon){
 		boolean called = tableWindow.askUserInputCall(canChiL, canChiM, canChiH, canPon, canKan, canRon);
-		CallType chosenCallType = CallType.NONE;
-		if (called){
-			if (tableWindow.resultChosenCallWasChiL()) chosenCallType = CallType.CHI_L;
-			else if (tableWindow.resultChosenCallWasChiM()) chosenCallType = CallType.CHI_M;
-			else if (tableWindow.resultChosenCallWasChiH()) chosenCallType = CallType.CHI_H;
-			else if (tableWindow.resultChosenCallWasPon()) chosenCallType = CallType.PON;
-			else if (tableWindow.resultChosenCallWasKan()) chosenCallType = CallType.KAN;
-			else if (tableWindow.resultChosenCallWasRon()) chosenCallType = CallType.RON;
-		}
+		CallType chosenCallType = tableWindow.resultChosenCall();
+		
 		/////////NEED TO KNOW PLAYER NUMBER OF WHO WE'RE ASKING TO CALL
 //		((HumanBrain) gameState.getControllerForPlayer((gameState.getRoundTracker().whoseTurn()))).setCallChosenByHuman(chosenCallType);
 		((HumanBrain) gameState.getControllerForPlayer(0)).setCallChosenByHuman(chosenCallType);
@@ -76,15 +69,11 @@ public class MajavaGUI extends GameUI{
 	public void askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){
 		tableWindow.askUserInputTurnAction(handSize, canRiichi, canAnkan, canMinkan, canTsumo);
 		
-		TurnActionType chosenAction = TurnActionType.DISCARD;
-		if (tableWindow.resultChosenTurnActionWasDiscard()) chosenAction = TurnActionType.DISCARD;
-		else if (tableWindow.resultChosenTurnActionWasAnkan()) chosenAction = TurnActionType.ANKAN;
-		else if (tableWindow.resultChosenTurnActionWasMinkan()) chosenAction = TurnActionType.MINKAN;
-		else if (tableWindow.resultChosenTurnActionWasRiichi()) chosenAction = TurnActionType.RIICHI;
-		else if (tableWindow.resultChosenTurnActionWasTsumo()) chosenAction = TurnActionType.TSUMO;
-		
+		//chosen action
+		TurnActionType chosenAction = tableWindow.resultChosenTurnAction();
 		controllerOfCurrentPlayer().setTurnActionChosenByHuman(chosenAction);
 		
+		//chosen discard index
 		if (chosenAction == TurnActionType.DISCARD)
 			controllerOfCurrentPlayer().setDiscardIndexChosenByHuman(tableWindow.resultChosenDiscardIndex() - 1);
 	}

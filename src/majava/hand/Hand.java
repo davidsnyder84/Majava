@@ -36,7 +36,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		melds = new ArrayList<Meld>(MAX_NUM_MELDS);
 		
 		//make checkers
-		callabilityChecker = new CallabilityChecker(this, tiles);
+		callabilityChecker = new CallabilityChecker(this);
 		turnActionabilityChecker = new TurnActionabilityChecker(this);
 		agariChecker = new AgariChecker(this, tiles);
 	}
@@ -45,7 +45,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		melds = new ArrayList<Meld>(MAX_NUM_MELDS);
 		for (Meld m: other.melds) melds.add(m.clone());
 		
-		callabilityChecker = new CallabilityChecker(this, tiles);
+		callabilityChecker = new CallabilityChecker(this);
 		turnActionabilityChecker = new TurnActionabilityChecker(this);
 		agariChecker = new AgariChecker(this, tiles);
 	}
@@ -58,8 +58,12 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		if (index > size() || index < 0 ) return null;
 		return tiles.get(index);
 	}
+	//GameTileList methods
 	public int findHowManyOf(GameTile t){return tiles.findHowManyOf(t);}
 	public GameTileList getTilesAsList(){return tiles.clone();}
+	public int indexOf(Integer id){return tiles.indexOf(new GameTile(id));}
+	public boolean contains(Integer id){return tiles.contains(new GameTile(id));}
+	public List<Integer> findAllIndicesOf(GameTile t){return tiles.findAllIndicesOf(t);}
 	
 	//returns a list of the melds that have been made (copy of actual melds), returns an empty list if no melds made
 	public List<Meld> getMelds(){

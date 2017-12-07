@@ -29,11 +29,11 @@ public class AgariChecker {
 	
 	
 	private final Hand myHand;
-	private final GameTileList myHandTiles;
+	private final GameTileList handTiles;
 	
 	public AgariChecker(Hand handToCheck, GameTileList reveivedHandTiles){
 		myHand = handToCheck;
-		myHandTiles = reveivedHandTiles;
+		handTiles = reveivedHandTiles;
 	}
 	
 	private Wind ownerSeatWind(){return myHand.getOwnerSeatWind();}
@@ -51,7 +51,7 @@ public class AgariChecker {
 	
 	//returns the list of tenpai waits
 	public GameTileList getTenpaiWaits(){
-//		System.out.println("norm" + findNormalTenpaiWaits(myHandTiles).toString());System.out.println("koku" + getKokushiWaits(myHandTiles).toString());System.out.println("chit" + getChiitoiWait(myHandTiles).toString());
+//		System.out.println("norm" + findNormalTenpaiWaits(handTiles).toString());System.out.println("koku" + getKokushiWaits(handTiles).toString());System.out.println("chit" + getChiitoiWait(handTiles).toString());
 		GameTileList waits = new GameTileList();
 		waits.addAll(getNormalTenpaiWaits());
 		if (waits.isEmpty()) waits.addAll(getKokushiWaits());
@@ -71,15 +71,15 @@ public class AgariChecker {
 	public boolean isTenpaiKokushi(){
 		
 		//if any melds have been made, kokushi musou is impossible, return false
-		if (myHandTiles.size() < MAX_HAND_SIZE-1) return false;
+		if (handTiles.size() < MAX_HAND_SIZE-1) return false;
 		//if the hand contains even one non-honor tile, return false
-		for (GameTile t: myHandTiles) if (!t.isYaochuu()) return false;
+		for (GameTile t: handTiles) if (!t.isYaochuu()) return false;
 		
 		
 		//check if the hand contains at least 12 different TYC tiles
 		int countTYC = 0;
 		for (int id: YAOCHUU_TILE_IDS)
-			if (myHandTiles.contains(id))
+			if (handTiles.contains(id))
 				countTYC++;
 		
 		//return false if the hand doesn't contain at least 12 different TYC tiles
@@ -90,7 +90,7 @@ public class AgariChecker {
 	
 	//returns true if a 14-tile hand is a complete kokushi musou
 	public boolean isCompleteKokushi(){
-		if ((myHandTiles.size() == MAX_HAND_SIZE) &&
+		if ((handTiles.size() == MAX_HAND_SIZE) &&
 			(isTenpaiKokushi()) &&
 			(getKokushiWaits().size() == NUMBER_OF_YAOCHUU_TILES))
 			return true;
@@ -107,7 +107,7 @@ public class AgariChecker {
 		if (isTenpaiKokushi()){
 			//look for a Yaochuu tile that the hand doesn't contain
 			for (Integer id: YAOCHUU_TILE_IDS)
-				if (!myHandTiles.contains(id))
+				if (!handTiles.contains(id))
 					missingTYC = new GameTile(id);
 			
 			//if the hand contains exactly one of every Yaochuu tile, then it is a 13-sided wait for all Yaochuu tiles
@@ -132,14 +132,14 @@ public class AgariChecker {
 		//hand must have no more than 2 of each tile
 		
 		//if any melds have been made, chiitoitsu is impossible, return false
-		if (myHandTiles.size() != MAX_HAND_SIZE-1 || myHand.numberOfMeldsMade() > 0) return emptyWaitsList();
+		if (handTiles.size() != MAX_HAND_SIZE-1 || myHand.numberOfMeldsMade() > 0) return emptyWaitsList();
 		
 		//the hand should have exactly 7 different types of tiles (4 of a kind != 2 pairs)
-		if (myHandTiles.makeCopyNoDuplicates().size() != 7) return emptyWaitsList();
+		if (handTiles.makeCopyNoDuplicates().size() != 7) return emptyWaitsList();
 
 		//the hand must have no more than 2 of each tile
-		for(GameTile t: myHandTiles){
-			switch(myHandTiles.findHowManyOf(t)){
+		for(GameTile t: handTiles){
+			switch(handTiles.findHowManyOf(t)){
 			case 1: missingTile = t;
 			case 2: break;//intentionally blank
 			default: return emptyWaitsList();
@@ -157,7 +157,7 @@ public class AgariChecker {
 	
 	//returns true if a 14-tile hand is a complete chiitoitsu
 	public boolean isCompleteChiitoitsu(){
-		GameTileList checkTilesCopy = myHandTiles.clone();
+		GameTileList checkTilesCopy = handTiles.clone();
 		checkTilesCopy.sort();
 		
 		//chiitoitsu is impossible if a meld has been made
@@ -208,9 +208,9 @@ public class AgariChecker {
 	//TODO this is find tenpai waits
 	private GameTileList getNormalTenpaiWaits(){
 		final GameTileList waits = new GameTileList();
-		final GameTileList checkTilesCopy = myHandTiles.clone();
+		final GameTileList checkTilesCopy = handTiles.clone();
 		
-		final List<Integer> hotTileIDs = TileKnowledge.findAllHotTiles(myHandTiles);
+		final List<Integer> hotTileIDs = TileKnowledge.findAllHotTiles(handTiles);
 		for (Integer id: hotTileIDs){
 			//get a hot tile (and mark it with the hand's seat wind, so chi is valid)
 			GameTile currentHotTile = new GameTile(id);
@@ -234,11 +234,10 @@ public class AgariChecker {
 	
 	
 	
-	//returns true if list of handTiles is complete (is a winning hand)
+	//returns true if list of checkTiles is complete (is a winning hand)
 	public static boolean isCompleteNormal(GameTileList checkTiles, List<Meld> finishingMelds){
 		if ((checkTiles.size() % 3) != 2) return false;
 		
-		//make a list of checkTiles out of the handTiles
 		GameTileList copyOfCheckTiles = HandCheckerTile.makeCopyOfListWithCheckers(checkTiles);
 		copyOfCheckTiles.sort();
 		
@@ -248,8 +247,8 @@ public class AgariChecker {
 	}
 	//overloaded, checks mHandTiles by default
 	public static boolean isCompleteNormal(GameTileList checkTiles){return isCompleteNormal(checkTiles, null);}
-	public boolean isCompleteNormal(List<Meld> finishingMelds){return isCompleteNormal(myHandTiles, finishingMelds);}
-	public boolean isCompleteNormal(){return isCompleteNormal(myHandTiles);}
+	public boolean isCompleteNormal(List<Meld> finishingMelds){return isCompleteNormal(handTiles, finishingMelds);}
+	public boolean isCompleteNormal(){return isCompleteNormal(handTiles);}
 	
 	
 	//populates the meld type stacks for all of the tile in checkTiles
@@ -273,7 +272,7 @@ public class AgariChecker {
 	
 	
 	if (handtiles is empty): return true (an empty hand is complete)
-	currentTile = first tile in handTiles
+	currentTile = first tile in checkTiles
 	
 	while (currentTile's stack of valid meld types is not empty)
 		

@@ -3,6 +3,7 @@ package majava.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import majava.hand.Hand;
 import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
 
@@ -24,6 +25,8 @@ public class TileKnowledge {
 		
 		return allHotTileIds;
 	}
+	//overloaded for Hand
+	public static List<Integer> findAllHotTiles(Hand hand){return findAllHotTiles(hand.getTilesAsList());}
 	
 	
 	

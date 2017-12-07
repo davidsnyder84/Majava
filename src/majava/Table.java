@@ -50,8 +50,8 @@ public class Table {
 		userInterfaces.add(gui);
 		userInterfaces.add(textUI);
 				
-		for (GameUI ui: userInterfaces)
-			gameEventBroadcaster.registerObserver(ui);
+//		for (GameUI ui: userInterfaces)
+//			gameEventBroadcaster.registerObserver(ui);
 	}
 	
 	

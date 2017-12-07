@@ -22,11 +22,9 @@ public class CallabilityChecker {
 	
 	
 	private final Hand hand;
-	private final GameTileList handTiles;
 	
-	public CallabilityChecker(Hand handToCheck, GameTileList reveivedHandTiles){
+	public CallabilityChecker(Hand handToCheck){
 		hand = handToCheck;
-		handTiles = reveivedHandTiles;
 	}
 	
 	private Wind ownerSeatWind(){return hand.getOwnerSeatWind();}
@@ -57,7 +55,7 @@ public class CallabilityChecker {
 		return (flagCanChiL || flagCanChiM || flagCanChiH || flagCanPon || flagCanRon);
 	}
 	
-	private boolean tileIsHot(GameTile candidate){return TileKnowledge.findAllHotTiles(handTiles).contains(candidate.getId());}
+	private boolean tileIsHot(GameTile candidate){return (TileKnowledge.findAllHotTiles(hand)) .contains(candidate.getId());}
 	
 	public boolean tileCameFromChiablePlayer(GameTile candidate){
 		return (candidate.getOrignalOwner() == ownerSeatWind()) || 
@@ -78,8 +76,8 @@ public class CallabilityChecker {
 	//シュンツ
 	private List<Integer> getPartnerIndicesChiType(GameTile candidate, int offset1, int offset2){
 		if (!tileCameFromChiablePlayer(candidate)) return emptyIndicesList();
-		if (handTiles.contains(candidate.getId() + offset1) && handTiles.contains(candidate.getId() + offset2))
-			return Arrays.asList(handTiles.indexOf(candidate.getId() + offset1), handTiles.indexOf(candidate.getId() + offset2));
+		if (hand.contains(candidate.getId() + offset1) && hand.contains(candidate.getId() + offset2))
+			return Arrays.asList(hand.indexOf(candidate.getId() + offset1), hand.indexOf(candidate.getId() + offset2));
 		return emptyIndicesList();
 	}
 	private List<Integer> getPartnerIndicesChiL(GameTile candidate){return getPartnerIndicesChiType(candidate, OFFSET_CHI_L1, OFFSET_CHI_L2);}
@@ -88,7 +86,7 @@ public class CallabilityChecker {
 	//コーツ
 	private List<Integer> getPartnerIndicesMulti(GameTile candidate, int numPartnersNeeded){		
 		//pon/kan is possible if there are enough partners in the hannd to form the meld
-		List<Integer> partnerIndices = handTiles.findAllIndicesOf(candidate);
+		List<Integer> partnerIndices = hand.findAllIndicesOf(candidate);
 		if (partnerIndices.size() >= numPartnersNeeded)
 			return partnerIndices.subList(0, numPartnersNeeded);
 		return emptyIndicesList();

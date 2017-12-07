@@ -543,11 +543,6 @@ public class HandChecker {
 	//xxxxxxxxxBEGIN DEMO METHODS
 //	public List<Integer> DEMOfindAllCallableTiles(){return findAllCallableTiles();}
 	public List<Integer> DEMOfindAllHotTiles(){return TileKnowledge.findAllHotTiles(myHandTiles);}
-	
-	public GameTileList DEMOfindNormalTenpaiWaits(){return getNormalTenpaiWaits();}
-	public GameTileList DEMOgetKokushiWaits(){return getKokushiWaits();}
-	
-	public boolean DEMOchiitoitsuInTenpai(){return isTenpaiChiitoitsu();}
 	//xxxxxxxxxEND DEMO METHODS
 	
 	

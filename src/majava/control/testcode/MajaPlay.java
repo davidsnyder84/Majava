@@ -64,7 +64,7 @@ public class MajaPlay {
 		
 //		kokushiTenpaiTest();
 		
-//		chiitoiTenpaiTest();
+		chiitoiTenpaiTest();
 		
 		
 //		playFinishingMelds();
@@ -77,7 +77,7 @@ public class MajaPlay {
 		
 //		playNewTileInhertance();
 		
-		testHandClone();
+//		testHandClone();
 		
 	}
 	public static void println(String prints){System.out.println(prints);}public static void println(){println("");}
@@ -203,16 +203,14 @@ public class MajaPlay {
 			h.DEMOfillChuuren(i);
 			
 			println("\n\n\n" + h.toString());
-			println("Complete?: " + h.DEMOgetChecker().isCompleteNormal());
-			printFinishingMeldsFor(h.DEMOgetChecker());
+			println("Complete?: " + h.isComplete());
+			printFinishingMeldsFor(h);
 		}
 		
 	}
 	
-	private static void printFinishingMeldsFor(HandChecker hc){
-		List<Meld> fMelds = hc.getFinishingMelds();
-		for (Meld m: fMelds)
-			System.out.println(m.toString());
+	private static void printFinishingMeldsFor(Hand h){
+		DemoHandGen.printFinishingMeldsFor(h);
 	}
 	
 	
@@ -236,11 +234,10 @@ public class MajaPlay {
 		h.addTile(new GameTile(5));
 		h.sort();
 		
-
 		println(h.toString());
 		
-
-		println("\nHand is complete normal?: " + h.DEMOgetChecker().isCompleteNormal());
+		println("\nHand is complete normal?: " + h.isComplete());
+//		println("\nHand is complete normal?: " + h.DEMOgetChecker().isCompleteNormal());
 		
 	}
 	
@@ -258,8 +255,8 @@ public class MajaPlay {
 		println(h.toString());
 		
 
-		println("\nIn tenpai for chiitoi?: " + h.DEMOgetChecker().DEMOchiitoitsuInTenpai());
-		waits = h.DEMOgetChecker().getTenpaiWaits();
+		println("\nIn tenpai for chiitoi?: " + h.isTenpaiChiitoitsu());
+		waits = h.getTenpaiWaits();
 		if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.get(0).toString());
 		println("\n\n\n");
 		
@@ -281,8 +278,8 @@ public class MajaPlay {
 
 			println(h.toString());
 
-			println("\nIn tenpai for chiitoi?: " + h.DEMOgetChecker().DEMOchiitoitsuInTenpai());
-			waits = h.DEMOgetChecker().getTenpaiWaits();
+			println("\nIn tenpai for chiitoi?: " + h.isTenpaiChiitoitsu());
+			waits = h.getTenpaiWaits();
 			if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.get(0).toString());
 			println("\n\n\n");
 		}
@@ -307,8 +304,8 @@ public class MajaPlay {
 
 			println(h.toString());
 
-			println("\nIn tenpai for chiitoi?: " + h.DEMOgetChecker().DEMOchiitoitsuInTenpai());
-			waits = h.DEMOgetChecker().getTenpaiWaits();
+			println("\nIn tenpai for chiitoi?: " + h.isTenpaiChiitoitsu());
+			waits = h.getTenpaiWaits();
 			if (waits != null && !waits.isEmpty()) System.out.print("Wait (" + waits.size() + " waits): " + waits.get(0).toString());
 			println("\n\n\n");
 		}
@@ -347,14 +344,14 @@ public class MajaPlay {
 		println(h.toString());
 		
 
-		println("\nIn tenpai for kokushi musou?: " + h.DEMOgetChecker().isTenpaiKokushi());
+		println("\nIn tenpai for kokushi musou?: " + h.isTenpaiKokushi());
 		
-		waits = h.DEMOgetChecker().DEMOgetKokushiWaits();
+		waits = h.getTenpaiWaits();
 		System.out.print(waits.size() + "-sided wait: ");
 		for (GameTile t: waits)
 			System.out.print(t.toString() + ", ");
 		
-		println("\n\nKokushi musou complete?: " + h.DEMOgetChecker().isCompleteKokushi());
+		println("\n\nKokushi musou complete?: " + h.isCompleteKokushi());
 	}
 	
 	

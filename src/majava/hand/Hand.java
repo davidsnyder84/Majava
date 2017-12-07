@@ -84,14 +84,16 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	
 	public Wind getOwnerSeatWind(){return tiles.getFirst().getOrignalOwner();}
 	//returns true if the hand is in tenpai
-	public boolean getTenpaiStatus(){return handChecker.isInTenpai();}
+	public boolean isInTenpai(){return handChecker.isInTenpai();}
+	public GameTileList getTenpaiWaits(){return handChecker.getTenpaiWaits();}
 	
-	//returns a list of the hand's tenpai waits
-//	public GameTileList getTenpaiWaits(){
-//		if (getTenpaiStatus()) return mChecker.getTenpaiWaits();
-//		else return null;
-//	}
 	
+	public boolean isComplete(){return handChecker.isComplete();}
+	public boolean isCompleteNormal(){return handChecker.isCompleteNormal();}	
+	public boolean isCompleteChiitoitsu(){return handChecker.isCompleteChiitoitsu();}
+	public boolean isTenpaiChiitoitsu(){return handChecker.isTenpaiChiitoitsu();}
+	public boolean isCompleteKokushi(){return handChecker.isCompleteKokushi();}
+	public boolean isTenpaiKokushi(){return handChecker.isTenpaiKokushi();}
 	
 	
 	
@@ -278,8 +280,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		int[] ids = {1,1,1,2,3,4,5,6,7,8,9,9,9,lastTile};
 		for (int i: ids) addTile(i);
 	}
-	public void DEMOfillChuuren(){DEMOfillChuuren(8);}
-	
+	public void DEMOfillChuuren(){DEMOfillChuuren(8);}	
 	public void DEMOsetOwner(Wind owner){for (GameTile t: tiles) t.setOwner(owner);}
 	
 //	//true returns a string of indices (indices are +1 to match display)
@@ -302,11 +303,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	//returns a list of hot tile IDs for ALL tiles in the hand
 	public List<Integer> DEMOfindAllHotTiles(){return handChecker.DEMOfindAllHotTiles();}
 	//returns a list of callable tile IDs for ALL tiles in the hand
-//	public List<Integer> DEMOfindAllCallableTiles(){return handChecker.DEMOfindAllCallableTiles();}
 	
-	public HandChecker DEMOgetChecker(){return handChecker;}
-	
-	public GameTileList DEMOgetTilesAsList(){return tiles;}
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	//xxxxEND DEMO METHODS
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

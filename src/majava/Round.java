@@ -213,7 +213,7 @@ public class Round{
 	
 	private void setResultVictory(Player winner){
 		GameTile winningTile = null;
-		GameTileList winningHandTiles = winner.DEMOgetHand().DEMOgetTilesAsList().clone();	/////Need this for now, will make more elegant later
+		GameTileList winningHandTiles = winner.DEMOgetHand().getTilesAsList();	/////Need this for now, will make more elegant later
 		
 		if (winner == currentPlayer()){
 			roundResult.setVictoryTsumo(winner);			

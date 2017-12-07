@@ -237,7 +237,7 @@ public class Player {
 	public int handSize(){return hand.size();}
 	public boolean isInRiichi(){return isRiichi;}
 	public boolean isInFuriten(){return isFuriten;}
-	public boolean checkTenpai(){return hand.getTenpaiStatus();}
+	public boolean checkTenpai(){return hand.isInTenpai();}
 	
 	
 	
@@ -342,7 +342,7 @@ public class Player {
 	public String getAsStringHand(){
 		String hs = "";
 		hs += seatWind + " Player's hand (controller: " + brain + ", " + getPlayerName() + "):";
-		if (hand.getTenpaiStatus()) hs += "     $$$$!Tenpai!$$$$";
+		if (hand.isInTenpai()) hs += "     $$$$!Tenpai!$$$$";
 		hs += "\n" + hand;
 		return hs;
 	}

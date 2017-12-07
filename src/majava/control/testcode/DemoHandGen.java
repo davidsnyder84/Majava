@@ -38,8 +38,8 @@ public class DemoHandGen {
 		
 		
 //		runSimulationNoDisplay(50000);
-//		runSumulationRandom(300000);
-		runSpecificTest();
+		runSumulationRandom(300000);
+//		runSpecificTest();
 		
 //		runTenpaiSimulation(500);
 		
@@ -75,7 +75,7 @@ public class DemoHandGen {
 			
 			System.out.println(currentHand.toString());
 			
-			success = currentHand.DEMOgetChecker().isComplete();
+			success = currentHand.isComplete();
 			System.out.println(currentHand.getAsStringMeldsCompact());
 			System.out.println("Hand is complete?: " + success);
 			
@@ -84,7 +84,7 @@ public class DemoHandGen {
 				System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 			}
 			else
-				printFinishingMeldsFor(currentHand.DEMOgetChecker());
+				printFinishingMeldsFor(currentHand);
 			
 			System.out.println("\n\n");
 			totalNum++;
@@ -105,7 +105,7 @@ public class DemoHandGen {
 		
 		
 		for (int i = 0; i < howManyTimes; i++){
-			if (!(currentHand = generateCompleteHand()).DEMOgetChecker().isComplete()){
+			if (!(currentHand = generateCompleteHand()).isComplete()){
 				numFailures++;
 				System.out.println(currentHand.toString() + "\n");
 				
@@ -126,15 +126,15 @@ public class DemoHandGen {
 	public static void runSingleTenpaiTest(Hand hand){
 		System.out.println("\n" + hand + "\n");
 		
-		hand.DEMOgetChecker().isInTenpai();
-		GameTileList waits = hand.DEMOgetChecker().getTenpaiWaits();
+		hand.isInTenpai();
+		GameTileList waits = hand.getTenpaiWaits();
 		
 		String waitString = "";
 		for (GameTile t: waits) waitString += t + ", ";
 		System.out.println("Waits: " + waitString);
 		System.out.println(waits.toString());
 
-		printFinishingMeldsFor(hand.DEMOgetChecker());
+		printFinishingMeldsFor(hand);
 	}
 	
 	/*
@@ -163,8 +163,8 @@ public class DemoHandGen {
 
 			System.out.println(currentHand.toString() + "\n");
 			
-			currentHand.DEMOgetChecker().isInTenpai();
-			waits = currentHand.DEMOgetChecker().getTenpaiWaits();
+			currentHand.isInTenpai();
+			waits = currentHand.getTenpaiWaits();
 			
 			
 			System.out.print("Waits: ");
@@ -184,7 +184,7 @@ public class DemoHandGen {
 					maxWaitString = waitString;
 					maxNumWaits = waits.size();
 				}
-				printFinishingMeldsFor(currentHand.DEMOgetChecker());
+				printFinishingMeldsFor(currentHand);
 			}
 			System.out.println("\n\n");
 		}
@@ -240,7 +240,6 @@ public class DemoHandGen {
 	public static void runSumulationRandom(int howManyTimes){
 		
 		Hand currentHand = null;
-//		boolean hit = true;
 		int numHits = 0;
 		
 		
@@ -250,15 +249,11 @@ public class DemoHandGen {
 			currentHand = generateRandomHand();
 			currentHand.sort();
 			
-//			currentHand = new Hand(OWNER_SEAT);
-//			currentHand.fill();
-			
-//			hit = currentHand.mChecker.DEMOisComplete();
-			
-			if (currentHand.DEMOgetChecker().isComplete()){
+			if (currentHand.isComplete()){
 				numHits++;
 				System.out.println("\n\n" + currentHand.toString());
-				printFinishingMeldsFor(currentHand.DEMOgetChecker());
+				printFinishingMeldsFor(currentHand);
+				currentHand.getFinishingMelds();
 			}
 		}
 		
@@ -298,29 +293,23 @@ public class DemoHandGen {
 		return hand;
 	}
 	
-	private static void printFinishingMeldsFor(HandChecker hc){
-		List<Meld> fMelds = hc.getFinishingMelds();
-		for (Meld m: fMelds)
-			System.out.println(m.toString());
+	public static void printFinishingMeldsFor(Hand h){
+//		List<Meld> fMelds = hc.getFinishingMelds();
+		for (Meld m: h.getFinishingMelds()) System.out.println(m.toString());
 	}
 	
 	
 	
 	public static void runSpecificTest(){
-		
 		Hand hand = generateSpecificHand();
-		
-		
 		System.out.println("\n" + hand.toString());
 		
-		HandChecker checker = hand.DEMOgetChecker();
-		boolean isCompleteNorm = checker.isCompleteNormal();
-		System.out.println("Hand is complete normal?: " + isCompleteNorm);
-
-		printFinishingMeldsFor(hand.DEMOgetChecker());
+		System.out.println("Hand is complete normal?: " + hand.isCompleteNormal());
+		printFinishingMeldsFor(hand);
 		
 		System.out.println("\n\n\n");
-		System.out.println("Hand is tenpai:? " + "\n" + checker.DEMOfindNormalTenpaiWaits());
+//		System.out.println("Hand is tenpai:? " + "\n" + checker.DEMOfindNormalTenpaiWaits());
+		System.out.println("Hand is tenpai:? " + "\n" + hand.getTenpaiWaits());
 		
 	}
 	

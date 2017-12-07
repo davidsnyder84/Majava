@@ -10,7 +10,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import utility.ConviniList;
 
 import majava.hand.Hand;
-import majava.hand.HandChecker;
 import majava.hand.Meld;
 import majava.enums.MeldType;
 import majava.enums.Wind;

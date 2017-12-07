@@ -8,7 +8,6 @@ import majava.Pond;
 import majava.RoundTracker;
 import majava.enums.Exclamation;
 import majava.enums.Wind;
-import majava.userinterface.GameUI;
 import majava.player.brains.HumanBrain;
 import majava.player.brains.NullPlayerBrain;
 import majava.player.brains.PlayerBrain;

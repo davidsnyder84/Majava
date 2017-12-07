@@ -1,29 +1,25 @@
-package majava.hand;
+package majava.hand.handcheckers;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import majava.tiles.HandCheckerTile;
+import majava.enums.MeldType;
+import majava.enums.Wind;
+import majava.hand.Hand;
+import majava.hand.Meld;
 import majava.tiles.GameTile;
+import majava.tiles.HandCheckerTile;
 import majava.tiles.Janpai;
 import majava.util.GameTileList;
 import majava.util.TileKnowledge;
-import majava.enums.MeldType;
-import majava.enums.Wind;
 
-
-
-//runs various checks on a player's hand for tenpai, completeness, whether a tile can be called, whether kan can be made, etc
-public class HandChecker {
+public class AgariChecker {
 	private static final int NUM_PARTNERS_NEEDED_TO_PON = 2;
-	private static final int NUM_PARTNERS_NEEDED_TO_KAN = 3;
 	private static final int NUM_PARTNERS_NEEDED_TO_PAIR = 1;
 	private static final int OFFSET_CHI_L1 = 1, OFFSET_CHI_L2 = 2;
 	private static final int OFFSET_CHI_M1 = -1,  OFFSET_CHI_M2 = 1;
 	private static final int OFFSET_CHI_H1 = -2, OFFSET_CHI_H2 = -1;
-	private static final int INDEX_NOT_FOUND = -1;
 	
 	private static final int MAX_HAND_SIZE = 14;
 	
@@ -32,137 +28,16 @@ public class HandChecker {
 	
 	
 	
-	
 	private final Hand myHand;
 	private final GameTileList myHandTiles;
 	
-	
-	
-	
-	public HandChecker(Hand handToCheck, GameTileList reveivedHandTiles){
+	public AgariChecker(Hand handToCheck, GameTileList reveivedHandTiles){
 		myHand = handToCheck;
 		myHandTiles = reveivedHandTiles;
 	}
 	
-//	private int handSize(){return myHand.size();}
 	private Wind ownerSeatWind(){return myHand.getOwnerSeatWind();}
 	
-	
-	
-	
-	
-	
-	//TODO call methods
-	public boolean tileIsCallable(GameTile candidate){
-		boolean handIsInTenpai = isInTenpai();	//use temporary variable to avoid having to calculate twice
-		boolean flagCanChiL = false, flagCanChiM = false, flagCanChiH = false, flagCanPon = false, flagCanRon = false;
-		
-		//if candidate is not a hot tile, return false
-		if (!tileIsHot(candidate) && !handIsInTenpai) return false;
-		
-		if (tileCameFromChiablePlayer(candidate)){
-			flagCanChiL = ableToChiL(candidate);
-			flagCanChiM = ableToChiM(candidate);
-			flagCanChiH = ableToChiH(candidate);
-		}
-		//check pon (don't bother checking kan. you know why.)
-		flagCanPon = ableToPon(candidate);
-		
-		//if in tenpai, check ron
-		flagCanRon = handIsInTenpai && ableToRon(candidate);
-		
-		//~~~~return true if a call (any call) can be made
-		return (flagCanChiL || flagCanChiM || flagCanChiH || flagCanPon || flagCanRon);
-	}
-	private boolean tileIsHot(GameTile candidate){return TileKnowledge.findAllHotTiles(myHandTiles).contains(candidate.getId());}
-	
-	public boolean tileCameFromChiablePlayer(GameTile candidate){
-		return (candidate.getOrignalOwner() == ownerSeatWind()) || 
-				(candidate.getOrignalOwner() == ownerSeatWind().kamichaWind());
-	}
-	
-	//returns the partner indices list for a given meld type
-	public List<Integer> getPartnerIndices(GameTile candidate, MeldType meldType){
-		switch (meldType){
-		case CHI_L: return getPartnerIndicesChiL(candidate);
-		case CHI_M: return getPartnerIndicesChiM(candidate);
-		case CHI_H: return getPartnerIndicesChiH(candidate);
-		case PON: return getPartnerIndicesPon(candidate);
-		case KAN: return getPartnerIndicesKan(candidate);
-		default: return null;
-		}
-	}
-	//シュンツ
-	private List<Integer> getPartnerIndicesChiType(GameTile candidate, int offset1, int offset2){
-		if (!tileCameFromChiablePlayer(candidate)) return emptyIndicesList();
-		if (myHandTiles.contains(candidate.getId() + offset1) && myHandTiles.contains(candidate.getId() + offset2))
-			return Arrays.asList(myHandTiles.indexOf(candidate.getId() + offset1), myHandTiles.indexOf(candidate.getId() + offset2));
-		return emptyIndicesList();
-	}
-	private List<Integer> getPartnerIndicesChiL(GameTile candidate){return getPartnerIndicesChiType(candidate, OFFSET_CHI_L1, OFFSET_CHI_L2);}
-	private List<Integer> getPartnerIndicesChiM(GameTile candidate){return getPartnerIndicesChiType(candidate, OFFSET_CHI_M1, OFFSET_CHI_M2);}
-	private List<Integer> getPartnerIndicesChiH(GameTile candidate){return getPartnerIndicesChiType(candidate, OFFSET_CHI_H1, OFFSET_CHI_H2);}
-	//コーツ
-	private List<Integer> getPartnerIndicesMulti(GameTile candidate, int numPartnersNeeded){		
-		//pon/kan is possible if there are enough partners in the hand to form the meld
-		List<Integer> partnerIndices = myHandTiles.findAllIndicesOf(candidate);
-		if (partnerIndices.size() >= numPartnersNeeded)
-			return partnerIndices.subList(0, numPartnersNeeded);
-		return emptyIndicesList();
-	}
-	public List<Integer> getPartnerIndicesPon(GameTile candidate){return getPartnerIndicesMulti(candidate, NUM_PARTNERS_NEEDED_TO_PON);}
-	public List<Integer> getPartnerIndicesKan(GameTile candidate){return getPartnerIndicesMulti(candidate, NUM_PARTNERS_NEEDED_TO_KAN);}
-	private static List<Integer> emptyIndicesList(){return new ArrayList<Integer>();}
-	//ableToCall methods
-	public boolean ableToChiL(GameTile candidate){return candidate.canCompleteChiL() && !getPartnerIndicesChiL(candidate).isEmpty();}
-	public boolean ableToChiM(GameTile candidate){return candidate.canCompleteChiM() && !getPartnerIndicesChiM(candidate).isEmpty();}
-	public boolean ableToChiH(GameTile candidate){return candidate.canCompleteChiH() && !getPartnerIndicesChiH(candidate).isEmpty();}
-	public boolean ableToPon(GameTile candidate){return !getPartnerIndicesPon(candidate).isEmpty();}
-	public boolean ableToKan(GameTile candidate){return !getPartnerIndicesKan(candidate).isEmpty();}
-	public boolean ableToRon(GameTile candidate){return getTenpaiWaits().contains(candidate);}
-	
-	
-	
-	
-	
-	//TODO turn actions
-	public boolean ableToAnkan(){return getCandidateAnkanIndex() != INDEX_NOT_FOUND;}
-	public boolean ableToMinkan(){return getCandidateMinkanIndex() != INDEX_NOT_FOUND;}
-	public boolean ableToRiichi(){return false;}	/////implement riichi check here
-	public boolean ableToTsumo(){return isComplete();}
-	
-	public int getCandidateMinkanIndex(){
-		for (int currentIndex = 0; currentIndex < myHandTiles.size(); currentIndex++)
-			if (canMinkan(myHand.getTile(currentIndex)))
-				return currentIndex;
-		return INDEX_NOT_FOUND;
-	}
-	public int getCandidateAnkanIndex(){
-		for (int currentIndex = 0; currentIndex < myHandTiles.size(); currentIndex++)
-			if (canClosedKan(myHand.getTile(currentIndex)))
-				return currentIndex;
-		return INDEX_NOT_FOUND;
-	}
-	private boolean canClosedKan(GameTile candidate){return myHandTiles.findHowManyOf(candidate) >= (NUM_PARTNERS_NEEDED_TO_KAN + 1);}
-	
-	private boolean canMinkan(GameTile candidate){
-		for (Meld m: myHand.getMelds())
-			if (m.canMinkanWith(candidate))
-				return true;
-		return false;
-	}
-	
-	
-	
-	
-	
-	
-
-	//***************************************************************************************************
-	//***************************************************************************************************
-	//****BEGIN TENPAI CHECKERS
-	//***************************************************************************************************
-	//***************************************************************************************************
 	
 	
 	
@@ -525,28 +400,5 @@ public class HandChecker {
 		return false;
 	}
 	private static boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds){return isCompleteNormalHand(HandCheckerTile.makeCopyOfListWithCheckers(checkTiles), finishingMelds, new AtomicBoolean(false));}
-	
-	
-	
-	//***************************************************************************************************
-	//***************************************************************************************************
-	//****END TENPAI CHECKERS
-	//***************************************************************************************************
-	//***************************************************************************************************
-	
-	
-	
-	
-	
-	
-	
-	//xxxxxxxxxBEGIN DEMO METHODS
-//	public List<Integer> DEMOfindAllCallableTiles(){return findAllCallableTiles();}
-	public List<Integer> DEMOfindAllHotTiles(){return TileKnowledge.findAllHotTiles(myHandTiles);}
-	//xxxxxxxxxEND DEMO METHODS
-	
-	
-	//runs test code
-//	public static void main(String[] args){majava.control.testcode.DemoHandGen.main(null);}
 	
 }

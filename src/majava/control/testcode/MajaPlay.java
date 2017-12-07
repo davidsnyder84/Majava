@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 
 import majava.hand.Hand;
-import majava.hand.HandChecker;
 import majava.hand.Meld;
 import majava.RoundResult;
 import majava.enums.MeldType;

@@ -25,8 +25,8 @@ public class Round{
 	private static final int DEFAULT_ROUND_NUM = 1 , DEFAULT_ROUND_BONUS_NUM = 0;
 	
 	//for debug use
-	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
-//	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
+//	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	
 //	private static final boolean DEBUG_EXHAUSTED_WALL = true;
 	private static final boolean DEBUG_EXHAUSTED_WALL = false;
@@ -62,7 +62,6 @@ public class Round{
 		roundResult = new RoundResult();
 		turnIndicator = new TurnIndicator(players);	/////Does TurnIndicator really need players?
 		
-		/////PLAYERS must be prepared before this line
 		roundTracker = new RoundTracker(this, wall, players);		
 		gameState = new StateOfGame(roundTracker, players, wall);
 	}
@@ -323,19 +322,15 @@ public class Round{
 	
 	public boolean qualifiesForRenchan(){
 		return roundEndedWithDealerVictory();
-		//or if the dealer is in tenpai, or a certain ryuukyoku happens
+		/////or if the dealer is in tenpai, or a certain ryuukyoku happens
 	}
 	public boolean roundEndedWithDealerVictory(){return roundResult.isDealerVictory();}	
 	
 	
 	
-	
-
+	//event announce methods
 	private void announceEvent(GameplayEvent event){
 		gameEventListener.postNewEvent(event, gameState);
-	}
-	public void announceEndOfRoundEvent(){
-		announceEvent(GameplayEvent.endOfRoundEvent());
 	}
 	private void announceCallEventFrom(Player caller){
 		announceEvent(GameplayEvent.calledTileEvent(caller.getCallStatusExclamation(), caller, mostRecentDiscard(), whoseTurnNumber()));
@@ -344,16 +339,10 @@ public class Round{
 		announceEvent(GameplayEvent.declaredOwnKanEvent(fromPlayer));
 		announceEvent(GameplayEvent.madeOwnKanEvent());
 	}
-	private void announceTsumoEvent(Player fromPlayer){
-		announceEvent(GameplayEvent.declaredTsumoEvent(fromPlayer));
-	}
-	private void announceHumanTurnStartEvent(Player p){
-		announceEvent(GameplayEvent.humanPlayerTurnStartEvent(p));
-	}
-	private void announceHumanReactionChanceEvent(Player p){
-		announceEvent(GameplayEvent.humanReactionEvent(p, mostRecentDiscard(), whoseTurnNumber()));
-	}
-	
+	private void announceTsumoEvent(Player fromPlayer){announceEvent(GameplayEvent.declaredTsumoEvent(fromPlayer));}
+	private void announceHumanTurnStartEvent(Player p){announceEvent(GameplayEvent.humanPlayerTurnStartEvent(p));}
+	private void announceHumanReactionChanceEvent(Player p){announceEvent(GameplayEvent.humanReactionEvent(p, mostRecentDiscard(), whoseTurnNumber()));}
+	private void announceEndOfRoundEvent(){announceEvent(GameplayEvent.endOfRoundEvent());}
 	
 	
 	public static void main(String[] args) {

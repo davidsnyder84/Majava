@@ -31,14 +31,14 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		melds = new ArrayList<Meld>(MAX_NUM_MELDS);
 		
 		//make a checker for the hand
-		handChecker = new HandChecker(this, tiles, melds);
+		handChecker = new HandChecker(this, tiles);
 	}
 	public Hand (Hand other){
 		tiles = other.tiles.clone();
 		melds = new ArrayList<Meld>(MAX_NUM_MELDS);
 		for (Meld m: other.melds) melds.add(m.clone());
 		
-		handChecker = new HandChecker(this, tiles, melds);
+		handChecker = new HandChecker(this, tiles);
 	}
 	public Hand clone(){return new Hand(this);}
 	
@@ -68,7 +68,10 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	
 	
 	public int size(){return tiles.size();}
-	public boolean isClosed(){return handChecker.isClosed();}
+	public boolean isClosed(){
+		for (Meld m: melds) if (m.isOpen()) return false;
+		return true;
+	}
 	public int numberOfMeldsMade(){return melds.size();}
 	
 	
@@ -119,16 +122,10 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		return true;
 	}
 	
-	
-	
 	//sort the hand in ascending order
 	public void sort(){tiles.sort();}
 	
 
-	
-	
-	
-	
 	
 	
 	
@@ -242,7 +239,6 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	
 	
 	
-	
 	public void makeMeldTurnAnkan(){
 		__makeClosedMeldKan();
 	}
@@ -261,9 +257,6 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		meldToUpgrade.upgradeToMinkan(candidate);
 		removeTile(candidateIndex);
 	}
-	
-	
-	
 	
 	
 	
@@ -317,13 +310,6 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	//xxxxEND DEMO METHODS
 	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

@@ -35,25 +35,17 @@ public class HandChecker {
 	
 	private final Hand myHand;
 	private final GameTileList myHandTiles;
-	private final List<Meld> handMelds;
 	
 	
 	
 	
-	//creates a link between this and the hand's tiles/melds
-	public HandChecker(Hand handToCheck, GameTileList reveivedHandTiles, List<Meld> reveivedHandMelds){
+	public HandChecker(Hand handToCheck, GameTileList reveivedHandTiles){
 		myHand = handToCheck;
 		myHandTiles = reveivedHandTiles;
-		handMelds = reveivedHandMelds;
 	}
 	
 //	private int handSize(){return myHand.size();}
 	private Wind ownerSeatWind(){return myHand.getOwnerSeatWind();}
-	
-	public boolean isClosed(){
-		for (Meld m: handMelds) if (m.isOpen()) return false;
-		return true;
-	}
 	
 	
 	
@@ -154,7 +146,7 @@ public class HandChecker {
 	private boolean canClosedKan(GameTile candidate){return myHandTiles.findHowManyOf(candidate) >= (NUM_PARTNERS_NEEDED_TO_KAN + 1);}
 	
 	private boolean canMinkan(GameTile candidate){
-		for (Meld m: handMelds)
+		for (Meld m: myHand.getMelds())
 			if (m.canMinkanWith(candidate))
 				return true;
 		return false;

@@ -11,7 +11,7 @@ import majava.summary.RoundResultSummary;
 import majava.summary.StateOfGame;
 import majava.tiles.GameTile;
 import majava.control.testcode.GameSimulation;
-import majava.events.GameEventListener;
+import majava.events.GameEventBroadcaster;
 import majava.events.GameplayEvent;
 import majava.enums.Wind;
 import majava.enums.Exclamation;
@@ -38,7 +38,7 @@ public class Round{
 	private final int roundNumber, roundBonusNumber;
 	
 	private final StateOfGame gameState;
-	private final GameEventListener gameEventListener;
+	private final GameEventBroadcaster gameEventBroadcaster;
 	
 	private final Wall wall;
 	
@@ -48,9 +48,9 @@ public class Round{
 	
 	
 	//constructor
-	public Round(GameEventListener eventListener, Player[] playerArray, Wind roundWindToSet, int roundNum, int roundBonusNum){
+	public Round(GameEventBroadcaster eventBroadcaster, Player[] playerArray, Wind roundWindToSet, int roundNum, int roundBonusNum){
 		players = playerArray;
-		gameEventListener = eventListener;
+		gameEventBroadcaster = eventBroadcaster;
 		
 		roundWind = roundWindToSet; roundNumber = roundNum; roundBonusNumber = roundBonusNum;
 				
@@ -65,8 +65,8 @@ public class Round{
 		roundTracker = new RoundTracker(this, wall, players);		
 		gameState = new StateOfGame(roundTracker, players, wall);
 	}
-	public Round(GameEventListener eventListener, Player[] playerArray, Wind roundWindToSet, int roundNum){this(eventListener, playerArray, roundWindToSet, roundNum, DEFAULT_ROUND_BONUS_NUM);}
-	public Round(GameEventListener eventListener, Player[] playerArray){this(eventListener, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
+	public Round(GameEventBroadcaster eventBroadcaster, Player[] playerArray, Wind roundWindToSet, int roundNum){this(eventBroadcaster, playerArray, roundWindToSet, roundNum, DEFAULT_ROUND_BONUS_NUM);}
+	public Round(GameEventBroadcaster eventBroadcaster, Player[] playerArray){this(eventBroadcaster, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
 	
 	
 	
@@ -330,7 +330,7 @@ public class Round{
 	
 	//event announce methods
 	private void announceEvent(GameplayEvent event){
-		gameEventListener.postNewEvent(event, gameState);
+		gameEventBroadcaster.postNewEvent(event, gameState);
 	}
 	private void announceCallEventFrom(Player caller){
 		announceEvent(GameplayEvent.calledTileEvent(caller.getCallStatusExclamation(), caller, mostRecentDiscard(), whoseTurnNumber()));

@@ -4,7 +4,7 @@ package majava;
 import java.util.ArrayList;
 import java.util.List;
 
-import majava.events.GameEventListener;
+import majava.events.GameEventBroadcaster;
 import majava.events.GameplayEvent;
 import majava.events.JanObserver;
 import majava.player.Player;
@@ -32,13 +32,13 @@ public class Table {
 	private boolean optionDoFastGameplay = DEFAULT_DO_FAST_GAMEPLAY;
 	private int sleepTime, sleepTimeExclamation, sleepTimeRoundEnd;
 	
-	private GameEventListener gameEventListener;
+	private GameEventBroadcaster gameEventBroadcaster;
 	
 	
 	
 	
 	public Table(){
-		gameEventListener = new GameEventListener();
+		gameEventBroadcaster = new GameEventBroadcaster();
 	}
 	private void setupUserInterfaces(){		
 		GameUI gui = new MajavaGUI();
@@ -51,7 +51,7 @@ public class Table {
 		userInterfaces.add(textUI);
 				
 		for (GameUI ui: userInterfaces)
-			gameEventListener.registerObserver(ui);
+			gameEventBroadcaster.registerObserver(ui);
 	}
 	
 	
@@ -75,11 +75,11 @@ public class Table {
 	private void playNewGame(){
 		final long time = System.currentTimeMillis();
 		
-		currentGame = new Game(players, gameEventListener);
+		currentGame = new Game(players, gameEventBroadcaster);
 		if (optionDoFastGameplay && allPlayersAreComputers()) currentGame.setGameTypeSimulation();
 		
 		//start a game
-		gameEventListener.postNewEvent(GameplayEvent.startingEvent());
+		gameEventBroadcaster.postNewEvent(GameplayEvent.startingEvent());
 		currentGame.play();
 		
 		System.out.println("Time elapsed: " + (System.currentTimeMillis() - time));
@@ -151,7 +151,7 @@ public class Table {
 	
 	private void end(){
 		Pauser.pauseFor(5000);
-		gameEventListener.postNewEvent(GameplayEvent.endingEvent(), null);
+		gameEventBroadcaster.postNewEvent(GameplayEvent.endingEvent(), null);
 	}
 	
 	

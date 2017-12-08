@@ -70,6 +70,7 @@ public class AgariChecker {
 	
 	
 	
+	
 	private static class KokushiChecker{
 		private static final Integer[] YAOCHUU_TILE_IDS = Janpai.retrieveYaochuuTileIDs();
 		private static final int NUMBER_OF_YAOCHUU_TILES = YAOCHUU_TILE_IDS.length;
@@ -223,22 +224,22 @@ public class AgariChecker {
 		}
 		
 		//シュンツ
-		private boolean canClosedChiType(GameTileList checkTiles, GameTile candidate, int offset1, int offset2){
+		private static boolean canClosedChiType(GameTileList checkTiles, GameTile candidate, int offset1, int offset2){
 			return (checkTiles.contains(candidate.getId() + offset1) && checkTiles.contains(candidate.getId() + offset2));
 		}
-		private boolean canClosedChiL(GameTileList checkTiles, GameTile candidate){return candidate.canCompleteChiL() && canClosedChiType(checkTiles, candidate, OFFSET_CHI_L1, OFFSET_CHI_L2);}
-		private boolean canClosedChiM(GameTileList checkTiles, GameTile candidate){return candidate.canCompleteChiM() && canClosedChiType(checkTiles, candidate, OFFSET_CHI_M1, OFFSET_CHI_M2);}
-		private boolean canClosedChiH(GameTileList checkTiles, GameTile candidate){return candidate.canCompleteChiH() && canClosedChiType(checkTiles, candidate, OFFSET_CHI_H1, OFFSET_CHI_H2);}
+		private static boolean canClosedChiL(GameTileList checkTiles, GameTile candidate){return candidate.canCompleteChiL() && canClosedChiType(checkTiles, candidate, OFFSET_CHI_L1, OFFSET_CHI_L2);}
+		private static boolean canClosedChiM(GameTileList checkTiles, GameTile candidate){return candidate.canCompleteChiM() && canClosedChiType(checkTiles, candidate, OFFSET_CHI_M1, OFFSET_CHI_M2);}
+		private static boolean canClosedChiH(GameTileList checkTiles, GameTile candidate){return candidate.canCompleteChiH() && canClosedChiType(checkTiles, candidate, OFFSET_CHI_H1, OFFSET_CHI_H2);}
 		//コーツ
-		private boolean canClosedMultiType(GameTileList checkTiles, GameTile candidate, int numPartnersNeeded){
+		private static boolean canClosedMultiType(GameTileList checkTiles, GameTile candidate, int numPartnersNeeded){
 			return checkTiles.findHowManyOf(candidate) >= numPartnersNeeded;
 		}
-		private boolean canClosedPair(GameTileList checkTiles, GameTile candidate){return canClosedMultiType(checkTiles, candidate, NUM_PARTNERS_NEEDED_TO_PAIR + 1);}
-		private boolean canClosedPon(GameTileList checkTiles, GameTile candidate){return canClosedMultiType(checkTiles, candidate, NUM_PARTNERS_NEEDED_TO_PON + 1);}
+		private static boolean canClosedPair(GameTileList checkTiles, GameTile candidate){return canClosedMultiType(checkTiles, candidate, NUM_PARTNERS_NEEDED_TO_PAIR + 1);}
+		private static boolean canClosedPon(GameTileList checkTiles, GameTile candidate){return canClosedMultiType(checkTiles, candidate, NUM_PARTNERS_NEEDED_TO_PON + 1);}
 		
 		
 		//checks if a tile is meldable, populates the meldStack for candidate. returns true if a meld (any meld) can be made
-		private boolean checkMeldableTile(HandCheckerTile candidate, GameTileList checkTiles){
+		private static boolean checkMeldableTile(HandCheckerTile candidate, GameTileList checkTiles){
 			//order of stack should be top->L,M,H,Pon,Pair
 			if (canClosedPair(checkTiles, candidate)) candidate.mstackPush(MeldType.PAIR);
 			if (canClosedPon(checkTiles, candidate)) candidate.mstackPush(MeldType.PON);
@@ -276,7 +277,7 @@ public class AgariChecker {
 		
 		
 		//returns true if list of checkTiles is complete (is a winning hand)
-		public boolean isCompleteNormal(GameTileList checkTiles, List<Meld> finishingMelds){
+		public static boolean isCompleteNormal(GameTileList checkTiles, List<Meld> finishingMelds){
 			if ((checkTiles.size() % 3) != 2) return false;
 			
 			GameTileList copyOfCheckTiles = HandCheckerTile.makeCopyOfListWithCheckers(checkTiles);
@@ -287,14 +288,14 @@ public class AgariChecker {
 			return isCompleteNormalHand(copyOfCheckTiles, finishingMelds);
 		}
 		//overloaded, checks mHandTiles by default
-		public boolean isCompleteNormal(GameTileList checkTiles){return isCompleteNormal(checkTiles, null);}
+		public static boolean isCompleteNormal(GameTileList checkTiles){return isCompleteNormal(checkTiles, null);}
 		public boolean isCompleteNormal(List<Meld> finishingMelds){return isCompleteNormal(handTiles, finishingMelds);}
 		public boolean isCompleteNormal(){return isCompleteNormal(handTiles);}
 		
 		
 		//populates the meld type stacks for all of the tile in checkTiles
 		//returns true if all tiles can make a meld, returns false if a tile cannot make a meld
-		private boolean populateMeldStacks(GameTileList checkTiles){
+		private static boolean populateMeldStacks(GameTileList checkTiles){
 			for (GameTile t: checkTiles)
 				if (!checkMeldableTile((HandCheckerTile)t, checkTiles)) return false;
 			
@@ -308,37 +309,9 @@ public class AgariChecker {
 		}
 		
 		
-		/*
-		checks if a hand is complete
 		
-		if (handtiles is empty): return true (an empty hand is complete)
-		currentTile = first tile in checkTiles
-		
-		while (currentTile's stack of valid meld types is not empty)
-			
-			currentTileMeldType = pop a meldtype off of currentTile's stack (this is the meld type we will try)
-			
-			if ((currentTile's partners for the meld are still in the hand) && (if pairChosen, currentTileMeldType must not be a pair))
-				
-				if (currentTileMeldType is pair): pairChosen = true (take the pair privelege)
-				
-				partnerIndices = find the indices of currentTile's partners for the currentTileMeldType
-				toMeldTiles = list of tiles from the hand, includes currentTile and its partner tiles
-				
-				checkTilessMinusThisMeld = copy of checkTiles, but with the toMeldTiles removed
-				
-				if (isCompleteHand(checkTilesMinusThisMeld)) (recursive call)
-					return true (the hand is complete)
-				else
-					if (currentTileMeldType is pair): pairChosen = false (relinquish the pair privelege)
-				end if
-				
-			end if
-			
-		end while
-		return false (currentTile could not make any meld, so the hand cannot be complete)
-		*/
-		private boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds, AtomicBoolean pairHasBeenChosen){
+		//checks if a hand is complete (one pair + n number of シュンツ/コーツ)
+		private static boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds, AtomicBoolean pairHasBeenChosen){
 			
 			//if the hand is empty, it is complete
 			if (checkTiles.isEmpty()) return true;
@@ -385,12 +358,12 @@ public class AgariChecker {
 				//if (currentTile's partners for the meld are still in the hand) AND (if pair has already been chosen, currentTileMeldType must not be a pair)
 				if (currentTilePartersAreStillHere && !(pairHasBeenChosen.get() && currentTileMeldType == MeldType.PAIR)){
 					
-					//take the pair privelige
+					//take the pair privelige if the current meldType is a pair
 					if (currentTileMeldType == MeldType.PAIR)
 						pairHasBeenChosen.set(true);
 					
 					
-					//~~~~Find the inidces of currentTile's partners
+					//~~~~Find the inidces of currentTile's partners for the current meldType
 					partnerIndices = new ArrayList<Integer>();
 					
 					//if chi, just find the partners
@@ -415,9 +388,7 @@ public class AgariChecker {
 					
 					while (!partnerIndices.isEmpty())
 						toMeldTiles.add(checkTilesMinusThisMeld.remove( partnerIndices.remove(partnerIndices.size() - 1).intValue()) );
-					
 					toMeldTiles.add(checkTilesMinusThisMeld.removeFirst());
-					
 					
 					
 					
@@ -425,7 +396,7 @@ public class AgariChecker {
 					if (isCompleteNormalHand(checkTilesMinusThisMeld, finishingMelds, pairHasBeenChosen)){
 						if (finishingMelds != null)
 							finishingMelds.add(new Meld(toMeldTiles.clone(), currentTileMeldType));	//add the meld tiles to the finishing melds stack
-						return true;
+						return true;	//hand is complete
 					}
 					else{
 						//relinquish the pair privelege, if it was taken
@@ -435,9 +406,9 @@ public class AgariChecker {
 					
 				}
 			}
-			return false;
+			return false;	//currentTile could not make any meld, so the hand must not be complete
 		}
-		private boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds){return isCompleteNormalHand(HandCheckerTile.makeCopyOfListWithCheckers(checkTiles), finishingMelds, new AtomicBoolean(false));}
+		private static boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds){return isCompleteNormalHand(HandCheckerTile.makeCopyOfListWithCheckers(checkTiles), finishingMelds, new AtomicBoolean(false));}
 		
 	}
 	

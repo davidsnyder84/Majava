@@ -82,9 +82,9 @@ public class AgariChecker {
 			handTiles = reveivedHandTiles;
 		}
 		
-		//returns true if the hand is in tenpai for kokushi musou
-		//if this is true, it means that: handsize >= 13, hand has at least 12 different TYC tiles
+		
 		public boolean isTenpaiKokushi(){
+			//conditions for kokushi tenpai: handsize >= 13, and hand has at least 12 different TYC tiles
 			
 			//if any melds have been made, kokushi musou is impossible, return false
 			if (handTiles.size() < MAX_HAND_SIZE-1) return false;
@@ -117,7 +117,7 @@ public class AgariChecker {
 		//returns a list of the hand's waits, if it is in tenpai for kokushi musou
 		//returns an empty list if not in kokushi musou tenpai
 		private GameTileList getKokushiWaits(){
-			GameTileList waits = new GameTileList(1);
+			GameTileList waits = new GameTileList();
 			GameTile missingTYC = null;
 			
 			if (isTenpaiKokushi()){
@@ -154,11 +154,10 @@ public class AgariChecker {
 		}
 		
 		public GameTileList getChiitoiWait(){
-			GameTile missingTile = null;
-			//conditions:
-			//hand must be 13 tiles (no melds made)
-			//hand must have exactly 7 different types of tiles
-			//hand must have no more than 2 of each tile
+			//conditions for chiitoi tenpai:
+				//hand must be 13 tiles (no melds made)
+				//hand must have exactly 7 different types of tiles
+				//hand must have no more than 2 of each tile
 			
 			//if any melds have been made, chiitoitsu is impossible, return false
 			if (handTiles.size() != MAX_HAND_SIZE-1 || myHand.numberOfMeldsMade() > 0) return EMPTY_WAITS_LIST;
@@ -167,6 +166,7 @@ public class AgariChecker {
 			if (handTiles.makeCopyNoDuplicates().size() != 7) return EMPTY_WAITS_LIST;
 
 			//the hand must have no more than 2 of each tile
+			GameTile missingTile = null;
 			for(GameTile t: handTiles){
 				switch(handTiles.findHowManyOf(t)){
 				case 1: missingTile = t;
@@ -275,7 +275,6 @@ public class AgariChecker {
 		
 		
 		
-		
 		//returns true if list of checkTiles is complete (is a winning hand)
 		public static boolean isCompleteNormal(GameTileList checkTiles, List<Meld> finishingMelds){
 			if ((checkTiles.size() % 3) != 2) return false;
@@ -311,10 +310,9 @@ public class AgariChecker {
 		
 		
 		//checks if a hand is complete (one pair + n number of シュンツ/コーツ)
+		//recursive method
 		private static boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds, AtomicBoolean pairHasBeenChosen){
-			
-			//if the hand is empty, it is complete (base case)
-			if (checkTiles.isEmpty()) return true;
+			if (checkTiles.isEmpty()) return true;	//if the hand is empty, it is complete (base case)
 			
 			HandCheckerTile currentTile = (HandCheckerTile)checkTiles.getFirst();
 			
@@ -326,41 +324,36 @@ public class AgariChecker {
 				MeldType currentTileMeldType = currentTile.mstackPop();	//(remove it)
 				boolean currentTilePartersAreStillHere = currentTilePartersAreStillHere(currentTileMeldType, checkTiles, currentTile, currentTileParterIDs);
 				
-				//~~~~Separate the tiles if the meld is possible
-				//if (currentTile's partners for the meld are still in the hand) AND (if pair has already been chosen, currentTileMeldType must not be a pair)
-				if (currentTilePartersAreStillHere && !(pairHasBeenChosen.get() && currentTileMeldType == MeldType.PAIR)){
+				//if (currentTile's partners for the meld are no longer here) OR (currentTileMeldType is pair and pair has already been chosen)
+				if (currentTilePartersAreStillHere == false || (currentTileMeldType == MeldType.PAIR && pairHasBeenChosen.get()))
+					continue;	//exit loop early and continue to the next meldType
 					
-					//take the pair privelige if the current meldType is a pair
-					if (currentTileMeldType == MeldType.PAIR) pairHasBeenChosen.set(true);
-					
-					//~~~~Find the inidces of currentTile's partners for the current meldType					
-					List<Integer> partnerIndices = findIndicesOfCurrentTilePartersForMeldType(currentTileMeldType, checkTiles, currentTile, currentTileParterIDs);
-					
-
-					//~~~~Add the tiles to a meld tile list
-					//make a copy of the hand, then remove the meld tiles from the copy and add them to the meld
-					GameTileList checkTilesMinusThisMeld = HandCheckerTile.makeCopyOfListWithCheckers(checkTiles);
-					GameTileList toMeldTiles = removeMeldTilesFrom(checkTilesMinusThisMeld, partnerIndices);
-					
-					
-					//~~~~Recursive call, check if the hand is still complete without the removed meld tiles
-					if (isCompleteNormalHand(checkTilesMinusThisMeld, finishingMelds, pairHasBeenChosen)){
-						if (finishingMelds != null)
-							finishingMelds.add(new Meld(toMeldTiles.clone(), currentTileMeldType));	//add the meld tiles to the finishing melds stack
-						return true;	//hand is complete
-					}
-					else{
-						if (currentTileMeldType == MeldType.PAIR)
-							pairHasBeenChosen.set(false);	//relinquish the pair privelege, if it was taken
-					}
-					
+				//take the pair privelige if the current meldType is a pair
+				if (currentTileMeldType == MeldType.PAIR) pairHasBeenChosen.set(true);
+				
+				//~~~~Find the inidces of currentTile's partners for the current meldType					
+				List<Integer> partnerIndices = findIndicesOfCurrentTilePartersForMeldType(currentTileMeldType, checkTiles, currentTile, currentTileParterIDs);
+				
+				//make a copy of the hand, then remove the meld tiles from the copy and add them to the meld
+				GameTileList checkTilesMinusThisMeld = HandCheckerTile.makeCopyOfListWithCheckers(checkTiles);
+				GameTileList toMeldTiles = removeMeldTilesFrom(checkTilesMinusThisMeld, partnerIndices);
+				
+				//~~~~Recursive call, check if the hand is still complete without the removed meld tiles
+				if (isCompleteNormalHand(checkTilesMinusThisMeld, finishingMelds, pairHasBeenChosen)){
+					if (finishingMelds != null) finishingMelds.add(new Meld(toMeldTiles.clone(), currentTileMeldType));	//add the meld tiles to the finishing melds stack
+					return true;	//hand is complete
 				}
-			}//end while
+				else{
+					if (currentTileMeldType == MeldType.PAIR)
+						pairHasBeenChosen.set(false);	//relinquish the pair privelege, if it was taken
+				}
+			}
 			return false;	//currentTile could not make any meld, so the hand must not be complete
 		}
 		private static boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds){return isCompleteNormalHand(HandCheckerTile.makeCopyOfListWithCheckers(checkTiles), finishingMelds, new AtomicBoolean(false));}
 		
-		//helper method to make above more readable
+		
+		//extracted methods to make isCompleteNormalHand more readable
 		private static boolean currentTilePartersAreStillHere(MeldType currentTileMeldType, GameTileList checkTiles, HandCheckerTile currentTile, int[] currentTileParterIDs){
 			if (currentTileMeldType.isChi())
 				if (!checkTiles.contains(currentTileParterIDs[0]) || !checkTiles.contains(currentTileParterIDs[1]))
@@ -374,22 +367,19 @@ public class AgariChecker {
 		}
 		
 		private static List<Integer> findIndicesOfCurrentTilePartersForMeldType(MeldType currentTileMeldType, GameTileList checkTiles, HandCheckerTile currentTile, int[] currentTileParterIDs){
-			//~~~~Find the inidces of currentTile's partners for the current meldType
 			List<Integer> partnerIndices = new ArrayList<Integer>();
-			
 			//if chi, just find the partners
 			if (currentTileMeldType.isChi()){
 				partnerIndices.add(checkTiles.indexOf(currentTileParterIDs[0]));
 				partnerIndices.add(checkTiles.indexOf(currentTileParterIDs[1]));
+				return partnerIndices;
 			}
-			else{
-				//else if pon/pair, make sure you don't count the tile itsef
-				partnerIndices = checkTiles.findAllIndicesOf(currentTile);
-				
-				//trim the lists down to size to fit the meld type
-				if (currentTileMeldType == MeldType.PAIR) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PAIR) partnerIndices.remove(partnerIndices.size() - 1);
-				if (currentTileMeldType == MeldType.PON) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PON) partnerIndices.remove(partnerIndices.size() - 1);
-			}
+			//else if pon/pair, make sure you don't count the tile itsef
+			partnerIndices = checkTiles.findAllIndicesOf(currentTile);
+			
+			//trim the lists down to size to fit the meld type
+			if (currentTileMeldType == MeldType.PAIR) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PAIR) partnerIndices.remove(partnerIndices.size() - 1);
+			if (currentTileMeldType == MeldType.PON) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PON) partnerIndices.remove(partnerIndices.size() - 1);
 			return partnerIndices;
 		}
 		

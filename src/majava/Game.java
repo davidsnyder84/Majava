@@ -3,7 +3,6 @@ package majava;
 import java.util.ArrayList;
 import java.util.List;
 
-import majava.userinterface.GameUI;
 import majava.player.Player;
 import majava.summary.GameResultPrinter;
 import majava.summary.RoundResultSummary;

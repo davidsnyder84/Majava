@@ -39,7 +39,7 @@ public class Pond implements Cloneable{
 	public PondTile getTile(int index){return tiles.get(index);}
 	public List<PondTile> getTilesAsList(){return new ArrayList<PondTile>(tiles);}
 	
-	//nagashi mangan = composed of only TYC, and no tiles have been called
+	//conditions for nagashi mangan: composed of only TYC, and no tiles have been called
 	public boolean isElligibleForNagashiMangan(){
 		for (PondTile t: tiles)
 			if (!t.isYaochuu() || t.wasCalled())
@@ -72,7 +72,6 @@ public class Pond implements Cloneable{
 			
 			if (TILES_PER_LINE*i < size()) pondString += "\n";
 		}
-		
 		return pondString;
 	}
 }

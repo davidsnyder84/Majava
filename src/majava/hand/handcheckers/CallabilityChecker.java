@@ -8,7 +8,6 @@ import majava.enums.MeldType;
 import majava.enums.Wind;
 import majava.hand.Hand;
 import majava.tiles.GameTile;
-import majava.util.GameTileList;
 import majava.util.TileKnowledge;
 
 

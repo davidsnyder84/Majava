@@ -313,34 +313,25 @@ public class AgariChecker {
 		//checks if a hand is complete (one pair + n number of シュンツ/コーツ)
 		private static boolean isCompleteNormalHand(GameTileList checkTiles, List<Meld> finishingMelds, AtomicBoolean pairHasBeenChosen){
 			
-			//if the hand is empty, it is complete
+			//if the hand is empty, it is complete (base case)
 			if (checkTiles.isEmpty()) return true;
 			
-			GameTileList toMeldTiles = null;
-			GameTileList checkTilesMinusThisMeld = null;
-
-			HandCheckerTile currentTile = null;
-			MeldType currentTileMeldType;
-			int[] currentTileParterIDs = null;
-			boolean currentTilePartersAreStillHere = true;
-			List<Integer> partnerIndices = null;
-			
 			//currrentTile = first tile in the hand
-			currentTile = (HandCheckerTile)checkTiles.getFirst();
+			HandCheckerTile currentTile = (HandCheckerTile)checkTiles.getFirst();
 			
 			//loop until every possible meld type has been tried for the current tile
 			while(currentTile.mstackIsEmpty() == false){
 				
 				//~~~~Verify that currentTile's partners are still in the hand
 				//currentTileParterIDs = list of IDs of partners for currentTile's top MeldType
-				currentTileParterIDs = currentTile.mstackTopParterIDs();
+				int[] currentTileParterIDs = currentTile.mstackTopParterIDs();
 				
 				//get the top meldType from currentTile's stack
-				currentTileMeldType = currentTile.mstackPop();	//(remove it)
+				MeldType currentTileMeldType = currentTile.mstackPop();	//(remove it)
 				
 				
 				//check if currentTile's partners are still in the hand
-				currentTilePartersAreStillHere = true;
+				boolean currentTilePartersAreStillHere = true;
 				if (currentTileMeldType.isChi()){
 					if (!checkTiles.contains(currentTileParterIDs[0]) || !checkTiles.contains(currentTileParterIDs[1]))
 						currentTilePartersAreStillHere = false;
@@ -364,7 +355,7 @@ public class AgariChecker {
 					
 					
 					//~~~~Find the inidces of currentTile's partners for the current meldType
-					partnerIndices = new ArrayList<Integer>();
+					List<Integer> partnerIndices = new ArrayList<Integer>();
 					
 					//if chi, just find the partners
 					if (currentTileMeldType.isChi()){
@@ -383,8 +374,8 @@ public class AgariChecker {
 
 					//~~~~Add the tiles to a meld tile list
 					//make a copy of the hand, then remove the meld tiles from the copy and add them to the meld
-					checkTilesMinusThisMeld = HandCheckerTile.makeCopyOfListWithCheckers(checkTiles);
-					toMeldTiles = new GameTileList();
+					GameTileList checkTilesMinusThisMeld = HandCheckerTile.makeCopyOfListWithCheckers(checkTiles);
+					GameTileList toMeldTiles = new GameTileList();
 					
 					while (!partnerIndices.isEmpty())
 						toMeldTiles.add(checkTilesMinusThisMeld.remove( partnerIndices.remove(partnerIndices.size() - 1).intValue()) );

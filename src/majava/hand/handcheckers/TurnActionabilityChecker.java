@@ -3,7 +3,6 @@ package majava.hand.handcheckers;
 import majava.hand.Hand;
 import majava.hand.Meld;
 import majava.tiles.GameTile;
-import majava.util.GameTileList;
 
 //checks what turn actions a hand can perform (ankan, tsumo, etc)
 public class TurnActionabilityChecker {

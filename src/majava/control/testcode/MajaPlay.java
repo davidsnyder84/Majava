@@ -17,6 +17,7 @@ import majava.tiles.Janpai;
 import majava.tiles.PondTile;
 import majava.tiles.TileInterface;
 import majava.util.GameTileList;
+import majava.util.TileKnowledge;
 
 
 
@@ -506,7 +507,7 @@ public class MajaPlay {
 
 		println(h.toString());
 		
-		List<Integer> hots = h.DEMOfindAllHotTiles();
+		List<Integer> hots = TileKnowledge.findAllHotTiles(h);;
 		Collections.sort(hots);
 //		List<Integer> callables = h.DEMOfindAllCallableTiles();
 //		Collections.sort(callables);		
@@ -755,7 +756,7 @@ public class MajaPlay {
 		
 		
 		List<Integer> hots = new ArrayList<Integer>(0);
-		hots = h.DEMOfindAllHotTiles();
+		hots = TileKnowledge.findAllHotTiles(h);
 		
 		println(h.toString());
 		

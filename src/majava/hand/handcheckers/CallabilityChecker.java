@@ -7,7 +7,6 @@ import java.util.List;
 import majava.enums.MeldType;
 import majava.hand.Hand;
 import majava.tiles.GameTile;
-import majava.util.TileKnowledge;
 
 
 //checks what calls a hand can make on a given tile (chi, pon, ron, etc)
@@ -44,6 +43,8 @@ public class CallabilityChecker {
 		return (candidate.getOrignalOwner() == hand.getOwnerSeatWind()) || 
 				(candidate.getOrignalOwner() == hand.getOwnerSeatWind().kamichaWind());
 	}
+	
+	
 	
 	
 	//returns the partner indices list for a given meld type

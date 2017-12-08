@@ -93,25 +93,22 @@ public class Player {
 			lastDiscard = discardChosenTile();
 			return lastDiscard;
 		}
-		else{
-			if (turnActionMadeKan()){
-				//make the meld
-				if (turnActionMadeAnkan())
-					hand.makeMeldTurnAnkan();
-				else if (turnActionMadeMinkan())
-					hand.makeMeldTurnMinkan();
-				
-				setDrawNeededRinshan();
-			}
-			//riichi, tsumo falls here
-			return null;
+		
+		if (turnActionMadeKan()){
+			//make the kan
+			if (turnActionMadeAnkan())
+				hand.makeMeldTurnAnkan();
+			else if (turnActionMadeMinkan())
+				hand.makeMeldTurnMinkan();
+			
+			setDrawNeededRinshan();
 		}
+		//riichi, tsumo falls here
+		return null;
 	}
 	
 	private GameTile discardChosenTile(){
-		//remove the chosen discard tile from hand
 		GameTile discardedTile = hand.removeTile(brain.getChosenDiscardIndex());
-		
 		putTileInPond(discardedTile);
 		
 		//set needed draw to normal, since we just discarded a tile
@@ -160,8 +157,7 @@ public class Player {
 		hand.sort();
 		
 		//if the player isn't east, they will need to draw
-//		if (!seatWind.isDealerWind())	//could use either logic check ^v
-		if (hand.size() < Hand.maxHandSize())
+		if (hand.size() < Hand.MAX_HAND_SIZE)
 			setDrawNeededNormal();
 	}
 	
@@ -370,21 +366,17 @@ public class Player {
 	
 	
 
-	////////////////////////////////////////////////////////////////////////////////////
-	//////BEGIN DEMO METHODS
-	////////////////////////////////////////////////////////////////////////////////////
+	////xxxxxxxxxxxxxBEGIN DEMO METHODS
 	//fill hand with demo values
-//	public void DEMOfillHand(){mHand.DEMOfillChuuren();}
-	public void DEMOfillHand(){hand.DEMOfillHelter();}
+	public void DEMOfillHandChuuren(){hand.DEMOfillChuuren();}
+	public void DEMOfillHand(){hand.DEMOfillScattered();}
 	public void DEMOfillHandNoTsumo(){DEMOfillHand(); hand.removeTile(hand.size()-1);}
 
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand (for debug use)
 	public void addTileToHand(int tileID){addTileToHand(new GameTile(tileID));}
 	
 	public Hand DEMOgetHand(){return hand;}
-	////////////////////////////////////////////////////////////////////////////////////
-	//////END DEMO METHODS
-	////////////////////////////////////////////////////////////////////////////////////
+	////xxxxxxxxxxxxxEND DEMO METHODS
 	
 	
 	//will implement these for chankan later

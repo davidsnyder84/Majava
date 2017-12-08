@@ -10,14 +10,13 @@ import majava.hand.handcheckers.CallabilityChecker;
 import majava.hand.handcheckers.TurnActionabilityChecker;
 import majava.tiles.GameTile;
 import majava.util.GameTileList;
-import majava.util.TileKnowledge;
 import majava.enums.Wind;
 import majava.enums.MeldType;
 
 
 //represents a player's hand (Žè”v) of tiles
 public class Hand implements Iterable<GameTile>, Cloneable{	
-	private static final int MAX_HAND_SIZE = 14;
+	public static final int MAX_HAND_SIZE = 14;
 	private static final int MAX_NUM_MELDS = 5;
 	private static final int AVG_NUM_TILES_PER_MELD = 3;
 	
@@ -73,10 +72,8 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		
 		return meldList;
 	}
-
 	public List<Meld> getFinishingMelds(){return agariChecker.getFinishingMelds();}
 	
-	public boolean isFull(){return (size() % 3) == (MAX_HAND_SIZE % 3);}
 	
 	
 	
@@ -86,9 +83,8 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		return true;
 	}
 	public int numberOfMeldsMade(){return melds.size();}
+	public boolean isFull(){return (size() % 3) == (MAX_HAND_SIZE % 3);}
 	
-	
-	//returns the number of kans the player has made
 	public int getNumKansMade(){
 		int count = 0;
 		for (Meld m: melds) if (m.isKan()) count++;
@@ -96,10 +92,9 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	}
 	
 	public Wind getOwnerSeatWind(){return tiles.getFirst().getOrignalOwner();}
-	//returns true if the hand is in tenpai
+	
 	public boolean isInTenpai(){return agariChecker.isInTenpai();}
 	public GameTileList getTenpaiWaits(){return agariChecker.getTenpaiWaits();}
-	
 	
 	public boolean isComplete(){return agariChecker.isComplete();}
 	public boolean isCompleteNormal(){return agariChecker.isCompleteNormal();}	
@@ -122,7 +117,6 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	}
 	public boolean addTile(int tileID){return addTile(new GameTile(tileID));}
 	
-	
 	//removes the tile at the given index, returns null if out of range
 	public GameTile removeTile(int removeThisIndex){
 		if (removeThisIndex < 0 || removeThisIndex > size()) return null;
@@ -137,11 +131,9 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		return true;
 	}
 	
-	//sort the hand in ascending order
 	public void sort(){tiles.sort();}
 	
 
-	
 	
 	
 	
@@ -167,8 +159,9 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	
 	
 	
+	
 	//forms a meld of the given type. claimedTile = the tile that will complete the meld
-	private void __makeMeld(GameTile claimedTile, MeldType meldType){
+	private void makeMeld(GameTile claimedTile, MeldType meldType){
 		
 		//~~~~gather the tiles from the hand that will be in the meld
 		//get the list of partner indices, based on the the meld type
@@ -183,56 +176,33 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		//remove the tiles from the hand 
 		removeMultiple(partnerIndices);		
 	}
-	public void makeMeldChiL(GameTile claimedTile){__makeMeld(claimedTile, MeldType.CHI_L);}
-	public void makeMeldChiM(GameTile claimedTile){__makeMeld(claimedTile, MeldType.CHI_M);}
-	public void makeMeldChiH(GameTile claimedTile){__makeMeld(claimedTile, MeldType.CHI_H);}
-	public void makeMeldPon(GameTile claimedTile){__makeMeld(claimedTile, MeldType.PON);}
-	public void makeMeldKan(GameTile claimedTile){__makeMeld(claimedTile, MeldType.KAN);}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	private void __makeClosedMeld(MeldType meldType){
-		
-		GameTileList handTiles = new GameTileList();
-		GameTile candidate;
-		int candidateIndex;
-		List<Integer> partnerIndices;
-		
-		final int NUM_PARTNERS_NEEDED_TO_KAN = 3;
-		
-		if (meldType.isKan()){
-			
-			candidateIndex = turnActionabilityChecker.getCandidateAnkanIndex();
-			candidate = getTile(candidateIndex);			
-			
-			partnerIndices = tiles.findAllIndicesOf(candidate);
-			while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.remove(partnerIndices.size() - 1);
-			
-			
-			handTiles = tiles.getMultiple(partnerIndices);
-			
-			melds.add(new Meld(handTiles, candidate, meldType));
-			
-			//remove the tiles from the hand
-			partnerIndices.add(candidateIndex);
-			removeMultiple(partnerIndices);
-		}
-	}
-	private void __makeClosedMeldKan(){__makeClosedMeld(MeldType.KAN);}
-	
+	public void makeMeldChiL(GameTile claimedTile){makeMeld(claimedTile, MeldType.CHI_L);}
+	public void makeMeldChiM(GameTile claimedTile){makeMeld(claimedTile, MeldType.CHI_M);}
+	public void makeMeldChiH(GameTile claimedTile){makeMeld(claimedTile, MeldType.CHI_H);}
+	public void makeMeldPon(GameTile claimedTile){makeMeld(claimedTile, MeldType.PON);}
+	public void makeMeldKan(GameTile claimedTile){makeMeld(claimedTile, MeldType.KAN);}
 	
 	
 	
 	
 	
 	public void makeMeldTurnAnkan(){
-		__makeClosedMeldKan();
+		final int NUM_PARTNERS_NEEDED_TO_KAN = 3;
+		
+		int candidateIndex = turnActionabilityChecker.getCandidateAnkanIndex();
+		GameTile candidate = getTile(candidateIndex);
+		
+		List<Integer> partnerIndices = tiles.findAllIndicesOf(candidate);
+		while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.remove(partnerIndices.size() - 1);
+		
+		
+		GameTileList handTiles = tiles.getMultiple(partnerIndices);
+		
+		melds.add(new Meld(handTiles, candidate, MeldType.KAN));
+		
+		//remove the tiles from the hand
+		partnerIndices.add(candidateIndex);
+		removeMultiple(partnerIndices);
 	}
 	
 	public void makeMeldTurnMinkan(){
@@ -253,51 +223,14 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	
 	
 	
-	
-	
-	
 
 	
-	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	//xxxxBEGIN DEMO METHODS
-	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	//demo values
-	public void DEMOfillHelter(){
-		int[] ids = {2,4,6,8,10,12,14,16,18,20,22,24,26,28};
-		for (int i: ids) addTile(i);
-	}
-	public void DEMOfillChuuren(int lastTile){
-		int[] ids = {1,1,1,2,3,4,5,6,7,8,9,9,9,lastTile};
-		for (int i: ids) addTile(i);
-	}
-	public void DEMOfillChuuren(){DEMOfillChuuren(8);}	
+	public void DEMOfillScattered(){int[] ids = {2,4,6,8,10,12,14,16,18,20,22,24,26,28}; for (int i: ids) addTile(i);}
+	public void DEMOfillChuuren(int lastTile){int[] ids = {1,1,1,2,3,4,5,6,7,8,9,9,9,lastTile}; for (int i: ids) addTile(i);}
+	public void DEMOfillChuuren(){DEMOfillChuuren(8);}
 	public void DEMOsetOwner(Wind owner){for (GameTile t: tiles) t.setOwner(owner);}
-	
-//	//true returns a string of indices (indices are +1 to match display)
-//	//false returns a string of actual tile values
-//	public String DEMOpartnerIndicesString(MeldType meldType, boolean wantActualTiles){
-//		
-//		String partnersString = "";
-//		List<Integer> wantedIndices = null;
-//		wantedIndices = handChecker.getPartnerIndices(meldType);
-//		
-//		for (Integer i: wantedIndices)
-//			if (wantActualTiles) partnersString += getTile(i).toString() + ", ";
-//			else partnersString += Integer.toString(i+1) + ", ";
-//		
-//		if (partnersString != "") partnersString = partnersString.substring(0, partnersString.length() - 2);
-//		return partnersString;
-//	}
-//	public String DEMOpartnerIndicesString(MeldType meldType){return DEMOpartnerIndicesString(meldType, false);}
-	
-	//returns a list of hot tile IDs for ALL tiles in the hand
-	public List<Integer> DEMOfindAllHotTiles(){return TileKnowledge.findAllHotTiles(tiles);}
-	
-	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	//xxxxEND DEMO METHODS
-	//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-	
-	
 	
 	
 	
@@ -316,8 +249,6 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		for (Meld m: melds) meldsString += "[" + m.toStringTilesOnly() + "] ";
 		return meldsString;
 	}
-	
-	
 	
 	
 	@Override
@@ -346,5 +277,4 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	@Override
 	public Iterator<GameTile> iterator() {return tiles.iterator();}
 	
-	public static int maxHandSize(){return Hand.MAX_HAND_SIZE;}
 }

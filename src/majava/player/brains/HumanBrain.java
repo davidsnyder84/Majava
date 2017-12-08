@@ -7,7 +7,6 @@ import majava.enums.CallType;
 import majava.hand.Hand;
 import majava.player.Player;
 import majava.tiles.GameTile;
-import majava.userinterface.GameUI;
 
 public class HumanBrain extends PlayerBrain {
 	
@@ -16,12 +15,11 @@ public class HumanBrain extends PlayerBrain {
 	private int discardIndexChosenByHuman;
 	
 	
-	//constructor requires a UI to be able to talk to the user
 	public HumanBrain(Player p) {
 		super(p);
 	}
 	
-	
+	//a human sets these values through a UI
 	public void setCallChosenByHuman(CallType call) {callChosenByHuman = call;}
 	public void setTurnActionChosenByHuman(TurnActionType turnaction) {turnActionChosenByHuman = turnaction;}
 	public void setDiscardIndexChosenByHuman(int discardindex) {discardIndexChosenByHuman = discardindex;}

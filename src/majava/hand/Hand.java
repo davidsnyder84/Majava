@@ -147,46 +147,27 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	
 
 	
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	//~~~~BEGIN MELD CHECKERS
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
-	/*
-	method: checkCallableTile
-	runs checks to see if a given tile is callable
-	input: candidate is the tile to check if callable
-	
-	send candidate tile to checker (flags are set and lists are populated here)
-	if any call can be made, return true. else, return false
-	*/
+	//able to make calls?
 	public boolean canCallTile(GameTile candidate){
-		//~~~~return true if a call (any call) can be made
 		return callabilityChecker.tileIsCallable(candidate);
-	}
-	
-	//returns true if a specific call can be made on mCallCandidate
+	}	
 	public boolean ableToChiL(GameTile tileToReactTo){return callabilityChecker.ableToChiL(tileToReactTo);}
 	public boolean ableToChiM(GameTile tileToReactTo){return callabilityChecker.ableToChiM(tileToReactTo);}
 	public boolean ableToChiH(GameTile tileToReactTo){return callabilityChecker.ableToChiH(tileToReactTo);}
 	public boolean ableToPon(GameTile tileToReactTo){return callabilityChecker.ableToPon(tileToReactTo);}
 	public boolean ableToKan(GameTile tileToReactTo){return callabilityChecker.ableToKan(tileToReactTo);}
 	public boolean ableToRon(GameTile tileToReactTo){return callabilityChecker.ableToRon(tileToReactTo);}
-//	public boolean ableToPair(){return handChecker.ableToPair();}
 	
-	//turn actions
+	//able to perform turn actions?
 	public boolean ableToAnkan(){return turnActionabilityChecker.ableToAnkan();}
 	public boolean ableToMinkan(){return turnActionabilityChecker.ableToMinkan();}
 	public boolean ableToRiichi(){return turnActionabilityChecker.ableToRiichi();}
 	public boolean ableToTsumo(){return turnActionabilityChecker.ableToTsumo();}
 	
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	//~~~~END MELD CHECKERS
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	
 	
 	
 	//forms a meld of the given type. claimedTile = the tile that will complete the meld
-	//partnerIndices = choose which partner list to take indices from, based on meld type
 	private void __makeMeld(GameTile claimedTile, MeldType meldType){
 		
 		//~~~~gather the tiles from the hand that will be in the meld
@@ -244,10 +225,6 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		}
 	}
 	private void __makeClosedMeldKan(){__makeClosedMeld(MeldType.KAN);}
-//	public void makeClosedMeldPon(){__makeClosedMeld(MeldType.PON);}
-//	public void makeClosedMeldChiL(){__makeClosedMeld(MeldType.CHI_L);}
-//	public void makeClosedMeldChiM(){__makeClosedMeld(MeldType.CHI_M);}
-//	public void makeClosedMeldChiH(){__makeClosedMeld(MeldType.CHI_H);}
 	
 	
 	

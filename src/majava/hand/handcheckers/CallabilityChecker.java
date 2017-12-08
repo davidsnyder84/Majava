@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import majava.enums.MeldType;
-import majava.enums.Wind;
 import majava.hand.Hand;
 import majava.tiles.GameTile;
 import majava.util.TileKnowledge;
@@ -26,40 +25,26 @@ public class CallabilityChecker {
 		hand = handToCheck;
 	}
 	
-	private Wind ownerSeatWind(){return hand.getOwnerSeatWind();}
 	
 	
-	
-	
-
+	//ableToCall methods
 	public boolean tileIsCallable(GameTile candidate){
-		boolean handIsInTenpai = hand.isInTenpai();	//use temporary variable to avoid having to calculate twice
-		boolean flagCanChiL = false, flagCanChiM = false, flagCanChiH = false, flagCanPon = false, flagCanRon = false;
-		
-		//if candidate is not a hot tile, return false
-		if (!tileIsHot(candidate) && !handIsInTenpai) return false;
-		
-		if (tileCameFromChiablePlayer(candidate)){
-			flagCanChiL = ableToChiL(candidate);
-			flagCanChiM = ableToChiM(candidate);
-			flagCanChiH = ableToChiH(candidate);
-		}
-		//check pon (don't bother checking kan. you know why.)
-		flagCanPon = ableToPon(candidate);
-		
-		//if in tenpai, check ron
-		flagCanRon = handIsInTenpai && ableToRon(candidate);
-		
-		//~~~~return true if a call (any call) can be made
-		return (flagCanChiL || flagCanChiM || flagCanChiH || flagCanPon || flagCanRon);
+		return ableToChi(candidate) || ableToPon(candidate) || ableToRon(candidate);	//revert to [flagCanRon = handIsInTenpai && ableToRon(candidate)] if problems happen (they shouldn't happen) 
+	}
+	public boolean ableToChiL(GameTile candidate){return candidate.canCompleteChiL() && !getPartnerIndicesChiL(candidate).isEmpty();}
+	public boolean ableToChiM(GameTile candidate){return candidate.canCompleteChiM() && !getPartnerIndicesChiM(candidate).isEmpty();}
+	public boolean ableToChiH(GameTile candidate){return candidate.canCompleteChiH() && !getPartnerIndicesChiH(candidate).isEmpty();}
+	public boolean ableToChi(GameTile candidate){return ableToChiL(candidate) || ableToChiM(candidate) || ableToChiH(candidate);}
+	public boolean ableToPon(GameTile candidate){return !getPartnerIndicesPon(candidate).isEmpty();}
+	public boolean ableToKan(GameTile candidate){return !getPartnerIndicesKan(candidate).isEmpty();}
+	public boolean ableToRon(GameTile candidate){return hand.getTenpaiWaits().contains(candidate);}
+	
+	
+	private boolean tileCameFromChiablePlayer(GameTile candidate){
+		return (candidate.getOrignalOwner() == hand.getOwnerSeatWind()) || 
+				(candidate.getOrignalOwner() == hand.getOwnerSeatWind().kamichaWind());
 	}
 	
-	private boolean tileIsHot(GameTile candidate){return (TileKnowledge.findAllHotTiles(hand)) .contains(candidate.getId());}
-	
-	public boolean tileCameFromChiablePlayer(GameTile candidate){
-		return (candidate.getOrignalOwner() == ownerSeatWind()) || 
-				(candidate.getOrignalOwner() == ownerSeatWind().kamichaWind());
-	}
 	
 	//returns the partner indices list for a given meld type
 	public List<Integer> getPartnerIndices(GameTile candidate, MeldType meldType){
@@ -72,6 +57,7 @@ public class CallabilityChecker {
 		default: return null;
 		}
 	}
+	
 	//シュンツ
 	private List<Integer> getPartnerIndicesChiType(GameTile candidate, int offset1, int offset2){
 		if (!tileCameFromChiablePlayer(candidate)) return emptyIndicesList();
@@ -82,6 +68,7 @@ public class CallabilityChecker {
 	private List<Integer> getPartnerIndicesChiL(GameTile candidate){return getPartnerIndicesChiType(candidate, OFFSET_CHI_L1, OFFSET_CHI_L2);}
 	private List<Integer> getPartnerIndicesChiM(GameTile candidate){return getPartnerIndicesChiType(candidate, OFFSET_CHI_M1, OFFSET_CHI_M2);}
 	private List<Integer> getPartnerIndicesChiH(GameTile candidate){return getPartnerIndicesChiType(candidate, OFFSET_CHI_H1, OFFSET_CHI_H2);}
+	
 	//コーツ
 	private List<Integer> getPartnerIndicesMulti(GameTile candidate, int numPartnersNeeded){		
 		//pon/kan is possible if there are enough partners in the hannd to form the meld
@@ -93,13 +80,4 @@ public class CallabilityChecker {
 	public List<Integer> getPartnerIndicesPon(GameTile candidate){return getPartnerIndicesMulti(candidate, NUM_PARTNERS_NEEDED_TO_PON);}
 	public List<Integer> getPartnerIndicesKan(GameTile candidate){return getPartnerIndicesMulti(candidate, NUM_PARTNERS_NEEDED_TO_KAN);}
 	private static List<Integer> emptyIndicesList(){return new ArrayList<Integer>();}
-	//ableToCall methods
-	public boolean ableToChiL(GameTile candidate){return candidate.canCompleteChiL() && !getPartnerIndicesChiL(candidate).isEmpty();}
-	public boolean ableToChiM(GameTile candidate){return candidate.canCompleteChiM() && !getPartnerIndicesChiM(candidate).isEmpty();}
-	public boolean ableToChiH(GameTile candidate){return candidate.canCompleteChiH() && !getPartnerIndicesChiH(candidate).isEmpty();}
-	public boolean ableToPon(GameTile candidate){return !getPartnerIndicesPon(candidate).isEmpty();}
-	public boolean ableToKan(GameTile candidate){return !getPartnerIndicesKan(candidate).isEmpty();}
-	public boolean ableToRon(GameTile candidate){return hand.getTenpaiWaits().contains(candidate);}
-	
-	
 }

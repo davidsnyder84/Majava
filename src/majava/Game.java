@@ -39,7 +39,7 @@ public class Game {
 			}
 		}
 	}
-	private static final int NUM_SIMULATIONS_TO_RUN = 50;
+	private static final int NUM_SIMULATIONS_TO_RUN = 500;
 	
 	
 	

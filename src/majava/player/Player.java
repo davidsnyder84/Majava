@@ -45,7 +45,7 @@ public class Player {
 	
 	
 	public Player(PlayerProfile newProfile){
-		//always generate a default null brain, we don't want brainless players
+		//always generate a default null brain
 		brain = new NullPlayerBrain(this);
 		profile = newProfile;
 		pointsBox = new PointsBox();

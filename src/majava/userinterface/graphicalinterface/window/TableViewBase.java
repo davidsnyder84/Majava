@@ -85,6 +85,7 @@ public class TableViewBase extends JFrame{
 	
 	
 	//window constants
+//	private static final String STRING_WINDOW_TITLE = "Majava";	
 	private static final String STRING_WINDOW_TITLE = "The Beaver";	
 	private static final int WINDOW_WIDTH = 1120 + (-62*2 - 6);
 	private static final int WINDOW_HEIGHT = 726 + 6 + (-62*2 + 25 + 18);	
@@ -715,7 +716,6 @@ public class TableViewBase extends JFrame{
 	
 	public static void main(String[] args) {
 		
-//		TableViewSmall viewer = new TableViewSmall();
 		TableViewBase viewer = new TableViewBase();
 		viewer.setVisible(true);
 		viewer.panDebugButtons.setVisible(true);

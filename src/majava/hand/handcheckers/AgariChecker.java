@@ -17,9 +17,7 @@ import majava.util.TileKnowledge;
 //checks if a hand is complete (agari) or nearly complete (tenpai)
 public class AgariChecker {
 	private static final int MAX_HAND_SIZE = 14;
-	private static final GameTileList EMPTY_WAITS_LIST = new GameTileList();
 	
-	//checkers for different types of agari (normal/standard, kokushi, chiitoi)
 	private final ChiitoiChecker chiitoiChecker;
 	private final KokushiChecker kokushiChecker;
 	private final NormalAgariChecker normalAgariChecker;
@@ -160,10 +158,10 @@ public class AgariChecker {
 				//hand must have no more than 2 of each tile
 			
 			//if any melds have been made, chiitoitsu is impossible, return false
-			if (handTiles.size() != MAX_HAND_SIZE-1 || myHand.numberOfMeldsMade() > 0) return EMPTY_WAITS_LIST;
+			if (handTiles.size() != MAX_HAND_SIZE-1 || myHand.numberOfMeldsMade() > 0) return emptyWaitsList();
 			
 			//the hand should have exactly 7 different types of tiles (4 of a kind != 2 pairs)
-			if (handTiles.makeCopyNoDuplicates().size() != 7) return EMPTY_WAITS_LIST;
+			if (handTiles.makeCopyNoDuplicates().size() != 7) return emptyWaitsList();
 
 			//the hand must have no more than 2 of each tile
 			GameTile missingTile = null;
@@ -171,7 +169,7 @@ public class AgariChecker {
 				switch(handTiles.findHowManyOf(t)){
 				case 1: missingTile = t;
 				case 2: break;//intentionally blank
-				default: return EMPTY_WAITS_LIST;
+				default: return emptyWaitsList();
 				}
 			}
 			
@@ -197,6 +195,7 @@ public class AgariChecker {
 			GameTileList oddTiles = checkTilesCopy.getMultiple(1,3,5,7,9,11,13);
 			return evenTiles.equals(oddTiles);
 		}
+		
 	}
 	
 	
@@ -394,4 +393,5 @@ public class AgariChecker {
 		
 	}
 	
+	private static final GameTileList emptyWaitsList(){return new GameTileList();}
 }

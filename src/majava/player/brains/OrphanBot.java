@@ -3,21 +3,24 @@ package majava.player.brains;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
-
 import majava.hand.Hand;
 import majava.player.Player;
 import majava.tiles.GameTile;
 
 //a bot that tries to form thirteen orphans (çëémñ≥ëo)
+///////////////NO LOGIC IMPLEMENTED YET
 public class OrphanBot extends RobotBrain {
 	
 	public OrphanBot(Player p) {super(p);}
 	
 	@Override
 	protected int selectDiscardIndex(Hand hand) {
-		return Math.max(indexOfNonTYC(hand), Math.max(indexOfTriplicateTYC(hand), indexOfUnneededPairTYC(hand)));
-//		return tsumoTileIndex(hand);
+		int bestIndex = Math.max(indexOfNonTYC(hand), Math.max(indexOfTriplicateTYC(hand), indexOfUnneededPairTYC(hand)));
+		
+		if (bestIndex == INDEX_NOT_FOUND)
+			bestIndex = tsumoTileIndex(hand);
+		
+		return bestIndex;
 	}
 	
 	private int indexOfNonTYC(Hand hand){

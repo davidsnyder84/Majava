@@ -21,7 +21,7 @@ public class RandomRobotGenerator{
 		candidates.add(new TseIiMenBot(p));
 		
 		candidates.add(new SimpleRobot(p));
-		candidates.add(new OrphanBot(p));
+//		candidates.add(new OrphanBot(p));	//not implemented yet
 		
 		return candidates.get((new Random()).nextInt(candidates.size()));
 	}

@@ -8,6 +8,9 @@ import majava.events.GameEventBroadcaster;
 import majava.events.GameplayEvent;
 import majava.events.JanObserver;
 import majava.player.Player;
+import majava.player.brains.OrphanBot;
+import majava.player.brains.RandomRobotGenerator;
+import majava.player.brains.RobotBrain;
 import majava.userinterface.GameUI;
 import majava.userinterface.MajavaGUI;
 import majava.userinterface.audiointerface.MajavaAudioHandler;
@@ -134,12 +137,23 @@ public class Table {
 		
 		//assign controllers and names to players
 		for (int i = 0; i < NUM_PLAYERS; i++){
-			if (humanController[i]) players[i].setControllerHuman();
-			else players[i].setControllerComputer();
+			if (humanController[i])
+				players[i].setControllerHuman();
+			else{
+				players[i].setControllerComputer();
+			}
 			
 			players[i].setPlayerName(names[i]);
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	//assigns a seat to each player

@@ -12,6 +12,7 @@ import majava.player.brains.HumanBrain;
 import majava.player.brains.NullPlayerBrain;
 import majava.player.brains.PlayerBrain;
 import majava.player.brains.PonMonsterBot;
+import majava.player.brains.RandomRobotGenerator;
 import majava.player.brains.RobotBrain;
 import majava.player.brains.SevenTwinBot;
 import majava.player.brains.SimpleRobot;
@@ -300,13 +301,15 @@ public class Player {
 	
 	
 	//controller methods
-	private void setController(PlayerBrain desiredBrain){brain = desiredBrain;}
+	public void setController(PlayerBrain desiredBrain){brain = desiredBrain;}
 	public void setControllerHuman(){setController(new HumanBrain(this));}
 	public void setControllerComputer(){
-		RobotBrain robot = new SimpleRobot(this);
+//		RobotBrain robot = new SimpleRobot(this);
 //		RobotBrain robot = new SevenTwinBot(this);
 //		RobotBrain robot = new TseIiMenBot(this);
 //		RobotBrain robot = new PonMonsterBot(this);
+		RobotBrain robot = RandomRobotGenerator.generateRandomComputerPlayer(this);
+		
 		setController(robot);
 	}
 	public String getControllerAsString(){return brain.toString();}

@@ -304,11 +304,11 @@ public class Player {
 	public void setController(PlayerBrain desiredBrain){brain = desiredBrain;}
 	public void setControllerHuman(){setController(new HumanBrain(this));}
 	public void setControllerComputer(){
-//		RobotBrain robot = new SimpleRobot(this);
+		RobotBrain robot = new SimpleRobot(this);
 //		RobotBrain robot = new SevenTwinBot(this);
 //		RobotBrain robot = new TseIiMenBot(this);
 //		RobotBrain robot = new PonMonsterBot(this);
-		RobotBrain robot = RandomRobotGenerator.generateRandomComputerPlayer(this);
+//		RobotBrain robot = RandomRobotGenerator.generateRandomComputerPlayer(this);
 		
 		setController(robot);
 	}

@@ -22,10 +22,10 @@ public class AgariChecker {
 	private final KokushiChecker kokushiChecker;
 	private final NormalAgariChecker normalAgariChecker;
 	
-	public AgariChecker(Hand handToCheck, GameTileList reveivedHandTiles){
-		chiitoiChecker = new ChiitoiChecker(handToCheck, reveivedHandTiles);
-		kokushiChecker = new KokushiChecker(handToCheck, reveivedHandTiles);
-		normalAgariChecker = new NormalAgariChecker(handToCheck, reveivedHandTiles);
+	public AgariChecker(Hand handToCheck, GameTileList receivedHandTiles){
+		chiitoiChecker = new ChiitoiChecker(handToCheck, receivedHandTiles);
+		kokushiChecker = new KokushiChecker(handToCheck, receivedHandTiles);
+		normalAgariChecker = new NormalAgariChecker(handToCheck, receivedHandTiles);
 	}
 	
 	
@@ -75,9 +75,9 @@ public class AgariChecker {
 		
 		private final Hand myHand;
 		private final GameTileList handTiles;
-		public KokushiChecker(Hand handToCheck, GameTileList reveivedHandTiles){
+		public KokushiChecker(Hand handToCheck, GameTileList receivedHandTiles){
 			myHand = handToCheck;
-			handTiles = reveivedHandTiles;
+			handTiles = receivedHandTiles;
 		}
 		
 		
@@ -146,9 +146,9 @@ public class AgariChecker {
 		
 		private final Hand myHand;
 		private final GameTileList handTiles;
-		public ChiitoiChecker(Hand handToCheck, GameTileList reveivedHandTiles){
+		public ChiitoiChecker(Hand handToCheck, GameTileList receivedHandTiles){
 			myHand = handToCheck;
-			handTiles = reveivedHandTiles;
+			handTiles = receivedHandTiles;
 		}
 		
 		public GameTileList getChiitoiWait(){
@@ -217,9 +217,9 @@ public class AgariChecker {
 		
 		private final Hand myHand;
 		private final GameTileList handTiles;
-		public NormalAgariChecker(Hand handToCheck, GameTileList reveivedHandTiles){
+		public NormalAgariChecker(Hand handToCheck, GameTileList receivedHandTiles){
 			myHand = handToCheck;
-			handTiles = reveivedHandTiles;
+			handTiles = receivedHandTiles;
 		}
 		
 		//ƒVƒ…ƒ“ƒc

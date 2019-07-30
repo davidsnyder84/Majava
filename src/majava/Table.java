@@ -10,6 +10,7 @@ import majava.events.JanObserver;
 import majava.player.Player;
 import majava.userinterface.GameUI;
 import majava.userinterface.MajavaGUI;
+import majava.userinterface.audiointerface.MajavaAudioHandler;
 import majava.userinterface.textinterface.DetailedTextualUI;
 import majava.userinterface.textinterface.SparseTextualUI;
 import majava.userinterface.textinterface.TextualUI;
@@ -43,12 +44,18 @@ public class Table {
 	private void setupUserInterfaces(){		
 		GameUI gui = new MajavaGUI();
 		setSleepTimesForUI(gui);
+		
 		GameUI textUI = new SparseTextualUI();
 		textUI.setSleepTimes(0,0,0);
 		
+		GameUI audioHandler = new MajavaAudioHandler();
+		
 		List<GameUI> userInterfaces = new ArrayList<GameUI>();
+		userInterfaces.add(audioHandler);	//add audio observer first, so sounds play before any pauses
 		userInterfaces.add(gui);
 		userInterfaces.add(textUI);
+		
+		if (optionDoFastGameplay) userInterfaces.remove(audioHandler);	//remove audio for fast gameplay, because it's nonsense
 				
 		for (GameUI ui: userInterfaces)
 			gameEventBroadcaster.registerObserver(ui);

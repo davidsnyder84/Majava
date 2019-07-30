@@ -10,15 +10,23 @@ import javax.sound.sampled.Clip;
 
 
 public class SoundClipPlayer implements Runnable{
+	private static final URL NULL_SOUND_URL = SoundClipPlayer.class.getClass().getResource("/res/audio/nullsound.wav");
+	public static final SoundClipPlayer NULL_SOUND_PLAYER = new SoundClipPlayer(NULL_SOUND_URL);
 	
 	private URL soundUrl;
 	
 	public SoundClipPlayer(URL givenUrl){
 		soundUrl = givenUrl;
 	}
+	public SoundClipPlayer(String filepath){
+		this(SoundClipPlayer.class.getClass().getResource(filepath));
+	}
 	
 	
-	private void playSound(){
+	
+	
+	
+	public void playSound(){
 		try{
 			Clip soundClip = AudioSystem.getClip();
 			AudioInputStream audioIS = AudioSystem.getAudioInputStream(soundUrl);
@@ -43,7 +51,6 @@ public class SoundClipPlayer implements Runnable{
 	public static void playSoundFromUrl(URL url){
 		(new SoundClipPlayer(url)).playSound();
 	}
-	
 	
 	
 	

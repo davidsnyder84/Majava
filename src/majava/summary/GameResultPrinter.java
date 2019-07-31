@@ -31,7 +31,7 @@ public class GameResultPrinter {
 		RoundResultSummary cr = null;
 		for (int i = 0; i < roundResults.size(); i++){
 			cr = roundResults.get(i);
-			if (cr != null && !cr.isDrawWashout())
+			if (cr != null && !cr.isRyuukyokuHowanpai())
 				gameRes += String.format("%3d: %s\n", i+1, cr.getAsStringResultType());
 		}
 		
@@ -55,7 +55,7 @@ public class GameResultPrinter {
 		int playerNum = 0;
 		for (int i: numWinsByPlayer)
 			report += "\tPlayer " + (++playerNum) + ": " + i + " wins\n";
-		report += String.format("Win to draw ratio: %.6f", ((double) numWins) / ((double) roundResults.size()));
+		report += String.format("Win to ryuukyoku ratio: %.6f", ((double) numWins) / ((double) roundResults.size()));
 		report += "\n\n\n";
 		return report;
 	}

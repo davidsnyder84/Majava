@@ -28,8 +28,8 @@ public class Scorer {
 		final int PAYMENT_DUE = 8000;
 		int paymentDue = PAYMENT_DUE;
 		
-		if (roundResult.isDraw())
-			return mapPaymentsForDraw();
+		if (roundResult.isRyuukyoku())
+			return mapPaymentsForRyuukyoku();
 		else
 			return mapPaymentsForWin(paymentDue);
 	}
@@ -85,7 +85,7 @@ public class Scorer {
 		return others;
 	}
 	
-	private PaymentMap mapPaymentsForDraw(){
+	private PaymentMap mapPaymentsForRyuukyoku(){
 		PaymentMap payments = new PaymentMap();
 		/////implement no-ten bappu here 		
 		

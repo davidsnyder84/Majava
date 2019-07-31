@@ -49,7 +49,7 @@ public class RoundResult {
 	}
 	
 	/////荒牌平局（ホワンパイピンチュー、こうはいへいきょく）、または荒牌（ホワンパイ、こうはい）と呼ぶ
-	public void setResultRyuukyokuWashout(){__setRoundOver(ResultType.createResultRyuukyokuWashout());}
+	public void setResultRyuukyokuHowanpai(){__setRoundOver(ResultType.createResultRyuukyokuHowanpai());}
 	public void setResultRyuukyokuKyuushu(){__setRoundOver(ResultType.createResultRyuukyokuKyuushu());}
 	public void setResultRyuukyoku4Kan(){__setRoundOver(ResultType.createResultRyuukyoku4Kan());}
 	public void setResultRyuukyoku4Riichi(){__setRoundOver(ResultType.createResultRyuukyoku4Riichi());}
@@ -87,8 +87,8 @@ public class RoundResult {
 	
 	//accessors
 	public boolean isOver(){return flagRoundIsOver;}
-	public boolean isDraw(){return isOver() && resultType.isDraw();}
-	public boolean isDrawWashout(){return isOver() && resultType.isDrawWashout();}
+	public boolean isRyuukyoku(){return isOver() && resultType.isRyuukyoku();}
+	public boolean isRyuukyokuHowanpai(){return isOver() && resultType.isRyuukyokuHowanpai();}
 	public boolean isVictory(){return isOver() && resultType.isVictory();}
 	public boolean isVictoryRon(){return isOver() && resultType.isVictoryRon();}
 	public boolean isVictoryTsumo(){return isOver() && resultType.isVictoryTsumo();}

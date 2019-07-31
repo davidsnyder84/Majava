@@ -10,7 +10,7 @@ public class ResultType {
 	
 	private final ResType resultType;
 	private final WinType winType;
-	private final DrawType drawType;
+	private final RyuukyokuType ryuukyokuType;
 	
 	
 	//win constructor
@@ -20,24 +20,24 @@ public class ResultType {
 		seatNumberOfWinner = winnerSeat;
 		seatNumberOfFurikonda = loserSeat;
 		winType = receivedWinType;
-		drawType = null;
+		ryuukyokuType = null;
 	}
 	private ResultType(WinType receivedWinType, int winnerSeat){
 		this(receivedWinType, winnerSeat, NO_FURIKONDA_SEAT);
 	}
-	//draw constructor
-	private ResultType(DrawType receivedDrawType){
-		resultType = ResType.DRAW;
+	//ryuukyoku constructor
+	private ResultType(RyuukyokuType receivedRyuukyokuType){
+		resultType = ResType.RYUUKYOKU;
 		
-		drawType = receivedDrawType;
+		ryuukyokuType = receivedRyuukyokuType;
 		winType = null;
 		seatNumberOfWinner = NO_WINNING_SEAT;
 		seatNumberOfFurikonda = NO_FURIKONDA_SEAT;
 	}
 	
 	
-	public boolean isDraw(){return (resultType.isDraw());}
-	public boolean isDrawWashout(){return drawType == DrawType.DRAW_WASHOUT;}
+	public boolean isRyuukyoku(){return (resultType.isRyuukyoku());}
+	public boolean isRyuukyokuHowanpai(){return ryuukyokuType == RyuukyokuType.RYUUKYOKU_HOWANPAI;}
 	
 	public boolean isVictory(){return resultType.isVictory();}
 	public boolean isVictoryTsumo(){return isVictory() && winType.isTsumo();}
@@ -50,7 +50,7 @@ public class ResultType {
 	
 	public String getAsStringWinType(){if (!isVictory()) return null; return winType.toString();}
 	public String getAsStringResultType(){
-		if (resultType.isDraw()) return drawType.toString();
+		if (resultType.isRyuukyoku()) return ryuukyokuType.toString();
 		else if (resultType.isVictory()) return "Player " + (seatNumberOfWinner+1) + " wins!";
 		return "undecided result";
 	}
@@ -66,26 +66,26 @@ public class ResultType {
 	}
 	
 	//ryuukyoku factories
-	public static ResultType createResultRyuukyokuWashout(){return new ResultType(DrawType.DRAW_WASHOUT);}
-	public static ResultType createResultRyuukyokuKyuushu(){return new ResultType(DrawType.DRAW_KYUUSHU);}
-	public static ResultType createResultRyuukyoku4Kan(){return new ResultType(DrawType.DRAW_4KAN);}
-	public static ResultType createResultRyuukyoku4Riichi(){return new ResultType(DrawType.DRAW_4RIICHI);}
-	public static ResultType createResultRyuukyoku4Wind(){return new ResultType(DrawType.DRAW_4WIND);}
+	public static ResultType createResultRyuukyokuHowanpai(){return new ResultType(RyuukyokuType.RYUUKYOKU_HOWANPAI);}
+	public static ResultType createResultRyuukyokuKyuushu(){return new ResultType(RyuukyokuType.RYUUKYOKU_KYUUSHU);}
+	public static ResultType createResultRyuukyoku4Kan(){return new ResultType(RyuukyokuType.RYUUKYOKU_KAN);}
+	public static ResultType createResultRyuukyoku4Riichi(){return new ResultType(RyuukyokuType.RYUUKYOKU_RIICHI);}
+	public static ResultType createResultRyuukyoku4Wind(){return new ResultType(RyuukyokuType.RYUUKYOKU_WIND);}
 	
 	
 	
 	//enums
 	private static enum ResType{
 		UNDECIDED,
-		DRAW,
+		RYUUKYOKU,
 		VICTORY;
 		
-		public boolean isDraw(){return (this == DRAW);}
+		public boolean isRyuukyoku(){return (this == RYUUKYOKU);}
 		public boolean isVictory(){return this == VICTORY;}
 		
 		public String toString(){
 			switch (this){
-			case DRAW: return "draws";
+			case RYUUKYOKU: return "ryuukyoku...";
 			case VICTORY: return "wins!";
 			default: return "??Undecided??";
 			}
@@ -103,15 +103,15 @@ public class ResultType {
 		public boolean isTsumo(){return this == TSUMO;}
 		public boolean isRon(){return this == RON;}
 	}
-	private static enum DrawType{
-		UNDECIDED, DRAW_WASHOUT, DRAW_KYUUSHU, DRAW_4KAN, DRAW_4RIICHI, DRAW_4WIND;
+	private static enum RyuukyokuType{
+		UNDECIDED, RYUUKYOKU_HOWANPAI, RYUUKYOKU_KYUUSHU, RYUUKYOKU_KAN, RYUUKYOKU_RIICHI, RYUUKYOKU_WIND;
 		public String toString(){
 			switch (this){
-			case DRAW_WASHOUT: return "Draw (Washout)";
-			case DRAW_KYUUSHU: return "Draw (Kyuushuu)";
-			case DRAW_4KAN: return "Draw (4 kans)";
-			case DRAW_4RIICHI: return "Draw (4 riichi)";
-			case DRAW_4WIND: return "Draw (4 wind)";
+			case RYUUKYOKU_HOWANPAI: return "Ryuukyou (Howanpai)";
+			case RYUUKYOKU_KYUUSHU: return "Ryuukyou (Kyuushuu)";
+			case RYUUKYOKU_KAN: return "Ryuukyou (4 kans)";
+			case RYUUKYOKU_RIICHI: return "Ryuukyou (4 riichi)";
+			case RYUUKYOKU_WIND: return "Ryuukyou (4 wind)";
 			default: return "??Undecided??";
 			}
 		}

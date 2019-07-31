@@ -1549,7 +1549,7 @@ public class TableViewBase extends JFrame{
 						{infoP[LARRY_INFOPLAYER_SEATWIND].setIcon(garryWinds[SMALL][randGen.nextInt(garryWinds[SMALL].length)]); infoP[LARRY_INFOPLAYER_POINTS].setText(Integer.toString(100*randGen.nextInt(1280)));
 						if (randGen.nextBoolean()) infoP[LARRY_INFOPLAYER_RIICHI].setIcon(null); else infoP[LARRY_INFOPLAYER_RIICHI].setIcon(garryOther[GARRYINDEX_OTHER_RIICHI]);}
 					lblExclamation.setVisible(true);lblExclamation.setLocation(randGen.nextInt(NUM_SEATS));
-					String[] results = {"Draw (Washout)", "Draw (Kyuushuu)", "Draw (4 kans)", "Draw (4 riichi)", "Draw (4 wind)", "East wins! (TSUMO)", "East wins! (RON)", "South wins! (TSUMO)", "South wins! (RON)", "West wins! (TSUMO)", "West wins! (RON)", "North wins! (TSUMO)", "North wins! (RON)" };panRoundResultLabel.setVisible(true);lblResult.setText(results[randGen.nextInt(results.length)]);
+					String[] results = {"Ryuukyoku (Howanpai)", "Ryuukyoku (Kyuushuu)", "Ryuukyoku (4 kans)", "Ryuukyoku (4 riichi)", "Ryuukyoku (4 wind)", "East wins! (TSUMO)", "East wins! (RON)", "South wins! (TSUMO)", "South wins! (RON)", "West wins! (TSUMO)", "West wins! (RON)", "North wins! (TSUMO)", "North wins! (RON)" };panRoundResultLabel.setVisible(true);lblResult.setText(results[randGen.nextInt(results.length)]);
 					hideAll(parryTurnInds);	parryTurnInds[randGen.nextInt(parryTurnInds.length)].setVisible(true); //randomize turn indicator
 					lblFun.setIcon(garryOmake[randGen.nextInt(garryOmake.length)]);
 					hideAll(barryCalls);hideAll(barryTActions);

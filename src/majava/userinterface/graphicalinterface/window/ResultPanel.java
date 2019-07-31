@@ -100,7 +100,7 @@ public class ResultPanel extends JPanel{
 		GameTileList winnerHandTiles = null; List<Meld> winnerMelds = null; GameTile winningTile = null;
 		YakuList yakuList = null; int yakuWorth = 1; int handScore = 0;
 		
-		//***result label (Player 1 wins!, Draw!, etc)
+		//***result label (Player 1 wins! / Ryuukyoku / etc)
 		resultLabel = resum.getAsStringResultType();
 		
 		//***payments per player panel
@@ -188,7 +188,7 @@ public class ResultPanel extends JPanel{
 	/*
 	I need this
 	
-	***result label (Player 1 wins!, Draw!, etc)
+	***result label (Player 1 wins! / Ryuukyoku / etc)
 	
 	***winning hand/melds panel
 	dora indicators panel (and ura if necessary)

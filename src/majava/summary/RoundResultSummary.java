@@ -56,14 +56,14 @@ public class RoundResultSummary {
 		payments = new PaymentMap();
 		payments.putAll(paymentsMap);
 	}
-	//draw constructor
+	//ryuukyoku constructor
 	public RoundResultSummary(ResultType resType, PaymentMap paymentsMap){
 		this(resType, null, null, null, null, null, paymentsMap);
 	}
 	
 	
-	public boolean isDraw(){return pResultType.isDraw();}
-	public boolean isDrawWashout(){return pResultType.isDrawWashout();}
+	public boolean isRyuukyoku(){return pResultType.isRyuukyoku();}
+	public boolean isRyuukyokuHowanpai(){return pResultType.isRyuukyokuHowanpai();}
 	
 	public boolean isVictory(){return pResultType.isVictory();}
 	public boolean isVictoryRon(){return pResultType.isVictoryRon();}

@@ -153,7 +153,7 @@ public class Round{
 			letPlayerDraw(p);
 		announceEvent(GameplayEvent.playerTurnStartEvent());
 		
-		if (roundIsOver()) return;	//return early if (4kan or washout)
+		if (roundIsOver()) return;	//return early if (4kan or ryuukyoku)
 		
 		//loop until the player has chosen a discard (loop until the player stops making kans) (kans and riichi are handled inside here)
 		GameTile discardedTile = null;
@@ -190,7 +190,7 @@ public class Round{
 		GameTile drawnTile = null;
 		if (p.needsDrawNormal()){
 			if (wallIsEmpty()){
-				setResultRyuukyokuWashout();
+				setResultRyuukyokuHowanpai();
 				return;
 			}
 			drawnTile = wall.takeTile();
@@ -228,7 +228,7 @@ public class Round{
 	}
 	
 	private boolean wallIsEmpty(){return wall.isEmpty();}
-	private void setResultRyuukyokuWashout(){roundResult.setResultRyuukyokuWashout();}
+	private void setResultRyuukyokuHowanpai(){roundResult.setResultRyuukyokuHowanpai();}
 	
 	/////these aren't implemented yet in gameplay
 	private void setResultRyuukyokuKyuushu(){roundResult.setResultRyuukyokuKyuushu();}

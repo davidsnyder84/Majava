@@ -40,13 +40,17 @@ public class PonMonsterBot extends RobotBrain {
 			default: break;
 			}
 		}
-		if (!singlesIndices.isEmpty()) return pickRandomlyFrom(singlesIndices);
-		if (!doublesIndices.isEmpty()) return pickRandomlyFrom(doublesIndices);
-		if (!triplesIndices.isEmpty()) return pickRandomlyFrom(triplesIndices);
+		if (!singlesIndices.isEmpty()) return pickOneFrom(singlesIndices);
+		if (!doublesIndices.isEmpty()) return pickOneFrom(doublesIndices);
+		if (!triplesIndices.isEmpty()) return pickOneFrom(triplesIndices);
 		
 		return tsumoTileIndex(hand);
 	}
 	
+	private static int pickOneFrom(List<Integer> choices){
+//		return pickRandomlyFrom(choices);
+		return pickLastFrom(choices);
+	}
 	
 	public void setChiBehavior(boolean willCallChi){hatesChi = !willCallChi;}
 	

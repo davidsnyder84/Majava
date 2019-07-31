@@ -33,6 +33,8 @@ public abstract class RobotBrain extends PlayerBrain {
 	}
 	
 	protected static int pickRandomlyFrom(List<Integer> choices){return choices.get((new Random()).nextInt(choices.size()));}
+	protected static int pickLastFrom(List<Integer> choices){return choices.get(choices.size()-1);}
+	protected static int pickFirstFrom(List<Integer> choices){return choices.get(0);}
 	
 	
 	@Override

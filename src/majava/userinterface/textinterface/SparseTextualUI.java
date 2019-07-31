@@ -55,7 +55,9 @@ public class SparseTextualUI extends TextualUI{
 	}
 	
 	protected void displayEventStartOfRound(GameplayEvent event){
-		__showWall(); __showDoraIndicators();
+		showAllPlayerNames();
+		__showWall();
+		__showDoraIndicators();
 	}
 	
 	protected void displayEventEndOfRound(GameplayEvent event){

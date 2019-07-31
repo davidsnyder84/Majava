@@ -137,13 +137,13 @@ public class Table {
 		
 		//assign controllers and names to players
 		for (int i = 0; i < NUM_PLAYERS; i++){
+			players[i].setPlayerName(names[i]);
+			
 			if (humanController[i])
 				players[i].setControllerHuman();
 			else{
 				players[i].setControllerComputer();
 			}
-			
-			players[i].setPlayerName(names[i]);
 		}
 	}
 	

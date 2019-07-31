@@ -52,6 +52,16 @@ public abstract class TextualUI extends GameUI{
 	
 	
 	
+	protected void showAllPlayerNames(){
+		println();
+		for (int i = 0; i < NUM_PLAYERS; i++){
+			Player p = gameState.getPlayer(i);
+			println("Player" + (i+1) + " (" + p.getSeatWind().toChar() + "): " + p.getPlayerName());
+		}
+		println();
+	}
+	
+	
 	public void startUI(){/*intentionally blank*/}
 	public void endUI(){/*intentionally blank*/}
 	

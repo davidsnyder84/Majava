@@ -23,8 +23,12 @@ public class SevenTwinBot extends RobotBrain {
 			if (hand.findHowManyOf(hand.getTile(index)) != 2)
 				nonPairs.add(index);
 		
-//		return nonPairs.get(nonPairs.size() - 1);
-		return pickRandomlyFrom(nonPairs);
+		return pickOneFrom(nonPairs);
+	}
+	
+	private static int pickOneFrom(List<Integer> choices){
+//		return pickRandomlyFrom(choices);
+		return pickLastFrom(choices);
 	}
 	
 	@Override

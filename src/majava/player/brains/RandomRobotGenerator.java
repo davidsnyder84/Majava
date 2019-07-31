@@ -23,7 +23,9 @@ public class RandomRobotGenerator{
 		candidates.add(new SimpleRobot(p));
 //		candidates.add(new OrphanBot(p));	//not implemented yet
 		
-		return candidates.get((new Random()).nextInt(candidates.size()));
+		RobotBrain picked = candidates.get((new Random()).nextInt(candidates.size()));
+		p.setPlayerName(picked.toString());
+		return picked;
 	}
 	
 }

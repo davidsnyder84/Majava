@@ -107,11 +107,11 @@ public class ResultType {
 		UNDECIDED, RYUUKYOKU_HOWANPAI, RYUUKYOKU_KYUUSHU, RYUUKYOKU_KAN, RYUUKYOKU_RIICHI, RYUUKYOKU_WIND;
 		public String toString(){
 			switch (this){
-			case RYUUKYOKU_HOWANPAI: return "Ryuukyou (Howanpai)";
-			case RYUUKYOKU_KYUUSHU: return "Ryuukyou (Kyuushuu)";
-			case RYUUKYOKU_KAN: return "Ryuukyou (4 kans)";
-			case RYUUKYOKU_RIICHI: return "Ryuukyou (4 riichi)";
-			case RYUUKYOKU_WIND: return "Ryuukyou (4 wind)";
+			case RYUUKYOKU_HOWANPAI: return "Ryuukyoku (Howanpai)";
+			case RYUUKYOKU_KYUUSHU: return "Ryuukyoku (Kyuushuu)";
+			case RYUUKYOKU_KAN: return "Ryuukyoku (4 kans)";
+			case RYUUKYOKU_RIICHI: return "Ryuukyoku (4 riichi)";
+			case RYUUKYOKU_WIND: return "Ryuukyoku (4 wind)";
 			default: return "??Undecided??";
 			}
 		}

@@ -13,10 +13,13 @@ public class SoundClipPlayer implements Runnable{
 	private static final URL NULL_SOUND_URL = SoundClipPlayer.class.getClass().getResource("/res/audio/nullsound.wav");
 	public static final SoundClipPlayer NULL_SOUND_PLAYER = new SoundClipPlayer(NULL_SOUND_URL);
 	
-	private URL soundUrl;
+	
+	private final URL soundUrl;
+	private final Clip soundClip;
 	
 	public SoundClipPlayer(URL givenUrl){
 		soundUrl = givenUrl;
+		soundClip = loadSoundClip(soundUrl);
 	}
 	public SoundClipPlayer(String filepath){
 		this(SoundClipPlayer.class.getClass().getResource(filepath));
@@ -27,15 +30,22 @@ public class SoundClipPlayer implements Runnable{
 	
 	
 	public void playSound(){
+		soundClip.setFramePosition(0);
+		soundClip.start();
+	}
+	
+	private static Clip loadSoundClip(URL url){
 		try{
-			Clip soundClip = AudioSystem.getClip();
-			AudioInputStream audioIS = AudioSystem.getAudioInputStream(soundUrl);
+			Clip clip = AudioSystem.getClip();			
+			AudioInputStream audioIS = AudioSystem.getAudioInputStream(url);
+			clip.open(audioIS);
 			
-			soundClip.open(audioIS);
-			soundClip.start();
+			return clip;
 		}
 		catch(Exception e){e.printStackTrace();}
+		return null;
 	}
+	
 	
 	
 	@Override
@@ -60,8 +70,10 @@ public class SoundClipPlayer implements Runnable{
 		System.out.println(url);
 		
 		SoundClipPlayer sp = new SoundClipPlayer(url);
-		sp.run();
 		
+		sp.run();
+		Pauser.pauseFor(2000);
+		sp.run();
 		Pauser.pauseFor(2000);
 	}
 }

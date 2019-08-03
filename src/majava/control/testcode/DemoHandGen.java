@@ -37,13 +37,11 @@ public class DemoHandGen {
 		
 		
 		
-//		runSimulationNoDisplay(50000);
+		runSimulationNoDisplay(50000);
 //		runSumulationRandom(300000);
 //		runSpecificTest();
 		
 //		runTenpaiSimulation(500);
-		
-		generateSpecificAgariHand();
 		
 	}
 	
@@ -226,45 +224,6 @@ public class DemoHandGen {
 		
 		hand.sort();
 		return hand;
-	}
-	
-	
-	
-	public static AgariHand generateSpecificAgariHand(){
-		AgariHand ah = null;
-		GameTile agarihai = null;
-		
-		Hand hand = new Hand();
-		hand.setOwnerSeatWind(OWNER_SEAT);
-		GameTileList tiles = new GameTileList(1,1,1,5,5,5,9,9,9,30,30,30,33,33);
-		
-		
-		for (GameTile t: tiles){
-			t.setOwner(OWNER_SEAT);
-			hand.addTile(t);
-		}
-		
-		GameTile ponTile = hand.removeTile(2);
-		ponTile.setOwner(OWNER_SEAT.kamichaWind());
-		hand.makeMeldPon(ponTile);
-		
-		System.out.println(hand.toString());
-		System.out.println(hand.getAsStringMelds());
-		
-//		GameTile ronTile = hand.removeTile(hand.size()-1);
-		GameTile ronTile = hand.removeTile(6);
-		ronTile.setOwner(OWNER_SEAT.kamichaWind());
-		
-		agarihai = ronTile;
-		ah = new AgariHand(hand, agarihai);
-		println("uh");
-		println(ah.toString());
-		
-//		Hand completeHand = generateCompleteHand();
-		
-		
-		
-		return ah;
 	}
 	
 	

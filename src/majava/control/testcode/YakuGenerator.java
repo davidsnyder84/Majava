@@ -12,12 +12,12 @@ public class YakuGenerator {
 	
 	
 	public static void main(String[] args){
-		generateToitoiHand();
+		generateToitoiHandSpecific();
 	}
 	
 	
 	
-	public static AgariHand generateToitoiHand(){
+	public static AgariHand generateToitoiHandSpecific(){
 		AgariHand ah = null;
 		GameTile agarihai = null;
 		

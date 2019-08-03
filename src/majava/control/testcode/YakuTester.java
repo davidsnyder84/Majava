@@ -24,8 +24,15 @@ public class YakuTester {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
 	public static void toitoiTesterSpecific(){
-		AgariHand ah = YakuGenerator.generateToitoiHand();
+		AgariHand ah = YakuGenerator.generateToitoiHandSpecific();
 		ToitoiCheck checker = new ToitoiCheck(ah);
 		
 		println(ah.toString() + checker.getElligibleYaku().toString());
@@ -65,6 +72,19 @@ public class YakuTester {
 //		}
 		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	private static boolean failuresDetected(List<AgariHand> falseNegatives, List<AgariHand> falsePositives){

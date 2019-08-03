@@ -19,6 +19,8 @@ public enum Wind {
 	}
 	public Wind prev(){return next().next().next();}
 	public Wind kamichaWind(){return prev();}
+	public Wind toimenWind(){return prev().prev();}
+	public Wind shimochaWind(){return next();}
 	
 	public boolean isDealerWind(){return this == DEALER_WIND;}
 	

@@ -63,6 +63,8 @@ public class Player {
 	public void prepareForNewRound(){
 		
 		hand = new Hand();
+		hand.setOwnerSeatWind(seatWind);
+		
 		pond = new Pond();
 		
 		//just in case, don't know if it's needed

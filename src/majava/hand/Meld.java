@@ -94,6 +94,13 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	public boolean isOpen(){return !isClosed();}
 	public Wind windOfResponsiblePlayer(){return completedTile.getOrignalOwner();}
 	
+	//this method is needed because the ron tile is absorbed into the hand for meld form, creating an innacurate "completed Tile" being assigned sometimes (and thus incorrect windofresponsibleplayer)
+	public void makeSureResponsibleTileIsCorrectlyAssigned(Wind ownerWind){
+		for (GameTile t: meldTiles)
+			if (t.getOrignalOwner() != ownerWind)
+				completedTile = t;
+	}
+	
 	
 	public GameTile getTile(int index){
 		if (index >= 0 && index < size()) return meldTiles.get(index);

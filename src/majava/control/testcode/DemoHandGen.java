@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import utility.ConviniList;
 
+import majava.hand.AgariHand;
 import majava.hand.Hand;
 import majava.hand.Meld;
 import majava.enums.MeldType;
@@ -32,7 +33,7 @@ public class DemoHandGen {
 		
 //		runTenpaiSimulation(5000);
 //		runSingleTenpaiTest(generateSpecificHand());
-		runSimulation(5000);
+//		runSimulation(5000);
 		
 		
 		
@@ -41,6 +42,8 @@ public class DemoHandGen {
 //		runSpecificTest();
 		
 //		runTenpaiSimulation(500);
+		
+		generateAgariHand();
 		
 	}
 	
@@ -227,6 +230,44 @@ public class DemoHandGen {
 	
 	
 	
+	public static AgariHand generateAgariHand(){
+		AgariHand ah = null;
+		GameTile agarihai = null;
+		
+		Hand hand = new Hand();
+		hand.setOwnerSeatWind(OWNER_SEAT);
+		GameTileList tiles = new GameTileList(1,1,1,5,5,5,9,9,9,30,30,30,33,33);
+		
+		
+		for (GameTile t: tiles){
+			t.setOwner(OWNER_SEAT);
+			hand.addTile(t);
+		}
+		
+		GameTile ponTile = hand.removeTile(2);
+		ponTile.setOwner(OWNER_SEAT.kamichaWind());
+		hand.makeMeldPon(ponTile);
+		
+		System.out.println(hand.toString());
+		System.out.println(hand.getAsStringMelds());
+		
+//		GameTile ronTile = hand.removeTile(hand.size()-1);
+		GameTile ronTile = hand.removeTile(6);
+		ronTile.setOwner(OWNER_SEAT.kamichaWind());
+		
+		agarihai = ronTile;
+		ah = new AgariHand(hand, agarihai);
+		println("uh");
+		println(ah.toString());
+		
+//		Hand completeHand = generateCompleteHand();
+		
+		
+		
+		return ah;
+	}
+	
+	
 	
 	
 	
@@ -337,6 +378,6 @@ public class DemoHandGen {
 		return hand;
 	}
 	
-	
+	public static void println(String prints){System.out.println(prints);}public static void println(){println("");}
 
 }

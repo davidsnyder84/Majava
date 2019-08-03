@@ -24,6 +24,8 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	private final GameTileList tiles;
 	private final List<Meld> melds;
 	
+	private Wind ownerWind;
+	
 	private final CallabilityChecker callabilityChecker;
 	private final TurnActionabilityChecker turnActionabilityChecker;
 	private final AgariChecker agariChecker;
@@ -33,6 +35,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	public Hand(){
 		tiles = new GameTileList(MAX_HAND_SIZE);
 		melds = new ArrayList<Meld>(MAX_NUM_MELDS);
+		ownerWind = Wind.UNKNOWN;
 		
 		//make checkers
 		callabilityChecker = new CallabilityChecker(this);
@@ -43,6 +46,8 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		tiles = other.tiles.clone();
 		melds = new ArrayList<Meld>(MAX_NUM_MELDS);
 		for (Meld m: other.melds) melds.add(m.clone());
+		
+		ownerWind = other.ownerWind;
 		
 		callabilityChecker = new CallabilityChecker(this);
 		turnActionabilityChecker = new TurnActionabilityChecker(this);
@@ -72,7 +77,15 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		
 		return meldList;
 	}
-	public List<Meld> getFinishingMelds(){return agariChecker.getFinishingMelds();}
+	public List<Meld> getFinishingMelds(){
+		List<Meld> finishingMelds = agariChecker.getFinishingMelds();
+		
+		//this is needed because the ron tile is absorbed into the hand for finished meld form, creating an innacurate "completed Tile" being assigned sometimes (and thus incorrect windofresponsibleplayer)
+		for (Meld m: finishingMelds)
+			m.makeSureResponsibleTileIsCorrectlyAssigned(ownerWind);
+		
+		return finishingMelds;
+	}
 	
 	
 	
@@ -91,7 +104,8 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		return count;
 	}
 	
-	public Wind getOwnerSeatWind(){return tiles.getFirst().getOrignalOwner();}
+	public Wind getOwnerSeatWind(){return ownerWind;}
+	public void setOwnerSeatWind(Wind newOwnerWind){ownerWind = newOwnerWind;}
 	
 	public boolean isInTenpai(){return agariChecker.isInTenpai();}
 	public GameTileList getTenpaiWaits(){return agariChecker.getTenpaiWaits();}

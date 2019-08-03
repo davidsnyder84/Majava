@@ -28,7 +28,7 @@ public class YakuTester {
 		AgariHand ah = YakuGenerator.generateToitoiHand();
 		ToitoiCheck checker = new ToitoiCheck(ah);
 		
-		println(ah.toString() + checker.calculateElligibleYaku().toString());
+		println(ah.toString() + checker.getElligibleYaku().toString());
 	}
 	
 	
@@ -84,6 +84,18 @@ public class YakuTester {
 	
 	
 	
+	
+	
+	public static boolean runAllTests(){
+		boolean failureDetected = false;
+		failureDetected |= toitoiTester();
+		
+		
+		
+		
+		
+		return failureDetected;
+	}
 	
 	
 	

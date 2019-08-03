@@ -109,6 +109,6 @@ public class Scorer {
 		System.out.println(agariHand.toString());
 		
 		YakuAnalyzer yakuana = new YakuAnalyzer(roundResult.getWinningPlayer().DEMOgetHand(), roundResult);
-		System.out.println("YAKUANALYZERSAYS: "  + yakuana.getYakuList());
+		System.out.println("YAKUANALYZERSAYS: "  + yakuana.getAllElligibleYaku());
 	}
 }

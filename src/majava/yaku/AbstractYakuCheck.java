@@ -11,7 +11,7 @@ public abstract class AbstractYakuCheck {
 		hand = h;
 	}
 	
-	public abstract YakuList calculateElligibleYaku();
+	public abstract YakuList getElligibleYaku();
 	
 	
 	

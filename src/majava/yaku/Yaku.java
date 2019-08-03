@@ -9,25 +9,25 @@ public enum Yaku {
 	DORA_RED("Red Dora", 1),
 	DORA_URA("Ura Dora", 1),
 	
-	RIICHI("Riichi", 1, Yaku.DISALLOW_OPEN),
-	RIICHI_DOUBLE("Double Riichi", 2, Yaku.DISALLOW_OPEN),
-	RIICHI_IPPATSU("Ippatsu", 1, Yaku.DISALLOW_OPEN),
+	RIICHI("Riichi", 1, Yaku.value_FORBID_OPEN),
+	RIICHI_DOUBLE("Double Riichi", 2, Yaku.value_FORBID_OPEN),
+	RIICHI_IPPATSU("Ippatsu", 1, Yaku.value_FORBID_OPEN),
 	
-	TSUMO("Tsumo", 1, Yaku.DISALLOW_OPEN),
+	TSUMO("Tsumo", 1, Yaku.value_FORBID_OPEN),
 	HAITEI("Haitei Raoyue", 1),
 	HOITEI("Houtei Raoyui", 1),
 	RINSHAN("Rinshan Kaihou", 1),
 	CHANKAN("Chankan", 1),
 	
 	
-	CHIITOITSU("Chiitoitsu", 2, Yaku.DISALLOW_OPEN),
+	CHIITOITSU("Chiitoitsu", 2, Yaku.value_FORBID_OPEN),
 	
 					
-	PINFU("Pinfu", 1, Yaku.DISALLOW_OPEN),
-	IIPEIKOU("Iipeikou", 1, Yaku.DISALLOW_OPEN),
+	PINFU("Pinfu", 1, Yaku.value_FORBID_OPEN),
+	IIPEIKOU("Iipeikou", 1, Yaku.value_FORBID_OPEN),
 	SANSHOKU("Sanshoku Doujun", 2, 1),
 	ITTSUU("Ittsuu", 2, 1),
-	RYANPEIKOU("Ryanpeikou", 3, Yaku.DISALLOW_OPEN),
+	RYANPEIKOU("Ryanpeikou", 3, Yaku.value_FORBID_OPEN),
 	
 	TOITOI("Toitoi", 2),
 	SANANKOU("Sanankou", 2),
@@ -53,28 +53,28 @@ public enum Yaku {
 	HONITSU("Honitsu", 3, 2),
 	CHINITSU("Chinitsu", 6, 5),
 	
-	YKM_KOKUSHI("Kokushi Musou", Yaku.YAKUMAN, Yaku.DISALLOW_OPEN),
-	YKM_SUUANKOU("Suuankou", Yaku.YAKUMAN, Yaku.DISALLOW_OPEN),
-	YKM_DAISANGEN("Daisangen", Yaku.YAKUMAN),
-	YKM_SHOUSHUUSHII("Shousuushii", Yaku.YAKUMAN),
-	YKM_DAISHUUSHII("Daisuushii", Yaku.YAKUMAN),
-	YKM_TSUUIISOU("Tsuuiisou", Yaku.YAKUMAN),
-	YKM_RYUUIISOU("Ryuuiisou", Yaku.YAKUMAN),
-	YKM_CHUURENPOUTO("Chuuren Poutou", Yaku.YAKUMAN, Yaku.DISALLOW_OPEN),
-	YKM_SUUKANTSU("Suukantsu", Yaku.YAKUMAN),
-	YKM_CHINROUTO("Chinrouto", Yaku.YAKUMAN),
+	YKM_KOKUSHI("Kokushi Musou", Yaku.value_YAKUMAN, Yaku.value_FORBID_OPEN),
+	YKM_SUUANKOU("Suuankou", Yaku.value_YAKUMAN, Yaku.value_FORBID_OPEN),
+	YKM_DAISANGEN("Daisangen", Yaku.value_YAKUMAN),
+	YKM_SHOUSHUUSHII("Shousuushii", Yaku.value_YAKUMAN),
+	YKM_DAISHUUSHII("Daisuushii", Yaku.value_YAKUMAN),
+	YKM_TSUUIISOU("Tsuuiisou", Yaku.value_YAKUMAN),
+	YKM_RYUUIISOU("Ryuuiisou", Yaku.value_YAKUMAN),
+	YKM_CHUURENPOUTO("Chuuren Poutou", Yaku.value_YAKUMAN, Yaku.value_FORBID_OPEN),
+	YKM_SUUKANTSU("Suukantsu", Yaku.value_YAKUMAN),
+	YKM_CHINROUTO("Chinrouto", Yaku.value_YAKUMAN),
 	
-	YKM_TENHOU("Tenhou", Yaku.YAKUMAN, Yaku.DISALLOW_OPEN),
-	YKM_CHIIHOU("Chiihou", Yaku.YAKUMAN, Yaku.DISALLOW_OPEN),
-	YKM_RENHOU("Renhou", Yaku.YAKUMAN, Yaku.DISALLOW_OPEN),
+	YKM_TENHOU("Tenhou", Yaku.value_YAKUMAN, Yaku.value_FORBID_OPEN),
+	YKM_CHIIHOU("Chiihou", Yaku.value_YAKUMAN, Yaku.value_FORBID_OPEN),
+	YKM_RENHOU("Renhou", Yaku.value_YAKUMAN, Yaku.value_FORBID_OPEN),
 	
-	NAGASHI_MANGAN("Nagashi Mangan", Yaku.MANGAN);
+	NAGASHI_MANGAN("Nagashi Mangan", Yaku.value_MANGAN);
 	
 	
-	private static final int YAKUMAN = 13;
-	private static final int MANGAN = 5;
-	//is open is disallowed, han value is 0
-	private static final int DISALLOW_OPEN = 0;
+	private static final int value_YAKUMAN = 13;
+	private static final int value_MANGAN = 5;
+	//is open is forbidden, han value is 0
+	private static final int value_FORBID_OPEN = 0;
 	
 	
 	
@@ -96,8 +96,8 @@ public enum Yaku {
 	public int getValueClosed(){return closedValue;}
 	
 	
-	public boolean isYakuman(){return closedValue == YAKUMAN;}
-	public boolean allowedOpen(){return openValue != DISALLOW_OPEN;}
+	public boolean isYakuman(){return closedValue == value_YAKUMAN;}
+	public boolean allowedOpen(){return openValue != value_FORBID_OPEN;}
 	@Override
 	public String toString(){return getName();}
 	

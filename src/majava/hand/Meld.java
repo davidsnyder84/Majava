@@ -116,7 +116,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	public boolean isKan(){return meldType.isKan();}
 	public boolean isPair(){return meldType.isPair();}
 	public boolean isMulti(){return meldType.isMulti();}
-//	public MeldType getMeldType(){return mMeldType;}
+	public MeldType getMeldType(){return meldType;}
 	
 	
 	

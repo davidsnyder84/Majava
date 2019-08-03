@@ -30,10 +30,10 @@ public class YakuAnalyzer {
 	}
 	
 	
-	public YakuList getYakuList(){
+	public YakuList getAllElligibleYaku(){
 		YakuList elligibleYakus = new YakuList();
 		for (AbstractYakuCheck checker: checks)
-			elligibleYakus.addAll(checker.calculateElligibleYaku());
+			elligibleYakus.addAll(checker.getElligibleYaku());
 		
 		return elligibleYakus;
 	}

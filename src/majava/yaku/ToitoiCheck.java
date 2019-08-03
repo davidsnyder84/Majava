@@ -10,7 +10,8 @@ public class ToitoiCheck extends AbstractYakuCheck {
 	
 	public ToitoiCheck(AgariHand h){super(h);}
 	
-	public YakuList calculateElligibleYaku() {
+	@Override
+	public YakuList getElligibleYaku() {
 		YakuList elligibleYakus = new YakuList();
 		
 		if (handIsToitoi())
@@ -19,12 +20,12 @@ public class ToitoiCheck extends AbstractYakuCheck {
 		return elligibleYakus;
 	}
 	
+	
+	
+	
+	//conditions: 5 melds (1 is pair), all are pon/kan
 	public boolean handIsToitoi(){
-//		List<Meld> melds = hand.getFinishingMelds();
-		/////need meld form here, not just finishing melds
-		
 		List<Meld> melds = hand.getMeldForm();
-		
 		
 		if (melds.size() != 5) return false;
 		for (Meld m: melds)
@@ -32,6 +33,5 @@ public class ToitoiCheck extends AbstractYakuCheck {
 		
 		return true;
 	}
-	
 	
 }

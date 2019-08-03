@@ -79,8 +79,14 @@ public class MajaPlay {
 		
 //		testHandClone();
 		
+		
+//		testCallPartners(); println("\n\n\n\n----------------------------------------------------------------------------------------------------");
+//		finishingMovePre(); println("\n\n\n\n----------------------------------------------------------------------------------------------------");
+//		chiKamichaTest();
+		
 	}
 	public static void println(String prints){System.out.println(prints);}public static void println(){println("");}
+	public static void print(String prints){System.out.print(prints);}
 	
 	public static void testHandClone(){
 		
@@ -372,7 +378,7 @@ public class MajaPlay {
 		h.addTile(32);
 		h.addTile(32);
 		h.addTile(33);
-		h.DEMOsetOwner(ownerSeat);
+		h.setOwnerSeatWind(ownerSeat);
 		
 		Integer[] dIDs = {1,2,3,4,5,6,7,8,9,10,11,30,31,32,33,34};
 		List<Integer> discardIDs = Arrays.asList(dIDs);
@@ -385,9 +391,9 @@ public class MajaPlay {
 			h.canCallTile(q);
 			
 			println(h.toString());
-			println("\nDiscarded tile: " + q.toString());
+			println("Discarded tile: " + q.toString());
 			
-			System.out.print("\n\tChi-L?: " + h.ableToChiL(q));
+			System.out.print("\tChi-L?: " + h.ableToChiL(q) +"\n\n");
 			////////THIS WORKS
 			////////THIS WORKS
 			////////THIS WORKS
@@ -422,28 +428,29 @@ public class MajaPlay {
 		h.addTile(2);
 		h.addTile(3);
 		h.addTile(3);
-		h.DEMOsetOwner(ownerSeat);
+		h.addTile(4);
+		h.setOwnerSeatWind(ownerSeat);
 
 		println(h.toString());
 		
 		
-		q = new GameTile(1);
+		q = new GameTile(4);
 		q.setOwner(ownerSeat.kamichaWind());
 //		println("\nDiscarded tile: " + q.toStringAllInfo());
 		println("\nDiscarded tile: " + q.toString());
-		h.canCallTile(q);
+//		h.canCallTile(q);
 		
 		
 		
 		int count = 0;
-		if (h.ableToChiL(q)) count++;
-		if (h.ableToChiM(q)) count++;
-		if (h.ableToChiH(q)) count++;
-		if (h.ableToPon(q)) count++;
-		if (h.ableToKan(q)) count++;
-		if (h.ableToRon(q)) count++;
+		if (h.ableToChiL(q)) {print("chiL"); count++;}
+		if (h.ableToChiM(q)) {print("chiM"); count++;}
+		if (h.ableToChiH(q)) {print("chiH"); count++;}
+		if (h.ableToPon(q)) {print("pon"); count++;}
+		if (h.ableToKan(q)) {print("kan"); count++;}
+		if (h.ableToRon(q)) {print("RON"); count++;}
 		
-		println("Number of calls possible: " + count);
+		println("\nNumber of calls possible: " + count);
 		
 		
 	}
@@ -457,13 +464,14 @@ public class MajaPlay {
 		h.addTile(2);
 		h.addTile(3);
 		h.addTile(3);
-		h.DEMOsetOwner(ownerSeat);
+		h.setOwnerSeatWind(ownerSeat);
 
 		println(h.toString());
 		
 		q = new GameTile(1);
 //		q.setOwner(ownerSeat);
-		q.setOwner(Wind.WEST);
+		q.setOwner(ownerSeat.kamichaWind());
+//		q.setOwner(Wind.WEST);
 		
 
 //		println("\nDiscarded tile: " + q.toStringAllInfo());

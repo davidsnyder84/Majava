@@ -1,9 +1,6 @@
 package majava.yaku;
 
-import java.util.List;
-
 import majava.hand.AgariHand;
-import majava.hand.Meld;
 import majava.util.YakuList;
 
 public class ChantaCheck extends AbstractYakuCheck {
@@ -13,7 +10,8 @@ public class ChantaCheck extends AbstractYakuCheck {
 	
 	@Override
 	public void findElligibleYaku(final YakuList putElligibleYakuHere){
-		
+		if(handIs())
+			putElligibleYakuHere.add(Yaku.NAGASHI_MANGAN);
 		
 		
 	}
@@ -21,9 +19,9 @@ public class ChantaCheck extends AbstractYakuCheck {
 	
 	
 	
-	//conditions: 5 melds (1 is pair), all are pon/kan
+	
 	public boolean handIs(){
-		List<Meld> melds = hand.getMeldForm();
+		
 		
 		
 		return false;

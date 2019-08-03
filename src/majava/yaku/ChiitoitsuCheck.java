@@ -1,9 +1,6 @@
 package majava.yaku;
 
-import java.util.List;
-
 import majava.hand.AgariHand;
-import majava.hand.Meld;
 import majava.util.YakuList;
 
 public class ChiitoitsuCheck extends AbstractYakuCheck {
@@ -13,20 +10,14 @@ public class ChiitoitsuCheck extends AbstractYakuCheck {
 	
 	@Override
 	public void findElligibleYaku(final YakuList putElligibleYakuHere){
-		
-		
-		
+		if (handIsChiitoi())
+			putElligibleYakuHere.add(Yaku.CHIITOITSU);
 	}
 	
 	
 	
-	
-	//conditions: 5 melds (1 is pair), all are pon/kan
-	public boolean handIs(){
-		List<Meld> melds = hand.getMeldForm();
-		
-		
-		return false;
+	public boolean handIsChiitoi(){
+		return hand.isCompleteChiitoitsu();
 	}
 	
 }

@@ -29,11 +29,10 @@ public class YakuAnalyzer {
 		checks.add(new ChankanCheck(hand));
 		checks.add(new ChantaCheck(hand));
 		checks.add(new ChiitoitsuCheck(hand));
-		checks.add(new ChinitsuCheck(hand));
+		checks.add(new ChinitsuHonitsuCheck(hand));
 		checks.add(new DoraCheck(hand));
 		checks.add(new FanpaiYakuhaiCheck(hand));
 		checks.add(new HaiteiCheck(hand));
-		checks.add(new HonitsuCheck(hand));
 		checks.add(new HonroutoCheck(hand));
 		checks.add(new IttsuuCheck(hand));
 		checks.add(new JunchanCheck(hand));

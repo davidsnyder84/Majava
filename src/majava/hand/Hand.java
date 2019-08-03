@@ -87,6 +87,13 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		return finishingMelds;
 	}
 	
+	public GameTileList getTilesAsListIncludingMeldTiles(){
+		GameTileList allTiles = getTilesAsList();
+		for (Meld m: melds) for (GameTile t: m) allTiles.add(t.clone());
+		allTiles.sort();
+		return allTiles;
+	}
+	
 	
 	
 	

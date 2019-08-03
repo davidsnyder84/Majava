@@ -1,32 +1,30 @@
 package majava.yaku;
 
-import java.util.List;
-
 import majava.hand.AgariHand;
-import majava.hand.Meld;
+import majava.tiles.GameTile;
 import majava.util.YakuList;
 
 public class TanyaoCheck extends AbstractYakuCheck {
+	private static boolean allowKuitan = true;
 	
 	public TanyaoCheck(AgariHand h){super(h);}
 	
 	
 	@Override
 	public void findElligibleYaku(final YakuList putElligibleYakuHere){
-		
-		
-		
+		if (handIsTanyao())
+			putElligibleYakuHere.add(Yaku.TANYAO);
 	}
 	
 	
 	
 	
 	//conditions: 5 melds (1 is pair), all are pon/kan
-	public boolean handIs(){
-		List<Meld> melds = hand.getMeldForm();
+	public boolean handIsTanyao(){
+		for (GameTile t: handInTilesForm())
+			if (t.isTanyao()) return false;
 		
-		
-		return false;
+		return true;
 	}
 	
 }

@@ -85,8 +85,7 @@ public class MajaPlay {
 //		chiKamichaTest();
 		
 	}
-	public static void println(String prints){System.out.println(prints);}public static void println(){println("");}
-	public static void print(String prints){System.out.print(prints);}
+	public static void println(String prints){System.out.println(prints);}public static void println(){println("");}public static void print(String prints){System.out.print(prints);}
 	
 	public static void testHandClone(){
 		

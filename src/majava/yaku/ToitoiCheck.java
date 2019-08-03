@@ -20,8 +20,11 @@ public class ToitoiCheck extends AbstractYakuCheck {
 	}
 	
 	public boolean handIsToitoi(){
-		List<Meld> melds = hand.getFinishingMelds();
+//		List<Meld> melds = hand.getFinishingMelds();
 		/////need meld form here, not just finishing melds
+		
+		List<Meld> melds = hand.getMeldForm();
+		
 		
 		if (melds.size() != 5) return false;
 		for (Meld m: melds)

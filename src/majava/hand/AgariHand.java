@@ -32,7 +32,7 @@ public class AgariHand extends Hand {
 	
 	
 	
-	private List<Meld> getMeldForm(){
+	public List<Meld> getMeldForm(){
 		List<Meld> meldForm = new ArrayList<Meld>();
 		//add existing melds, then add finishing melds
 		meldForm.addAll(getMelds());

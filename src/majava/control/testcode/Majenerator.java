@@ -26,6 +26,8 @@ import majava.tiles.TileInterface;
 
 
 public class Majenerator {
+	private static final MeldType[] DEFAULT_ALLOWED_MELDTYPES = {MeldType.CHI_L, MeldType.CHI_M, MeldType.CHI_H, MeldType.PON, MeldType.KAN};
+	private static MeldType[] allowedMeldTypes = DEFAULT_ALLOWED_MELDTYPES;
 	
 	private static final int NUM_PLAYERS = 4;
 	private static final int NUM_TILES = 34;
@@ -153,6 +155,16 @@ public class Majenerator {
 	}
 	
 	
+	public static AgariHand generateAgariHandToitoi(){
+		allowedMeldTypes = new MeldType[]{MeldType.PON, MeldType.KAN};
+		return generateAgariHand();
+	}
+	public static AgariHand generateAgariHandWithOnlyTheseMeldTypes(MeldType[] onlyTheseAllowed){
+		allowedMeldTypes = onlyTheseAllowed;
+		return generateAgariHand();
+	}
+	
+	
 	public static AgariHand generateAgariHand(final int howManyMelds){
 		final GameTileList winHand = new GameTileList();
 		final List<Meld> winMelds = new ArrayList<Meld>();
@@ -177,14 +189,14 @@ public class Majenerator {
 		
 		AgariHand ah = new AgariHand(hand, agarihai);		
 		
-//		println(winHand.toString());
-//		println(winMelds.toString());
-//		println(hand.toString());		
-//		println("\n\n----uh here's agarihand" + ah.toString());
+//		println(winHand.toString());println(winMelds.toString());println(hand.toString());println("\n\n----uh here's agarihand" + ah.toString());
 		
 		return ah;
 	}
 	public static AgariHand generateAgariHand(){return generateAgariHand(randGen.nextInt(5));}
+	
+	
+	
 	
 	
 	public static void generateWinningHandAndMelds(final GameTileList winHand, final List<Meld> winMelds, final int howManyMelds){
@@ -327,8 +339,16 @@ public class Majenerator {
 	public static boolean tileCanMeldMeldType(int tId, MeldType mt){return tileCanMeldMeldType(Janpai.retrieveTile(tId), mt);}
 	
 	
-	public static MeldType randomMeldType(){final MeldType[] mts = {MeldType.CHI_L, MeldType.CHI_M, MeldType.CHI_H, MeldType.PON, MeldType.KAN}; return mts[randGen.nextInt(mts.length)];}
-	public static MeldType randomMeldTypeNoKan(){final MeldType[] mts = {MeldType.CHI_L, MeldType.CHI_M, MeldType.CHI_H, MeldType.PON}; return mts[randGen.nextInt(mts.length)];}
+	
+	
+	public static MeldType randomMeldType(){
+		return allowedMeldTypes[randGen.nextInt(allowedMeldTypes.length)];
+	}
+	public static MeldType randomMeldTypeNoKan(){
+		MeldType mt = randomMeldType();
+		while ((mt = randomMeldType()) ==  MeldType.KAN);
+		return mt;
+	}
 	
 	
 	

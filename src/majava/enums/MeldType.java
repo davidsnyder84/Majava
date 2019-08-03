@@ -27,4 +27,7 @@ public enum MeldType {
 		public boolean isPon(){return (this == PON);}
 		public boolean isKan(){return (this == KAN);}
 		public boolean isPair(){return (this == PAIR);}
+		
+		public static MeldType[] listOfMultiTypes(){return new MeldType[]{PON, KAN};}
+		public static MeldType[] listOfChiTypes(){return new MeldType[]{CHI_L, CHI_M, CHI_H};}
 }

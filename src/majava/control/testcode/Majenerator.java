@@ -27,13 +27,14 @@ import majava.tiles.TileInterface;
 
 public class Majenerator {
 	private static final MeldType[] DEFAULT_ALLOWED_MELDTYPES = {MeldType.CHI_L, MeldType.CHI_M, MeldType.CHI_H, MeldType.PON, MeldType.KAN};
-	private static MeldType[] allowedMeldTypes = DEFAULT_ALLOWED_MELDTYPES;
+	private static boolean allowChiitoiKokushi = true;
 	
 	private static final int NUM_PLAYERS = 4;
 	private static final int NUM_TILES = 34;
 	private static final Random randGen = new Random();
 	
 	private static final Wind OWNER_WIND = Wind.SOUTH;
+	
 	
 	
 	public static void main(String[] args){
@@ -155,22 +156,16 @@ public class Majenerator {
 	}
 	
 	
-	public static AgariHand generateAgariHandToitoi(){
-		allowedMeldTypes = new MeldType[]{MeldType.PON, MeldType.KAN};
-		return generateAgariHand();
-	}
-	public static AgariHand generateAgariHandWithOnlyTheseMeldTypes(MeldType[] onlyTheseAllowed){
-		allowedMeldTypes = onlyTheseAllowed;
-		return generateAgariHand();
-	}
+	public static AgariHand generateAgariHandOnlyPonkan(){return generateAgariHand(MeldType.listOfMultiTypes());}
+	public static AgariHand generateAgariHandOnlyChi(){return generateAgariHand(MeldType.listOfChiTypes());}
 	
 	
-	public static AgariHand generateAgariHand(final int howManyMelds){
+	public static AgariHand generateAgariHand(int howManyMelds, MeldType[] onlyAllowTheseMeldTypes){
 		final GameTileList winHand = new GameTileList();
 		final List<Meld> winMelds = new ArrayList<Meld>();
 		final Wind ownerWind = OWNER_WIND;
 		
-		generateWinningHandAndMelds(winHand, winMelds, howManyMelds);		
+		generateWinningHandAndMelds(winHand, winMelds, howManyMelds, onlyAllowTheseMeldTypes);		
 
 		
 		Hand hand = new Hand();
@@ -193,13 +188,15 @@ public class Majenerator {
 		
 		return ah;
 	}
+	public static AgariHand generateAgariHand(MeldType[] onlyAllowTheseMeldTypes){return generateAgariHand(randGen.nextInt(5), onlyAllowTheseMeldTypes);}
+	public static AgariHand generateAgariHand(int howManyMelds){return generateAgariHand(howManyMelds, DEFAULT_ALLOWED_MELDTYPES);}
 	public static AgariHand generateAgariHand(){return generateAgariHand(randGen.nextInt(5));}
 	
 	
 	
 	
 	
-	public static void generateWinningHandAndMelds(final GameTileList winHand, final List<Meld> winMelds, final int howManyMelds){
+	public static void generateWinningHandAndMelds(final GameTileList winHand, final List<Meld> winMelds, int howManyMelds, MeldType[] onlyAllowTheseMeldTypes){
 		if (winHand == null || winMelds == null) return;
 		winHand.clear();
 		winMelds.clear();
@@ -207,7 +204,7 @@ public class Majenerator {
 		
 		
 		//sometimes do chiitoi and kokushi
-		if (randGen.nextInt(15) == 14){
+		if (allowChiitoiKokushi && (randGen.nextInt(15) == 14)){
 			GameTileList handtiles = null;
 			
 			if (randGen.nextBoolean()) handtiles = generateHandTilesKokushi();
@@ -227,11 +224,11 @@ public class Majenerator {
 		while (meldsFormed < 4){
 			if (meldsFormed < howManyMelds){
 				recipient = winMelds;
-				candidateMeld = generateMeld();
+				candidateMeld = generateMeld(onlyAllowTheseMeldTypes);
 			}
 			else{
 				recipient = handMelds;
-				candidateMeld = generateMeld(randomMeldTypeNoKan());
+				candidateMeld = generateMeld(randomMeldTypeNoKan(onlyAllowTheseMeldTypes));
 			}
 			
 			
@@ -252,7 +249,17 @@ public class Majenerator {
 		
 		
 	}
+	public static void generateWinningHandAndMelds(final GameTileList winHand, final List<Meld> winMelds, MeldType[] onlyAllowTheseMeldTypes){generateWinningHandAndMelds(winHand, winMelds, randGen.nextInt(5), onlyAllowTheseMeldTypes);}
+	public static void generateWinningHandAndMelds(final GameTileList winHand, final List<Meld> winMelds, int howManyMelds){generateWinningHandAndMelds(winHand, winMelds, howManyMelds, DEFAULT_ALLOWED_MELDTYPES);}
 	public static void generateWinningHandAndMelds(final GameTileList winHand, final List<Meld> winMelds){generateWinningHandAndMelds(winHand, winMelds, randGen.nextInt(5));}
+
+//	public static AgariHand generateAgariHand(MeldType[] onlyAllowTheseMeldTypes){return generateAgariHand(randGen.nextInt(5), onlyAllowTheseMeldTypes);}
+//	public static AgariHand generateAgariHand(int howManyMelds){return generateAgariHand(howManyMelds, DEFAULT_ALLOWED_MELDTYPES);}
+//	public static AgariHand generateAgariHand(){return generateAgariHand(randGen.nextInt(5));}
+	
+	
+	
+	
 	private static boolean __meldWouldViolateTileLimit(Meld candidateMeld, GameTileList existingTiles){
 		
 		//chis
@@ -295,6 +302,9 @@ public class Majenerator {
 		return tlist;
 	}
 	
+	public static void optionForbidChiitoiAndKokushi(){allowChiitoiKokushi = false;}
+	public static void optionAllowChiitoiAndKokushi(){allowChiitoiKokushi = true;}
+	
 	
 	
 	public static Meld generateMeld(final MeldType type, final boolean closed){
@@ -318,7 +328,8 @@ public class Majenerator {
 		return m;
 	}
 	public static Meld generateMeld(MeldType mt){return generateMeld(mt, true);}
-	public static Meld generateMeld(){return generateMeld(randomMeldType());}
+	public static Meld generateMeld(MeldType[] onlyAllowTheseMeldTypes){return generateMeld(randomMeldType(onlyAllowTheseMeldTypes));}
+	public static Meld generateMeld(){return generateMeld(DEFAULT_ALLOWED_MELDTYPES);}
 	
 	public static boolean tileCanMeldMeldType(Janpai tile, MeldType mt){
 		if (tile.getId() == 0) return false;
@@ -341,14 +352,17 @@ public class Majenerator {
 	
 	
 	
-	public static MeldType randomMeldType(){
-		return allowedMeldTypes[randGen.nextInt(allowedMeldTypes.length)];
+	public static MeldType randomMeldType(MeldType[] onlyAllowTheseMeldTypes){
+		return onlyAllowTheseMeldTypes[randGen.nextInt(onlyAllowTheseMeldTypes.length)];
 	}
-	public static MeldType randomMeldTypeNoKan(){
-		MeldType mt = randomMeldType();
-		while ((mt = randomMeldType()) ==  MeldType.KAN);
+	public static MeldType randomMeldType(){return randomMeldType(DEFAULT_ALLOWED_MELDTYPES);}
+	
+	public static MeldType randomMeldTypeNoKan(MeldType[] onlyAllowTheseMeldTypes){
+		MeldType mt = randomMeldType(onlyAllowTheseMeldTypes);
+		while ((mt = randomMeldType(onlyAllowTheseMeldTypes)) ==  MeldType.KAN);
 		return mt;
 	}
+	public static MeldType randomMeldTypeNoKan(){return randomMeldTypeNoKan(DEFAULT_ALLOWED_MELDTYPES);}
 	
 	
 	

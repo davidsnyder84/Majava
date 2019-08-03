@@ -239,12 +239,12 @@ public class AgariChecker {
 		
 		//checks if a tile is meldable, populates the meldStack for candidate. returns true if a meld (any meld) can be made
 		private static boolean checkMeldableTile(HandCheckerTile candidate, GameTileList checkTiles){
-			//order of stack should be top->L,M,H,Pon,Pair
+			//changed order of stack on 2019-08-03, tests show that it still works. Just in case, original comment was: "order of stack should be top->L,M,H,Pon,Pair"
 			if (canClosedPair(checkTiles, candidate)) candidate.mstackPush(MeldType.PAIR);
-			if (canClosedPon(checkTiles, candidate)) candidate.mstackPush(MeldType.PON);
 			if (canClosedChiH(checkTiles, candidate)) candidate.mstackPush(MeldType.CHI_H);
 			if (canClosedChiM(checkTiles, candidate)) candidate.mstackPush(MeldType.CHI_M);
 			if (canClosedChiL(checkTiles, candidate)) candidate.mstackPush(MeldType.CHI_L);
+			if (canClosedPon(checkTiles, candidate)) candidate.mstackPush(MeldType.PON);
 			
 			return (!candidate.mstackIsEmpty());
 		}

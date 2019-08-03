@@ -316,7 +316,7 @@ public class AgariChecker {
 			HandCheckerTile currentTile = (HandCheckerTile)checkTiles.getFirst();
 			
 			//loop until every possible meld type has been tried for the current tile
-			while(currentTile.mstackIsEmpty() == false){
+			while(!currentTile.mstackIsEmpty()){
 				
 				//~~~~Verify that currentTile's partners are still in the hand
 				int[] currentTileParterIDs = currentTile.mstackTopParterIDs();
@@ -324,11 +324,11 @@ public class AgariChecker {
 				boolean currentTilePartersAreStillHere = currentTilePartersAreStillHere(currentTileMeldType, checkTiles, currentTile, currentTileParterIDs);
 				
 				//if (currentTile's partners for the meld are no longer here) OR (currentTileMeldType is pair and pair has already been chosen)
-				if (currentTilePartersAreStillHere == false || (currentTileMeldType == MeldType.PAIR && pairHasBeenChosen.get()))
+				if (!currentTilePartersAreStillHere || (currentTileMeldType.isPair() && pairHasBeenChosen.get()))
 					continue;	//exit loop early and continue to the next meldType
 					
 				//take the pair privelige if the current meldType is a pair
-				if (currentTileMeldType == MeldType.PAIR) pairHasBeenChosen.set(true);
+				if (currentTileMeldType.isPair()) pairHasBeenChosen.set(true);
 				
 				//~~~~Find the inidces of currentTile's partners for the current meldType					
 				List<Integer> partnerIndices = findIndicesOfCurrentTilePartersForMeldType(currentTileMeldType, checkTiles, currentTile, currentTileParterIDs);
@@ -343,8 +343,7 @@ public class AgariChecker {
 					return true;	//hand is complete
 				}
 				else{
-					if (currentTileMeldType == MeldType.PAIR)
-						pairHasBeenChosen.set(false);	//relinquish the pair privelege, if it was taken
+					if (currentTileMeldType.isPair()) pairHasBeenChosen.set(false);	//relinquish the pair privelege, if it was taken
 				}
 			}
 			return false;	//currentTile could not make any meld, so the hand must not be complete
@@ -357,9 +356,9 @@ public class AgariChecker {
 			if (currentTileMeldType.isChi())
 				if (!checkTiles.contains(currentTileParterIDs[0]) || !checkTiles.contains(currentTileParterIDs[1]))
 					return false;
-			if (currentTileMeldType == MeldType.PAIR && checkTiles.findHowManyOf(currentTile) < NUM_PARTNERS_NEEDED_TO_PAIR + 1)
+			if (currentTileMeldType.isPair() && checkTiles.findHowManyOf(currentTile) < NUM_PARTNERS_NEEDED_TO_PAIR + 1)
 				return false;
-			if (currentTileMeldType == MeldType.PON && checkTiles.findHowManyOf(currentTile) < NUM_PARTNERS_NEEDED_TO_PON + 1)
+			if (currentTileMeldType.isPon() && checkTiles.findHowManyOf(currentTile) < NUM_PARTNERS_NEEDED_TO_PON + 1)
 				return false;
 			
 			return true;
@@ -377,8 +376,8 @@ public class AgariChecker {
 			partnerIndices = checkTiles.findAllIndicesOf(currentTile);
 			
 			//trim the lists down to size to fit the meld type
-			if (currentTileMeldType == MeldType.PAIR) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PAIR) partnerIndices.remove(partnerIndices.size() - 1);
-			if (currentTileMeldType == MeldType.PON) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PON) partnerIndices.remove(partnerIndices.size() - 1);
+			if (currentTileMeldType.isPair()) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PAIR) partnerIndices.remove(partnerIndices.size() - 1);
+			if (currentTileMeldType.isPon()) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PON) partnerIndices.remove(partnerIndices.size() - 1);
 			return partnerIndices;
 		}
 		

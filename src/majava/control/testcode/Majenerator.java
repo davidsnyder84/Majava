@@ -359,7 +359,7 @@ public class Majenerator {
 	
 	public static MeldType randomMeldTypeNoKan(MeldType[] onlyAllowTheseMeldTypes){
 		MeldType mt = randomMeldType(onlyAllowTheseMeldTypes);
-		while ((mt = randomMeldType(onlyAllowTheseMeldTypes)) ==  MeldType.KAN);
+		while ((mt = randomMeldType(onlyAllowTheseMeldTypes)).isKan());	//loop until something other than kan is chosen
 		return mt;
 	}
 	public static MeldType randomMeldTypeNoKan(){return randomMeldTypeNoKan(DEFAULT_ALLOWED_MELDTYPES);}

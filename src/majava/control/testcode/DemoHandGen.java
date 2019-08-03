@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import utility.ConviniList;
-
 import majava.hand.AgariHand;
 import majava.hand.Hand;
 import majava.hand.Meld;
@@ -37,8 +35,8 @@ public class DemoHandGen {
 		
 		
 		
-		runSimulationNoDisplay(50000);
-//		runSumulationRandom(300000);
+//		runSimulationNoDisplay(50000);
+		runSumulationRandom(300000);
 //		runSpecificTest();
 		
 //		runTenpaiSimulation(500);
@@ -266,7 +264,8 @@ public class DemoHandGen {
 	public static Hand generateRandomHand(){
 		
 		Hand hand = new Hand();
-		ConviniList<GameTile> tiles = new ConviniList<GameTile>();
+		hand.setOwnerSeatWind(OWNER_SEAT);
+		GameTileList tiles = new GameTileList();
 		GameTile currentTile = null;
 		int id = 0;
 		int numMeldsMade = randGen.nextInt(3);

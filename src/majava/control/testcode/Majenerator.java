@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import majava.hand.AgariHand;
 import majava.hand.Hand;
 import majava.hand.Meld;
 import majava.RoundResult;
@@ -30,10 +31,12 @@ public class Majenerator {
 	private static final int NUM_TILES = 34;
 	private static final Random randGen = new Random();
 	
+	private static final Wind OWNER_WIND = Wind.SOUTH;
+	
 	
 	public static void main(String[] args){
 		
-		
+		generateAgariHand();
 //		println(generateRoundResult().toString());
 //		for (Yaku y: generateYakuList()) println(y.toString());
 	}
@@ -148,6 +151,41 @@ public class Majenerator {
 		
 		return winHand;
 	}
+	
+	
+	public static AgariHand generateAgariHand(final int howManyMelds){
+		final GameTileList winHand = new GameTileList();
+		final List<Meld> winMelds = new ArrayList<Meld>();
+		final Wind ownerWind = OWNER_WIND;
+		
+		generateWinningHandAndMelds(winHand, winMelds, howManyMelds);		
+
+		
+		Hand hand = new Hand();
+		//set owner wind for hand, tiles, and melds
+		hand.setOwnerSeatWind(ownerWind);
+		for (GameTile t: winHand) t.setOwner(ownerWind);
+		for (Meld m: winMelds) for (GameTile t: m) t.setOwner(ownerWind);
+		
+		//add tiles to hand, and melds to hand
+		for (GameTile t: winHand) hand.addTile(t);
+		for (Meld m: winMelds) hand.DEMOaddMeld(m);
+		
+		//set agarihai
+		GameTile agarihai = hand.removeTile(randGen.nextInt(hand.size()));		
+		if (randGen.nextBoolean()) agarihai.setOwner(ownerWind.kamichaWind());	//decide tsumo/ron
+		
+		AgariHand ah = new AgariHand(hand, agarihai);		
+		
+//		println(winHand.toString());
+//		println(winMelds.toString());
+//		println(hand.toString());		
+//		println("\n\n----uh here's agarihand" + ah.toString());
+		
+		return ah;
+	}
+	public static AgariHand generateAgariHand(){return generateAgariHand(randGen.nextInt(5));}
+	
 	
 	public static void generateWinningHandAndMelds(final GameTileList winHand, final List<Meld> winMelds, final int howManyMelds){
 		if (winHand == null || winMelds == null) return;

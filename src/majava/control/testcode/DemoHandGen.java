@@ -43,7 +43,7 @@ public class DemoHandGen {
 		
 //		runTenpaiSimulation(500);
 		
-		generateAgariHand();
+		generateSpecificAgariHand();
 		
 	}
 	
@@ -230,7 +230,7 @@ public class DemoHandGen {
 	
 	
 	
-	public static AgariHand generateAgariHand(){
+	public static AgariHand generateSpecificAgariHand(){
 		AgariHand ah = null;
 		GameTile agarihai = null;
 		

@@ -40,6 +40,8 @@ public class AgariHand extends Hand {
 		
 		return meldForm;
 	}
+	public GameTile getAgariHai(){return winningTile;}
+	
 	
 	@Override
 	public String toString(){

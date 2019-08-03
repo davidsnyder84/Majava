@@ -21,7 +21,7 @@ public enum MeldType {
 			}
 		}
 
-		public boolean isChi(){return (this == CHI || this == CHI_L || this == CHI_M || this == CHI_H);}
+		public boolean isChi(){return (this == CHI_L || this == CHI_M || this == CHI_H || this == CHI);}
 		public boolean isMulti(){return (this == PON || this == KAN || this == PAIR);}
 		
 		public boolean isPon(){return (this == PON);}

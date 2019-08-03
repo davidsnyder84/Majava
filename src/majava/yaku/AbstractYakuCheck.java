@@ -5,13 +5,25 @@ import majava.hand.Hand;
 import majava.util.YakuList;
 
 public abstract class AbstractYakuCheck {
+	
 	protected final AgariHand hand;
 	
 	public AbstractYakuCheck(AgariHand h){
 		hand = h;
 	}
 	
-	public abstract YakuList getElligibleYaku();
+	
+	
+	final public YakuList getElligibleYaku(){
+		final YakuList elligibleYakus = new YakuList();
+		
+		findElligibleYaku(elligibleYakus);
+		
+		return elligibleYakus;
+	}
+	
+	//the subclass should find elligible yaku, and store them in the list putElligibleYakuHere
+	public abstract void findElligibleYaku(final YakuList putElligibleYakuHere);
 	
 	
 	

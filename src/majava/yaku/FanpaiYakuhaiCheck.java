@@ -21,6 +21,8 @@ public class FanpaiYakuhaiCheck extends AbstractYakuCheck {
 		if(kazeIsValueable(NAN) && handHasPonOf(NAN)) putElligibleYakuHere.add(Yaku.YAKUHAI_WIND_SOUTH);
 		if(kazeIsValueable(SHA) && handHasPonOf(SHA)) putElligibleYakuHere.add(Yaku.YAKUHAI_WIND_WEST);
 		if(kazeIsValueable(PEI) && handHasPonOf(PEI)) putElligibleYakuHere.add(Yaku.YAKUHAI_WIND_NORTH);
+		
+		/////////////if it's both bakaze and jikaze, should it add the yaku twice?
 	}
 	
 	

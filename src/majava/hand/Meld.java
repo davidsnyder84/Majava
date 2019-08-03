@@ -124,9 +124,9 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	//returns true if the meld contains a 1 or 9
 	public boolean containsTerminal(){
 		for (GameTile t: this)
-			if (!t.isTerminal())
-				return false;		
-		return true;
+			if (t.isTerminal())
+				return true;
+		return false;
 	}
 	public boolean isHonorMeld(){return getFirstTile().isHonor();}
 	public boolean isDragonMeld(){return getFirstTile().isDragon();}

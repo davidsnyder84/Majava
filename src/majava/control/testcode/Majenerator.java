@@ -46,7 +46,18 @@ public class Majenerator {
 	
 
 	
-	
+	public static AgariHand agariHandFromIDs(int... ids){
+		Hand hand = new Hand();
+		for (int id: ids) hand.addTile(id);
+		hand.setOwnerSeatWind(OWNER_WIND);
+		hand.sort();
+		GameTile agarihai = hand.removeTile(hand.size()-1);
+		
+//		agarihai.setOwner(OWNER_WIND.kamichaWind());
+		
+		AgariHand ah = new AgariHand(hand, agarihai);
+		return ah;
+	}
 	
 	
 	

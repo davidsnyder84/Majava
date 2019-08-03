@@ -5,7 +5,12 @@ import java.util.List;
 
 import majava.enums.MeldType;
 import majava.hand.AgariHand;
-import majava.yaku.ToitoiCheck;
+import majava.util.YakuList;
+import majava.yaku.KotsuYakuCheck;
+import majava.yaku.MenzenTsumoCheck;
+import majava.yaku.TerminalHonorYakuCheck;
+import majava.yaku.Yaku;
+import majava.yaku.YakuAnalyzer;
 
 public class YakuTester {
 	
@@ -15,32 +20,69 @@ public class YakuTester {
 //		showMeManyAgariHands();
 		
 		
-		println(toitoiTester()+"");
+//		println(toitoiTester()+"");
 //		toitoiTesterSpecific();
 		
+		
+		showMeSomeYakuLists();
+//		chantaTestSpecific();
+		
+		
+		
+		
+		
+		
+		println("done");
 	}
 	
 	
 	
 	
+	public static void showMeSomeYakuLists(){
+		List<AgariHand> hands = generateManyAgariHands(10000);
+		for (AgariHand h: hands){
+			YakuAnalyzer yakuAnalyzer = new YakuAnalyzer(h);
+			YakuList yl = yakuAnalyzer.getAllElligibleYaku();
+//			yl.remove(Yaku.MENZEN_TSUMO);
+			yl.removeAll(easyyaku);
+			yl.removeAll(probablyEasyyaku);
+			if (!yl.isEmpty())
+				println(h.toString() + yl.toString() +"--------------\n\n\n");
+//			println(h.toString());
+		}
+			
+	}
+	
+	static YakuList easyyaku = new YakuList(Yaku.YAKUHAI_DRAGON_CHUN, Yaku.YAKUHAI_DRAGON_HAKU, Yaku.YAKUHAI_DRAGON_HATSU, Yaku.YAKUHAI_WIND_SOUTH, Yaku.TANYAO, Yaku.CHIITOITSU, Yaku.YKM_KOKUSHI);
+	static YakuList probablyEasyyaku = new YakuList(Yaku.SANANKOU, Yaku.YKM_SUUANKOU, Yaku.HONITSU, Yaku.CHINITSU, Yaku.TOITOI, Yaku.SANKANTSU, Yaku.YKM_SUUKANTSU, Yaku.YKM_RYUUIISOU, Yaku.SHOUSANGEN, Yaku.YKM_DAISANGEN);
 	
 	
 	
 	
-	
+	public static void chantaTestSpecific(){
+		AgariHand hand = Majenerator.agariHandFromIDs(1,2,3,  7,8,9,  9+1,9+2,9+3,  29,29,29,  34,34);
+		
+//		println(hand.toString());
+		TerminalHonorYakuCheck chantaChecker = new TerminalHonorYakuCheck(hand);
+		println(chantaChecker.handIsChanta()+"");
+		chantaChecker.handIsChanta();
+		println(chantaChecker.getElligibleYaku().toString());
+		
+		println((new MenzenTsumoCheck(hand)).getElligibleYaku().toString());
+	}
 	
 	
 	
 	public static void toitoiTesterSpecific(){
 		AgariHand ah = YakuGenerator.generateToitoiHandSpecific();
-		ToitoiCheck checker = new ToitoiCheck(ah);
+		KotsuYakuCheck checker = new KotsuYakuCheck(ah);
 		
 		println(ah.toString() + checker.getElligibleYaku().toString());
 	}
 	
 	
 	public static boolean toitoiTester(){
-		int trials = 500;
+		int trials = 50000;
 		List<AgariHand> falseNegatives = new ArrayList<AgariHand>();
 		List<AgariHand> falsePositives = new ArrayList<AgariHand>();
 		
@@ -49,7 +91,7 @@ public class YakuTester {
 		
 		for (int i=0; i<trials; i++){
 			AgariHand ah = Majenerator.generateAgariHandOnlyPonkan();
-			ToitoiCheck checker = new ToitoiCheck(ah);
+			KotsuYakuCheck checker = new KotsuYakuCheck(ah);
 //			println(ah.toString() + checker.calculateElligibleYaku().toString());
 			
 			if (!checker.handIsToitoi()) falseNegatives.add(ah);
@@ -57,7 +99,7 @@ public class YakuTester {
 		
 		for (int i=0; i<trials; i++){
 			AgariHand ah = Majenerator.generateAgariHandOnlyChi();
-			ToitoiCheck checker = new ToitoiCheck(ah);
+			KotsuYakuCheck checker = new KotsuYakuCheck(ah);
 //			println(ah.toString() + checker.calculateElligibleYaku().toString());
 			
 			if (checker.handIsToitoi()) falsePositives.add(ah);

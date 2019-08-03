@@ -32,6 +32,15 @@ public class AgariHand extends Hand {
 	
 	
 	
+	
+	@Override
+	public boolean isClosed(){	//need to override, because the final ronned meld will be open
+		for (Meld m: getMeldForm()) if (m.isOpen()) return false;
+		return true;
+	}
+	
+	
+	
 	public List<Meld> getMeldForm(){
 		List<Meld> meldForm = new ArrayList<Meld>();
 		//add existing melds, then add finishing melds

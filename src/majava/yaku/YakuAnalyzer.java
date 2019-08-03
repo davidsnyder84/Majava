@@ -14,18 +14,24 @@ public class YakuAnalyzer {
 	private final AgariHand hand;
 	private final RoundResult roundResult;
 	
-	private final List<AbstractYakuCheck> checks;
+	private final List<AbstractYakuCheck> yakuChecks;
 	
 	
 	public YakuAnalyzer(Hand receivedHand, RoundResult result){
 		roundResult = result;
 		hand = new AgariHand(receivedHand, roundResult.getWinningTile());		
 		
-		checks = new ArrayList<AbstractYakuCheck>();
-		makeCheckers();
+		yakuChecks = makeCheckers();
+	}
+	public YakuAnalyzer(AgariHand receivedAgariHand){
+		hand = receivedAgariHand;
+		roundResult = null;
+		
+		yakuChecks = makeCheckers();
 	}
 	
-	private void makeCheckers(){
+	private List<AbstractYakuCheck> makeCheckers(){
+		ArrayList<AbstractYakuCheck> checks = new ArrayList<AbstractYakuCheck>();
 		
 		checks.add(new TerminalHonorYakuCheck(hand));
 		checks.add(new KotsuYakuCheck(hand));
@@ -54,15 +60,21 @@ public class YakuAnalyzer {
 		checks.add(new PeikouCheck(hand));
 		checks.add(new PinfuCheck(hand));
 		checks.add(new SanshokuDoujunCheck(hand));
+		
+		return checks;
 	}
 	
 	
 	public YakuList getAllElligibleYaku(){
 		YakuList elligibleYakus = new YakuList();
-		for (AbstractYakuCheck checker: checks)
+		for (AbstractYakuCheck checker: yakuChecks)
 			elligibleYakus.addAll(checker.getElligibleYaku());
+		
+		elligibleYakus.removeSmallFry();
 		
 		return elligibleYakus;
 	}
 	
+	
+	public String toString(){return getAllElligibleYaku().toString();}
 }

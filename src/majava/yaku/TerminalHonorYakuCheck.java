@@ -47,7 +47,8 @@ public class TerminalHonorYakuCheck extends AbstractYakuCheck {
 	//hand contains no terminals
 	public boolean handIsTanyao(){
 		for (GameTile t: handInTilesForm())
-			if (t.isTanyao()) return false;
+			if (!t.isTanyao())
+				return false;
 		
 		return true;
 	}
@@ -55,6 +56,8 @@ public class TerminalHonorYakuCheck extends AbstractYakuCheck {
 	
 	//contains terminal or honor in each meld
 	public boolean handIsChanta(){
+		if (handIsKokushiOrChiitoi()) return false;
+		
 		for (Meld m: handInMeldForm())
 			if (!(m.containsTerminal() || m.isHonorMeld()))
 				return false;
@@ -66,6 +69,8 @@ public class TerminalHonorYakuCheck extends AbstractYakuCheck {
 	
 	//contains terminal in each meld
 	public boolean handIsJunchan(){
+		if (handIsKokushiOrChiitoi()) return false;
+		
 		for (Meld m: handInMeldForm())
 			if (!m.containsTerminal())
 				return false;

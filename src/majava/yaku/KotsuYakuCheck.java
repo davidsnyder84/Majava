@@ -35,6 +35,8 @@ public class KotsuYakuCheck extends AbstractYakuCheck {
 	
 	//no melds are chi (all are pon/kan)
 	public boolean handIsToitoi(){
+		if (handIsKokushiOrChiitoi()) return false;
+		
 		for (Meld m: handInMeldForm())
 			if (m.isChi())
 				return false;

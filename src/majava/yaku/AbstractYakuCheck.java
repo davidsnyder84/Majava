@@ -34,7 +34,8 @@ public abstract class AbstractYakuCheck {
 	
 	protected Hand getHand(){return hand;}
 	protected int handSize(){return hand.size();}
-	protected int numberOfMeldsMade(){return hand.numberOfMeldsMade();}
+	
+	protected boolean handIsKokushiOrChiitoi(){return hand.isCompleteKokushi() || hand.isCompleteChiitoitsu();}
 	
 	protected GameTileList handInTilesForm(){return hand.getTilesAsListIncludingMeldTiles();}
 	protected List<Meld> handInMeldForm(){return hand.getMeldForm();}

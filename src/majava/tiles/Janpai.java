@@ -38,6 +38,7 @@ public class Janpai implements TileInterface{
 	public static final int NUMBER_OF_DIFFERENT_TILES = 34;
 	public static final int NUMBER_OF_YAOCHUU_TILES = 13;
 	private static final int ID_FIRST_HONOR_TILE = 28;
+	private static final int ID_FIRST_WIND_TILE = 28, ID_LAST_WIND_TILE = 31, ID_FIRST_DRAGON_TILE = 32, ID_LAST_DRAGON_TILE = 34;
 	
 	
 	private static final TileInterface[] yaochuuTiles = {tiles[1], tiles[9], tiles[10], tiles[18], tiles[19], tiles[27], tiles[28], tiles[29], tiles[30], tiles[31], tiles[32], tiles[33], tiles[34]};
@@ -78,6 +79,8 @@ public class Janpai implements TileInterface{
 	final public boolean isTanyao(){return !isYaochuu();}
 	final public boolean isYaochuu(){return (isHonor() || isTerminal());}
 	final public boolean isHonor(){return (tileID >= ID_FIRST_HONOR_TILE);}
+	final public boolean isWind(){return (tileID >= ID_FIRST_WIND_TILE && tileID <= ID_LAST_WIND_TILE);}
+	final public boolean isDragon(){return (tileID >= ID_FIRST_DRAGON_TILE);}
 	final public boolean isTerminal(){return (face == '1' || face == '9');}
 	
 	

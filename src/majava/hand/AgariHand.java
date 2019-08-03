@@ -41,6 +41,11 @@ public class AgariHand extends Hand {
 		return meldForm;
 	}
 	public GameTile getAgariHai(){return winningTile;}
+	public Meld getPair(){
+		for (Meld m: getMeldForm())
+			if (m.isPair()) return m.clone();
+		return null;
+	}
 	
 	
 	@Override

@@ -1,6 +1,8 @@
 package majava.yaku;
 
+import majava.enums.Suit;
 import majava.hand.AgariHand;
+import majava.hand.Meld;
 import majava.util.YakuList;
 
 public class LimitDaisuushiCheck extends AbstractYakuCheck {
@@ -10,21 +12,39 @@ public class LimitDaisuushiCheck extends AbstractYakuCheck {
 	
 	@Override
 	public void findElligibleYaku(final YakuList putElligibleYakuHere){
-		if(handIs())
-			putElligibleYakuHere.add(Yaku.NAGASHI_MANGAN);
 		
+		if(handIsDaisuushi())
+			putElligibleYakuHere.add(Yaku.YKM_DAISHUUSHII);
 		
+		if(handIsShousuushi())
+			putElligibleYakuHere.add(Yaku.YKM_SHOUSHUUSHII);
+		
+
+		//note: Daisuushi and Shousuushi will never overlap with eachother
 	}
 	
 	
 	
 	
-	
-	public boolean handIs(){
-		
-		
-		
-		return false;
+	public boolean handIsDaisuushi(){
+		return (numberOfWindPons() == 4);
+	}
+	public boolean handIsShousuushi(){
+		return (numberOfWindPons() == 3) && pairIsWind();
 	}
 	
+	
+	
+	
+	private int numberOfWindPons(){
+		int numWindPons = 0;
+		for (Meld m: handInMeldForm())
+			if (meldIsWind(m) && (m.isPon() || m.isKan()) ) numWindPons++;
+		return numWindPons;
+	}
+	private boolean pairIsWind(){return meldIsWind(hand.getPair());}
+	
+	private boolean meldIsWind(Meld m){
+		return (m.getFirstTile().getSuit() == Suit.WIND.toChar());
+	}
 }

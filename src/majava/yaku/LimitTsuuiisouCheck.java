@@ -1,6 +1,7 @@
 package majava.yaku;
 
 import majava.hand.AgariHand;
+import majava.tiles.GameTile;
 import majava.util.YakuList;
 
 public class LimitTsuuiisouCheck extends AbstractYakuCheck {
@@ -10,21 +11,21 @@ public class LimitTsuuiisouCheck extends AbstractYakuCheck {
 	
 	@Override
 	public void findElligibleYaku(final YakuList putElligibleYakuHere){
-		if(handIs())
-			putElligibleYakuHere.add(Yaku.NAGASHI_MANGAN);
 		
-		
+		if(handIsTsuuiisou())
+			putElligibleYakuHere.add(Yaku.YKM_TSUUIISOU);
 	}
 	
 	
 	
 	
-	
-	public boolean handIs(){
+	//hand contains only honoes
+	public boolean handIsTsuuiisou(){
+		for (GameTile t: handInTilesForm())
+			if (!t.isHonor())
+				return false;
 		
-		
-		
-		return false;
+		return true;
 	}
 	
 }

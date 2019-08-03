@@ -279,7 +279,7 @@ public class Player {
 	public List<Meld> getMelds(){return hand.getMelds();}
 	
 	
-	public int getNumKansMade(){return hand.getNumKansMade();}
+	public int getNumKansMade(){return hand.numberOfKansMade();}
 	public boolean hasMadeAKan(){return (getNumKansMade() != 0);}
 	
 	

@@ -44,7 +44,6 @@ public class YakuAnalyzer {
 		checks.add(new LimitNanAnkouCheck(hand));
 		checks.add(new LimitNanKantsuCheck(hand));
 		checks.add(new LimitRyuuiisouCheck(hand));
-		checks.add(new LimitSuukantsuCheck(hand));
 		checks.add(new LimitTenhouCheck(hand));
 		checks.add(new LimitTsuuiisouCheck(hand));
 		checks.add(new MenzenTsumoCheck(hand));

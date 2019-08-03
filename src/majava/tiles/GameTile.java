@@ -40,6 +40,8 @@ public class GameTile implements Cloneable, TileInterface {
 	final public boolean isTanyao(){return !isYaochuu();}
 	final public boolean isYaochuu(){return baseTile.isYaochuu();}
 	final public boolean isHonor(){return baseTile.isHonor();}
+	final public boolean isWind(){return baseTile.isWind();}
+	final public boolean isDragon(){return baseTile.isDragon();}
 	final public boolean isTerminal(){return baseTile.isTerminal();}
 
 	final public Janpai getTileBase(){return baseTile;}

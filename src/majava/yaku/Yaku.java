@@ -13,7 +13,7 @@ public enum Yaku {
 	RIICHI_DOUBLE("Double Riichi", 2, Yaku.value_FORBID_OPEN),
 	RIICHI_IPPATSU("Ippatsu", 1, Yaku.value_FORBID_OPEN),
 	
-	TSUMO("Tsumo", 1, Yaku.value_FORBID_OPEN),
+	MENZEN_TSUMO("Tsumo", 1, Yaku.value_FORBID_OPEN),
 	HAITEI("Haitei Raoyue", 1),
 	HOITEI("Houtei Raoyui", 1),
 	RINSHAN("Rinshan Kaihou", 1),

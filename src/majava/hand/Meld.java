@@ -109,15 +109,28 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	public GameTile getFirstTile(){return meldTiles.get(0);}
 	public GameTileList getAllTiles(){return meldTiles.clone();}
 	public int size(){return meldTiles.size();}
+	public boolean contains(GameTile tile){return meldTiles.contains(tile);}
+	public boolean contains(int tileID){return meldTiles.contains(tileID);}
 	
 	
 	public boolean isChi(){return meldType.isChi();}
 	public boolean isPon(){return meldType.isPon();}
 	public boolean isKan(){return meldType.isKan();}
 	public boolean isPair(){return meldType.isPair();}
-	public boolean isMulti(){return meldType.isMulti();}
+	public boolean isMulti(){return meldType.isMulti();}	//pair/pon/kan
+	public boolean isPonkon(){return (isPon() || isKan());}	//pon/kan only
 	public MeldType getMeldType(){return meldType;}
 	
+	//returns true if the meld contains a 1 or 9
+	public boolean containsTerminal(){
+		for (GameTile t: this)
+			if (!t.isTerminal())
+				return false;		
+		return true;
+	}
+	public boolean isHonorMeld(){return getFirstTile().isHonor();}
+	public boolean isDragonMeld(){return getFirstTile().isDragon();}
+	public boolean isWindMeld(){return getFirstTile().isWind();}
 	
 	
 	

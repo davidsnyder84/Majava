@@ -19,7 +19,6 @@ public class ToitoiCheck extends AbstractYakuCheck {
 	
 	//conditions: 5 melds (1 is pair), none are chi (all are pon/kan)
 	public boolean handIsToitoi(){
-//		if (melds.size() != 5) return false;
 		for (Meld m: handInMeldForm())
 			if (m.isChi()) return false;
 		

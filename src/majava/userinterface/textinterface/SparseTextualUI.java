@@ -140,7 +140,7 @@ public class SparseTextualUI extends TextualUI{
 			winningTile = resum.getWinningTile();
 			
 			//***panel/list of yaku
-			yakuList = new YakuList(Yaku.RIICHI, Yaku.RIICHI_IPPATSU, Yaku.TSUMO, Yaku.DORA);
+			yakuList = new YakuList(Yaku.RIICHI, Yaku.RIICHI_IPPATSU, Yaku.MENZEN_TSUMO, Yaku.DORA);
 			yakuWorth = yakuList.totalHan();
 			
 			//***hand score label

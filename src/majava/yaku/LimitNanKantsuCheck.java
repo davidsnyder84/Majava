@@ -10,21 +10,17 @@ public class LimitNanKantsuCheck extends AbstractYakuCheck {
 	
 	@Override
 	public void findElligibleYaku(final YakuList putElligibleYakuHere){
-		if(handIs())
-			putElligibleYakuHere.add(Yaku.NAGASHI_MANGAN);
+
+		if(handIsSuukantsu())
+			putElligibleYakuHere.add(Yaku.YKM_SUUKANTSU);
 		
+		if(handIsSankantsu())
+			putElligibleYakuHere.add(Yaku.SANKANTSU);
 		
+		//will not overlap
 	}
 	
 	
-	
-	
-	
-	public boolean handIs(){
-		
-		
-		
-		return false;
-	}
-	
+	public boolean handIsSuukantsu(){return hand.numberOfKansMade() == 4;}
+	public boolean handIsSankantsu(){return hand.numberOfKansMade() == 3;}
 }

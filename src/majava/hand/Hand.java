@@ -105,10 +105,10 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	public int numberOfMeldsMade(){return melds.size();}
 	public boolean isFull(){return (size() % 3) == (MAX_HAND_SIZE % 3);}
 	
-	public int getNumKansMade(){
-		int count = 0;
-		for (Meld m: melds) if (m.isKan()) count++;
-		return count;
+	public int numberOfKansMade(){
+		int numKans = 0;
+		for (Meld m: melds) if (m.isKan()) numKans++;
+		return numKans;
 	}
 	
 	public Wind getOwnerSeatWind(){return ownerWind;}

@@ -10,21 +10,16 @@ public class MenzenTsumoCheck extends AbstractYakuCheck {
 	
 	@Override
 	public void findElligibleYaku(final YakuList putElligibleYakuHere){
-		if(handIs())
-			putElligibleYakuHere.add(Yaku.NAGASHI_MANGAN);
-		
-		
+		if(handIsClosed())
+			putElligibleYakuHere.add(Yaku.MENZEN_TSUMO);
 	}
 	
 	
 	
 	
-	
-	public boolean handIs(){
-		
-		
-		
-		return false;
+	//hand is closed implies tsumo victory, so isClosed should be sufficient
+	public boolean handIsClosed(){
+		return hand.isClosed();
 	}
 	
 }

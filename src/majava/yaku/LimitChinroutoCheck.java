@@ -1,6 +1,7 @@
 package majava.yaku;
 
 import majava.hand.AgariHand;
+import majava.tiles.GameTile;
 import majava.util.YakuList;
 
 public class LimitChinroutoCheck extends AbstractYakuCheck {
@@ -10,21 +11,22 @@ public class LimitChinroutoCheck extends AbstractYakuCheck {
 	
 	@Override
 	public void findElligibleYaku(final YakuList putElligibleYakuHere){
-		if(handIs())
-			putElligibleYakuHere.add(Yaku.NAGASHI_MANGAN);
 		
-		
+		if(handIsChinrouto())
+			putElligibleYakuHere.add(Yaku.YKM_CHINROUTO);
 	}
 	
 	
 	
 	
 	
-	public boolean handIs(){
+	//hand is all terminals
+	public boolean handIsChinrouto(){		
+		for (GameTile t: handInTilesForm())
+			if (!t.isTerminal())
+				return false;
 		
-		
-		
-		return false;
+		return true;
 	}
 	
 }

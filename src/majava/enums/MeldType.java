@@ -4,6 +4,7 @@ package majava.enums;
 //represents a type of meld (chi, pon, kan, pair)
 public enum MeldType {
 		NONE, PON, KAN, PAIR, CHI, CHI_L, CHI_M, CHI_H;
+		//note: CHI enum is currently used by no one
 		
 		@Override
 		public String toString(){

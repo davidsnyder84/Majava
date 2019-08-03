@@ -39,12 +39,9 @@ public class LimitDaisuushiCheck extends AbstractYakuCheck {
 	private int numberOfWindPons(){
 		int numWindPons = 0;
 		for (Meld m: handInMeldForm())
-			if (meldIsWind(m) && (m.isPon() || m.isKan()) ) numWindPons++;
+			if (m.isWindMeld() && m.isPonKan()) numWindPons++;
 		return numWindPons;
 	}
-	private boolean pairIsWind(){return meldIsWind(hand.getPair());}
+	private boolean pairIsWind(){return hand.getPair().isWindMeld();}
 	
-	private boolean meldIsWind(Meld m){
-		return (m.getFirstTile().getSuit() == Suit.WIND.toChar());
-	}
 }

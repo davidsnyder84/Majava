@@ -1,6 +1,5 @@
 package majava.yaku;
 
-import majava.enums.Suit;
 import majava.hand.AgariHand;
 import majava.hand.Meld;
 import majava.util.YakuList;
@@ -35,13 +34,9 @@ public class LimitDaisangenCheck extends AbstractYakuCheck {
 	private int numberOfDragonPons(){
 		int numDragonPons = 0;
 		for (Meld m: handInMeldForm())
-			if (m.isDragonMeld() && m.isPonkon()) numDragonPons++;
+			if (m.isDragonMeld() && m.isPonKan()) numDragonPons++;
 		return numDragonPons;
 	}
-	private boolean pairIsDragon(){return meldIsDragon(hand.getPair());}
-	
-	private boolean meldIsDragon(Meld m){
-		return (m.getFirstTile().getSuit() == Suit.DRAGON.toChar());
-	}
+	private boolean pairIsDragon(){return hand.getPair().isDragonMeld();}
 	
 }

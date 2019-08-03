@@ -118,7 +118,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	public boolean isKan(){return meldType.isKan();}
 	public boolean isPair(){return meldType.isPair();}
 	public boolean isMulti(){return meldType.isMulti();}	//pair/pon/kan
-	public boolean isPonkon(){return (isPon() || isKan());}	//pon/kan only
+	public boolean isPonKan(){return (isPon() || isKan());}	//pon/kan only
 	public MeldType getMeldType(){return meldType;}
 	
 	//returns true if the meld contains a 1 or 9

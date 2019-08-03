@@ -1,6 +1,7 @@
 package majava.yaku;
 
 import majava.hand.AgariHand;
+import majava.hand.Meld;
 import majava.util.YakuList;
 
 public class JunchanCheck extends AbstractYakuCheck {
@@ -10,21 +11,23 @@ public class JunchanCheck extends AbstractYakuCheck {
 	
 	@Override
 	public void findElligibleYaku(final YakuList putElligibleYakuHere){
-		if(handIs())
-			putElligibleYakuHere.add(Yaku.NAGASHI_MANGAN);
 		
+		if(handIsJunchan())
+			putElligibleYakuHere.add(Yaku.JUNCHAN);
 		
+		//overlap with yakuman, but it doesn't matter
 	}
 	
 	
 	
 	
-	
-	public boolean handIs(){
+	//contains terminal in each meld
+	public boolean handIsJunchan(){
+		for (Meld m: handInMeldForm())
+			if (!m.containsTerminal())
+				return false;
 		
-		
-		
-		return false;
+		return true;
 	}
 	
 }

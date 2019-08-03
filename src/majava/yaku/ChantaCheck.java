@@ -1,6 +1,7 @@
 package majava.yaku;
 
 import majava.hand.AgariHand;
+import majava.hand.Meld;
 import majava.util.YakuList;
 
 public class ChantaCheck extends AbstractYakuCheck {
@@ -10,21 +11,26 @@ public class ChantaCheck extends AbstractYakuCheck {
 	
 	@Override
 	public void findElligibleYaku(final YakuList putElligibleYakuHere){
-		if(handIs())
-			putElligibleYakuHere.add(Yaku.NAGASHI_MANGAN);
 		
+		if(handIsChanta())
+			putElligibleYakuHere.add(Yaku.CHANTA);
 		
+		//will overlap with honrouto
+		//will overlap with honrouto
+		//will overlap with honrouto
+		//will overlap with honrouto
 	}
 	
 	
 	
 	
 	
-	public boolean handIs(){
+	public boolean handIsChanta(){
+		for (Meld m: handInMeldForm())
+			if (!(m.containsTerminal() || m.isHonorMeld()))
+				return false;
 		
-		
-		
-		return false;
+		return true;
 	}
 	
 }

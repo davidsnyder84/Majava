@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -92,81 +91,36 @@ public class ResultPanel extends JPanel{
 	public void showResult(RoundResultSummary resultSummary){
 		blankEverything();
 		
-		//for all
-		String resultLabel = null;
-		PaymentMap payments = null;
-		//for win
-		PlayerSummary winner = null, furikondaPlayer = null;
-		GameTileList winnerHandTiles = null; List<Meld> winnerMelds = null; GameTile winningTile = null;
-		YakuList yakuList = null; int yakuWorth = 1; int handScore = 0;
-		
-		//***result label (Player 1 wins! / Ryuukyoku / etc)
-		resultLabel = resultSummary.getAsStringResultType();
-		
-		//***payments per player panel
-		payments = resultSummary.getPayments();
-		
-		
-		if (resultSummary.isVictory()){
-			winner = resultSummary.getWinningPlayer();
-			furikondaPlayer = resultSummary.getFurikondaPlayer();
-			
-			//***winning hand/melds panel
-			winnerHandTiles = resultSummary.getWinnerHandTiles();	
-			winnerMelds = resultSummary.getWinnerMelds();
-			winningTile = resultSummary.getWinningTile();
-			
-			//***panel/list of yaku
-			yakuList = Majenerator.generateYakuList();	/////////////////////YAKU HERE
-			yakuWorth = yakuList.totalHan();
-			
-			//***hand score label
-			handScore = payments.get(winner);
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		//reuslt label
+		//reuslt label (Player 1 wins! / Ryuukyoku / etc)
 		resultLabelPanel.setVisible(true);
-		resultLabelPanel.getLabelResult().setText(resultLabel);
+		resultLabelPanel.getLabelResult().setText(resultSummary.getAsStringResultType());
 		
 		//payments
 		paymentsPanel.setVisible(true);
-		paymentsPanel.setPayments(payments);
-		
+		paymentsPanel.setPayments(resultSummary.getPayments());
 		
 		
 		if (resultSummary.isVictory()){
 			winnerPanel.setVisible(true);
 			
 			//winning hand
-			int currentTile = 0, currentMeld = 0;
-			for (currentTile = 0; currentTile < winnerHandTiles.size(); currentTile++)
-				winnerPanel.panelHandAndMelds.panelH.larryH[currentTile].setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/" + winnerHandTiles.get(currentTile).getId() + ".png")));
-			
-			//winning melds
-			for (currentMeld = 0; currentMeld < winnerMelds.size(); currentMeld++)
-				for (currentTile = 0; currentTile < winnerMelds.get(currentMeld).size(); currentTile++)
-					winnerPanel.panelHandAndMelds.panelMs.panelHMs[currentMeld].larryHM[currentTile].setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/small/" + winnerMelds.get(currentMeld).getTile(currentTile).getId() + ".png")));
+			GameTileList winnerHandTiles = resultSummary.getWinnerHandTiles();
+			for (int currentTile = 0; currentTile < winnerHandTiles.size(); currentTile++)
+				winnerPanel.panelHandAndMelds.panelH.larryH[currentTile].setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/" + winnerHandTiles.get(currentTile).getId() + ".png")));			
 			
 			//winning tile
-			winnerPanel.panelWinningTile.lblTile.setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/" + winningTile.getId() + ".png")));
+			winnerPanel.panelWinningTile.lblTile.setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/" + resultSummary.getWinningTile().getId() + ".png")));
 			winnerPanel.setNumberOfHandTiles(winnerHandTiles.size());
 			
-			//yaku list
+			//winner's melds
+			List<Meld> winnerMelds = resultSummary.getWinnerMelds();
+			for (int currentMeld = 0; currentMeld < winnerMelds.size(); currentMeld++)
+				for (int currentTile = 0; currentTile < winnerMelds.get(currentMeld).size(); currentTile++)
+					winnerPanel.panelHandAndMelds.panelMs.panelHMs[currentMeld].larryHM[currentTile].setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/small/" + winnerMelds.get(currentMeld).getTile(currentTile).getId() + ".png")));
+			
+			
 			yakuPanel.setVisible(true);
-			yakuPanel.setYaku(yakuList);
+			yakuPanel.setYaku(Majenerator.generateYakuList());	///////////////demo
 		}
 		
 	}
@@ -184,9 +138,8 @@ public class ResultPanel extends JPanel{
 		yakuPanel.setVisible(false);
 	}
 	
-	
 	/*
-	I need this
+	This is what the result panel should show:
 	
 	***result label (Player 1 wins! / Ryuukyoku / etc)
 	
@@ -195,7 +148,7 @@ public class ResultPanel extends JPanel{
 	
 	***panel/list of yaku
 	
-	***hand score label
+	***hand score label ////////////////////////////not implemnted yet
 	
 	***payments per player panel
 		*wind
@@ -204,8 +157,9 @@ public class ResultPanel extends JPanel{
 		*payment amount
 	
 	
-	ok button
+	ok button (go to next round)
 	*/
+	
 	
 	
 	

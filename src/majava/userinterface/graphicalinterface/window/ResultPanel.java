@@ -89,32 +89,32 @@ public class ResultPanel extends JPanel{
 	
 	
 	
-	public void showResult(RoundResultSummary resum){
+	public void showResult(RoundResultSummary resultSummary){
 		blankEverything();
 		
 		//for all
 		String resultLabel = null;
 		PaymentMap payments = null;
 		//for win
-		PlayerSummary winner = null, furikon = null;
+		PlayerSummary winner = null, furikondaPlayer = null;
 		GameTileList winnerHandTiles = null; List<Meld> winnerMelds = null; GameTile winningTile = null;
 		YakuList yakuList = null; int yakuWorth = 1; int handScore = 0;
 		
 		//***result label (Player 1 wins! / Ryuukyoku / etc)
-		resultLabel = resum.getAsStringResultType();
+		resultLabel = resultSummary.getAsStringResultType();
 		
 		//***payments per player panel
-		payments = resum.getPayments();
+		payments = resultSummary.getPayments();
 		
 		
-		if (resum.isVictory()){
-			winner = resum.getWinningPlayer();
-			furikon = resum.getFurikondaPlayer();
+		if (resultSummary.isVictory()){
+			winner = resultSummary.getWinningPlayer();
+			furikondaPlayer = resultSummary.getFurikondaPlayer();
 			
 			//***winning hand/melds panel
-			winnerHandTiles = resum.getWinnerHandTiles();	
-			winnerMelds = resum.getWinnerMelds();
-			winningTile = resum.getWinningTile();
+			winnerHandTiles = resultSummary.getWinnerHandTiles();	
+			winnerMelds = resultSummary.getWinnerMelds();
+			winningTile = resultSummary.getWinningTile();
 			
 			//***panel/list of yaku
 			yakuList = Majenerator.generateYakuList();	/////////////////////YAKU HERE
@@ -147,7 +147,7 @@ public class ResultPanel extends JPanel{
 		
 		
 		
-		if (resum.isVictory()){
+		if (resultSummary.isVictory()){
 			winnerPanel.setVisible(true);
 			
 			//winning hand
@@ -459,7 +459,7 @@ public class ResultPanel extends JPanel{
 	
 	
 	public static void main(String[] args) {showDemo(new ResultPanel());}
-	public static void showDemo(final ResultPanel resPan){
+	public static void showDemo(final ResultPanel demoResultPanel){
 		
 		final int WINDOW_WIDTH = 1120 + (-62*2 - 6) + 2*2;
 		final int WINDOW_HEIGHT = 726 + 6 + (-62*2 + 25 + 18) + 26 + 23;
@@ -472,15 +472,15 @@ public class ResultPanel extends JPanel{
 		frame.setContentPane(contentPane);
 		
 		
-		resPan.setLocation(57,75);
-		contentPane.add(resPan);
+		demoResultPanel.setLocation(57,75);
+		contentPane.add(demoResultPanel);
 		
 		
 		
 		final JButton btnRandAll = new JButton("Rand"); btnRandAll.setBounds(700, 10, 65, 23);
 		btnRandAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				resPan.showResult(Majenerator.generateRoundResultSummary());
+				demoResultPanel.showResult(Majenerator.generateRoundResultSummary());
 				frame.repaint();
 			}
 		});

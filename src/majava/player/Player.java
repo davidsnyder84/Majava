@@ -126,6 +126,7 @@ public class Player {
 	public Pond getPond(){return pond.clone();}
 	
 	public GameTile getLastDiscard(){return lastDiscard;}
+	public Hand getHand(){return hand.clone();}
 	
 	
 	public boolean turnActionMadeKan(){return (turnActionMadeAnkan() || turnActionMadeMinkan());}
@@ -379,8 +380,6 @@ public class Player {
 
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand (for debug use)
 	public void addTileToHand(int tileID){addTileToHand(new GameTile(tileID));}
-	
-	public Hand DEMOgetHand(){return hand;}
 	////xxxxxxxxxxxxxEND DEMO METHODS
 	
 	

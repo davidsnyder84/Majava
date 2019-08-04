@@ -76,16 +76,14 @@ public final class StateOfGame {
 	private static final class PlayerTracker{
 		
 		public final Player player;
-		public final Hand hand;
 		
 		public PlayerTracker(Player p){
 			player = p;
-			hand = player.DEMOgetHand();/////////
 		}
 
 		//all of these are clones
 		//this is normally hidden information
-		public GameTileList handTiles(){return hand.getTilesAsList();}
+		public GameTileList handTiles(){return player.getHand().getTilesAsList();}
 		public String getHandAsString(){return player.getAsStringHand();}
 		public String getHandAsStringCompact(){return player.getAsStringHandCompact();}
 		public GameTile getTsumoTile(){return player.getTsumoTile();}

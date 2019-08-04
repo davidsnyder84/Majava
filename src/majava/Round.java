@@ -213,7 +213,7 @@ public class Round{
 	
 	private void setResultVictory(Player winner){
 		GameTile winningTile = null;
-		GameTileList winningHandTiles = winner.DEMOgetHand().getTilesAsList();	/////Need this for now, will make more elegant later
+		GameTileList winningHandTiles = winner.getHand().getTilesAsList();
 		
 		if (winner == currentPlayer()){
 			roundResult.setVictoryTsumo(winner);			
@@ -224,7 +224,7 @@ public class Round{
 			roundResult.setVictoryRon(winner, currentPlayer());			
 			winningTile = mostRecentDiscard();
 		}
-		roundResult.setWinningHand(winningHandTiles, winner.DEMOgetHand().getMelds(), winningTile);
+		roundResult.setWinningHand(winningHandTiles, winner.getHand().getMelds(), winningTile);
 	}
 	
 	private boolean wallIsEmpty(){return wall.isEmpty();}

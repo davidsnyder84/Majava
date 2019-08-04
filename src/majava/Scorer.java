@@ -105,10 +105,10 @@ public class Scorer {
 	public void printWinningYaku() {
 		if (!roundResult.isVictory()) return;
 		
-		AgariHand agariHand = new AgariHand(roundResult.getWinningPlayer().DEMOgetHand(), roundResult.getWinningTile());
+		AgariHand agariHand = new AgariHand(roundResult.getWinningPlayer().getHand(), roundResult.getWinningTile());
 		System.out.println(agariHand.toString());
 		
-		YakuAnalyzer yakuana = new YakuAnalyzer(roundResult.getWinningPlayer().DEMOgetHand(), roundResult);
+		YakuAnalyzer yakuana = new YakuAnalyzer(roundResult.getWinningPlayer().getHand(), roundResult);
 		System.out.println("YAKUANALYZERSAYS: "  + yakuana.getAllElligibleYaku());
 	}
 }

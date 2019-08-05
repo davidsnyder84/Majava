@@ -460,6 +460,11 @@ public class TableViewBase extends JFrame{
 				List<GameTile> tList = meldList.get(meldIndex).getAllTiles();
 				for (int tileIndex = 0; tileIndex < SIZE_MELD; tileIndex++)
 					larryHandMelds[playerIndex][meldIndex][tileIndex].setIcon(getImageIconForTile(tList, tileIndex, playerIndex, SMALL));
+				if (meldList.get(meldIndex).isClosed()){//if ankan, set middle two tiles facedown
+					larryHandMelds[playerIndex][meldIndex][1].setIcon(garryTiles[playerIndex][SMALL][TILEBACK]);
+					larryHandMelds[playerIndex][meldIndex][2].setIcon(garryTiles[playerIndex][SMALL][TILEBACK]);
+				}
+					
 			}
 		}
 		

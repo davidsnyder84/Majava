@@ -121,8 +121,8 @@ public class ResultPanel extends JPanel{
 					winnerPanel.panelHandAndMelds.panelMs.panelHMs[currentMeld].larryHM[currentTile].setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/small/" + winnerMelds.get(currentMeld).getTile(currentTile).getId() + ".png")));
 			
 			
-			yakuPanel.setVisible(true);
 			yakuPanel.setYaku(resultSummary.getYakuOfWinner());
+			yakuPanel.setVisible(true);
 		}
 //		Pauser.pauseFor(2000);
 	}

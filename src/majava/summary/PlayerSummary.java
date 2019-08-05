@@ -49,5 +49,8 @@ public class PlayerSummary{
 		}
 		
 		
-		public static PlayerSummary getSummaryFor(Player p){return new PlayerSummary(p);}
+		public static PlayerSummary getSummaryFor(Player p){
+			if (p == null) return null;
+			return new PlayerSummary(p);
+		}
 }

@@ -12,7 +12,7 @@ import majava.util.GameTileList;
 import majava.util.YakuList;
 
 
-
+//immutable
 public class RoundResultSummary {
 	private static final int NUM_PLAYERS = 4;
 	
@@ -103,11 +103,11 @@ public class RoundResultSummary {
 	public List<Meld> getWinnerMelds(){
 		if (!isVictory()) return null; 
 		List<Meld> meldsCopy = new ArrayList<Meld>();
-		for (Meld m: winnerMelds) meldsCopy.add(m);
+		for (Meld m: winnerMelds) meldsCopy.add(m.clone());
 		return meldsCopy;
 	}
 	
-	public PaymentMap getPayments(){return new PaymentMap(payments);}
-	public YakuList getYakuOfWinner(){return new YakuList(yakuOfWinner);}
+	public PaymentMap getPayments(){return payments.clone();}
+	public YakuList getYakuOfWinner(){return yakuOfWinner.clone();}
 	
 }

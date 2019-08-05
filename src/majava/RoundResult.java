@@ -150,9 +150,7 @@ public class RoundResult {
 		if (!flagRoundIsOver) return null;
 		if (resultSummary != null) return resultSummary;
 		
-		RoundResultSummary sum = null;
 		PlayerSummary winnerSummary = null, furikonSummary = null;
-		PaymentMap paymentsCopy = null;
 		GameTile winningTileCopy = null;
 		GameTileList winnerHandCopy = null;
 		List<Meld> winnerMeldsCopy = null;
@@ -161,18 +159,13 @@ public class RoundResult {
 		if (resultType.isVictory()){
 			winnerSummary = PlayerSummary.getSummaryFor(winningPlayer);
 			if (resultType.isVictoryRon()) furikonSummary = PlayerSummary.getSummaryFor(furikondaPlayer);
-			winningTileCopy = winningTile;
-			winnerHandCopy = winnerHand;
+			winningTileCopy = winningTile.clone();
+			winnerHandCopy = winnerHand.clone();
 			winnerMeldsCopy = winnerMelds;
 		}
 		
-		//get payments
-		paymentsCopy = new PaymentMap(payments);
-		
-		sum = new RoundResultSummary(resultType, winnerSummary, furikonSummary, winningTileCopy, winnerHandCopy, winnerMeldsCopy, paymentsCopy, yakuOfWinner);
-//		sum = new RoundResultSummary(mResultType, paymentsCopy);
-		resultSummary = sum;
+		resultSummary = new RoundResultSummary(resultType, winnerSummary, furikonSummary, winningTileCopy, winnerHandCopy, winnerMeldsCopy, payments.clone(), yakuOfWinner.clone());
 		return resultSummary;
 	}
-
+	
 }

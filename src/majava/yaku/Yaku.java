@@ -1,19 +1,20 @@
 package majava.yaku;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 
 public enum Yaku {
 	DORA("Dora", 1),
-	DORA_RED("Red Dora", 1),
-	DORA_URA("Ura Dora", 1),
+	DORA_RED("Dora Aka", 1),
+	DORA_URA("Dora Ura", 1),
 	
 	RIICHI("Riichi", 1, Yaku.value_FORBID_OPEN),
 	RIICHI_DOUBLE("Double Riichi", 2, Yaku.value_FORBID_OPEN),
 	RIICHI_IPPATSU("Ippatsu", 1, Yaku.value_FORBID_OPEN),
 	
-	MENZEN_TSUMO("Tsumo", 1, Yaku.value_FORBID_OPEN),
+	MENZEN_TSUMO("MenzenTsumo", 1, Yaku.value_FORBID_OPEN),
 	HAITEI("Haitei Raoyue", 1),
 	HOITEI("Houtei Raoyui", 1),
 	RINSHAN("Rinshan Kaihou", 1),
@@ -53,14 +54,14 @@ public enum Yaku {
 	HONITSU("Honitsu", 3, 2),
 	CHINITSU("Chinitsu", 6, 5),
 	
-	YKM_KOKUSHI("Kokushi Musou", Yaku.value_YAKUMAN, Yaku.value_FORBID_OPEN),
+	YKM_KOKUSHI("KokushiMusou", Yaku.value_YAKUMAN, Yaku.value_FORBID_OPEN),
 	YKM_SUUANKOU("Suuankou", Yaku.value_YAKUMAN, Yaku.value_FORBID_OPEN),
 	YKM_DAISANGEN("Daisangen", Yaku.value_YAKUMAN),
 	YKM_SHOUSHUUSHII("Shousuushii", Yaku.value_YAKUMAN),
 	YKM_DAISHUUSHII("Daisuushii", Yaku.value_YAKUMAN),
 	YKM_TSUUIISOU("Tsuuiisou", Yaku.value_YAKUMAN),
 	YKM_RYUUIISOU("Ryuuiisou", Yaku.value_YAKUMAN),
-	YKM_CHUURENPOUTO("Chuuren Poutou", Yaku.value_YAKUMAN, Yaku.value_FORBID_OPEN),
+	YKM_CHUURENPOUTO("ChuurenPoutou", Yaku.value_YAKUMAN, Yaku.value_FORBID_OPEN),
 	YKM_SUUKANTSU("Suukantsu", Yaku.value_YAKUMAN),
 	YKM_CHINROUTO("Chinrouto", Yaku.value_YAKUMAN),
 	
@@ -68,7 +69,7 @@ public enum Yaku {
 	YKM_CHIIHOU("Chiihou", Yaku.value_YAKUMAN, Yaku.value_FORBID_OPEN),
 	YKM_RENHOU("Renhou", Yaku.value_YAKUMAN, Yaku.value_FORBID_OPEN),
 	
-	NAGASHI_MANGAN("Nagashi Mangan", Yaku.value_MANGAN),
+	NAGASHI_MANGAN("NagashiMangan", Yaku.value_MANGAN),
 	YAKUNASHI("Yakunashi", 0)
 	;
 	
@@ -107,7 +108,7 @@ public enum Yaku {
 	
 	
 	public static List<Yaku> listOfAllYaku(){
-		List<Yaku> allYaku = Arrays.asList(values());
+		List<Yaku> allYaku = new ArrayList<Yaku>(Arrays.asList(values()));
 		allYaku.remove(YAKUNASHI);
 		return allYaku;
 	}

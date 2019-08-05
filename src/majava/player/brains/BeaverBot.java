@@ -55,17 +55,13 @@ public class BeaverBot extends RobotBrain {
 		if (mostWorthlessIndex == INDEX_NOT_FOUND)
 			mostWorthlessIndex = pickOneFrom(pairsIndices);
 		
+		//P(56789) S(678) will reach here
 		if (mostWorthlessIndex == INDEX_NOT_FOUND)
 			mostWorthlessIndex = pickOneFrom(fullShuntsuIndices);
 		
-		if (mostWorthlessIndex == INDEX_NOT_FOUND)
-			mostWorthlessIndex = pickOneFrom(ponsIndices);
-		
-		
-		//what kind of hand would reach this?...
-		if (mostWorthlessIndex == INDEX_NOT_FOUND)
-			return(tsumoTileIndex(hand));
-		
+		//it should be impossible for any hand to reach here
+//		if (mostWorthlessIndex == INDEX_NOT_FOUND)
+//			mostWorthlessIndex = pickOneFrom(ponsIndices);
 		
 		return mostWorthlessIndex;
 	}

@@ -457,14 +457,19 @@ public class TableViewBase extends JFrame{
 		for (int playerIndex = SEAT1; playerIndex <= SEAT4; playerIndex++){
 			List<Meld> meldList = gameState.getPlayerMelds(playerIndex);
 			for (int meldIndex = 0; meldIndex < meldList.size(); meldIndex++){
-				List<GameTile> tList = meldList.get(meldIndex).getAllTiles();
+				Meld currentMeld = meldList.get(meldIndex).tiltedOrderForm();
 				for (int tileIndex = 0; tileIndex < SIZE_MELD; tileIndex++)
-					larryHandMelds[playerIndex][meldIndex][tileIndex].setIcon(getImageIconForTile(tList, tileIndex, playerIndex, SMALL));
-				if (meldList.get(meldIndex).isClosed()){//if ankan, set middle two tiles facedown
+					larryHandMelds[playerIndex][meldIndex][tileIndex].setIcon(getImageIconForTile(currentMeld.getAllTiles(), tileIndex, playerIndex, SMALL));
+				
+				//if ankan, set middle two tiles facedown
+				if (currentMeld.isClosed()){
 					larryHandMelds[playerIndex][meldIndex][1].setIcon(garryTiles[playerIndex][SMALL][TILEBACK]);
 					larryHandMelds[playerIndex][meldIndex][2].setIcon(garryTiles[playerIndex][SMALL][TILEBACK]);
 				}
-					
+				
+				//if open meld, tilt the responsible tile
+				if (currentMeld.isOpen())
+					larryHandMelds[playerIndex][meldIndex][currentMeld.indexOfCompletedTile()].setIcon(getImageIconForTile(currentMeld.getAllTiles(), currentMeld.indexOfCompletedTile(), (playerIndex+1)%4, SMALL));
 			}
 		}
 		

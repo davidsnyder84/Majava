@@ -169,6 +169,8 @@ public class BeaverBot extends RobotBrain {
 	
 	@Override
 	protected CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions){
+//		return CallType.NONE;
+//		listOfPossibleReactions.removeAll(Arrays.asList(CallType.CHI_L, CallType.CHI_M, CallType.CHI_H, CallType.PON, CallType.KAN));
 		return biggestReaction(listOfPossibleReactions);
 	}
 	

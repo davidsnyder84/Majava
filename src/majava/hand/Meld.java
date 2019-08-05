@@ -93,6 +93,10 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	}
 	public boolean isOpen(){return !isClosed();}
 	public Wind windOfResponsiblePlayer(){return completedTile.getOrignalOwner();}
+	public int indexOfCompletedTile(){
+		for (int i=0; i<size(); i++) if (getTile(i) == completedTile) return i;
+		return -1;
+	}
 	
 	//this method is needed because the ron tile is absorbed into the hand for meld form, creating an innacurate "completed Tile" being assigned sometimes (and thus incorrect windofresponsibleplayer)
 	public void makeSureResponsibleTileIsCorrectlyAssigned(Wind ownerWind){
@@ -133,9 +137,36 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	public boolean isWindMeld(){return getFirstTile().isWind();}
 	
 	
+	//returns a re-ordered form of the meld, such that the completed tile points towards the player responsible for it
+	public Meld tiltedOrderForm(){
+		if (isClosed()) return this;
+		
+		Meld tiltedMeld = this.clone();
+		int indexOfCompleted = tiltedMeld.indexOfCompletedTile();
+		
+		int moveToThisIndex = -1;
+		if (tiltedMeld.windOfResponsiblePlayer() == tiltedMeld.originalOwnerOfThisMeld().shimochaWind())
+			moveToThisIndex = size()-1;
+		if (tiltedMeld.windOfResponsiblePlayer() == tiltedMeld.originalOwnerOfThisMeld().toimenWind())
+			moveToThisIndex = 1;
+		if (tiltedMeld.windOfResponsiblePlayer() == tiltedMeld.originalOwnerOfThisMeld().kamichaWind())
+			moveToThisIndex = 0;
+		
+		//swap
+		GameTile temp = tiltedMeld.meldTiles.get(moveToThisIndex);
+		tiltedMeld.meldTiles.set(moveToThisIndex, tiltedMeld.meldTiles.get(indexOfCompleted));
+		tiltedMeld.meldTiles.set(indexOfCompleted, temp);
+		
+		return tiltedMeld;
+	}
+	private Wind originalOwnerOfThisMeld(){
+		for (GameTile t: this)
+			if (t.getOrignalOwner() != windOfResponsiblePlayer())
+				return t.getOrignalOwner();
+		return getFirstTile().getOrignalOwner();
+	}
 	
 	
-	//toString
 	@Override
 	public String toString(){return toStringTilesOnly() + toStringOpenClosedInfo();}
 	public String toStringTilesOnly(){

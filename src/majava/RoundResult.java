@@ -106,7 +106,8 @@ public class RoundResult {
 		
 		winString += "Winner: Player" + (winningPlayer.getPlayerNumber()+1) + " (" + winningPlayer.getControllerAsString() + ") (" + winningPlayer.getSeatWind() + ")\n";
 		winString += winnerHand + ",   agarihai: " + winningTile + " (" + getAsStringWinType() + ")";
-		if (resultType.isVictoryRon()) winString += " [from Player" + (furikondaPlayer.getPlayerNumber()+1) + " (" + furikondaPlayer.getSeatWind() + ")]\n";
+		if (resultType.isVictoryRon()) winString += " [from Player" + (furikondaPlayer.getPlayerNumber()+1) + " (" + furikondaPlayer.getSeatWind() + ")]";
+		winString += "\n";	//this is necessary
 		
 		for (Meld m: winnerMelds)
 			winString += m.toString() + "\n";

@@ -51,7 +51,7 @@ public class ResultType {
 	public String getAsStringWinType(){if (!isVictory()) return null; return winType.toString();}
 	public String getAsStringResultType(){
 		if (resultType.isRyuukyoku()) return ryuukyokuType.toString();
-		else if (resultType.isVictory()) return "Player " + (seatNumberOfWinner+1) + " wins!";
+		else if (resultType.isVictory()) return "Player" + (seatNumberOfWinner+1) + " wins!";
 		return "undecided result";
 	}
 	

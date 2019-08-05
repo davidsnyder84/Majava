@@ -1,6 +1,10 @@
 package majava.summary;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import utility.MyFileWriter;
 
 
 //functionality for printing endgame results
@@ -18,6 +22,12 @@ public class GameResultPrinter {
 	
 	public void printGameResults(){
 		System.out.print(this.toString());
+		writeGameResultsToFile();
+	}
+	
+	public void writeGameResultsToFile(){
+		String filename = "majava_report_" + (new SimpleDateFormat("yyyy-MM-dd_HH;mm").format(new Date())) + ".txt";		
+		MyFileWriter.writeReportToFile(filename, this.toString());
 	}
 	
 	public String gameResult(){
@@ -28,11 +38,11 @@ public class GameResultPrinter {
 		for (int i = 0; i < winStrings.size(); i++)
 			gameRes += String.format("%3d: %s\n", i+1, winStrings.get(i));
 		
-		RoundResultSummary cr = null;
+		RoundResultSummary currentRoundResultSummary = null;
 		for (int i = 0; i < roundResults.size(); i++){
-			cr = roundResults.get(i);
-			if (cr != null && !cr.isRyuukyokuHowanpai())
-				gameRes += String.format("%3d: %s\n", i+1, cr.getAsStringResultType());
+			currentRoundResultSummary = roundResults.get(i);
+			if (currentRoundResultSummary != null && !currentRoundResultSummary.isRyuukyokuHowanpai())
+				gameRes += String.format("%3d: %s\n", i+1, currentRoundResultSummary.getAsStringResultType());
 		}
 		
 		return gameRes;
@@ -54,7 +64,7 @@ public class GameResultPrinter {
 		report += "Wins by player:\n";
 		int playerNum = 0;
 		for (int i: numWinsByPlayer)
-			report += "\tPlayer " + (++playerNum) + ": " + i + " wins\n";
+			report += "\tPlayer" + (++playerNum) + ": " + i + " wins\n";
 		report += String.format("Win to ryuukyoku ratio: %.6f", ((double) numWins) / ((double) roundResults.size()));
 		report += "\n\n\n";
 		return report;

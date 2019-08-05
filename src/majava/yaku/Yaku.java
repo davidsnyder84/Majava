@@ -68,7 +68,9 @@ public enum Yaku {
 	YKM_CHIIHOU("Chiihou", Yaku.value_YAKUMAN, Yaku.value_FORBID_OPEN),
 	YKM_RENHOU("Renhou", Yaku.value_YAKUMAN, Yaku.value_FORBID_OPEN),
 	
-	NAGASHI_MANGAN("Nagashi Mangan", Yaku.value_MANGAN);
+	NAGASHI_MANGAN("Nagashi Mangan", Yaku.value_MANGAN),
+	YAKUNASHI("Yakunashi", 0)
+	;
 	
 	
 	private static final int value_YAKUMAN = 13;
@@ -104,7 +106,11 @@ public enum Yaku {
 	
 	
 	
-	public static List<Yaku> listOfAllYaku(){return Arrays.asList(values());}
+	public static List<Yaku> listOfAllYaku(){
+		List<Yaku> allYaku = Arrays.asList(values());
+		allYaku.remove(YAKUNASHI);
+		return allYaku;
+	}
 	public static List<Yaku> listOfAllYakuman(){
 		return Arrays.asList(
 							YKM_KOKUSHI, 

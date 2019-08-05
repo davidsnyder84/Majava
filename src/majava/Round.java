@@ -122,8 +122,9 @@ public class Round{
 			p.pointsIncrease(payments.get(p));
 		
 		roundResult.recordPayments(payments);
+		roundResult.recordYaku(scorer.getYakuOfWinningHand());
 		
-		scorer.printWinningYaku();/////demo
+		System.out.println(scorer.getYakuOfWinningHand());
 	}
 	
 	

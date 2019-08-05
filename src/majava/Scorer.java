@@ -3,9 +3,9 @@ package majava;
 import java.util.ArrayList;
 import java.util.List;
 
-import majava.hand.AgariHand;
 import majava.player.Player;
 import majava.summary.PaymentMap;
+import majava.util.YakuList;
 import majava.yaku.YakuAnalyzer;
 
 
@@ -99,16 +99,15 @@ public class Scorer {
 	}
 	
 	
-	
-	
-	/////driveby/demo
-	public void printWinningYaku() {
-		if (!roundResult.isVictory()) return;
+	public YakuList getYakuOfWinningHand(){
+		if (!roundResult.isVictory())
+			return new YakuList();
 		
-		AgariHand agariHand = new AgariHand(roundResult.getWinningPlayer().getHand(), roundResult.getWinningTile());
-		System.out.println(agariHand.toString());
+		YakuAnalyzer yakuAnalyzer = new YakuAnalyzer(roundResult.getWinningPlayer().getHand(), roundResult);
+		return yakuAnalyzer.getAllElligibleYaku();
 		
-		YakuAnalyzer yakuana = new YakuAnalyzer(roundResult.getWinningPlayer().getHand(), roundResult);
-		System.out.println("YAKUANALYZERSAYS: "  + yakuana.getAllElligibleYaku());
+		//could do it this way instead, probably bad idea
+//		AgariHand agariHand = new AgariHand(roundResult.getWinningPlayer().getHand(), roundResult.getWinningTile());
+//		YakuAnalyzer analyzerFromAgarihand = new YakuAnalyzer(agariHand);
 	}
 }

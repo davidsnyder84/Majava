@@ -9,6 +9,7 @@ import majava.summary.PlayerSummary;
 import majava.summary.ResultType;
 import majava.tiles.GameTile;
 import majava.util.GameTileList;
+import majava.util.YakuList;
 
 
 
@@ -28,10 +29,11 @@ public class RoundResultSummary {
 	private final List<Meld> winnerMelds;
 	
 	private final PaymentMap payments;
+	private final YakuList yakuOfWinner;
 	
 	
 	//win constructor
-	public RoundResultSummary(ResultType resType, PlayerSummary winner, PlayerSummary discarder, GameTile winningtile, GameTileList winnerhand, List<Meld> winnermelds, PaymentMap paymentsMap){
+	public RoundResultSummary(ResultType resType, PlayerSummary winner, PlayerSummary discarder, GameTile winningtile, GameTileList winnerhand, List<Meld> winnermelds, PaymentMap paymentsMap, YakuList yakus){
 		
 		pResultType = resType;
 		
@@ -40,9 +42,10 @@ public class RoundResultSummary {
 			furikondaPlayer = discarder;
 			winningTile = winningtile.clone();
 			
-			winnerHand = new GameTileList(winnerhand);
-			
+			winnerHand = new GameTileList(winnerhand);			
 			winnerMelds = winnermelds;
+			
+			yakuOfWinner = yakus;
 		}
 		else{
 			winningPlayer = null;
@@ -51,6 +54,8 @@ public class RoundResultSummary {
 			
 			winnerHand = null;
 			winnerMelds = null;
+			
+			yakuOfWinner = new YakuList();
 		}
 		
 		payments = new PaymentMap();
@@ -58,7 +63,7 @@ public class RoundResultSummary {
 	}
 	//ryuukyoku constructor
 	public RoundResultSummary(ResultType resType, PaymentMap paymentsMap){
-		this(resType, null, null, null, null, null, paymentsMap);
+		this(resType, null, null, null, null, null, paymentsMap, null);
 	}
 	
 	
@@ -103,4 +108,6 @@ public class RoundResultSummary {
 	}
 	
 	public PaymentMap getPayments(){return new PaymentMap(payments);}
+	public YakuList getYakuOfWinner(){return new YakuList(yakuOfWinner);}
+	
 }

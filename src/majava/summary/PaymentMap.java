@@ -6,7 +6,7 @@ import java.util.Iterator;
 import majava.player.Player;
 
 
-public class PaymentMap implements Iterable<PlayerSummary>{
+public class PaymentMap implements Iterable<PlayerSummary>, Cloneable{
 	
 	private static final int NUM_PLAYERS = 4;
 	
@@ -23,6 +23,7 @@ public class PaymentMap implements Iterable<PlayerSummary>{
 		this();
 		putAll(other);
 	}
+	public PaymentMap clone(){return new PaymentMap(this);}
 	
 	
 	

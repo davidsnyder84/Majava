@@ -11,6 +11,7 @@ import majava.summary.ResultType;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
 import majava.util.GameTileList;
+import majava.util.YakuList;
 
 
 
@@ -30,6 +31,7 @@ public class RoundResult {
 	private List<Meld> winnerMelds;
 	
 	private PaymentMap payments;
+	private YakuList yakuOfWinner;
 	
 	
 	public RoundResult(){
@@ -77,11 +79,11 @@ public class RoundResult {
 	public void setWinningTile(GameTile receivedWinningTile){winningTile = receivedWinningTile;}
 	
 	
-	public void recordPayments(PaymentMap receivedPayments){
-		payments = receivedPayments;
-	}
+	public void recordPayments(PaymentMap receivedPayments){payments = receivedPayments;}
+	public void recordYaku(YakuList yakus){yakuOfWinner = yakus;}
 	
-	
+	public PaymentMap getPayments(){return new PaymentMap(payments);}
+	public YakuList getYakuOfWinner(){return new YakuList(yakuOfWinner);}
 	
 	
 	
@@ -102,12 +104,15 @@ public class RoundResult {
 		String winString = "";
 		if (!isVictory()) return "No winner";
 		
-		winString += "Winning hand (" + winningPlayer.getSeatWind() + "): " + winnerHand + ",   agarihai: " + winningTile + " (" + getAsStringWinType() + ")";
-		if (resultType.isVictoryRon()) winString += " [from " + furikondaPlayer.getSeatWind() + "]";
+		winString += "Winner: Player" + (winningPlayer.getPlayerNumber()+1) + " (" + winningPlayer.getControllerAsString() + ") (" + winningPlayer.getSeatWind() + ")\n";
+		winString += winnerHand + ",   agarihai: " + winningTile + " (" + getAsStringWinType() + ")";
+		if (resultType.isVictoryRon()) winString += " [from Player" + (furikondaPlayer.getPlayerNumber()+1) + " (" + furikondaPlayer.getSeatWind() + ")]\n";
 		
-		winString += "\n";
 		for (Meld m: winnerMelds)
 			winString += m.toString() + "\n";
+		
+		if (resultSummary.getYakuOfWinner().isEmpty()) winString += "Yakunashi\n";
+		else winString += "&&&Yaku:" + resultSummary.getYakuOfWinner() + "\n";
 		
 		return winString;
 	}
@@ -116,8 +121,6 @@ public class RoundResult {
 		
 		pstring += "Winner: " + winningPlayer + ": +" + payments.get(winningPlayer.getPlayerNumber());
 		for (PlayerSummary ps: payments) if (ps.getPlayerNumber() != winningPlayer.getPlayerNumber()) pstring += "\n" + ps + ": " + payments.get(ps.getPlayerNumber());
-//		ps += "Winner: " + mWinningPlayer + ": +" + mPayments.get(mWinningPlayer);
-//		for (Player p: mPayments.keySet()) if (p != mWinningPlayer) ps += "\n" + p + ": " + mPayments.get(p);
 		
 		return pstring;
 	}
@@ -166,7 +169,7 @@ public class RoundResult {
 		//get payments
 		paymentsCopy = new PaymentMap(payments);
 		
-		sum = new RoundResultSummary(resultType, winnerSummary, furikonSummary, winningTileCopy, winnerHandCopy, winnerMeldsCopy, paymentsCopy);
+		sum = new RoundResultSummary(resultType, winnerSummary, furikonSummary, winningTileCopy, winnerHandCopy, winnerMeldsCopy, paymentsCopy, yakuOfWinner);
 //		sum = new RoundResultSummary(mResultType, paymentsCopy);
 		resultSummary = sum;
 		return resultSummary;

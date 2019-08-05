@@ -112,7 +112,7 @@ public class DetailedTextualUI extends TextualUI{
 		 		"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 				"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		
-		RoundResultSummary resum = roundTracker.getResultSummary();
+		RoundResultSummary roundResultSummary = roundTracker.getResultSummary();
 		
 		//for all
 		String resultLabel = null;
@@ -124,23 +124,23 @@ public class DetailedTextualUI extends TextualUI{
 		
 		
 		//***result label (Player 1 wins!, Draw!, etc)
-		resultLabel = resum.getAsStringResultType();
+		resultLabel = roundResultSummary.getAsStringResultType();
 		
 		
 		//***payments per player panel
-		payments = resum.getPayments();
+		payments = roundResultSummary.getPayments();
 		
-		if (resum.isVictory()){
-			winner = resum.getWinningPlayer();
-			furikon = resum.getFurikondaPlayer();
+		if (roundResultSummary.isVictory()){
+			winner = roundResultSummary.getWinningPlayer();
+			furikon = roundResultSummary.getFurikondaPlayer();
 			
 			//***winning hand/melds panel
-			winnerHandTiles = resum.getWinnerHandTiles();	
-			winnerMelds = resum.getWinnerMelds();
-			winningTile = resum.getWinningTile();
+			winnerHandTiles = roundResultSummary.getWinnerHandTiles();	
+			winnerMelds = roundResultSummary.getWinnerMelds();
+			winningTile = roundResultSummary.getWinningTile();
 			
 			//***panel/list of yaku
-			yakuList = new YakuList(Yaku.RIICHI, Yaku.RIICHI_IPPATSU, Yaku.MENZEN_TSUMO, Yaku.DORA);
+			yakuList = roundResultSummary.getYakuOfWinner();
 			yakuWorth = yakuList.totalHan();
 			
 			//***hand score label
@@ -149,9 +149,9 @@ public class DetailedTextualUI extends TextualUI{
 		
 		
 		System.out.println("Result: " + resultLabel);
-		if (resum.isVictory()){
-			print(resum.getAsStringWinType() + "!");
-			if (resum.isVictoryRon()) print(" (from Player " + (furikon.getPlayerNumber()+1) + ")");
+		if (roundResultSummary.isVictory()){
+			print(roundResultSummary.getAsStringWinType() + "!");
+			if (roundResultSummary.isVictoryRon()) print(" (from Player " + (furikon.getPlayerNumber()+1) + ")");
 			println();
 		}
 		
@@ -163,7 +163,7 @@ public class DetailedTextualUI extends TextualUI{
 			println(payments.get(ps) + ")");
 		}
 		
-		if (resum.isVictory()){
+		if (roundResultSummary.isVictory()){
 			//***winning hand/melds panel
 			println("\nWinner's hand: " + winnerHandTiles);
 			println("Winner's melds:");

@@ -11,6 +11,11 @@ public class YakuList extends ArrayList<Yaku>{
 
 
 	public YakuList(Yaku... yakus){super(Arrays.asList(yakus));}
+	public YakuList(YakuList other){
+		this();
+		addAll(other);
+	}
+	public YakuList clone(){return new YakuList(this);}
 	
 	
 	public int totalHan(){

@@ -18,6 +18,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+import utility.Pauser;
+
 import majava.hand.Meld;
 import majava.control.testcode.Majenerator;
 import majava.enums.Wind;
@@ -120,9 +122,9 @@ public class ResultPanel extends JPanel{
 			
 			
 			yakuPanel.setVisible(true);
-			yakuPanel.setYaku(Majenerator.generateYakuList());	///////////////demo
+			yakuPanel.setYaku(resultSummary.getYakuOfWinner());
 		}
-		
+//		Pauser.pauseFor(2000);
 	}
 	
 	
@@ -293,11 +295,14 @@ public class ResultPanel extends JPanel{
 		
 		public void setYaku(YakuList ylist){
 			blankAll();
-			for (Yaku y: ylist){
-				panelNames.addLabel(new JLabel(y.toString()));
-				int worth = y.getValueClosed();
-				panelWorths.addLabel(new JLabel(Integer.toString(worth)));
-			}
+			for (Yaku y: ylist)
+				addYakuToPanel(y);
+			if (ylist.isEmpty()) addYakuToPanel(Yaku.YAKUNASHI);
+		}
+		private void addYakuToPanel(Yaku y){
+			panelNames.addLabel(new JLabel(y.toString()));
+			int worth = y.getValueClosed();
+			panelWorths.addLabel(new JLabel(Integer.toString(worth)));
 		}
 		public void blankAll(){
 			panelNames.blankAll();

@@ -8,6 +8,7 @@ import majava.Pond;
 import majava.RoundTracker;
 import majava.enums.Exclamation;
 import majava.enums.Wind;
+import majava.player.brains.BeaverBot;
 import majava.player.brains.HumanBrain;
 import majava.player.brains.NullPlayerBrain;
 import majava.player.brains.PlayerBrain;
@@ -311,7 +312,8 @@ public class Player {
 //		RobotBrain robot = new SevenTwinBot(this);
 //		RobotBrain robot = new TseIiMenBot(this);
 //		RobotBrain robot = new PonMonsterBot(this);
-		RobotBrain robot = RandomRobotGenerator.generateRandomComputerPlayer(this);
+		RobotBrain robot = new BeaverBot(this);
+//		RobotBrain robot = RandomRobotGenerator.generateRandomComputerPlayer(this);
 		
 		setController(robot);
 	}

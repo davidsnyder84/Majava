@@ -32,9 +32,18 @@ public abstract class RobotBrain extends PlayerBrain {
 		return TurnActionType.DISCARD;
 	}
 	
-	protected static int pickRandomlyFrom(List<Integer> choices){return choices.get((new Random()).nextInt(choices.size()));}
-	protected static int pickLastFrom(List<Integer> choices){return choices.get(choices.size()-1);}
-	protected static int pickFirstFrom(List<Integer> choices){return choices.get(0);}
+	protected static int pickRandomlyFrom(List<Integer> choices){
+		if (choices.isEmpty()) return INDEX_NOT_FOUND;
+		return choices.get((new Random()).nextInt(choices.size()));
+	}
+	protected static int pickLastFrom(List<Integer> choices){
+		if (choices.isEmpty()) return INDEX_NOT_FOUND;
+		return choices.get(choices.size()-1);
+	}
+	protected static int pickFirstFrom(List<Integer> choices){
+		if (choices.isEmpty()) return INDEX_NOT_FOUND;
+		return choices.get(0);
+	}
 	
 	
 	@Override

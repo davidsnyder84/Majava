@@ -62,6 +62,7 @@ public class Player {
 	
 	//initializes a player's resources for a new round
 	public void prepareForNewRound(){
+/////////////////////////////////////////////////////////////////////////////////mutate
 		
 		hand = new Hand();
 		hand.setOwnerSeatWind(seatWind);
@@ -88,6 +89,7 @@ public class Player {
 	//lets a player take their turn
 	//returns the tile discarded by the player, returns null if the player did not discard (they made a kan or tsumo)
 	public GameTile takeTurn(){
+/////////////////////////////////////////////////////////////////////////////////mutate
 		lastDiscard = null;
 		
 		brain.chooseTurnAction(hand);
@@ -112,6 +114,7 @@ public class Player {
 	}
 	
 	private GameTile discardChosenTile(){
+/////////////////////////////////////////////////////////////////////////////////mutate
 		GameTile discardedTile = hand.removeTile(brain.getChosenDiscardIndex());
 		putTileInPond(discardedTile);
 		
@@ -124,6 +127,7 @@ public class Player {
 	
 	//removes the most recent tile from the player's pond (because another player called it)
 	public GameTile removeTileFromPond(){return pond.removeMostRecentTile();}
+/////////////////////////////////////////////////////////////////////////////////mutate
 	public Pond getPond(){return pond.clone();}
 	
 	public GameTile getLastDiscard(){return lastDiscard;}
@@ -151,6 +155,7 @@ public class Player {
 	
 	
 	public void addTileToHand(final GameTile t){
+/////////////////////////////////////////////////////////////////////////////////mutate
 		t.setOwner(seatWind);
 		hand.addTile(t);
 		
@@ -158,6 +163,7 @@ public class Player {
 		setDrawNeededNone();
 	}
 	public void giveStartingHand(List<GameTile> startingTiles){
+/////////////////////////////////////////////////////////////////////////////////mutate
 		for (GameTile t: startingTiles) addTileToHand(t);
 		hand.sort();
 		
@@ -175,6 +181,7 @@ public class Player {
 	
 	//ask brain for reaction
 	public void reactToDiscard(GameTile tileToReactTo){
+/////////////////////////////////////////////////////////////////////////////////mutate
 		brain.clearCallStatus();
 		brain.reactToDiscard(hand, tileToReactTo);
 //		return brain.called();
@@ -208,6 +215,7 @@ public class Player {
 	
 	//forms a meld using the given tile
 	public void makeMeld(GameTile claimedTile){
+/////////////////////////////////////////////////////////////////////////////////mutate
 		//prevent an error case that will probably never happen
 		if (!called()){System.out.println("-----Error: No meld to make (the player didn't make a call!!)"); return;}
 		
@@ -263,6 +271,7 @@ public class Player {
 	private void setDrawNeededRinshan(){drawNeeded.setRinshan();}
 	private void setDrawNeededNormal(){drawNeeded.setNormal();}
 	private void setDrawNeededNone(){drawNeeded.setNone();}
+/////////////////////////////////////////////////////////////////////////////////mutate
 	
 	
 
@@ -296,15 +305,18 @@ public class Player {
 	public void setSeatWindSouth(){setSeatWind(Wind.SOUTH);}
 	public void setSeatWindWest(){setSeatWind(Wind.WEST);}
 	public void setSeatWindNorth(){setSeatWind(Wind.NORTH);}
+/////////////////////////////////////////////////////////////////////////////////mutate
 	public Wind getSeatWind(){return seatWind;}
 	public boolean isDealer(){return getSeatWind().isDealerWind();}
 	
 	//player number methods
-	public void setPlayerNumber(int newNum){if (newNum >= 0 && newNum < 4) playerNum = newNum;}	
+	public void setPlayerNumber(int newNum){if (newNum >= 0 && newNum < 4) playerNum = newNum;}
+/////////////////////////////////////////////////////////////////////////////////mutate
 	public int getPlayerNumber(){return playerNum;}
 	
 	
 	//controller methods
+/////////////////////////////////////////////////////////////////////////////////mutate
 	public void setController(PlayerBrain desiredBrain){brain = desiredBrain;}
 	public void setControllerHuman(){setController(new HumanBrain(this));}
 	public void setControllerComputer(){
@@ -325,6 +337,7 @@ public class Player {
 	
 	//point methods
 	public int getPoints(){return pointsBox.getPoints();}
+/////////////////////////////////////////////////////////////////////////////////mutate
 	public void pointsIncrease(int amount){pointsBox.add(amount);}
 	public void pointsDecrease(int amount){pointsBox.subtract(amount);}
 	public boolean pointsIsHakoshita(){return pointsBox.isHakoshita();}
@@ -332,6 +345,7 @@ public class Player {
 	//profile methods
 	public String getPlayerName(){return profile.getPlayerName();}
 	public int getPlayerID(){return profile.getPlayerID();}
+/////////////////////////////////////////////////////////////////////////////////mutate
 	public void setPlayerName(String newName){profile.setPlayerName(newName);}
 	
 	
@@ -365,6 +379,7 @@ public class Player {
 	
 	
 	public void syncWithRoundTracker(RoundTracker tracker){
+/////////////////////////////////////////////////////////////////////////////////mutate
 		roundTracker = tracker;
 	}
 	
@@ -382,6 +397,7 @@ public class Player {
 
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand (for debug use)
 	public void addTileToHand(int tileID){addTileToHand(new GameTile(tileID));}
+/////////////////////////////////////////////////////////////////////////////////mutate
 	////xxxxxxxxxxxxxEND DEMO METHODS
 	
 	

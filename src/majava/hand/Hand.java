@@ -100,6 +100,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	}
 	
 	public Wind getOwnerSeatWind(){return ownerWind;}
+/////////////////////////////////////////////////////////////////////////////////mutate
 	public void setOwnerSeatWind(Wind newOwnerWind){
 		ownerWind = newOwnerWind;
 		for (GameTile t: tiles) t.setOwner(ownerWind);
@@ -123,6 +124,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	
 	//adds a tile to the hand (cannot add more than max hand size)
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand
+/////////////////////////////////////////////////////////////////////////////////mutate
 	public boolean addTile(GameTile addThisTile){
 		if (size() >= MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*numberOfMeldsMade()) return false;
 		
@@ -132,6 +134,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	public boolean addTile(int tileID){return addTile(new GameTile(tileID));}
 	
 	//removes the tile at the given index, returns null if out of range
+/////////////////////////////////////////////////////////////////////////////////mutate
 	public GameTile removeTile(int removeThisIndex){
 		if (removeThisIndex < 0 || removeThisIndex > size()) return null;
 		GameTile tile = tiles.remove(removeThisIndex);
@@ -139,12 +142,14 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		
 		return tile;
 	}
+/////////////////////////////////////////////////////////////////////////////////mutate
 	public boolean removeMultiple(List<Integer> removeIndices){
 		tiles.removeMultiple(removeIndices);
 		sort();
 		return true;
 	}
 	
+/////////////////////////////////////////////////////////////////////////////////mutate
 	public void sort(){tiles.sort();}
 	
 
@@ -175,6 +180,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	
 	
 	//forms a meld of the given type. claimedTile = the tile that will complete the meld
+/////////////////////////////////////////////////////////////////////////////////mutate
 	private void makeMeld(GameTile claimedTile, MeldType meldType){
 		
 		//~~~~gather the tiles from the hand that will be in the meld
@@ -190,6 +196,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		//remove the tiles from the hand 
 		removeMultiple(partnerIndices);		
 	}
+/////////////////////////////////////////////////////////////////////////////////mutate
 	public void makeMeldChiL(GameTile claimedTile){makeMeld(claimedTile, MeldType.CHI_L);}
 	public void makeMeldChiM(GameTile claimedTile){makeMeld(claimedTile, MeldType.CHI_M);}
 	public void makeMeldChiH(GameTile claimedTile){makeMeld(claimedTile, MeldType.CHI_H);}
@@ -200,6 +207,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	
 	
 	
+/////////////////////////////////////////////////////////////////////////////////mutate
 	public void makeMeldTurnAnkan(){
 		final int NUM_PARTNERS_NEEDED_TO_KAN = 3;
 		
@@ -219,6 +227,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		removeMultiple(partnerIndices);
 	}
 	
+/////////////////////////////////////////////////////////////////////////////////mutate
 	public void makeMeldTurnMinkan(){
 		int candidateIndex = turnActionabilityChecker().getCandidateMinkanIndex();
 		GameTile candidate = getTile(candidateIndex);

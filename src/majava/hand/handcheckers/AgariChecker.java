@@ -18,14 +18,14 @@ import majava.util.TileKnowledge;
 public class AgariChecker {
 	private static final int MAX_HAND_SIZE = 14;
 	
-	private final ChiitoiChecker chiitoiChecker;
-	private final KokushiChecker kokushiChecker;
-	private final NormalAgariChecker normalAgariChecker;
+	private final Hand myHand;
+	private final GameTileList handTiles;
+	
+	
 	
 	public AgariChecker(Hand handToCheck, GameTileList receivedHandTiles){
-		chiitoiChecker = new ChiitoiChecker(handToCheck, receivedHandTiles);
-		kokushiChecker = new KokushiChecker(handToCheck, receivedHandTiles);
-		normalAgariChecker = new NormalAgariChecker(handToCheck, receivedHandTiles);
+		myHand = handToCheck;
+		handTiles = receivedHandTiles;
 	}
 	
 	
@@ -49,21 +49,23 @@ public class AgariChecker {
 	
 	
 	
-	public boolean isTenpaiKokushi(){return kokushiChecker.isTenpaiKokushi();}
-	public boolean isCompleteKokushi(){return kokushiChecker.isCompleteKokushi();}
-	public GameTileList getKokushiWaits(){return kokushiChecker.getKokushiWaits();}
+	public boolean isTenpaiKokushi(){return kokushiChecker().isTenpaiKokushi();}
+	public boolean isCompleteKokushi(){return kokushiChecker().isCompleteKokushi();}
+	public GameTileList getKokushiWaits(){return kokushiChecker().getKokushiWaits();}
 	
-	public boolean isTenpaiChiitoitsu(){return chiitoiChecker.isTenpaiChiitoitsu();}
-	public boolean isCompleteChiitoitsu(){return chiitoiChecker.isCompleteChiitoitsu();}
-	public GameTileList getChiitoiWait(){return chiitoiChecker.getChiitoiWait();}
+	public boolean isTenpaiChiitoitsu(){return chiitoiChecker().isTenpaiChiitoitsu();}
+	public boolean isCompleteChiitoitsu(){return chiitoiChecker().isCompleteChiitoitsu();}
+	public GameTileList getChiitoiWait(){return chiitoiChecker().getChiitoiWait();}
 	
-	public boolean isCompleteNormal(){return normalAgariChecker.isCompleteNormal();}
-	public GameTileList getNormalTenpaiWaits(){return normalAgariChecker.getNormalTenpaiWaits();}
-	public List<Meld> getFinishingMelds(){return normalAgariChecker.getFinishingMelds();}
-	
-	
+	public boolean isCompleteNormal(){return normalAgariChecker().isCompleteNormal();}
+	public GameTileList getNormalTenpaiWaits(){return normalAgariChecker().getNormalTenpaiWaits();}
+	public List<Meld> getFinishingMelds(){return normalAgariChecker().getFinishingMelds();}
 	
 	
+	
+	private ChiitoiChecker chiitoiChecker(){return new ChiitoiChecker(myHand, handTiles);}
+	private KokushiChecker kokushiChecker(){return new KokushiChecker(myHand, handTiles);}
+	private NormalAgariChecker normalAgariChecker(){return new NormalAgariChecker(myHand, handTiles);}
 	
 	
 	

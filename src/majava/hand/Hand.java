@@ -26,9 +26,6 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	
 	private Wind ownerWind;
 	
-	private final CallabilityChecker callabilityChecker;
-	private final TurnActionabilityChecker turnActionabilityChecker;
-	private final AgariChecker agariChecker;
 	
 	
 	
@@ -36,11 +33,6 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		tiles = new GameTileList(MAX_HAND_SIZE);
 		melds = new ArrayList<Meld>(MAX_NUM_MELDS);
 		ownerWind = Wind.UNKNOWN;
-		
-		//make checkers
-		callabilityChecker = new CallabilityChecker(this);
-		turnActionabilityChecker = new TurnActionabilityChecker(this);
-		agariChecker = new AgariChecker(this, tiles);
 	}
 	public Hand (Hand other){
 		tiles = other.tiles.clone();
@@ -48,10 +40,6 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		for (Meld m: other.melds) melds.add(m.clone());
 		
 		ownerWind = other.ownerWind;
-		
-		callabilityChecker = new CallabilityChecker(this);
-		turnActionabilityChecker = new TurnActionabilityChecker(this);
-		agariChecker = new AgariChecker(this, tiles);
 	}
 	public Hand clone(){return new Hand(this);}
 	
@@ -78,7 +66,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		return meldList;
 	}
 	public List<Meld> getFinishingMelds(){
-		List<Meld> finishingMelds = agariChecker.getFinishingMelds();
+		List<Meld> finishingMelds = agariChecker().getFinishingMelds();
 		
 		//this is needed because the ron tile is absorbed into the hand for finished meld form, creating an innacurate "completed Tile" being assigned sometimes (and thus incorrect windofresponsibleplayer)
 		for (Meld m: finishingMelds)
@@ -117,18 +105,20 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		for (GameTile t: tiles) t.setOwner(ownerWind);
 	}
 	
-	public boolean isInTenpai(){return agariChecker.isInTenpai();}
-	public GameTileList getTenpaiWaits(){return agariChecker.getTenpaiWaits();}
+	public boolean isInTenpai(){return agariChecker().isInTenpai();}
+	public GameTileList getTenpaiWaits(){return agariChecker().getTenpaiWaits();}
 	
-	public boolean isComplete(){return agariChecker.isComplete();}
-	public boolean isCompleteNormal(){return agariChecker.isCompleteNormal();}	
-	public boolean isCompleteChiitoitsu(){return agariChecker.isCompleteChiitoitsu();}
-	public boolean isTenpaiChiitoitsu(){return agariChecker.isTenpaiChiitoitsu();}
-	public boolean isCompleteKokushi(){return agariChecker.isCompleteKokushi();}
-	public boolean isTenpaiKokushi(){return agariChecker.isTenpaiKokushi();}
+	public boolean isComplete(){return agariChecker().isComplete();}
+	public boolean isCompleteNormal(){return agariChecker().isCompleteNormal();}	
+	public boolean isCompleteChiitoitsu(){return agariChecker().isCompleteChiitoitsu();}
+	public boolean isTenpaiChiitoitsu(){return agariChecker().isTenpaiChiitoitsu();}
+	public boolean isCompleteKokushi(){return agariChecker().isCompleteKokushi();}
+	public boolean isTenpaiKokushi(){return agariChecker().isTenpaiKokushi();}
 	
 	
-	
+	private AgariChecker agariChecker(){return new AgariChecker(this, tiles);}
+	private CallabilityChecker callabilityChecker(){return new CallabilityChecker(this);}
+	private TurnActionabilityChecker turnActionabilityChecker(){return new TurnActionabilityChecker(this);}
 	
 	
 	//adds a tile to the hand (cannot add more than max hand size)
@@ -166,20 +156,20 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	
 	//able to make calls?
 	public boolean canCallTile(GameTile candidate){
-		return callabilityChecker.tileIsCallable(candidate);
+		return callabilityChecker().tileIsCallable(candidate);
 	}	
-	public boolean ableToChiL(GameTile tileToReactTo){return callabilityChecker.ableToChiL(tileToReactTo);}
-	public boolean ableToChiM(GameTile tileToReactTo){return callabilityChecker.ableToChiM(tileToReactTo);}
-	public boolean ableToChiH(GameTile tileToReactTo){return callabilityChecker.ableToChiH(tileToReactTo);}
-	public boolean ableToPon(GameTile tileToReactTo){return callabilityChecker.ableToPon(tileToReactTo);}
-	public boolean ableToKan(GameTile tileToReactTo){return callabilityChecker.ableToKan(tileToReactTo);}
-	public boolean ableToRon(GameTile tileToReactTo){return callabilityChecker.ableToRon(tileToReactTo);}
+	public boolean ableToChiL(GameTile tileToReactTo){return callabilityChecker().ableToChiL(tileToReactTo);}
+	public boolean ableToChiM(GameTile tileToReactTo){return callabilityChecker().ableToChiM(tileToReactTo);}
+	public boolean ableToChiH(GameTile tileToReactTo){return callabilityChecker().ableToChiH(tileToReactTo);}
+	public boolean ableToPon(GameTile tileToReactTo){return callabilityChecker().ableToPon(tileToReactTo);}
+	public boolean ableToKan(GameTile tileToReactTo){return callabilityChecker().ableToKan(tileToReactTo);}
+	public boolean ableToRon(GameTile tileToReactTo){return callabilityChecker().ableToRon(tileToReactTo);}
 	
 	//able to perform turn actions?
-	public boolean ableToAnkan(){return turnActionabilityChecker.ableToAnkan();}
-	public boolean ableToMinkan(){return turnActionabilityChecker.ableToMinkan();}
-	public boolean ableToRiichi(){return turnActionabilityChecker.ableToRiichi();}
-	public boolean ableToTsumo(){return turnActionabilityChecker.ableToTsumo();}
+	public boolean ableToAnkan(){return turnActionabilityChecker().ableToAnkan();}
+	public boolean ableToMinkan(){return turnActionabilityChecker().ableToMinkan();}
+	public boolean ableToRiichi(){return turnActionabilityChecker().ableToRiichi();}
+	public boolean ableToTsumo(){return turnActionabilityChecker().ableToTsumo();}
 	
 	
 	
@@ -189,7 +179,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		
 		//~~~~gather the tiles from the hand that will be in the meld
 		//get the list of partner indices, based on the the meld type
-		List<Integer> partnerIndices = callabilityChecker.getPartnerIndices(claimedTile, meldType);
+		List<Integer> partnerIndices = callabilityChecker().getPartnerIndices(claimedTile, meldType);
 
 		//list of TILES, will hold the tiles coming from the hand that will be in the meld
 		GameTileList tilesFromHand = tiles.getMultiple(partnerIndices);
@@ -213,7 +203,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	public void makeMeldTurnAnkan(){
 		final int NUM_PARTNERS_NEEDED_TO_KAN = 3;
 		
-		int candidateIndex = turnActionabilityChecker.getCandidateAnkanIndex();
+		int candidateIndex = turnActionabilityChecker().getCandidateAnkanIndex();
 		GameTile candidate = getTile(candidateIndex);
 		
 		List<Integer> partnerIndices = tiles.findAllIndicesOf(candidate);
@@ -230,7 +220,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	}
 	
 	public void makeMeldTurnMinkan(){
-		int candidateIndex = turnActionabilityChecker.getCandidateMinkanIndex();
+		int candidateIndex = turnActionabilityChecker().getCandidateMinkanIndex();
 		GameTile candidate = getTile(candidateIndex);
 		
 		Meld meldToUpgrade = null;

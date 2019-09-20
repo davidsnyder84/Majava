@@ -28,6 +28,15 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	
 	
 	
+	private Hand(GameTileList ts, List<Meld> ms, Wind w){
+		tiles = ts;
+		melds = ms;
+		ownerWind = w;
+	}
+	private Hand withTiles(GameTileList newTiles){return new Hand(newTiles, melds, ownerWind);}
+	private Hand withMelds(List<Meld> newMelds){return new Hand(tiles, newMelds, ownerWind);}
+	private Hand withWind(Wind newWind){return new Hand(tiles, melds, newWind);}
+	
 	
 	public Hand(){
 		tiles = new GameTileList(MAX_HAND_SIZE);
@@ -53,6 +62,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	//GameTileList methods
 	public int findHowManyOf(GameTile t){return tiles.findHowManyOf(t);}
 	public GameTileList getTilesAsList(){return tiles.clone();}
+	public GameTileList getTiles(){return tiles;}
 	public int indexOf(Integer id){return tiles.indexOf(new GameTile(id));}
 	public boolean contains(Integer id){return tiles.contains(new GameTile(id));}
 	public List<Integer> findAllIndicesOf(GameTile t){return tiles.findAllIndicesOf(t);}
@@ -117,7 +127,7 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	public boolean isTenpaiKokushi(){return agariChecker().isTenpaiKokushi();}
 	
 	
-	private AgariChecker agariChecker(){return new AgariChecker(this, tiles);}
+	private AgariChecker agariChecker(){return new AgariChecker(this);}
 	private CallabilityChecker callabilityChecker(){return new CallabilityChecker(this);}
 	private TurnActionabilityChecker turnActionabilityChecker(){return new TurnActionabilityChecker(this);}
 	

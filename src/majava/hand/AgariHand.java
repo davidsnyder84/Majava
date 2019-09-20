@@ -7,9 +7,10 @@ import majava.enums.Wind;
 import majava.tiles.GameTile;
 import majava.util.GameTileList;
 
+//NOTE: this class is immutable
 public class AgariHand extends Hand {
 	
-	private GameTile winningTile;
+	private final GameTile winningTile;
 	
 	
 	
@@ -21,7 +22,7 @@ public class AgariHand extends Hand {
 		//add winning tile to hand
 		if (!isFull()){
 			addTile(winningTile);
-			sort();
+			sort();///////////////////////////////////////////////////////////mutate
 		}
 	}
 	public AgariHand (AgariHand other){

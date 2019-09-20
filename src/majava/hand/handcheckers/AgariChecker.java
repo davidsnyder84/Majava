@@ -19,13 +19,11 @@ public class AgariChecker {
 	private static final int MAX_HAND_SIZE = 14;
 	
 	private final Hand myHand;
-	private final GameTileList handTiles;
 	
 	
 	
-	public AgariChecker(Hand handToCheck, GameTileList receivedHandTiles){
+	public AgariChecker(Hand handToCheck){
 		myHand = handToCheck;
-		handTiles = receivedHandTiles;
 	}
 	
 	
@@ -63,9 +61,9 @@ public class AgariChecker {
 	
 	
 	
-	private ChiitoiChecker chiitoiChecker(){return new ChiitoiChecker(myHand, handTiles);}
-	private KokushiChecker kokushiChecker(){return new KokushiChecker(myHand, handTiles);}
-	private NormalAgariChecker normalAgariChecker(){return new NormalAgariChecker(myHand, handTiles);}
+	private ChiitoiChecker chiitoiChecker(){return new ChiitoiChecker(myHand);}
+	private KokushiChecker kokushiChecker(){return new KokushiChecker(myHand);}
+	private NormalAgariChecker normalAgariChecker(){return new NormalAgariChecker(myHand);}
 	
 	
 	
@@ -77,9 +75,10 @@ public class AgariChecker {
 		
 		private final Hand myHand;
 		private final GameTileList handTiles;
-		public KokushiChecker(Hand handToCheck, GameTileList receivedHandTiles){
+		
+		public KokushiChecker(Hand handToCheck){
 			myHand = handToCheck;
-			handTiles = receivedHandTiles;
+			handTiles = myHand.getTiles();
 		}
 		
 		
@@ -147,10 +146,11 @@ public class AgariChecker {
 	private static class ChiitoiChecker{
 		
 		private final Hand myHand;
-		private final GameTileList handTiles;
-		public ChiitoiChecker(Hand handToCheck, GameTileList receivedHandTiles){
+		private final GameTileList handTiles; //not necessary since you can get this from myHand.getTiles(), just for convenience (IDE highlighting)
+		
+		public ChiitoiChecker(Hand handToCheck){
 			myHand = handToCheck;
-			handTiles = receivedHandTiles;
+			handTiles = myHand.getTiles();
 		}
 		
 		public GameTileList getChiitoiWait(){
@@ -219,9 +219,10 @@ public class AgariChecker {
 		
 		private final Hand myHand;
 		private final GameTileList handTiles;
-		public NormalAgariChecker(Hand handToCheck, GameTileList receivedHandTiles){
+		
+		public NormalAgariChecker(Hand handToCheck){
 			myHand = handToCheck;
-			handTiles = receivedHandTiles;
+			handTiles = myHand.getTiles();
 		}
 		
 		//ƒVƒ…ƒ“ƒc

@@ -37,8 +37,8 @@ public class AgariChecker {
 	//returns the list of tenpai waits (will be empty if the hand is not in tenpai)
 	public GTL getTenpaiWaits(){
 		GTL waits = new GTL(getNormalTenpaiWaits());
-		if (waits.isEmpty()) waits.addAll(getKokushiWaits());
-		if (waits.isEmpty()) waits.addAll(getChiitoiWait());
+		if (waits.isEmpty()) waits = waits.addAll(getKokushiWaits());
+		if (waits.isEmpty()){waits = waits.addAll(getChiitoiWait());}
 		
 		return waits;
 	}
@@ -161,9 +161,10 @@ public class AgariChecker {
 			//if any melds have been made, chiitoitsu is impossible, return false
 			if (handTiles.size() != MAX_HAND_SIZE-1 || myHand.numberOfMeldsMade() > 0) return emptyWaitsList();
 			
+			
 			//the hand should have exactly 7 different types of tiles (4 of a kind != 2 pairs)
 			if (handTiles.makeCopyNoDuplicates().size() != 7) return emptyWaitsList();
-
+			
 			//the hand must have no more than 2 of each tile
 			GameTile missingTile = null;
 			for(GameTile t: handTiles){
@@ -270,7 +271,6 @@ public class AgariChecker {
 		public List<Meld> getFinishingMelds(){
 			List<Meld> finishingMelds = new ArrayList<Meld>(5);
 			isCompleteNormal(finishingMelds);
-			System.out.println(isCompleteNormal(finishingMelds));
 			return finishingMelds;
 		}
 		

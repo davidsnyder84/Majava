@@ -30,8 +30,8 @@ public class DemoHandGen {
 	public static void main(String[] args) {
 		
 //		runTenpaiSimulation(5000);
-		runSingleTenpaiTest(generateSpecificHand());
-//		runSimulation(5000);
+//		runSingleTenpaiTest(generateSpecificHand());
+		runSimulation(5000);
 		
 		
 		
@@ -60,29 +60,28 @@ public class DemoHandGen {
 	keeps track of when HandChecker gives a wrong answer
 	*/
 	public static void runSimulation(int howManyTimes){
-		
-		Hand currentHand = null;
-		boolean success = true;
 		int numFailures = 0;
 		int totalNum = 0;
 		
 		for (int i = 0; i < howManyTimes; i++){
 			
-			currentHand = generateCompleteHand();
-			currentHand.sort();
+			Hand currentHand = generateCompleteHand().sort();
 			
-			System.out.println(currentHand.toString());
+			println(currentHand.toString());
 			
-			success = currentHand.isComplete();
+			boolean success = currentHand.isComplete();
 			System.out.println(currentHand.getAsStringMeldsCompact());
 			System.out.println("Hand is complete?: " + success);
 			
 			if (success == false){
 				numFailures++;
+//				System.out.println(currentHand.toString());
 				System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 			}
-			else
+			else{
 				printFinishingMeldsFor(currentHand);
+				;
+			}
 			
 			System.out.println("\n\n");
 			totalNum++;
@@ -141,10 +140,7 @@ public class DemoHandGen {
 	keeps track of when HandChecker gives a wrong answer
 	*/
 	public static void runTenpaiSimulation(int howManyTimes){
-		
-		Hand currentHand = null;
 		int numFailures = 0;
-		String waitString = "";
 		
 		GTL maxWaits = new GTL();
 		Hand maxWaitsHand = null;
@@ -155,25 +151,25 @@ public class DemoHandGen {
 		
 		for (int i = 0; i < howManyTimes; i++){
 			
-			currentHand = generateTenpaiHand();
+			Hand currentHand = generateTenpaiHand();
 
-			System.out.println(currentHand.toString() + "\n");
+			println(currentHand.toString() + "\n");
 			
-			currentHand.isInTenpai();
 			GTL waits = currentHand.getTenpaiWaits();
 			
 			
-			System.out.print("Waits: ");
-			waitString = "";
+			print("Waits: ");
+			String waitString = "";
 			for (GameTile t: waits) waitString += t.toString() + ", ";
 			
 			
 			if (waits.isEmpty()){
+				println(currentHand.toString() + "\n");
 				numFailures++;
 				System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 			}
 			else{
-				System.out.println(waitString);
+				System.out.println(waitString); 
 				if (waits.size() > maxNumWaits && waits.size() != 13){
 					maxWaits = waits;
 					maxWaitsHand = currentHand;
@@ -211,14 +207,10 @@ public class DemoHandGen {
 	//returns a hand that is complete
 	public static Hand generateCompleteHand(){
 		
-		Hand hand = new Hand(OWNER_SEAT);
-		GTL listGT = Majenerator.generateWinningHandTiles();
+		GTL listGT = Majenerator.generateWinningHandTiles().withWind(OWNER_SEAT);
+		Hand hand = new Hand(listGT).setOwnerSeatWind(OWNER_SEAT).sort();
 		
-		
-		for (GameTile t: listGT)
-			hand.addTile(t.withOwnerWind(OWNER_SEAT));
-		
-		return hand.sort();
+		return hand;
 	}
 	
 	
@@ -279,7 +271,8 @@ public class DemoHandGen {
 	
 	public static void printFinishingMeldsFor(Hand h){
 //		List<Meld> fMelds = hc.getFinishingMelds();
-		for (Meld m: h.getFinishingMelds()) System.out.println(m.toString());
+		for (Meld m: h.getFinishingMelds())
+			System.out.println(m.toString());
 	}
 	
 	
@@ -320,6 +313,6 @@ public class DemoHandGen {
 		return hand.sort();
 	}
 	
-	public static void println(String prints){System.out.println(prints);}public static void println(){println("");}
+	public static void println(String prints){System.out.println(prints);}public static void println(){println("");}public static void print(String prints){System.out.print(prints);}
 
 }

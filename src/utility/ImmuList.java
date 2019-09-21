@@ -35,8 +35,7 @@ public class ImmuList<T extends Comparable<? super T>> implements Iterable<T>{
 	
 	//return a new ImmuList<T> with a COPY (independent) of each tile in the list
 	public ImmuList<T> makeCopyNoDuplicates(){
-		ArrayList<T> listWithNoDuplicates = listClone();
-		
+		ArrayList<T> listWithNoDuplicates = new ArrayList<T>();
 		for (T item: this)
 			if (!listWithNoDuplicates.contains(item))
 				listWithNoDuplicates.add(item);
@@ -58,7 +57,7 @@ public class ImmuList<T extends Comparable<? super T>> implements Iterable<T>{
 	public T getLast(){if (isEmpty()) return null; return get(size() - 1);}
 	public boolean contains(T item){return list.contains(item);}
 	public int indexOf(T item){return list.indexOf(item);}
-	public List<T> toList(){return listClone();}
+	public List<T> toList(){return listClone();} public List<T> asList(){return toList();}
 	
 	
 	
@@ -198,5 +197,13 @@ public class ImmuList<T extends Comparable<? super T>> implements Iterable<T>{
 	}
 	
 	
+	public boolean equals(ImmuList<T> other){
+		if (other == null) return false;
+		if (this.size() != other.size()) return false;
+		for (int i = 0; i < size(); i++)
+			if (!this.get(i).equals(other.get(i)))
+				return false;
+		return true;
+	}
 }
 

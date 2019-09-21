@@ -12,7 +12,6 @@ import majava.tiles.GameTile;
 
 public class GTL extends ImmuList<GameTile> implements ReadOnlyTileList{
 	
-	
 	public GTL(){super();}
 	
 	

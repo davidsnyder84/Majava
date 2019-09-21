@@ -220,12 +220,15 @@ public class Majenerator {
 		
 		
 		//sometimes do chiitoi and kokushi
+//		if (true){
+//			winHand = generateHandTilesKokushi();
+//			winHand = generateHandTilesChiitoi();
+//			return new WinningHandAndMelds(winHand, winMelds);
+//		}
 		if (allowChiitoiKokushi && (randGen.nextInt(15) == 14)){
-			GTL handtiles = null;
-			if (randGen.nextBoolean()) handtiles = generateHandTilesKokushi();
-			else handtiles = generateHandTilesChiitoi();
-			
-			winHand.addAll(handtiles);
+			if (randGen.nextBoolean())  winHand = generateHandTilesKokushi();
+			else winHand = generateHandTilesChiitoi();
+				
 			return new WinningHandAndMelds(winHand, winMelds);
 		}
 		

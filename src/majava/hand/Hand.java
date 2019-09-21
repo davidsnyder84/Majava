@@ -87,7 +87,6 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	}
 	public List<Meld> getFinishingMelds(){
 		List<Meld> finishingMelds = agariChecker().getFinishingMelds();
-		System.out.println(finishingMelds.toString());
 		
 		//this is needed because the ron tile is absorbed into the hand for finished meld form, creating an innacurate "completed Tile" being assigned sometimes (and thus incorrect windofresponsibleplayer)
 //		for (Meld m: finishingMelds)

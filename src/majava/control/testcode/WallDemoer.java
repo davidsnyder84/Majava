@@ -203,10 +203,10 @@ public class WallDemoer {
 		for (int i = 0; i < h3.length; i++) h3i[i] = h3[i];
 		for (int i = 0; i < h4.length; i++) h4i[i] = h4[i];
 		
-		GameTileList tilesE = new GameTileList(h1i);
-		GameTileList tilesS = new GameTileList(h2i);
-		GameTileList tilesW = new GameTileList(h3i);
-		GameTileList tilesN = new GameTileList(h4i);
+		GTL tilesE = new GTL(h1i);
+		GTL tilesS = new GTL(h2i);
+		GTL tilesW = new GTL(h3i);
+		GameTileList tilesN = new GTL(h4i);
 		
 		while (tilesE.size() < 14) tilesE.add(new GameTile(0));
 		while (tilesS.size() < 13) tilesS.add(new GameTile(0));

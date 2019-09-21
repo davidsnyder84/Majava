@@ -58,7 +58,7 @@ public class Round{
 		for (Player p: players)
 			p.prepareForNewRound();
 		
-		wall = new Wall();
+		wall = new Wall().shuffle();
 		roundResult = new RoundResult();
 		turnIndicator = new TurnIndicator(players);	/////Does TurnIndicator really need players?
 		

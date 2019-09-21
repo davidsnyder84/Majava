@@ -14,8 +14,10 @@ import majava.util.GTL;
 
 //represents the wall (ŽR/•Ç) of tiles used in the game
 public class Wall {
+	
 	private static final int NUMBER_OF_DIFFERENT_TILES = 34;
 	private static final int MAX_SIZE_WALL = NUMBER_OF_DIFFERENT_TILES * 4;	//136
+	private static final int POS_START = 0;
 	private static final int POS_LAST_NORMAL_WALL_TILE = 121;
 //	private static final int POS_LAST_DEAD_WALL_TILE = 135;
 //	private static final int FIRST_TILE_IN_WALL = 0;
@@ -27,16 +29,27 @@ public class Wall {
 	
 	
 	private final GameTile[] wallTiles;
-	private int currentWallPosition;
+	private final int currentWallPosition;
 	
 	
 	public Wall(){
-		currentWallPosition = 0;
-		
-		wallTiles = generateStandardSetOf134Tiles();
-		shuffle();
+		this(standardSetOf134Tiles(), POS_START);
 	}
-	private void shuffle(){Collections.shuffle(Arrays.asList(wallTiles));}
+	public Wall(GameTile[] newTiles, int pos){
+		wallTiles = newTiles;
+		currentWallPosition = pos;
+	}
+	public Wall withTiles(GameTile[] newTiles){return new Wall(newTiles, currentWallPosition);}
+	public Wall withPosition(int newPos){return new Wall(wallTiles, newPos);}
+	
+	public Wall shuffle(){return this.withTiles(shuffledTiles());}
+	
+	private GameTile[] tilesClone(){return wallTiles.clone();}
+	private GameTile[] shuffledTiles(){
+		GameTile[] shuffledTiles = tilesClone();
+		Collections.shuffle(Arrays.asList(shuffledTiles));
+		return shuffledTiles;
+	}
 	
 	
 	
@@ -114,7 +127,7 @@ public class Wall {
 	
 	
 	private GameTile getTile(int index){return wallTiles[index];}
-	public GameTile[] getTilesAsList(){return wallTiles.clone();}
+	public GameTile[] getTilesAsList(){return tilesClone();}
 	private GameTile getDeadWallTile(int index){return getTile(OFFSET_DEAD_WALL + index);}
 	private void setTile(int index, GameTile tile){wallTiles[index] = tile;}
 	private GameTile removeTile(int index){
@@ -197,7 +210,7 @@ public class Wall {
 //	public void printDeadWall(){System.out.println(toStringDeadWall());}
 	
 	
-	public static GameTile[] generateStandardSetOf134Tiles(){
+	public static GameTile[] standardSetOf134Tiles(){
 		final GameTile[] tiles = new GameTile[MAX_SIZE_WALL];
 		final int IDM5 = 5, IDP5 = 14, IDS5 = 23;
 		int index = 0;

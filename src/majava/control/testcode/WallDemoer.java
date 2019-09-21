@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import majava.Wall;
 import majava.tiles.GameTile;
-import majava.util.GameTileList;
+import majava.util.GTL;
 
 public class WallDemoer {
 	private static final int NUMBER_OF_DIFFERENT_TILES = 34;
@@ -206,12 +206,12 @@ public class WallDemoer {
 		GTL tilesE = new GTL(h1i);
 		GTL tilesS = new GTL(h2i);
 		GTL tilesW = new GTL(h3i);
-		GameTileList tilesN = new GTL(h4i);
+		GTL tilesN = new GTL(h4i);
 		
-		while (tilesE.size() < 14) tilesE.add(new GameTile(0));
-		while (tilesS.size() < 13) tilesS.add(new GameTile(0));
-		while (tilesW.size() < 13) tilesW.add(new GameTile(0));
-		while (tilesN.size() < 13) tilesN.add(new GameTile(0));
+		while (tilesE.size() < 14) tilesE = tilesE.add(new GameTile(0));
+		while (tilesS.size() < 13) tilesE = tilesS.add(new GameTile(0));
+		while (tilesW.size() < 13) tilesE = tilesW.add(new GameTile(0));
+		while (tilesN.size() < 13) tilesE = tilesN.add(new GameTile(0));
 		
 		if (debugHandSizes[0] > 14) debugHandSizes[0] = 14;
 		for (int i = 1; i < debugHandSizes.length; i++) if (debugHandSizes[i] > 13) debugHandSizes[i] = 13;
@@ -221,34 +221,34 @@ public class WallDemoer {
 		final int TAKEN_PER_PLAYER = 4;
 		
 		//put desired hands in the wall
-		int i, j;
+		int posE = 0, posS = 0, posW = 0, posN = 0;
 		//each player takes 4, 3 times
-		for (i = 0; i < 3; i++){
+		for (int i = 0; i < 3; i++){
 			//east takes 4
-			for (j = 0; j < 4; j++)
-				wallTiles[TAKEN_PER_ROUND*i + j + 0*TAKEN_PER_PLAYER + offset] = tilesE.remove(0);
+			for (int j = 0; j < 4; j++)
+				wallTiles[TAKEN_PER_ROUND*i + j + 0*TAKEN_PER_PLAYER + offset] = tilesE.get(posE++);
 			//south takes 4
-			for (j = 0; j < 4; j++)
-				wallTiles[TAKEN_PER_ROUND*i + j + 1*TAKEN_PER_PLAYER + offset] = tilesS.remove(0);
+			for (int j = 0; j < 4; j++)
+				wallTiles[TAKEN_PER_ROUND*i + j + 1*TAKEN_PER_PLAYER + offset] = tilesS.get(posS++);
 			//west takes 4
-			for (j = 0; j < 4; j++)
-				wallTiles[TAKEN_PER_ROUND*i + j + 2*TAKEN_PER_PLAYER + offset] = tilesW.remove(0);
+			for (int j = 0; j < 4; j++)
+				wallTiles[TAKEN_PER_ROUND*i + j + 2*TAKEN_PER_PLAYER + offset] = tilesW.get(posW++);
 			//north takes 4
-			for (j = 0; j < 4; j++)
-				wallTiles[TAKEN_PER_ROUND*i + j + 3*TAKEN_PER_PLAYER + offset] = tilesN.remove(0);
+			for (int j = 0; j < 4; j++)
+				wallTiles[TAKEN_PER_ROUND*i + j + 3*TAKEN_PER_PLAYER + offset] = tilesN.get(posN++);
 		}
 		//east takes 2
-		wallTiles[3*TAKEN_PER_ROUND + 0 + offset] = tilesE.remove(0);
-		wallTiles[3*TAKEN_PER_ROUND + 1 + offset] = tilesE.remove(0);
+		wallTiles[3*TAKEN_PER_ROUND + 0 + offset] = tilesE.get(posE++);
+		wallTiles[3*TAKEN_PER_ROUND + 1 + offset] = tilesE.get(posE++);
 
 		//south takes 1
-		wallTiles[3*TAKEN_PER_ROUND + 2 + offset] = tilesS.remove(0);
+		wallTiles[3*TAKEN_PER_ROUND + 2 + offset] = tilesS.get(posS++);
 
 		//west takes 1
-		wallTiles[3*TAKEN_PER_ROUND + 3 + offset] = tilesW.remove(0);
+		wallTiles[3*TAKEN_PER_ROUND + 3 + offset] = tilesW.get(posW++);
 
 		//north takes 1
-		wallTiles[3*TAKEN_PER_ROUND + 4 + offset] = tilesN.remove(0);
+		wallTiles[3*TAKEN_PER_ROUND + 4 + offset] = tilesN.get(posN++);
 		
 		
 		if (tsumo2 != 0) wallTiles[3*TAKEN_PER_ROUND + 4 + 1 + offset] = new GameTile(tsumo2);

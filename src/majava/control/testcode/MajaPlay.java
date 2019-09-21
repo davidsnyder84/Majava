@@ -16,7 +16,7 @@ import majava.tiles.HandCheckerTile;
 import majava.tiles.Janpai;
 import majava.tiles.PondTile;
 import majava.tiles.TileInterface;
-import majava.util.GameTileList;
+import majava.util.GTL;
 import majava.util.TileKnowledge;
 
 
@@ -105,7 +105,7 @@ public class MajaPlay {
 		println(h2.toString());
 		
 		
-		Meld m1 = new Meld(new GameTileList(new GameTile(Janpai.P8), new GameTile(Janpai.P8), new GameTile(Janpai.P8)), MeldType.PON);
+		Meld m1 = new Meld(new GTL(new GameTile(Janpai.P8), new GameTile(Janpai.P8), new GameTile(Janpai.P8)), MeldType.PON);
 		Meld m2 = m1.clone();
 		
 		m2.upgradeToMinkan(new GameTile(Janpai.P8));
@@ -250,9 +250,9 @@ public class MajaPlay {
 	public static void chiitoiTenpaiTest(){
 		
 		Hand h = new Hand();
-		GameTileList waits = new GameTileList();
+		GTL waits = new GTL();
 		
-		GameTileList handTiles = new GameTileList(2,2,5,5,7,7,10,10,20,20,21,21,30,30);
+		GTL handTiles = new GTL(2,2,5,5,7,7,10,10,20,20,21,21,30,30);
 		handTiles.remove(13);
 		for (GameTile t: handTiles) h.addTile(t);
 		
@@ -268,16 +268,16 @@ public class MajaPlay {
 
 		//chiitoi tenpai hands (should show true)
 		println("\n\nGOOD TENPAIS=====================\n");
-		List<GameTileList> tlists = new ArrayList<GameTileList>(8);
-		tlists.add(new GameTileList(1,1,3,3,5,5,7,7,9,9,11,11,13));
-		tlists.add(new GameTileList(1,1,3,3,5,5,7,7,9,9,11,13,13));
-		tlists.add(new GameTileList(1,1,3,3,5,5,7,7,9,11,11,13,13));
-		tlists.add(new GameTileList(1,1,3,3,5,5,7,9,9,11,11,13,13));
-		tlists.add(new GameTileList(1,1,3,3,5,7,7,9,9,11,11,13,13));
-		tlists.add(new GameTileList(1,1,3,5,5,7,7,9,9,11,11,13,13));
-		tlists.add(new GameTileList(1,3,3,5,5,7,7,9,9,11,11,13,13));
+		List<GTL> tlists = new ArrayList<GTL>(8);
+		tlists.add(new GTL(1,1,3,3,5,5,7,7,9,9,11,11,13));
+		tlists.add(new GTL(1,1,3,3,5,5,7,7,9,9,11,13,13));
+		tlists.add(new GTL(1,1,3,3,5,5,7,7,9,11,11,13,13));
+		tlists.add(new GTL(1,1,3,3,5,5,7,9,9,11,11,13,13));
+		tlists.add(new GTL(1,1,3,3,5,7,7,9,9,11,11,13,13));
+		tlists.add(new GTL(1,1,3,5,5,7,7,9,9,11,11,13,13));
+		tlists.add(new GTL(1,3,3,5,5,7,7,9,9,11,11,13,13));
 		
-		for (GameTileList tl: tlists){
+		for (GTL tl: tlists){
 			h = new Hand();
 			for (GameTile t: tl) h.addTile(t);
 
@@ -293,17 +293,17 @@ public class MajaPlay {
 		
 		//NOT chiitoi tenpai hands (should show false)
 		println("\n\nBAD TENPAIS=====================\n");
-		List<GameTileList> badtlists = new ArrayList<GameTileList>(8);
-		badtlists.add(new GameTileList(1,1,1,1,5,5,7,7,9,9,11,11,13));
-		badtlists.add(new GameTileList(1,1,1,1,5,6,7,7,9,9,11,11,13,13));
-		badtlists.add(new GameTileList(1,1,5,5,7,7,9,9,11,11,13));
-		badtlists.add(new GameTileList(1,1,5));
-		badtlists.add(new GameTileList(1));
-		badtlists.add(new GameTileList(1,1,3,3,5,5,7,7,9,9,11,11,13,13));	//is actually chiitoi complete
+		List<GTL> badtlists = new ArrayList<GTL>(8);
+		badtlists.add(new GTL(1,1,1,1,5,5,7,7,9,9,11,11,13));
+		badtlists.add(new GTL(1,1,1,1,5,6,7,7,9,9,11,11,13,13));
+		badtlists.add(new GTL(1,1,5,5,7,7,9,9,11,11,13));
+		badtlists.add(new GTL(1,1,5));
+		badtlists.add(new GTL(1));
+		badtlists.add(new GTL(1,1,3,3,5,5,7,7,9,9,11,11,13,13));	//is actually chiitoi complete
 		
 		
 		
-		for (GameTileList tl: badtlists){
+		for (GTL tl: badtlists){
 			h = new Hand();
 			for (GameTile t: tl) h.addTile(t);
 
@@ -326,7 +326,7 @@ public class MajaPlay {
 		
 		Hand h = new Hand();
 		//Tile q = null;
-		GameTileList waits = null;
+		GTL waits = null;
 
 		h.addTile(new GameTile("M1"));	//1
 		h.addTile(new GameTile("M9"));	//2
@@ -364,7 +364,7 @@ public class MajaPlay {
 		
 		GameTile q = null;
 		Hand h = new Hand();
-
+		
 		h.addTile(1);
 		h.addTile(2);
 		h.addTile(2);
@@ -385,9 +385,7 @@ public class MajaPlay {
 		
 		for (Integer id: discardIDs){
 			
-			q = new GameTile(id);
-			q.setOwner(ownerSeat.kamichaWind());
-			h.canCallTile(q);
+			q = new GameTile(id).withOwnerWind(ownerSeat.kamichaWind());
 			
 			println(h.toString());
 			println("Discarded tile: " + q.toString());
@@ -433,8 +431,7 @@ public class MajaPlay {
 		println(h.toString());
 		
 		
-		q = new GameTile(4);
-		q.setOwner(ownerSeat.kamichaWind());
+		q = new GameTile(4).withOwnerWind(ownerSeat.kamichaWind());
 //		println("\nDiscarded tile: " + q.toStringAllInfo());
 		println("\nDiscarded tile: " + q.toString());
 //		h.canCallTile(q);
@@ -468,9 +465,9 @@ public class MajaPlay {
 		println(h.toString());
 		
 		q = new GameTile(1);
-//		q.setOwner(ownerSeat);
-		q.setOwner(ownerSeat.kamichaWind());
-//		q.setOwner(Wind.WEST);
+		q = q.withOwnerWind(ownerSeat.kamichaWind());
+//		q = q.withOwnerWind(ownerSeat);
+//		q = q.withOwnerWind(Wind.WEST);
 		
 
 //		println("\nDiscarded tile: " + q.toStringAllInfo());
@@ -594,7 +591,7 @@ public class MajaPlay {
 		discards.add(new GameTile(1));
 		discards.add(new GameTile(16));
 		
-		discards.get(1).setOwner(p.getSeatWind());
+		discards.set(1, discards.get(1).withOwnerWind(p.getSeatWind()));
 		
 		
 		
@@ -776,23 +773,23 @@ public class MajaPlay {
 	
 	
 
-	public static void playTileClone(){
-		GameTile t1, t2;
-		t1 = new GameTile(7);
-		println("t1: " + t1.toString() + "\n");
-		
-		t2 = t1.clone();
-		println("t1: " + t1.toString() + ", owner: " + t1.getOrignalOwner());
-		println("t2: " + t2.toString() + ", owner: " + t2.getOrignalOwner() + "\n");
-		
-		t1.setOwner(Wind.WEST);
-		println("t1: " + t1.toString() + ", owner: " + t1.getOrignalOwner());
-		println("t2: " + t2.toString() + ", owner: " + t2.getOrignalOwner() + "\n");
-		
-		t2.setOwner(Wind.SOUTH);
-		println("t1: " + t1.toString() + ", owner: " + t1.getOrignalOwner());
-		println("t2: " + t2.toString() + ", owner: " + t2.getOrignalOwner() + "\n");
-	}
+//	public static void playTileClone(){
+//		GameTile t1, t2;
+//		t1 = new GameTile(7);
+//		println("t1: " + t1.toString() + "\n");
+//		
+//		t2 = t1.clone();
+//		println("t1: " + t1.toString() + ", owner: " + t1.getOrignalOwner());
+//		println("t2: " + t2.toString() + ", owner: " + t2.getOrignalOwner() + "\n");
+//		
+//		t1.setOwner(Wind.WEST);
+//		println("t1: " + t1.toString() + ", owner: " + t1.getOrignalOwner());
+//		println("t2: " + t2.toString() + ", owner: " + t2.getOrignalOwner() + "\n");
+//		
+//		t2.setOwner(Wind.SOUTH);
+//		println("t1: " + t1.toString() + ", owner: " + t1.getOrignalOwner());
+//		println("t2: " + t2.toString() + ", owner: " + t2.getOrignalOwner() + "\n");
+//	}
 	
 //	public static void playImmutableTileTests(){
 //		System.out.println();

@@ -16,7 +16,7 @@ public class RemainingTileset {
 	
 	public RemainingTileset() {
 		tilesRemaining = new GameTileList();
-		tilesRemaining.addAll(Arrays.asList(Wall.generateStandardSetOf134Tiles()));
+		tilesRemaining.addAll(Arrays.asList(Wall.standardSetOf134Tiles()));
 	}
 	
 	

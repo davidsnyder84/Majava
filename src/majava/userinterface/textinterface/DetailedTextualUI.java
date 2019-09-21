@@ -6,7 +6,7 @@ import java.util.List;
 
 import utility.Pauser;
 import majava.hand.Meld;
-import majava.util.GameTileList;
+import majava.util.GTL;
 import majava.util.YakuList;
 import majava.yaku.Yaku;
 import majava.enums.Exclamation;
@@ -80,7 +80,7 @@ public class DetailedTextualUI extends TextualUI{
 	protected void __showWall(){println(gameState.wallToString());}
 	
 	protected void __showDoraIndicators(){
-		GameTileList doraIndicators = roundTracker.getDoraIndicators();
+		GTL doraIndicators = roundTracker.getDoraIndicators();
 		println("Dora Indicators: " + doraIndicators + "\n\n");
 	}
 	
@@ -119,7 +119,7 @@ public class DetailedTextualUI extends TextualUI{
 		PaymentMap payments = null;
 		//for win
 		PlayerSummary winner = null, furikon = null;
-		GameTileList winnerHandTiles = null; List<Meld> winnerMelds = null; GameTile winningTile = null;
+		GTL winnerHandTiles = null; List<Meld> winnerMelds = null; GameTile winningTile = null;
 		YakuList yakuList = null; int yakuWorth = -1; int handScore = -1; 
 		
 		

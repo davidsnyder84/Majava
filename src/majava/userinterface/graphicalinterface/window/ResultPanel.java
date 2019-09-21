@@ -27,7 +27,7 @@ import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
-import majava.util.GameTileList;
+import majava.util.GTL;
 import majava.util.YakuList;
 import majava.yaku.Yaku;
 
@@ -51,10 +51,10 @@ public class ResultPanel extends JPanel{
 	
 	
 	
-	protected WinnerPanel winnerPanel;
-	protected TableViewBase.RoundResultLabelPanel resultLabelPanel;
-	protected PaymentsPanel paymentsPanel;
-	protected YakuPanel yakuPanel;
+	protected final WinnerPanel winnerPanel;
+	protected final TableViewBase.RoundResultLabelPanel resultLabelPanel;
+	protected final PaymentsPanel paymentsPanel;
+	protected final YakuPanel yakuPanel;
 	
 	
 	public ResultPanel(){
@@ -106,7 +106,7 @@ public class ResultPanel extends JPanel{
 			winnerPanel.setVisible(true);
 			
 			//winning hand
-			GameTileList winnerHandTiles = resultSummary.getWinnerHandTiles();
+			GTL winnerHandTiles = resultSummary.getWinnerHandTiles();
 			for (int currentTile = 0; currentTile < winnerHandTiles.size(); currentTile++)
 				winnerPanel.panelHandAndMelds.panelH.larryH[currentTile].setIcon(new ImageIcon(getClass().getResource("/res/img/tiles/" + winnerHandTiles.get(currentTile).getId() + ".png")));			
 			

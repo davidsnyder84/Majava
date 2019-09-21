@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.jws.soap.SOAPBinding;
+
 import majava.hand.AgariHand;
 import majava.hand.Hand;
 import majava.hand.Meld;
 import majava.RoundResult;
-import majava.util.GameTileList;
+import majava.util.GTL;
 import majava.util.YakuList;
 import majava.yaku.Yaku;
 import majava.enums.MeldType;
@@ -46,14 +48,14 @@ public class Majenerator {
 	
 
 	
-	public static AgariHand agariHandFromIDs(int... ids){
-		Hand hand = new Hand();
-		for (int id: ids) hand.addTile(id);
-		hand.setOwnerSeatWind(OWNER_WIND);
-		hand.sort();
-		GameTile agarihai = hand.removeTile(hand.size()-1);
+	public static AgariHand agariHandFromIDs(Integer... ids){
 		
-//		agarihai.setOwner(OWNER_WIND.kamichaWind());
+		Hand hand = new Hand(new GTL(ids)).setOwnerSeatWind(OWNER_WIND).sort();
+		
+		GameTile agarihai = hand.getLastTile();
+		hand = hand.removeLastTile();
+		
+//		agarihai = agarihai.withOwnerWind(OWNER_WIND.kamichaWind());
 		
 		AgariHand ah = new AgariHand(hand, agarihai);
 		return ah;
@@ -92,16 +94,17 @@ public class Majenerator {
 		
 		Player winner = players[windex];
 		Player furi = players[losedex];
-		List<Meld> winMelds = null;
-		GameTileList winHandTiles = null;
-		GameTile winningTile = null;
 		
 		
-		winHandTiles = new GameTileList();
-		winMelds = new ArrayList<Meld>();
-		generateWinningHandAndMelds(winHandTiles, winMelds);
-//		generateWinningHandAndMelds(winHandTiles, winMelds, 0);
-		winningTile = winHandTiles.remove(randGen.nextInt(winHandTiles.size()));
+		WinningHandAndMelds wham = generateWinningHandAndMelds();
+//		WinningHandAndMelds wham = generateWinningHandAndMelds(0);
+		List<Meld> winMelds = wham.getMelds();
+		GTL winHandTiles = wham.getHand().getTiles();
+		
+		
+		int removeIndex = randGen.nextInt(winHandTiles.size());
+		GameTile winningTile = winHandTiles.get(removeIndex);
+		winHandTiles = winHandTiles.remove(removeIndex);
 		
 		
 		if (randGen.nextBoolean()) res.setVictoryRon(winner, furi);
@@ -158,12 +161,10 @@ public class Majenerator {
 	
 	
 	
-	public static GameTileList generateWinningHandTiles(){
-		final GameTileList winHand = new GameTileList();
-		final List<Meld> winMelds = new ArrayList<Meld>();
-		generateWinningHandAndMelds(winHand, winMelds);
+	public static GTL generateWinningHandTiles(){
+		WinningHandAndMelds wham = generateWinningHandAndMelds();
 		
-		return winHand;
+		return wham.getHand().getTiles();
 	}
 	
 	
@@ -172,28 +173,33 @@ public class Majenerator {
 	
 	
 	public static AgariHand generateAgariHand(int howManyMelds, MeldType[] onlyAllowTheseMeldTypes){
-		final GameTileList winHand = new GameTileList();
-		final List<Meld> winMelds = new ArrayList<Meld>();
 		final Wind ownerWind = OWNER_WIND;
 		
-		generateWinningHandAndMelds(winHand, winMelds, howManyMelds, onlyAllowTheseMeldTypes);		
-
+		WinningHandAndMelds wham = generateWinningHandAndMelds(howManyMelds, onlyAllowTheseMeldTypes);		
+		GTL winHand = wham.getHand().getTiles();
+		List<Meld> winMelds = wham.getMelds();
 		
-		Hand hand = new Hand();
+		
+		
+//		winHand = winHand.withWind(ownerWind);
+//		for (Meld m: winMelds)
+//			for (GameTile t: m)
+//				t.setOwner(ownerWind);
+		
 		//set owner wind for hand, tiles, and melds
-		hand.setOwnerSeatWind(ownerWind);
-		for (GameTile t: winHand) t.setOwner(ownerWind);
-		for (Meld m: winMelds) for (GameTile t: m) t.setOwner(ownerWind);
-		
 		//add tiles to hand, and melds to hand
-		for (GameTile t: winHand) hand.addTile(t);
-		for (Meld m: winMelds) hand.DEMOaddMeld(m);
+		Hand hand = new Hand(ownerWind);
+		for (GameTile t: winHand) hand.addTile(t.withOwnerWind(ownerWind));
+		for (Meld m: winMelds) hand.DEMOaddMeld(m.DEMO_setWind(ownerWind));
 		
 		//set agarihai
-		GameTile agarihai = hand.removeTile(randGen.nextInt(hand.size()));		
-		if (randGen.nextBoolean()) agarihai.setOwner(ownerWind.kamichaWind());	//decide tsumo/ron
+		int agariIndex = randGen.nextInt(hand.size());
+		GameTile agarihai = hand.getTile(agariIndex);
+		hand = hand.removeTile(agariIndex);
 		
-		AgariHand ah = new AgariHand(hand, agarihai);		
+		if (randGen.nextBoolean()) agarihai = agarihai.withOwnerWind(ownerWind.kamichaWind());	//decide tsumo/ron
+		
+		AgariHand ah = new AgariHand(hand, agarihai);
 		
 //		println(winHand.toString());println(winMelds.toString());println(hand.toString());println("\n\n----uh here's agarihand" + ah.toString());
 		
@@ -207,25 +213,24 @@ public class Majenerator {
 	
 	
 	
-	public static void generateWinningHandAndMelds(final GameTileList winHand, final List<Meld> winMelds, int howManyMelds, MeldType[] onlyAllowTheseMeldTypes){
-		if (winHand == null || winMelds == null) return;
-		winHand.clear();
-		winMelds.clear();
+	public static WinningHandAndMelds generateWinningHandAndMelds(int howManyMelds, MeldType[] onlyAllowTheseMeldTypes){
+		GTL winHand = new GTL();
+		List<Meld> winMelds = new ArrayList<Meld>();
 		
 		
 		
 		//sometimes do chiitoi and kokushi
 		if (allowChiitoiKokushi && (randGen.nextInt(15) == 14)){
-			GameTileList handtiles = null;
-			
+			GTL handtiles = null;
 			if (randGen.nextBoolean()) handtiles = generateHandTilesKokushi();
 			else handtiles = generateHandTilesChiitoi();
 			
-			for (GameTile t: handtiles) winHand.add(t);
-			return;
+			winHand.addAll(handtiles);
+			return new WinningHandAndMelds(winHand, winMelds);
 		}
 		
-
+		
+		
 		List<Meld> handMelds = new ArrayList<Meld>();
 		List<Meld> recipient = null;
 		Meld candidateMeld = null;
@@ -254,15 +259,14 @@ public class Majenerator {
 		handMelds.add(candidateMeld);
 		
 		//add hand meld tiles to hand
-		for (Meld m: handMelds) for (GameTile t: m) winHand.add(t);
-		Collections.sort(winHand);
+		for (Meld m: handMelds) winHand = winHand.addAll(m);
+		winHand = winHand.sort();
 		
-		
-		
+		return new WinningHandAndMelds(winHand, winMelds);
 	}
-	public static void generateWinningHandAndMelds(final GameTileList winHand, final List<Meld> winMelds, MeldType[] onlyAllowTheseMeldTypes){generateWinningHandAndMelds(winHand, winMelds, randGen.nextInt(5), onlyAllowTheseMeldTypes);}
-	public static void generateWinningHandAndMelds(final GameTileList winHand, final List<Meld> winMelds, int howManyMelds){generateWinningHandAndMelds(winHand, winMelds, howManyMelds, DEFAULT_ALLOWED_MELDTYPES);}
-	public static void generateWinningHandAndMelds(final GameTileList winHand, final List<Meld> winMelds){generateWinningHandAndMelds(winHand, winMelds, randGen.nextInt(5));}
+	public static WinningHandAndMelds generateWinningHandAndMelds(MeldType[] onlyAllowTheseMeldTypes){return generateWinningHandAndMelds(randGen.nextInt(5), onlyAllowTheseMeldTypes);}
+	public static WinningHandAndMelds generateWinningHandAndMelds(int howManyMelds){return generateWinningHandAndMelds(howManyMelds, DEFAULT_ALLOWED_MELDTYPES);}
+	public static WinningHandAndMelds generateWinningHandAndMelds(){return generateWinningHandAndMelds(randGen.nextInt(5));}
 
 //	public static AgariHand generateAgariHand(MeldType[] onlyAllowTheseMeldTypes){return generateAgariHand(randGen.nextInt(5), onlyAllowTheseMeldTypes);}
 //	public static AgariHand generateAgariHand(int howManyMelds){return generateAgariHand(howManyMelds, DEFAULT_ALLOWED_MELDTYPES);}
@@ -271,7 +275,7 @@ public class Majenerator {
 	
 	
 	
-	private static boolean __meldWouldViolateTileLimit(Meld candidateMeld, GameTileList existingTiles){
+	private static boolean __meldWouldViolateTileLimit(Meld candidateMeld, GTL existingTiles){
 		
 		//chis
 		if (candidateMeld.isChi()){
@@ -284,32 +288,32 @@ public class Majenerator {
 		return false;
 	}
 	private static boolean __meldWouldViolateTileLimit(Meld candidateMeld, List<Meld> handMelds, List<Meld> melds){	
-		GameTileList existingTiles = new GameTileList();
-		for (Meld m: handMelds) for (GameTile t: m) existingTiles.add(t);
-		for (Meld m: melds) for (GameTile t: m) existingTiles.add(t);
+		
+		GTL existingTiles = new GTL();
+		for (Meld m: handMelds) existingTiles = existingTiles.addAll(m);
+		for (Meld m: melds) existingTiles = existingTiles.addAll(m);
+		
+		
 		return __meldWouldViolateTileLimit(candidateMeld, existingTiles);
 	}
 	
 	
 	
 	
-	public static GameTileList generateHandTilesChiitoi(){
+	public static GTL generateHandTilesChiitoi(){
 		int id;
-		GameTileList tlist = new GameTileList();
+		GTL tlist = new GTL();
 		while (tlist.size() != 14){
 			id = 1+randGen.nextInt(NUM_TILES);
 			if (!tlist.contains(new GameTile(id)))
-				tlist.addAll(new GameTileList(id, id));
+				tlist = tlist.addAll(new GTL(id, id));
 		}
 		
-		tlist.sort();
-		return tlist;
+		return tlist.sort();
 	}
-	public static GameTileList generateHandTilesKokushi(){
+	public static GTL generateHandTilesKokushi(){
 		Integer[] yaochuuIDs = Janpai.retrieveYaochuuTileIDs();
-		GameTileList tlist = new GameTileList(yaochuuIDs);
-		tlist.add(yaochuuIDs[randGen.nextInt(13)]);
-		tlist.sort();
+		GTL tlist = new GTL(yaochuuIDs).add(yaochuuIDs[randGen.nextInt(13)]).sort();
 		return tlist;
 	}
 	
@@ -319,24 +323,22 @@ public class Majenerator {
 	
 	
 	public static Meld generateMeld(final MeldType type, final boolean closed){
-		
-		GameTileList meldTiles = null;
+		GTL meldTiles = null;
 		
 		int id = 1;
 		while(!tileCanMeldMeldType((id = 1+randGen.nextInt(NUM_TILES)), type));
 		
 		switch (type){
-		case CHI_L: meldTiles = new GameTileList(id, id + 1, id + 2); break;
-		case CHI_M: meldTiles = new GameTileList(id - 1, id, id + 1); break;
-		case CHI_H: meldTiles = new GameTileList(id - 2, id - 1, id); break;
-		case KAN: meldTiles = new GameTileList(id, id, id, id); break;
-		case PON: meldTiles = new GameTileList(id, id, id); break;
-		case PAIR: meldTiles = new GameTileList(id, id); break;
+		case CHI_L: meldTiles = new GTL(id, id + 1, id + 2); break;
+		case CHI_M: meldTiles = new GTL(id - 1, id, id + 1); break;
+		case CHI_H: meldTiles = new GTL(id - 2, id - 1, id); break;
+		case KAN: meldTiles = new GTL(id, id, id, id); break;
+		case PON: meldTiles = new GTL(id, id, id); break;
+		case PAIR: meldTiles = new GTL(id, id); break;
 		default: break;
 		}
 		
-		Meld m = new Meld(meldTiles, type);
-		return m;
+		return new Meld(meldTiles, type);
 	}
 	public static Meld generateMeld(MeldType mt){return generateMeld(mt, true);}
 	public static Meld generateMeld(MeldType[] onlyAllowTheseMeldTypes){return generateMeld(randomMeldType(onlyAllowTheseMeldTypes));}

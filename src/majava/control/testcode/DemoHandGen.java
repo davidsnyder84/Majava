@@ -14,7 +14,7 @@ import majava.enums.MeldType;
 import majava.enums.Wind;
 import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
-import majava.util.GameTileList;
+import majava.util.GTL;
 
 
 
@@ -30,13 +30,13 @@ public class DemoHandGen {
 	public static void main(String[] args) {
 		
 //		runTenpaiSimulation(5000);
-//		runSingleTenpaiTest(generateSpecificHand());
+		runSingleTenpaiTest(generateSpecificHand());
 //		runSimulation(5000);
 		
 		
 		
 //		runSimulationNoDisplay(50000);
-		runSumulationRandom(300000);
+//		runSumulationRandom(300000);
 //		runSpecificTest();
 		
 //		runTenpaiSimulation(500);
@@ -124,8 +124,7 @@ public class DemoHandGen {
 	public static void runSingleTenpaiTest(Hand hand){
 		System.out.println("\n" + hand + "\n");
 		
-		hand.isInTenpai();
-		GameTileList waits = hand.getTenpaiWaits();
+		GTL waits = hand.getTenpaiWaits();
 		
 		String waitString = "";
 		for (GameTile t: waits) waitString += t + ", ";
@@ -145,10 +144,9 @@ public class DemoHandGen {
 		
 		Hand currentHand = null;
 		int numFailures = 0;
-		GameTileList waits = null;
 		String waitString = "";
 		
-		GameTileList maxWaits = null;
+		GTL maxWaits = new GTL();
 		Hand maxWaitsHand = null;
 		int maxNumWaits = 0;
 		String maxWaitString = "";
@@ -162,7 +160,7 @@ public class DemoHandGen {
 			System.out.println(currentHand.toString() + "\n");
 			
 			currentHand.isInTenpai();
-			waits = currentHand.getTenpaiWaits();
+			GTL waits = currentHand.getTenpaiWaits();
 			
 			
 			System.out.print("Waits: ");
@@ -205,23 +203,22 @@ public class DemoHandGen {
 	public static Hand generateTenpaiHand(){
 		
 		Hand hand = generateCompleteHand();
+		hand = hand.removeTile(randGen.nextInt(hand.size()));
+		return hand;
 		
-		hand.removeTile(randGen.nextInt(hand.size()));
-		return hand; 
+//		return generateCompleteHand().removeTile(randGen.nextInt(hand.size()));
 	}
 	//returns a hand that is complete
 	public static Hand generateCompleteHand(){
-
-		Hand hand = new Hand();
-		GameTileList listGT = Majenerator.generateWinningHandTiles();
 		
-		for (GameTile t: listGT){
-			t.setOwner(OWNER_SEAT);
-			hand.addTile(t);
-		}
+		Hand hand = new Hand(OWNER_SEAT);
+		GTL listGT = Majenerator.generateWinningHandTiles();
 		
-		hand.sort();
-		return hand;
+		
+		for (GameTile t: listGT)
+			hand.addTile(t.withOwnerWind(OWNER_SEAT));
+		
+		return hand.sort();
 	}
 	
 	
@@ -262,30 +259,19 @@ public class DemoHandGen {
 	}
 	
 	public static Hand generateRandomHand(){
-		
-		Hand hand = new Hand();
-		hand.setOwnerSeatWind(OWNER_SEAT);
-		GameTileList tiles = new GameTileList();
-		GameTile currentTile = null;
-		int id = 0;
-		int numMeldsMade = randGen.nextInt(3);
-		
-		
+		GTL tiles = new GTL();
+		final int numMeldsMade = randGen.nextInt(3);
 		
 		while (tiles.size() < 14 - 3*numMeldsMade){
 			//generate a random tile
-			id = randGen.nextInt(34) + 1;
+			int id = randGen.nextInt(34) + 1;
 			
-			if (tiles.findHowManyOf(new GameTile(id)) < 4){
-				currentTile = new GameTile(id);
-				currentTile.setOwner(OWNER_SEAT);
-				tiles.add(currentTile);
-			}
+			if (tiles.findHowManyOf(new GameTile(id)) < 4)
+				tiles = tiles.add(new GameTile(id).withOwnerWind(OWNER_SEAT));
 		}
 		
-		for (GameTile t: tiles) hand.addTile(t);
 		
-		hand.sort();
+		Hand hand = new Hand(tiles).setOwnerSeatWind(OWNER_SEAT).sort();
 //		System.out.println(hand.toString());
 		
 		return hand;
@@ -313,27 +299,25 @@ public class DemoHandGen {
 	
 	public static Hand generateSpecificHand(){
 		Hand hand = new Hand();
-//		GameTileList tiles = new GameTileList(19,19,19,20,21,21,22,22,23,32,32,32,34,34);	//S1 S1 S1 S2 S3 S3 S4 S4 S5 DW DW DW DR DR
-//		GameTileList tiles = new GameTileList(21,22,23,32,32,32,34,34);
-		GameTileList tiles = new GameTileList(2+9,3+9,4+9,1+18,1+18);	//P2 P3 P4 S1 S1
-//		GameTileList tiles = new GameTileList(1,1,2+9,3+9,4+9);	//P2 P3 P4 S1 S1
-//		GameTileList tiles = new GameTileList(3,7,8,9,4+18,5+18,6+18);	//M3 M7 M8 M9 S4 S5 S6
-//		GameTileList tiles = new GameTileList(1,2,2,3,3,4,7+9,9+9,18+5,18+5);	//
-//		GameTileList tiles = new GameTileList(1,1,1,2,3,4,5,6,7,8,9,9,9);	//tenpai chuuren
-//		GameTileList tiles = new GameTileList(2,2,8+9,8+9,6+18,6+18,33,33);	//error case
+//		GTL tiles = new GTL(19,19,19,20,21,21,22,22,23,32,32,32,34,34);	//S1 S1 S1 S2 S3 S3 S4 S4 S5 DW DW DW DR DR
+//		GTL tiles = new GTL(21,22,23,32,32,32,34,34);
+		GTL tiles = new GTL(2+9,3+9,4+9,1+18,1+18);	//P2 P3 P4 S1 S1
+//		GTL tiles = new GTL(1,1,2+9,3+9,4+9);	//P2 P3 P4 S1 S1
+//		GTL tiles = new GTL(3,7,8,9,4+18,5+18,6+18);	//M3 M7 M8 M9 S4 S5 S6
+//		GTL tiles = new GTL(1,2,2,3,3,4,7+9,9+9,18+5,18+5);	//
+//		GTL tiles = new GTL(1,1,1,2,3,4,5,6,7,8,9,9,9);	//tenpai chuuren
+//		GTL tiles = new GTL(2,2,8+9,8+9,6+18,6+18,33,33);	//error case
 		
 		
 		for (GameTile t: tiles){
-			t.setOwner(OWNER_SEAT);
+			GameTile addThis = t.withOwnerWind(OWNER_SEAT);
+			System.out.println("Adding " + addThis);
 			
-			System.out.println("Adding " + t);
-			hand.addTile(t);
+			hand = hand.addTile(addThis);
 //			System.out.println(hand.toString());
 		}
 		
-		
-		hand.sort();
-		return hand;
+		return hand.sort();
 	}
 	
 	public static void println(String prints){System.out.println(prints);}public static void println(){println("");}

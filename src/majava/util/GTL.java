@@ -5,11 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import utility.ImmuList;
+import majava.enums.Wind;
 import majava.hand.Meld;
 import majava.tiles.GameTile;
 
 
-public class GTL extends ImmuList<GameTile>{
+public class GTL extends ImmuList<GameTile> implements ReadOnlyTileList{
 	
 	
 	public GTL(){super();}
@@ -30,6 +31,12 @@ public class GTL extends ImmuList<GameTile>{
 	public GTL add(int id){return new GTL(add(new GameTile(id)));}
 	public GTL addAll(Meld meld){return new GTL(super.addAll(meld.getTiles()));}
 	
+	public GTL withWind(Wind w){
+		GTL windedTiles = new GTL();
+		for (GameTile t: this)
+			windedTiles = windedTiles.add(t.withOwnerWind(w));
+		return windedTiles;
+	}
 	
 	
 	

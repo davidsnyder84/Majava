@@ -270,6 +270,7 @@ public class AgariChecker {
 		public List<Meld> getFinishingMelds(){
 			List<Meld> finishingMelds = new ArrayList<Meld>(5);
 			isCompleteNormal(finishingMelds);
+			System.out.println(isCompleteNormal(finishingMelds));
 			return finishingMelds;
 		}
 		

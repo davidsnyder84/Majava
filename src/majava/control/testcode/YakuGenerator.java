@@ -4,7 +4,7 @@ import majava.enums.Wind;
 import majava.hand.AgariHand;
 import majava.hand.Hand;
 import majava.tiles.GameTile;
-import majava.util.GameTileList;
+import majava.util.GTL;
 
 public class YakuGenerator {
 	public static final Wind OWNER_SEAT = Wind.SOUTH;
@@ -12,41 +12,34 @@ public class YakuGenerator {
 	
 	
 	public static void main(String[] args){
-		generateToitoiHandSpecific();
+		println(generateToitoiHandSpecific().toString());
 	}
 	
 	
 	
 	public static AgariHand generateToitoiHandSpecific(){
-		AgariHand ah = null;
-		GameTile agarihai = null;
+		GTL tiles = new GTL(1,1,1,5,5,5,9,9,9,30,30,30,33,33);
 		
-		Hand hand = new Hand();
-		hand.setOwnerSeatWind(OWNER_SEAT);
-		GameTileList tiles = new GameTileList(1,1,1,5,5,5,9,9,9,30,30,30,33,33);
+		Hand hand = new Hand(tiles.withWind(OWNER_SEAT)).setOwnerSeatWind(OWNER_SEAT);
 		
-		
-		for (GameTile t: tiles){
-			t.setOwner(OWNER_SEAT);
-			hand.addTile(t);
-		}
-		
-		GameTile ponTile = hand.removeTile(2);
-		ponTile.setOwner(OWNER_SEAT.kamichaWind());
-		hand.makeMeldPon(ponTile);
+		int ponIndex = 2;
+		GameTile ponTile = hand.getTile(ponIndex).withOwnerWind(OWNER_SEAT.kamichaWind());
+		hand = hand.removeTile(ponIndex).makeMeldPon(ponTile);
 		
 //		println(hand.toString());
 //		println(hand.getAsStringMelds());
 		
 //		GameTile ronTile = hand.removeTile(hand.size()-1);
-		GameTile ronTile = hand.removeTile(6);
-		ronTile.setOwner(OWNER_SEAT.kamichaWind());
+		int ronIndex = 6;
+		GameTile ronTile = hand.getTile(ronIndex).withOwnerWind(OWNER_SEAT.kamichaWind());
+		hand = hand.removeTile(ronIndex);
 		
-		agarihai = ronTile;
-		ah = new AgariHand(hand, agarihai);
+		GameTile agarihai = ronTile;
+		AgariHand ah = new AgariHand(hand, agarihai);
 //		println("uh");
 //		println(ah.toString());
 		
+		println(ah.size() +"");
 		
 		return ah;
 	}

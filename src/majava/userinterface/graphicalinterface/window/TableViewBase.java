@@ -16,7 +16,8 @@ import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
 import majava.tiles.PondTile;
-import majava.util.GameTileList;
+import majava.util.GTL;
+import majava.util.ReadOnlyTileList;
 import utility.ImageResizer;
 import utility.ImageRotator;
 import utility.Pauser;
@@ -319,7 +320,7 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	private ImageIcon getImageIconForTile(List<? extends TileInterface> tList, int index, int seatNum, int tileSize, boolean reveal){
+	private ImageIcon getImageIconForTile(ReadOnlyTileList tList, int index, int seatNum, int tileSize, boolean reveal){
 		if (tList.size() <= index) return null;
 		
 		if (!reveal) return garryTiles[seatNum][tileSize][TILEBACK];
@@ -329,7 +330,7 @@ public class TableViewBase extends JFrame{
 		
 		return garryTiles[seatNum][tileSize][id];
 	}
-	private ImageIcon getImageIconForTile(List<? extends TileInterface> tList, int index, int seatNum, int tileSize){return getImageIconForTile(tList, index, seatNum, tileSize, true);}
+	private ImageIcon getImageIconForTile(ReadOnlyTileList tList, int index, int seatNum, int tileSize){return getImageIconForTile(tList, index, seatNum, tileSize, true);}
 	
 	
 	private ImageIcon getImageIconPond(List<PondTile> tList, int index, int seatNum){
@@ -421,7 +422,7 @@ public class TableViewBase extends JFrame{
 		
 		//update hands
 		for (int playerIndex = SEAT1; playerIndex <= SEAT4; playerIndex++){
-			GameTileList handTiles = gameState.getHandTilesForPlayer(playerIndex);
+			GTL handTiles = gameState.getHandTilesForPlayer(playerIndex);
 			for (int tile = 0; tile < SIZE_HAND; tile++){
 				larryHands[playerIndex][tile].setIcon(getImageIconForTile(handTiles, tile, playerIndex, BIG, whichHandsToReveal[playerIndex]));
 			}

@@ -166,6 +166,22 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	}
 	
 	
+	
+	
+	
+	
+	public Meld DEMO_setWind(Wind newWind){
+//		return this.withTiles(meldTiles.withWind(newWind)).withCompletedTile(completedTile.withOwnerWind(newWind)).withMeldType(meldType);
+		return new Meld(meldTiles.withWind(newWind), completedTile.withOwnerWind(newWind), meldType);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public String toString(){return toStringTilesOnly() + toStringOpenClosedInfo();}
 	public String toStringTilesOnly(){

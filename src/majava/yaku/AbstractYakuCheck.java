@@ -5,7 +5,7 @@ import java.util.List;
 import majava.hand.AgariHand;
 import majava.hand.Hand;
 import majava.hand.Meld;
-import majava.util.GameTileList;
+import majava.util.GTL;
 import majava.util.YakuList;
 
 public abstract class AbstractYakuCheck {
@@ -37,6 +37,6 @@ public abstract class AbstractYakuCheck {
 	
 	protected boolean handIsKokushiOrChiitoi(){return hand.isCompleteKokushi() || hand.isCompleteChiitoitsu();}
 	
-	protected GameTileList handInTilesForm(){return hand.getTilesAsListIncludingMeldTiles();}
+	protected GTL handInTilesForm(){return hand.getTilesAsListIncludingMeldTiles();}
 	protected List<Meld> handInMeldForm(){return hand.getMeldForm();}
 }

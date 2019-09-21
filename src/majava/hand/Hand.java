@@ -47,17 +47,17 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	}
 	
 	
-	public Hand(){
-		tiles = new GTL();
-		melds = new ArrayList<Meld>(MAX_NUM_MELDS);
-		ownerWind = Wind.UNKNOWN;
-	}
+	public Hand(GTL handTiles, Wind w){this(handTiles, new ArrayList<Meld>(MAX_NUM_MELDS), w);}
+	public Hand(GTL handTiles){this(handTiles, new ArrayList<Meld>(MAX_NUM_MELDS), Wind.UNKNOWN);}
+	public Hand(Wind w){this(new GTL(), new ArrayList<Meld>(MAX_NUM_MELDS), w);}
+	public Hand(){this(Wind.UNKNOWN);}
 	public Hand (Hand other){
-		tiles = other.tiles.clone();
-		melds = new ArrayList<Meld>(MAX_NUM_MELDS);
-		for (Meld m: other.melds) melds.add(m.clone());
-		
-		ownerWind = other.ownerWind;
+		this(other.tiles, other.melds, other.ownerWind);
+//		tiles = other.tiles;
+//		melds = new ArrayList<Meld>(MAX_NUM_MELDS);
+//		for (Meld m: other.melds) melds.add(m.clone());
+//		
+//		ownerWind = other.ownerWind;
 	}
 	public Hand clone(){return new Hand(this);}
 	
@@ -68,6 +68,8 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		if (index > size() || index < 0 ) return null;
 		return tiles.get(index);
 	}
+	public GameTile getLastTile(){return getTile(size()-1);}
+	public GameTile getFirstTile(){return getTile(0);}
 	//GameTileList methods
 	public int findHowManyOf(GameTile t){return tiles.findHowManyOf(t);}
 	public GTL getTiles(){return tiles;}
@@ -85,10 +87,11 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	}
 	public List<Meld> getFinishingMelds(){
 		List<Meld> finishingMelds = agariChecker().getFinishingMelds();
+		System.out.println(finishingMelds.toString());
 		
 		//this is needed because the ron tile is absorbed into the hand for finished meld form, creating an innacurate "completed Tile" being assigned sometimes (and thus incorrect windofresponsibleplayer)
-		for (Meld m: finishingMelds)
-			m.makeSureResponsibleTileIsCorrectlyAssigned(ownerWind);
+//		for (Meld m: finishingMelds)
+//			m.makeSureResponsibleTileIsCorrectlyAssigned(ownerWind);
 		
 		List<Meld> finishingMeldsWithCorrectlyAssignedResponsible = new ArrayList<Meld>();
 		for (Meld m: finishingMelds)
@@ -168,6 +171,8 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		
 		return this.withTiles(tiles.remove(removeThisIndex).sort());
 	}
+	public Hand removeLastTile(){return removeTile(size()-1);}
+	public Hand removeFirstTile(){return removeTile(0);}
 	
 	public Hand removeMultiple(List<Integer> removeIndices){
 		return this.withTiles(tiles.removeMultiple(removeIndices).sort());

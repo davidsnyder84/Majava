@@ -11,7 +11,7 @@ import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
-import majava.util.GameTileList;
+import majava.util.GTL;
 import majava.util.YakuList;
 import majava.yaku.Yaku;
 import utility.Pauser;
@@ -118,7 +118,7 @@ public class SparseTextualUI extends TextualUI{
 		PaymentMap payments = null;
 		//for win
 		PlayerSummary winner = null, furikon = null;
-		GameTileList winnerHandTiles = null; List<Meld> winnerMelds = null; GameTile winningTile = null;
+		GTL winnerHandTiles = null; List<Meld> winnerMelds = null; GameTile winningTile = null;
 		YakuList yakuList = null; int yakuWorth = -1; int handScore = -1; 
 		
 		

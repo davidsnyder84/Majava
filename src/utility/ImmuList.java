@@ -189,6 +189,7 @@ public class ImmuList<T extends Comparable<? super T>> implements Iterable<T>{
 	
 	
 	
+	public String toString(){return list.toString();}
 	
 	@Override
 	public Iterator<T> iterator(){

@@ -26,7 +26,7 @@ public class TileKnowledge {
 		return allHotTileIds;
 	}
 	//overloaded for Hand
-	public static List<Integer> findAllHotTiles(Hand hand){return findAllHotTiles(hand.getTilesAsList());}
+	public static List<Integer> findAllHotTiles(Hand hand){return findAllHotTiles(hand.getTiles());}
 	
 	
 	

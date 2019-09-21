@@ -5,7 +5,7 @@ import java.util.List;
 
 import majava.enums.Wind;
 import majava.tiles.GameTile;
-import majava.util.GameTileList;
+import majava.util.GTL;
 
 //NOTE: this class is immutable
 public class AgariHand extends Hand {

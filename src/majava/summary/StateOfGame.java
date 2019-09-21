@@ -12,7 +12,7 @@ import majava.player.Player;
 import majava.player.brains.PlayerBrain;
 import majava.tiles.GameTile;
 import majava.tiles.PondTile;
-import majava.util.GameTileList;
+import majava.util.GTL;
 
 
 
@@ -34,7 +34,7 @@ public final class StateOfGame {
 	
 	
 	//player methods
-	public GameTileList getHandTilesForPlayer(int playerNum){return playerTrackers[playerNum].handTiles();}	
+	public GTL getHandTilesForPlayer(int playerNum){return playerTrackers[playerNum].handTiles();}	
 	public String getHandAsString(int playerNum){return playerTrackers[playerNum].getHandAsString();}
 	public String getHandAsStringCompact(int playerNum){return playerTrackers[playerNum].getHandAsStringCompact();}
 	public GameTile getTsumoTileFor(int playerNum){return playerTrackers[playerNum].getTsumoTile();}
@@ -80,10 +80,9 @@ public final class StateOfGame {
 		public PlayerTracker(Player p){
 			player = p;
 		}
-
-		//all of these are clones
+		
 		//this is normally hidden information
-		public GameTileList handTiles(){return player.getHand().getTilesAsList();}
+		public GTL handTiles(){return player.getHand().getTiles();}
 		public String getHandAsString(){return player.getAsStringHand();}
 		public String getHandAsStringCompact(){return player.getAsStringHandCompact();}
 		public GameTile getTsumoTile(){return player.getTsumoTile();}

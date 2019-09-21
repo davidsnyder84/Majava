@@ -8,7 +8,7 @@ import majava.enums.Wind;
 import majava.summary.PlayerSummary;
 import majava.summary.ResultType;
 import majava.tiles.GameTile;
-import majava.util.GameTileList;
+import majava.util.GTL;
 import majava.util.YakuList;
 
 
@@ -25,7 +25,7 @@ public class RoundResultSummary {
 	private final GameTile winningTile;
 	
 	
-	private final GameTileList winnerHand;
+	private final GTL winnerHand;
 	private final List<Meld> winnerMelds;
 	
 	private final PaymentMap payments;
@@ -33,7 +33,7 @@ public class RoundResultSummary {
 	
 	
 	//win constructor
-	public RoundResultSummary(ResultType resType, PlayerSummary winner, PlayerSummary discarder, GameTile winningtile, GameTileList winnerhand, List<Meld> winnermelds, PaymentMap paymentsMap, YakuList yakus){
+	public RoundResultSummary(ResultType resType, PlayerSummary winner, PlayerSummary discarder, GameTile winningtile, GTL winnerhand, List<Meld> winnermelds, PaymentMap paymentsMap, YakuList yakus){
 		
 		pResultType = resType;
 		
@@ -42,7 +42,7 @@ public class RoundResultSummary {
 			furikondaPlayer = discarder;
 			winningTile = winningtile.clone();
 			
-			winnerHand = new GameTileList(winnerhand);			
+			winnerHand = winnerhand;			
 			winnerMelds = winnermelds;
 			
 			yakuOfWinner = yakus;
@@ -96,9 +96,9 @@ public class RoundResultSummary {
 	
 	
 	
-	public GameTileList getWinnerHandTiles(){
+	public GTL getWinnerHandTiles(){
 		if (!isVictory()) return null;
-		return winnerHand.clone();
+		return winnerHand;
 	}
 	public List<Meld> getWinnerMelds(){
 		if (!isVictory()) return null; 

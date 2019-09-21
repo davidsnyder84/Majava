@@ -162,6 +162,14 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		return this.withTiles(tiles.add(addThisTile));
 	}
 	public Hand addTile(int tileID){return addTile(new GameTile(tileID));}
+	public Hand addAll(GTL addThese){
+		Hand handWithAllAdded = this;
+		for (GameTile t: addThese)
+			handWithAllAdded = handWithAllAdded.addTile(t);
+		return handWithAllAdded;
+	}
+	public Hand addAll(Hand other){return addAll(other.tiles);}
+	
 	
 	//removes the tile at the given index, returns no change out of range
 	public Hand removeTile(int removeThisIndex){

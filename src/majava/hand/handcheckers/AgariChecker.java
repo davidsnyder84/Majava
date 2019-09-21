@@ -228,17 +228,13 @@ public class AgariChecker {
 				//get a hot tile (and mark it with the hand's seat wind, so chi is valid)
 				GameTile currentHotTile = new GameTile(id).withOwnerWind(myHand.getOwnerSeatWind());
 				
-				//make a copy of the hand, add the current hot tile to that copy
-				GTL checkTiles = handTiles.add(currentHotTile);
-				
-				//check if the copy, with the added tile, is complete
-				if (isCompleteNormal(checkTiles))
+				//check if adding the tile causes the hand to be complete
+				if (isCompleteNormal(handTiles.add(currentHotTile)))
 					waits = waits.add(currentHotTile);
 			}
 			
 			return waits;
 		}
-		
 		
 		
 		//returns true if list of checkTiles is complete (is a winning hand)
@@ -248,7 +244,8 @@ public class AgariChecker {
 			GTL populatedCheckTiles = HandCheckerTile.populateStacksForEntireList(checkTiles).sort();
 			if (!allTilesCanMeld(populatedCheckTiles))
 				return false;
-				
+			//^^^make a HandCheckerTilesList class for this
+			
 			
 			return isCompleteNormalHand(populatedCheckTiles, finishingMelds);
 		}
@@ -287,22 +284,20 @@ public class AgariChecker {
 			while(!currentTile.mstackIsEmpty()){
 				
 				//~~~~Verify that currentTile's partners are still in the hand
-				int[] currentTileParterIDs = currentTile.mstackTopParterIDs();
+				int[] currentTilePartnerIDs = currentTile.mstackTopPartnerIDs();
 				MeldType currentTileMeldType = currentTile.mstackTop();
 				currentTile = currentTile.mstackPop();	//(remove it)
 				
-				boolean currentTilePartersAreStillHere = partnersAreStillHereFor(currentTileMeldType, checkTiles, currentTile, currentTileParterIDs);
+				boolean currentTilePartnersAreStillHere = partnersAreStillHereFor(currentTileMeldType, checkTiles, currentTile, currentTilePartnerIDs);
 				
 				//if (currentTile's partners for the meld are no longer here) OR (currentTileMeldType is pair and pair has already been chosen)
-				if (!currentTilePartersAreStillHere || (currentTileMeldType.isPair() && pairHasBeenChosen.get()))
+				if (!currentTilePartnersAreStillHere || (currentTileMeldType.isPair() && pairHasBeenChosen.get()))
 					continue;	//exit loop early and continue to the next meldType
 					
 				//take the pair privelige
 				if (currentTileMeldType.isPair()) pairHasBeenChosen.set(true);
-				
-				//~~~~Find the inidces of currentTile's partners for the current meldType					
-				List<Integer> partnerIndices = findIndicesOfCurrentTilePartersForMeldType(currentTileMeldType, checkTiles, currentTile, currentTileParterIDs);
-				
+								
+				List<Integer> partnerIndices = findIndicesOfCurrentTilePartnersForMeldType(currentTileMeldType, checkTiles, currentTile, currentTilePartnerIDs);
 				
 				
 				//remove the meld tiles from the (copy of the) hand and add them to the meld
@@ -328,9 +323,9 @@ public class AgariChecker {
 		
 		
 		//extracted methods to make isCompleteNormalHand more readable
-		private static boolean partnersAreStillHereFor(MeldType currentTileMeldType, GTL checkTiles, HandCheckerTile currentTile, int[] currentTileParterIDs){
+		private static boolean partnersAreStillHereFor(MeldType currentTileMeldType, GTL checkTiles, HandCheckerTile currentTile, int[] currentTilePartnerIDs){
 			if (currentTileMeldType.isChi())
-				if (!checkTiles.contains(currentTileParterIDs[0]) || !checkTiles.contains(currentTileParterIDs[1]))
+				if (!checkTiles.contains(currentTilePartnerIDs[0]) || !checkTiles.contains(currentTilePartnerIDs[1]))
 					return false;
 			if (currentTileMeldType.isPair() && checkTiles.findHowManyOf(currentTile) < NUM_PARTNERS_NEEDED_TO_PAIR + 1)
 				return false;
@@ -340,12 +335,12 @@ public class AgariChecker {
 			return true;
 		}
 		
-		private static List<Integer> findIndicesOfCurrentTilePartersForMeldType(MeldType currentTileMeldType, GTL checkTiles, HandCheckerTile currentTile, int[] currentTileParterIDs){
+		private static List<Integer> findIndicesOfCurrentTilePartnersForMeldType(MeldType currentTileMeldType, GTL checkTiles, HandCheckerTile currentTile, int[] currentTilePartnerIDs){
 			List<Integer> partnerIndices = new ArrayList<Integer>();
 			//if chi, just find the partners
 			if (currentTileMeldType.isChi()){
-				partnerIndices.add(checkTiles.indexOf(currentTileParterIDs[0]));
-				partnerIndices.add(checkTiles.indexOf(currentTileParterIDs[1]));
+				partnerIndices.add(checkTiles.indexOf(currentTilePartnerIDs[0]));
+				partnerIndices.add(checkTiles.indexOf(currentTilePartnerIDs[1]));
 				return partnerIndices;
 			}
 			//else if pon/pair, make sure you don't count the tile itsef

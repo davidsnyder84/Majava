@@ -20,6 +20,7 @@ import majava.player.brains.SimpleRobot;
 import majava.player.brains.TseIiMenBot;
 import majava.summary.PointsBox;
 import majava.tiles.GameTile;
+import majava.util.GTL;
 
 
 //represents a player in the game
@@ -32,20 +33,29 @@ public class Player {
 	private RoundTracker roundTracker;
 	
 	//data that changes between rounds
-	private Hand hand;
-	private Pond pond;
-	private Wind seatWind;
+	private final Hand hand;
+	private final Pond pond;
+	private final Wind seatWind;
+	
 	private int playerNum;
 	
 	
-	private DrawingNeed drawNeeded;
-	private GameTile lastDiscard;	
-	private boolean isHoldingRinshanTile;
-	private boolean isRiichi;
-	private boolean isFuriten;
+	private final DrawingNeed drawNeeded;
+	private final GameTile lastDiscard;	
+	private final boolean isHoldingRinshanTile;
+	private final boolean isRiichi;
+	private final boolean isFuriten;
 	
 	
-	
+	private Player(Hand h, Pond p, Wind w, DrawingNeed dn, GameTile lasd){
+		hand = h;
+		pond = p;
+		seatWind = w;
+		drawNeeded = dn;
+		lastDiscard = lasd;
+		
+		isHoldingRinshanTile = false; isRiichi = false; isFuriten = false;
+	}
 	public Player(PlayerProfile newProfile){
 		//always generate a default null brain
 		brain = new NullPlayerBrain(this);
@@ -74,13 +84,18 @@ public class Player {
 		brain.clearTurnActionStatus();
 		
 		setDrawNeededNormal();
-		isRiichi = false;
-		isFuriten = false;
-		isHoldingRinshanTile = false;
-		lastDiscard = null;
 	}
 	
+	private Player withHand(Hand h){return new Player();}
+	private Player withPond(Pond p){return new Player();}
+	private Player withSeatWind(Wind w){return new Player();}
 	
+	private Player withDrawingNeed(DrawingNeed dn){return new Player();}
+	private Player withLastDiscard(GameTile d){return new Player();}
+	
+	private Player withDrawNeededRinshan(){return new Player(drawNeeded.rinshan());}
+	private Player withDrawNeededNormal(){return new Player(drawNeeded.normal();}
+	private Player withDrawNeededNone(){return new Player(drawNeeded.none());}
 	
 	
 	
@@ -113,28 +128,26 @@ public class Player {
 		return null;
 	}
 	
-	private GameTile discardChosenTile(){
-/////////////////////////////////////////////////////////////////////////////////mutate
-		int discardIndex = brain.getChosenDiscardIndex();
-		GameTile discardedTile = hand.getTile(discardIndex);
-		hand = hand.removeTile(discardIndex);
+	private Player discardChosenTile(){
 		
-		putTileInPond(discardedTile);
+		int discardIndex = brain.getChosenDiscardIndex();
+		
+		GameTile discardedTile = hand.getTile(discardIndex);
+		Hand handWithRemovedTile = hand.removeTile(discardIndex);
+		Pond pondWithDiscardedTile = pond.addTile(discardedTile);
 		
 		//set needed draw to normal, since we just discarded a tile
-		setDrawNeededNormal();
-
-		return discardedTile;
+		return this.withHand(handWithRemovedTile).withPond(pondWithDiscardedTile).withLastDiscard(discardedTile).withDrawNeededNormal();
+//		return discardedTile;
 	}
-	private void putTileInPond(GameTile t){pond.addTile(t);}
 	
 	//removes the most recent tile from the player's pond (because another player called it)
-	public GameTile removeTileFromPond(){return pond.removeMostRecentTile();}
+	public Player removeTileFromPond(){return this.withPond(pond.removeMostRecentTile());}
 /////////////////////////////////////////////////////////////////////////////////mutate
-	public Pond getPond(){return pond.clone();}
+	public Pond getPond(){return pond;}
 	
 	public GameTile getLastDiscard(){return lastDiscard;}
-	public Hand getHand(){return hand.clone();}
+	public Hand getHand(){return hand;}
 	
 	
 	public boolean turnActionMadeKan(){return (turnActionMadeAnkan() || turnActionMadeMinkan());}
@@ -157,22 +170,20 @@ public class Player {
 	
 	
 	
-	public void addTileToHand(final GameTile t){
-/////////////////////////////////////////////////////////////////////////////////mutate
-		t.setOwner(seatWind);
-		hand.addTile(t);
+	public Player addTileToHand(final GameTile t){
+		Hand handWithAddedTile = hand.addTile(t.withOwnerWind(seatWind));
 		
 		//no longer need to draw (because the player has just drawn)
-		setDrawNeededNone();
+		return this.withHand(handWithAddedTile).withDrawNeededNone();
 	}
-	public void giveStartingHand(List<GameTile> startingTiles){
-/////////////////////////////////////////////////////////////////////////////////mutate
-		for (GameTile t: startingTiles) addTileToHand(t);
-		hand.sort();
-		
+	public Player giveStartingHand(GTL startingTiles){
+		Hand startingHand = hand.addAll(startingTiles.withWind(seatWind)).sort();
+			
 		//if the player isn't east, they will need to draw
 		if (hand.size() < Hand.MAX_HAND_SIZE)
-			setDrawNeededNormal();
+			return this.withHand(startingHand).withDrawNeededNormal();
+		else
+			return this.withHand(startingHand).withDrawNeededNone();
 	}
 	
 	
@@ -283,7 +294,7 @@ public class Player {
 	
 	
 	public boolean holdingRinshan(){return isHoldingRinshanTile;}
-	public GameTile getTsumoTile(){return hand.getTile(hand.size() - 1).clone();}
+	public GameTile getTsumoTile(){return hand.getLastTile();}
 	
 	
 	public boolean handIsFullyConcealed(){return hand.isClosed();}
@@ -302,18 +313,20 @@ public class Player {
 	
 	
 	//seat wind methods
-	public void setSeatWind(Wind wind){seatWind = wind;}
-	public void rotateSeat(){setSeatWind(seatWind.prev());}
-	public void setSeatWindEast(){setSeatWind(Wind.EAST);}
-	public void setSeatWindSouth(){setSeatWind(Wind.SOUTH);}
-	public void setSeatWindWest(){setSeatWind(Wind.WEST);}
-	public void setSeatWindNorth(){setSeatWind(Wind.NORTH);}
-/////////////////////////////////////////////////////////////////////////////////mutate
+	public Player setSeatWind(Wind wind){return this.withSeatWind(wind);}
+	public Player rotateSeat(){return setSeatWind(seatWind.prev());}
+	public Player setSeatWindEast(){return setSeatWind(Wind.EAST);}
+	public Player setSeatWindSouth(){return setSeatWind(Wind.SOUTH);}
+	public Player setSeatWindWest(){return setSeatWind(Wind.WEST);}
+	public Player setSeatWindNorth(){return setSeatWind(Wind.NORTH);}
+	
 	public Wind getSeatWind(){return seatWind;}
 	public boolean isDealer(){return getSeatWind().isDealerWind();}
 	
 	//player number methods
-	public void setPlayerNumber(int newNum){if (newNum >= 0 && newNum < 4) playerNum = newNum;}
+	public void setPlayerNumber(int newNum){
+		if (newNum >= 0 && newNum < 4) playerNum = newNum;
+	}
 /////////////////////////////////////////////////////////////////////////////////mutate
 	public int getPlayerNumber(){return playerNum;}
 	

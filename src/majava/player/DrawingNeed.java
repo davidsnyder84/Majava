@@ -5,19 +5,25 @@ package majava.player;
 public class DrawingNeed {
 	private static enum DrawType{NONE, NORMAL, RINSHAN;}
 	
-	private DrawType drawType;
+	private final DrawType drawType;
 	
-	public DrawingNeed(){
-		setNone();
+	DrawingNeed(DrawType dt){
+		drawType = dt;
 	}
+	public DrawingNeed(){this(DrawType.NONE);}
+	
 	
 	//check if the players needs to draw a tile, and what type of draw (normal vs rinshan)
 	public boolean needsToDraw(){return (needsNormal() || needsRinshan());}
 	public boolean needsNormal(){return (drawType == DrawType.NORMAL);}
 	public boolean needsRinshan(){return (drawType == DrawType.RINSHAN);}
 	
-	private void setDrawNeeded(DrawType dt){drawType = dt;}
-	public void setRinshan(){setDrawNeeded(DrawType.RINSHAN);}
-	public void setNormal(){setDrawNeeded(DrawType.NORMAL);}
-	public void setNone(){setDrawNeeded(DrawType.NONE);}
+	
+	public DrawingNeed rinshan(){return new DrawingNeed(DrawType.RINSHAN);}
+	public DrawingNeed normal(){return new DrawingNeed(DrawType.NORMAL);}
+	public DrawingNeed none(){return new DrawingNeed(DrawType.NONE);}
+	
+	public DrawingNeed setRinshan(){return new DrawingNeed(DrawType.RINSHAN);}
+	public DrawingNeed setNormal(){return new DrawingNeed(DrawType.NORMAL);}
+	public DrawingNeed setNone(){return new DrawingNeed(DrawType.NONE);}
 }

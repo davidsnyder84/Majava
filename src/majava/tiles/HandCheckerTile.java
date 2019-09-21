@@ -42,7 +42,7 @@ public class HandCheckerTile extends GameTile {
 	final public boolean mstackIsEmpty(){return meldTypeStack.isEmpty();}
 	
 	//returns partner IDs for the top meldType on the stack
-	final public int[] mstackTopParterIDs(){
+	final public int[] mstackTopPartnerIDs(){
 		int id = getId();
 		switch(meldTypeStack.top()){
 		case CHI_L: return new int[]{id + 1, id + 2};

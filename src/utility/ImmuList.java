@@ -145,16 +145,14 @@ public class ImmuList<T extends Comparable<? super T>> implements Iterable<T>{
 	
 	
 	public ImmuList<T> getMultiple(List<Integer> indices){
-		ArrayList<T> listWithMultipleAdded = listClone();
+		ArrayList<T> gets = new ArrayList<T>();
 		for (Integer index: indices)
 			if (index < size() && index >= 0)
-				listWithMultipleAdded.add(this.get(index));
+				gets.add(this.get(index));
 		
-		return this.withList(listWithMultipleAdded);
+		return new ImmuList<T>(gets);
 	}
 	public ImmuList<T> getMultiple(Integer... indices){return getMultiple(Arrays.asList(indices));}
-	
-	
 	
 	
 	

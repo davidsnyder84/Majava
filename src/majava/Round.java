@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import majava.util.GameTileList;
+import majava.util.GTL;
 import majava.player.Player;
 import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
@@ -214,7 +214,7 @@ public class Round{
 	
 	private void setResultVictory(Player winner){
 		GameTile winningTile = null;
-		GameTileList winningHandTiles = winner.getHand().getTilesAsList();
+		GTL winningHandTiles = winner.getHand().getTiles();
 		
 		if (winner == currentPlayer()){
 			roundResult.setVictoryTsumo(winner);			

@@ -12,8 +12,8 @@ public abstract class AbstractYakuCheck {
 	
 	protected final AgariHand hand;
 	
-	public AbstractYakuCheck(AgariHand h){
-		hand = h;
+	public AbstractYakuCheck(AgariHand ah){
+		hand = ah;
 	}
 	
 	
@@ -32,7 +32,7 @@ public abstract class AbstractYakuCheck {
 	
 	
 	
-	protected Hand getHand(){return hand;}
+	protected AgariHand getHand(){return hand;}
 	protected int handSize(){return hand.size();}
 	
 	protected boolean handIsKokushiOrChiitoi(){return hand.isCompleteKokushi() || hand.isCompleteChiitoitsu();}

@@ -30,6 +30,17 @@ public class AgariHand{
 	
 	
 	
+	//hand methods
+	public boolean isCompleteKokushi(){return hand.isCompleteKokushi();}
+	public boolean isCompleteChiitoitsu(){return hand.isCompleteChiitoitsu();}
+	public GTL getTilesAsListIncludingMeldTiles(){return hand.getTilesAsListIncludingMeldTiles();}
+	public int numberOfKansMade(){return hand.numberOfKansMade();}
+	public Wind getOwnerSeatWind(){return hand.getOwnerSeatWind();}
+	public Hand getHand(){return hand;}
+	
+	
+	
+	
 	
 	public boolean isClosed(){	//need to override, because the final ronned meld will be open
 		for (Meld m: getMeldForm()) if (m.isOpen()) return false;

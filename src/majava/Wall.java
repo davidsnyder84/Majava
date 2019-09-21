@@ -8,7 +8,7 @@ import java.util.List;
 
 import majava.control.testcode.WallDemoer;
 import majava.tiles.GameTile;
-import majava.util.GameTileList;
+import majava.util.GTL;
 
 
 
@@ -59,21 +59,21 @@ public class Wall {
 	
 	
 	//returns a list of the dora indicators tiles. if wantUraDora is true, the list will also contain the ura dora indicators
-	private GameTileList getDoraIndicators(boolean wantUraDora){
+	private GTL getDoraIndicators(boolean wantUraDora){
 		int indicatorsNeeded = getNumKansMade() + 1;
-		GameTileList indicators = new GameTileList(indicatorsNeeded); 
+		GTL indicators = new GTL(); 
 		
 		for (int currentIndicator = 1; currentIndicator <= indicatorsNeeded; currentIndicator++)
-			indicators.add(getDoraIndicator(currentIndicator));
+			indicators = indicators.add(getDoraIndicator(currentIndicator));
 		
 		if (wantUraDora)
 			for (int currentIndicator = 1; currentIndicator <= indicatorsNeeded; currentIndicator++)
-				indicators.add(getUraDoraIndicator(currentIndicator));
+				indicators = indicators.add(getUraDoraIndicator(currentIndicator));
 		
 		return indicators;
 	}
-	public GameTileList getDoraIndicators(){return getDoraIndicators(false);}
-	public GameTileList getDoraIndicatorsWithUra(){return getDoraIndicators(true);}
+	public GTL getDoraIndicators(){return getDoraIndicators(false);}
+	public GTL getDoraIndicatorsWithUra(){return getDoraIndicators(true);}
 	
 	//returns the specified dora indicator tile
 	private GameTile getDoraIndicator(int doraNumber){return getTile(indexOfDora(doraNumber));}

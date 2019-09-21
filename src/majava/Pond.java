@@ -5,23 +5,23 @@ import java.util.List;
 
 import majava.tiles.PondTile;
 import majava.tiles.GameTile;
-import majava.util.GameTileList;
+import majava.util.GTL;
 
 
 //represents a player's pond (êÏ) of discarded tiles
 public class Pond implements Cloneable{
 	private static final int SIZE_MAX = 30;
 	
-	private final List<PondTile> tiles;
+	private final GTL tiles;
 	
-	public Pond(){
-		tiles = new ArrayList<PondTile>(SIZE_MAX);
+	public Pond(GTL pondTiles){
+		tiles = pondTiles;
 	}
-	public Pond(Pond other){
-		tiles = new ArrayList<PondTile>(SIZE_MAX);
-		for (PondTile t: other.tiles) tiles.add(t.clone());
-	}
+	public Pond(){this(new GTL());}
+	public Pond(Pond other){this(other.tiles);}
 	public Pond clone(){return new Pond(this);}
+	
+	private Pond withTiles(GTL newTiles){return new Pond(newTiles);}
 	
 	
 	
@@ -36,25 +36,30 @@ public class Pond implements Cloneable{
 	public PondTile getMostRecentTile(){return getTile(size() - 1);}
 	public int size(){return tiles.size();}
 	
-	public PondTile getTile(int index){return tiles.get(index);}
-	public List<PondTile> getTilesAsList(){return new ArrayList<PondTile>(tiles);}
+	public PondTile getTile(int index){return (PondTile) tiles.get(index);}
+	public List<PondTile> getTilesAsList(){
+		ArrayList<PondTile> pTiles = new ArrayList<PondTile>(size());
+		for (GameTile t: tiles.toList())
+			pTiles.add((PondTile) t);
+		
+		return pTiles;
+	}
 	
 	//conditions for nagashi mangan: composed of only TYC, and no tiles have been called
 	public boolean isElligibleForNagashiMangan(){
-		for (PondTile t: tiles)
-			if (!t.isYaochuu() || t.wasCalled())
+		for (GameTile t: tiles)
+			if (!t.isYaochuu() || ((PondTile)t).wasCalled())
 				return false;
 		return true;
 	}
 	
 	
 	//mutators
-	public void addTile(GameTile t){tiles.add(new PondTile(t));}
+	public Pond addTile(GameTile t){return this.withTiles(tiles.add(new PondTile(t)));}
 	
 	//the removed tile will remain in the pond, but it will be marked as "called"
-	public PondTile removeMostRecentTile(){
-		getMostRecentTile().setCalled();
-		return getMostRecentTile();
+	public Pond removeMostRecentTile(){
+		return this.withTiles(tiles.setLast(getMostRecentTile().withCalled()));
 	}
 	
 	

@@ -9,7 +9,7 @@ import majava.hand.handcheckers.AgariChecker;
 import majava.hand.handcheckers.CallabilityChecker;
 import majava.hand.handcheckers.TurnActionabilityChecker;
 import majava.tiles.GameTile;
-import majava.util.GameTileList;
+import majava.util.GTL;
 import majava.enums.Wind;
 import majava.enums.MeldType;
 
@@ -21,25 +21,34 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	private static final int AVG_NUM_TILES_PER_MELD = 3;
 	
 	
-	private final GameTileList tiles;
+	private final GTL tiles;
 	private final List<Meld> melds;
 	
-	private Wind ownerWind;
+	private final Wind ownerWind;
 	
 	
 	
-	private Hand(GameTileList ts, List<Meld> ms, Wind w){
+	private Hand(GTL ts, List<Meld> ms, Wind w){
 		tiles = ts;
 		melds = ms;
 		ownerWind = w;
 	}
-	private Hand withTiles(GameTileList newTiles){return new Hand(newTiles, melds, ownerWind);}
+	private Hand withTiles(GTL newTiles){return new Hand(newTiles, melds, ownerWind);}
 	private Hand withMelds(List<Meld> newMelds){return new Hand(tiles, newMelds, ownerWind);}
 	private Hand withWind(Wind newWind){return new Hand(tiles, melds, newWind);}
 	
 	
+	private List<Meld> meldsClone(){
+		List<Meld> meldList = new ArrayList<Meld>();
+		for (Meld m: melds)
+			meldList.add(m.clone());
+		
+		return meldList;
+	}
+	
+	
 	public Hand(){
-		tiles = new GameTileList(MAX_HAND_SIZE);
+		tiles = new GTL();
 		melds = new ArrayList<Meld>(MAX_NUM_MELDS);
 		ownerWind = Wind.UNKNOWN;
 	}
@@ -61,8 +70,8 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	}
 	//GameTileList methods
 	public int findHowManyOf(GameTile t){return tiles.findHowManyOf(t);}
-	public GameTileList getTilesAsList(){return tiles.clone();}
-	public GameTileList getTiles(){return tiles;}
+	public GTL getTilesAsList(){return tiles.clone();}
+	public GTL getTiles(){return tiles;}
 	public int indexOf(Integer id){return tiles.indexOf(new GameTile(id));}
 	public boolean contains(Integer id){return tiles.contains(new GameTile(id));}
 	public List<Integer> findAllIndicesOf(GameTile t){return tiles.findAllIndicesOf(t);}
@@ -82,13 +91,21 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		for (Meld m: finishingMelds)
 			m.makeSureResponsibleTileIsCorrectlyAssigned(ownerWind);
 		
-		return finishingMelds;
+		List<Meld> finishingMeldsWithCorrectlyAssignedResponsible = new ArrayList<Meld>();
+		for (Meld m: finishingMelds)
+			finishingMeldsWithCorrectlyAssignedResponsible.add(m.makeSureResponsibleTileIsCorrectlyAssigned(ownerWind));
+		
+		
+		return finishingMeldsWithCorrectlyAssignedResponsible;
 	}
 	
-	public GameTileList getTilesAsListIncludingMeldTiles(){
-		GameTileList allTiles = getTilesAsList();
-		for (Meld m: melds) for (GameTile t: m) allTiles.add(t.clone());
-		allTiles.sort();
+	public GTL getTilesAsListIncludingMeldTiles(){
+		GTL allTiles = tiles;
+		
+		for (Meld m: melds)
+			allTiles = allTiles.addAll(m);
+		
+		allTiles = allTiles.sort();
 		return allTiles;
 	}
 	
@@ -110,14 +127,17 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	}
 	
 	public Wind getOwnerSeatWind(){return ownerWind;}
-/////////////////////////////////////////////////////////////////////////////////mutate
-	public void setOwnerSeatWind(Wind newOwnerWind){
-		ownerWind = newOwnerWind;
-		for (GameTile t: tiles) t.setOwner(ownerWind);
+	
+	public Hand setOwnerSeatWind(Wind newOwnerWind){
+		GTL tilesWithNewWind = new GTL();
+		for (GameTile t: tiles)
+			tilesWithNewWind = tilesWithNewWind.add(t.withOwnerWind(newOwnerWind));
+		
+		return this.withTiles(tilesWithNewWind).withWind(newOwnerWind);
 	}
 	
 	public boolean isInTenpai(){return agariChecker().isInTenpai();}
-	public GameTileList getTenpaiWaits(){return agariChecker().getTenpaiWaits();}
+	public GTL getTenpaiWaits(){return agariChecker().getTenpaiWaits();}
 	
 	public boolean isComplete(){return agariChecker().isComplete();}
 	public boolean isCompleteNormal(){return agariChecker().isCompleteNormal();}	
@@ -134,33 +154,27 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	
 	//adds a tile to the hand (cannot add more than max hand size)
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand
-/////////////////////////////////////////////////////////////////////////////////mutate
-	public boolean addTile(GameTile addThisTile){
-		if (size() >= MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*numberOfMeldsMade()) return false;
+	public Hand addTile(GameTile addThisTile){
+		if (size() >= MAX_HAND_SIZE - AVG_NUM_TILES_PER_MELD*numberOfMeldsMade())
+			return this; //no change
 		
-		tiles.add(addThisTile);
-		return true;
+		return this.withTiles(tiles.add(addThisTile));
 	}
-	public boolean addTile(int tileID){return addTile(new GameTile(tileID));}
+	public Hand addTile(int tileID){return addTile(new GameTile(tileID));}
 	
-	//removes the tile at the given index, returns null if out of range
-/////////////////////////////////////////////////////////////////////////////////mutate
-	public GameTile removeTile(int removeThisIndex){
-		if (removeThisIndex < 0 || removeThisIndex > size()) return null;
-		GameTile tile = tiles.remove(removeThisIndex);
-		sort();
+	//removes the tile at the given index, returns no change out of range
+	public Hand removeTile(int removeThisIndex){
+		if (removeThisIndex < 0 || removeThisIndex > size())
+			return this;
 		
-		return tile;
-	}
-/////////////////////////////////////////////////////////////////////////////////mutate
-	public boolean removeMultiple(List<Integer> removeIndices){
-		tiles.removeMultiple(removeIndices);
-		sort();
-		return true;
+		return this.withTiles(tiles.remove(removeThisIndex).sort());
 	}
 	
-/////////////////////////////////////////////////////////////////////////////////mutate
-	public void sort(){tiles.sort();}
+	public Hand removeMultiple(List<Integer> removeIndices){
+		return this.withTiles(tiles.removeMultiple(removeIndices).sort());
+	}
+	
+	public Hand sort(){return this.withTiles(tiles.sort());}
 	
 
 	
@@ -190,35 +204,37 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	
 	
 	//forms a meld of the given type. claimedTile = the tile that will complete the meld
-/////////////////////////////////////////////////////////////////////////////////mutate
-	private void makeMeld(GameTile claimedTile, MeldType meldType){
+	private Hand makeMeld(GameTile claimedTile, MeldType meldType){
 		
 		//~~~~gather the tiles from the hand that will be in the meld
 		//get the list of partner indices, based on the the meld type
 		List<Integer> partnerIndices = callabilityChecker().getPartnerIndices(claimedTile, meldType);
 
 		//list of TILES, will hold the tiles coming from the hand that will be in the meld
-		GameTileList tilesFromHand = tiles.getMultiple(partnerIndices);
+		GTL tilesFromHand = tiles.getMultiple(partnerIndices);
 		
 		//make the meld
-		melds.add(new Meld(tilesFromHand, claimedTile, meldType));
+		List<Meld> meldsWithNewMeld = meldsClone();
+		Meld meld = new Meld(tilesFromHand, claimedTile, meldType);
+		meldsWithNewMeld.add(meld);
 		
 		//remove the tiles from the hand 
-		removeMultiple(partnerIndices);		
+		GTL tilesMinusMeldtiles = tiles.removeMultiple(partnerIndices);
+		
+		return this.withTiles(tilesMinusMeldtiles).withMelds(meldsWithNewMeld);
 	}
-/////////////////////////////////////////////////////////////////////////////////mutate
-	public void makeMeldChiL(GameTile claimedTile){makeMeld(claimedTile, MeldType.CHI_L);}
-	public void makeMeldChiM(GameTile claimedTile){makeMeld(claimedTile, MeldType.CHI_M);}
-	public void makeMeldChiH(GameTile claimedTile){makeMeld(claimedTile, MeldType.CHI_H);}
-	public void makeMeldPon(GameTile claimedTile){makeMeld(claimedTile, MeldType.PON);}
-	public void makeMeldKan(GameTile claimedTile){makeMeld(claimedTile, MeldType.KAN);}
+	
+	public Hand makeMeldChiL(GameTile claimedTile){return makeMeld(claimedTile, MeldType.CHI_L);}
+	public Hand makeMeldChiM(GameTile claimedTile){return makeMeld(claimedTile, MeldType.CHI_M);}
+	public Hand makeMeldChiH(GameTile claimedTile){return makeMeld(claimedTile, MeldType.CHI_H);}
+	public Hand makeMeldPon(GameTile claimedTile){return makeMeld(claimedTile, MeldType.PON);}
+	public Hand makeMeldKan(GameTile claimedTile){return makeMeld(claimedTile, MeldType.KAN);}
 	
 	
 	
 	
 	
-/////////////////////////////////////////////////////////////////////////////////mutate
-	public void makeMeldTurnAnkan(){
+	public Hand makeMeldTurnAnkan(){
 		final int NUM_PARTNERS_NEEDED_TO_KAN = 3;
 		
 		int candidateIndex = turnActionabilityChecker().getCandidateAnkanIndex();
@@ -228,17 +244,21 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_KAN) partnerIndices.remove(partnerIndices.size() - 1);
 		
 		
-		GameTileList handTiles = tiles.getMultiple(partnerIndices);
+		GTL tilesForAnkanFromHand = tiles.getMultiple(partnerIndices);
 		
-		melds.add(new Meld(handTiles, candidate, MeldType.KAN));
 		
-		//remove the tiles from the hand
+		//make the meld
+		List<Meld> meldsWithNewAnkan = meldsClone();
+		meldsWithNewAnkan.add(new Meld(tilesForAnkanFromHand, candidate, MeldType.KAN));
+		
+		//remove the tiles from the hand 
 		partnerIndices.add(candidateIndex);
-		removeMultiple(partnerIndices);
+		
+		return this.removeMultiple(partnerIndices).withMelds(meldsWithNewAnkan);
 	}
 	
 /////////////////////////////////////////////////////////////////////////////////mutate
-	public void makeMeldTurnMinkan(){
+	public Hand makeMeldTurnMinkan(){
 		int candidateIndex = turnActionabilityChecker().getCandidateMinkanIndex();
 		GameTile candidate = getTile(candidateIndex);
 		
@@ -250,7 +270,11 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 				meldToUpgrade = m;
 		
 		meldToUpgrade.upgradeToMinkan(candidate);
-		removeTile(candidateIndex);
+		
+		///////////m is already upgraded before cloning, fix this
+		List<Meld> meldsWithMinkan = meldsClone();
+		
+		return this.removeTile(candidateIndex).withMelds(meldsWithMinkan);
 	}
 	
 	

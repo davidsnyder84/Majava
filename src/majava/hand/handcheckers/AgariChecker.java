@@ -10,7 +10,7 @@ import majava.hand.Meld;
 import majava.tiles.GameTile;
 import majava.tiles.HandCheckerTile;
 import majava.tiles.Janpai;
-import majava.util.GameTileList;
+import majava.util.GTL;
 import majava.util.TileKnowledge;
 
 
@@ -35,9 +35,8 @@ public class AgariChecker {
 	
 	
 	//returns the list of tenpai waits (will be empty if the hand is not in tenpai)
-	public GameTileList getTenpaiWaits(){
-		GameTileList waits = new GameTileList();
-		waits.addAll(getNormalTenpaiWaits());
+	public GTL getTenpaiWaits(){
+		GTL waits = new GTL(getNormalTenpaiWaits());
 		if (waits.isEmpty()) waits.addAll(getKokushiWaits());
 		if (waits.isEmpty()) waits.addAll(getChiitoiWait());
 		
@@ -49,14 +48,14 @@ public class AgariChecker {
 	
 	public boolean isTenpaiKokushi(){return kokushiChecker().isTenpaiKokushi();}
 	public boolean isCompleteKokushi(){return kokushiChecker().isCompleteKokushi();}
-	public GameTileList getKokushiWaits(){return kokushiChecker().getKokushiWaits();}
+	public GTL getKokushiWaits(){return kokushiChecker().getKokushiWaits();}
 	
 	public boolean isTenpaiChiitoitsu(){return chiitoiChecker().isTenpaiChiitoitsu();}
 	public boolean isCompleteChiitoitsu(){return chiitoiChecker().isCompleteChiitoitsu();}
-	public GameTileList getChiitoiWait(){return chiitoiChecker().getChiitoiWait();}
+	public GTL getChiitoiWait(){return chiitoiChecker().getChiitoiWait();}
 	
 	public boolean isCompleteNormal(){return normalAgariChecker().isCompleteNormal();}
-	public GameTileList getNormalTenpaiWaits(){return normalAgariChecker().getNormalTenpaiWaits();}
+	public GTL getNormalTenpaiWaits(){return normalAgariChecker().getNormalTenpaiWaits();}
 	public List<Meld> getFinishingMelds(){return normalAgariChecker().getFinishingMelds();}
 	
 	
@@ -74,7 +73,7 @@ public class AgariChecker {
 		private static final int NUMBER_OF_YAOCHUU_TILES = YAOCHUU_TILE_IDS.length;
 		
 		private final Hand myHand;
-		private final GameTileList handTiles;
+		private final GTL handTiles;
 		
 		public KokushiChecker(Hand handToCheck){
 			myHand = handToCheck;
@@ -115,8 +114,8 @@ public class AgariChecker {
 
 		//returns a list of the hand's waits, if it is in tenpai for kokushi musou
 		//returns an empty list if not in kokushi musou tenpai
-		private GameTileList getKokushiWaits(){
-			GameTileList waits = new GameTileList();
+		private GTL getKokushiWaits(){
+			GTL waits = new GTL();
 			GameTile missingTYC = null;
 			
 			if (isTenpaiKokushi()){
@@ -127,10 +126,10 @@ public class AgariChecker {
 				
 				//if the hand contains exactly one of every Yaochuu tile, then it is a 13-sided wait for all Yaochuu tiles
 				if (missingTYC == null)
-					waits = new GameTileList(YAOCHUU_TILE_IDS);
+					waits = new GTL(YAOCHUU_TILE_IDS);
 				else
 					//else, if the hand is missing a Yaochuu tile, that missing tile is the hand's wait
-					waits.add(missingTYC);
+					waits = waits.add(missingTYC);
 			}
 			return waits;
 		}
@@ -146,14 +145,14 @@ public class AgariChecker {
 	private static class ChiitoiChecker{
 		
 		private final Hand myHand;
-		private final GameTileList handTiles; //not necessary since you can get this from myHand.getTiles(), just for convenience (IDE highlighting)
+		private final GTL handTiles; //not necessary since you can get this from myHand.getTiles(), just for convenience (IDE highlighting)
 		
 		public ChiitoiChecker(Hand handToCheck){
 			myHand = handToCheck;
 			handTiles = myHand.getTiles();
 		}
 		
-		public GameTileList getChiitoiWait(){
+		public GTL getChiitoiWait(){
 			//conditions for chiitoi tenpai:
 				//hand must be 13 tiles (no melds made)
 				//hand must have exactly 7 different types of tiles
@@ -179,22 +178,19 @@ public class AgariChecker {
 			
 			//add the missing tile to the wait list (it will be the only wait)
 			//if NPO happens here, look at old code
-			return new GameTileList(missingTile);
+			return new GTL(missingTile);
 		}
 		public boolean isTenpaiChiitoitsu(){return !getChiitoiWait().isEmpty();}
 		
-		
 		//returns true if a 14-tile hand is a complete chiitoitsu
-		public boolean isCompleteChiitoitsu(){
-			GameTileList checkTilesCopy = handTiles.clone();
-			checkTilesCopy.sort();
-			
+		public boolean isCompleteChiitoitsu(){			
 			//chiitoitsu is impossible if a meld has been made
-			if (checkTilesCopy.size() < MAX_HAND_SIZE) return false;
-			
+			if (handTiles.size() < MAX_HAND_SIZE) return false;
+						
 			//even tiles should equal odd tiles, if chiitoitsu
-			GameTileList evenTiles = checkTilesCopy.getMultiple(0,2,4,6,8,10,12);
-			GameTileList oddTiles = checkTilesCopy.getMultiple(1,3,5,7,9,11,13);
+			GTL sortedHandtiles = handTiles.sort();
+			GTL evenTiles = sortedHandtiles.getMultiple(0,2,4,6,8,10,12);
+			GTL oddTiles = sortedHandtiles.getMultiple(1,3,5,7,9,11,13);
 			return evenTiles.equals(oddTiles);
 		}
 		
@@ -260,8 +256,7 @@ public class AgariChecker {
 			final List<Integer> hotTileIDs = TileKnowledge.findAllHotTiles(handTiles);
 			for (Integer id: hotTileIDs){
 				//get a hot tile (and mark it with the hand's seat wind, so chi is valid)
-				GameTile currentHotTile = new GameTile(id);
-				currentHotTile.setOwner(myHand.getOwnerSeatWind());
+				GameTile currentHotTile = new GameTile(id).withOwnerWind(myHand.getOwnerSeatWind());
 				
 				//make a copy of the hand, add the current hot tile to that copy
 				checkTilesCopy.add(currentHotTile);
@@ -395,5 +390,5 @@ public class AgariChecker {
 		
 	}
 	
-	private static final GameTileList emptyWaitsList(){return new GameTileList();}
+	private static final GTL emptyWaitsList(){return new GTL();}
 }

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import majava.userinterface.GameUI;
-import majava.util.GameTileList;
+import majava.util.GTL;
 import majava.player.Player;
 import majava.summary.StateOfGame;
 import majava.summary.PlayerSummary;
@@ -79,8 +79,8 @@ public class RoundTracker {
 	
 	
 	public int getNumTilesLeftInWall(){return wall.numTilesLeftInWall();}
-	public GameTileList getDoraIndicators(){return wall.getDoraIndicators();}
-	public GameTileList getDoraIndicatorsWithUra(){return wall.getDoraIndicatorsWithUra();}
+	public GTL getDoraIndicators(){return wall.getDoraIndicators();}
+	public GTL getDoraIndicatorsWithUra(){return wall.getDoraIndicatorsWithUra();}
 	
 	
 	public Wind getRoundWind(){return round.getRoundWind();}

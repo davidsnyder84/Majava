@@ -10,7 +10,7 @@ import majava.summary.PlayerSummary;
 import majava.summary.ResultType;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
-import majava.util.GameTileList;
+import majava.util.GTL;
 import majava.util.YakuList;
 
 
@@ -27,7 +27,7 @@ public class RoundResult {
 	
 	private GameTile winningTile;
 	
-	private GameTileList winnerHand;
+	private GTL winnerHand;
 	private List<Meld> winnerMelds;
 	
 	private PaymentMap payments;
@@ -71,7 +71,7 @@ public class RoundResult {
 	
 	
 	//set other things
-	public void setWinningHand(GameTileList handTiles, List<Meld> melds, GameTile receivedWinningTile){
+	public void setWinningHand(GTL handTiles, List<Meld> melds, GameTile receivedWinningTile){
 		winnerHand = handTiles;
 		winnerMelds = melds;
 		setWinningTile(receivedWinningTile);
@@ -153,7 +153,7 @@ public class RoundResult {
 		
 		PlayerSummary winnerSummary = null, furikonSummary = null;
 		GameTile winningTileCopy = null;
-		GameTileList winnerHandCopy = null;
+		GTL winnerHandCopy = null;
 		List<Meld> winnerMeldsCopy = null;
 		
 		//get winning, losing player summaries

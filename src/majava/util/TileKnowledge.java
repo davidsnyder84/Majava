@@ -13,7 +13,7 @@ public class TileKnowledge {
 	
 	
 	//returns a list of hot tile IDs for ALL tiles in the hand
-	public static List<Integer> findAllHotTiles(List<GameTile> tiles){
+	public static List<Integer> findAllHotTiles(GTL tiles){
 		List<Integer> allHotTileIds = new ArrayList<Integer>(32);
 		List<Integer> singleTileHotTiles = null;
 		

@@ -7,12 +7,15 @@ import majava.enums.Wind;
 public class GameTile implements Cloneable, TileInterface {
 	
 	private final Janpai baseTile;
-	private Wind originalOwnerWind;
+	private final Wind originalOwnerWind;
 	
-
-	public GameTile(Janpai tilebase){
+	
+	public GameTile(Janpai tilebase, Wind owner){
 		baseTile = tilebase;
 		originalOwnerWind = Wind.UNKNOWN;
+	}
+	public GameTile(Janpai tilebase){
+		this(tilebase, Wind.UNKNOWN);
 	}
 	public GameTile(int id, boolean wantRedDora){this(Janpai.retrieveTile(id, wantRedDora));}
 	public GameTile(int id){this(Janpai.retrieveTile(id));}
@@ -27,7 +30,7 @@ public class GameTile implements Cloneable, TileInterface {
 	
 	//Owner methods (the player who drew the tile from the wall)
 	final public Wind getOrignalOwner(){return originalOwnerWind;}
-	final public void setOwner(Wind owner){originalOwnerWind = owner;}
+	final public GameTile withOwnerWind(Wind owner){return new GameTile(baseTile, owner);}
 	
 	
 	

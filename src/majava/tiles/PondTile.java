@@ -5,30 +5,27 @@ package majava.tiles;
 //represents a tile in a pond, has extra information (riichi tile, tile that has been called, etc)
 public class PondTile extends GameTile {
 	
-	private boolean flagIsRiichiTile;
-	private boolean flagWasCalled;
+	private final boolean flagIsRiichiTile;
+	private final boolean flagWasCalled;
 	
 	
-	public PondTile(GameTile other){
-		super(other);
-		
-		flagIsRiichiTile = false;
-		flagWasCalled = false;
+	private PondTile(GameTile tile, boolean isRiichi, boolean isCalled){
+		super(tile);
+		flagIsRiichiTile = isRiichi;
+		flagWasCalled = isCalled;
 	}
-	public PondTile clone(){
-		PondTile other = new PondTile(this);
-		other.flagIsRiichiTile = flagIsRiichiTile;
-		other.flagWasCalled = flagWasCalled;
-		return other;
+	public PondTile(GameTile tile){
+		this(tile, false, false);
 	}
+	public PondTile clone(){return new PondTile(this, flagIsRiichiTile, flagWasCalled);}
 	
 	
-	//getters
 	public boolean isRiichiTile(){return flagIsRiichiTile;}
 	public boolean wasCalled(){return flagWasCalled;}
 	
-	//setters
-	public void setRiichiTile(){flagIsRiichiTile = true;}
-	public void setCalled(){flagWasCalled = true;}
+	
+	//mutators
+	public PondTile withRiichi(){return new PondTile(this, true, flagWasCalled);}
+	public PondTile withCalled(){return new PondTile(this, flagIsRiichiTile, true);}
 	
 }

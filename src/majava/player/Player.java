@@ -115,7 +115,10 @@ public class Player {
 	
 	private GameTile discardChosenTile(){
 /////////////////////////////////////////////////////////////////////////////////mutate
-		GameTile discardedTile = hand.removeTile(brain.getChosenDiscardIndex());
+		int discardIndex = brain.getChosenDiscardIndex();
+		GameTile discardedTile = hand.getTile(discardIndex);
+		hand = hand.removeTile(discardIndex);
+		
 		putTileInPond(discardedTile);
 		
 		//set needed draw to normal, since we just discarded a tile

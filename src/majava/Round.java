@@ -270,7 +270,8 @@ public class Round{
 		}
 		
 		//remove tile from discarder's pond and make meld
-		GameTile calledTile = currentPlayer().removeTileFromPond();
+		GameTile calledTile = currentPlayer().getPond().getMostRecentTile();
+		currentPlayer().removeTileFromPond();//////////////////////////////////////////////////////////////////////////////
 		priorityCaller.makeMeld(calledTile);
 		
 		announceEvent(GameplayEvent.madeOpenMeldEvent());

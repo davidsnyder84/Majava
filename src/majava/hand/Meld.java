@@ -1,11 +1,10 @@
 package majava.hand;
 
 
-import java.util.Collections;
 import java.util.Iterator;
 
 import majava.tiles.GameTile;
-import majava.util.GameTileList;
+import majava.util.GTL;
 import majava.enums.MeldType;
 import majava.enums.Wind;
 
@@ -14,61 +13,59 @@ import majava.enums.Wind;
 //represents a meld (–ÊŽq) of tiles (chi, pon, kan, pair)
 public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	
-	private GameTileList meldTiles;	
-	private MeldType meldType;
+	private final GTL meldTiles;	
+	private final MeldType meldType;
 	
-	private GameTile completedTile;
+	private final GameTile completedTile;
 	
 	
 	
-	public Meld(GameTileList tilesFromHand, GameTile completingTile, MeldType typeOfMeld){
-		meldTiles = new GameTileList();
-		formMeld(tilesFromHand, completingTile, typeOfMeld);
+	public Meld(GTL tilesFromHand, GameTile completingTile, MeldType typeOfMeld){
+		completedTile = completingTile;
+		meldType = typeOfMeld;
+		
+		meldTiles = new GTL(tilesFromHand).add(completedTile).sort(); //sort if only chi?
 	}
 	//2-arg, takes list of tiles and meld type (used when making a meld only from hand tiles, so no "new" tile)
 	//passes (handtiles 0 to n-1, handtile n, and meld type)
-	public Meld(GameTileList tilesFromHand, MeldType typeOfMeld){
-		this(tilesFromHand.subList(0, tilesFromHand.size() - 1), tilesFromHand.get(tilesFromHand.size() - 1), typeOfMeld);
+	public Meld(GTL tilesFromHand, MeldType typeOfMeld){
+//		this(tilesFromHand.subList(0, tilesFromHand.size() - 1), tilesFromHand.get(tilesFromHand.size() - 1), typeOfMeld);
+		this(tilesFromHand.getAllExceptLast(), tilesFromHand.getLast(), typeOfMeld);
 	}
 	private Meld(Meld other){		
-		meldTiles = other.getAllTiles();
+		meldTiles = other.meldTiles;
 		completedTile = other.completedTile;
 		meldType = other.meldType;
 	}
 	public Meld clone(){return new Meld(this);}
 	
-	
-	private void formMeld(GameTileList tilesFromHand, GameTile completingTile, MeldType typeOfMeld){
+	//builder constructor
+	private static final boolean BUILDER = true;
+	private Meld(GTL allMeldTiles, GameTile completingTile, MeldType typeOfMeld, boolean builder){
 		completedTile = completingTile;
-		
-		setMeldType(typeOfMeld);
-		
-		addTiles(tilesFromHand);
-		addTile(completingTile);
-		
-		if (isChi()) sort();
+		meldType = typeOfMeld;
+		meldTiles = allMeldTiles;
 	}
+	private Meld withTiles(GTL newTiles){return new Meld(newTiles, completedTile, meldType, BUILDER);}
+	private Meld withCompletedTile(GameTile newCompletedTile){return new Meld(meldTiles, newCompletedTile, meldType, BUILDER);}
+	private Meld withMeldType(MeldType newMeldType){return new Meld(meldTiles, completedTile, newMeldType, BUILDER);}
+	
+	
+	
 	
 	
 	//uses the given tile to upgrade a minkou to a minkan
-	public void upgradeToMinkan(GameTile handTile){
-		if (!isPon()) return;
+	public Meld upgradeToMinkan(GameTile handTile){
+		if (!isPon()) return this;
 		
-		addTile(handTile);
-		setMeldType(MeldType.KAN); 
+		return this.withTiles(meldTiles.add(handTile)).withMeldType(MeldType.KAN);
 	}
 	
 	//returns true if the meld can use the candidate to make a minkan
 	public boolean canMinkanWith(GameTile candidate){return isPon() && getFirstTile().equals(candidate);}
 	
 	
-	//adds a tile to a meld (needed for upgrading minkou to minkan)
-	private void addTile(GameTile t){meldTiles.add(t);}
-	private void addTiles(GameTileList tiles){meldTiles.addAll(tiles);}
-	
-	
-	private void setMeldType(MeldType mtype){meldType = mtype;}
-	private void sort(){Collections.sort(meldTiles);}
+//	private Meld sort(){return this.withTiles(meldTiles.sort());}
 	
 	
 	
@@ -99,10 +96,11 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	}
 	
 	//this method is needed because the ron tile is absorbed into the hand for meld form, creating an innacurate "completed Tile" being assigned sometimes (and thus incorrect windofresponsibleplayer)
-	public void makeSureResponsibleTileIsCorrectlyAssigned(Wind ownerWind){
+	public Meld makeSureResponsibleTileIsCorrectlyAssigned(Wind ownerWind){
 		for (GameTile t: meldTiles)
 			if (t.getOrignalOwner() != ownerWind)
-				completedTile = t;
+				return this.withCompletedTile(t);
+		return this;
 	}
 	
 	
@@ -111,7 +109,8 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 		return null;
 	}
 	public GameTile getFirstTile(){return meldTiles.get(0);}
-	public GameTileList getAllTiles(){return meldTiles.clone();}
+	public GTL getAllTiles(){return getTiles();}
+	public GTL getTiles(){return meldTiles;}
 	public int size(){return meldTiles.size();}
 	public boolean contains(GameTile tile){return meldTiles.contains(tile);}
 	public boolean contains(int tileID){return meldTiles.contains(tileID);}

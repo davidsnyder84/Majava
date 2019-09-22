@@ -3,18 +3,25 @@ import java.util.Random;
 
 //holds profile information such as name and playerID
 public class PlayerProfile {
-	private static final String DEFAULT_PLAYERNAME = "Saki";
+	private static final String DEFAULT_PLAYERNAME = "Miyanaga";
 	
-	private String playerName;
-	private int playerID;
+	private final String playerName;
+	private final int playerID;
 	
 	
 	public PlayerProfile(String pname, int pid){
-		setPlayerName(pname);
-		setID(pid);
+		if (pname == null)
+			playerName = DEFAULT_PLAYERNAME;
+		else
+			playerName = pname;
+		
+		
+		playerID = pid;
 	}
 	public PlayerProfile(String pname){this(pname, generateRandomID());}
-	public PlayerProfile(){}
+	
+	public PlayerProfile withName(String newName){return new PlayerProfile(newName, playerID);}
+	
 	
 	
 	//getters
@@ -22,14 +29,9 @@ public class PlayerProfile {
 	public int getPlayerID(){return playerID;}
 	
 	
-	//setters
-	public void setPlayerName(String newName){
-		if (newName == null)
-			if (playerName == null) playerName = DEFAULT_PLAYERNAME;
-			else return;
-		playerName = newName;
-	}
-	private void setID(int newID){playerID = newID;}
+	//setter
+	public PlayerProfile setPlayerName(String newName){return this.withName(newName);}
+	
 	
 	private static int generateRandomID(){return (new Random()).nextInt();}
 }

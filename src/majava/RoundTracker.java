@@ -33,8 +33,8 @@ public class RoundTracker {
 		wall = receivedWall;
 		
 		players = playerArray.clone();
-		for (Player p: players)
-			p.syncWithRoundTracker(this);
+//		for (Player p: players)
+//			p.syncWithRoundTracker(this);
 	}
 	
 	

@@ -5,7 +5,6 @@ import java.util.List;
 import majava.hand.Hand;
 import majava.hand.Meld;
 import majava.Pond;
-import majava.RoundTracker;
 import majava.enums.Exclamation;
 import majava.enums.Wind;
 import majava.player.brains.BeaverBot;
@@ -27,10 +26,9 @@ import majava.util.GTL;
 public class Player {
 	
 	private PlayerBrain brain;
-	private PlayerProfile profile;
-	private PointsBox pointsBox;
+	private final PlayerProfile profile;
+	private final PointsBox pointsBox;
 	
-	private RoundTracker roundTracker;
 	
 	//data that changes between rounds
 	private final Hand hand;
@@ -47,7 +45,10 @@ public class Player {
 	private final boolean isFuriten;
 	
 	
-	private Player(Hand h, Pond p, Wind w, DrawingNeed dn, GameTile lasd){
+	private Player(PlayerProfile prof, PointsBox pts, Hand h, Pond p, Wind w, DrawingNeed dn, GameTile lasd){
+		profile = prof;
+		pointsBox = pts;
+		
 		hand = h;
 		pond = p;
 		seatWind = w;
@@ -86,6 +87,8 @@ public class Player {
 		setDrawNeededNormal();
 	}
 	
+	private Player withPoints(PointsBox pts){return new Player();}
+	
 	private Player withHand(Hand h){return new Player();}
 	private Player withPond(Pond p){return new Player();}
 	private Player withSeatWind(Wind w){return new Player();}
@@ -93,10 +96,14 @@ public class Player {
 	private Player withDrawingNeed(DrawingNeed dn){return new Player();}
 	private Player withLastDiscard(GameTile d){return new Player();}
 	
-	private Player withDrawNeededRinshan(){return new Player(drawNeeded.rinshan());}
-	private Player withDrawNeededNormal(){return new Player(drawNeeded.normal();}
-	private Player withDrawNeededNone(){return new Player(drawNeeded.none());}
+	private Player withDrawNeededRinshan(){return this.withDrawingNeed(drawNeeded.rinshan());}
+	private Player withDrawNeededNormal(){return this.withDrawingNeed(drawNeeded.normal());}
+	private Player withDrawNeededNone(){return this.withDrawingNeed(drawNeeded.none());}
 	
+//	private Player withDrawNeededRinshan(){return new Player(drawNeeded.rinshan());}
+//	private Player withDrawNeededNormal(){return new Player(drawNeeded.normal();}
+//	private Player withDrawNeededNone(){return new Player(drawNeeded.none());}
+//	
 	
 	
 	
@@ -122,7 +129,7 @@ public class Player {
 			else if (turnActionMadeMinkan())
 				hand.makeMeldTurnMinkan();
 			
-			setDrawNeededRinshan();
+			this.withDrawNeededRinshan();
 		}
 		//riichi, tsumo falls here
 		return null;
@@ -143,7 +150,6 @@ public class Player {
 	
 	//removes the most recent tile from the player's pond (because another player called it)
 	public Player removeTileFromPond(){return this.withPond(pond.removeMostRecentTile());}
-/////////////////////////////////////////////////////////////////////////////////mutate
 	public Pond getPond(){return pond;}
 	
 	public GameTile getLastDiscard(){return lastDiscard;}
@@ -282,9 +288,9 @@ public class Player {
 	public boolean needsDraw(){return drawNeeded.needsToDraw();}
 	public boolean needsDrawNormal(){return drawNeeded.needsNormal();}
 	public boolean needsDrawRinshan(){return drawNeeded.needsRinshan();}
-	private void setDrawNeededRinshan(){drawNeeded.setRinshan();}
-	private void setDrawNeededNormal(){drawNeeded.setNormal();}
-	private void setDrawNeededNone(){drawNeeded.setNone();}
+//	private void setDrawNeededRinshan(){drawNeeded.setRinshan();}
+//	private void setDrawNeededNormal(){drawNeeded.setNormal();}
+//	private void setDrawNeededNone(){drawNeeded.setNone();}
 /////////////////////////////////////////////////////////////////////////////////mutate
 	
 	
@@ -353,10 +359,10 @@ public class Player {
 	
 	//point methods
 	public int getPoints(){return pointsBox.getPoints();}
-/////////////////////////////////////////////////////////////////////////////////mutate
-	public void pointsIncrease(int amount){pointsBox.add(amount);}
-	public void pointsDecrease(int amount){pointsBox.subtract(amount);}
 	public boolean pointsIsHakoshita(){return pointsBox.isHakoshita();}
+/////////////////////////////////////////////////////////////////////////////////mutate
+	public Player pointsIncrease(int amount){return this.withPoints(pointsBox.add(amount));}
+	public Player pointsDecrease(int amount){return this.withPoints(pointsBox.subtract(amount));}
 
 	//profile methods
 	public String getPlayerName(){return profile.getPlayerName();}
@@ -392,12 +398,6 @@ public class Player {
 	@Override
 	public String toString(){return (getPlayerName() + " (" + seatWind.toChar() +" player) ");}
 	
-	
-	
-	public void syncWithRoundTracker(RoundTracker tracker){
-/////////////////////////////////////////////////////////////////////////////////mutate
-		roundTracker = tracker;
-	}
 	
 	
 	

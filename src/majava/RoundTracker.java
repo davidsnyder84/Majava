@@ -12,6 +12,7 @@ import majava.summary.PlayerSummary;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
 import majava.enums.Wind;
+import majava.wall.Wall;
 
 
 //other objects can ask a RoundTracker for universally available information about the round

@@ -1,10 +1,13 @@
 package majava.control.testcode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
-import majava.Wall;
+import majava.wall.Wall;
 import majava.tiles.GameTile;
 import majava.util.GTL;
+import majava.wall.WallDealer;
 
 public class WallDemoer {
 	private static final int NUMBER_OF_DIFFERENT_TILES = 34;
@@ -17,7 +20,54 @@ public class WallDemoer {
 //	private static final boolean SCAM_DEAD_WALL = false;
 	
 	
-	public static void loadDebugWall(GameTile[] wallTiles, int offset){
+	
+	public static void main(String[] args) {
+		Wall demowall = null;
+		
+//		demowall = SpecialDebugWall();
+//		demowall = ExhaustedWall();
+//		demowall = SpecialDebugWall(ExhaustedWall());
+		
+		WallDealer dealer = new WallDealer(demowall);
+		System.out.println(dealer.toString());
+	}
+	
+	
+	
+	
+	
+	
+	public static Wall SpecialDebugWall(Wall w){
+		GameTile[] tilesForDebugWall = loadDebugWall(w.currentPosition());
+		return new Wall(tilesForDebugWall);
+	}
+	public static Wall SpecialDebugWall(){return SpecialDebugWall(normalWall());}
+	
+	public static Wall SpecialExhaustedWall(){return SpecialDebugWall(ExhaustedWall());}
+	
+	
+	
+	public static Wall ExhaustedWall(Wall w){
+		int exhaustedPosition = POS_LAST_NORMAL_WALL_TILE - 14 - 13 - 13 - 13;
+		return w.withPosition(exhaustedPosition);
+	}
+	public static Wall ExhaustedWall(){return ExhaustedWall(normalWall());}
+	
+	
+	private static Wall normalWall(){return new Wall();}
+	
+	
+	
+	
+	
+	
+	
+	private static GameTile[] loadDebugWall(int offset){
+//		GameTile[] wallTiles = new GameTile[MAX_SIZE_WALL];
+		GameTile[] wallTiles = Wall.standardSetOf134Tiles();
+//		Collections.shuffle(Arrays.asList(wallTiles));
+		
+		
 		
 		int tsumo2, tsumo3, tsumo4, tsumo5, tsumo6, tsumo7, tsumo8, tsumo9;
 		tsumo2 = tsumo3 = tsumo4 = tsumo5 = tsumo6 = tsumo7 = tsumo8 = tsumo9 = 0;
@@ -266,20 +316,15 @@ public class WallDemoer {
 		
 		if (SCAM_DEAD_WALL)
 			scamDeadWall(wallTiles, 2);
+		
+		return wallTiles;
 	}
-	public static void loadDebugWall(GameTile[] wallTiles){loadDebugWall(wallTiles, 0);}
-	public int[] DEMOgetDebugPlayerHandSizes(){return debugHandSizes;}
+	private static GameTile[] loadDebugWall(){return loadDebugWall(0);}
 	
 	
-	public static void scamDeadWall(GameTile[] wallTiles, int scam){		
+	private static void scamDeadWall(GameTile[] wallTiles, int scam){		
 		for(int i = OFFSET_DEAD_WALL; i < MAX_SIZE_WALL; i++)
 			wallTiles[i] = new GameTile(scam);
 	}
 	
-	
-	
-//	public static void main(String[] args) {
-//		for (int i=1; i<=1; i++)
-//			System.out.println(i);
-//	}
 }

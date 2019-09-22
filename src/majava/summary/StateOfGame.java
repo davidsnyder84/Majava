@@ -4,7 +4,7 @@ import java.util.List;
 
 import majava.Pond;
 import majava.RoundTracker;
-import majava.Wall;
+import majava.wall.Wall;
 import majava.enums.Wind;
 import majava.hand.Hand;
 import majava.hand.Meld;
@@ -56,7 +56,7 @@ public final class StateOfGame {
 	
 	
 	//wall methods
-	public GameTile[] getWallTiles(){return wall.getTilesAsList();}
+	public GameTile[] getWallTiles(){return wall.getTiles();}
 	public String wallToString(){return wall.toString();}
 	public String deadWallToString(){return wall.toStringDeadWall();}
 

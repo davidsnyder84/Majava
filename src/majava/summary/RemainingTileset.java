@@ -5,18 +5,17 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import majava.Wall;
+import majava.wall.Wall;
 import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
-import majava.util.GameTileList;
+import majava.util.GTL;
 
 public class RemainingTileset {
 	
-	private final GameTileList tilesRemaining;
+	private final GTL tilesRemaining;
 	
 	public RemainingTileset() {
-		tilesRemaining = new GameTileList();
-		tilesRemaining.addAll(Arrays.asList(Wall.standardSetOf134Tiles()));
+		tilesRemaining = new GTL(Wall.standardSetOf134Tiles());
 	}
 	
 	

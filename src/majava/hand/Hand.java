@@ -70,7 +70,8 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	}
 	public GameTile getLastTile(){return getTile(size()-1);}
 	public GameTile getFirstTile(){return getTile(0);}
-	//GameTileList methods
+	
+	//TileList methods
 	public int findHowManyOf(GameTile t){return tiles.findHowManyOf(t);}
 	public GTL getTiles(){return tiles;}
 	public int indexOf(Integer id){return tiles.indexOf(new GameTile(id));}

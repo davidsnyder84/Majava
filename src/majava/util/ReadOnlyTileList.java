@@ -13,10 +13,11 @@ public interface ReadOnlyTileList{
 	public int size();
 	public int indexOf(GameTile t);
 	
+	
+	
+	//no one seems to need these yet
 	public ReadOnlyTileList subList(int fromIndex, int toIndex);
 	public ReadOnlyTileList getAllExceptLast();
-	
-	
 	
 	//tile id overloads
 	public int indexOf(Integer id);

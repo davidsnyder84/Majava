@@ -5,7 +5,7 @@ import majava.hand.Hand;
 import majava.hand.Meld;
 import majava.Pond;
 import majava.RoundTracker;
-import majava.Wall;
+import majava.wall.Wall;
 import majava.enums.CallType;
 import majava.enums.Exclamation;
 import majava.enums.TurnActionType;

@@ -5,12 +5,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import majava.util.GTL;
+import majava.wall.WallDealer;
+import majava.wall.Wall;
 import majava.player.Player;
 import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
 import majava.summary.StateOfGame;
 import majava.tiles.GameTile;
 import majava.control.testcode.GameSimulation;
+import majava.control.testcode.WallDemoer;
 import majava.events.GameEventBroadcaster;
 import majava.events.GameplayEvent;
 import majava.enums.Wind;
@@ -68,6 +71,8 @@ public class Round{
 	public Round(GameEventBroadcaster eventBroadcaster, Player[] playerArray, Wind roundWindToSet, int roundNum){this(eventBroadcaster, playerArray, roundWindToSet, roundNum, DEFAULT_ROUND_BONUS_NUM);}
 	public Round(GameEventBroadcaster eventBroadcaster, Player[] playerArray){this(eventBroadcaster, playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);}
 	
+	public Round withWall(Wall w){return null;}
+	public Round withPlayers(Player pe, Player ps, Player pw, Player pn){return null;}
 	
 	
 	
@@ -132,20 +137,34 @@ public class Round{
 	
 	//deals players their starting hands
 	private void dealHands(){
-		if (DEBUG_EXHAUSTED_WALL) wall.DEMOexhaustWall(); if (DEBUG_LOAD_DEBUG_WALL) wall.DEMOloadDebugWall();	//DEBUG
+		Wall wallToDealFrom = wall;
+		
+		//DEBUG
+//		if (DEBUG_EXHAUSTED_WALL) wallToDealFrom = WallDemoer.ExhaustedWall();
+		if (DEBUG_EXHAUSTED_WALL) wallToDealFrom = WallDemoer.ExhaustedWall(wallToDealFrom);
+		if (DEBUG_LOAD_DEBUG_WALL) wallToDealFrom = WallDemoer.SpecialDebugWall(wallToDealFrom);
+		
 		
 		//get starting hands from the wall
-		List<GameTile> tilesE = new ArrayList<GameTile>(), tilesS = new ArrayList<GameTile>(), tilesW = new ArrayList<GameTile>(), tilesN = new ArrayList<GameTile>();
-		wall.takeStartingHands(tilesE, tilesS, tilesW, tilesN);
+		WallDealer wallDealer = new WallDealer(wallToDealFrom);
+		Wall dealtWall = wallDealer.wallWithStartingHandsRemoved();
 		
-		Player eastPlayer = currentPlayer();
-		eastPlayer.giveStartingHand(tilesE);
-		turnIndicator.neighborShimochaOf(eastPlayer).giveStartingHand(tilesS);
-		turnIndicator.neighborToimenOf(eastPlayer).giveStartingHand(tilesW);
-		turnIndicator.neighborKamichaOf(eastPlayer).giveStartingHand(tilesN);
+		Player pe=null, ps=null, pw=null, pn=null;
+		
+		Player peWithStartingHand = pe.giveStartingHand(wallDealer.startingHandEast());
+		Player psWithStartingHand = ps.giveStartingHand(wallDealer.startingHandSouth());
+		Player pwWithStartingHand = pw.giveStartingHand(wallDealer.startingHandWest());
+		Player pnWithStartingHand = pn.giveStartingHand(wallDealer.startingHandNorth());
+		
+		
+//		Player eastPlayer = currentPlayer();
+//		eastPlayer.giveStartingHand(wallDealer.startingHandEast());
+//		turnIndicator.neighborShimochaOf(eastPlayer).giveStartingHand(wallDealer.startingHandSouth());
+//		turnIndicator.neighborToimenOf(eastPlayer).giveStartingHand(wallDealer.startingHandWest());
+//		turnIndicator.neighborKamichaOf(eastPlayer).giveStartingHand(wallDealer.startingHandNorth());
+		
+		this.withWall(dealtWall).withPlayers(peWithStartingHand, psWithStartingHand, pwWithStartingHand, pnWithStartingHand);
 	}
-	
-	
 	
 	
 	//handles player p's turn, and gets the other players' reactions to the p's turn
@@ -187,6 +206,7 @@ public class Round{
 	//gives a player a tile from the wall or dead wall
 	private void letPlayerDraw(Player p){
 		if (!p.needsDraw()) return;
+		Wall wallAfterDraw = wall;
 		
 		GameTile drawnTile = null;
 		if (p.needsDrawNormal()){
@@ -194,19 +214,24 @@ public class Round{
 				setResultRyuukyokuHowanpai();
 				return;
 			}
-			drawnTile = wall.takeTile();
+			drawnTile = wall.nextTile();
+			wallAfterDraw = wall.removeNextTile();
 		}
 		else if (p.needsDrawRinshan()){
 			if (tooManyKans()){
 				setResultRyuukyoku4Kan();
 				return;
 			}
-			drawnTile = wall.takeTileFromDeadWall();
+			drawnTile = wall.nextDeadWallTile();
+			wallAfterDraw = wall.removeNextDeadWallTile();
+			
 			announceEvent(GameplayEvent.newDoraIndicatorEvent());
 		}
 		
 		p.addTileToHand(drawnTile);
 		announceEvent(GameplayEvent.drewTileEvent());
+		
+		this.withWall(wallAfterDraw);
 	}
 	
 	private boolean tooManyKans(){return roundTracker.tooManyKans();}

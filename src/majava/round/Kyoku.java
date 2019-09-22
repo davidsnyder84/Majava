@@ -3,6 +3,7 @@ package majava.round;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import utility.Pauser;
 
@@ -22,7 +23,6 @@ import majava.events.GameplayEvent;
 import majava.enums.KyokuEvent;
 import majava.enums.Wind;
 import majava.enums.Exclamation;
-import majava.round.Kiroku;
 
 
 
@@ -46,10 +46,10 @@ public class Kyoku{
 	private final PlayerList players;	
 	private final Wall wall;
 	
-//	private Kiroku krok;
-//	private GameplayEvent mostRecentEvent;
-	private final KyokuEvent mostRecentEvent;
 	
+	private final KyokuEvent mostRecentEvent;
+	private final TurnArrow turnArrow;
+//	private final Player ban;
 	
 //	private final StateOfGame gameState;
 //	private final GameEventBroadcaster gameEventBroadcaster;
@@ -60,30 +60,29 @@ public class Kyoku{
 	
 	
 	
-	//constructor
-//	private static final boolean BUILDER = true;
-	public Kyoku(PlayerList playerArray, Wall w, Wind roundWindToSet, int roundNum, int roundBonusNum, KyokuEvent lastEvent){
-		players = playerArray;
-		
+	//builder constructor
+	private static final boolean BUILDER = true;
+	private Kyoku(PlayerList playerArray, Wall w, Wind roundWindToSet, int roundNum, int roundBonusNum, KyokuEvent lastEvent, TurnArrow tarrow, boolean BLDR){
 		roundWind = roundWindToSet; roundNumber = roundNum; roundBonusNumber = roundBonusNum;
-		
-//		//prepare for new round
-//		for (Player p: players)
-//			p.prepareForNewRound();
-		
+		players = playerArray;
 		wall = w;
 		
 		mostRecentEvent = lastEvent;
-		
-//		roundResult = new RoundResult();
-//		turnIndicator = new TurnIndicator(players);	/////Does TurnIndicator really need players?
-//		
-//		roundTracker = new RoundTracker(this, wall, players);
+		turnArrow = tarrow;
 	}
 	
-	public Kyoku(PlayerList playerArray, Wall w, Wind roundWindToSet, int roundNum){this(playerArray, w, roundWindToSet, roundNum, DEFAULT_ROUND_BONUS_NUM, KyokuEvent.initEvent());}
+	//initialization constructors
+	public Kyoku(PlayerList playerArray, Wind roundWindToSet, int roundNum, int roundBonusNum){
+		roundWind = roundWindToSet; roundNumber = roundNum; roundBonusNumber = roundBonusNum;
+		players = playerArray;
+		
+		wall = new Wall().shuffle();
+		mostRecentEvent = KyokuEvent.initEvent();
+		turnArrow = new TurnArrow(players);
+	}
+	public Kyoku(PlayerList playerArray, Wind roundWindToSet, int roundNum){this(playerArray, roundWindToSet, roundNum, DEFAULT_ROUND_BONUS_NUM);}
 	public Kyoku(PlayerList playerArray){
-		this(playerArray, new Wall().shuffle(), DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);
+		this(playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);
 	}
 	public Kyoku(){
 //		this(new PlayerList(new Player(), new Player(), new Player(), new Player()));
@@ -93,11 +92,39 @@ public class Kyoku{
 			p.setControllerHuman();
 		
 	}
-	public Kyoku withWall(Wall newWall){return new Kyoku(players, newWall, roundWind, roundNumber, roundBonusNumber, mostRecentEvent);}
-	public Kyoku withPlayers(PlayerList newPlayerlist){return new Kyoku(newPlayerlist, wall, roundWind, roundNumber, roundBonusNumber, mostRecentEvent);}
-	public Kyoku withEvent(KyokuEvent newEvent){return new Kyoku(players, wall, roundWind, roundNumber, roundBonusNumber, newEvent);}
 	
-//	public Kyoku withPlayers(Player pe, Player ps, Player pw, Player pn){return null;}
+	//builders
+	public Kyoku withWall(Wall newWall){return new Kyoku(players, newWall, roundWind, roundNumber, roundBonusNumber, mostRecentEvent, turnArrow, BUILDER);}
+	
+	public Kyoku withPlayers(PlayerList newPlayerlist){return new Kyoku(newPlayerlist, wall, roundWind, roundNumber, roundBonusNumber, mostRecentEvent, turnArrow, BUILDER);}
+	public Kyoku withSetPlayer(Player oldPlayer, Player newPlayer){return this.withPlayers(players.set(oldPlayer, newPlayer));}
+	
+	public Kyoku withEvent(KyokuEvent newEvent){return new Kyoku(players, wall, roundWind, roundNumber, roundBonusNumber, newEvent, turnArrow, BUILDER);}
+	
+	public Kyoku withTurn(TurnArrow newTurn){return new Kyoku(players, wall, roundWind, roundNumber, roundBonusNumber, mostRecentEvent, newTurn, BUILDER);}
+	
+	
+	
+	public Kyoku setTurn(Player newTurnPlayer){return this.withTurn(turnArrow.setTurn(newTurnPlayer));}
+	public Kyoku setTurnNext(){return this.withTurn(turnArrow.setTurnNext());}
+	public Kyoku setTurnToPriorityCaller(){return this.withTurn(turnArrow.setTurnToPriorityCaller());}
+	private Kyoku moveTurnToNextPlayer(){
+//		System.out.println("moooooooooo");
+		return this.withEvent(KyokuEvent.uncalledEvent(currentPlayer())).setTurnNext();
+	}
+	
+	
+	private Player currentPlayer(){
+//		return mostRecentEvent.getWhoseTurn();
+		return turnArrow.currentPlayer();
+	}
+	private Player nextPlayer(){
+		return turnArrow.nextPlayer();
+//		System.out.println(players.neighborNextPlayer(currentPlayer()).toString());
+//		System.out.println(currentPlayer().toString());
+//		return players.neighborNextPlayer(currentPlayer());
+	}
+	
 	
 	
 	
@@ -108,9 +135,22 @@ public class Kyoku{
 	}
 	
 	public Kyoku whatDo(){
+		System.out.println("==============================================================================================\n" + this.toString() + "==============================================================================================\n\n");
+		
+		
 		switch(mostRecentEvent.getEventType()){
 		case INIT: return doRoundStart();
-		case DEALT_HANDS: return doPlayerTurn(players.seatE());
+		case DEALT_HANDS: return doPlayerTurnAction(players.seatE());
+		
+		case START_OF_PLAYER_TURN:
+		case DRAW: return doCurrentPlayerTurnAction();
+		
+		case DISCARD: return moveTurnToNextPlayer(); //would get reactions here
+//		case UNCALLED: return doNextPlayerTurnAction();
+//		case CALLED: return //let the caller make the meld
+		case UNCALLED: return letPlayerDraw(nextPlayer());
+		
+		case MADE_OPEN_MELD: letPlayerDraw(currentPlayer());
 		
 //		case DISCARDED_TILE: displayEventDiscardedTile(event); break;
 //		case MADE_OPEN_MELD: displayEventMadeOpenMeld(event); break;
@@ -136,11 +176,169 @@ public class Kyoku{
 		return null;
 	}
 	
+
+	private Kyoku doCurrentPlayerTurnAction(){return doPlayerTurnAction(currentPlayer());}
+	private Kyoku doNextPlayerTurnAction(){return doPlayerTurnAction(nextPlayer());}
+	private Kyoku doPlayerTurnAction(final Player p){
+//		if (roundIsOver()) return;	//return early if (4kan or ryuukyoku)
+		//loop until the player has chosen a discard (loop until the player stops making kans) (kans and riichi are handled inside here)
+		
+		GameTile discardedTile = null;
+		int discardIndex = 0;
+		System.out.println(p.getHand().toString());
+		
+//		if (p.controllerIsHuman()) announceHumanTurnStartEvent(p);
+//		if (p.controllerIsHuman()){
+//			System.out.print("Discard what?: ");
+//			Scanner keyboard = new Scanner(System.in);
+//			discardIndex = keyboard.nextInt();
+//		}
+		
+//		discardedTile = p.takeTurn();
+		System.out.println("niggggggggggggggggggggggggger" +p.handSize()); 
+		discardedTile = p.getHand().getTile(discardIndex);
+		Player pWithActionTaken = p.takeTurn();
+		
+//		turnIndicator.setMostRecentDiscard(discardedTile);	//discardedTile will be null if the player made a kan/tsumo, but that's ok
+		
+//		if (madeKan(p)){
+//			announceSelfKanEvent(p);
+//			letPlayerDraw(p);	//give player a rinshan draw
+//		}
+//		
+//		if (p.turnActionCalledTsumo()){
+//			announceTsumoEvent(p);
+//			setResultVictory(p);
+//		}
+		
+//		if (roundIsOver()) return;	//return early if (tsumo or 4kan or 4riichi or kyuushu)
+		
+//		announceEvent(GameplayEvent.discardedTileEvent());
+		return this.withSetPlayer(p, pWithActionTaken).withEvent(KyokuEvent.discardEvent(pWithActionTaken, discardedTile));
+	}
 	
-	private Kyoku doPlayerTurn(Player p){
+//	//handles player p's turn, and gets the other players' reactions to the p's turn
+//	private void doPlayerTurn(Player p){
+//		
+//		//loop until the player has chosen a discard (loop until the player stops making kans) (kans and riichi are handled inside here)
+//		GameTile discardedTile = null;
+//		do{
+//			if (p.controllerIsHuman()) announceHumanTurnStartEvent(p);
+//			
+//			discardedTile = p.takeTurn();
+//			turnIndicator.setMostRecentDiscard(discardedTile);	//discardedTile will be null if the player made a kan/tsumo, but that's ok
+//			
+//			if (madeKan(p)){
+//				announceSelfKanEvent(p);
+//				letPlayerDraw(p);	//give player a rinshan draw
+//			}
+//			
+//			if (p.turnActionCalledTsumo()){
+//				announceTsumoEvent(p);
+//				setResultVictory(p);
+//			}
+//			
+//			if (roundIsOver()) return;	//return early if (tsumo or 4kan or 4riichi or kyuushu)
+//		}
+//		while (!p.turnActionChoseDiscard());
+//		
+//		announceEvent(GameplayEvent.discardedTileEvent());
+//	}
+//	private boolean madeKan(Player p){return p.needsDrawRinshan();}
+////	private List<Player> playersOtherThan(Player p){return Arrays.asList(roundTracker.neighborShimochaOf(p), roundTracker.neighborToimenOf(p), roundTracker.neighborKamichaOf(p));}
+//	
+//	
+	
+	
+	
+//	//handles player p's turn, and gets the other players' reactions to the p's turn
+//	private void doPlayerTurn(Player p){
+//		if (p.needsDraw())
+//			letPlayerDraw(p);
+//		announceEvent(GameplayEvent.playerTurnStartEvent());
+//		
+//		if (roundIsOver()) return;	//return early if (4kan or ryuukyoku)
+//		
+//		//loop until the player has chosen a discard (loop until the player stops making kans) (kans and riichi are handled inside here)
+//		GameTile discardedTile = null;
+//		do{
+//			if (p.controllerIsHuman()) announceHumanTurnStartEvent(p);
+//			
+//			discardedTile = p.takeTurn();
+//			turnIndicator.setMostRecentDiscard(discardedTile);	//discardedTile will be null if the player made a kan/tsumo, but that's ok
+//			
+//			if (madeKan(p)){
+//				announceSelfKanEvent(p);
+//				letPlayerDraw(p);	//give player a rinshan draw
+//			}
+//			
+//			if (p.turnActionCalledTsumo()){
+//				announceTsumoEvent(p);
+//				setResultVictory(p);
+//			}
+//			
+//			if (roundIsOver()) return;	//return early if (tsumo or 4kan or 4riichi or kyuushu)
+//		}
+//		while (!p.turnActionChoseDiscard());
+//		
+//		announceEvent(GameplayEvent.discardedTileEvent());
+//	}
+//	private boolean madeKan(Player p){return p.needsDrawRinshan();}
+////	private List<Player> playersOtherThan(Player p){return Arrays.asList(roundTracker.neighborShimochaOf(p), roundTracker.neighborToimenOf(p), roundTracker.neighborKamichaOf(p));}
+//	
+//	
+	
+	
+	private Kyoku letPlayerDraw(final Player p){
+		if (!p.needsDraw())
+			return this.withEvent(KyokuEvent.startOfPlayerTurnEvent(p)).setTurn(p); //with some kind of event
+		
+		Wall wallAfterDraw = wall;
+		
+		
+		
+		GameTile drawnTile = null;
+		if (p.needsDrawNormal()){
+//			if (wallIsEmpty()){
+//				setResultRyuukyokuHowanpai();
+//				return;
+//			}
+			drawnTile = wall.nextTile();
+			wallAfterDraw = wall.removeNextTile();
+		}
+		else if (p.needsDrawRinshan()){
+//			if (tooManyKans()){
+//				setResultRyuukyoku4Kan();
+//				return;
+//			}
+			drawnTile = wall.nextDeadWallTile();
+			wallAfterDraw = wall.removeNextDeadWallTile();
+			
+//			announceEvent(GameplayEvent.newDoraIndicatorEvent());
+		}
+		
+		Player pWithDrawnTile = p.addTileToHand(drawnTile);
+		
+//		announceEvent(GameplayEvent.drewTileEvent());
+		return this.withSetPlayer(p, pWithDrawnTile).withWall(wallAfterDraw).withEvent(KyokuEvent.drawEvent(pWithDrawnTile)).setTurn(p);
 		
 	}
-//	private Kyoku doCurrentPlayerTurn(){}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	private Kyoku doRoundStart(){
@@ -166,16 +364,9 @@ public class Kyoku{
 		Player pwWithStartingHand = players.seatW().giveStartingHand(wallDealer.startingHandWest());
 		Player pnWithStartingHand = players.seatN().giveStartingHand(wallDealer.startingHandNorth());
 		
-//			Player eastPlayer = currentPlayer();
-//			eastPlayer.giveStartingHand(wallDealer.startingHandEast());
-//			turnIndicator.neighborShimochaOf(eastPlayer).giveStartingHand(wallDealer.startingHandSouth());
-//			turnIndicator.neighborToimenOf(eastPlayer).giveStartingHand(wallDealer.startingHandWest());
-//			turnIndicator.neighborKamichaOf(eastPlayer).giveStartingHand(wallDealer.startingHandNorth());
 		
 		PlayerList playersWithStartingHands = new PlayerList(peWithStartingHand, psWithStartingHand, pwWithStartingHand, pnWithStartingHand);
-//		return this.withWall(dealtWall).withPlayers(peWithStartingHand, psWithStartingHand, pwWithStartingHand, pnWithStartingHand);
-//		return this.withWall(dealtWall).withPlayers(playersWithStartingHands);
-		return this.withWall(dealtWall).withPlayers(playersWithStartingHands).withEvent(KyokuEvent.dealtHandsEvent());
+		return this.withWall(dealtWall).withPlayers(playersWithStartingHands).withEvent(KyokuEvent.dealtHandsEvent(players.seatE())).setTurn(playersWithStartingHands.seatE());
 	}
 	
 	
@@ -184,8 +375,7 @@ public class Kyoku{
 	
 	
 	
-	
-	
+	private boolean wallIsEmpty(){return wall.isEmpty();}
 	
 	
 	
@@ -208,7 +398,6 @@ public class Kyoku{
 //	public int whoseTurnNumber(){return turnIndicator.whoseTurnNumber();}
 //	
 //	private boolean tooManyKans(){return roundTracker.tooManyKans();}
-//	private boolean wallIsEmpty(){return wall.isEmpty();}
 //	
 //	
 //	
@@ -495,6 +684,7 @@ public class Kyoku{
 	}
 	private String diag(){
 		String str = "\n*****\n";
+		str += mostRecentEvent.toString();
 //		str += players.size();
 //		str += players.size();
 		return str;
@@ -505,7 +695,11 @@ public class Kyoku{
 		System.out.println("Welcome to Majava (Kyokubu)!");
 		
 		Kyoku round = new Kyoku();
-		round = round.next();
+//		round = round.next();
+		int i = 0;
+		while (i < 500)
+			round = round.next();
+		
 		System.out.println(round.toString());
 	}
 	

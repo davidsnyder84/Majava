@@ -1,6 +1,7 @@
 package majava.player;
 
 import java.util.List;
+import java.util.Scanner;
 
 import majava.hand.Hand;
 import majava.hand.Meld;
@@ -109,34 +110,42 @@ public class Player implements Comparable<Player>{
 	
 	//lets a player take their turn
 	//returns the tile discarded by the player, returns null if the player did not discard (they made a kan or tsumo)
-	public GameTile takeTurn(){
+	public Player takeTurn(){
 /////////////////////////////////////////////////////////////////////////////////mutate
-		lastDiscard = null;
+//		lastDiscard = null;
 		
-		brain.chooseTurnAction(hand);
-		if (turnActionChoseDiscard()){
+		int discardIndex = 1;
+		if (controllerIsHuman()){
+			System.out.print("Discard what?: ");
+			Scanner keyboard = new Scanner(System.in);
+			discardIndex = keyboard.nextInt() - 1;
+		}
+		
+//		brain.chooseTurnAction(hand);
+//		if (turnActionChoseDiscard()){
 			
 			//discard and return the chosen tile
-			lastDiscard = discardChosenTile();
-			return lastDiscard;
-		}
+			return discardChosenTile(discardIndex);
+//			return lastDiscard;
+//		}
 		
-		if (turnActionMadeKan()){
-			//make the kan
-			if (turnActionMadeAnkan())
-				hand.makeMeldTurnAnkan();
-			else if (turnActionMadeMinkan())
-				hand.makeMeldTurnMinkan();
-			
-			this.withDrawNeededRinshan();
-		}
+//		if (turnActionMadeKan()){
+//			//make the kan
+//			if (turnActionMadeAnkan())
+//				hand.makeMeldTurnAnkan();
+//			else if (turnActionMadeMinkan())
+//				hand.makeMeldTurnMinkan();
+//			
+//			this.withDrawNeededRinshan();
+//		}
 		//riichi, tsumo falls here
-		return null;
+//		return null;
 	}
 	
-	private Player discardChosenTile(){
+	private Player discardChosenTile(int discardIndex){
+//	private Player discardChosenTile(){
 		
-		int discardIndex = brain.getChosenDiscardIndex();
+//		int discardIndex = brain.getChosenDiscardIndex();
 		
 		GameTile discardedTile = hand.getTile(discardIndex);
 		Hand handWithRemovedTile = hand.removeTile(discardIndex);

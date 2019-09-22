@@ -16,7 +16,8 @@ public enum GameEventType {
 	
 	HUMAN_PLAYER_TURN_START, HUMAN_PLAYER_REACTION_START,
 	END, START,
-	UNKNOWN;
+	UNKNOWN,
+	NONE;
 	
 	
 	public boolean isExclamation(){return (this == CALLED_TILE || this == DECLARED_RIICHI || this == DECLARED_OWN_KAN || this == DECLARED_TSUMO);}

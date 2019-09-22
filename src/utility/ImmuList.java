@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 
+//public class ImmuList<T> implements Iterable<T>{
 public class ImmuList<T extends Comparable<? super T>> implements Iterable<T>{
 //public class ImmuList<T extends Comparable<? extends T>> extends ArrayList<T>{
 	

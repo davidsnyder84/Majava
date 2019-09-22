@@ -19,11 +19,12 @@ import majava.player.brains.SimpleRobot;
 import majava.player.brains.TseIiMenBot;
 import majava.summary.PointsBox;
 import majava.tiles.GameTile;
+import majava.tiles.TileInterface;
 import majava.util.GTL;
 
 
 //represents a player in the game
-public class Player {
+public class Player implements Comparable<Player>{
 	
 	private PlayerBrain brain;
 	private final PlayerProfile profile;
@@ -45,11 +46,15 @@ public class Player {
 	private final boolean isFuriten;
 	
 	
-	private Player(PlayerProfile prof, PointsBox pts, Hand h, Pond p, Wind w, DrawingNeed dn, GameTile lasd){
+	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w, DrawingNeed dn, GameTile lasd){
+		if (brn == null) brain = new NullPlayerBrain(this);
+		else brain = brn;
+		
 		profile = prof;
 		pointsBox = pts;
+		playerNum = pnum;
 		
-		hand = h;
+		hand = h;	//seatwind?
 		pond = p;
 		seatWind = w;
 		drawNeeded = dn;
@@ -57,44 +62,38 @@ public class Player {
 		
 		isHoldingRinshanTile = false; isRiichi = false; isFuriten = false;
 	}
+	private Player(PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w, DrawingNeed dn, GameTile lasd){
+		this(null, prof, pts, pnum, h, p, w, dn, lasd);
+	}
+	public Player(PlayerProfile prof, PointsBox pts, int pnum){
+		this(prof, pts, pnum, new Hand(), new Pond(), Wind.UNKNOWN, new DrawingNeed(), null);
+	}
 	public Player(PlayerProfile newProfile){
-		//always generate a default null brain
-		brain = new NullPlayerBrain(this);
-		profile = newProfile;
-		pointsBox = new PointsBox();
-		
-		setSeatWind(Wind.UNKNOWN);
-		playerNum = 0;
-		drawNeeded = new DrawingNeed();
+		this(newProfile, new PointsBox(), 0);
 		prepareForNewRound();	/////////////////////refactor later
 	}
 	public Player(String name){this(new PlayerProfile(name));}
 	public Player(){this((String)null);}
 	
 	//initializes a player's resources for a new round
-	public void prepareForNewRound(){
-/////////////////////////////////////////////////////////////////////////////////mutate
-		
-		hand = new Hand();
-		hand.setOwnerSeatWind(seatWind);
-		
-		pond = new Pond();
-		
+	public Player prepareForNewRound(){
 		//just in case, don't know if it's needed
 		brain.clearCallStatus();
 		brain.clearTurnActionStatus();
 		
-		setDrawNeededNormal();
+		return this.withDrawNeededNormal();
 	}
+	
+//	private Player withBrain(){return null;}
 	
 	private Player withPoints(PointsBox pts){return new Player();}
 	
-	private Player withHand(Hand h){return new Player();}
-	private Player withPond(Pond p){return new Player();}
-	private Player withSeatWind(Wind w){return new Player();}
+	private Player withHand(Hand h){return new Player(brain, profile, pointsBox, playerNum, h, pond, seatWind, drawNeeded, lastDiscard);}
+	private Player withPond(Pond p){return new Player(brain, profile, pointsBox, playerNum, hand, p, seatWind, drawNeeded, lastDiscard);}
+	private Player withSeatWind(Wind w){return new Player(brain, profile, pointsBox, playerNum, hand, pond, w, drawNeeded, lastDiscard);}
 	
-	private Player withDrawingNeed(DrawingNeed dn){return new Player();}
-	private Player withLastDiscard(GameTile d){return new Player();}
+	private Player withDrawingNeed(DrawingNeed dn){return new Player(brain, profile, pointsBox, playerNum, hand, pond, seatWind, dn, lastDiscard);}
+	private Player withLastDiscard(GameTile d){return new Player(brain, profile, pointsBox, playerNum, hand, pond, seatWind, drawNeeded, d);}
 	
 	private Player withDrawNeededRinshan(){return this.withDrawingNeed(drawNeeded.rinshan());}
 	private Player withDrawNeededNormal(){return this.withDrawingNeed(drawNeeded.normal());}
@@ -368,7 +367,7 @@ public class Player {
 	public String getPlayerName(){return profile.getPlayerName();}
 	public int getPlayerID(){return profile.getPlayerID();}
 /////////////////////////////////////////////////////////////////////////////////mutate
-	public void setPlayerName(String newName){profile.setPlayerName(newName);}
+//	public void setPlayerName(String newName){profile.setPlayerName(newName);}
 	
 	
 	
@@ -399,8 +398,8 @@ public class Player {
 	public String toString(){return (getPlayerName() + " (" + seatWind.toChar() +" player) ");}
 	
 	
-	
-	
+	@Override
+	final public int compareTo(Player other){return this.seatWind.compareTo(other.seatWind);}
 	
 	
 	

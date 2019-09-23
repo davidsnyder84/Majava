@@ -23,6 +23,7 @@ import majava.control.testcode.GameSimulation;
 import majava.control.testcode.WallDemoer;
 import majava.events.GameEventBroadcaster;
 import majava.events.GameplayEvent;
+import majava.enums.CallType;
 import majava.enums.KyokuEvent;
 import majava.enums.Wind;
 import majava.enums.Exclamation;
@@ -133,17 +134,15 @@ public class Kyoku{
 		RiverWalker walker = new RiverWalker(getPonds());
 		return walker.lastDiscard();
 	}
+	public Player lastDiscarder(){return players.get(lastDiscard().getOrignalOwner());}
 	
 	
 	//When is everyone is 13 13 13 13?: right after discard / after call but before meldmake
 	public Wind seatToDrawNext(){
-		
-		Wind nextWind = lastDiscard().getOrignalOwner().shimochaWind();
-//		if (lastDiscard().wasCalled())
-//			;
-		
-		
-		return nextWind;
+		if (lastDiscard().wasCalled())
+			return lastDiscard().getCaller();
+		else
+			return lastDiscard().getOrignalOwner().shimochaWind();
 	}
 	
 	public boolean isOver(){
@@ -179,8 +178,21 @@ public class Kyoku{
 	}
 	
 	
-	///should driver do this?
+//	public boolean someoneWantsToCallTheLastDiscard(){return letPlayersReactToDiscard().someoneCalled();}
+	public PlayerList letPlayersReactToDiscard(){
+		PlayerList playersWithReactions = players;
+		for (Player p : players.allPlayersExcept(lastDiscarder()))
+			if (p.ableToCallTile(lastDiscard()))
+				playersWithReactions.set(p.reactToDiscard(lastDiscard()));
+		
+		return playersWithReactions;
+	}
+	
+	
+	
+	
 	public Kyoku next(){
+//		System.out.println("==============================================================================================\n" + this.toString() + "==============================================================================================\n\n");
 		
 		if (isOver()){
 			return this;//////
@@ -193,88 +205,85 @@ public class Kyoku{
 		
 		
 		
+		
+		
 		if (someoneHasFullHand()){
 			//do player turn for the full-handed menace
 			return doPlayerTurnAction();
-//			doPlayerTurnAction(seatToAct());
-			
-			//return someting
 		}
+		
+		
+		
 		
 		if (someoneCalled()){
-			//give prioritycaller the lastdiscard so they can make their meld
-			
-			seatPriorityCaller();
-			lastDiscard();
-			
-			//return someting
-		}
-		
-		
-		if (someoneNeedsToDraw()){
-//			return letPlayerDraw(seatToDrawNext());
-			return letPlayerDraw();
+			return letPriorityCallerMakeMeld();
 		}
 		
 		
 		
-		return whatDo();
-//		return doRoundStart();
+		PlayerList playersWithReactions = letPlayersReactToDiscard();
+		if (playersWithReactions.someoneCalled()){
+			return this.withPlayers(playersWithReactions);
+		}
+		
+		
+		
+		
+		return letPlayerDraw();
+//		if (someoneNeedsToDraw()) return letPlayerDraw();
+		
 	}
 	
-	public Kyoku whatDo(){
-		System.out.println("==============================================================================================\n" + this.toString() + "==============================================================================================\n\n");
+	
+	
+	
+	
+	
+	
+	public Kyoku letPriorityCallerMakeMeld(){
+		GameTile calledTile = lastDiscard();
+		Player priorityCaller = players.get(seatPriorityCaller());
+		Player discarder = players.get(calledTile.getOrignalOwner());
+		
+//		if (priorityCaller.calledRon()){
+//			setResultVictory(priorityCaller);
+//			return;
+//		}
 		
 		
-		switch(mostRecentEvent.getEventType()){
-//		case INIT: return doRoundStart();
-//		case DEALT_HANDS: return doPlayerTurnAction(players.seatE());
-//		
-//		case START_OF_PLAYER_TURN:
-//		case DRAW: return doCurrentPlayerTurnAction();
-//		
-//		case DISCARD: return moveTurnToNextPlayer(); //would get reactions here
-////		case UNCALLED: return doNextPlayerTurnAction();
-////		case CALLED: return //let the caller make the meld
-//		case UNCALLED: return letPlayerDraw(nextPlayer());
-//		
-//		case MADE_OPEN_MELD: letPlayerDraw(currentPlayer());
+		//remove tile from discarder's pond and make meld
+		Player discarderWithPondTileRemoved = discarder.removeTileFromPond(priorityCaller.getSeatWind());
+		Player priorityCallerWithMeldMade = priorityCaller.makeMeld(calledTile);
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-//		case DISCARDED_TILE: displayEventDiscardedTile(event); break;
-//		case MADE_OPEN_MELD: displayEventMadeOpenMeld(event); break;
-//		case DREW_TILE: displayEventDrewTile(event); break;
-//		case MADE_OWN_KAN: displayEventMadeOwnKan(event); break;
-//		case NEW_DORA_INDICATOR: displayEventNewDoraIndicator(event); break;
-//		
-//		case HUMAN_PLAYER_TURN_START: displayEventHumanTurnStart(event); break;
-//		case HUMAN_PLAYER_REACTION_START: displayEventHumanReactionStart(event); break;
-//		
-		
-//		case PLAYER_TURN_START: displayEventPlayerTurnStart(event); break;
-//		case END_OF_ROUND: displayEventEndOfRound(event); break;
-//		case END: endUI(); break;
-//		case START: startUI(); break;
-		default: break;
-		}
-		
-//		if (event.isExclamation()) showExclamation(event.getExclamation(), event.getSeat());
-//		
-//		if (shouldSleepForEvent(event))
-//			Pauser.pauseFor(sleepTime);
-		return null;
+		return this.withUpdatedPlayer(discarderWithPondTileRemoved).withUpdatedPlayer(priorityCallerWithMeldMade);
 	}
+	
+//	private void letReact(Player p){
+//		if (!p.ableToCallTile(mostRecentDiscard())) return;
+//		if (p.controllerIsHuman())
+//			announceHumanReactionChanceEvent(p);
+//		p.reactToDiscard(mostRecentDiscard());
+//	}
+//	//handles a call made on a discarded tile
+//	private void handleReaction(){
+//		Player priorityCaller = whoCalled();
+//		turnIndicator.setPriorityCaller(priorityCaller);
+//		
+//		announceCallEventFrom(priorityCaller);
+//		
+//		if (priorityCaller.calledRon()){
+//			setResultVictory(priorityCaller);
+//			return;
+//		}
+//		
+//		//remove tile from discarder's pond and make meld
+//		GameTile calledTile = currentPlayer().getPond().getMostRecentTile();
+//		currentPlayer().removeTileFromPond();//////////////////////////////////////////////////////////////////////////////
+//		priorityCaller.makeMeld(calledTile);
+//		
+//		announceEvent(GameplayEvent.madeOpenMeldEvent());
+//	}
+	
 	
 
 //	private Kyoku doCurrentPlayerTurnAction(){return doPlayerTurnAction(currentPlayer());}
@@ -339,7 +348,6 @@ public class Kyoku{
 //	
 	
 	
-//	private Kyoku letPlayerDraw(){return letPlayerDraw(seatToDrawNext());}
 	private Kyoku letPlayerDraw(){return letPlayerDraw(players.get(seatToDrawNext()));}
 	private Kyoku letPlayerDraw(final Player p){
 //		if (!p.needsDraw()) return this; //with some kind of event   //if we're here, p definitely needs to draw, so this check shouldn't be necessary
@@ -373,44 +381,6 @@ public class Kyoku{
 		return this.withUpdatedPlayer(pWithDrawnTile).withWall(wallAfterDraw);
 		
 	}
-//	private Kyoku letPlayerDraw(final Player p){
-//		if (!p.needsDraw())
-//			return this.withEvent(KyokuEvent.startOfPlayerTurnEvent(p)); //with some kind of event
-//		
-//		Wall wallAfterDraw = wall;
-//		
-//		
-//		
-//		GameTile drawnTile = null;
-//		if (p.needsDrawNormal()){
-////			if (wallIsEmpty()){
-////				setResultRyuukyokuHowanpai();
-////				return;
-////			}
-//			drawnTile = wall.nextTile();
-//			wallAfterDraw = wall.removeNextTile();
-//		}
-//		else if (p.needsDrawRinshan()){
-////			if (tooManyKans()){
-////				setResultRyuukyoku4Kan();
-////				return;
-////			}
-//			drawnTile = wall.nextDeadWallTile();
-//			wallAfterDraw = wall.removeNextDeadWallTile();
-//			
-////			announceEvent(GameplayEvent.newDoraIndicatorEvent());
-//		}
-//		
-//		Player pWithDrawnTile = p.addTileToHand(drawnTile);
-//		
-////		announceEvent(GameplayEvent.drewTileEvent());
-//		return this.withUpdatedPlayer(p, pWithDrawnTile).withWall(wallAfterDraw).withEvent(KyokuEvent.drawEvent(pWithDrawnTile));
-//		
-//	}
-	
-	
-	
-	
 	
 	
 	
@@ -658,46 +628,6 @@ public class Kyoku{
 //	private void setResultRyuukyokuKyuushu(){roundResult.setResultRyuukyokuKyuushu();}
 //	private void setResultRyuukyoku4Riichi(){roundResult.setResultRyuukyoku4Riichi();}
 //	private void setResultRyuukyoku4Wind(){roundResult.setResultRyuukyoku4Wind();}
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	//////////////////is this mutate?????????????????
-//	private void letOtherPlayersReactToDiscard(){
-//		letReact(turnIndicator.neighborShimochaOf(currentPlayer()));
-//		letReact(turnIndicator.neighborToimenOf(currentPlayer()));
-//		letReact(turnIndicator.neighborKamichaOf(currentPlayer()));
-//	}
-//	private void letReact(Player p){
-//		if (!p.ableToCallTile(mostRecentDiscard())) return;
-//		if (p.controllerIsHuman())
-//			announceHumanReactionChanceEvent(p);
-//		p.reactToDiscard(mostRecentDiscard());
-//	}
-//	
-//	
-//	
-//	//handles a call made on a discarded tile
-//	private void handleReaction(){
-//		Player priorityCaller = whoCalled();
-//		turnIndicator.setPriorityCaller(priorityCaller);
-//		
-//		announceCallEventFrom(priorityCaller);
-//		
-//		if (priorityCaller.calledRon()){
-//			setResultVictory(priorityCaller);
-//			return;
-//		}
-//		
-//		//remove tile from discarder's pond and make meld
-//		GameTile calledTile = currentPlayer().getLastDiscard();
-//		currentPlayer().removeTileFromPond();//////////////////////////////////////////////////////////////////////////////
-//		priorityCaller.makeMeld(calledTile);
-//		
-//		announceEvent(GameplayEvent.madeOpenMeldEvent());
 //	
 //	
 //	

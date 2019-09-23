@@ -48,11 +48,10 @@ public class PlayerList extends ImmuList<Player>{
 	public Player seatS(){return seat(Wind.SOUTH);}
 	public Player seatW(){return seat(Wind.WEST);}
 	public Player seatN(){return seat(Wind.NORTH);}
-	//i don't think anyone needs these
-//	public Player neighborNextPlayer(Player p){return neighborShimochaOf(p);}
-//	public Player neighborShimochaOf(Player p){return get(p.getSeatWind().shimochaWind());}
-//	public Player neighborToimenOf(Player p){return get(p.getSeatWind().toimenWind());}
-//	public Player neighborKamichaOf(Player p){return get(p.getSeatWind().kamichaWind());}
+	public Player neighborNextPlayer(Player p){return neighborShimochaOf(p);}
+	public Player neighborShimochaOf(Player p){return get(p.getSeatWind().shimochaWind());}
+	public Player neighborToimenOf(Player p){return get(p.getSeatWind().toimenWind());}
+	public Player neighborKamichaOf(Player p){return get(p.getSeatWind().kamichaWind());}
 	
 	private int indexOfPlayer(Wind seat){
 		for (int i=0; i<size(); i++)
@@ -62,6 +61,9 @@ public class PlayerList extends ImmuList<Player>{
 	}
 	private int indexOfPlayer(Player p){return indexOfPlayer(p.getSeatWind());}
 	
+	public PlayerList allPlayersExcept(Player p){
+		return new PlayerList(neighborShimochaOf(p), neighborToimenOf(p), neighborKamichaOf(p));
+	}
 	
 	
 	

@@ -119,7 +119,9 @@ public class Player implements Comparable<Player>{
 		if (controllerIsHuman()){
 			System.out.print("Discard what?: ");
 			Scanner keyboard = new Scanner(System.in);
-			discardIndex = keyboard.nextInt() - 1;
+			keyboard.next();
+//			discardIndex = keyboard.nextInt() - 1;
+			discardIndex = 1;
 		}
 		
 //		brain.chooseTurnAction(hand);
@@ -210,11 +212,12 @@ public class Player implements Comparable<Player>{
 	
 	
 	//ask brain for reaction
-	public void reactToDiscard(GameTile tileToReactTo){
+	public Player reactToDiscard(GameTile tileToReactTo){
 /////////////////////////////////////////////////////////////////////////////////mutate
 		brain.clearCallStatus();
 		brain.reactToDiscard(hand, tileToReactTo);
 //		return brain.called();
+		return this;
 	}
 	
 	//checks if the player is able to make a call on Tile t (actual checks performed)
@@ -244,26 +247,30 @@ public class Player implements Comparable<Player>{
 	
 	
 	//forms a meld using the given tile
-	public void makeMeld(GameTile claimedTile){
-/////////////////////////////////////////////////////////////////////////////////mutate
-		//prevent an error case that will probably never happen
-		if (!called()){System.out.println("-----Error: No meld to make (the player didn't make a call!!)"); return;}
+	public Player makeMeld(GameTile claimedTile){
+//		prevent an error case that will probably never happen if (!called()){System.out.println("-----Error: No meld to make (the player didn't make a call!!)"); return;}
 		
-		//make the right type of meld, based on call status
-		if (calledChiL()) hand.makeMeldChiL(claimedTile);
-		else if (calledChiM()) hand.makeMeldChiM(claimedTile);
-		else if (calledChiH()) hand.makeMeldChiH(claimedTile);
-		else if (calledPon()) hand.makeMeldPon(claimedTile);
-		else if (calledKan()) hand.makeMeldKan(claimedTile);
+		//make the meld
+		Hand handWithNewMeld = null;
+		if (calledChiL()) handWithNewMeld = hand.makeMeldChiL(claimedTile);
+		else if (calledChiM()) handWithNewMeld = hand.makeMeldChiM(claimedTile);
+		else if (calledChiH()) handWithNewMeld = hand.makeMeldChiH(claimedTile);
+		else if (calledPon()) handWithNewMeld = hand.makeMeldPon(claimedTile);
+		else if (calledKan()) handWithNewMeld = hand.makeMeldKan(claimedTile);
 		
-		//update what the player will need to draw next turn (draw nothing if called chi/pon, rinshan draw if called kan)
-		if (calledChi() || calledPon())
-			setDrawNeededNone();
-		if (calledKan())
-			setDrawNeededRinshan();
 		
 		//clear call status because the call has been completed
 		brain.clearCallStatus();	//this is needed to make sure a player can't call their own discard
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		//update what the player will need to draw next turn (draw nothing if called chi/pon, rinshan draw if called kan)
+		DrawingNeed drawNeededAfterMeld = null;
+		if (calledChi() || calledPon())
+			drawNeededAfterMeld = drawNeeded.none();
+		if (calledKan())
+			drawNeededAfterMeld = drawNeeded.rinshan();
+		
+		return this.withHand(handWithNewMeld).withDrawingNeed(drawNeededAfterMeld);
 	}
 	
 	

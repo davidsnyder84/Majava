@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import utility.ImmuList;
+import majava.Pond;
 import majava.enums.Wind;
 import majava.player.Player;
 
@@ -51,6 +52,11 @@ public class PlayerList extends ImmuList<Player>{
 //	public Player seatN(){return seat(Wind.NORTH);}
 	
 	
+	
+	public Pond[] getPonds(){return new Pond[]{seatE().getPond(), seatS().getPond(), seatW().getPond(), seatN().getPond()};}
+	
+	
+	//THIS IS BAD GET RID OF IT SOON
 	public PlayerList set(Player p, Player setToThis){
 		return this.set(indexOfPlayer(p), setToThis);
 //		for (int i=0; i<size(); i++)

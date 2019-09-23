@@ -382,7 +382,7 @@ public class TableViewBase extends JFrame{
 	//gets icon for the given wind of the given size
 	private ImageIcon getImageIconWind(Wind wind, int windSize){
 		int windNum = -1;
-		windNum = wind.getNum();
+		windNum = wind.toInt();
 		
 		return garryWinds[windSize][windNum];
 	}

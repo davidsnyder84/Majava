@@ -25,7 +25,7 @@ public enum Wind {
 	public boolean isDealerWind(){return this == DEALER_WIND;}
 	
 	
-	public int getNum(){
+	public int toInt(){
 		if (this == UNKNOWN) return -1;
 		return ordinal();
 	}
@@ -40,5 +40,7 @@ public enum Wind {
 	}
 	public char toChar(){return toString().charAt(0);}
 	
-	
+	//doesn't account for UNKNOWN (-1, 5)
+	public static char intToChar(int i){return Wind.values()[i].toChar();}
+	public static Wind intToWind(int i){return Wind.values()[i];}
 }

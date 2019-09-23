@@ -13,6 +13,7 @@ import javax.jws.soap.SOAPBinding;
 import majava.hand.AgariHand;
 import majava.hand.Hand;
 import majava.hand.Meld;
+import majava.Pond;
 import majava.RoundResult;
 import majava.util.GTL;
 import majava.util.YakuList;
@@ -20,6 +21,7 @@ import majava.yaku.Yaku;
 import majava.enums.MeldType;
 import majava.enums.Wind;
 import majava.player.Player;
+import majava.pond.RiverWalker;
 import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
@@ -28,6 +30,7 @@ import majava.tiles.TileInterface;
 
 
 public class Majenerator {
+	private static final int E=0, S=1, W=2, N=3;
 	private static final MeldType[] DEFAULT_ALLOWED_MELDTYPES = {MeldType.CHI_L, MeldType.CHI_M, MeldType.CHI_H, MeldType.PON, MeldType.KAN};
 	private static boolean allowChiitoiKokushi = true;
 	
@@ -40,13 +43,106 @@ public class Majenerator {
 	
 	
 	public static void main(String[] args){
+		SomeTesters.main(null);
 		
-		generateAgariHand();
+//		generatePonds();
+		
+//		generateAgariHand();
+		
 //		println(generateRoundResult().toString());
 //		for (Yaku y: generateYakuList()) println(y.toString());
 	}
 	
+	
+	public static Pond generatePond(){return generatePonds()[0];}
+	public static Pond[] generatePonds(){
+		
+		GTL p1Tiles = new GTL(1,2,3,4);
+		GTL p2Tiles = new GTL(10, 11, 12, 13);
+		GTL p3Tiles = new GTL(7, 7, 7, 7);
+		GTL p4Tiles = new GTL(33, 33, 33);
+		
+//		Pond p1 = new Pond(), p2 = new Pond(), p3 = new Pond(), p4 = new Pond();
+		Pond p1 = new Pond(p1Tiles), p2 = new Pond(p2Tiles), p3 = new Pond(p3Tiles), p4 = new Pond(p4Tiles);
+		
+		
+		return new Pond[]{p1, p2, p3, p4};
+	}
+	public static Pond[] generatePondsWithCalls(){
+		Pond p1 = new Pond(), p2 = new Pond(), p3 = new Pond(), p4 = new Pond();
+		
+		p1 = p1.addTile(5);
+		p1 = p1.removeMostRecentTile(Wind.WEST);
+		p3 = p3.addTile(18);
+		
+		p4 = p4.addTile(12);
+		p1 = p1.addTile(5);
+		p2 = p2.addTile(32);
+		p2 = p2.removeMostRecentTile(Wind.EAST);
+		p1 = p1.addTile(1);
+		
 
+		p2 = p2.addTile(32);
+		p2 = p2.removeMostRecentTile(Wind.EAST);
+		p1 = p1.addTile(2);
+
+		p2 = p2.addTile(33);
+		
+		//final here
+		int whoCalledFinal = 4;
+		if (whoCalledFinal == 1){
+			p2 = p2.removeMostRecentTile(Wind.EAST);
+			p1 = p1.addTile(6);
+		}
+		else {
+			p2 = p2.removeMostRecentTile(Wind.NORTH);
+			p4 = p4.addTile(6);
+		}
+		
+		
+//		println("\n" + p1 + "\n\n\n" + p3);
+		
+		
+		return new Pond[]{p1, p2, p3, p4};
+	}
+	public static Pond[] generatePondsWithCallsFew(){
+		Pond[] pts = generatePondsWithCallsFewAfterCallButBeforeDiscard();
+		pts[3] = pts[3].addTile(8);
+		return pts;
+	}
+	public static Pond[] generatePondsWithCallsFewAfterCallButBeforeDiscard(){
+		Pond p1 = new Pond(), p2 = new Pond(), p3 = new Pond(), p4 = new Pond();
+		
+		p1 = p1.addTile(16);
+		p2 = p2.addTile(1);
+		p2 = p2.removeMostRecentTile(Wind.NORTH);
+//		p4 = p4.addTile(8);
+		
+		return new Pond[]{p1, p2, p3, p4};
+	}
+	public static Pond[] generatePondsFew(){
+		Pond[] fews = generatePondsEmpty();
+		
+		fews[0] = fews[0].addTile(1);
+		fews[1] = fews[1].addTile(2);
+		fews[2] = fews[2].addTile(3);
+		
+		return fews;
+	}
+	public static Pond[] generatePondsEmpty(){
+		Pond p1 = new Pond(), p2 = new Pond(), p3 = new Pond(), p4 = new Pond();
+		return new Pond[]{p1, p2, p3, p4};
+	}
+	public static Pond[] generatePondsOneTile(){
+		Pond[] one = generatePondsEmpty();
+		
+		one[0] = one[0].addTile(17);
+		
+		return one;
+	}
+	
+	
+	
 	
 	public static AgariHand agariHandFromIDs(Integer... ids){
 		
@@ -415,7 +511,7 @@ public class Majenerator {
 	
 	
 
-	public static void println(String prints){System.out.println(prints);}public static void println(){System.out.println("");}
+	public static void println(String prints){System.out.println(prints);}public static void println(){System.out.println("");}public static void println(int prints){System.out.println(prints+"");}
 }
 
 

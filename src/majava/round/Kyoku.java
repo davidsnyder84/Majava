@@ -13,7 +13,7 @@ import majava.util.PlayerList;
 import majava.wall.WallDealer;
 import majava.wall.Wall;
 import majava.player.Player;
-import majava.pond.KawaRotator;
+import majava.pond.RiverWalker;
 import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
 import majava.summary.StateOfGame;
@@ -139,6 +139,7 @@ public class Kyoku{
 	
 	
 	
+	
 	//if your hand is full, that means it's your turn and you need to discard something (or declare kan/tsumo)
 	public Wind seatToAct(){
 		Wind turnSeatWind = Wind.UNKNOWN;
@@ -194,12 +195,16 @@ public class Kyoku{
 	
 	
 	public GameTile lastDiscard(){
-		KawaRotator rotator = new KawaRotator(players);
-		return rotator.lastDiscard();
+//		RiverWalker walker = new RiverWalker(players); //either works
+		RiverWalker walker = new RiverWalker(getPonds());
+		
+		return walker.lastDiscard();
 	}
 	
 	
 	
+//	public Pond[] getPonds(){return new Pond[]{players.seatE().getPond(), players.seatS().getPond(), players.seatW().getPond(), players.seatN().getPond()};}
+	public Pond[] getPonds(){return players.getPonds();}
 	
 	
 	

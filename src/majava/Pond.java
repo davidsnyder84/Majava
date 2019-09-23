@@ -3,7 +3,6 @@ package majava;
 import java.util.ArrayList;
 import java.util.List;
 
-import majava.enums.CallType;
 import majava.enums.Wind;
 import majava.tiles.PondTile;
 import majava.tiles.GameTile;
@@ -16,7 +15,16 @@ public class Pond implements Cloneable{
 	
 	private final GTL tiles;
 	
-	public Pond(GTL pondTiles){
+	public Pond(GTL addTheseTiles){;
+		GTL pondTiles = new GTL();
+		
+		//PondTileList might be useful here
+		for (GameTile t: addTheseTiles)
+			if (t instanceof PondTile)
+				pondTiles = pondTiles.add(t);
+			else
+				pondTiles = pondTiles.add(new PondTile(t));
+		
 		tiles = pondTiles;
 	}
 	public Pond(){this(new GTL());}
@@ -61,10 +69,20 @@ public class Pond implements Cloneable{
 	
 	//mutators
 	public Pond addTile(GameTile t){return this.withTiles(tiles.add(new PondTile(t)));}
+	public Pond addTile(int tileID){return addTile(new GameTile(tileID));}
+	public Pond addAll(GTL addThese){
+		Pond thisWithAdded = this;
+		for (GameTile t : addThese)
+			thisWithAdded = thisWithAdded.addTile(t);
+		return thisWithAdded;
+	}
 	
 	//the removed tile will remain in the pond, but it will be marked as "called"
 	public Pond removeMostRecentTile(Wind caller){
-		return this.withTiles(tiles.setLast(getMostRecentTile().setCalled(caller)));
+		PondTile calledTile = getMostRecentTile().setCalled(caller);
+		GTL tilesWithLastSet = tiles.setLast(calledTile);
+		
+		return this.withTiles(tilesWithLastSet);
 	}
 	
 	
@@ -77,8 +95,11 @@ public class Pond implements Cloneable{
 		for (int i = 0; i < (size() / TILES_PER_LINE) + 1; i++){
 			
 			pondString += "\t";
-			for (int j = 0; j < TILES_PER_LINE && (j + TILES_PER_LINE*i < size()); j++)
-				pondString += getTile(TILES_PER_LINE*i + j) + " ";
+			for (int j = 0; j < TILES_PER_LINE && (j + TILES_PER_LINE*i < size()); j++){
+				PondTile tile = getTile(TILES_PER_LINE*i + j);
+				String separator = tile.wasCalled() ? "@ " : "  ";
+				pondString += tile + separator;
+			}
 			
 			if (TILES_PER_LINE*i < size()) pondString += "\n";
 		}

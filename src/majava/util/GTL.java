@@ -32,8 +32,11 @@ public class GTL extends ImmuList<GameTile> implements ReadOnlyTileList{
 	
 	public GTL withWind(Wind w){
 		GTL windedTiles = new GTL();
-		for (GameTile t: this)
-			windedTiles = windedTiles.add(t.withOwnerWind(w));
+		for (GameTile t: this){
+			GameTile tWithWind = t.withOwnerWind(w);
+			windedTiles = windedTiles.add(tWithWind);
+//			windedTiles = windedTiles.add(t.withOwnerWind(w));
+		}
 		return windedTiles;
 	}
 	

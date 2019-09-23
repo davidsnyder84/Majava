@@ -11,17 +11,12 @@ import static majava.player.Player.NOBODY;
 
 
 public class PlayerList extends ImmuList<Player>{
-	
-	
-	//put turn stuff here
-	
-	
 	private static final int NUM_PLAYERS = 4;
-	public final static int EAST=0, SOUTH=1, WEST=2, NORTH=3;
+	
+	
 	
 	
 	public PlayerList(){super();}
-	
 	
 	public PlayerList(List<Player> players){super(players);}
 	public PlayerList(ImmuList<Player> players){super(players);}
@@ -31,56 +26,41 @@ public class PlayerList extends ImmuList<Player>{
 	public PlayerList clone(){return new PlayerList(this);}
 	
 	
-	public Player eastSeat(){return get(EAST);}
-	public Player southSeat(){return get(SOUTH);}
-	public Player westSeat(){return get(WEST);}
-	public Player northSeat(){return get(NORTH);}
-	
-	
-	public Player seat(Wind wind){
-		for (Player p : this)
-			if (p.getSeatWind() == wind)
-				return p;
-		return null;
+	//set
+	public PlayerList set(Player newPlayer){
+		return this.set(indexOfPlayer(newPlayer), newPlayer);
 	}
-	public Player seatE(){return get(EAST);}
-	public Player seatS(){return get(SOUTH);}
-	public Player seatW(){return get(WEST);}
-	public Player seatN(){return get(NORTH);}
-//	public Player seatE(){return seat(Wind.EAST);}
-//	public Player seatS(){return seat(Wind.SOUTH);}
-//	public Player seatW(){return seat(Wind.WEST);}
-//	public Player seatN(){return seat(Wind.NORTH);}
+	public PlayerList updatePlayer(Player newPlayer){return set(newPlayer);}
 	
 	
 	
-	public Pond[] getPonds(){return new Pond[]{seatE().getPond(), seatS().getPond(), seatW().getPond(), seatN().getPond()};}
 	
 	
-	//THIS IS BAD GET RID OF IT SOON
-	public PlayerList set(Player p, Player setToThis){
-		return this.set(indexOfPlayer(p), setToThis);
-//		for (int i=0; i<size(); i++)
-//			if (this.get(i) == p)
-//				return this.set(i, setToThis);
-		
-//		return null;
-//		return this;
+	
+	//getters are based on seatwind. seatwind uniquely and consistently idenfifies a player .
+	public Player get(Wind seat){
+		if (indexOfPlayer(seat) == -1)
+			this.toString();
+		return get(indexOfPlayer(seat));
 	}
-	public Player neighborOffsetOf(Player p, int offset){
-		return get( (indexOfPlayer(p) + offset) % NUM_PLAYERS);
-	}
-	public Player neighborNextPlayer(Player p){return neighborShimochaOf(p);}
-	public Player neighborShimochaOf(Player p){return neighborOffsetOf(p, 1);}
-	public Player neighborToimenOf(Player p){return neighborOffsetOf(p, 2);}
-	public Player neighborKamichaOf(Player p){return neighborOffsetOf(p, 3);}
+	public Player seat(Wind wind){return get(wind);}
+	public Player seatE(){return seat(Wind.EAST);}
+	public Player seatS(){return seat(Wind.SOUTH);}
+	public Player seatW(){return seat(Wind.WEST);}
+	public Player seatN(){return seat(Wind.NORTH);}
+	//i don't think anyone needs these
+//	public Player neighborNextPlayer(Player p){return neighborShimochaOf(p);}
+//	public Player neighborShimochaOf(Player p){return get(p.getSeatWind().shimochaWind());}
+//	public Player neighborToimenOf(Player p){return get(p.getSeatWind().toimenWind());}
+//	public Player neighborKamichaOf(Player p){return get(p.getSeatWind().kamichaWind());}
 	
-	private int indexOfPlayer(Player p){
+	private int indexOfPlayer(Wind seat){
 		for (int i=0; i<size(); i++)
-			if (this.get(i) == p)
+			if (get(i).getSeatWind() == seat)
 				return i;
 		return -1; //i want to see this fail fast
 	}
+	private int indexOfPlayer(Player p){return indexOfPlayer(p.getSeatWind());}
 	
 	
 	
@@ -110,6 +90,8 @@ public class PlayerList extends ImmuList<Player>{
 	}
 	
 	
+	
+	
 	public Player playerWhoHasFullHand(){
 		for (Player p: this) if (p.handIsFull()) return p;
 		return NOBODY;
@@ -117,6 +99,9 @@ public class PlayerList extends ImmuList<Player>{
 	public boolean someoneHasFullHand(){return playerWhoHasFullHand() != NOBODY;}
 	
 	
+	
+	
+	public Pond[] getPonds(){return new Pond[]{seatE().getPond(), seatS().getPond(), seatW().getPond(), seatN().getPond()};}
 	
 	
 	

@@ -192,7 +192,8 @@ public class Player implements Comparable<Player>{
 		return this.withHand(handWithAddedTile).withDrawNeededNone();
 	}
 	public Player giveStartingHand(GTL startingTiles){
-		Hand startingHand = hand.addAll(startingTiles.withWind(seatWind)).sort();
+		GTL startingTilesWithWind = startingTiles.withWind(seatWind);
+		Hand startingHand = hand.addAll(startingTilesWithWind).sort();
 			
 		//if the player isn't east, they will need to draw
 		if (hand.size() < Hand.MAX_HAND_SIZE)

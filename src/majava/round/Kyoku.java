@@ -133,15 +133,47 @@ public class Kyoku{
 	}
 	
 	
+	public Wind getRoundWind(){return roundWind;}
+	public int getRoundNum(){return roundNumber;}
+	public int getRoundBonusNum(){return roundBonusNumber;}
+	
+	public PlayerList getPlayers(){return players;}
+	public Wall getWall(){return wall;}
+	
 	public Pond[] getPonds(){return players.getPonds();}
 	
 	
 	
 	
 	
-	
-	
+	///should driver do this?
 	public Kyoku next(){
+		
+		if ("round is over, something" == this.toString()){
+			;
+		}
+		
+		
+		if (players.someoneHasFullHand()){
+			//do player turn for the full-handed menace
+			
+			seatToAct();
+			
+			//return someting
+		}
+		
+		if (players.someoneCalled()){
+			//give prioritycaller the lastdiscard so they can make their meld
+			
+			seatPriorityCaller();
+			lastDiscard();
+			
+			//return someting
+		}
+		
+		
+		
+		
 		return whatDo();
 //		return doRoundStart();
 	}
@@ -362,10 +394,6 @@ public class Kyoku{
 	
 	public boolean wallIsEmpty(){return wall.isEmpty();}
 	
-
-	public Wind getRoundWind(){return roundWind;}
-	public int getRoundNum(){return roundNumber;}
-	public int getRoundBonusNum(){return roundBonusNumber;}
 	
 	
 	

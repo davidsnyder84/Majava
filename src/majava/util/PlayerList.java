@@ -110,11 +110,11 @@ public class PlayerList extends ImmuList<Player>{
 	}
 	
 	
-	
 	public Player playerWhoHasFullHand(){
 		for (Player p: this) if (p.handIsFull()) return p;
 		return NOBODY;
 	}
+	public boolean someoneHasFullHand(){return playerWhoHasFullHand() != NOBODY;}
 	
 	
 	

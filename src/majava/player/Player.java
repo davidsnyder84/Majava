@@ -42,13 +42,12 @@ public class Player implements Comparable<Player>{
 	
 	
 	private final DrawingNeed drawNeeded;
-	private final GameTile lastDiscard;	
 	private final boolean isHoldingRinshanTile;
 	private final boolean isRiichi;
 	private final boolean isFuriten;
 	
 	
-	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w, DrawingNeed dn, GameTile lasd){
+	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w, DrawingNeed dn){
 		if (brn == null) brain = new NullPlayerBrain(this);
 		else brain = brn;
 		
@@ -60,15 +59,14 @@ public class Player implements Comparable<Player>{
 		pond = p;
 		seatWind = w;
 		drawNeeded = dn;
-		lastDiscard = lasd;
 		
 		isHoldingRinshanTile = false; isRiichi = false; isFuriten = false;
 	}
-	private Player(PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w, DrawingNeed dn, GameTile lasd){
-		this(null, prof, pts, pnum, h, p, w, dn, lasd);
+	private Player(PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w, DrawingNeed dn){
+		this(null, prof, pts, pnum, h, p, w, dn);
 	}
 	public Player(PlayerProfile prof, PointsBox pts, int pnum){
-		this(prof, pts, pnum, new Hand(), new Pond(), Wind.UNKNOWN, new DrawingNeed(), null);
+		this(prof, pts, pnum, new Hand(), new Pond(), Wind.UNKNOWN, new DrawingNeed());
 	}
 	public Player(PlayerProfile newProfile){
 		this(newProfile, new PointsBox(), 0);
@@ -90,12 +88,11 @@ public class Player implements Comparable<Player>{
 	
 	private Player withPoints(PointsBox pts){return new Player();}
 	
-	private Player withHand(Hand h){return new Player(brain, profile, pointsBox, playerNum, h, pond, seatWind, drawNeeded, lastDiscard);}
-	private Player withPond(Pond p){return new Player(brain, profile, pointsBox, playerNum, hand, p, seatWind, drawNeeded, lastDiscard);}
-	private Player withSeatWind(Wind w){return new Player(brain, profile, pointsBox, playerNum, hand, pond, w, drawNeeded, lastDiscard);}
+	private Player withHand(Hand h){return new Player(brain, profile, pointsBox, playerNum, h, pond, seatWind, drawNeeded);}
+	private Player withPond(Pond p){return new Player(brain, profile, pointsBox, playerNum, hand, p, seatWind, drawNeeded);}
+	private Player withSeatWind(Wind w){return new Player(brain, profile, pointsBox, playerNum, hand, pond, w, drawNeeded);}
 	
-	private Player withDrawingNeed(DrawingNeed dn){return new Player(brain, profile, pointsBox, playerNum, hand, pond, seatWind, dn, lastDiscard);}
-	private Player withLastDiscard(GameTile d){return new Player(brain, profile, pointsBox, playerNum, hand, pond, seatWind, drawNeeded, d);}
+	private Player withDrawingNeed(DrawingNeed dn){return new Player(brain, profile, pointsBox, playerNum, hand, pond, seatWind, dn);}
 	
 	private Player withDrawNeededRinshan(){return this.withDrawingNeed(drawNeeded.rinshan());}
 	private Player withDrawNeededNormal(){return this.withDrawingNeed(drawNeeded.normal());}
@@ -165,7 +162,7 @@ public class Player implements Comparable<Player>{
 		Pond pondWithDiscardedTile = pond.addTile(discardedTile);
 		
 		//set needed draw to normal, since we just discarded a tile
-		return this.withHand(handWithRemovedTile).withPond(pondWithDiscardedTile).withLastDiscard(discardedTile).withDrawNeededNormal();
+		return this.withHand(handWithRemovedTile).withPond(pondWithDiscardedTile).withDrawNeededNormal();
 //		return discardedTile;
 	}
 	
@@ -173,7 +170,7 @@ public class Player implements Comparable<Player>{
 	public Player removeTileFromPond(Wind caller){return this.withPond(pond.removeMostRecentTile(caller));}
 	public Pond getPond(){return pond;}
 	
-	public GameTile getLastDiscard(){return lastDiscard;}
+	public GameTile getLastDiscard(){return pond.getMostRecentTile();}
 	public Hand getHand(){return hand;}
 	
 	

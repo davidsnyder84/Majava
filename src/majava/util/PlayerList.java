@@ -39,8 +39,6 @@ public class PlayerList extends ImmuList<Player>{
 	
 	//getters are based on seatwind. seatwind uniquely and consistently idenfifies a player .
 	public Player get(Wind seat){
-		if (indexOfPlayer(seat) == -1)
-			this.toString();
 		return get(indexOfPlayer(seat));
 	}
 	public Player seat(Wind wind){return get(wind);}
@@ -53,13 +51,15 @@ public class PlayerList extends ImmuList<Player>{
 	public Player neighborToimenOf(Player p){return get(p.getSeatWind().toimenWind());}
 	public Player neighborKamichaOf(Player p){return get(p.getSeatWind().kamichaWind());}
 	
-	private int indexOfPlayer(Wind seat){
+	public int indexOfPlayer(Wind seat){
 		for (int i=0; i<size(); i++)
 			if (get(i).getSeatWind() == seat)
 				return i;
 		return -1; //i want to see this fail fast
 	}
-	private int indexOfPlayer(Player p){return indexOfPlayer(p.getSeatWind());}
+	public int indexOfPlayer(Player p){return indexOfPlayer(p.getSeatWind());}
+	public int playerNumberOf(Player p){return indexOfPlayer(p);}
+	public int playerNumberOf(Wind seat){return indexOfPlayer(seat);}
 	
 	public PlayerList allPlayersExcept(Player p){
 		return new PlayerList(neighborShimochaOf(p), neighborToimenOf(p), neighborKamichaOf(p));
@@ -69,7 +69,9 @@ public class PlayerList extends ImmuList<Player>{
 	
 	
 	public boolean someoneCalled(){
-		for (Player p: this) if (p.called()) return true;
+		for (Player p: this)
+			if (p.called())
+				return true;
 		return false;
 	}
 	
@@ -90,6 +92,7 @@ public class PlayerList extends ImmuList<Player>{
 		for (Player p : this) if (p.calledRon()) return p;
 		return NOBODY;
 	}
+	
 	
 	
 	

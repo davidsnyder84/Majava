@@ -108,7 +108,17 @@ public class Player implements Comparable<Player>{
 	
 	
 	
-	
+	public Player decideTurnAction(){
+		
+		brain.chooseTurnAction(hand);
+		
+		return null;
+	}
+	public Player doTurnAction(){
+		
+		
+		return null;
+	}
 	//lets a player take their turn
 	//returns the tile discarded by the player, returns null if the player did not discard (they made a kan or tsumo)
 	public Player takeTurn(){
@@ -174,6 +184,16 @@ public class Player implements Comparable<Player>{
 	public boolean turnActionChoseDiscard(){return brain.turnActionChoseDiscard();}
 	public boolean turnActionRiichi(){return brain.turnActionRiichi();}
 	
+	public boolean hasChosenTurnAction(){
+		return turnActionMadeKan() || 
+				turnActionMadeAnkan() || 
+				turnActionMadeMinkan() || 
+				turnActionCalledTsumo() || 
+				turnActionChoseDiscard() || 
+				turnActionRiichi()
+				;
+	}
+	
 	
 	//turn actions
 	public boolean ableToAnkan(){return hand.ableToAnkan();}
@@ -183,8 +203,6 @@ public class Player implements Comparable<Player>{
 	
 	
 	
-	
-	public boolean madeOpenMeldByCallingThisTile(GameTile t){return hand.madeOpenMeldByCallingThisTile(t);}
 	
 	
 	public Player addTileToHand(final GameTile t){
@@ -212,33 +230,33 @@ public class Player implements Comparable<Player>{
 	
 	
 	//ask brain for reaction
-	public Player reactToDiscard(GameTile tileToReactTo){
+	public Player reactToDiscard(GameTile candidate){
 /////////////////////////////////////////////////////////////////////////////////mutate
 		brain.clearCallStatus();
-		brain.reactToDiscard(hand, tileToReactTo);
+		brain.reactToDiscard(hand, candidate);
 //		return brain.called();
 		return this;
 	}
 	
 	//checks if the player is able to make a call on Tile t (actual checks performed)
-	public boolean ableToCallTile(GameTile tileToReactTo){
+	public boolean ableToCallTile(GameTile candidate){
 		brain.clearCallStatus();
 		
 		//check if t can be called to make a meld
-		boolean ableToCall = hand.canCallTile(tileToReactTo);
+		boolean ableToCall = hand.canCallTile(candidate);
 		
 		//only allow ron if riichi
-		if (isInRiichi() && !hand.ableToRon(tileToReactTo)) ableToCall = false;
+		if (isInRiichi() && !hand.ableToRon(candidate)) ableToCall = false;
 		
 		return ableToCall;
 	}
 	
-	public boolean ableToCallChiL(GameTile tileToReactTo){return !isInRiichi() && hand.ableToChiL(tileToReactTo);}
-	public boolean ableToCallChiM(GameTile tileToReactTo){return !isInRiichi() && hand.ableToChiM(tileToReactTo);}
-	public boolean ableToCallChiH(GameTile tileToReactTo){return !isInRiichi() && hand.ableToChiH(tileToReactTo);}
-	public boolean ableToCallPon(GameTile tileToReactTo){return !isInRiichi() && hand.ableToPon(tileToReactTo);}
-	public boolean ableToCallKan(GameTile tileToReactTo){return !isInRiichi() && hand.ableToKan(tileToReactTo);}
-	public boolean ableToCallRon(GameTile tileToReactTo){return hand.ableToRon(tileToReactTo);}
+	public boolean ableToCallChiL(GameTile candidate){return !isInRiichi() && hand.ableToChiL(candidate);}
+	public boolean ableToCallChiM(GameTile candidate){return !isInRiichi() && hand.ableToChiM(candidate);}
+	public boolean ableToCallChiH(GameTile candidate){return !isInRiichi() && hand.ableToChiH(candidate);}
+	public boolean ableToCallPon(GameTile candidate){return !isInRiichi() && hand.ableToPon(candidate);}
+	public boolean ableToCallKan(GameTile candidate){return !isInRiichi() && hand.ableToKan(candidate);}
+	public boolean ableToCallRon(GameTile candidate){return hand.ableToRon(candidate);}
 	
 	
 	

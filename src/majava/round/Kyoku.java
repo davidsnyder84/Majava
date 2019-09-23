@@ -117,18 +117,20 @@ public class Kyoku{
 		Player fullHandedPlayer = players.playerWhoHasFullHand();
 		return fullHandedPlayer.getSeatWind();
 	}
+	public Player turnPlayer(){return players.get(seatToAct());}
 	
 	//nobody has a full hand -> either: discard / call happened
 	//read lastDiscard.wind to find who discarded, prioritycaller calc field
-	public Wind seatPriorityCaller(){
+	public Player priorityCaller(){
 		Player priorityCaller = Player.NOBODY;
 
 		if (players.someoneCalledChi()) priorityCaller = players.callerChi();
 		if (players.someoneCalledPonKan()) priorityCaller = players.callerPonKan();
 		if (players.someoneCalledRON()) priorityCaller = players.callerRON();
 		
-		return priorityCaller.getSeatWind();
+		return priorityCaller;
 	}
+	public Wind seatPriorityCaller(){return priorityCaller().getSeatWind();}
 	
 	public PondTile lastDiscard(){
 		RiverWalker walker = new RiverWalker(getPonds());
@@ -171,6 +173,7 @@ public class Kyoku{
 	public boolean someoneCalled(){return players.someoneCalled();}
 	public boolean someoneNeedsToDraw(){return !someoneHasFullHand();}////////////////
 	
+	
 	public boolean needToDealStartingHands(){
 		return (wall.currentPosition() == 0);
 //		for (Player p : players) if (p.handSize() == 0) return true;
@@ -208,15 +211,22 @@ public class Kyoku{
 		
 		
 		if (someoneHasFullHand()){
-			//do player turn for the full-handed menace
-			return doPlayerTurnAction();
+			if (turnPlayer().hasChosenTurnAction())
+				return executeTurnAction();
+			else
+				return askTurnAction();
+			
+//			return doPlayerTurnAction();
 		}
 		
 		
 		
 		
 		if (someoneCalled()){
-			return letPriorityCallerMakeMeld();
+			if (priorityCaller().calledRon())
+				return null; ///////return some kind of roundend
+			else
+				return letPriorityCallerMakeMeld();
 		}
 		
 		
@@ -245,6 +255,7 @@ public class Kyoku{
 		Player priorityCaller = players.get(seatPriorityCaller());
 		Player discarder = players.get(calledTile.getOrignalOwner());
 		
+		///////////////ron falls here
 //		if (priorityCaller.calledRon()){
 //			setResultVictory(priorityCaller);
 //			return;
@@ -258,38 +269,30 @@ public class Kyoku{
 		return this.withUpdatedPlayer(discarderWithPondTileRemoved).withUpdatedPlayer(priorityCallerWithMeldMade);
 	}
 	
-//	private void letReact(Player p){
-//		if (!p.ableToCallTile(mostRecentDiscard())) return;
-//		if (p.controllerIsHuman())
-//			announceHumanReactionChanceEvent(p);
-//		p.reactToDiscard(mostRecentDiscard());
-//	}
-//	//handles a call made on a discarded tile
-//	private void handleReaction(){
-//		Player priorityCaller = whoCalled();
-//		turnIndicator.setPriorityCaller(priorityCaller);
-//		
-//		announceCallEventFrom(priorityCaller);
-//		
-//		if (priorityCaller.calledRon()){
-//			setResultVictory(priorityCaller);
-//			return;
-//		}
-//		
-//		//remove tile from discarder's pond and make meld
-//		GameTile calledTile = currentPlayer().getPond().getMostRecentTile();
-//		currentPlayer().removeTileFromPond();//////////////////////////////////////////////////////////////////////////////
-//		priorityCaller.makeMeld(calledTile);
-//		
-//		announceEvent(GameplayEvent.madeOpenMeldEvent());
-//	}
 	
 	
-
+	private Kyoku askTurnAction(){
+		Player p = turnPlayer();
+		
+		Player pWithTurnActionDecided = p.decideTurnAction();
+//		p.takeTurn();
+		
+		return this.withUpdatedPlayer(pWithTurnActionDecided);
+	}
+	private Kyoku executeTurnAction(){
+		Player p = turnPlayer();
+		
+		Player pAfterExecutingTurnAction = p.doTurnAction();
+//		Player pAfterExecutingTurnAction = p.takeTurn();
+		
+		return this.withUpdatedPlayer(pAfterExecutingTurnAction);
+	}
+	
+	
 //	private Kyoku doCurrentPlayerTurnAction(){return doPlayerTurnAction(currentPlayer());}
 //	private Kyoku doNextPlayerTurnAction(){return doPlayerTurnAction(nextPlayer());}
-	private Kyoku doPlayerTurnAction(){return doPlayerTurnAction(players.get(seatToAct()));}
-//	private Kyoku doPlayerTurnAction(Wind seat){return doPlayerTurnAction(players.get(seatToAct()));}
+	private Kyoku doPlayerTurnAction(){return doPlayerTurnAction(turnPlayer());}
+//	private Kyoku doPlayerTurnAction(Wind seat){return doPlayerTurnAction(turnPlayer());}
 	private Kyoku doPlayerTurnAction(final Player p){
 //		if (roundIsOver()) return;	//return early if (4kan or ryuukyoku)
 		//loop until the player has chosen a discard (loop until the player stops making kans) (kans and riichi are handled inside here)

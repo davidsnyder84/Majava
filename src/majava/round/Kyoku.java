@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.swing.JTable.PrintMode;
+
 import utility.Pauser;
 
 import majava.Pond;
@@ -142,68 +144,28 @@ public class Kyoku{
 	
 	//if your hand is full, that means it's your turn and you need to discard something (or declare kan/tsumo)
 	public Wind seatToAct(){
-		Wind turnSeatWind = Wind.UNKNOWN;
-		
-		for (Player p : players)
-			if (p.handIsFull()) turnSeatWind = p.getSeatWind();
-		
-		return turnSeatWind;
+		Player fullHandedPlayer = players.playerWhoHasFullHand();
+		return fullHandedPlayer.getSeatWind();
 	}
 	
 	//nobody has a full hand -> either: discard / call happened
 	//read lastDiscard.wind to find who discarded, prioritycaller calc field
 	public Wind seatPriorityCaller(){
-		Player callingPlayer = null;
-		Player callerPon = null, callerRON = null;
-		int numCallers = 0;
+		Player priorityCaller = Player.NOBODY;
+
+		if (players.someoneCalledChi()) priorityCaller = players.callerChi();
+		if (players.someoneCalledPonKan()) priorityCaller = players.callerPonKan();
+		if (players.someoneCalledRON()) priorityCaller = players.callerRON();
 		
-		for (Player p: players)
-			if (p.called()){
-				callingPlayer = p;
-				numCallers++;
-			}
-		
-		//if only one player called, return that player
-		if (numCallers == 1) return callingPlayer.getSeatWind();
-		
-		
-		
-		//below is for multiple callers
-		
-		//----NOTE: this doesn't handle atamahane. need to take into account the seatwind of the discarder to decide who gets ron priority
-		//if p called something other than a chi... if he called pon/kan, he is the pon caller (there can't be 2 pon callers, not enough tiles in the game). if he called ron, he is the ron caller (if there is already a ron caller, do nothing, because that caller has seat order priority)
-		for (Player p : players){
-			if (p.called() && !p.calledChi())
-				if (p.calledPon() || p.calledKan())
-					callerPon = p;
-				else
-					callerRON = p;
-				
-		}
-//		for (int i = players.size() - 1; i >= 0 ; i--){
-//			if (players.get(i).called() && !players.get(i).calledChi())
-//				if (players.get(i).calledPon() || players.get(i).calledKan())
-//					callerPon = players.get(i);
-//				else
-//					callerRON = players.get(i);
-//		}
-		
-		//return the first ron caller, or return the pon caller if there was no ron caller
-		if (callerRON != null) return callerRON.getSeatWind();
-		return callerPon.getSeatWind();
+		return priorityCaller.getSeatWind();
 	}
 	
-	
 	public GameTile lastDiscard(){
-//		RiverWalker walker = new RiverWalker(players); //either works
 		RiverWalker walker = new RiverWalker(getPonds());
-		
 		return walker.lastDiscard();
 	}
 	
 	
-	
-//	public Pond[] getPonds(){return new Pond[]{players.seatE().getPond(), players.seatS().getPond(), players.seatW().getPond(), players.seatN().getPond()};}
 	public Pond[] getPonds(){return players.getPonds();}
 	
 	

@@ -24,25 +24,17 @@ public class RiverWalker {
 	//public constructors
 	public RiverWalker(Pond pe, Pond ps, Pond pw, Pond pn){this(new PondTraverser(pe), new PondTraverser(ps), new PondTraverser(pw), new PondTraverser(pn),   E);}
 	public RiverWalker(Pond[] ponds){this(ponds[0], ponds[1], ponds[2], ponds[3]);}
-//	public RiverWalker(PlayerList plyrs){this(plyrs.seatE().getPond(), plyrs.seatS().getPond(), plyrs.seatW().getPond(), plyrs.seatN().getPond());}
 	
 	//builder
 	private RiverWalker withCurrentTraverserIndex(int newCurrent){return new RiverWalker(traversers, newCurrent);}
 	private RiverWalker withTraversers(PondTraverser[] newTraversers){return new RiverWalker(newTraversers, indexOfCurrentTraverser);}
 	
 	
+	
+	
 	//rotate without increment
-	private RiverWalker rotateToNextPond(){return rotateTo(nextTraverserIndex());}
-	private RiverWalker rotateTo(Wind moveToThis){return rotateTo(moveToThis.toInt());}
 	private RiverWalker rotateTo(int moveToThis){return this.withCurrentTraverserIndex(moveToThis);}
 	
-	
-	//rotate and increment
-	private RiverWalker moveToNextTileInOtherPond(Wind moveToThis){return moveToNextTileInOtherPond(moveToThis.toInt());}
-	private RiverWalker moveToNextTileInOtherPond(int moveToThis){
-//		return this.rotateTo(moveToThis).incrementTileInCurrentPond();
-		return this.incrementTileInCurrentPond().rotateTo(moveToThis);	//increment current pond first, to say "I have already seen this tile"
-	}
 	
 	//increment
 	private RiverWalker incrementTileInCurrentPond(){
@@ -52,7 +44,15 @@ public class RiverWalker {
 		return this.withTraversers(traversersWithCurrentTileIncrementedInCurrentPond);
 	}
 	
+	//rotate and increment
+	private RiverWalker moveToNextTileInOtherPond(int moveToThis){
+		return this.incrementTileInCurrentPond().rotateTo(moveToThis);	//increment current pond first, to say "I have already seen this tile"
+	}
 	
+	
+	
+	
+	//moves to the next discarded tile
 	public RiverWalker moveToNextTile(){
 		int moveToThis = nextTraverserIndex();
 		
@@ -65,6 +65,7 @@ public class RiverWalker {
 	
 	
 	
+	//-----------------------------------------------------------------------------accessors
 	
 	public PondTile lastDiscard(){
 		PondTile lastTile = null; //returns null if all ponds are empty
@@ -79,25 +80,6 @@ public class RiverWalker {
 	}
 	
 	
-////	this works, but fails when all ponds are empty
-//	public PondTile lastDiscard(int i){
-//		RiverWalker walker = this.moveToLastTile();
-//		return walker.currentTile();
-//	}
-//	public RiverWalker moveToLastTile(){
-//		RiverWalker walker = this;
-//		
-//		while (!walker.nextIsEnd())
-//			walker = walker.moveToNextTile();
-//		
-//		return walker;
-//	}
-//	public boolean nextIsEnd(){
-//		return this.moveToNextTile().reachedEnd();
-//	}
-	
-	
-	
 	
 	//NPE here if all ponds are empty
 	public PondTile currentTile(){return currentTraverser().getCurrentTile();}
@@ -110,10 +92,17 @@ public class RiverWalker {
 		return true;
 	}
 	
+	//-----------------------------------------------------------------------------accessors
+	
+	
+	
+	
+	
+	
+	
 	
 	private PondTraverser currentTraverser(){return traverserFor(indexOfCurrentTraverser);}
 	private PondTraverser nextTraverser(){return traverserFor(nextTraverserIndex());}
-	private PondTraverser traverserFor(Wind wind){return traverserFor(wind.toInt());}
 	private PondTraverser traverserFor(int which){
 		return traversers[which];
 	}
@@ -130,6 +119,8 @@ public class RiverWalker {
 		str += "\n,,,,,,, Last Discard: "  + lastDiscard();
 		return str;
 	}
+	
+	
 	
 	
 	
@@ -163,11 +154,6 @@ public class RiverWalker {
 		public Pond getPond(){return pond;}
 		
 	}
-	
-	
-	
-	
-	
 	
 	
 	

@@ -26,6 +26,7 @@ import majava.util.GTL;
 
 //represents a player in the game
 public class Player implements Comparable<Player>{
+	public static final Player NOBODY = new Player();
 	
 	private PlayerBrain brain;
 	private final PlayerProfile profile;

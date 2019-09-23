@@ -7,6 +7,7 @@ import utility.ImmuList;
 import majava.Pond;
 import majava.enums.Wind;
 import majava.player.Player;
+import static majava.player.Player.NOBODY;
 
 
 public class PlayerList extends ImmuList<Player>{
@@ -81,10 +82,44 @@ public class PlayerList extends ImmuList<Player>{
 		return -1; //i want to see this fail fast
 	}
 	
+	
+	
+	
+	
 	public boolean someoneCalled(){
 		for (Player p: this) if (p.called()) return true;
 		return false;
 	}
+	
+	public boolean someoneCalledChi(){return (callerChi() != NOBODY);}
+	public boolean someoneCalledPonKan(){return (callerPonKan() != NOBODY);}
+	public boolean someoneCalledRON(){return (callerRON() != NOBODY);}
+	
+	public Player callerChi(){
+		for (Player p : this) if (p.calledChi()) return p;
+		return NOBODY;
+	}
+	public Player callerPonKan(){
+		for (Player p : this) if (p.calledPon() || p.calledKan()) return p;
+		return NOBODY;
+	}
+	//----NOTE: this doesn't handle atamahane. need to take into account the seatwind of the discarder to decide who gets ron priority
+	public Player callerRON(){
+		for (Player p : this) if (p.calledRon()) return p;
+		return NOBODY;
+	}
+	
+	
+	
+	public Player playerWhoHasFullHand(){
+		for (Player p: this) if (p.handIsFull()) return p;
+		return NOBODY;
+	}
+	
+	
+	
+	
+	
 	
 	
 	

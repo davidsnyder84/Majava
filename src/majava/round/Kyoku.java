@@ -7,15 +7,18 @@ import java.util.Scanner;
 
 import utility.Pauser;
 
+import majava.Pond;
 import majava.util.GTL;
 import majava.util.PlayerList;
 import majava.wall.WallDealer;
 import majava.wall.Wall;
 import majava.player.Player;
+import majava.pond.KawaRotator;
 import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
 import majava.summary.StateOfGame;
 import majava.tiles.GameTile;
+import majava.tiles.PondTile;
 import majava.control.testcode.GameSimulation;
 import majava.control.testcode.WallDemoer;
 import majava.events.GameEventBroadcaster;
@@ -49,7 +52,7 @@ public class Kyoku{
 	
 	private final KyokuEvent mostRecentEvent;
 	private final TurnArrow turnArrow;
-//	private final Player ban;
+//	private final Player whoseTurn;
 	
 //	private final StateOfGame gameState;
 //	private final GameEventBroadcaster gameEventBroadcaster;
@@ -58,6 +61,10 @@ public class Kyoku{
 //	private final TurnIndicator turnIndicator;
 //	private final RoundResult roundResult;
 	
+	
+//	private final Kyoku previousState //??????????????????????????????????????????????????????????????
+//	instead of looking at past, pass DoThisNext object/enum
+//	RoundDriver + KyokuState
 	
 	
 	//builder constructor
@@ -105,6 +112,10 @@ public class Kyoku{
 	
 	
 	
+	
+	
+	
+	
 	public Kyoku setTurn(Player newTurnPlayer){return this.withTurn(turnArrow.setTurn(newTurnPlayer));}
 	public Kyoku setTurnNext(){return this.withTurn(turnArrow.setTurnNext());}
 	public Kyoku setTurnToPriorityCaller(){return this.withTurn(turnArrow.setTurnToPriorityCaller());}
@@ -124,6 +135,73 @@ public class Kyoku{
 //		System.out.println(currentPlayer().toString());
 //		return players.neighborNextPlayer(currentPlayer());
 	}
+	
+	
+	
+	
+	//if your hand is full, that means it's your turn and you need to discard something (or declare kan/tsumo)
+	public Wind seatToAct(){
+		Wind turnSeatWind = Wind.UNKNOWN;
+		
+		for (Player p : players)
+			if (p.handIsFull()) turnSeatWind = p.getSeatWind();
+		
+		return turnSeatWind;
+	}
+	
+	//nobody has a full hand -> either: discard / call happened
+	//read lastDiscard.wind to find who discarded, prioritycaller calc field
+	public Wind seatPriorityCaller(){
+		Player callingPlayer = null;
+		Player callerPon = null, callerRON = null;
+		int numCallers = 0;
+		
+		for (Player p: players)
+			if (p.called()){
+				callingPlayer = p;
+				numCallers++;
+			}
+		
+		//if only one player called, return that player
+		if (numCallers == 1) return callingPlayer.getSeatWind();
+		
+		
+		
+		//below is for multiple callers
+		
+		//----NOTE: this doesn't handle atamahane. need to take into account the seatwind of the discarder to decide who gets ron priority
+		//if p called something other than a chi... if he called pon/kan, he is the pon caller (there can't be 2 pon callers, not enough tiles in the game). if he called ron, he is the ron caller (if there is already a ron caller, do nothing, because that caller has seat order priority)
+		for (Player p : players){
+			if (p.called() && !p.calledChi())
+				if (p.calledPon() || p.calledKan())
+					callerPon = p;
+				else
+					callerRON = p;
+				
+		}
+//		for (int i = players.size() - 1; i >= 0 ; i--){
+//			if (players.get(i).called() && !players.get(i).calledChi())
+//				if (players.get(i).calledPon() || players.get(i).calledKan())
+//					callerPon = players.get(i);
+//				else
+//					callerRON = players.get(i);
+//		}
+		
+		//return the first ron caller, or return the pon caller if there was no ron caller
+		if (callerRON != null) return callerRON.getSeatWind();
+		return callerPon.getSeatWind();
+	}
+	
+	
+	public GameTile lastDiscard(){
+		KawaRotator rotator = new KawaRotator(players);
+		return rotator.lastDiscard();
+	}
+	
+	
+	
+	
+	
 	
 	
 	
@@ -195,7 +273,7 @@ public class Kyoku{
 //		}
 		
 //		discardedTile = p.takeTurn();
-		System.out.println("niggggggggggggggggggggggggger" +p.handSize()); 
+		System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhan" +p.handSize()); 
 		discardedTile = p.getHand().getTile(discardIndex);
 		Player pWithActionTaken = p.takeTurn();
 		
@@ -688,19 +766,6 @@ public class Kyoku{
 //		str += players.size();
 //		str += players.size();
 		return str;
-	}
-	
-	public static void main(String[] args) {
-		
-		System.out.println("Welcome to Majava (Kyokubu)!");
-		
-		Kyoku round = new Kyoku();
-//		round = round.next();
-		int i = 0;
-		while (i < 500)
-			round = round.next();
-		
-		System.out.println(round.toString());
 	}
 	
 

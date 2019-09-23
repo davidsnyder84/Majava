@@ -157,7 +157,7 @@ public class Player implements Comparable<Player>{
 	}
 	
 	//removes the most recent tile from the player's pond (because another player called it)
-	public Player removeTileFromPond(){return this.withPond(pond.removeMostRecentTile());}
+	public Player removeTileFromPond(Wind caller){return this.withPond(pond.removeMostRecentTile(caller));}
 	public Pond getPond(){return pond;}
 	
 	public GameTile getLastDiscard(){return lastDiscard;}
@@ -181,7 +181,7 @@ public class Player implements Comparable<Player>{
 	
 	
 	
-	
+	public boolean madeOpenMeldByCallingThisTile(GameTile t){return hand.madeOpenMeldByCallingThisTile(t);}
 	
 	
 	public Player addTileToHand(final GameTile t){
@@ -306,6 +306,8 @@ public class Player implements Comparable<Player>{
 	
 	
 	
+	public boolean handIsFull(){return hand.isFull();}
+	public boolean needsToDiscard(){return handIsFull();}
 	
 	public boolean holdingRinshan(){return isHoldingRinshanTile;}
 	public GameTile getTsumoTile(){return hand.getLastTile();}

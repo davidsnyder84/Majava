@@ -29,7 +29,6 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	//2-arg, takes list of tiles and meld type (used when making a meld only from hand tiles, so no "new" tile)
 	//passes (handtiles 0 to n-1, handtile n, and meld type)
 	public Meld(GTL tilesFromHand, MeldType typeOfMeld){
-//		this(tilesFromHand.subList(0, tilesFromHand.size() - 1), tilesFromHand.get(tilesFromHand.size() - 1), typeOfMeld);
 		this(tilesFromHand.getAllExceptLast(), tilesFromHand.getLast(), typeOfMeld);
 	}
 	private Meld(Meld other){		
@@ -90,6 +89,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	}
 	public boolean isOpen(){return !isClosed();}
 	public Wind windOfResponsiblePlayer(){return completedTile.getOrignalOwner();}
+	public GameTile getCompletedTile(){return completedTile;}
 	public int indexOfCompletedTile(){
 		for (int i=0; i<size(); i++) if (getTile(i) == completedTile) return i;
 		return -1;

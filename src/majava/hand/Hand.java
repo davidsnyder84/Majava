@@ -213,7 +213,14 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 	public boolean ableToTsumo(){return turnActionabilityChecker().ableToTsumo();}
 	
 	
-	
+	public boolean madeOpenMeldByCallingThisTile(GameTile t){
+//		if (m.windOfResponsiblePlayer() == t.getOrignalOwner())
+		
+		for (Meld m: melds)
+			if (m.getCompletedTile() == t)	//same reference
+				return true;
+		return false;
+	}
 	
 	//forms a meld of the given type. claimedTile = the tile that will complete the meld
 	private Hand makeMeld(GameTile claimedTile, MeldType meldType){

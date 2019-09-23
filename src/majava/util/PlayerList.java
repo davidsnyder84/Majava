@@ -4,10 +4,16 @@ import java.util.Arrays;
 import java.util.List;
 
 import utility.ImmuList;
+import majava.enums.Wind;
 import majava.player.Player;
 
 
 public class PlayerList extends ImmuList<Player>{
+	
+	
+	//put turn stuff here
+	
+	
 	private static final int NUM_PLAYERS = 4;
 	public final static int EAST=0, SOUTH=1, WEST=2, NORTH=3;
 	
@@ -28,10 +34,21 @@ public class PlayerList extends ImmuList<Player>{
 	public Player westSeat(){return get(WEST);}
 	public Player northSeat(){return get(NORTH);}
 	
+	
+	public Player seat(Wind wind){
+		for (Player p : this)
+			if (p.getSeatWind() == wind)
+				return p;
+		return null;
+	}
 	public Player seatE(){return get(EAST);}
 	public Player seatS(){return get(SOUTH);}
 	public Player seatW(){return get(WEST);}
 	public Player seatN(){return get(NORTH);}
+//	public Player seatE(){return seat(Wind.EAST);}
+//	public Player seatS(){return seat(Wind.SOUTH);}
+//	public Player seatW(){return seat(Wind.WEST);}
+//	public Player seatN(){return seat(Wind.NORTH);}
 	
 	
 	public PlayerList set(Player p, Player setToThis){

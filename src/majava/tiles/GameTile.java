@@ -9,6 +9,8 @@ public class GameTile implements Cloneable, TileInterface {
 	private final Janpai baseTile;
 	private final Wind originalOwnerWind;
 	
+//	private final int gameTileID;
+	
 	
 	public GameTile(Janpai tilebase, Wind owner){
 		baseTile = tilebase;

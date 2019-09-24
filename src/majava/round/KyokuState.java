@@ -106,14 +106,31 @@ public final class KyokuState{
 	}
 	
 	public int whoseTurn(){
+		int indexTurn = -777;
+		
 		Wind seatToAct = kyoku.seatToAct();
-		if (seatToAct == Wind.UNKNOWN)
+		Wind seatOfLastDiscarder = kyoku.lastDiscard().getOrignalOwner();
+		
+//		Player playerToAct = players().get(seatToAct);
+		
+		
+		if (seatToAct == Wind.UNKNOWN){
+			indexTurn = players().indexOfPlayer(seatOfLastDiscarder);
 			this.toString();///////////////////////////
-		Player playerToAct = players().get(seatToAct);
-		int indexOfPlayerToAct = players().indexOfPlayer(seatToAct);
+		}
+		else{
+			indexTurn = players().indexOfPlayer(seatToAct);
+		}
+		
+//		Wind w = kyoku.lastDiscarder().getSeatWind();
+//		indexOfPlayerToAct = players().indexOfPlayer(w);
+//			this.toString();///////////////////////////
 		
 		
-		return players().indexOfPlayer(kyoku.seatToAct());	//I think this will work
+		
+		return indexTurn;
+//		return indexOfPlayerToAct;	//I think this will work
+//		return players().indexOfPlayer(kyoku.seatToAct());	//I think this will work
 	}
 	
 	public PlayerBrain getControllerForPlayer(int playerNum){return playerTrackers[playerNum].getController();}

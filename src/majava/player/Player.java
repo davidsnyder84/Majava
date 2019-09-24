@@ -71,7 +71,7 @@ public class Player implements Comparable<Player>{
 		isHoldingRinshanTile = false; isRiichi = false;
 	}
 	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w){
-		this(null, prof, pts, pnum, h, p, w,
+		this(brn, prof, pts, pnum, h, p, w,
 				RINSHAN_DRAW_NOT_NEEDED,
 				DecisionCall.DUMMY,
 				DecisionTurnAction.DUMMY
@@ -108,7 +108,7 @@ public class Player implements Comparable<Player>{
 	
 	public Player decideTurnAction(){
 		
-		DecisionTurnAction decision = brain.chooseTurnAction(hand);
+		DecisionTurnAction decision = brain.chooseTurnAction(this, hand);
 		return this.withDecisionTurnAction(decision);
 	}
 	public Player doTurnAction(){
@@ -253,7 +253,7 @@ public class Player implements Comparable<Player>{
 	
 	//ask brain for reaction
 	public Player reactToDiscard(GameTile candidate){
-		DecisionCall chosenCall = brain.reactToDiscard(hand, candidate);
+		DecisionCall chosenCall = brain.reactToDiscard(this, hand, candidate);
 		
 		return this.withDecisionCall(chosenCall);
 	}

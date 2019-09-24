@@ -16,7 +16,7 @@ import majava.tiles.GameTile;
 //makes decisions for a player
 public abstract class PlayerBrain {
 	
-	protected final Player player;
+	protected Player player;
 	
 	
 	
@@ -28,20 +28,23 @@ public abstract class PlayerBrain {
 	
 	
 	//template method pattern, final
-	public final DecisionTurnAction chooseTurnAction(Hand hand){
+	public final DecisionTurnAction chooseTurnAction(Player thisPlayer, Hand hand){
+		this.player = thisPlayer;
 		
-		//force auto discard if in riichi and unable to tsumo/kan
-		if (player.isInRiichi() && (!player.ableToTsumo() && !player.ableToAnkan()))
-			return DecisionTurnAction.Discard(tsumoTileIndex(hand));
+		//this logic should be good, but I haven't implemented turn actions yet
 		
-		
-		//choose your action
-		TurnActionType chosenAction = selectTurnAction(hand, listOfPossibleTurnActions());
-		
-		
-		//actions other than discard
-		if (chosenAction.isNotDiscard())
-			return new DecisionTurnAction(chosenAction);
+//		//force auto discard if in riichi and unable to tsumo/kan
+//		if (player.isInRiichi() && (!player.ableToTsumo() && !player.ableToAnkan()))
+//			return DecisionTurnAction.Discard(tsumoTileIndex(hand));
+//		
+//		
+//		//choose your action
+//		TurnActionType chosenAction = selectTurnAction(hand, listOfPossibleTurnActions());
+//		
+//		
+//		//actions other than discard
+//		if (chosenAction.isNotDiscard())
+//			return new DecisionTurnAction(chosenAction);
 		
 		//discard
 		int discardIndex = selectDiscardIndex(hand);
@@ -71,7 +74,8 @@ public abstract class PlayerBrain {
 	
 	
 	//template method pattern, final
-	public final DecisionCall reactToDiscard(Hand hand, GameTile tileToReactTo) {
+	public final DecisionCall reactToDiscard(Player thisPlayer, Hand hand, GameTile tileToReactTo) {
+		this.player = thisPlayer;
 		
 		List<CallType> listOfPossibleReactions = getListOfPossibleReactions(tileToReactTo);
 		
@@ -93,7 +97,7 @@ public abstract class PlayerBrain {
 		if (player.ableToCallChiH(tileToReactTo)) listOfPossibleReactions.add(CallType.CHI_H);
 		if (player.ableToCallPon(tileToReactTo)) listOfPossibleReactions.add(CallType.PON);
 		if (player.ableToCallKan(tileToReactTo)) listOfPossibleReactions.add(CallType.KAN);
-		if (player.ableToCallRon(tileToReactTo)) listOfPossibleReactions.add(CallType.RON);
+//		if (player.ableToCallRon(tileToReactTo)) listOfPossibleReactions.add(CallType.RON);
 		
 		return listOfPossibleReactions;
 	}

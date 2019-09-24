@@ -36,7 +36,7 @@ public class Kyoku{
 	private static final int DEFAULT_ROUND_NUM = 1 , DEFAULT_ROUND_BONUS_NUM = 0;
 	
 	//for debug use
-//	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
+//	private static final boolean DEBUG_LOAD_DEBUG_WALL = true; 
 	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	
 //	private static final boolean DEBUG_EXHAUSTED_WALL = true;
@@ -52,6 +52,8 @@ public class Kyoku{
 	
 //	private final KyokuEvent mostRecentEvent;	//////////////////////////////////////////////this way of doing it is fine, use this (but make it something different)
 	private final GameEventType mostRecentEvent;	//////////////////////////////////////////////this way of doing it is fine, use this (but make it something different)
+	private final Wind whoseTurnWind = null; //only useful for GUIs
+	///^wrap these together?
 	
 //	private final RoundResult roundResult;
 	
@@ -82,11 +84,11 @@ public class Kyoku{
 		this(playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);
 	}
 	public Kyoku(){
-//		this(new PlayerList(new Player(), new Player(), new Player(), new Player()));
 		this(new PlayerList(new Player().setSeatWindEast(), new Player().setSeatWindSouth(), new Player().setSeatWindWest(), new Player().setSeatWindNorth()));
 		
 		for (Player p: players)
-			p.setControllerHuman();
+			p.setControllerComputer();
+//			p.setControllerHuman();
 		
 	}
 	
@@ -131,7 +133,9 @@ public class Kyoku{
 		RiverWalker walker = new RiverWalker(getPonds());
 		return walker.lastDiscard();
 	}
-	public Player lastDiscarder(){return players.get(lastDiscard().getOrignalOwner());}
+	public Player lastDiscarder(){
+		return players.get(lastDiscard().getOrignalOwner());
+	}
 	
 	
 	//When is everyone is 13 13 13 13?: right after discard / after call but before meldmake
@@ -180,8 +184,10 @@ public class Kyoku{
 	public PlayerList letPlayersReactToDiscard(){
 		PlayerList playersWithReactions = players;
 		for (Player p : players.allPlayersExcept(lastDiscarder()))
-			if (p.ableToCallTile(lastDiscard()))
-				playersWithReactions.set(p.reactToDiscard(lastDiscard()));
+			if (p.ableToCallTile(lastDiscard())){
+				Player reactedPlayer = p.reactToDiscard(lastDiscard());
+				playersWithReactions = playersWithReactions.set(reactedPlayer);
+			}
 		
 		return playersWithReactions;
 	}

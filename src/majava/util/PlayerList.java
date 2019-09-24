@@ -56,7 +56,9 @@ public class PlayerList extends ImmuList<Player>{
 		for (int i=0; i<size(); i++)
 			if (get(i).getSeatWind() == seat)
 				return i;
-		return -1; //i want to see this fail fast
+		
+		return -88; //i want to see this fail fast
+//		return 0; ///////////////
 	}
 	public int indexOfPlayer(Player p){return indexOfPlayer(p.getSeatWind());}
 	public int playerNumberOf(Player p){return indexOfPlayer(p);}
@@ -111,7 +113,21 @@ public class PlayerList extends ImmuList<Player>{
 	
 	
 	
-	
+	public String toString(){
+		String str = "";
+		
+		for (int i=0; i<NUM_PLAYERS; i++)
+			str += get(i).getSeatWind().toChar() + "->";
+		
+		str += "   /   ";
+		Wind windstepper = Wind.EAST;
+		for (int i=0; i<NUM_PLAYERS; i++){
+			str += "g" + windstepper.toChar() + ":"+ get(windstepper).getSeatWind().toChar() + ",  ";
+			windstepper = windstepper.next();
+		}
+		
+		return str;
+	}
 	
 	
 	//--------mutator overrides

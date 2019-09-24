@@ -68,7 +68,8 @@ public class RiverWalker {
 	//-----------------------------------------------------------------------------accessors
 	
 	public PondTile lastDiscard(){
-		PondTile lastTile = null; //returns null if all ponds are empty
+//		PondTile lastTile = null; //returns null if all ponds are empty
+		PondTile lastTile = PondTile.DUMMY_TILE;
 		
 		RiverWalker walker = this;
 		while (!walker.reachedEnd()){

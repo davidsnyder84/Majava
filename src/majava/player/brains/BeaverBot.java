@@ -60,10 +60,14 @@ public class BeaverBot extends RobotBrain {
 			mostWorthlessIndex = pickOneFrom(fullShuntsuIndices);
 		
 		//it should be impossible for any hand to reach here
+		//^^^^^It's possible if you use an impossible cheat hand, like 22222222222222
 //		if (mostWorthlessIndex == INDEX_NOT_FOUND)
 //			mostWorthlessIndex = pickOneFrom(ponsIndices);
 		
-		return mostWorthlessIndex;
+		if (!(mostWorthlessIndex == INDEX_NOT_FOUND))
+			return mostWorthlessIndex;
+		
+		return tsumoTileIndex(hand);
 	}
 	
 	

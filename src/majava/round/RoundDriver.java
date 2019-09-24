@@ -2,7 +2,9 @@ package majava.round;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
+import majava.enums.Wind;
 import majava.events.GameEventBroadcaster;
 import majava.userinterface.GameUI;
 import majava.userinterface.MajavaGUI;
@@ -30,10 +32,9 @@ public class RoundDriver {
 	
 	private void doRound(){
 		
-		Kyoku round = new Kyoku();
 //		System.out.println(round.getWall().currentPosition());   System.out.println(round.getPlayers().seatE().handSize());
 //		System.out.println(round.getWall());
-		int times = 500;
+		int times = 5000;
 		
 		int i = 0;
 //		while (i < times){
@@ -41,17 +42,19 @@ public class RoundDriver {
 		
 		
 		
-		
-		while (!round.isOver()){
-			round = round.next();
-			
-			KyokuState ks = new KyokuState(round);
-			gameEventBroadcaster.postNewEvent(ks);
-			
-			if (!lastRoundString.equals(round.toString())) System.out.println(round.toString());
-//			lastRoundString = round.toString();
+		for (int j=0; j<times; j++){
+			Kyoku round = new Kyoku();
+			while (!round.isOver()){
+				round = round.next();
+	//			waitt();
+				
+				KyokuState ks = new KyokuState(round);
+				gameEventBroadcaster.postNewEvent(ks);
+				
+//				if (!lastRoundString.equals(round.toString())) System.out.println(round.toString());
+			}
+		println(j);
 		}
-		
 		
 		
 		
@@ -67,6 +70,8 @@ public class RoundDriver {
 	private void setupUserInterfaces(){		
 		GameUI gui = new MajavaGUI();
 		setSleepTimesForUI(gui);
+//		gui.setSleepTimes(0,0,0);
+//		gui.setSleepTimes(50,50,50); 
 		
 		GameUI textUI = new SparseTextualUI();
 		textUI.setSleepTimes(0,0,0);
@@ -74,12 +79,13 @@ public class RoundDriver {
 		GameUI audioHandler = new MajavaAudioHandler();
 		
 		List<GameUI> userInterfaces = new ArrayList<GameUI>();
-//		userInterfaces.add(audioHandler);	//add audio observer first, so sounds play before any pauses
-		userInterfaces.add(gui);
-//		userInterfaces.add(textU I);
+		userInterfaces.add(audioHandler);	//add audio observer first, so sounds play before any pauses
+		userInterfaces.add(gui); 
+//		userInterfaces.add(textUI);
 				
 		for (GameUI ui: userInterfaces)
 			gameEventBroadcaster.registerObserver(ui);
+		gui.startUI();
 	}
 	private void setSleepTimesForUI(GameUI ui){
 		final int DEAFULT_SLEEPTIME = 400;
@@ -93,4 +99,6 @@ public class RoundDriver {
 		ui.setSleepTimes(sleepTime, sleepTimeExclamation, sleepTimeRoundEnd);
 	}
 	
+	
+	public static void println(String prints){System.out.println(prints);}public static void println(){System.out.println("");}public static void println(int prints){System.out.println(prints+"");} public static void waitt(){(new Scanner(System.in)).next();}
 }

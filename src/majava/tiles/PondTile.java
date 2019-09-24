@@ -6,6 +6,7 @@ import majava.enums.Wind;
 
 //represents a tile in a pond, has extra information (riichi tile, tile that has been called, etc)
 public class PondTile extends GameTile {
+	public static final PondTile DUMMY_TILE = new PondTile(GameTile.DUMMY_TILE);
 	
 	private final boolean flagIsRiichiTile;
 	private final Wind caller;

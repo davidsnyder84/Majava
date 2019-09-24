@@ -353,6 +353,8 @@ public class Player implements Comparable<Player>{
 	public int getNumKansMade(){return hand.numberOfKansMade();}
 	public boolean hasMadeAKan(){return (getNumKansMade() != 0);}
 	
+	public int numberOfANKansMade(){return hand.numberOfANKansMade();}
+	public int numberOfMINKansMade(){return hand.numberOfMINKansMade();}
 	
 	
 	

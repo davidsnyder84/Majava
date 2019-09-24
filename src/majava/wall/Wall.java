@@ -109,6 +109,7 @@ public class Wall {
 	//returns the number of tiles left in the wall (not including dead wall)
 	public int numTilesLeftInWall(){return MAX_SIZE_WALL - currentWallPosition - MAX_SIZE_DEAD_WALL;}
 	public int numTilesLeftInDeadWall(){return MAX_SIZE_DEAD_WALL - numKansMade();}
+	public int numTilesLeft(){return numTilesLeftInWall() + numTilesLeftInDeadWall();}
 	
 	
 	private int numKansMade(){

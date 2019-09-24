@@ -25,4 +25,21 @@ public class RoundDriver {
 		
 		System.out.println(round.toString());
 	}
+	
+	
+	/*
+	 * 
+	 * 
+	 * KyokuAndEvent ke = new KyokuAndEvent(new Kyoku())
+	 * 
+	 * while (!ke.isOver()){
+	 * 		ke = ke.next();
+	 * 		announceEvent(ke.getEvent());
+	 * }
+	 * 
+	 * 
+	 */
+	
+	
+	
 }

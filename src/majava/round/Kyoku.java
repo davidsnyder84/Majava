@@ -51,7 +51,7 @@ public class Kyoku{
 	private final Wall wall;
 	
 	
-	private final KyokuEvent mostRecentEvent;
+	private final KyokuEvent mostRecentEvent;	//////////////////////////////////////////////this way of doing it is fine, use this (but make it something different)
 	
 //	private final StateOfGame gameState;
 //	private final GameEventBroadcaster gameEventBroadcaster;
@@ -61,7 +61,6 @@ public class Kyoku{
 	
 	
 //	private final Kyoku previousState //??????????????????????????????????????????????????????????????
-//	RoundDriver + KyokuState
 	
 	
 	//builder constructor
@@ -410,6 +409,7 @@ public class Kyoku{
 		
 		PlayerList playersWithStartingHands = new PlayerList(peWithStartingHand, psWithStartingHand, pwWithStartingHand, pnWithStartingHand);
 		return this.withWall(dealtWall).withPlayers(playersWithStartingHands);
+//		return this.withWall(dealtWall).withPlayers(playersWithStartingHands).postEvent(something);
 	}
 	
 	

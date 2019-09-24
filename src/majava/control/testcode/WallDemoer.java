@@ -24,7 +24,9 @@ public class WallDemoer {
 	public static void main(String[] args) {
 		Wall demowall = null;
 		
-//		demowall = SpecialDebugWall();
+		demowall = SpecialDebugWall();
+		System.out.println(demowall.numTilesLeftInWall() + demowall.numTilesLeftInDeadWall());
+		System.out.println((demowall.removeNextDeadWallTile()).numTilesLeftInWall()  +  (demowall.removeNextDeadWallTile()).numTilesLeftInDeadWall());
 //		demowall = ExhaustedWall();
 //		demowall = SpecialDebugWall(ExhaustedWall());
 		

@@ -29,7 +29,7 @@ public class SparseTextualUI extends TextualUI{
 	protected void displayEventDiscardedTile(GameplayEvent event){
 		
 		//show the discarded tile
-		println("\t" + gameState.seatWindOfPlayer(roundTracker.whoseTurn()).toChar() + " discard: " + roundTracker.getMostRecentDiscard());
+		println("\t" + gameState.seatWindOfPlayer(roundTracker.whoseTurn()).toChar() + " discard: " + gameState.getMostRecentDiscard());
 //		mRoundTracker.currentPlayer().showPond();
 	}
 	
@@ -88,17 +88,17 @@ public class SparseTextualUI extends TextualUI{
 	}
 	
 	protected void __showWall(){println(gameState.wallToString());}
-	protected void __showDoraIndicators(){println(",,,Dora Indicators: " + roundTracker.getDoraIndicators());}
+	protected void __showDoraIndicators(){println(",,,Dora Indicators: " + gameState.getDoraIndicators());}
 	protected void __showDeadWall(){__showDoraIndicators();}
 	
 	protected void __showRoundResult(){
-		if (!roundTracker.roundIsOver()) return;
+		if (!gameState.roundIsOver()) return;
 		
 		println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 		 		"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 				"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		
-		RoundResultSummary roundResultSummary = roundTracker.getResultSummary();
+		RoundResultSummary roundResultSummary = gameState.getResultSummary();
 		
 //		String resultStr = "Result: " + mRoundEntities.mRoundTracker.getRoundResultString();
 //		System.out.println(resultStr);
@@ -199,7 +199,7 @@ public class SparseTextualUI extends TextualUI{
 	protected void showExclamation(Exclamation exclamation, int seat){
 		
 		if (exclamation.isCall())
-			println("..." + gameState.seatWindOfPlayer(seat) + " Player called " + exclamation.toString().toUpperCase() + " on the tile (" + roundTracker.getMostRecentDiscard() + ")");
+			println("..." + gameState.seatWindOfPlayer(seat) + " Player called " + exclamation.toString().toUpperCase() + " on the tile (" + gameState.getMostRecentDiscard() + ")");
 //			println("..." + roundTracker.getWindOfSeat(seat) + " Player called " + exclamation.toString().toUpperCase() + " on the tile (" + roundTracker.getMostRecentDiscard() + ")");
 		else
 			println(",,," + gameState.seatWindOfPlayer(seat) + " Player declared " + exclamation.toString().toUpperCase());

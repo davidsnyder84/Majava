@@ -33,8 +33,8 @@ public class DetailedTextualUI extends TextualUI{
 		__showHandsOfAllPlayers();
 		
 		//show the discarded tile and the discarder's pond
-		println("\n\n\tTiles left: " + roundTracker.getNumTilesLeftInWall());
-		println("\t" + gameState.seatWindOfPlayer(roundTracker.whoseTurn()) + " Player's discard: ^^^^^" + roundTracker.getMostRecentDiscard().toString() + "^^^^^");
+		println("\n\n\tTiles left: " + gameState.getNumTilesLeftInWall());
+		println("\t" + gameState.seatWindOfPlayer(roundTracker.whoseTurn()) + " Player's discard: ^^^^^" + gameState.getMostRecentDiscard().toString() + "^^^^^");
 		println("\t" + gameState.getPondAsString(roundTracker.whoseTurn()));
 		
 		
@@ -80,7 +80,7 @@ public class DetailedTextualUI extends TextualUI{
 	protected void __showWall(){println(gameState.wallToString());}
 	
 	protected void __showDoraIndicators(){
-		GTL doraIndicators = roundTracker.getDoraIndicators();
+		GTL doraIndicators = gameState.getDoraIndicators();
 		println("Dora Indicators: " + doraIndicators + "\n\n");
 	}
 	
@@ -90,15 +90,15 @@ public class DetailedTextualUI extends TextualUI{
 	}
 	
 	protected void __showRoundResultOLD(){
-		if (!roundTracker.roundIsOver()) return;
+		if (!gameState.roundIsOver()) return;
 		
 		System.out.println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 		 					"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 				 			"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		
-		RoundResultSummary result = roundTracker.getResultSummary();
+		RoundResultSummary result = gameState.getResultSummary();
 		
-		String resultStr = "Result: " + roundTracker.getRoundResultString();
+		String resultStr = "Result: " + gameState.getRoundResultString();
 		System.out.println(resultStr);
 		
 		if (result.isVictory());
@@ -106,13 +106,13 @@ public class DetailedTextualUI extends TextualUI{
 	}
 	
 	protected void __showRoundResult(){
-		if (!roundTracker.roundIsOver()) return;
+		if (!gameState.roundIsOver()) return;
 		
 		println("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 		 		"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~Round over!~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 
 				"\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		
-		RoundResultSummary roundResultSummary = roundTracker.getResultSummary();
+		RoundResultSummary roundResultSummary = gameState.getResultSummary();
 		
 		//for all
 		String resultLabel = null;
@@ -193,7 +193,7 @@ public class DetailedTextualUI extends TextualUI{
 		
 		if (exclamation.isCall())
 			println("\n*********************************************************" + 
-					"\n**********" + gameState.seatWindOfPlayer(seat) + " Player called the tile (" + roundTracker.getMostRecentDiscard() + ")! " + exclamation + "!!!**********" +  
+					"\n**********" + gameState.seatWindOfPlayer(seat) + " Player called the tile (" + gameState.getMostRecentDiscard() + ")! " + exclamation + "!!!**********" +  
 					"\n*********************************************************");
 		else
 			println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + 

@@ -24,7 +24,6 @@ public class RoundTracker {
 	private final Round round;
 	private final Wall wall;	//duplicate
 	
-	private final Player[] players;
 	
 	
 	public RoundTracker(Round roundToTrack, Wall receivedWall, Player[] playerArray){
@@ -32,7 +31,6 @@ public class RoundTracker {
 		
 		wall = receivedWall;
 		
-		players = playerArray.clone();
 //		for (Player p: players)
 //			p.syncWithRoundTracker(this);
 	}
@@ -43,49 +41,11 @@ public class RoundTracker {
 	
 	/////I kind of want to get rid of these eventually, but they're used by the UIs
 	public int whoseTurn(){return round.whoseTurnNumber();}
-	public GameTile getMostRecentDiscard(){return round.mostRecentDiscard();}
 	
 	
-	public RoundResultSummary getResultSummary(){return round.getResultSummary();}	
-	public String getRoundResultString(){return round.getRoundResultString();}
-	public boolean roundIsOver(){return round.roundIsOver();}
+//	public RoundResultSummary getResultSummary(){return round.getResultSummary();}	
 	
+
 	
-	
-	//returns true if multiple players have made kans, returns false if only one player or no players have made kans
-	private boolean multiplePlayersHaveMadeKans(){
-		//count the number of players who have made kans
-		int count = 0;
-		for (Player p: players){
-			if (p.hasMadeAKan())
-				count++;
-		}
-		return (count > 1);
-	}
-	//returns true if a round-ending number of kans have been made
-	//returns true if 5 kans have been made, or if 4 kans have been made by multiple players
-	public boolean tooManyKans(){
-		final int KAN_LIMIT = 4;
-		if (getNumKansMade() < KAN_LIMIT) return false;
-		if (getNumKansMade() == KAN_LIMIT && !multiplePlayersHaveMadeKans()) return false;		
-		return true;
-	}
-	
-	public int getNumKansMade(){
-		int count = 0;
-		for (Player p: players) count += p.getNumKansMade();
-		return count;
-	}
-	
-	
-	
-	public int getNumTilesLeftInWall(){return wall.numTilesLeftInWall();}
-	public GTL getDoraIndicators(){return wall.getDoraIndicators();}
-	public GTL getDoraIndicatorsWithUra(){return wall.getDoraIndicatorsWithUra();}
-	
-	
-	public Wind getRoundWind(){return round.getRoundWind();}
-	public int getRoundNum(){return round.getRoundNum();}
-	public int getRoundBonusNum(){return round.getRoundBonusNum();}
 }
 

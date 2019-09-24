@@ -74,6 +74,20 @@ public final class KyokuState{
 	public String wallToString(){return wall().toString();}
 	public String deadWallToString(){return wall().toStringDeadWall();}
 	
+	public int getNumTilesLeftInWall(){return wall().numTilesLeftInWall();}
+	public GTL getDoraIndicators(){return wall().getDoraIndicators();}
+	public GTL getDoraIndicatorsWithUra(){return wall().getDoraIndicatorsWithUra();}
+	
+	public int getNumKansMade(){
+		int count = 0;
+		for (Player p: kyoku.getPlayers()) count += p.getNumKansMade();
+		return count;
+	}
+	
+	//returns true if a round-ending number of kans have been made
+	//returns true if 5 kans have been made, or if 4 kans have been made by multiple players
+//	public boolean tooManyKans(){}
+	
 	
 	public Kyoku getKyoku(){return kyoku;}
 	public GameEventType getEvent(){return kyoku.getMostRecentEvent();}
@@ -89,10 +103,7 @@ public final class KyokuState{
 	
 	/////////////////////////////////////////////////////////////////////////////
 	public RoundTracker getRoundTracker(){
-		return roundTracker;
-	}
-	public RoundResultSummary getResultSummary(){
-		return roundTracker.getResultSummary();
+		return null;
 	}
 	
 	public Player currentPlayer(){
@@ -102,6 +113,19 @@ public final class KyokuState{
 	
 	public PlayerBrain getControllerForPlayer(int playerNum){return playerTrackers[playerNum].getController();}
 	public Player getPlayer(int playerNum){return playerTrackers[playerNum].getPlayer();}
+	
+	
+	
+	
+	
+	
+	public GameTile getMostRecentDiscard(){return kyoku.lastDiscard();}
+	
+	public boolean roundIsOver(){return kyoku.isOver();}
+	public String getRoundResultString(){return kyoku.getRoundResultString();}	/////////////////////
+	public RoundResultSummary getResultSummary(){return kyoku.getResultSummary();} ///////////////
+	
+	
 	
 	
 	

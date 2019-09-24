@@ -677,6 +677,10 @@ public class Kyoku{
 	
 	
 	
+	public String getRoundResultString(){return "roundResult.toString()";}///////////////////////////
+	public RoundResultSummary getResultSummary(){return null;}//return "roundResult.getSummary()"///////////////////////
+	
+	
 	public String toString(){
 		String str = "";
 		str += wall.toString() + "\n";

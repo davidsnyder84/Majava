@@ -414,8 +414,8 @@ public class TableViewBase extends JFrame{
 		updateDiscardMarker();
 		
 		//show end of round result if round is over
-		if (roundTracker.roundIsOver()){
-			lblResult.setText(roundTracker.getRoundResultString());
+		if (gameState.roundIsOver()){
+			lblResult.setText(gameState.getRoundResultString());
 			panRoundResultLabel.setVisible(true);
 			
 			for (int i = 0; i < whichHandsToReveal.length; i++) whichHandsToReveal[i] = true;
@@ -442,11 +442,11 @@ public class TableViewBase extends JFrame{
 		for (int tileIndex = 0; tileIndex < SIZE_DEAD_WALL; tileIndex++){
 			larryDW[tileIndex].setIcon(getImageIconWall(wallTiles, tileIndex + OFFSET_DEAD_WALL, SEAT1, cheatRevealAllWall));
 		}
-		for (int tileIndex = POS_DORA_1; tileIndex >= 2*(4 - roundTracker.getNumKansMade()); tileIndex -= 2){
+		for (int tileIndex = POS_DORA_1; tileIndex >= 2*(4 - gameState.getNumKansMade()); tileIndex -= 2){
 			if (tileIndex >= 0)/////////////////////For 5 kans to avoid -2 array index
 				larryDW[tileIndex].setIcon(getImageIconWall(wallTiles, tileIndex + OFFSET_DEAD_WALL, SEAT1));
 		}
-		lblWallTilesLeft.setText(Integer.toString(roundTracker.getNumTilesLeftInWall()));		
+		lblWallTilesLeft.setText(Integer.toString(gameState.getNumTilesLeftInWall()));		
 		int walltileIndex = 0;
 		while (wallTiles[SIZE_NORMAL_WALL-1-walltileIndex] != null){
 			if (cheatRevealAllWall) larryTinyW[walltileIndex].setIcon(garryTilesTiny[getImageIdForTile(wallTiles[SIZE_NORMAL_WALL-1-walltileIndex])]);
@@ -486,9 +486,9 @@ public class TableViewBase extends JFrame{
 		
 		
 		//update round info
-		larryInfoRound[LARRY_INFOROUND_ROUNDWIND].setIcon(getImageIconWind(roundTracker.getRoundWind(), BIG));
-		larryInfoRound[LARRY_INFOROUND_ROUNDNUM].setText(Integer.toString(roundTracker.getRoundNum()));
-		larryInfoRound[LARRY_INFOROUND_BONUSNUM].setText(Integer.toString(roundTracker.getRoundBonusNum()));
+		larryInfoRound[LARRY_INFOROUND_ROUNDWIND].setIcon(getImageIconWind(gameState.getRoundWind(), BIG));
+		larryInfoRound[LARRY_INFOROUND_ROUNDNUM].setText(Integer.toString(gameState.getRoundNum()));
+		larryInfoRound[LARRY_INFOROUND_BONUSNUM].setText(Integer.toString(gameState.getRoundBonusNum()));
 		
 		//update turn indicators
 		for (int playerIndex = SEAT1; playerIndex <= SEAT4; playerIndex++){

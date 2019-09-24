@@ -117,7 +117,7 @@ public class TableViewLarge extends TableViewBase{
 				larryWalls[currentPlayer][currentTile].setIcon(getImageIconWall(wallTiles, currentTile + currentPlayer*SIZE_WALL, currentPlayer, cheatRevealAllWall));
 		}
 		//deal wall portion of wall
-		for (currentTile = POS_DORA_1; currentTile >= 2*(4 - roundTracker.getNumKansMade()); currentTile -= 2){
+		for (currentTile = POS_DORA_1; currentTile >= 2*(4 - gameState.getNumKansMade()); currentTile -= 2){
 			larryWallAll[OFFSET_DEAD_WALL + currentTile].setIcon(getImageIconWall(wallTiles, currentTile + OFFSET_DEAD_WALL, SEAT4));
 		}
 		

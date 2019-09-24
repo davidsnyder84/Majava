@@ -31,7 +31,7 @@ public class Janpai implements TileInterface{
 		DW, DG, DR,
 		REDM5, REDP5, REDS5
 	};
-	private static final Janpai DUMMY_TILE = O0; 
+	public static final Janpai DUMMY_TILE = O0; 
 	
 	
 	

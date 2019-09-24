@@ -27,7 +27,7 @@ import majava.util.GTL;
 //represents a player in the game
 public class Player implements Comparable<Player>{
 	public static final Player NOBODY = new Player();
-	private static final boolean NEED_RINSHAN = true, DONT_NEED_RINSHAN = false;
+	private static final boolean PLEASE_I_NEED_RINSHAN_DRAW = true, RINSHAN_DRAW_NOT_NEEDED = false;
 	
 	private PlayerBrain brain;
 	private final PlayerProfile profile;
@@ -43,15 +43,15 @@ public class Player implements Comparable<Player>{
 	
 	
 	//these can all disappear (reset) during builder calls
-	private final DecisionCall decisionCall = null;
-	private final DecisionTurnAction decisionTurnAction = null;
+	private final DecisionCall decisionCall;
+	private final DecisionTurnAction decisionTurnAction;
 	private final boolean needsRinshanDraw;
 	
 	private final boolean isHoldingRinshanTile;
 	private final boolean isRiichi;
 	
 	
-	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w, boolean rinshanNeeded){
+	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w, boolean rinshanNeeded, DecisionCall decC, DecisionTurnAction decTA){
 		if (brn == null) brain = new NullPlayerBrain(this);
 		else brain = brn;
 		
@@ -62,56 +62,88 @@ public class Player implements Comparable<Player>{
 		hand = h;	//seatwind?
 		pond = p;
 		seatWind = w;
-		needsRinshanDraw = rinshanNeeded;
 		
+		needsRinshanDraw = rinshanNeeded;
+		decisionCall = decC;
+		decisionTurnAction = decTA;
+		
+		//not implemented yet
 		isHoldingRinshanTile = false; isRiichi = false;
 	}
-	private Player(PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w, boolean rinshanNeeded){
-		this(null, prof, pts, pnum, h, p, w, rinshanNeeded);
+	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w){
+		this(null, prof, pts, pnum, h, p, w,
+				RINSHAN_DRAW_NOT_NEEDED,
+				DecisionCall.DUMMY,
+				DecisionTurnAction.DUMMY
+		);
 	}
 	
+	private Player(PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w){
+		this(null, prof, pts, pnum, h, p, w);
+	}
 	public Player(PlayerProfile prof, PointsBox pts, int pnum){
-		this(prof, pts, pnum, new Hand(), new Pond(), Wind.UNKNOWN, DONT_NEED_RINSHAN);
+		this(prof, pts, pnum, new Hand(), new Pond(), Wind.UNKNOWN);
 	}
 	public Player(PlayerProfile newProfile){
 		this(newProfile, new PointsBox(), 0);
-		prepareForNewRound();	/////////////////////refactor later
 	}
 	public Player(String name){this(new PlayerProfile(name));}
 	public Player(){this( ((String)null) );}
 	
-	//initializes a player's resources for a new round
-	public Player prepareForNewRound(){
-		//just in case, don't know if it's needed
-		brain.clearCallStatus();
-		brain.clearTurnActionStatus();
-		
-		return this;
-	}
+	
 	
 //	private Player withBrain(){return null;}
 	
-	private Player withPoints(PointsBox pts){return new Player(brain, profile, pts, playerNum, hand, pond, seatWind, DONT_NEED_RINSHAN);}
+	private Player withPoints(PointsBox pts){return new Player(brain, profile, pts, playerNum, hand, pond, seatWind);}
 	
-	private Player withHand(Hand h){return new Player(brain, profile, pointsBox, playerNum, h, pond, seatWind, DONT_NEED_RINSHAN);}
-	private Player withPond(Pond p){return new Player(brain, profile, pointsBox, playerNum, hand, p, seatWind, DONT_NEED_RINSHAN);}
-	private Player withSeatWind(Wind w){return new Player(brain, profile, pointsBox, playerNum, hand, pond, w, DONT_NEED_RINSHAN);}
+	private Player withHand(Hand h){return new Player(brain, profile, pointsBox, playerNum, h, pond, seatWind);}
+	private Player withPond(Pond p){return new Player(brain, profile, pointsBox, playerNum, hand, p, seatWind);}
+	private Player withSeatWind(Wind w){return new Player(brain, profile, pointsBox, playerNum, hand, pond, w);}
 	
-	private Player withDrawNeededRinshan(){return new Player(brain, profile, pointsBox, playerNum, hand, pond, seatWind, NEED_RINSHAN);}
+	private Player withDrawNeededRinshan(){return new Player(brain, profile, pointsBox, playerNum, hand, pond, seatWind, PLEASE_I_NEED_RINSHAN_DRAW, DecisionCall.DUMMY, DecisionTurnAction.DUMMY);}
+	private Player withDecisionTurnAction(DecisionTurnAction decTA){return new Player(brain, profile, pointsBox, playerNum, hand, pond, seatWind, RINSHAN_DRAW_NOT_NEEDED, DecisionCall.DUMMY, decTA);}
+	private Player withDecisionCall(DecisionCall decC){return new Player(brain, profile, pointsBox, playerNum, hand, pond, seatWind, RINSHAN_DRAW_NOT_NEEDED, decC, DecisionTurnAction.DUMMY);}
 	
 	
 	
 	public Player decideTurnAction(){
 		
-		brain.chooseTurnAction(hand);
-		
-		return null;
+		DecisionTurnAction decision = brain.chooseTurnAction(hand);
+		return this.withDecisionTurnAction(decision);
 	}
 	public Player doTurnAction(){
 		
+		if (turnActionChoseDiscard()){
+			int discardIndex = chosenDicardIndex();
+			return discardChosenTile(discardIndex);
+		}
 		
-		return null;
+		
+		if (turnActionMadeKan()){
+			Hand handWithKan = hand;
+			
+			if (turnActionMadeAnkan())
+				handWithKan = hand.makeMeldTurnAnkan();
+			else if (turnActionMadeMinkan())
+				handWithKan = hand.makeMeldTurnMinkan();
+			
+			return this.withHand(handWithKan).withDrawNeededRinshan();
+		}
+		
+		if (turnActionCalledTsumo()){
+//			return null;
+			////
+		}
+		
+		if (turnActionRiichi()){
+//			return null;
+			////
+		}
+		
+		
+		System.out.println("HOWDIDYOUGETHEREdoTurnAction: " + decisionTurnAction); return null; //not sure if anything can ever reach here
 	}
+	
 	//lets a player take their turn
 	//returns the tile discarded by the player, returns null if the player did not discard (they made a kan or tsumo)
 	public Player takeTurn(){
@@ -171,11 +203,12 @@ public class Player implements Comparable<Player>{
 	
 	
 	public boolean turnActionMadeKan(){return (turnActionMadeAnkan() || turnActionMadeMinkan());}
-	public boolean turnActionMadeAnkan(){return brain.turnActionMadeAnkan();}
-	public boolean turnActionMadeMinkan(){return brain.turnActionMadeMinkan();}
-	public boolean turnActionCalledTsumo(){return brain.turnActionCalledTsumo();}
-	public boolean turnActionChoseDiscard(){return brain.turnActionChoseDiscard();}
-	public boolean turnActionRiichi(){return brain.turnActionRiichi();}
+	public boolean turnActionMadeAnkan(){return decisionTurnAction.choseAnkan();}
+	public boolean turnActionMadeMinkan(){return decisionTurnAction.choseMinkan();}
+	public boolean turnActionCalledTsumo(){return decisionTurnAction.choseTsumo();}
+	public boolean turnActionChoseDiscard(){return decisionTurnAction.choseDiscard();}
+	public boolean turnActionRiichi(){return decisionTurnAction.choseRiichi();}
+	public int chosenDicardIndex(){return decisionTurnAction.getChosenDiscardIndex();}
 	
 	public boolean hasChosenTurnAction(){
 		return turnActionMadeKan() || 
@@ -220,24 +253,19 @@ public class Player implements Comparable<Player>{
 	
 	//ask brain for reaction
 	public Player reactToDiscard(GameTile candidate){
-/////////////////////////////////////////////////////////////////////////////////mutate
-		brain.clearCallStatus();
-		brain.reactToDiscard(hand, candidate);
-//		return brain.called();
-		return this;
+		DecisionCall chosenCall = brain.reactToDiscard(hand, candidate);
+		
+		return this.withDecisionCall(chosenCall);
 	}
 	
 	//checks if the player is able to make a call on Tile t (actual checks performed)
 	public boolean ableToCallTile(GameTile candidate){
-		brain.clearCallStatus();
 		
-		//check if t can be called to make a meld
-		boolean ableToCall = hand.canCallTile(candidate);
+		//if riichi, only allow ron
+		if (isInRiichi())
+			return ableToCallRon(candidate);
 		
-		//only allow ron if riichi
-		if (isInRiichi() && !hand.ableToRon(candidate)) ableToCall = false;
-		
-		return ableToCall;
+		return hand.canCallTile(candidate);
 	}
 	
 	public boolean ableToCallChiL(GameTile candidate){return !isInRiichi() && hand.ableToChiL(candidate);}
@@ -266,15 +294,10 @@ public class Player implements Comparable<Player>{
 		else if (calledKan()) handWithNewMeld = hand.makeMeldKan(claimedTile);
 		
 		
-		//clear call status because the call has been completed
-		brain.clearCallStatus();	//this is needed to make sure a player can't call their own discard
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		
 		if (calledKan())
 			return this.withHand(handWithNewMeld).withDrawNeededRinshan();
-		else
-			return this.withHand(handWithNewMeld);
+		
+		return this.withHand(handWithNewMeld);
 	}
 	
 	
@@ -290,18 +313,18 @@ public class Player implements Comparable<Player>{
 	
 	
 	//returns call status as an exclamation
-	public Exclamation getCallStatusExclamation(){return brain.getCallStatusExclamation();}
+	public Exclamation getCallStatusExclamation(){return decisionCall.getCallStatusExclamation();}
 	
 	//returns true if the player called a tile
-	public boolean called(){return brain.called();}
+	public boolean called(){return decisionCall.called();}
 	//individual call statuses
 	public boolean calledChi(){return (calledChiL() || calledChiM() || calledChiH());}
-	public boolean calledChiL(){return brain.calledChiL();}
-	public boolean calledChiM(){return brain.calledChiM();}
-	public boolean calledChiH(){return brain.calledChiH();}
-	public boolean calledPon(){return brain.calledPon();}
-	public boolean calledKan(){return brain.calledKan();}
-	public boolean calledRon(){return brain.calledRon();}
+	public boolean calledChiL(){return decisionCall.calledChiL();}
+	public boolean calledChiM(){return decisionCall.calledChiM();}
+	public boolean calledChiH(){return decisionCall.calledChiH();}
+	public boolean calledPon(){return decisionCall.calledPon();}
+	public boolean calledKan(){return decisionCall.calledKan();}
+	public boolean calledRon(){return decisionCall.calledRon();}
 	
 	
 	//check if the players needs to draw a tile, and what type of draw (normal vs rinshan)

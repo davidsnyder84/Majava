@@ -5,8 +5,10 @@ import majava.enums.Wind;
 
 //represents a single game tile (”v), has information for who originally owned the tile
 public class GameTile implements Cloneable, TileInterface {
-	private static final int DEFAULT_WALL_ID = 9999;
+	public static final GameTile DUMMY_TILE = new GameTile(Janpai.DUMMY_TILE);
 	private static final Wind DEFAULT_OWNER_WIND = Wind.UNKNOWN;
+	private static final int DEFAULT_WALL_ID = 9999;
+	
 	
 	private final Janpai baseTile;
 	

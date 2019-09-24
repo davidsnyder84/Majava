@@ -7,6 +7,8 @@ import majava.enums.CallType;
 import majava.enums.Exclamation;
 import majava.enums.TurnActionType;
 import majava.hand.Hand;
+import majava.player.DecisionCall;
+import majava.player.DecisionTurnAction;
 import majava.player.Player;
 import majava.tiles.GameTile;
 
@@ -14,55 +16,38 @@ import majava.tiles.GameTile;
 //makes decisions for a player
 public abstract class PlayerBrain {
 	
-	private static final int NO_DISCARD_CHOSEN = -94564;
-	
-	
 	protected final Player player;
-	
-	private CallType callStatus;
-	private TurnActionType turnAction;
-	private int chosenDiscardIndex;
 	
 	
 	
 	public PlayerBrain(Player p){
-		player = p;	//if (player == null) System.out.println("null in PlayerBrain constructor, shouldn't be here");
-		
-		callStatus = CallType.NONE;
+		player = p;
 	}
-
-//	private Hand hand;
-//	public void setHand(Hand newHand){hand = newHand;}
 	
 	
 	
 	
 	//template method pattern, final
-	public final void chooseTurnAction(Hand hand){
-		TurnActionType chosenAction = TurnActionType.DISCARD;
-		int discardIndex = NO_DISCARD_CHOSEN;
+	public final DecisionTurnAction chooseTurnAction(Hand hand){
 		
 		//force auto discard if in riichi and unable to tsumo/kan
-		if (player.isInRiichi() && (!player.ableToTsumo() && !player.ableToAnkan())){
-			turnAction = TurnActionType.DISCARD;
-			discardIndex = tsumoTileIndex(hand);
-			return;
-		}
+		if (player.isInRiichi() && (!player.ableToTsumo() && !player.ableToAnkan()))
+			return DecisionTurnAction.Discard(tsumoTileIndex(hand));
 		
-		//get list of possible turn actions
-		List<TurnActionType> listOfPossibleTurnActions = listOfPossibleTurnActions();
 		
-		//ask to pick a turn action (abstract)
-		chosenAction = selectTurnAction(hand, listOfPossibleTurnActions);
+		//choose your action
+		TurnActionType chosenAction = selectTurnAction(hand, listOfPossibleTurnActions());
 		
-		//if discard was chosen, ask to pick a discard (abstract)
-		if (chosenAction == TurnActionType.DISCARD){
-			discardIndex = selectDiscardIndex(hand);
-			chosenDiscardIndex = discardIndex;
-		}
 		
-		turnAction = chosenAction;
+		//actions other than discard
+		if (chosenAction.isNotDiscard())
+			return new DecisionTurnAction(chosenAction);
+		
+		//discard
+		int discardIndex = selectDiscardIndex(hand);
+		return DecisionTurnAction.Discard(discardIndex);
 	}
+	
 	//get list of possible options
 	private final List<TurnActionType> listOfPossibleTurnActions() {
 		List<TurnActionType> listOfPossibleTurnActions = new ArrayList<TurnActionType>();
@@ -80,34 +65,23 @@ public abstract class PlayerBrain {
 	protected abstract int selectDiscardIndex(Hand hand);
 	
 	
-	public boolean turnActionMadeKan(){return (turnActionMadeAnkan() || turnActionMadeMinkan());}
-	public boolean turnActionMadeAnkan(){return (turnAction == TurnActionType.ANKAN);}
-	public boolean turnActionMadeMinkan(){return (turnAction == TurnActionType.MINKAN);}
-	public boolean turnActionCalledTsumo(){return (turnAction == TurnActionType.TSUMO);}
-	public boolean turnActionChoseDiscard(){return (turnAction == TurnActionType.DISCARD);}
-	public boolean turnActionRiichi(){return (turnAction == TurnActionType.RIICHI);}
-	
-	public int getChosenDiscardIndex(){return chosenDiscardIndex;}
-	
-	
 	
 	
 	
 	
 	
 	//template method pattern, final
-	public final void reactToDiscard(Hand hand, GameTile tileToReactTo) {
+	public final DecisionCall reactToDiscard(Hand hand, GameTile tileToReactTo) {
 		
 		List<CallType> listOfPossibleReactions = getListOfPossibleReactions(tileToReactTo);
 		
-		//return early if no call is possible
-		if (listOfPossibleReactions.isEmpty()){
-			callStatus = CallType.NONE;
-			return;
-		}
-
-		callStatus = chooseReaction(hand, tileToReactTo, listOfPossibleReactions);
-//		return callStatus != CallType.NONE;
+		if (listOfPossibleReactions.isEmpty())
+			return DecisionCall.None(tileToReactTo);
+		
+		
+		CallType chosenCallType = chooseReaction(hand, tileToReactTo, listOfPossibleReactions);
+		DecisionCall decision = new DecisionCall(chosenCallType, tileToReactTo);
+		return decision;
 	}
 
 	//get list of possible options
@@ -138,38 +112,12 @@ public abstract class PlayerBrain {
 	
 	
 	
-	//returns call status as an exclamation
-	public final Exclamation getCallStatusExclamation(){return callStatus.toExclamation();}
-	
-	//returns true if the player called a tile
-	public final boolean called(){return (callStatus != CallType.NONE);}
-	//individual call statuses
-	public final boolean calledChi(){return (calledChiL() || calledChiM() || calledChiH());}
-	public final boolean calledChiL(){return (callStatus == CallType.CHI_L);}
-	public final boolean calledChiM(){return (callStatus == CallType.CHI_M);}
-	public final boolean calledChiH(){return (callStatus == CallType.CHI_H);}
-	public final boolean calledPon(){return (callStatus == CallType.PON);}
-	public final boolean calledKan(){return (callStatus == CallType.KAN);}
-	public final boolean calledRon(){return (callStatus == CallType.RON);}
-	
-	
-	public void clearCallStatus(){callStatus = CallType.NONE;}
-	public void clearTurnActionStatus(){
-		turnAction = TurnActionType.UNDECIDED;
-		chosenDiscardIndex = NO_DISCARD_CHOSEN;
-	}
-	
-	
-	
-	
 	
 	public abstract boolean isHuman();
 	public final boolean isComputer(){return !isHuman();}
 	
 	protected static final int tsumoTileIndex(Hand hand){return hand.size() - 1;}
 	protected static final int firstTileIndex(Hand hand){return 0;}
-	
-	
 	
 	
 	@Override

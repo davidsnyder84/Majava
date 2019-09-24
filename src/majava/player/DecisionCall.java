@@ -5,16 +5,17 @@ import majava.enums.Exclamation;
 import majava.tiles.GameTile;
 
 public class DecisionCall {
+	public static final DecisionCall DUMMY = new DecisionCall(GameTile.DUMMY_TILE);
 	
 	private final CallType callStatus;
 	private final GameTile candidate;
 	
 	
-	private DecisionCall(CallType ct, GameTile cand){
+	public DecisionCall(CallType ct, GameTile cand){
 		callStatus = ct;
 		candidate = cand;
 	}
-	private DecisionCall(GameTile cand){this(CallType.NONE, cand);}
+	public DecisionCall(GameTile cand){this(CallType.NONE, cand);}
 	
 	
 	
@@ -38,8 +39,15 @@ public class DecisionCall {
 	
 	
 	
+	
+	
+	public String toString(){return callStatus + " +++++ " + candidate + "\n";}
+	
+	
+	
 	//factories
 	public static DecisionCall None(GameTile cand){return new DecisionCall(cand);}
+	
 	public static DecisionCall ChiL(GameTile cand){return new DecisionCall(CallType.CHI_L, cand);}
 	public static DecisionCall ChiM(GameTile cand){return new DecisionCall(CallType.CHI_M, cand);}
 	public static DecisionCall ChiH(GameTile cand){return new DecisionCall(CallType.CHI_H, cand);}

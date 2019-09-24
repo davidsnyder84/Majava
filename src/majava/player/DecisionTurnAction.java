@@ -4,17 +4,18 @@ import majava.enums.TurnActionType;
 
 public class DecisionTurnAction {
 	private static final int NO_DISCARD_CHOSEN = -33333;
+	public static final DecisionTurnAction DUMMY = new DecisionTurnAction(TurnActionType.UNDECIDED);
 	
 	
 	private final TurnActionType turnAction;
 	private final int discardIndex;
 	
 	
-	private DecisionTurnAction(TurnActionType taction, int discardindx){
+	public DecisionTurnAction(TurnActionType taction, int discardindx){
 		turnAction = taction;
 		discardIndex = discardindx;
 	}
-	private DecisionTurnAction(TurnActionType taction){this(taction, NO_DISCARD_CHOSEN);}
+	public DecisionTurnAction(TurnActionType taction){this(taction, NO_DISCARD_CHOSEN);}
 	
 	
 		
@@ -37,12 +38,17 @@ public class DecisionTurnAction {
 	
 	
 	
+	
+	
+	public String toString(){return turnAction + " _____ " + discardIndex + "\n";}
+	
+	
 	//factories
-	public static DecisionTurnAction Discard(int discard){return new DecisionTurnAction(TurnActionType.UNDECIDED, discard);}
+	public static DecisionTurnAction Discard(int discard){return new DecisionTurnAction(TurnActionType.DISCARD, discard);}
 	
-	public static DecisionTurnAction Ankan(){return new DecisionTurnAction(TurnActionType.UNDECIDED);}
-	public static DecisionTurnAction Minkan(){return new DecisionTurnAction(TurnActionType.UNDECIDED);}	//should kans have an index?
+	public static DecisionTurnAction Ankan(){return new DecisionTurnAction(TurnActionType.ANKAN);}
+	public static DecisionTurnAction Minkan(){return new DecisionTurnAction(TurnActionType.MINKAN);}	//should kans have an index?
 	
-	public static DecisionTurnAction Tsumo(){return new DecisionTurnAction(TurnActionType.UNDECIDED);}
-	public static DecisionTurnAction Riichi(){return new DecisionTurnAction(TurnActionType.UNDECIDED);}
+	public static DecisionTurnAction Tsumo(){return new DecisionTurnAction(TurnActionType.TSUMO);}
+	public static DecisionTurnAction Riichi(){return new DecisionTurnAction(TurnActionType.RIICHI);}
 }

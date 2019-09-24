@@ -27,7 +27,7 @@ public class DetailedTextualUI extends TextualUI{
 	
 	
 
-	protected void displayEventDiscardedTile(GameplayEvent event){
+	protected void displayEventDiscardedTile(){
 		
 		//show the human player their hand
 		__showHandsOfAllPlayers();
@@ -42,25 +42,25 @@ public class DetailedTextualUI extends TextualUI{
 	
 	
 	
-	protected void displayEventMadeOpenMeld(GameplayEvent event){}
-	protected void displayEventDrewTile(GameplayEvent event){}
-	protected void displayEventMadeOwnKan(GameplayEvent event){}
-	protected void displayEventHumanReactionStart(GameplayEvent event) {}
+	protected void displayEventMadeOpenMeld(){}
+	protected void displayEventDrewTile(){}
+	protected void displayEventMadeOwnKan(){}
+	protected void displayEventHumanReactionStart() {}
 	
 	
-	protected void displayEventNewDoraIndicator(GameplayEvent event){
+	protected void displayEventNewDoraIndicator(){
 		__showDeadWall();
 	}
 
-	protected void displayEventHumanTurnStart(GameplayEvent event){
+	protected void displayEventHumanTurnStart(){
 		__showPlayerHand(gameState.whoseTurn());
 	}
 	
-	protected void displayEventStartOfRound(GameplayEvent event){
+	protected void displayEventStartOfRound(){
 		__showWall();__showDoraIndicators();
 	}
 	
-	protected void displayEventEndOfRound(GameplayEvent event){
+	protected void displayEventEndOfRound(){
 		__showRoundResult();
 		__showHandsOfAllPlayers();
 		println("\n\n");
@@ -68,7 +68,7 @@ public class DetailedTextualUI extends TextualUI{
 		if (sleepTimeRoundEnd > 0) Pauser.pauseFor(sleepTimeRoundEnd);
 	}
 	
-	protected void displayEventPlayerTurnStart(GameplayEvent event){/*blank*/}
+	protected void displayEventPlayerTurnStart(){/*blank*/}
 	
 	
 	

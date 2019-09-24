@@ -23,19 +23,19 @@ public class MajavaGUI extends GameUI{
 	}
 	
 	
-	protected void displayEventDiscardedTile(GameplayEvent event){tableWindow.updateEverything();}
-	protected void displayEventMadeOpenMeld(GameplayEvent event){tableWindow.updateEverything();}
-	protected void displayEventDrewTile(GameplayEvent event){tableWindow.updateEverything();}
-	protected void displayEventMadeOwnKan(GameplayEvent event){tableWindow.updateEverything();}
-	protected void displayEventNewDoraIndicator(GameplayEvent event){/*intentionally blank, don't need to show new indicator because it is shown automatically*/}
-	protected void displayEventPlayerTurnStart(GameplayEvent event){tableWindow.updateEverything();}
+	protected void displayEventDiscardedTile(){tableWindow.updateEverything();}
+	protected void displayEventMadeOpenMeld(){tableWindow.updateEverything();}
+	protected void displayEventDrewTile(){tableWindow.updateEverything();}
+	protected void displayEventMadeOwnKan(){tableWindow.updateEverything();}
+	protected void displayEventNewDoraIndicator(){/*intentionally blank, don't need to show new indicator because it is shown automatically*/}
+	protected void displayEventPlayerTurnStart(){tableWindow.updateEverything();}
 	
-	protected void displayEventStartOfRound(GameplayEvent event){
+	protected void displayEventStartOfRound(){
 		tableWindow.giveGameState(gameState);
 		tableWindow.updateEverything();
 	}
 	
-	protected void displayEventEndOfRound(GameplayEvent event){
+	protected void displayEventEndOfRound(){
 		tableWindow.showResult(gameState.getResultSummary());
 		tableWindow.updateEverything();
 		
@@ -91,10 +91,11 @@ public class MajavaGUI extends GameUI{
 	
 	
 	
-	protected void displayEventHumanTurnStart(GameplayEvent event){
+	protected void displayEventHumanTurnStart(){
 		tableWindow.updateEverything();
 		
-		Player p = event.getRelatedPlayer();
+//		Player p = event.getRelatedPlayer();
+		Player p = gameState.currentPlayer();
 		
 		tableWindow.movePromptPanelToSeat(p.getPlayerNumber());
 		askUserInputTurnAction(
@@ -107,9 +108,13 @@ public class MajavaGUI extends GameUI{
 	}
 
 	@Override
-	protected void displayEventHumanReactionStart(GameplayEvent event) {
-		Player p = event.getRelatedPlayer();
-		GameTile tile = event.getRelatedTile();
+	protected void displayEventHumanReactionStart() {
+//		Player p = event.getRelatedPlayer();
+//		GameTile tile = event.getRelatedTile();
+		
+//		Player p = event.getRelatedPlayer();
+		Player p = gameState.getPlayer(0); ///////need a way to figure out which human player to get reaction for
+		GameTile tile = gameState.getMostRecentDiscard();
 		
 		tableWindow.movePromptPanelToSeat(p.getPlayerNumber());
 		askUserInputCall(

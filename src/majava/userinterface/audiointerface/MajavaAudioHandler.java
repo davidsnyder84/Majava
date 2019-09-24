@@ -48,31 +48,31 @@ public class MajavaAudioHandler extends GameUI{
 
 	
 	@Override
-	protected void displayEventDiscardedTile(GameplayEvent event){
+	protected void displayEventDiscardedTile(){
 		playSound(soundDiscard);
 	}
 	
 	@Override
-	protected void displayEventMadeOpenMeld(GameplayEvent event){
+	protected void displayEventMadeOpenMeld(){
 		playSound(soundForMostRecentMeld());
 	}
 	@Override
-	protected void displayEventMadeOwnKan(GameplayEvent event){
+	protected void displayEventMadeOwnKan(){
 		playSound(soundExclamationKan);
 	}
 	
 	@Override
-	protected void displayEventHumanReactionStart(GameplayEvent event){
+	protected void displayEventHumanReactionStart(){
 		playSound(soundHumanReactionChance);
 	}
 	
 	@Override
-	protected void displayEventStartOfRound(GameplayEvent event){
+	protected void displayEventStartOfRound(){
 		playSound(soundRoundStart);
 	}
 	
 	@Override
-	protected void displayEventEndOfRound(GameplayEvent event){
+	protected void displayEventEndOfRound(){
 		SoundClipPlayer soundRoundEnd = null;
 		
 		if (gameState.getResultSummary().isVictory()) soundRoundEnd = soundRoundEndVictory;
@@ -112,15 +112,15 @@ public class MajavaAudioHandler extends GameUI{
 	public void endUI(){}
 	
 	@Override
-	protected void displayEventPlayerTurnStart(GameplayEvent event){}
+	protected void displayEventPlayerTurnStart(){}
 	
 	@Override
-	protected void displayEventDrewTile(GameplayEvent event){}
+	protected void displayEventDrewTile(){}
 	
 	@Override
-	protected void displayEventNewDoraIndicator(GameplayEvent event){}
+	protected void displayEventNewDoraIndicator(){}
 	
 	@Override
-	protected void displayEventHumanTurnStart(GameplayEvent event){}
+	protected void displayEventHumanTurnStart(){}
 	
 }

@@ -26,7 +26,7 @@ public class SparseTextualUI extends TextualUI{
 	
 	
 	
-	protected void displayEventDiscardedTile(GameplayEvent event){
+	protected void displayEventDiscardedTile(){
 		
 		//show the discarded tile
 		println("\t" + gameState.seatWindOfPlayer(gameState.whoseTurn()).toChar() + " discard: " + gameState.getMostRecentDiscard());
@@ -37,30 +37,30 @@ public class SparseTextualUI extends TextualUI{
 	
 	
 	
-	protected void displayEventMadeOpenMeld(GameplayEvent event){}
-	protected void displayEventDrewTile(GameplayEvent event){
+	protected void displayEventMadeOpenMeld(){}
+	protected void displayEventDrewTile(){
 		print("\t" + gameState.seatWindOfPlayer(gameState.whoseTurn()).toChar() + " draw: " + gameState.getTsumoTileFor(gameState.whoseTurn()));
 	}
-	protected void displayEventMadeOwnKan(GameplayEvent event){}
-	protected void displayEventHumanReactionStart(GameplayEvent event) {}
+	protected void displayEventMadeOwnKan(){}
+	protected void displayEventHumanReactionStart() {}
 	
 	
 	
-	protected void displayEventNewDoraIndicator(GameplayEvent event){
+	protected void displayEventNewDoraIndicator(){
 		__showDeadWall();
 	}
 	
-	protected void displayEventHumanTurnStart(GameplayEvent event){
+	protected void displayEventHumanTurnStart(){
 		println();__showPlayerHand(gameState.whoseTurn());
 	}
 	
-	protected void displayEventStartOfRound(GameplayEvent event){
+	protected void displayEventStartOfRound(){
 		showAllPlayerNames();
 		__showWall();
 		__showDoraIndicators();
 	}
 	
-	protected void displayEventEndOfRound(GameplayEvent event){
+	protected void displayEventEndOfRound(){
 		__showRoundResult();
 		__showHandsOfAllPlayers();
 		println("\n\n");
@@ -68,7 +68,7 @@ public class SparseTextualUI extends TextualUI{
 		if (sleepTimeRoundEnd > 0) Pauser.pauseFor(sleepTimeRoundEnd);
 	}
 
-	protected void displayEventPlayerTurnStart(GameplayEvent event){/*blank*/}
+	protected void displayEventPlayerTurnStart(){/*blank*/}
 	
 	
 	

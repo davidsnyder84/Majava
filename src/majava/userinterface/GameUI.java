@@ -9,8 +9,9 @@ import majava.round.KyokuState;
 
 public abstract class GameUI implements JanObserver{
 	protected static final int NUM_PLAYERS = 4;
-	
 	protected static final int DEAFULT_SLEEPTIME = 400, DEAFULT_SLEEPTIME_EXCLAMATION = 1500, DEAFULT_SLEEPTIME_ROUND_END = 2000;
+	
+	
 	protected int sleepTime = DEAFULT_SLEEPTIME, sleepTimeExclamation = DEAFULT_SLEEPTIME_EXCLAMATION, sleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
 	
 	
@@ -34,46 +35,57 @@ public abstract class GameUI implements JanObserver{
 	
 	public void displayEvent(final GameplayEvent event){
 		switch(event.getEventType()){
-		case DISCARDED_TILE: displayEventDiscardedTile(event); break;
-		case MADE_OPEN_MELD: displayEventMadeOpenMeld(event); break;
-		case DREW_TILE: displayEventDrewTile(event); break;
-		case MADE_OWN_KAN: displayEventMadeOwnKan(event); break;
-		case NEW_DORA_INDICATOR: displayEventNewDoraIndicator(event); break;
+		case DISCARDED_TILE: displayEventDiscardedTile(); break;
+		case MADE_OPEN_MELD: displayEventMadeOpenMeld(); break;
+		case DREW_TILE: displayEventDrewTile(); break;
+		case MADE_OWN_KAN: displayEventMadeOwnKan(); break;
+		case NEW_DORA_INDICATOR: displayEventNewDoraIndicator(); break;
 		
-		case HUMAN_PLAYER_TURN_START: displayEventHumanTurnStart(event); break;
-		case HUMAN_PLAYER_REACTION_START: displayEventHumanReactionStart(event); break;
+		case HUMAN_PLAYER_TURN_START: displayEventHumanTurnStart(); break;
+		case HUMAN_PLAYER_REACTION_START: displayEventHumanReactionStart(); break;
 		
-		case START_OF_ROUND: displayEventStartOfRound(event); break;
-		case PLAYER_TURN_START: displayEventPlayerTurnStart(event); break;
-		case END_OF_ROUND: displayEventEndOfRound(event); break;
+		case START_OF_ROUND: displayEventStartOfRound(); break;
+		case PLAYER_TURN_START: displayEventPlayerTurnStart(); break;
+		case END_OF_ROUND: displayEventEndOfRound(); break;
 		case END: endUI(); break;
 		case START: startUI(); break;
 		default: break;
 		}
 		
+		
+		//////////////////////////////////////////////////////////
 		if (event.isExclamation()) showExclamation(event.getExclamation(), event.getSeat());
 		
+		//////////////////////////////////////////////////////////
 		if (shouldSleepForEvent(event))
 			Pauser.pauseFor(sleepTime);
 	}
 	private boolean shouldSleepForEvent(GameplayEvent event){
 		if (sleepTime < 0) return false;
-		if (event.isExclamation() || event.getEventType() == GameEventType.PLAYER_TURN_START || event.isForHuman() || event.isStartEnd())
+		
+		if (
+				event.isExclamation() || 
+				event.getEventType() == GameEventType.PLAYER_TURN_START || 
+				event.isForHuman() || 
+				event.isStartEnd()
+			){
 			return false;
+		}
+		
 		return true;
 	}
 	
-	protected abstract void displayEventDiscardedTile(GameplayEvent event);
-	protected abstract void displayEventMadeOpenMeld(GameplayEvent event);
-	protected abstract void displayEventDrewTile(GameplayEvent event);
-	protected abstract void displayEventMadeOwnKan(GameplayEvent event);
-	protected abstract void displayEventNewDoraIndicator(GameplayEvent event);
-	protected abstract void displayEventHumanTurnStart(GameplayEvent event);
-	protected abstract void displayEventHumanReactionStart(GameplayEvent event);
-	protected abstract void displayEventPlayerTurnStart(GameplayEvent event);
+	protected abstract void displayEventDiscardedTile();
+	protected abstract void displayEventMadeOpenMeld();
+	protected abstract void displayEventDrewTile();
+	protected abstract void displayEventMadeOwnKan();
+	protected abstract void displayEventNewDoraIndicator();
+	protected abstract void displayEventHumanTurnStart();
+	protected abstract void displayEventHumanReactionStart();
+	protected abstract void displayEventPlayerTurnStart();
 	
-	protected abstract void displayEventStartOfRound(GameplayEvent event);
-	protected abstract void displayEventEndOfRound(GameplayEvent event);
+	protected abstract void displayEventStartOfRound();
+	protected abstract void displayEventEndOfRound();
 	
 	protected abstract void showExclamation(Exclamation exclamation, int seat);
 	

@@ -11,6 +11,7 @@ import majava.enums.Exclamation;
 import majava.enums.TurnActionType;
 import majava.enums.Wind;
 import majava.player.Player;
+import majava.round.KyokuState;
 import majava.summary.StateOfGame;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
@@ -298,7 +299,7 @@ public class TableViewBase extends JFrame{
 	
 	
 	protected RoundTracker roundTracker;
-	protected StateOfGame gameState;
+	protected KyokuState gameState;
 	
 	
 	private int newTurn = -1, oldTurn = -1;
@@ -708,7 +709,7 @@ public class TableViewBase extends JFrame{
 	
 	
 	
-	public void giveGameState(StateOfGame stateOfGame){		
+	public void giveGameState(KyokuState stateOfGame){		
 		gameState = stateOfGame;
 		roundTracker = gameState.getRoundTracker();
 		

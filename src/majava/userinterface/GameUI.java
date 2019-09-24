@@ -6,6 +6,7 @@ import majava.enums.Exclamation;
 import majava.enums.GameEventType;
 import majava.events.GameplayEvent;
 import majava.events.JanObserver;
+import majava.round.KyokuState;
 import majava.summary.StateOfGame;
 
 public abstract class GameUI implements JanObserver{
@@ -16,7 +17,7 @@ public abstract class GameUI implements JanObserver{
 	
 	
 	protected RoundTracker roundTracker = null;
-	protected StateOfGame gameState = null;
+	protected KyokuState gameState = null;
 	
 	
 	
@@ -29,7 +30,7 @@ public abstract class GameUI implements JanObserver{
 	
 	
 	@Override
-	public void update(GameplayEvent gameplayEvent, StateOfGame stateOfGame) {
+	public void update(GameplayEvent gameplayEvent, KyokuState stateOfGame) {
 		gameState = stateOfGame;
 		if (gameState != null) roundTracker = gameState.getRoundTracker();
 		displayEvent(gameplayEvent);

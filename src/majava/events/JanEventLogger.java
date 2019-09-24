@@ -3,6 +3,7 @@ package majava.events;
 import java.util.ArrayList;
 import java.util.List;
 
+import majava.round.KyokuState;
 import majava.summary.StateOfGame;
 
 public class JanEventLogger implements JanObserver{
@@ -13,7 +14,7 @@ public class JanEventLogger implements JanObserver{
 	}
 
 	@Override
-	public void update(GameplayEvent gameplayEvent, StateOfGame gameState) {
+	public void update(GameplayEvent gameplayEvent, KyokuState gameState) {
 		eventLog.add(gameplayEvent.toString());
 	}
 	

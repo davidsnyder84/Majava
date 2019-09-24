@@ -16,7 +16,6 @@ import majava.player.Player;
 import majava.pond.RiverWalker;
 import majava.summary.PaymentMap;
 import majava.summary.RoundResultSummary;
-import majava.summary.StateOfGame;
 import majava.tiles.GameTile;
 import majava.tiles.PondTile;
 import majava.control.testcode.GameSimulation;

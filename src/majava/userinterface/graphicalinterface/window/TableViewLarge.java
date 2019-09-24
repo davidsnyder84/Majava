@@ -3,7 +3,6 @@ package majava.userinterface.graphicalinterface.window;
 import majava.hand.Hand;
 import majava.hand.Meld;
 import majava.Pond;
-import majava.RoundTracker;
 import majava.enums.Exclamation;
 import majava.enums.Wind;
 import majava.player.Player;

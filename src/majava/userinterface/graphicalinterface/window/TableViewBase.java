@@ -4,7 +4,6 @@ package majava.userinterface.graphicalinterface.window;
 import majava.hand.Hand;
 import majava.hand.Meld;
 import majava.Pond;
-import majava.RoundTracker;
 import majava.wall.Wall;
 import majava.enums.CallType;
 import majava.enums.Exclamation;
@@ -12,7 +11,6 @@ import majava.enums.TurnActionType;
 import majava.enums.Wind;
 import majava.player.Player;
 import majava.round.KyokuState;
-import majava.summary.StateOfGame;
 import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
 import majava.tiles.TileInterface;
@@ -298,7 +296,6 @@ public class TableViewBase extends JFrame{
 	protected boolean[] whichHandsToReveal;
 	
 	
-	protected RoundTracker roundTracker;
 	protected KyokuState gameState;
 	
 	
@@ -492,7 +489,7 @@ public class TableViewBase extends JFrame{
 		
 		//update turn indicators
 		for (int playerIndex = SEAT1; playerIndex <= SEAT4; playerIndex++){
-			parryTurnInds[playerIndex].setVisible(roundTracker.whoseTurn() == playerIndex);
+			parryTurnInds[playerIndex].setVisible(gameState.whoseTurn() == playerIndex);
 		}
 		
 		repaint();
@@ -501,7 +498,7 @@ public class TableViewBase extends JFrame{
 	//highlights the most recent discard
 	private void updateDiscardMarker(){
 		
-		newTurn = roundTracker.whoseTurn();
+		newTurn = gameState.whoseTurn();
 		discardMarkerErase();
 		discardMarkerSet();
 		oldTurn = newTurn;
@@ -648,11 +645,11 @@ public class TableViewBase extends JFrame{
 	
 	
 	private void setDiscardChosen(int seatNumberWhoClicked, int discardIndex){
-		if (seatNumberWhoClicked != roundTracker.whoseTurn()) return;
+		if (seatNumberWhoClicked != gameState.whoseTurn()) return;
 		chosenTurnAction = TurnActionType.DISCARD;
 		chosenDiscard = discardIndex;
 	}
-	private void setDiscardChosen(int discardIndex){setDiscardChosen(roundTracker.whoseTurn(), discardIndex);}
+	private void setDiscardChosen(int discardIndex){setDiscardChosen(gameState.whoseTurn(), discardIndex);}
 	
 	
 	public TurnActionType askUserInputTurnAction(int handSize, boolean canRiichi, boolean canAnkan, boolean canMinkan, boolean canTsumo){
@@ -711,7 +708,6 @@ public class TableViewBase extends JFrame{
 	
 	public void giveGameState(KyokuState stateOfGame){		
 		gameState = stateOfGame;
-		roundTracker = gameState.getRoundTracker();
 		
 		//hand revealing options
 		whichHandsToReveal = new boolean[NUM_PLAYERS];

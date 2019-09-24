@@ -34,8 +34,8 @@ public class DetailedTextualUI extends TextualUI{
 		
 		//show the discarded tile and the discarder's pond
 		println("\n\n\tTiles left: " + gameState.getNumTilesLeftInWall());
-		println("\t" + gameState.seatWindOfPlayer(roundTracker.whoseTurn()) + " Player's discard: ^^^^^" + gameState.getMostRecentDiscard().toString() + "^^^^^");
-		println("\t" + gameState.getPondAsString(roundTracker.whoseTurn()));
+		println("\t" + gameState.seatWindOfPlayer(gameState.whoseTurn()) + " Player's discard: ^^^^^" + gameState.getMostRecentDiscard().toString() + "^^^^^");
+		println("\t" + gameState.getPondAsString(gameState.whoseTurn()));
 		
 		
 	}
@@ -53,7 +53,7 @@ public class DetailedTextualUI extends TextualUI{
 	}
 
 	protected void displayEventHumanTurnStart(GameplayEvent event){
-		__showPlayerHand(roundTracker.whoseTurn());
+		__showPlayerHand(gameState.whoseTurn());
 	}
 	
 	protected void displayEventStartOfRound(GameplayEvent event){

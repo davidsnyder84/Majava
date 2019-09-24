@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import majava.round.KyokuState;
-import majava.summary.StateOfGame;
 
 
 //Observer pattern (this is the Subject)

@@ -29,7 +29,7 @@ public class SparseTextualUI extends TextualUI{
 	protected void displayEventDiscardedTile(GameplayEvent event){
 		
 		//show the discarded tile
-		println("\t" + gameState.seatWindOfPlayer(roundTracker.whoseTurn()).toChar() + " discard: " + gameState.getMostRecentDiscard());
+		println("\t" + gameState.seatWindOfPlayer(gameState.whoseTurn()).toChar() + " discard: " + gameState.getMostRecentDiscard());
 //		mRoundTracker.currentPlayer().showPond();
 	}
 	
@@ -39,7 +39,7 @@ public class SparseTextualUI extends TextualUI{
 	
 	protected void displayEventMadeOpenMeld(GameplayEvent event){}
 	protected void displayEventDrewTile(GameplayEvent event){
-		print("\t" + gameState.seatWindOfPlayer(roundTracker.whoseTurn()).toChar() + " draw: " + gameState.getTsumoTileFor(roundTracker.whoseTurn()));
+		print("\t" + gameState.seatWindOfPlayer(gameState.whoseTurn()).toChar() + " draw: " + gameState.getTsumoTileFor(gameState.whoseTurn()));
 	}
 	protected void displayEventMadeOwnKan(GameplayEvent event){}
 	protected void displayEventHumanReactionStart(GameplayEvent event) {}
@@ -51,7 +51,7 @@ public class SparseTextualUI extends TextualUI{
 	}
 	
 	protected void displayEventHumanTurnStart(GameplayEvent event){
-		println();__showPlayerHand(roundTracker.whoseTurn());
+		println();__showPlayerHand(gameState.whoseTurn());
 	}
 	
 	protected void displayEventStartOfRound(GameplayEvent event){

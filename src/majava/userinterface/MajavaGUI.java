@@ -1,13 +1,11 @@
 package majava.userinterface;
 
-import majava.RoundTracker;
 import majava.enums.CallType;
 import majava.enums.Exclamation;
 import majava.enums.TurnActionType;
 import majava.events.GameplayEvent;
 import majava.player.Player;
 import majava.player.brains.HumanBrain;
-import majava.summary.StateOfGame;
 import majava.tiles.GameTile;
 import majava.userinterface.graphicalinterface.window.TableViewBase;
 import utility.Pauser;
@@ -77,7 +75,7 @@ public class MajavaGUI extends GameUI{
 	//returns the index of the clicked discard. returns negative if no discard chosen.
 	public int resultChosenDiscardIndex(){return tableWindow.getChosenDiscardIndex();}
 	
-	private HumanBrain controllerOfCurrentPlayer(){return controllerOfPlayer(gameState.getRoundTracker().whoseTurn());}
+	private HumanBrain controllerOfCurrentPlayer(){return controllerOfPlayer(gameState.whoseTurn());}
 	private HumanBrain controllerOfPlayer(int playerNum){return (HumanBrain) gameState.getControllerForPlayer(playerNum);}
 	
 	

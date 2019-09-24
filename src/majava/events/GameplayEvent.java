@@ -7,7 +7,6 @@ import static majava.enums.GameEventType.*;
 import majava.player.Player;
 import majava.player.brains.HumanBrain;
 import majava.summary.RoundResultSummary;
-import majava.summary.StateOfGame;
 import majava.tiles.GameTile;
 
 public class GameplayEvent {

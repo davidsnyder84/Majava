@@ -3,7 +3,6 @@ package majava.round;
 import java.util.List;
 
 import majava.Pond;
-import majava.RoundTracker;
 import majava.wall.Wall;
 import majava.enums.GameEventType;
 import majava.enums.Wind;
@@ -28,14 +27,12 @@ public final class KyokuState{
 	
 	private final PlayerTracker[] playerTrackers;
 	
-	private final RoundTracker roundTracker;
 	
 	
-	public KyokuState(Kyoku round, RoundTracker rTracker, Wall reveivedWall){
+	public KyokuState(Kyoku round){
 		kyoku = round;
 //		event = kyoku.getMostRecentEvent();
 		
-		roundTracker = rTracker;
 		playerTrackers = makePlayerTrackers(players());
 	}
 	private PlayerTracker[] makePlayerTrackers(PlayerList players){
@@ -80,7 +77,7 @@ public final class KyokuState{
 	
 	public int getNumKansMade(){
 		int count = 0;
-		for (Player p: kyoku.getPlayers()) count += p.getNumKansMade();
+		for (Player p: players()) count += p.getNumKansMade();
 		return count;
 	}
 	
@@ -102,14 +99,15 @@ public final class KyokuState{
 	
 	
 	/////////////////////////////////////////////////////////////////////////////
-	public RoundTracker getRoundTracker(){
-		return null;
-	}
 	
 	public Player currentPlayer(){
-		return getPlayer(roundTracker.whoseTurn());
+//		return players().get(kyoku.seatToAct());
+		return getPlayer(whoseTurn());
 	}
-	/////////////////////////////////////////////////////////////////
+	
+	public int whoseTurn(){
+		return players().indexOfPlayer(kyoku.seatToAct());	//I think this will work
+	}
 	
 	public PlayerBrain getControllerForPlayer(int playerNum){return playerTrackers[playerNum].getController();}
 	public Player getPlayer(int playerNum){return playerTrackers[playerNum].getPlayer();}

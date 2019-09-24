@@ -1,13 +1,11 @@
 package majava.userinterface;
 
 import utility.Pauser;
-import majava.RoundTracker;
 import majava.enums.Exclamation;
 import majava.enums.GameEventType;
 import majava.events.GameplayEvent;
 import majava.events.JanObserver;
 import majava.round.KyokuState;
-import majava.summary.StateOfGame;
 
 public abstract class GameUI implements JanObserver{
 	protected static final int NUM_PLAYERS = 4;
@@ -16,7 +14,6 @@ public abstract class GameUI implements JanObserver{
 	protected int sleepTime = DEAFULT_SLEEPTIME, sleepTimeExclamation = DEAFULT_SLEEPTIME_EXCLAMATION, sleepTimeRoundEnd = DEAFULT_SLEEPTIME_ROUND_END;
 	
 	
-	protected RoundTracker roundTracker = null;
 	protected KyokuState gameState = null;
 	
 	
@@ -32,7 +29,6 @@ public abstract class GameUI implements JanObserver{
 	@Override
 	public void update(GameplayEvent gameplayEvent, KyokuState stateOfGame) {
 		gameState = stateOfGame;
-		if (gameState != null) roundTracker = gameState.getRoundTracker();
 		displayEvent(gameplayEvent);
 	}
 	

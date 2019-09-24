@@ -287,14 +287,14 @@ public class Player implements Comparable<Player>{
 		
 		//make the meld
 		Hand handWithNewMeld = null;
-		if (calledChiL()) handWithNewMeld = hand.makeMeldChiL(claimedTile);
-		else if (calledChiM()) handWithNewMeld = hand.makeMeldChiM(claimedTile);
-		else if (calledChiH()) handWithNewMeld = hand.makeMeldChiH(claimedTile);
-		else if (calledPon()) handWithNewMeld = hand.makeMeldPon(claimedTile);
-		else if (calledKan()) handWithNewMeld = hand.makeMeldKan(claimedTile);
+		if (calledChiL(claimedTile)) handWithNewMeld = hand.makeMeldChiL(claimedTile);
+		else if (calledChiM(claimedTile)) handWithNewMeld = hand.makeMeldChiM(claimedTile);
+		else if (calledChiH(claimedTile)) handWithNewMeld = hand.makeMeldChiH(claimedTile);
+		else if (calledPon(claimedTile)) handWithNewMeld = hand.makeMeldPon(claimedTile);
+		else if (calledKan(claimedTile)) handWithNewMeld = hand.makeMeldKan(claimedTile);
 		
 		
-		if (calledKan())
+		if (calledKan(claimedTile))
 			return this.withHand(handWithNewMeld).withDrawNeededRinshan();
 		
 		return this.withHand(handWithNewMeld);
@@ -313,18 +313,18 @@ public class Player implements Comparable<Player>{
 	
 	
 	//returns call status as an exclamation
-	public Exclamation getCallStatusExclamation(){return decisionCall.getCallStatusExclamation();}
+	public Exclamation getCallStatusExclamation(){return decisionCall.getCallStatusExclamation();}	//do I need isFor(t) here?
 	
 	//returns true if the player called a tile
-	public boolean called(){return decisionCall.called();}
+	public boolean called(GameTile t){return decisionCall.isFor(t) && decisionCall.called();}
 	//individual call statuses
-	public boolean calledChi(){return (calledChiL() || calledChiM() || calledChiH());}
-	public boolean calledChiL(){return decisionCall.calledChiL();}
-	public boolean calledChiM(){return decisionCall.calledChiM();}
-	public boolean calledChiH(){return decisionCall.calledChiH();}
-	public boolean calledPon(){return decisionCall.calledPon();}
-	public boolean calledKan(){return decisionCall.calledKan();}
-	public boolean calledRon(){return decisionCall.calledRon();}
+	public boolean calledChi(GameTile t){return decisionCall.isFor(t) && decisionCall.calledChi();}
+	public boolean calledChiL(GameTile t){return decisionCall.isFor(t) && decisionCall.calledChiL();}
+	public boolean calledChiM(GameTile t){return decisionCall.isFor(t) && decisionCall.calledChiM();}
+	public boolean calledChiH(GameTile t){return decisionCall.isFor(t) && decisionCall.calledChiH();}
+	public boolean calledPon(GameTile t){return decisionCall.isFor(t) && decisionCall.calledPon();}
+	public boolean calledKan(GameTile t){return decisionCall.isFor(t) && decisionCall.calledKan();}
+	public boolean calledRon(GameTile t){return decisionCall.isFor(t) && decisionCall.calledRon();}
 	
 	
 	//check if the players needs to draw a tile, and what type of draw (normal vs rinshan)

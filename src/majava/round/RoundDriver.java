@@ -14,10 +14,13 @@ public class RoundDriver {
 		
 		int i = 0;
 //		while (i < times){
+		String lastRoundString = "";
+		
 		while (!round.isOver()){
 			round = round.next();
-			System.out.println(round.toString());
 			
+			if (!lastRoundString.equals(round.toString())) System.out.println(round.toString());
+			lastRoundString = round.toString();
 		}
 		
 		System.out.println(round.toString());

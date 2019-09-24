@@ -119,14 +119,14 @@ public class Kyoku{
 	}
 	public Player turnPlayer(){return players.get(seatToAct());}
 	
-	//nobody has a full hand -> either: discard / call happened
-	//read lastDiscard.wind to find who discarded, prioritycaller calc field
+	
 	public Player priorityCaller(){
 		Player priorityCaller = Player.NOBODY;
-
-		if (players.someoneCalledChi()) priorityCaller = players.callerChi();
-		if (players.someoneCalledPonKan()) priorityCaller = players.callerPonKan();
-		if (players.someoneCalledRON()) priorityCaller = players.callerRON();
+		GameTile lastDiscard = lastDiscard();
+		
+		if (players.someoneCalledChi(lastDiscard)) priorityCaller = players.callerChi(lastDiscard);
+		if (players.someoneCalledPonKan(lastDiscard)) priorityCaller = players.callerPonKan(lastDiscard);
+		if (players.someoneCalledRON(lastDiscard)) priorityCaller = players.callerRON(lastDiscard);
 		
 		return priorityCaller;
 	}
@@ -149,7 +149,7 @@ public class Kyoku{
 	
 	public boolean isOver(){
 		if (wallIsEmpty()){
-			if (someoneHasFullHand() || someoneCalled())
+			if (someoneHasFullHand() || players.someoneCalled(lastDiscard()))
 				return false;
 			else
 				return true;
@@ -170,7 +170,7 @@ public class Kyoku{
 	public Pond[] getPonds(){return players.getPonds();}
 	
 	public boolean someoneHasFullHand(){return players.someoneHasFullHand();}
-	public boolean someoneCalled(){return players.someoneCalled();}
+	public boolean someoneCalledLastDiscard(){return players.someoneCalled(lastDiscard());}
 	public boolean someoneNeedsToDraw(){return !someoneHasFullHand();}////////////////
 	
 	
@@ -219,8 +219,8 @@ public class Kyoku{
 		
 		
 		
-		if (someoneCalled()){
-			if (priorityCaller().calledRon())
+		if (someoneCalledLastDiscard()){
+			if (priorityCaller().calledRon(lastDiscard()))
 				return null; ///////return some kind of roundend
 			else
 				return letPriorityCallerMakeMeld();
@@ -230,15 +230,12 @@ public class Kyoku{
 		
 		
 		PlayerList playersWithReactions = letPlayersReactToDiscard();
-		if (playersWithReactions.someoneCalled())
+		if (playersWithReactions.someoneCalled(lastDiscard()))
 			return this.withPlayers(playersWithReactions);
-		else
-			return letPlayerDraw();
 		
 		
 		
-//		return letPlayerDraw();
-//		if (someoneNeedsToDraw()) return letPlayerDraw();
+		return letPlayerDraw();
 		
 	}
 	
@@ -402,13 +399,8 @@ public class Kyoku{
 		if (DEBUG_EXHAUSTED_WALL) wallToDealFrom = WallDemoer.ExhaustedWall(wallToDealFrom);
 		if (DEBUG_LOAD_DEBUG_WALL) wallToDealFrom = WallDemoer.SpecialDebugWall(wallToDealFrom);
 		
-		println(wall.getTiles().length); waitt();
-		
-		//get starting hands from the wall
 		WallDealer dealer = new WallDealer(wallToDealFrom);
 		Wall dealtWall = dealer.wallWithStartingHandsRemoved();
-		
-		println(dealtWall.getTiles().length); waitt();
 		
 		Player peWithStartingHand = players.seatE().giveStartingHand(dealer.startingHandEast());
 		Player psWithStartingHand = players.seatS().giveStartingHand(dealer.startingHandSouth());
@@ -418,7 +410,6 @@ public class Kyoku{
 		
 		PlayerList playersWithStartingHands = new PlayerList(peWithStartingHand, psWithStartingHand, pwWithStartingHand, pnWithStartingHand);
 		return this.withWall(dealtWall).withPlayers(playersWithStartingHands);
-//		return this.withWall(dealtWall).withUpdatedPlayer(peWithStartingHand).withUpdatedPlayer(psWithStartingHand).withUpdatedPlayer(pwWithStartingHand).withUpdatedPlayer(pnWithStartingHand);
 	}
 	
 	
@@ -657,7 +648,7 @@ public class Kyoku{
 			str += "\n\n";
 		}
 		
-		str += diag();
+//		str += diag();
 		
 		return str;
 	}

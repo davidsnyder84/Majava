@@ -37,6 +37,8 @@ public class DecisionCall {
 	public boolean calledKan(){return (callStatus == CallType.KAN);}
 	public boolean calledRon(){return (callStatus == CallType.RON);}
 	
+	public boolean isFor(GameTile t){return t.is(candidate);}
+	
 	
 	
 	

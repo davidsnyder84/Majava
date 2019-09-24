@@ -7,6 +7,7 @@ import utility.ImmuList;
 import majava.Pond;
 import majava.enums.Wind;
 import majava.player.Player;
+import majava.tiles.GameTile;
 import static majava.player.Player.NOBODY;
 
 
@@ -68,28 +69,28 @@ public class PlayerList extends ImmuList<Player>{
 	
 	
 	
-	public boolean someoneCalled(){
+	public boolean someoneCalled(GameTile t){
 		for (Player p: this)
-			if (p.called())
+			if (p.called(t))
 				return true;
 		return false;
 	}
 	
-	public boolean someoneCalledChi(){return (callerChi() != NOBODY);}
-	public boolean someoneCalledPonKan(){return (callerPonKan() != NOBODY);}
-	public boolean someoneCalledRON(){return (callerRON() != NOBODY);}
+	public boolean someoneCalledChi(GameTile t){return (callerChi(t) != NOBODY);}
+	public boolean someoneCalledPonKan(GameTile t){return (callerPonKan(t) != NOBODY);}
+	public boolean someoneCalledRON(GameTile t){return (callerRON(t) != NOBODY);}
 	
-	public Player callerChi(){
-		for (Player p : this) if (p.calledChi()) return p;
+	public Player callerChi(GameTile t){
+		for (Player p : this) if (p.calledChi(t)) return p;
 		return NOBODY;
 	}
-	public Player callerPonKan(){
-		for (Player p : this) if (p.calledPon() || p.calledKan()) return p;
+	public Player callerPonKan(GameTile t){
+		for (Player p : this) if (p.calledPon(t) || p.calledKan(t)) return p;
 		return NOBODY;
 	}
 	//----NOTE: this doesn't handle atamahane. need to take into account the seatwind of the discarder to decide who gets ron priority
-	public Player callerRON(){
-		for (Player p : this) if (p.calledRon()) return p;
+	public Player callerRON(GameTile t){
+		for (Player p : this) if (p.calledRon(t)) return p;
 		return NOBODY;
 	}
 	

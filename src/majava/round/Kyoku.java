@@ -24,6 +24,7 @@ import majava.control.testcode.WallDemoer;
 import majava.events.GameEventBroadcaster;
 import majava.events.GameplayEvent;
 import majava.enums.CallType;
+import majava.enums.GameEventType;
 import majava.enums.KyokuEvent;
 import majava.enums.Wind;
 import majava.enums.Exclamation;
@@ -635,6 +636,46 @@ public class Kyoku{
 //	private void announceHumanTurnStartEvent(Player p){announceEvent(GameplayEvent.humanPlayerTurnStartEvent(p));}
 //	private void announceHumanReactionChanceEvent(Player p){announceEvent(GameplayEvent.humanReactionEvent(p, mostRecentDiscard(), whoseTurnNumber()));}
 //	private void announceEndOfRoundEvent(){announceEvent(GameplayEvent.endOfRoundEvent());}
+	
+	
+	
+	//event announce methods
+//	private void announceEvent(GameplayEvent event){
+//		gameEventBroadcaster.postNewEvent(event, gameState);
+//	}
+	private void announceCallEventFrom(Player caller){
+//		GameplayEvent.calledTileEvent(caller.getCallStatusExclamation(), caller, mostRecentDiscard(), whoseTurnNumber());
+		GameplayEvent.calledTileEvent();
+	}
+	private void announceSelfKanEvent(Player fromPlayer){
+//		GameplayEvent.declaredOwnKanEvent(fromPlayer); ///!!!!!!!!!! <- this is DECLARE slef kan. Declare is done by someone with a full hand, so you can infer who it is
+		GameplayEvent.declaredOwnKanEvent();
+		GameplayEvent.madeOwnKanEvent();
+		//if I could figure out how to determine WHO made the most recent kan, I could make 100% of these be enums
+	}
+	private void announceTsumoEvent(Player fromPlayer){
+//		GameplayEvent.declaredTsumoEvent(fromPlayer); //can infer tsumo player from roundstate (who has full hand?)
+		GameplayEvent.declaredTsumoEvent();
+	}
+//	private void announceHumanTurnStartEvent(Player p){///////////////what does this mean?
+//		GameplayEvent.humanPlayerTurnStartEvent(p);
+//	}
+//	private void announceHumanReactionChanceEvent(Player p){////////////this might not be necessary
+//		GameplayEvent.humanReactionEvent(p);
+//	}	
+	//**********************************************enum
+	private void announceEndOfRoundEvent(){
+		GameplayEvent.endOfRoundEvent();
+	}
+	//**********************************************enum
+	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^use Wind instead of Player
+	
+	public GameEventType getMostRecentEvent(){
+//		return mostRecentEvent;
+		return null;
+	}
+	
+	
 	
 	public String toString(){
 		String str = "";

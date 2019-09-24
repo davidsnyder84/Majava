@@ -47,6 +47,10 @@ public class GameplayEvent {
 	
 	
 	
+	
+	
+	
+	
 	//factory methods
 	public static final GameplayEvent startOfRoundEvent(){return new GameplayEvent(START_OF_ROUND);}
 	public static final GameplayEvent drewTileEvent(){return new GameplayEvent(DREW_TILE);}
@@ -58,23 +62,25 @@ public class GameplayEvent {
 	public static final GameplayEvent madeOwnKanEvent(){return new GameplayEvent(MADE_OWN_KAN);}
 	public static final GameplayEvent endOfRoundEvent(){return new GameplayEvent(END_OF_ROUND);}
 
-	public static final GameplayEvent calledTileEvent(Exclamation exclaim, Player caller, GameTile tile, int whoseTurnNumber){
+	
+//	public static final GameplayEvent calledTileEvent(Exclamation exclaim, Player caller, GameTile tile, int whoseTurnNumber){
+	public static final GameplayEvent calledTileEvent(){
 		GameplayEvent event = new GameplayEvent(CALLED_TILE);
-		event.setExclamation(exclaim);
-		event.packInfo(caller, tile, whoseTurnNumber);
+//		event.setExclamation(exclaim);
+//		event.packInfo(caller, tile, whoseTurnNumber);
 		return event;	
 	}
 	public static final GameplayEvent declaredRiichiEvent(){return new GameplayEvent(DECLARED_RIICHI);}
 	public static final GameplayEvent declaredOwnKanEvent(Player p){
 		GameplayEvent event = new GameplayEvent(DECLARED_OWN_KAN);
-		event.setExclamation(Exclamation.OWN_KAN);
-		event.packInfo(p);
+//		event.setExclamation(Exclamation.OWN_KAN);
+//		event.packInfo(p);
 		return event;
 	}
-	public static final GameplayEvent declaredTsumoEvent(Player p){
+	public static final GameplayEvent declaredTsumoEvent(){
 		GameplayEvent event = new GameplayEvent(DECLARED_TSUMO);
-		event.setExclamation(Exclamation.TSUMO);
-		event.packInfo(p);
+//		event.setExclamation(Exclamation.TSUMO);
+//		event.packInfo(p);
 		return event;
 	}
 
@@ -83,9 +89,11 @@ public class GameplayEvent {
 		event.packInfo(p);
 		return event;
 	}
-	public static final GameplayEvent humanReactionEvent(Player p, GameTile tile, int whoseTurnNumber){
+	
+//	public static final GameplayEvent humanReactionEvent(Player p, GameTile tile, int whoseTurnNumber){
+	public static final GameplayEvent humanReactionEvent(Player p){
 		GameplayEvent event = new GameplayEvent(HUMAN_PLAYER_REACTION_START);
-		event.packInfo(p, tile, whoseTurnNumber);
+//		event.packInfo(p, tile, whoseTurnNumber);
 		return event;
 	}
 	public static final GameplayEvent unknownEvent(){return new GameplayEvent(UNKNOWN);}

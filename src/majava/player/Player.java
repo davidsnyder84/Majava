@@ -27,6 +27,7 @@ import majava.util.GTL;
 //represents a player in the game
 public class Player implements Comparable<Player>{
 	public static final Player NOBODY = new Player();
+	private static final boolean NEED_RINSHAN = true, DONT_NEED_RINSHAN = false;
 	
 	private PlayerBrain brain;
 	private final PlayerProfile profile;
@@ -42,17 +43,15 @@ public class Player implements Comparable<Player>{
 	
 	
 	//these can all disappear (reset) during builder calls
-	private final DrawingNeed drawNeeded;	//make this a calculated field? (replace with bool for rinshan)
-	
 	private final DecisionCall decisionCall = null;
 	private final DecisionTurnAction decisionTurnAction = null;
+	private final boolean needsRinshanDraw;
 	
-	private final boolean needsRinshanDraw = false;
 	private final boolean isHoldingRinshanTile;
 	private final boolean isRiichi;
 	
 	
-	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w, DrawingNeed dn){
+	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w, boolean rinshanNeeded){
 		if (brn == null) brain = new NullPlayerBrain(this);
 		else brain = brn;
 		
@@ -63,22 +62,23 @@ public class Player implements Comparable<Player>{
 		hand = h;	//seatwind?
 		pond = p;
 		seatWind = w;
-		drawNeeded = dn;
+		needsRinshanDraw = rinshanNeeded;
 		
 		isHoldingRinshanTile = false; isRiichi = false;
 	}
-	private Player(PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w, DrawingNeed dn){
-		this(null, prof, pts, pnum, h, p, w, dn);
+	private Player(PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w, boolean rinshanNeeded){
+		this(null, prof, pts, pnum, h, p, w, rinshanNeeded);
 	}
+	
 	public Player(PlayerProfile prof, PointsBox pts, int pnum){
-		this(prof, pts, pnum, new Hand(), new Pond(), Wind.UNKNOWN, new DrawingNeed());
+		this(prof, pts, pnum, new Hand(), new Pond(), Wind.UNKNOWN, DONT_NEED_RINSHAN);
 	}
 	public Player(PlayerProfile newProfile){
 		this(newProfile, new PointsBox(), 0);
 		prepareForNewRound();	/////////////////////refactor later
 	}
 	public Player(String name){this(new PlayerProfile(name));}
-	public Player(){this((String)null);}
+	public Player(){this( ((String)null) );}
 	
 	//initializes a player's resources for a new round
 	public Player prepareForNewRound(){
@@ -86,22 +86,18 @@ public class Player implements Comparable<Player>{
 		brain.clearCallStatus();
 		brain.clearTurnActionStatus();
 		
-		return this.withDrawNeededNormal();
+		return this;
 	}
 	
 //	private Player withBrain(){return null;}
 	
-	private Player withPoints(PointsBox pts){return new Player();}
+	private Player withPoints(PointsBox pts){return new Player(brain, profile, pts, playerNum, hand, pond, seatWind, DONT_NEED_RINSHAN);}
 	
-	private Player withHand(Hand h){return new Player(brain, profile, pointsBox, playerNum, h, pond, seatWind, drawNeeded);}
-	private Player withPond(Pond p){return new Player(brain, profile, pointsBox, playerNum, hand, p, seatWind, drawNeeded);}
-	private Player withSeatWind(Wind w){return new Player(brain, profile, pointsBox, playerNum, hand, pond, w, drawNeeded);}
+	private Player withHand(Hand h){return new Player(brain, profile, pointsBox, playerNum, h, pond, seatWind, DONT_NEED_RINSHAN);}
+	private Player withPond(Pond p){return new Player(brain, profile, pointsBox, playerNum, hand, p, seatWind, DONT_NEED_RINSHAN);}
+	private Player withSeatWind(Wind w){return new Player(brain, profile, pointsBox, playerNum, hand, pond, w, DONT_NEED_RINSHAN);}
 	
-	private Player withDrawingNeed(DrawingNeed dn){return new Player(brain, profile, pointsBox, playerNum, hand, pond, seatWind, dn);}
-	
-	private Player withDrawNeededRinshan(){return this.withDrawingNeed(drawNeeded.rinshan());}
-	private Player withDrawNeededNormal(){return this.withDrawingNeed(drawNeeded.normal());}
-	private Player withDrawNeededNone(){return this.withDrawingNeed(drawNeeded.none());}
+	private Player withDrawNeededRinshan(){return new Player(brain, profile, pointsBox, playerNum, hand, pond, seatWind, NEED_RINSHAN);}
 	
 	
 	
@@ -162,7 +158,7 @@ public class Player implements Comparable<Player>{
 		Pond pondWithDiscardedTile = pond.addTile(discardedTile);
 		
 		//set needed draw to normal, since we just discarded a tile
-		return this.withHand(handWithRemovedTile).withPond(pondWithDiscardedTile).withDrawNeededNormal();
+		return this.withHand(handWithRemovedTile).withPond(pondWithDiscardedTile);
 //		return discardedTile;
 	}
 	
@@ -206,17 +202,13 @@ public class Player implements Comparable<Player>{
 		Hand handWithAddedTile = hand.addTile(t.withOwnerWind(seatWind));
 		
 		//no longer need to draw (because the player has just drawn)
-		return this.withHand(handWithAddedTile).withDrawNeededNone();
+		return this.withHand(handWithAddedTile);
 	}
 	public Player giveStartingHand(GTL startingTiles){
 		GTL startingTilesWithWind = startingTiles.withWind(seatWind);
 		Hand startingHand = hand.addAll(startingTilesWithWind).sort();
-			
-		//if the player isn't east, they will need to draw
-		if (hand.size() < Hand.MAX_HAND_SIZE)
-			return this.withHand(startingHand).withDrawNeededNormal();
-		else
-			return this.withHand(startingHand).withDrawNeededNone();
+		
+		return this.withHand(startingHand);
 	}
 	
 	
@@ -278,14 +270,11 @@ public class Player implements Comparable<Player>{
 		brain.clearCallStatus();	//this is needed to make sure a player can't call their own discard
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-		//update what the player will need to draw next turn (draw nothing if called chi/pon, rinshan draw if called kan)
-		DrawingNeed drawNeededAfterMeld = null;
-		if (calledChi() || calledPon())
-			drawNeededAfterMeld = drawNeeded.none();
-		if (calledKan())
-			drawNeededAfterMeld = drawNeeded.rinshan();
 		
-		return this.withHand(handWithNewMeld).withDrawingNeed(drawNeededAfterMeld);
+		if (calledKan())
+			return this.withHand(handWithNewMeld).withDrawNeededRinshan();
+		else
+			return this.withHand(handWithNewMeld);
 	}
 	
 	
@@ -316,30 +305,8 @@ public class Player implements Comparable<Player>{
 	
 	
 	//check if the players needs to draw a tile, and what type of draw (normal vs rinshan)
-	public boolean needsDraw(){return drawNeeded.needsToDraw();}
-	public boolean needsDrawNormal(){return drawNeeded.needsNormal();}
-	public boolean needsDrawRinshan(){return drawNeeded.needsRinshan();}
-	
-	
-//	public boolean wantToDraw(){
-//		return true;
-//	}
-//	public boolean wantNormalDraw(){
-//		if (handIsFull()) return false;
-//		
-//		return !handIsFull();
-//	}
-//	public boolean wantRinshanDraw(){
-//		if (handIsFull()) return false;
-//		
-//		return true;
-//	}
-	
-	
-//	private void setDrawNeededRinshan(){drawNeeded.setRinshan();}
-//	private void setDrawNeededNormal(){drawNeeded.setNormal();}
-//	private void setDrawNeededNone(){drawNeeded.setNone();}
-/////////////////////////////////////////////////////////////////////////////////mutate
+	public boolean needsDraw(){return !handIsFull();}
+	public boolean needsDrawRinshan(){return needsRinshanDraw;}
 	
 	
 

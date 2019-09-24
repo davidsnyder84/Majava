@@ -356,31 +356,24 @@ public class Kyoku{
 		Wall wallAfterDraw = wall;
 		
 		GameTile drawnTile = null;
-		if (p.needsDrawNormal()){
-//			if (wallIsEmpty()){
-//				setResultRyuukyokuHowanpai();
-//				return;
-//			}
+		if (p.needsDrawRinshan()){
+//			if (tooManyKans()) setResultRyuukyoku4Kan();
+			
+			drawnTile = wall.nextDeadWallTile();
+			wallAfterDraw = wall.removeNextDeadWallTile();
+			//with with new dora indicators? or does wall know how to figure that out on its own?
+		}
+		else{
+//			if (wallIsEmpty()) setResultRyuukyokuHowanpai();
+			
 			drawnTile = wall.nextTile();
 			wallAfterDraw = wall.removeNextTile();
 		}
-		else if (p.needsDrawRinshan()){
-//			if (tooManyKans()){
-//				setResultRyuukyoku4Kan();
-//				return;
-//			}
-			drawnTile = wall.nextDeadWallTile();
-			wallAfterDraw = wall.removeNextDeadWallTile();
-			
-//			announceEvent(GameplayEvent.newDoraIndicatorEvent());
-		}
+		
 		
 		Player pWithDrawnTile = p.addTileToHand(drawnTile);
 		
-//		announceEvent(GameplayEvent.drewTileEvent());
-//		return this.withUpdatedPlayer(pWithDrawnTile).withWall(wallAfterDraw).withEvent(KyokuEvent.drawEvent(pWithDrawnTile));
 		return this.withUpdatedPlayer(pWithDrawnTile).withWall(wallAfterDraw);
-		
 	}
 	
 	
@@ -676,6 +669,5 @@ public class Kyoku{
 		return str;
 	}
 	
-	public static void println(String prints){System.out.println(prints);}public static void println(){System.out.println("");}public static void println(int prints){System.out.println(prints+"");}
-	public static void waitt(){(new Scanner(System.in)).next();}
+	public static void println(String prints){System.out.println(prints);}public static void println(){System.out.println("");}public static void println(int prints){System.out.println(prints+"");} public static void waitt(){(new Scanner(System.in)).next();}
 }

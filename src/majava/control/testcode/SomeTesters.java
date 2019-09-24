@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Scanner;
 
 import javax.jws.soap.SOAPBinding;
 
@@ -17,6 +18,7 @@ import majava.Pond;
 import majava.RoundResult;
 import majava.util.GTL;
 import majava.util.YakuList;
+import majava.wall.Wall;
 import majava.yaku.Yaku;
 import majava.enums.MeldType;
 import majava.enums.Wind;
@@ -32,9 +34,44 @@ public class SomeTesters {
 	
 	
 	public static void main(String[] args){
-		testPond();
 		
+		
+//		testPond();
+		
+		testWall();
 	}
+	
+	
+	
+	
+	
+	
+	
+	public static void testWall(){
+		Wall wall = new Wall();
+		showWall(wall);
+		
+		for (int i = 0; i < 5; i++){
+			wall = wall.removeNextTile();
+			showWall(wall);
+		}
+		
+		wall = wall.removeNextMultiple(10);
+		showWall(wall);
+	}
+	public static void showWall(Wall wall){
+		println(wall.toString() + "\n\n" + wallIdsToString(wall));
+		println("\n\n\n\n\n");
+		waitt();
+	}
+	public static String wallIdsToString(Wall wall){
+		String str = "";
+		for (GameTile t : wall.getTiles()) if (t!=null) str += t.getWallID() + "  ";
+		return str;
+	}
+	
+	
+	
 	
 	public static void testPond(){
 		
@@ -62,5 +99,5 @@ public class SomeTesters {
 	
 	
 	
-	public static void println(String prints){System.out.println(prints);}public static void println(){System.out.println("");}
+	public static void println(String prints){System.out.println(prints);}public static void println(){System.out.println("");}public static void println(int prints){System.out.println(prints+"");} public static void waitt(){(new Scanner(System.in)).next();}
 }

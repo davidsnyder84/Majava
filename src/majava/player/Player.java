@@ -38,13 +38,18 @@ public class Player implements Comparable<Player>{
 	private final Pond pond;
 	private final Wind seatWind;
 	
-	private int playerNum;
+	private int playerNum;///////////////////get rid of this
 	
 	
-	private final DrawingNeed drawNeeded;
+	//these can all disappear (reset) during builder calls
+	private final DrawingNeed drawNeeded;	//make this a calculated field? (replace with bool for rinshan)
+	
+	private final DecisionCall decisionCall = null;
+	private final DecisionTurnAction decisionTurnAction = null;
+	
+	private final boolean needsRinshanDraw = false;
 	private final boolean isHoldingRinshanTile;
 	private final boolean isRiichi;
-	private final boolean isFuriten;
 	
 	
 	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w, DrawingNeed dn){
@@ -60,7 +65,7 @@ public class Player implements Comparable<Player>{
 		seatWind = w;
 		drawNeeded = dn;
 		
-		isHoldingRinshanTile = false; isRiichi = false; isFuriten = false;
+		isHoldingRinshanTile = false; isRiichi = false;
 	}
 	private Player(PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w, DrawingNeed dn){
 		this(null, prof, pts, pnum, h, p, w, dn);
@@ -97,11 +102,6 @@ public class Player implements Comparable<Player>{
 	private Player withDrawNeededRinshan(){return this.withDrawingNeed(drawNeeded.rinshan());}
 	private Player withDrawNeededNormal(){return this.withDrawingNeed(drawNeeded.normal());}
 	private Player withDrawNeededNone(){return this.withDrawingNeed(drawNeeded.none());}
-	
-//	private Player withDrawNeededRinshan(){return new Player(drawNeeded.rinshan());}
-//	private Player withDrawNeededNormal(){return new Player(drawNeeded.normal();}
-//	private Player withDrawNeededNone(){return new Player(drawNeeded.none());}
-//	
 	
 	
 	
@@ -296,7 +296,6 @@ public class Player implements Comparable<Player>{
 	//accessors
 	public int handSize(){return hand.size();}
 	public boolean isInRiichi(){return isRiichi;}
-	public boolean isInFuriten(){return isFuriten;}
 	public boolean checkTenpai(){return hand.isInTenpai();}
 	
 	
@@ -320,6 +319,23 @@ public class Player implements Comparable<Player>{
 	public boolean needsDraw(){return drawNeeded.needsToDraw();}
 	public boolean needsDrawNormal(){return drawNeeded.needsNormal();}
 	public boolean needsDrawRinshan(){return drawNeeded.needsRinshan();}
+	
+	
+//	public boolean wantToDraw(){
+//		return true;
+//	}
+//	public boolean wantNormalDraw(){
+//		if (handIsFull()) return false;
+//		
+//		return !handIsFull();
+//	}
+//	public boolean wantRinshanDraw(){
+//		if (handIsFull()) return false;
+//		
+//		return true;
+//	}
+	
+	
 //	private void setDrawNeededRinshan(){drawNeeded.setRinshan();}
 //	private void setDrawNeededNormal(){drawNeeded.setNormal();}
 //	private void setDrawNeededNone(){drawNeeded.setNone();}

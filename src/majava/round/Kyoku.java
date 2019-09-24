@@ -197,14 +197,11 @@ public class Kyoku{
 	public Kyoku next(){
 //		System.out.println("==============================================================================================\n" + this.toString() + "==============================================================================================\n\n");
 		
-		if (isOver()){
-			return this;//////
-		}
+		if (isOver())
+			return this;
 		
-		
-		if (needToDealStartingHands()){
+		if (needToDealStartingHands())
 			return dealHands();
-		}
 		
 		
 		
@@ -231,15 +228,16 @@ public class Kyoku{
 		
 		
 		
+		
 		PlayerList playersWithReactions = letPlayersReactToDiscard();
-		if (playersWithReactions.someoneCalled()){
+		if (playersWithReactions.someoneCalled())
 			return this.withPlayers(playersWithReactions);
-		}
+		else
+			return letPlayerDraw();
 		
 		
 		
-		
-		return letPlayerDraw();
+//		return letPlayerDraw();
 //		if (someoneNeedsToDraw()) return letPlayerDraw();
 		
 	}

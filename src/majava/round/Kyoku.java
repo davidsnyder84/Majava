@@ -50,12 +50,9 @@ public class Kyoku{
 	private final Wall wall;
 	
 	
-	private final KyokuEvent mostRecentEvent;	//////////////////////////////////////////////this way of doing it is fine, use this (but make it something different)
+//	private final KyokuEvent mostRecentEvent;	//////////////////////////////////////////////this way of doing it is fine, use this (but make it something different)
+	private final GameEventType mostRecentEvent;	//////////////////////////////////////////////this way of doing it is fine, use this (but make it something different)
 	
-//	private final StateOfGame gameState;
-//	private final GameEventBroadcaster gameEventBroadcaster;
-	
-//	private final RoundTracker roundTracker;
 //	private final RoundResult roundResult;
 	
 	
@@ -64,7 +61,7 @@ public class Kyoku{
 	
 	//builder constructor
 	private static final boolean BUILDER = true;
-	private Kyoku(PlayerList playerArray, Wall w, Wind roundWindToSet, int roundNum, int roundBonusNum, KyokuEvent lastEvent, boolean BLDR){
+	private Kyoku(PlayerList playerArray, Wall w, Wind roundWindToSet, int roundNum, int roundBonusNum, GameEventType lastEvent, boolean BLDR){
 		roundWind = roundWindToSet; roundNumber = roundNum; roundBonusNumber = roundBonusNum;
 		players = playerArray;
 		wall = w;
@@ -78,7 +75,7 @@ public class Kyoku{
 		players = playerArray;
 		
 		wall = new Wall().shuffle();
-		mostRecentEvent = KyokuEvent.initEvent();
+		mostRecentEvent = GameEventType.START_OF_ROUND;
 	}
 	public Kyoku(PlayerList playerArray, Wind roundWindToSet, int roundNum){this(playerArray, roundWindToSet, roundNum, DEFAULT_ROUND_BONUS_NUM);}
 	public Kyoku(PlayerList playerArray){
@@ -101,7 +98,7 @@ public class Kyoku{
 		return this.withPlayers(players.updatePlayer(newPlayer));
 	}
 	
-	public Kyoku withEvent(KyokuEvent newEvent){return new Kyoku(players, wall, roundWind, roundNumber, roundBonusNumber, newEvent, BUILDER);}
+	public Kyoku withEvent(GameEventType newEvent){return new Kyoku(players, wall, roundWind, roundNumber, roundBonusNumber, newEvent, BUILDER);}
 	
 	
 	
@@ -753,8 +750,7 @@ public class Kyoku{
 	
 	
 	public GameEventType getMostRecentEvent(){
-//		return mostRecentEvent;
-		return null;
+		return mostRecentEvent;
 	}
 	
 	

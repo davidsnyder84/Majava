@@ -106,6 +106,13 @@ public final class KyokuState{
 	}
 	
 	public int whoseTurn(){
+		Wind seatToAct = kyoku.seatToAct();
+		if (seatToAct == Wind.UNKNOWN)
+			this.toString();///////////////////////////
+		Player playerToAct = players().get(seatToAct);
+		int indexOfPlayerToAct = players().indexOfPlayer(seatToAct);
+		
+		
 		return players().indexOfPlayer(kyoku.seatToAct());	//I think this will work
 	}
 	

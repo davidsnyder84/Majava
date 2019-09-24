@@ -499,6 +499,9 @@ public class TableViewBase extends JFrame{
 	private void updateDiscardMarker(){
 		
 		newTurn = gameState.whoseTurn();
+		if (newTurn == -1)
+			this.toString();
+		
 		discardMarkerErase();
 		discardMarkerSet();
 		oldTurn = newTurn;

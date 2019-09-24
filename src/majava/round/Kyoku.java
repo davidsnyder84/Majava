@@ -409,10 +409,13 @@ public class Kyoku{
 		if (DEBUG_EXHAUSTED_WALL) wallToDealFrom = WallDemoer.ExhaustedWall(wallToDealFrom);
 		if (DEBUG_LOAD_DEBUG_WALL) wallToDealFrom = WallDemoer.SpecialDebugWall(wallToDealFrom);
 		
+		println(wall.getTiles().length); waitt();
 		
 		//get starting hands from the wall
 		WallDealer dealer = new WallDealer(wallToDealFrom);
 		Wall dealtWall = dealer.wallWithStartingHandsRemoved();
+		
+		println(dealtWall.getTiles().length); waitt();
 		
 		Player peWithStartingHand = players.seatE().giveStartingHand(dealer.startingHandEast());
 		Player psWithStartingHand = players.seatS().giveStartingHand(dealer.startingHandSouth());
@@ -673,5 +676,6 @@ public class Kyoku{
 		return str;
 	}
 	
-
+	public static void println(String prints){System.out.println(prints);}public static void println(){System.out.println("");}public static void println(int prints){System.out.println(prints+"");}
+	public static void waitt(){(new Scanner(System.in)).next();}
 }

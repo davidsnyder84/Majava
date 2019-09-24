@@ -15,7 +15,7 @@ public class RemainingTileset {
 	private final GTL tilesRemaining;
 	
 	public RemainingTileset() {
-		tilesRemaining = new GTL(Wall.standardSetOf134Tiles());
+		tilesRemaining = new GTL(Wall.standardSetOf136Tiles());
 	}
 	
 	

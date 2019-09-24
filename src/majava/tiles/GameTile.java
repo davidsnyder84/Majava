@@ -5,34 +5,52 @@ import majava.enums.Wind;
 
 //represents a single game tile (”v), has information for who originally owned the tile
 public class GameTile implements Cloneable, TileInterface {
+	private static final int DEFAULT_WALL_ID = 9999;
+	private static final Wind DEFAULT_OWNER_WIND = Wind.UNKNOWN;
 	
 	private final Janpai baseTile;
+	
 	private final Wind originalOwnerWind;
+	private final int wallID;
 	
-//	private final int gameTileID;
 	
 	
-	public GameTile(Janpai tilebase, Wind owner){
+	public GameTile(Janpai tilebase, Wind owner, int wallid){
 		baseTile = tilebase;
+		
 		originalOwnerWind = owner;
+		wallID = wallid;
 	}
-	public GameTile(Janpai tilebase){
-		this(tilebase, Wind.UNKNOWN);
-	}
-	public GameTile(int id, boolean wantRedDora){this(Janpai.retrieveTile(id, wantRedDora));}
-	public GameTile(int id){this(Janpai.retrieveTile(id));}
+	public GameTile(Janpai tilebase, Wind owner){this(tilebase, owner, DEFAULT_WALL_ID);}
+	public GameTile(Janpai tilebase, int wallid){this(tilebase, DEFAULT_OWNER_WIND, wallid);}
+	
+	public GameTile(Janpai tilebase){this(tilebase, DEFAULT_OWNER_WIND);}
+	public GameTile(int tileID, boolean wantRedDora){this(Janpai.retrieveTile(tileID, wantRedDora));}
+	public GameTile(int tileID){this(Janpai.retrieveTile(tileID));}
 	public GameTile(String suitfaceString){this(Janpai.valueOf(suitfaceString));}
 	
 	//copy constructor
 	public GameTile(GameTile other){
-		baseTile = other.baseTile;
-		originalOwnerWind = other.originalOwnerWind;
+		this(other.baseTile, other.originalOwnerWind, other.wallID);
 	}
 	public GameTile clone(){return new GameTile(this);}
 	
-	//Owner methods (the player who drew the tile from the wall)
+	//builders
+	final public GameTile withOwnerWind(Wind owner){return new GameTile(baseTile, owner, wallID);}
+	final public GameTile withWallID(int wallid){return new GameTile(baseTile, originalOwnerWind, wallid);}
+	
+	
+	
+	
+	//the wind of the player who originally drew the tile from the wall (example: first M1=1, second M1=2, etc)
 	final public Wind getOrignalOwner(){return originalOwnerWind;}
-	final public GameTile withOwnerWind(Wind owner){return new GameTile(baseTile, owner);}
+	
+	
+	//uniquely identifies each of the 136 tiles from a round's wall (is -> equals, but equals -/> is)
+	//a game tile "is" another game tile if it has the same wallID
+	final public boolean is(GameTile other){return (this.wallID == other.wallID);}
+	final public boolean wallIDhasBeenSet(){return wallID != DEFAULT_WALL_ID;} //this isn't needed
+	final public int getWallID(){return wallID;} //this isn't needed
 	
 	
 	

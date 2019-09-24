@@ -31,19 +31,45 @@ public class Wall {
 	private final int currentWallPosition;
 	
 	
-	public Wall(){this(standardSetOf134Tiles());}
-	public Wall(GameTile[] newTiles){this(newTiles, POS_START);}
 	
 	public Wall(GameTile[] newTiles, int pos){
-		wallTiles = newTiles.clone();
+//		wallTiles = newTiles.clone();
+		wallTiles = setWallIDsIfNecessary(newTiles.clone());
 		currentWallPosition = pos;
 	}
+	public Wall(GameTile[] newTiles){this(newTiles, POS_START);}
+	public Wall(){this(standardSetOf136Tiles());}
+	
+	//builders
 	public Wall withTiles(GameTile[] newTiles){return new Wall(newTiles, currentWallPosition);}
 	public Wall withPosition(int newPos){return new Wall(wallTiles, newPos);}
 	
 	
 	
 	private GameTile[] tilesClone(){return wallTiles.clone();}
+	
+	
+	//wall ids
+	private GameTile[] setWallIDsIfNecessary(GameTile[] tilesToCheck){
+		if (wallIDsAreSetFor(tilesToCheck))
+			return tilesToCheck;
+		else
+			return tilesWithWallIDs(tilesToCheck);
+	}
+	private GameTile[] tilesWithWallIDs(GameTile[] tilesToCheck){
+		GameTile[] withIDs = tilesToCheck.clone();
+		
+		for (int wallID=0; wallID<withIDs.length; wallID++)
+			withIDs[wallID] = withIDs[wallID].withWallID(wallID);
+		
+		return withIDs;
+	}
+	private boolean wallIDsAreSetFor(GameTile[] tilesToCheck){
+		for (GameTile t: tilesToCheck)
+			if (t != REMOVED && !t.wallIDhasBeenSet())
+				return false;
+		return true;
+	}
 	
 	
 	
@@ -223,7 +249,7 @@ public class Wall {
 	
 	
 	
-	public static GameTile[] standardSetOf134Tiles(){
+	public static GameTile[] standardSetOf136Tiles(){
 		final GameTile[] tiles = new GameTile[MAX_SIZE_WALL];
 		final int IDM5 = 5, IDP5 = 14, IDS5 = 23;
 		int index = 0;

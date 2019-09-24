@@ -64,7 +64,7 @@ public class WallDemoer {
 	
 	private static GameTile[] loadDebugWall(int offset){
 //		GameTile[] wallTiles = new GameTile[MAX_SIZE_WALL];
-		GameTile[] wallTiles = Wall.standardSetOf134Tiles();
+		GameTile[] wallTiles = Wall.standardSetOf136Tiles();
 //		Collections.shuffle(Arrays.asList(wallTiles));
 		
 		

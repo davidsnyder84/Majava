@@ -31,20 +31,18 @@ public abstract class PlayerBrain {
 	public final DecisionTurnAction chooseTurnAction(Player thisPlayer, Hand hand){
 		this.player = thisPlayer;
 		
-		//this logic should be good, but I haven't implemented turn actions yet
+		//force auto discard if in riichi and unable to tsumo/kan
+		if (player.isInRiichi() && (!player.ableToTsumo() && !player.ableToAnkan()))
+			return DecisionTurnAction.Discard(tsumoTileIndex(hand));
 		
-//		//force auto discard if in riichi and unable to tsumo/kan
-//		if (player.isInRiichi() && (!player.ableToTsumo() && !player.ableToAnkan()))
-//			return DecisionTurnAction.Discard(tsumoTileIndex(hand));
-//		
-//		
-//		//choose your action
-//		TurnActionType chosenAction = selectTurnAction(hand, listOfPossibleTurnActions());
-//		
-//		
-//		//actions other than discard
-//		if (chosenAction.isNotDiscard())
-//			return new DecisionTurnAction(chosenAction);
+		
+		//choose your action
+		TurnActionType chosenAction = selectTurnAction(hand, listOfPossibleTurnActions());
+		
+		
+		//actions other than discard
+		if (chosenAction.isNotDiscard())
+			return new DecisionTurnAction(chosenAction);
 		
 		//discard
 		int discardIndex = selectDiscardIndex(hand);
@@ -59,7 +57,7 @@ public abstract class PlayerBrain {
 		if (player.ableToAnkan()) listOfPossibleTurnActions.add(TurnActionType.ANKAN);
 		if (player.ableToMinkan()) listOfPossibleTurnActions.add(TurnActionType.MINKAN);
 		if (player.ableToRiichi()) listOfPossibleTurnActions.add(TurnActionType.RIICHI);
-		if (player.ableToTsumo()) listOfPossibleTurnActions.add(TurnActionType.TSUMO);
+//		if (player.ableToTsumo()) listOfPossibleTurnActions.add(TurnActionType.TSUMO);
 		
 		return listOfPossibleTurnActions;
 	}

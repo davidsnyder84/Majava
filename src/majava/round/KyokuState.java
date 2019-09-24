@@ -86,6 +86,18 @@ public final class KyokuState{
 //	public boolean tooManyKans(){}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public Kyoku getKyoku(){return kyoku;}
 	public GameEventType getEvent(){return kyoku.getMostRecentEvent();}
 	
@@ -122,11 +134,21 @@ public final class KyokuState{
 			indexTurn = players().indexOfPlayer(seatToAct);
 		}
 		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//neither of these exist on the first turn, so if neither of them exist, it must be east's turn
+		if (seatToAct == Wind.UNKNOWN && seatOfLastDiscarder == Wind.UNKNOWN)
+			indexTurn = players().indexOfPlayer(Wind.EAST);
+		
 //		Wind w = kyoku.lastDiscarder().getSeatWind();
 //		indexOfPlayerToAct = players().indexOfPlayer(w);
 //			this.toString();///////////////////////////
 		
+		if (indexTurn == -777)
+			this.toString();
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
+		if (kyoku.tooManyKans())
+			indexTurn = (indexTurn + 1) % 4;
 		
 		return indexTurn;
 //		return indexOfPlayerToAct;	//I think this will work

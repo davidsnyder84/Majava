@@ -140,10 +140,16 @@ public class Kyoku{
 	
 	//When is everyone is 13 13 13 13?: right after discard / after call but before meldmake
 	public Wind seatToDrawNext(){
+		//if last discard was called, jump to the caller
 		if (lastDiscard().wasCalled())
 			return lastDiscard().getCaller();
-		else
-			return lastDiscard().getOrignalOwner().shimochaWind();
+		
+		//if East makes a kan on the first turn, he will need to draw but lastDiscard wont exist
+		if (players.seatE().pondIsEmpty())
+			return Wind.EAST;
+		
+		//otherwise, move to the shimocha of the last person who discarded
+		return lastDiscard().getOrignalOwner().shimochaWind();
 	}
 	
 	public boolean isOver(){
@@ -153,10 +159,14 @@ public class Kyoku{
 			else
 				return true;
 		}
-		return false;
 		
-//		return wallIsEmpty() && !someoneHasFullHand() && !someoneCalled();
+		if (tooManyKans())
+			return true; 
+		
+		
+		return false;
 	}
+	
 	
 	
 	public Wind getRoundWind(){return roundWind;}
@@ -180,7 +190,6 @@ public class Kyoku{
 	}
 	
 	
-//	public boolean someoneWantsToCallTheLastDiscard(){return letPlayersReactToDiscard().someoneCalled();}
 	public PlayerList letPlayersReactToDiscard(){
 		PlayerList playersWithReactions = players;
 		for (Player p : players.allPlayersExcept(lastDiscarder()))
@@ -356,7 +365,6 @@ public class Kyoku{
 		GameTile drawnTile = null;
 		if (p.needsDrawRinshan()){
 //			if (tooManyKans()) setResultRyuukyoku4Kan();
-			
 			drawnTile = wall.nextDeadWallTile();
 			wallAfterDraw = wall.removeNextDeadWallTile();
 			//with with new dora indicators? or does wall know how to figure that out on its own?
@@ -424,6 +432,22 @@ public class Kyoku{
 	
 	
 	
+	public boolean tooManyKans(){
+		final int KAN_LIMIT = 4;
+		if (numKansMade() < KAN_LIMIT) return false;
+		if (numKansMade() == KAN_LIMIT && !multiplePlayersHaveMadeKans()) return false;		
+		return true;
+	}
+	public int numKansMade(){
+		int numKans = 0;
+		for (Player p: players) numKans += p.getNumKansMade();
+		return numKans;
+	}
+	public boolean multiplePlayersHaveMadeKans(){
+		int numberOfPlayersWhoHaveMadeKan = 0;
+		for (Player p: players) if (p.hasMadeAKan()) numberOfPlayersWhoHaveMadeKan++;
+		return (numberOfPlayersWhoHaveMadeKan > 1);
+	}
 	
 	
 	
@@ -434,15 +458,6 @@ public class Kyoku{
 	//===================================================================================================================================
 	//===================================================================================================================================
 	//===================================================================================================================================
-	
-//	
-//	public boolean callWasMadeOnDiscard(){return turnIndicator.callWasMadeOnDiscard();}
-//	public GameTile mostRecentDiscard(){return turnIndicator.getMostRecentDiscard();}
-//	public Player currentPlayer(){return turnIndicator.currentPlayer();}
-//	public int whoseTurnNumber(){return turnIndicator.whoseTurnNumber();}
-//	
-//	private boolean tooManyKans(){return roundTracker.tooManyKans();}
-//	
 //	
 //	
 //	
@@ -492,13 +507,6 @@ public class Kyoku{
 //		handleRoundEnd();
 //	}
 //	
-//	
-//	private void goToNextTurn(){		
-//		if (wallIsEmpty())
-//			return;
-//		turnIndicator.nextTurn();
-//	}
-//	private void setTurnToPriorityCaller(){turnIndicator.setTurnToPriorityCaller();}
 //	
 //	
 //	

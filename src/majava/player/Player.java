@@ -197,6 +197,7 @@ public class Player implements Comparable<Player>{
 	//removes the most recent tile from the player's pond (because another player called it)
 	public Player removeTileFromPond(Wind caller){return this.withPond(pond.removeMostRecentTile(caller));}
 	public Pond getPond(){return pond;}
+	public boolean pondIsEmpty(){return pond.isEmpty();}
 	
 	public GameTile getLastDiscard(){return pond.getMostRecentTile();}
 	public Hand getHand(){return hand;}

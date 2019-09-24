@@ -57,8 +57,8 @@ public class PlayerList extends ImmuList<Player>{
 			if (get(i).getSeatWind() == seat)
 				return i;
 		
-		return -88; //i want to see this fail fast
-//		return 0; ///////////////
+//		return -88; //i want to see this fail fast (figure out a way to avoid this later)
+		return 0; ///////////////
 	}
 	public int indexOfPlayer(Player p){return indexOfPlayer(p.getSeatWind());}
 	public int playerNumberOf(Player p){return indexOfPlayer(p);}

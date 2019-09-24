@@ -140,7 +140,7 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 	public Meld tiltedOrderForm(){
 		if (isClosed()) return this;
 		
-		Meld tiltedMeld = this.clone();
+		Meld tiltedMeld = this;
 		int indexOfCompleted = tiltedMeld.indexOfCompletedTile();
 		
 		int moveToThisIndex = -1;
@@ -152,9 +152,9 @@ public class Meld implements Iterable<GameTile>, Comparable<Meld>, Cloneable {
 			moveToThisIndex = 0;
 		
 		//swap
-		GameTile temp = tiltedMeld.meldTiles.get(moveToThisIndex);
-		tiltedMeld.meldTiles.set(moveToThisIndex, tiltedMeld.meldTiles.get(indexOfCompleted));
-		tiltedMeld.meldTiles.set(indexOfCompleted, temp);
+		GameTile temp = meldTiles.get(moveToThisIndex);
+		tiltedMeld = tiltedMeld.withTiles(tiltedMeld.meldTiles.set(moveToThisIndex, tiltedMeld.meldTiles.get(indexOfCompleted)));
+		tiltedMeld = tiltedMeld.withTiles(tiltedMeld.meldTiles.set(indexOfCompleted, temp));
 		
 		return tiltedMeld;
 	}

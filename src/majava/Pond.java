@@ -66,6 +66,8 @@ public class Pond implements Cloneable{
 		return true;
 	}
 	
+	public boolean isEmpty(){return tiles.isEmpty();}
+	
 	
 	//mutators
 	public Pond addTile(GameTile t){return this.withTiles(tiles.add(new PondTile(t)));}

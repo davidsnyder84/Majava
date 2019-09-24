@@ -53,7 +53,7 @@ public class RoundDriver {
 				
 //				if (!lastRoundString.equals(round.toString())) System.out.println(round.toString());
 			}
-		println(j);
+			println(j);
 		}
 		
 		
@@ -70,8 +70,10 @@ public class RoundDriver {
 	private void setupUserInterfaces(){		
 		GameUI gui = new MajavaGUI();
 		setSleepTimesForUI(gui);
-//		gui.setSleepTimes(0,0,0);
-//		gui.setSleepTimes(50,50,50); 
+//		gui.setSleepTimes(0,0,0); 
+//		gui.setSleepTimes(80,80,80); 
+		gui.setSleepTimes(200,200,200); 
+//		gui.setSleepTimes(10,10,10); 
 		
 		GameUI textUI = new SparseTextualUI();
 		textUI.setSleepTimes(0,0,0);
@@ -79,8 +81,8 @@ public class RoundDriver {
 		GameUI audioHandler = new MajavaAudioHandler();
 		
 		List<GameUI> userInterfaces = new ArrayList<GameUI>();
-		userInterfaces.add(audioHandler);	//add audio observer first, so sounds play before any pauses
-		userInterfaces.add(gui); 
+//		userInterfaces.add(audioHandler);	//add audio observer first, so sounds play before any pauses
+		userInterfaces.add(gui);
 //		userInterfaces.add(textUI);
 				
 		for (GameUI ui: userInterfaces)

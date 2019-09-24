@@ -276,21 +276,16 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		int candidateIndex = turnActionabilityChecker().getCandidateMinkanIndex();
 		GameTile candidate = getTile(candidateIndex);
 		
-		Meld meldToUpgrade = null;
-		
-		//find the pon
-		for (Meld m: melds)
+		List<Meld> meldsWithMinkan = new ArrayList<Meld>();
+		for (Meld m: melds){
 			if (m.canMinkanWith(candidate))
-				meldToUpgrade = m;
-		
-		meldToUpgrade.upgradeToMinkan(candidate);
-		
-		///////////m is already upgraded before cloning, fix this
-		List<Meld> meldsWithMinkan = meldsClone();
+				meldsWithMinkan.add(m.upgradeToMinkan(candidate));
+			else
+				meldsWithMinkan.add(m);
+		}
 		
 		return this.removeTile(candidateIndex).withMelds(meldsWithMinkan);
 	}
-	
 	
 	
 	

@@ -33,6 +33,14 @@ public class PlayerList extends ImmuList<Player>{
 	}
 	public PlayerList updatePlayer(Player newPlayer){return set(newPlayer);}
 	
+	public PlayerList rotateSeats(Player newPlayer){
+		PlayerList rotatedPlayers = this;
+		for (Player p : rotatedPlayers)
+			rotatedPlayers = rotatedPlayers.set(p.rotateSeat());
+		return rotatedPlayers;
+	}
+	
+	
 	
 	
 	
@@ -61,8 +69,6 @@ public class PlayerList extends ImmuList<Player>{
 		return 0; ///////////////
 	}
 	public int indexOfPlayer(Player p){return indexOfPlayer(p.getSeatWind());}
-	public int playerNumberOf(Player p){return indexOfPlayer(p);}
-	public int playerNumberOf(Wind seat){return indexOfPlayer(seat);}
 	
 	public PlayerList allPlayersExcept(Player p){
 		return new PlayerList(neighborShimochaOf(p), neighborToimenOf(p), neighborKamichaOf(p));

@@ -183,7 +183,7 @@ public class Kyoku{
 	public boolean someoneNeedsToDraw(){return !someoneHasFullHand();}////////////////
 	
 	
-	public boolean needToDealStartingHands(){
+	public boolean hasntStartedYet(){
 		return (wall.currentPosition() == 0);
 //		for (Player p : players) if (p.handSize() == 0) return true;
 //		return false;
@@ -210,10 +210,8 @@ public class Kyoku{
 		if (isOver())
 			return this;
 		
-		if (needToDealStartingHands())
-			return dealHands();
-		
-		
+		if (hasntStartedYet())
+			return dealStartingHands();
 		
 		
 		
@@ -222,8 +220,6 @@ public class Kyoku{
 				return executeTurnAction();
 			else
 				return askTurnAction();
-			
-//			return doPlayerTurnAction();
 		}
 		
 		
@@ -257,14 +253,15 @@ public class Kyoku{
 	
 	public Kyoku letPriorityCallerMakeMeld(){
 		GameTile calledTile = lastDiscard();
-		Player priorityCaller = players.get(seatPriorityCaller());
-		Player discarder = players.get(calledTile.getOrignalOwner());
+		Player priorityCaller = priorityCaller();
+		Player discarder = lastDiscarder();
 		
-		///////////////ron falls here
-//		if (priorityCaller.calledRon()){
+		
+		if (priorityCaller.calledRon(calledTile)){
 //			setResultVictory(priorityCaller);
 //			return;
-//		}
+			//^^^^^^^^rename the method, and handle ron here
+		}
 		
 		
 		//remove tile from discarder's pond and make meld
@@ -278,82 +275,27 @@ public class Kyoku{
 	
 	private Kyoku askTurnAction(){
 		Player p = turnPlayer();
-		
 		Player pWithTurnActionDecided = p.decideTurnAction();
-//		p.takeTurn();
+		Kyoku thisWithAskedTurnAction = this.withUpdatedPlayer(pWithTurnActionDecided);
 		
-		return this.withUpdatedPlayer(pWithTurnActionDecided);
+		if (p.turnActionMadeKan())
+			; //attach some kind of event
+		
+		if (p.turnActionCalledTsumo())
+			;
+		
+		return thisWithAskedTurnAction;
 	}
 	private Kyoku executeTurnAction(){
 		Player p = turnPlayer();
-		
 		Player pAfterExecutingTurnAction = p.doTurnAction();
-//		Player pAfterExecutingTurnAction = p.takeTurn();
+		Kyoku thisAfterExecutingTurnAction = this.withUpdatedPlayer(pAfterExecutingTurnAction);
 		
-		return this.withUpdatedPlayer(pAfterExecutingTurnAction);
+		
+		return thisAfterExecutingTurnAction;
 	}
 	
 	
-//	private Kyoku doCurrentPlayerTurnAction(){return doPlayerTurnAction(currentPlayer());}
-//	private Kyoku doNextPlayerTurnAction(){return doPlayerTurnAction(nextPlayer());}
-	private Kyoku doPlayerTurnAction(){return doPlayerTurnAction(turnPlayer());}
-//	private Kyoku doPlayerTurnAction(Wind seat){return doPlayerTurnAction(turnPlayer());}
-	private Kyoku doPlayerTurnAction(final Player p){
-//		if (roundIsOver()) return;	//return early if (4kan or ryuukyoku)
-		//loop until the player has chosen a discard (loop until the player stops making kans) (kans and riichi are handled inside here)
-		
-		GameTile discardedTile = null;
-		int discardIndex = 0;
-		System.out.println(p.getHand().toString());
-		
-//		if (p.controllerIsHuman()) announceHumanTurnStartEvent(p);
-//		if (p.controllerIsHuman()){
-//			System.out.print("Discard what?: ");
-//			Scanner keyboard = new Scanner(System.in);
-//			discardIndex = keyboard.nextInt();
-//		}
-		
-//		discardedTile = p.takeTurn();
-		System.out.println("pppppppp" + p.getSeatWind()); 
-		System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhan" +p.handSize()); 
-		discardedTile = p.getHand().getTile(discardIndex);
-		Player pWithActionTaken = p.takeTurn();
-		
-		
-		return this.withUpdatedPlayer(pWithActionTaken);
-	}
-	
-//	//handles player p's turn, and gets the other players' reactions to the p's turn
-//	private void doPlayerTurn(Player p){
-//		
-//		//loop until the player has chosen a discard (loop until the player stops making kans) (kans and riichi are handled inside here)
-//		GameTile discardedTile = null;
-//		do{
-//			if (p.controllerIsHuman()) announceHumanTurnStartEvent(p);
-//			
-//			discardedTile = p.takeTurn();
-//			turnIndicator.setMostRecentDiscard(discardedTile);	//discardedTile will be null if the player made a kan/tsumo, but that's ok
-//			
-//			if (madeKan(p)){
-//				announceSelfKanEvent(p);
-//				letPlayerDraw(p);	//give player a rinshan draw
-//			}
-//			
-//			if (p.turnActionCalledTsumo()){
-//				announceTsumoEvent(p);
-//				setResultVictory(p);
-//			}
-//			
-//			if (roundIsOver()) return;	//return early if (tsumo or 4kan or 4riichi or kyuushu)
-//		}
-//		while (!p.turnActionChoseDiscard());
-//		
-//		announceEvent(GameplayEvent.discardedTileEvent());
-//	}
-//	private boolean madeKan(Player p){return p.needsDrawRinshan();}
-////	private List<Player> playersOtherThan(Player p){return Arrays.asList(roundTracker.neighborShimochaOf(p), roundTracker.neighborToimenOf(p), roundTracker.neighborKamichaOf(p));}
-//	
-//	
 	
 	
 	private Kyoku letPlayerDraw(){return letPlayerDraw(players.get(seatToDrawNext()));}
@@ -367,7 +309,7 @@ public class Kyoku{
 //			if (tooManyKans()) setResultRyuukyoku4Kan();
 			drawnTile = wall.nextDeadWallTile();
 			wallAfterDraw = wall.removeNextDeadWallTile();
-			//with with new dora indicators? or does wall know how to figure that out on its own?
+			//with with new dora indicators event? or does wall know how to figure that out on its own?
 		}
 		else{
 //			if (wallIsEmpty()) setResultRyuukyokuHowanpai();
@@ -387,20 +329,7 @@ public class Kyoku{
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-//	private Kyoku doRoundStart(){
-//		return dealHands();
-////		announceEvent(GameplayEvent.startOfRoundEvent());
-//	}
-	//deals players their starting hands
-	private Kyoku dealHands(){
+	private Kyoku dealStartingHands(){
 		Wall wallToDealFrom = wall;
 		
 		//DEBUG
@@ -447,6 +376,12 @@ public class Kyoku{
 		int numberOfPlayersWhoHaveMadeKan = 0;
 		for (Player p: players) if (p.hasMadeAKan()) numberOfPlayersWhoHaveMadeKan++;
 		return (numberOfPlayersWhoHaveMadeKan > 1);
+	}
+	
+	//only valid immediately after making / before rinshan drawing
+	public Player playerWhoMadeTheMostRecentKan(){
+		for (Player p : players) if (p.needsDrawRinshan()) return p;
+		return Player.NOBODY;
 	}
 	
 	
@@ -571,36 +506,7 @@ public class Kyoku{
 ////	private List<Player> playersOtherThan(Player p){return Arrays.asList(roundTracker.neighborShimochaOf(p), roundTracker.neighborToimenOf(p), roundTracker.neighborKamichaOf(p));}
 //	
 //	
-//	//gives a player a tile from the wall or dead wall
-//	private void letPlayerDraw(Player p){
-//		if (!p.needsDraw()) return;
-//		Wall wallAfterDraw = wall;
-//		
-//		GameTile drawnTile = null;
-//		if (p.needsDrawNormal()){
-//			if (wallIsEmpty()){
-//				setResultRyuukyokuHowanpai();
-//				return;
-//			}
-//			drawnTile = wall.nextTile();
-//			wallAfterDraw = wall.removeNextTile();
-//		}
-//		else if (p.needsDrawRinshan()){
-//			if (tooManyKans()){
-//				setResultRyuukyoku4Kan();
-//				return;
-//			}
-//			drawnTile = wall.nextDeadWallTile();
-//			wallAfterDraw = wall.removeNextDeadWallTile();
-//			
-//			announceEvent(GameplayEvent.newDoraIndicatorEvent());
-//		}
-//		
-//		p.addTileToHand(drawnTile);
-//		announceEvent(GameplayEvent.drewTileEvent());
-//		
-//		this.withWall(wallAfterDraw);
-//	}
+
 //	
 //	private void setResultRyuukyoku4Kan(){roundResult.setResultRyuukyoku4Kan();}
 //	
@@ -630,9 +536,6 @@ public class Kyoku{
 //	
 //	
 //	
-	
-	
-	
 	
 	
 	

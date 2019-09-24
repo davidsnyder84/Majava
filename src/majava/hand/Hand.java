@@ -127,8 +127,6 @@ public class Hand implements Iterable<GameTile>, Cloneable{
 		for (Meld m: melds) if (m.isKan()) numKans++;
 		return numKans;
 	}
-	public int numberOfANKansMade(){int numKans = 0; for (Meld m: melds) if (m.isKan() && m.isClosed()) numKans++; return numKans;}
-	public int numberOfMINKansMade(){int numKans = 0; for (Meld m: melds) if (m.isKan() && m.isOpen()) numKans++; return numKans;}
 	
 	public Wind getOwnerSeatWind(){return ownerWind;}
 	

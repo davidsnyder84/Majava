@@ -114,8 +114,7 @@ public class Player implements Comparable<Player>{
 	public Player doTurnAction(){
 		
 		if (turnActionChoseDiscard()){
-			int discardIndex = chosenDicardIndex();
-			return discardChosenTile(discardIndex);
+			return discardChosenTile();
 		}
 		
 		
@@ -144,54 +143,16 @@ public class Player implements Comparable<Player>{
 		System.out.println("HOWDIDYOUGETHEREdoTurnAction: " + decisionTurnAction); return null; //not sure if anything can ever reach here
 	}
 	
-	//lets a player take their turn
-	//returns the tile discarded by the player, returns null if the player did not discard (they made a kan or tsumo)
-	public Player takeTurn(){
-/////////////////////////////////////////////////////////////////////////////////mutate
-//		lastDiscard = null;
-		
-		int discardIndex = 1;
-		if (controllerIsHuman()){
-			System.out.print("Discard what?: ");
-			Scanner keyboard = new Scanner(System.in);
-			keyboard.next();
-//			discardIndex = keyboard.nextInt() - 1;
-			discardIndex = 1;
-		}
-		
-//		brain.chooseTurnAction(hand);
-//		if (turnActionChoseDiscard()){
-			
-			//discard and return the chosen tile
-			return discardChosenTile(discardIndex);
-//			return lastDiscard;
-//		}
-		
-//		if (turnActionMadeKan()){
-//			//make the kan
-//			if (turnActionMadeAnkan())
-//				hand.makeMeldTurnAnkan();
-//			else if (turnActionMadeMinkan())
-//				hand.makeMeldTurnMinkan();
-//			
-//			this.withDrawNeededRinshan();
-//		}
-		//riichi, tsumo falls here
-//		return null;
-	}
 	
-	private Player discardChosenTile(int discardIndex){
-//	private Player discardChosenTile(){
-		
-//		int discardIndex = brain.getChosenDiscardIndex();
-		
+	private Player discardChosenTile(){
+		int discardIndex = decisionTurnAction.getChosenDiscardIndex();
 		GameTile discardedTile = hand.getTile(discardIndex);
+		
 		Hand handWithRemovedTile = hand.removeTile(discardIndex);
 		Pond pondWithDiscardedTile = pond.addTile(discardedTile);
 		
 		//set needed draw to normal, since we just discarded a tile
 		return this.withHand(handWithRemovedTile).withPond(pondWithDiscardedTile);
-//		return discardedTile;
 	}
 	
 	//removes the most recent tile from the player's pond (because another player called it)
@@ -353,9 +314,6 @@ public class Player implements Comparable<Player>{
 	
 	public int getNumKansMade(){return hand.numberOfKansMade();}
 	public boolean hasMadeAKan(){return (getNumKansMade() != 0);}
-	
-	public int numberOfANKansMade(){return hand.numberOfANKansMade();}
-	public int numberOfMINKansMade(){return hand.numberOfMINKansMade();}
 	
 	
 	

@@ -3,7 +3,6 @@ package majava.userinterface.audiointerface;
 
 import utility.SoundClipPlayer;
 import majava.enums.Exclamation;
-import majava.events.GameplayEvent;
 import majava.userinterface.GameUI;
 
 public class MajavaAudioHandler extends GameUI{

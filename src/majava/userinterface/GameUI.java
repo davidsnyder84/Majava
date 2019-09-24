@@ -3,7 +3,6 @@ package majava.userinterface;
 import utility.Pauser;
 import majava.enums.Exclamation;
 import majava.enums.GameEventType;
-import majava.events.GameplayEvent;
 import majava.events.JanObserver;
 import majava.round.KyokuState;
 
@@ -28,13 +27,13 @@ public abstract class GameUI implements JanObserver{
 	
 	
 	@Override
-	public void update(GameplayEvent gameplayEvent, KyokuState stateOfGame) {
+	public void update(KyokuState stateOfGame) {
 		gameState = stateOfGame;
-		displayEvent(gameplayEvent);
+		displayEvent(stateOfGame.getEvent());
 	}
 	
-	public void displayEvent(final GameplayEvent event){
-		switch(event.getEventType()){
+	public void displayEvent(final GameEventType event){
+		switch(event){
 		case DISCARDED_TILE: displayEventDiscardedTile(); break;
 		case MADE_OPEN_MELD: displayEventMadeOpenMeld(); break;
 		case DREW_TILE: displayEventDrewTile(); break;
@@ -54,18 +53,20 @@ public abstract class GameUI implements JanObserver{
 		
 		
 		//////////////////////////////////////////////////////////
-		if (event.isExclamation()) showExclamation(event.getExclamation(), event.getSeat());
+		if (event.isExclamation())
+			; //showExclamation(event.getExclamation(), event.getSeat());
 		
 		//////////////////////////////////////////////////////////
 		if (shouldSleepForEvent(event))
 			Pauser.pauseFor(sleepTime);
 	}
-	private boolean shouldSleepForEvent(GameplayEvent event){
+//	private boolean shouldSleepForEvent(GameplayEvent event){
+	private boolean shouldSleepForEvent(GameEventType event){
 		if (sleepTime < 0) return false;
 		
 		if (
 				event.isExclamation() || 
-				event.getEventType() == GameEventType.PLAYER_TURN_START || 
+				event == GameEventType.PLAYER_TURN_START || 
 				event.isForHuman() || 
 				event.isStartEnd()
 			){

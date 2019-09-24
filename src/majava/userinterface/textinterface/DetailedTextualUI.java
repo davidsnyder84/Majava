@@ -10,7 +10,6 @@ import majava.util.GTL;
 import majava.util.YakuList;
 import majava.yaku.Yaku;
 import majava.enums.Exclamation;
-import majava.events.GameplayEvent;
 import majava.player.Player;
 import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;

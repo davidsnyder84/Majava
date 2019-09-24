@@ -13,8 +13,8 @@ public class JanEventLogger implements JanObserver{
 	}
 
 	@Override
-	public void update(GameplayEvent gameplayEvent, KyokuState gameState) {
-		eventLog.add(gameplayEvent.toString());
+	public void update(KyokuState gameState) {
+		eventLog.add(gameState.getEvent().toString());
 	}
 	
 	public void printEventLog(){

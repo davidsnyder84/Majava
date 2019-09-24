@@ -1,5 +1,6 @@
 package majava.enums;
 
+
 public enum GameEventType {
 	START_OF_ROUND,
 	DREW_TILE, PLAYER_TURN_START,
@@ -21,4 +22,6 @@ public enum GameEventType {
 	
 	
 	public boolean isExclamation(){return (this == CALLED_TILE || this == DECLARED_RIICHI || this == DECLARED_OWN_KAN || this == DECLARED_TSUMO);}
+	public boolean isForHuman(){return this == HUMAN_PLAYER_REACTION_START || this == HUMAN_PLAYER_TURN_START;}
+	public boolean isStartEnd(){return this == START || this == END;}
 }

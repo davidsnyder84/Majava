@@ -3,7 +3,6 @@ package majava.userinterface;
 import majava.enums.CallType;
 import majava.enums.Exclamation;
 import majava.enums.TurnActionType;
-import majava.events.GameplayEvent;
 import majava.player.Player;
 import majava.player.brains.HumanBrain;
 import majava.tiles.GameTile;

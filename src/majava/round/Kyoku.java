@@ -21,7 +21,6 @@ import majava.tiles.PondTile;
 import majava.control.testcode.GameSimulation;
 import majava.control.testcode.WallDemoer;
 import majava.events.GameEventBroadcaster;
-import majava.events.GameplayEvent;
 import majava.enums.CallType;
 import majava.enums.GameEventType;
 import majava.enums.KyokuEvent;
@@ -620,54 +619,138 @@ public class Kyoku{
 //	
 //	
 //	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+////	//event announce methods
+////	private void announceEvent(GameplayEvent event){
+////		gameEventBroadcaster.postNewEvent(event, gameState);
+////	}
+////	private void announceCallEventFrom(Player caller){
+////		announceEvent(GameplayEvent.calledTileEvent(caller.getCallStatusExclamation(), caller, mostRecentDiscard(), whoseTurnNumber()));
+////	}
+////	private void announceSelfKanEvent(Player fromPlayer){
+////		announceEvent(GameplayEvent.declaredOwnKanEvent(fromPlayer));
+////		announceEvent(GameplayEvent.madeOwnKanEvent());
+////	}
+////	private void announceTsumoEvent(Player fromPlayer){announceEvent(GameplayEvent.declaredTsumoEvent(fromPlayer));}
+////	private void announceHumanTurnStartEvent(Player p){announceEvent(GameplayEvent.humanPlayerTurnStartEvent(p));}
+////	private void announceHumanReactionChanceEvent(Player p){announceEvent(GameplayEvent.humanReactionEvent(p, mostRecentDiscard(), whoseTurnNumber()));}
+////	private void announceEndOfRoundEvent(){announceEvent(GameplayEvent.endOfRoundEvent());}
+//	
+//	
+//	
 //	//event announce methods
-//	private void announceEvent(GameplayEvent event){
-//		gameEventBroadcaster.postNewEvent(event, gameState);
-//	}
+////	private void announceEvent(GameplayEvent event){
+////		gameEventBroadcaster.postNewEvent(event, gameState);
+////	}
 //	private void announceCallEventFrom(Player caller){
-//		announceEvent(GameplayEvent.calledTileEvent(caller.getCallStatusExclamation(), caller, mostRecentDiscard(), whoseTurnNumber()));
+//		GameplayEvent.calledTileEvent(); //GameplayEvent.calledTileEvent(caller.getCallStatusExclamation(), caller, mostRecentDiscard(), whoseTurnNumber());
 //	}
 //	private void announceSelfKanEvent(Player fromPlayer){
-//		announceEvent(GameplayEvent.declaredOwnKanEvent(fromPlayer));
-//		announceEvent(GameplayEvent.madeOwnKanEvent());
+//		GameplayEvent.declaredOwnKanEvent(); //GameplayEvent.declaredOwnKanEvent(fromPlayer); ///!!!!!!!!!! <- this is DECLARE slef kan. Declare is done by someone with a full hand, so you can infer who it is
+//		GameplayEvent.madeOwnKanEvent();
+//		//if I could figure out how to determine WHO made the most recent kan, I could make 100% of these be enums
 //	}
-//	private void announceTsumoEvent(Player fromPlayer){announceEvent(GameplayEvent.declaredTsumoEvent(fromPlayer));}
-//	private void announceHumanTurnStartEvent(Player p){announceEvent(GameplayEvent.humanPlayerTurnStartEvent(p));}
-//	private void announceHumanReactionChanceEvent(Player p){announceEvent(GameplayEvent.humanReactionEvent(p, mostRecentDiscard(), whoseTurnNumber()));}
-//	private void announceEndOfRoundEvent(){announceEvent(GameplayEvent.endOfRoundEvent());}
+//	private void announceTsumoEvent(Player fromPlayer){
+//		GameplayEvent.declaredTsumoEvent();  //GameplayEvent.declaredTsumoEvent(fromPlayer); //can infer tsumo player from roundstate (who has full hand?)
+//	}
+////	private void announceHumanTurnStartEvent(Player p){///////////////what does this mean?
+////		GameplayEvent.humanPlayerTurnStartEvent(p);
+////	}
+////	private void announceHumanReactionChanceEvent(Player p){////////////this might not be necessary
+////		GameplayEvent.humanReactionEvent(p);
+////	}	
+//	//**********************************************enum
+//	private void announceEndOfRoundEvent(){
+//		GameplayEvent.endOfRoundEvent();
+//	}
+//	//**********************************************enum
+//	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^use Wind instead of Player
+//	
+//				/*
+//				//(from GameplayEvent//////////////////) 
+//				//factory methods
+//				public static final GameplayEvent startOfRoundEvent(){return new GameplayEvent(START_OF_ROUND);}
+//				public static final GameplayEvent drewTileEvent(){return new GameplayEvent(DREW_TILE);}
+//				public static final GameplayEvent newDoraIndicatorEvent(){return new GameplayEvent(NEW_DORA_INDICATOR);}
+//				public static final GameplayEvent discardedTileEvent(){return new GameplayEvent(DISCARDED_TILE);}
+//				public static final GameplayEvent madeOpenMeldEvent(){return new GameplayEvent(MADE_OPEN_MELD);}
+//				public static final GameplayEvent madeAnkanEvent(){return new GameplayEvent(MADE_ANKAN);}
+//				public static final GameplayEvent madeMinkanEvent(){return new GameplayEvent(MADE_MINKAN);}
+//				public static final GameplayEvent madeOwnKanEvent(){return new GameplayEvent(MADE_OWN_KAN);}
+//				public static final GameplayEvent endOfRoundEvent(){return new GameplayEvent(END_OF_ROUND);}
+//			
+//				
+//			//		public static final GameplayEvent calledTileEvent(Exclamation exclaim, Player caller, GameTile tile, int whoseTurnNumber){
+//				public static final GameplayEvent calledTileEvent(){
+//					GameplayEvent event = new GameplayEvent(CALLED_TILE);
+//			//			event.setExclamation(exclaim);
+//			//			event.packInfo(caller, tile, whoseTurnNumber);
+//					return event;	
+//				}
+//				public static final GameplayEvent declaredRiichiEvent(){return new GameplayEvent(DECLARED_RIICHI);}
+//				
+//			//		public static final GameplayEvent declaredOwnKanEvent(Player p){
+//				public static final GameplayEvent declaredOwnKanEvent(){
+//					GameplayEvent event = new GameplayEvent(DECLARED_OWN_KAN);
+//			//			event.setExclamation(Exclamation.OWN_KAN);
+//			//			event.packInfo(p);
+//					return event;
+//				}
+//				public static final GameplayEvent declaredTsumoEvent(){
+//					GameplayEvent event = new GameplayEvent(DECLARED_TSUMO);
+//			//			event.setExclamation(Exclamation.TSUMO);
+//			//			event.packInfo(p);
+//					return event;
+//				}
+//			
+//				public static final GameplayEvent humanPlayerTurnStartEvent(Player p){
+//					GameplayEvent event = new GameplayEvent(HUMAN_PLAYER_TURN_START);
+//					event.packInfo(p);
+//					return event;
+//				}
+//				
+//			//		public static final GameplayEvent humanReactionEvent(Player p, GameTile tile, int whoseTurnNumber){
+//				public static final GameplayEvent humanReactionEvent(Player p){
+//					GameplayEvent event = new GameplayEvent(HUMAN_PLAYER_REACTION_START);
+//			//			event.packInfo(p, tile, whoseTurnNumber);
+//					return event;
+//				}
+//				public static final GameplayEvent unknownEvent(){return new GameplayEvent(UNKNOWN);}
+//				public static final GameplayEvent playerTurnStartEvent(){return new GameplayEvent(PLAYER_TURN_START);}
+//				public static final GameplayEvent endingEvent(){return new GameplayEvent(END);}
+//				public static final GameplayEvent startingEvent(){return new GameplayEvent(START);}
+//				*/
 	
 	
 	
-	//event announce methods
-//	private void announceEvent(GameplayEvent event){
-//		gameEventBroadcaster.postNewEvent(event, gameState);
-//	}
-	private void announceCallEventFrom(Player caller){
-//		GameplayEvent.calledTileEvent(caller.getCallStatusExclamation(), caller, mostRecentDiscard(), whoseTurnNumber());
-		GameplayEvent.calledTileEvent();
-	}
-	private void announceSelfKanEvent(Player fromPlayer){
-//		GameplayEvent.declaredOwnKanEvent(fromPlayer); ///!!!!!!!!!! <- this is DECLARE slef kan. Declare is done by someone with a full hand, so you can infer who it is
-		GameplayEvent.declaredOwnKanEvent();
-		GameplayEvent.madeOwnKanEvent();
-		//if I could figure out how to determine WHO made the most recent kan, I could make 100% of these be enums
-	}
-	private void announceTsumoEvent(Player fromPlayer){
-//		GameplayEvent.declaredTsumoEvent(fromPlayer); //can infer tsumo player from roundstate (who has full hand?)
-		GameplayEvent.declaredTsumoEvent();
-	}
-//	private void announceHumanTurnStartEvent(Player p){///////////////what does this mean?
-//		GameplayEvent.humanPlayerTurnStartEvent(p);
-//	}
-//	private void announceHumanReactionChanceEvent(Player p){////////////this might not be necessary
-//		GameplayEvent.humanReactionEvent(p);
-//	}	
-	//**********************************************enum
-	private void announceEndOfRoundEvent(){
-		GameplayEvent.endOfRoundEvent();
-	}
-	//**********************************************enum
-	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^use Wind instead of Player
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public GameEventType getMostRecentEvent(){
 //		return mostRecentEvent;

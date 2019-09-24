@@ -5,7 +5,6 @@ import java.util.List;
 
 import majava.hand.Meld;
 import majava.enums.Exclamation;
-import majava.events.GameplayEvent;
 import majava.player.Player;
 import majava.summary.PaymentMap;
 import majava.summary.PlayerSummary;

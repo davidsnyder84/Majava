@@ -3,6 +3,7 @@ package majava.events;
 import java.util.ArrayList;
 import java.util.List;
 
+import majava.enums.GameEventType;
 import majava.round.KyokuState;
 
 
@@ -23,14 +24,14 @@ public class GameEventBroadcaster {
 	
 	
 	//notify observers when a new event is posted (in other words, when the game's state has changed)
-	public void postNewEvent(GameplayEvent event, KyokuState gameState){
-		notifyObservers(event, gameState);
+	public void postNewEvent(KyokuState gameState){
+		notifyObservers(gameState);
 	}
-	public void postNewEvent(GameplayEvent event){notifyObservers(event, null);}
+//	public void postNewEvent(GameEventType event){notifyObservers(event, null);}
 	
 	
-	private void notifyObservers(GameplayEvent event, KyokuState gameState){
+	private void notifyObservers(KyokuState gameState){
 		for (JanObserver o: observers)
-			o.update(event, gameState);
+			o.update(gameState);
 	}
 }

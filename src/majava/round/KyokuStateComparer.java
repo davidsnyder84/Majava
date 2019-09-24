@@ -2,7 +2,7 @@ package majava.round;
 
 import java.util.List;
 
-import majava.events.GameplayEvent;
+import majava.enums.GameEventType;
 import majava.hand.Hand;
 import majava.hand.Meld;
 import majava.player.Player;
@@ -24,7 +24,7 @@ public class KyokuStateComparer {
 	
 	
 	
-	public List<GameplayEvent> events(){
+	public List<GameEventType> events(){
 		if (noDifference()) return null;
 		
 		

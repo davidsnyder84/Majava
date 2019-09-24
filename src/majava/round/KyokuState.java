@@ -16,34 +16,32 @@ import majava.summary.RoundResultSummary;
 import majava.tiles.GameTile;
 import majava.tiles.PondTile;
 import majava.util.GTL;
+import majava.util.PlayerList;
 
 
 
-//the UI needs to be able to look at things that are normally hidden (like the wall and all players' hands)
-//this class gives the UI an immutable view of this data
 public final class KyokuState{
 	
-	
-	
-	private final Kyoku round;
-	private final GameEventType event;
+	private final Kyoku kyoku;
+//	private final GameEventType event;
 	
 	
 	private final PlayerTracker[] playerTrackers;
-	private final Wall wall;
 	
 	private final RoundTracker roundTracker;
 	
 	
-	public KyokuState(RoundTracker rTracker, Player[] playerArray, Wall reveivedWall){
-		round = null;
-		event = round.getMostRecentEvent();
+	public KyokuState(Kyoku round, RoundTracker rTracker, Wall reveivedWall){
+		kyoku = round;
+//		event = kyoku.getMostRecentEvent();
 		
 		roundTracker = rTracker;
-		playerTrackers = makePlayerTrackers(playerArray);
-		wall = reveivedWall;
+		playerTrackers = makePlayerTrackers(players());
 	}
-	private PlayerTracker[] makePlayerTrackers(Player[] playerArray){return new PlayerTracker[]{new PlayerTracker(playerArray[0]), new PlayerTracker(playerArray[1]), new PlayerTracker(playerArray[2]), new PlayerTracker(playerArray[3])};}
+	private PlayerTracker[] makePlayerTrackers(PlayerList players){
+		return new PlayerTracker[]{new PlayerTracker(players.get(0)), new PlayerTracker(players.get(1)), new PlayerTracker(players.get(2)), new PlayerTracker(players.get(3))};
+//		return new PlayerTracker[]{new PlayerTracker(playerArray[0]), new PlayerTracker(playerArray[1]), new PlayerTracker(playerArray[2]), new PlayerTracker(playerArray[3])};
+	}
 	
 	
 	//player methods
@@ -68,24 +66,49 @@ public final class KyokuState{
 	public Wind seatWindOfPlayer(int playerNum){return playerTrackers[playerNum].seatWind();}
 	
 	
+	
+	
+	
 	//wall methods
-	public GameTile[] getWallTiles(){return wall.getTiles();}
-	public String wallToString(){return wall.toString();}
-	public String deadWallToString(){return wall.toStringDeadWall();}
-
+	public GameTile[] getWallTiles(){return wall().getTiles();}
+	public String wallToString(){return wall().toString();}
+	public String deadWallToString(){return wall().toStringDeadWall();}
 	
 	
-	public RoundTracker getRoundTracker(){return roundTracker;}
-	public RoundResultSummary getResultSummary(){return roundTracker.getResultSummary();}
+	public Kyoku getKyoku(){return kyoku;}
+	public GameEventType getEvent(){return kyoku.getMostRecentEvent();}
+	
+	public Wall wall(){return kyoku.getWall();}
+	public PlayerList players(){return kyoku.getPlayers();}
+	
+	public Wind getRoundWind(){return kyoku.getRoundWind();}
+	public int getRoundNum(){return kyoku.getRoundNum();}
+	public int getRoundBonusNum(){return kyoku.getRoundBonusNum();}
+	
+	
+	
+	/////////////////////////////////////////////////////////////////////////////
+	public RoundTracker getRoundTracker(){
+		return roundTracker;
+	}
+	public RoundResultSummary getResultSummary(){
+		return roundTracker.getResultSummary();
+	}
+	
+	public Player currentPlayer(){
+		return getPlayer(roundTracker.whoseTurn());
+	}
+	/////////////////////////////////////////////////////////////////
 	
 	public PlayerBrain getControllerForPlayer(int playerNum){return playerTrackers[playerNum].getController();}
 	public Player getPlayer(int playerNum){return playerTrackers[playerNum].getPlayer();}
-	public Player currentPlayer(){return getPlayer(roundTracker.whoseTurn());}
 	
 	
 	
 	
-	//inner class
+	
+	
+	//this is dumb, but I don't want to mess with it
 	private static final class PlayerTracker{
 		
 		public final Player player;

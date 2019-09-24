@@ -71,7 +71,9 @@ public class GameplayEvent {
 		return event;	
 	}
 	public static final GameplayEvent declaredRiichiEvent(){return new GameplayEvent(DECLARED_RIICHI);}
-	public static final GameplayEvent declaredOwnKanEvent(Player p){
+	
+//	public static final GameplayEvent declaredOwnKanEvent(Player p){
+	public static final GameplayEvent declaredOwnKanEvent(){
 		GameplayEvent event = new GameplayEvent(DECLARED_OWN_KAN);
 //		event.setExclamation(Exclamation.OWN_KAN);
 //		event.packInfo(p);

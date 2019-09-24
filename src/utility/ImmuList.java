@@ -58,7 +58,8 @@ public class ImmuList<T extends Comparable<? super T>> implements Iterable<T>{
 	public T getLast(){if (isEmpty()) return null; return get(size() - 1);}
 	public boolean contains(T item){return list.contains(item);}
 	public int indexOf(T item){return list.indexOf(item);}
-	public List<T> toList(){return listClone();} public List<T> asList(){return toList();}
+	public List<T> toList(){return listClone();}
+	@SuppressWarnings("unchecked")public T[] toArray(){return (T[])(listClone().toArray());}
 	
 	
 	

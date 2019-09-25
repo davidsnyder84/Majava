@@ -23,6 +23,9 @@ public class BeaverBot extends RobotBrain {
 		return findMostWorthlessIndex(hand);
 	}
 	
+	/*
+	 * idea: does forbidding [call chi] cause a higher win rate?
+	 */
 
 	private int findMostWorthlessIndex(Hand hand){
 		int mostWorthlessIndex = INDEX_NOT_FOUND;

@@ -59,9 +59,9 @@ public class Player implements Comparable<Player>{
 		pointsBox = pts;
 		playerNum = pnum;
 		
-		hand = h;	//seatwind?
-		pond = p;
 		seatWind = w;
+		pond = p;
+		hand = h.setOwnerSeatWind(seatWind);
 		
 		needsRinshanDraw = rinshanNeeded;
 		decisionCall = decC;

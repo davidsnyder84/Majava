@@ -215,6 +215,9 @@ public class Player implements Comparable<Player>{
 	
 	//ask brain for reaction
 	public Player reactToDiscard(GameTile candidate){
+		if (alreadyReactedTo(candidate))
+			return this; //don't ask twice for the same tile
+		
 		DecisionCall chosenCall = brain.reactToDiscard(this, hand, candidate);
 		
 		return this.withDecisionCall(chosenCall);
@@ -288,6 +291,7 @@ public class Player implements Comparable<Player>{
 	public boolean calledKan(GameTile t){return decisionCall.isFor(t) && decisionCall.calledKan();}
 	public boolean calledRon(GameTile t){return decisionCall.isFor(t) && decisionCall.calledRon();}
 	
+	public boolean alreadyReactedTo(GameTile t){return decisionCall.isFor(t);}
 	
 	//check if the players needs to draw a tile, and what type of draw (normal vs rinshan)
 	public boolean needsDraw(){return !handIsFull();}

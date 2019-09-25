@@ -173,12 +173,15 @@ public class Kyoku{
 	}
 	
 	
+	//lets players react to the last discard, and make a decision if they want to call it
+	public PlayerList playersWithReactions(){return letPlayersReactToDiscard();}
 	public PlayerList letPlayersReactToDiscard(){
 		PlayerList playersWithReactions = players;
+		
 		for (Player p : players.allPlayersExcept(lastDiscarder()))
 			if (p.ableToCallTile(lastDiscard())){
 				Player reactedPlayer = p.reactToDiscard(lastDiscard());
-				playersWithReactions = playersWithReactions.set(reactedPlayer);
+				playersWithReactions = playersWithReactions.updatePlayer(reactedPlayer);
 			}
 		
 		return playersWithReactions;
@@ -188,7 +191,6 @@ public class Kyoku{
 	
 	
 	public Kyoku next(){
-//		System.out.println("==============================================================================================\n" + this.toString() + "==============================================================================================\n\n");
 		
 		if (isOver())
 			return this;
@@ -197,26 +199,20 @@ public class Kyoku{
 			return dealStartingHands();
 		
 		
-		
 		if (someoneHasFullHand()){
 			if (turnPlayer().hasChosenTurnAction())
-				return executeTurnAction();
+				return doTurnAction();
 			else
 				return askTurnAction();
 		}
 		
 		
-		
-		if (someoneCalledLastDiscard()){
+		if (someoneCalledLastDiscard())
 			return letPriorityCallerMakeMeld();
-		}
 		
 		
-		
-		PlayerList playersWithReactions = letPlayersReactToDiscard();
-		if (playersWithReactions.someoneCalled(lastDiscard()))
-			return this.withPlayers(playersWithReactions);
-		
+		if (letPlayersReactToDiscard().someoneCalled(lastDiscard()))
+			return this.withPlayers(playersWithReactions());
 		
 		
 		return letPlayerDraw();
@@ -257,7 +253,7 @@ public class Kyoku{
 		
 		return thisWithAskedTurnAction;
 	}
-	private Kyoku executeTurnAction(){
+	private Kyoku doTurnAction(){
 		Player p = turnPlayer();
 		Player pAfterExecutingTurnAction = p.doTurnAction();
 		Kyoku thisAfterExecutingTurnAction = this.withUpdatedPlayer(pAfterExecutingTurnAction);
@@ -305,19 +301,17 @@ public class Kyoku{
 		if (DEBUG_EXHAUSTED_WALL) wallToDealFrom = WallDemoer.ExhaustedWall(wallToDealFrom);
 		if (DEBUG_LOAD_DEBUG_WALL) wallToDealFrom = WallDemoer.SpecialDebugWall(wallToDealFrom);
 		
-		WallDealer dealer = new WallDealer(wallToDealFrom);
-		Wall dealtWall = dealer.wallWithStartingHandsRemoved();
+		WallDealer wallDealer = new WallDealer(wallToDealFrom);
+		Wall dealtWall = wallDealer.wallWithStartingHandsRemoved();
 		
-		Player peWithStartingHand = players.seatE().giveStartingHand(dealer.startingHandEast());
-		Player psWithStartingHand = players.seatS().giveStartingHand(dealer.startingHandSouth());
-		Player pwWithStartingHand = players.seatW().giveStartingHand(dealer.startingHandWest());
-		Player pnWithStartingHand = players.seatN().giveStartingHand(dealer.startingHandNorth());
+		Player peWithStartingHand = players.seatE().giveStartingHand(wallDealer.startingHandEast());
+		Player psWithStartingHand = players.seatS().giveStartingHand(wallDealer.startingHandSouth());
+		Player pwWithStartingHand = players.seatW().giveStartingHand(wallDealer.startingHandWest());
+		Player pnWithStartingHand = players.seatN().giveStartingHand(wallDealer.startingHandNorth());
 		
 		
-//		PlayerList playersWithStartingHands = new PlayerList(peWithStartingHand, psWithStartingHand, pwWithStartingHand, pnWithStartingHand);
 		PlayerList playersWithStartingHands = players.set(peWithStartingHand).set(psWithStartingHand).set(pwWithStartingHand).set(pnWithStartingHand);
 		return this.withWall(dealtWall).withPlayers(playersWithStartingHands);
-//		return this.withWall(dealtWall).withPlayers(playersWithStartingHands).postEvent(something);
 	}
 	
 	

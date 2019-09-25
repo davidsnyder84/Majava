@@ -118,6 +118,11 @@ public class PlayerList extends ImmuList<Player>{
 		return false;
 	}
 	
+	public boolean haveAlreadySeen(GameTile t){
+		for (Player p : this) if (p.alreadyReactedTo(t)) return true;
+		return false;
+	}
+	
 	
 	
 	

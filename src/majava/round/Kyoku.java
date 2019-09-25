@@ -174,8 +174,7 @@ public class Kyoku{
 	
 	
 	//lets players react to the last discard, and make a decision if they want to call it
-	public PlayerList playersWithReactions(){return letPlayersReactToDiscard();}
-	public PlayerList letPlayersReactToDiscard(){
+	public PlayerList playersWithReactionsToLastDiscard(){
 		PlayerList playersWithReactions = players;
 		
 		for (Player p : players.allPlayersExcept(lastDiscarder())){
@@ -206,21 +205,26 @@ public class Kyoku{
 		}
 		
 		
-		if (someoneCalledLastDiscard())
-			return letPriorityCallerMakeMeld();
+		if (playersHaveAlreadySeenLastDiscard()){
+			if (someoneCalledLastDiscard())
+				return letPriorityCallerMakeMeld();
+			else
+				return letPlayerDraw();
+		}
 		
 		
-		if (letPlayersReactToDiscard().someoneCalled(lastDiscard()))
-			return this.withPlayers(playersWithReactions());
-		
-		
-		return letPlayerDraw();
+		return letOtherPlayersSeeLastDiscard();
 	}
 	
 	
 	
 	
-	
+	public boolean playersHaveAlreadySeenLastDiscard(){
+		return players.haveAlreadySeen(lastDiscard());
+	}
+	public Kyoku letOtherPlayersSeeLastDiscard(){
+		return this.withPlayers(playersWithReactionsToLastDiscard());
+	}
 	
 	
 	public Kyoku letPriorityCallerMakeMeld(){

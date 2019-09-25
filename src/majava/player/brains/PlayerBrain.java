@@ -57,7 +57,7 @@ public abstract class PlayerBrain {
 		if (player.ableToAnkan()) listOfPossibleTurnActions.add(TurnActionType.ANKAN);
 		if (player.ableToMinkan()) listOfPossibleTurnActions.add(TurnActionType.MINKAN);
 		if (player.ableToRiichi()) listOfPossibleTurnActions.add(TurnActionType.RIICHI);
-//		if (player.ableToTsumo()) listOfPossibleTurnActions.add(TurnActionType.TSUMO);
+		if (player.ableToTsumo()) listOfPossibleTurnActions.add(TurnActionType.TSUMO);
 		
 		return listOfPossibleTurnActions;
 	}
@@ -95,7 +95,7 @@ public abstract class PlayerBrain {
 		if (player.ableToCallChiH(tileToReactTo)) listOfPossibleReactions.add(CallType.CHI_H);
 		if (player.ableToCallPon(tileToReactTo)) listOfPossibleReactions.add(CallType.PON);
 		if (player.ableToCallKan(tileToReactTo)) listOfPossibleReactions.add(CallType.KAN);
-//		if (player.ableToCallRon(tileToReactTo)) listOfPossibleReactions.add(CallType.RON);
+		if (player.ableToCallRon(tileToReactTo)) listOfPossibleReactions.add(CallType.RON);
 		
 		return listOfPossibleReactions;
 	}

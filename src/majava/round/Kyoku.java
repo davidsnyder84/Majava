@@ -36,7 +36,7 @@ public class Kyoku{
 	private static final int DEFAULT_ROUND_NUM = 1 , DEFAULT_ROUND_BONUS_NUM = 0;
 	
 	//for debug use
-//	private static final boolean DEBUG_LOAD_DEBUG_WALL = true; 
+//	private static final boolean DEBUG_LOAD_DEBUG_WALL = true;
 	private static final boolean DEBUG_LOAD_DEBUG_WALL = false;
 	
 //	private static final boolean DEBUG_EXHAUSTED_WALL = true;
@@ -152,21 +152,6 @@ public class Kyoku{
 		return lastDiscard().getOrignalOwner().shimochaWind();
 	}
 	
-	public boolean isOver(){
-		if (wallIsEmpty()){
-			if (someoneHasFullHand() || players.someoneCalled(lastDiscard()))
-				return false;
-			else
-				return true;
-		}
-		
-		if (tooManyKans())
-			return true; 
-		
-		
-		return false;
-	}
-	
 	
 	
 	public Wind getRoundWind(){return roundWind;}
@@ -181,6 +166,7 @@ public class Kyoku{
 	public boolean someoneHasFullHand(){return players.someoneHasFullHand();}
 	public boolean someoneCalledLastDiscard(){return players.someoneCalled(lastDiscard());}
 	public boolean someoneNeedsToDraw(){return !someoneHasFullHand();}////////////////
+	public boolean someoneNeedsDrawRinshan(){return players.someoneNeedsDrawRinshan();}
 	
 	
 	public boolean hasntStartedYet(){
@@ -224,14 +210,9 @@ public class Kyoku{
 		
 		
 		
-		
 		if (someoneCalledLastDiscard()){
-			if (priorityCaller().calledRon(lastDiscard()))
-				return null; ///////return some kind of roundend
-			else
-				return letPriorityCallerMakeMeld();
+			return letPriorityCallerMakeMeld();
 		}
-		
 		
 		
 		
@@ -242,7 +223,6 @@ public class Kyoku{
 		
 		
 		return letPlayerDraw();
-		
 	}
 	
 	
@@ -256,15 +236,9 @@ public class Kyoku{
 		Player priorityCaller = priorityCaller();
 		Player discarder = lastDiscarder();
 		
-		
-		if (priorityCaller.calledRon(calledTile)){
-//			setResultVictory(priorityCaller);
-//			return;
-			//^^^^^^^^rename the method, and handle ron here
-		}
+		//note: ron will never come here
 		
 		
-		//remove tile from discarder's pond and make meld
 		Player discarderWithPondTileRemoved = discarder.removeTileFromPond(priorityCaller.getSeatWind());
 		Player priorityCallerWithMeldMade = priorityCaller.makeMeld(calledTile);
 		
@@ -298,22 +272,19 @@ public class Kyoku{
 	
 	
 	
-	private Kyoku letPlayerDraw(){return letPlayerDraw(players.get(seatToDrawNext()));}
-	private Kyoku letPlayerDraw(final Player p){
-//		if (!p.needsDraw()) return this; //with some kind of event   //if we're here, p definitely needs to draw, so this check shouldn't be necessary
+	private Kyoku letPlayerDraw(){
+		Player p = players.get(seatToDrawNext());
+//		if (!p.needsDraw()) return this; //if we're here, p definitely needs to draw, so this check shouldn't be necessary
 		
 		Wall wallAfterDraw = wall;
 		
 		GameTile drawnTile = null;
 		if (p.needsDrawRinshan()){
-//			if (tooManyKans()) setResultRyuukyoku4Kan();
 			drawnTile = wall.nextDeadWallTile();
 			wallAfterDraw = wall.removeNextDeadWallTile();
 			//with with new dora indicators event? or does wall know how to figure that out on its own?
 		}
 		else{
-//			if (wallIsEmpty()) setResultRyuukyokuHowanpai();
-			
 			drawnTile = wall.nextTile();
 			wallAfterDraw = wall.removeNextTile();
 		}
@@ -360,7 +331,87 @@ public class Kyoku{
 	public boolean wallIsEmpty(){return wall.isEmpty();}
 	
 	
+	public RoundEndChecker roundEndChecker(){return new RoundEndChecker(this);}
 	
+	
+	public boolean isOver(){
+		//p.calledRon() and p.calledTsumo() decisions will still be alive here
+		return someoneDeclaredVictory() || isRyuukyoku();
+	}
+	
+	
+	//-----victory
+	public boolean someoneDeclaredVictory(){
+		return someoneDeclaredTsumo() || someoneDeclaredRon();
+	}
+	public boolean someoneDeclaredTsumo(){
+		for (Player p : players) if (p.turnActionCalledTsumo()) return true;
+		return false;
+	}
+	public boolean someoneDeclaredRon(){
+		for (Player p : players) if (p.calledRon(lastDiscard())) return true;
+		return false;
+	}
+	
+	public boolean qualifiesForRenchan(){
+		return endedWithEastVictory();
+		/////or if the dealer is in tenpai, or a certain ryuukyoku happens
+	}
+	public boolean endedWithEastVictory(){
+		return (players.seatE().calledRon(lastDiscard()) ||
+				players.seatE().turnActionCalledTsumo() );
+	}
+	
+	
+	//-----ryuukyou
+	public boolean isRyuukyoku(){
+		return (isRyuukyokuHowanpai() ||
+				isRyuukyoku4Kan() || 
+				isRyuukyokuKyuushuu() ||
+				isRyuukyoku4Wind()  );
+	}
+	
+	public boolean isRyuukyokuHowanpai(){
+		if (!wallIsEmpty())
+			return false;
+		
+		//if we're still here, the wall is empty
+		
+		if (someoneHasFullHand() || 
+			someoneCalledLastDiscard() || 
+			someoneNeedsDrawRinshan() )
+			return false;
+			
+		return true;
+	}
+	
+	public boolean isRyuukyoku4Riichi(){
+		int count = 0;
+		for (Player p : players) if (p.isInRiichi()) count++;
+		return (count == 4);
+	}
+	public boolean isRyuukyokuKyuushuu(){
+		return false;//////////this one can't be derived, it has to be set/chosen
+	}
+	public boolean isRyuukyoku4Wind(){
+		for (Pond pond : getPonds())
+			if (pond.size() != 1 || !pond.isUntouched())
+				return false;
+		
+		//here: each pond has exactly 1 tile, and they are all untouched
+		
+		PondTile allOtherTilesMustEqualThis = getPonds()[0].getFirst();
+		if (!allOtherTilesMustEqualThis.isWind())
+			return false;
+		
+		for (Pond pond : getPonds())
+			if (!pond.getFirst().equals(allOtherTilesMustEqualThis))
+				return false;
+		
+		return true;
+	}
+	
+	public boolean isRyuukyoku4Kan(){return tooManyKans();}
 	public boolean tooManyKans(){
 		final int KAN_LIMIT = 4;
 		if (numKansMade() < KAN_LIMIT) return false;
@@ -377,6 +428,7 @@ public class Kyoku{
 		for (Player p: players) if (p.hasMadeAKan()) numberOfPlayersWhoHaveMadeKan++;
 		return (numberOfPlayersWhoHaveMadeKan > 1);
 	}
+	
 	
 	//only valid immediately after making / before rinshan drawing
 	public Player playerWhoMadeTheMostRecentKan(){
@@ -395,53 +447,10 @@ public class Kyoku{
 	//===================================================================================================================================
 //	
 //	
-//	
-//	//accessors
-//	
 //	//round result methods
-//	public boolean roundIsOver(){return roundResult.isOver();}
-//	public boolean endedWithVictory(){return roundResult.isVictory();}
 //	public String getWinningHandString(){return roundResult.getAsStringWinningHand();}
 //	public RoundResultSummary getResultSummary(){return roundResult.getSummary();}
 //	public String getRoundResultString(){return roundResult.toString();}
-//	
-//	public boolean qualifiesForRenchan(){
-//		return roundEndedWithDealerVictory();
-//		/////or if the dealer is in tenpai, or a certain ryuukyoku happens
-//	}
-//	public boolean roundEndedWithDealerVictory(){return roundResult.isDealerVictory();}	
-//	
-//	
-//	
-//	
-//	
-//	
-//	//-----------------------------------------------------------------------------------------------------------------mutators
-//	
-//	//plays a single round of mahjong with the round's players
-//	public void play(){
-////		if (roundIsOver()) return;	//don't allow the same round to be played twice
-//		
-////		dealHands();
-////		announceEvent(GameplayEvent.startOfRoundEvent());
-//		
-//		while (!roundIsOver()){
-//			doPlayerTurn(currentPlayer());
-//			
-//			if (roundIsOver())
-//				break;
-//			
-//			letOtherPlayersReactToDiscard();
-//			if (callWasMadeOnDiscard()){
-//				handleReaction();
-//				setTurnToPriorityCaller();
-//			}
-//			else
-//				goToNextTurn();
-//		}
-//		handleRoundEnd();
-//	}
-//	
 //	
 //	
 //	
@@ -467,49 +476,6 @@ public class Kyoku{
 //	
 //	
 //	
-//	
-//	
-//	
-//	//handles player p's turn, and gets the other players' reactions to the p's turn
-//	private void doPlayerTurn(Player p){
-//		if (p.needsDraw())
-//			letPlayerDraw(p);
-//		announceEvent(GameplayEvent.playerTurnStartEvent());
-//		
-//		if (roundIsOver()) return;	//return early if (4kan or ryuukyoku)
-//		
-//		//loop until the player has chosen a discard (loop until the player stops making kans) (kans and riichi are handled inside here)
-//		GameTile discardedTile = null;
-//		do{
-//			if (p.controllerIsHuman()) announceHumanTurnStartEvent(p);
-//			
-//			discardedTile = p.takeTurn();
-//			turnIndicator.setMostRecentDiscard(discardedTile);	//discardedTile will be null if the player made a kan/tsumo, but that's ok
-//			
-//			if (madeKan(p)){
-//				announceSelfKanEvent(p);
-//				letPlayerDraw(p);	//give player a rinshan draw
-//			}
-//			
-//			if (p.turnActionCalledTsumo()){
-//				announceTsumoEvent(p);
-//				setResultVictory(p);
-//			}
-//			
-//			if (roundIsOver()) return;	//return early if (tsumo or 4kan or 4riichi or kyuushu)
-//		}
-//		while (!p.turnActionChoseDiscard());
-//		
-//		announceEvent(GameplayEvent.discardedTileEvent());
-//	}
-//	private boolean madeKan(Player p){return p.needsDrawRinshan();}
-////	private List<Player> playersOtherThan(Player p){return Arrays.asList(roundTracker.neighborShimochaOf(p), roundTracker.neighborToimenOf(p), roundTracker.neighborKamichaOf(p));}
-//	
-//	
-
-//	
-//	private void setResultRyuukyoku4Kan(){roundResult.setResultRyuukyoku4Kan();}
-//	
 //	private void setResultVictory(Player winner){
 //		GameTile winningTile = null;
 //		GTL winningHandTiles = winner.getHand().getTiles();
@@ -526,22 +492,8 @@ public class Kyoku{
 //		roundResult.setWinningHand(winningHandTiles, winner.getHand().getMelds(), winningTile);
 //	}
 //	
-//	private void setResultRyuukyokuHowanpai(){roundResult.setResultRyuukyokuHowanpai();}
-//	
-//	/////these aren't implemented yet in gameplay
-//	private void setResultRyuukyokuKyuushu(){roundResult.setResultRyuukyokuKyuushu();}
-//	private void setResultRyuukyoku4Riichi(){roundResult.setResultRyuukyoku4Riichi();}
-//	private void setResultRyuukyoku4Wind(){roundResult.setResultRyuukyoku4Wind();}
 //	
 //	
-//	
-//	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -645,17 +597,6 @@ public class Kyoku{
 //				public static final GameplayEvent endingEvent(){return new GameplayEvent(END);}
 //				public static final GameplayEvent startingEvent(){return new GameplayEvent(START);}
 //				*/
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

@@ -60,9 +60,14 @@ public class Pond implements Cloneable{
 	
 	//conditions for nagashi mangan: composed of only TYC, and no tiles have been called
 	public boolean isElligibleForNagashiMangan(){
-		for (GameTile t: tiles)
-			if (!t.isYaochuu() || ((PondTile)t).wasCalled())
-				return false;
+		if (!isUntouched()) return false;
+		
+		for (GameTile t: tiles) if (!t.isYaochuu()) return false;
+		return true;
+	}
+	//untouched = no tiles have been called
+	public boolean isUntouched(){
+		for (GameTile t : tiles) if (((PondTile)t).wasCalled()) return false;
 		return true;
 	}
 	

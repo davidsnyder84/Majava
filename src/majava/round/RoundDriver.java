@@ -53,6 +53,9 @@ public class RoundDriver {
 				
 //				if (!lastRoundString.equals(round.toString())) System.out.println(round.toString());
 			}
+			
+			println("Tsumo?: " + round.someoneDeclaredTsumo() + "  /  Ron?: " + round.someoneDeclaredRon() + "  /  wallempty?: " + round.wallIsEmpty());
+//			waitt();
 			println(j);
 		}
 		
@@ -70,10 +73,11 @@ public class RoundDriver {
 	private void setupUserInterfaces(){		
 		GameUI gui = new MajavaGUI();
 		setSleepTimesForUI(gui);
-//		gui.setSleepTimes(0,0,0); 
-//		gui.setSleepTimes(80,80,80); 
-		gui.setSleepTimes(200,200,200); 
-//		gui.setSleepTimes(10,10,10); 
+		gui.setSleepTimes(0,0,0);
+//		gui.setSleepTimes(80,80,80);
+//		gui.setSleepTimes(200,200,200);
+//		gui.setSleepTimes(10,10,10);
+
 		
 		GameUI textUI = new SparseTextualUI();
 		textUI.setSleepTimes(0,0,0);

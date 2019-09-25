@@ -111,6 +111,11 @@ public class PlayerList extends ImmuList<Player>{
 		return NOBODY;
 	}
 	public boolean someoneHasFullHand(){return playerWhoHasFullHand() != NOBODY;}
+	public boolean someoneNeedsDrawRinshan(){
+		for (Player p: this) if (p.needsDrawRinshan()) return true;
+		return false;
+	}
+	
 	
 	
 	

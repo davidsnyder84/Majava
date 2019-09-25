@@ -404,6 +404,7 @@ public class TableViewBase extends JFrame{
 	
 	
 	public void updateEverything(){
+		/////////////////////////////////refactor this into separate methods, so that everything doesn't have to be updated?
 		
 //		Pauser.pauseFor(1000);/////////////////////////////////////////////////////////////////////////////
 		

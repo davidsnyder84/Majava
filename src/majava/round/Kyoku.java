@@ -178,11 +178,10 @@ public class Kyoku{
 	public PlayerList letPlayersReactToDiscard(){
 		PlayerList playersWithReactions = players;
 		
-		for (Player p : players.allPlayersExcept(lastDiscarder()))
-			if (p.ableToCallTile(lastDiscard())){
-				Player reactedPlayer = p.reactToDiscard(lastDiscard());
-				playersWithReactions = playersWithReactions.updatePlayer(reactedPlayer);
-			}
+		for (Player p : players.allPlayersExcept(lastDiscarder())){
+			Player reactedPlayer = p.reactToDiscard(lastDiscard());
+			playersWithReactions = playersWithReactions.updatePlayer(reactedPlayer);
+		}
 		
 		return playersWithReactions;
 	}

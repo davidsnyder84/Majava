@@ -76,8 +76,8 @@ public class RoundDriver {
 		setSleepTimesForUI(gui);
 //		gui.setSleepTimes(0,0,0);
 //		gui.setSleepTimes(80,80,80);
-//		gui.setSleepTimes(200,200,200);
-		gui.setSleepTimes(10,10,10);
+		gui.setSleepTimes(200,200,200);
+//		gui.setSleepTimes(10,10,10);
 
 		
 		GameUI textUI = new SparseTextualUI();

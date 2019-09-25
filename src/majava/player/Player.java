@@ -218,7 +218,10 @@ public class Player implements Comparable<Player>{
 		if (alreadyReactedTo(candidate))
 			return this; //don't ask twice for the same tile
 		
-		DecisionCall chosenCall = brain.reactToDiscard(this, hand, candidate);
+		DecisionCall chosenCall = DecisionCall.None(candidate);
+		
+		if (ableToCallTile(candidate))
+			chosenCall = brain.reactToDiscard(this, hand, candidate);
 		
 		return this.withDecisionCall(chosenCall);
 	}

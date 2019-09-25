@@ -106,9 +106,6 @@ public class Kyoku{
 	
 	
 	
-	
-	
-	
 	//if your hand is full, that means it's your turn and you need to discard something (or declare kan/tsumo)
 	public Wind seatToAct(){
 		Player fullHandedPlayer = players.playerWhoHasFullHand();
@@ -317,7 +314,8 @@ public class Kyoku{
 		Player pnWithStartingHand = players.seatN().giveStartingHand(dealer.startingHandNorth());
 		
 		
-		PlayerList playersWithStartingHands = new PlayerList(peWithStartingHand, psWithStartingHand, pwWithStartingHand, pnWithStartingHand);
+//		PlayerList playersWithStartingHands = new PlayerList(peWithStartingHand, psWithStartingHand, pwWithStartingHand, pnWithStartingHand);
+		PlayerList playersWithStartingHands = players.set(peWithStartingHand).set(psWithStartingHand).set(pwWithStartingHand).set(pnWithStartingHand);
 		return this.withWall(dealtWall).withPlayers(playersWithStartingHands);
 //		return this.withWall(dealtWall).withPlayers(playersWithStartingHands).postEvent(something);
 	}
@@ -331,102 +329,31 @@ public class Kyoku{
 	public boolean wallIsEmpty(){return wall.isEmpty();}
 	
 	
+	
+	//round end methods
+	public boolean isOver(){
+		return roundEndChecker().isOver();
+	}
 	public RoundEndChecker roundEndChecker(){return new RoundEndChecker(this);}
 	
+	public boolean someoneDeclaredVictory(){return roundEndChecker().someoneDeclaredVictory();}
+	public boolean someoneDeclaredTsumo(){return roundEndChecker().someoneDeclaredTsumo();}
+	public boolean someoneDeclaredRon(){return roundEndChecker().someoneDeclaredRon();}
 	
-	public boolean isOver(){
-		//p.calledRon() and p.calledTsumo() decisions will still be alive here
-		return someoneDeclaredVictory() || isRyuukyoku();
-	}
+	public boolean isRyuukyoku(){return roundEndChecker().isRyuukyoku();}
+	public boolean isRyuukyokuHowanpai(){return roundEndChecker().isRyuukyokuHowanpai();}
+	public boolean isRyuukyoku4Riichi(){return roundEndChecker().isRyuukyoku4Riichi();}
+	public boolean isRyuukyokuKyuushuu(){return roundEndChecker().isRyuukyokuKyuushuu();}
+	public boolean isRyuukyoku4Wind(){return roundEndChecker().isRyuukyoku4Wind();}
+	public boolean isRyuukyoku4Kan(){return roundEndChecker().isRyuukyoku4Kan();}
 	
-	
-	//-----victory
-	public boolean someoneDeclaredVictory(){
-		return someoneDeclaredTsumo() || someoneDeclaredRon();
-	}
-	public boolean someoneDeclaredTsumo(){
-		for (Player p : players) if (p.turnActionCalledTsumo()) return true;
-		return false;
-	}
-	public boolean someoneDeclaredRon(){
-		for (Player p : players) if (p.calledRon(lastDiscard())) return true;
-		return false;
-	}
-	
-	public boolean qualifiesForRenchan(){
-		return endedWithEastVictory();
-		/////or if the dealer is in tenpai, or a certain ryuukyoku happens
-	}
-	public boolean endedWithEastVictory(){
-		return (players.seatE().calledRon(lastDiscard()) ||
-				players.seatE().turnActionCalledTsumo() );
-	}
+	public boolean qualifiesForRenchan(){return roundEndChecker().qualifiesForRenchan();}
 	
 	
-	//-----ryuukyou
-	public boolean isRyuukyoku(){
-		return (isRyuukyokuHowanpai() ||
-				isRyuukyoku4Kan() || 
-				isRyuukyokuKyuushuu() ||
-				isRyuukyoku4Wind()  );
-	}
-	
-	public boolean isRyuukyokuHowanpai(){
-		if (!wallIsEmpty())
-			return false;
-		
-		//if we're still here, the wall is empty
-		
-		if (someoneHasFullHand() || 
-			someoneCalledLastDiscard() || 
-			someoneNeedsDrawRinshan() )
-			return false;
-			
-		return true;
-	}
-	
-	public boolean isRyuukyoku4Riichi(){
-		int count = 0;
-		for (Player p : players) if (p.isInRiichi()) count++;
-		return (count == 4);
-	}
-	public boolean isRyuukyokuKyuushuu(){
-		return false;//////////this one can't be derived, it has to be set/chosen
-	}
-	public boolean isRyuukyoku4Wind(){
-		for (Pond pond : getPonds())
-			if (pond.size() != 1 || !pond.isUntouched())
-				return false;
-		
-		//here: each pond has exactly 1 tile, and they are all untouched
-		
-		PondTile allOtherTilesMustEqualThis = getPonds()[0].getFirst();
-		if (!allOtherTilesMustEqualThis.isWind())
-			return false;
-		
-		for (Pond pond : getPonds())
-			if (!pond.getFirst().equals(allOtherTilesMustEqualThis))
-				return false;
-		
-		return true;
-	}
-	
-	public boolean isRyuukyoku4Kan(){return tooManyKans();}
-	public boolean tooManyKans(){
-		final int KAN_LIMIT = 4;
-		if (numKansMade() < KAN_LIMIT) return false;
-		if (numKansMade() == KAN_LIMIT && !multiplePlayersHaveMadeKans()) return false;		
-		return true;
-	}
 	public int numKansMade(){
 		int numKans = 0;
 		for (Player p: players) numKans += p.getNumKansMade();
 		return numKans;
-	}
-	public boolean multiplePlayersHaveMadeKans(){
-		int numberOfPlayersWhoHaveMadeKan = 0;
-		for (Player p: players) if (p.hasMadeAKan()) numberOfPlayersWhoHaveMadeKan++;
-		return (numberOfPlayersWhoHaveMadeKan > 1);
 	}
 	
 	

@@ -147,7 +147,7 @@ public final class KyokuState{
 			this.toString();
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-		if (kyoku.tooManyKans())
+		if (kyoku.roundEndChecker().tooManyKans())
 			indexTurn = (indexTurn + 1) % 4;
 		
 		return indexTurn;

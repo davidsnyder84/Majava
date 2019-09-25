@@ -21,6 +21,8 @@ public class RoundEndChecker {
 	}
 	
 	
+	
+	
 	//-----victory
 	public boolean someoneDeclaredVictory(){
 		return someoneDeclaredTsumo() || someoneDeclaredRon();
@@ -44,6 +46,9 @@ public class RoundEndChecker {
 	}
 	
 	
+	
+	
+	
 	//-----ryuukyou
 	public boolean isRyuukyoku(){
 		return (isRyuukyokuHowanpai() ||
@@ -51,6 +56,8 @@ public class RoundEndChecker {
 				isRyuukyokuKyuushuu() ||
 				isRyuukyoku4Wind()  );
 	}
+	
+	
 	
 	public boolean isRyuukyokuHowanpai(){
 		if (!round.wallIsEmpty())
@@ -71,39 +78,39 @@ public class RoundEndChecker {
 		for (Player p : players()) if (p.isInRiichi()) count++;
 		return (count == 4);
 	}
+	
 	public boolean isRyuukyokuKyuushuu(){
 		return false;//////////this one can't be derived, it has to be set/chosen
 	}
+	
 	public boolean isRyuukyoku4Wind(){
 		Pond[] ponds = round.getPonds();
-		for (Pond pond : round.getPonds())
+		for (Pond pond : ponds)
 			if (pond.size() != 1 || !pond.isUntouched())
 				return false;
 		
 		//here: each pond has exactly 1 tile, and they are all untouched
 		
-		PondTile allOtherTilesMustEqualThis = round.getPonds()[0].getFirst();
+		PondTile allOtherTilesMustEqualThis = ponds[0].getFirst();
 		if (!allOtherTilesMustEqualThis.isWind())
 			return false;
 		
-		for (Pond pond : round.getPonds())
+		for (Pond pond : ponds)
 			if (!pond.getFirst().equals(allOtherTilesMustEqualThis))
 				return false;
 		
 		return true;
 	}
 	
+	
+	
 	public boolean isRyuukyoku4Kan(){return tooManyKans();}
+	
 	public boolean tooManyKans(){
 		final int KAN_LIMIT = 4;
-		if (numKansMade() < KAN_LIMIT) return false;
-		if (numKansMade() == KAN_LIMIT && !multiplePlayersHaveMadeKans()) return false;		
+		if (round.numKansMade() < KAN_LIMIT) return false;
+		if (round.numKansMade() == KAN_LIMIT && !multiplePlayersHaveMadeKans()) return false;		
 		return true;
-	}
-	public int numKansMade(){
-		int numKans = 0;
-		for (Player p: players()) numKans += p.getNumKansMade();
-		return numKans;
 	}
 	public boolean multiplePlayersHaveMadeKans(){
 		int numberOfPlayersWhoHaveMadeKan = 0;

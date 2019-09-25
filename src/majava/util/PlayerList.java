@@ -33,10 +33,12 @@ public class PlayerList extends ImmuList<Player>{
 	}
 	public PlayerList updatePlayer(Player newPlayer){return set(newPlayer);}
 	
-	public PlayerList rotateSeats(Player newPlayer){
+	
+	//NOTE!: need to use set(int, Player) when changing someone's seat wind
+	public PlayerList rotateSeats(){
 		PlayerList rotatedPlayers = this;
-		for (Player p : rotatedPlayers)
-			rotatedPlayers = rotatedPlayers.set(p.rotateSeat());
+		for (int i = 0; i < NUM_PLAYERS; i++)
+			rotatedPlayers = rotatedPlayers.set(i, get(i).rotateSeat());
 		return rotatedPlayers;
 	}
 	

@@ -28,7 +28,7 @@ public class HumanAskerGUI implements HumanInputAsker{
 	public TurnActionType selectTurnAction(Player player, Hand hand, List<TurnActionType> listOfPossibleTurnActions){
 		tableWindow.updateEverything();
 		
-//		tableWindow.movePromptPanelToSeat(player.getPlayerNumber()); //doesn't appear in the right place yet, because of playernum (can tableWindow figure it out on its own?)
+		tableWindow.movePromptPanelToSeat(player.getSeatWind());
 		
 		TurnActionType chosenAction = tableWindow.askUserInputTurnAction(
 										player.handSize(),
@@ -55,7 +55,7 @@ public class HumanAskerGUI implements HumanInputAsker{
 	@Override
 	public CallType chooseReaction(Player player, Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions){
 		
-//		tableWindow.movePromptPanelToSeat(player.getPlayerNumber());
+		tableWindow.movePromptPanelToSeat(player.getSeatWind());
 		
 		CallType chosenCalltype = tableWindow.askUserInputCall(
 				player.ableToCallChiL(tileToReactTo),
@@ -65,7 +65,6 @@ public class HumanAskerGUI implements HumanInputAsker{
 				player.ableToCallKan(tileToReactTo),
 				player.ableToCallRon(tileToReactTo)
 				);
-		
 		return chosenCalltype;
 	}
 	

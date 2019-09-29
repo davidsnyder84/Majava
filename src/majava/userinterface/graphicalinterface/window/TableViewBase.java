@@ -595,6 +595,7 @@ public class TableViewBase extends JFrame{
 	
 	
 	
+	public void movePromptPanelToSeat(Wind seat){movePromptPanelToSeat(gameState.playerNumOfSeat(seat));}
 	public void movePromptPanelToSeat(int seat){
 		switch(seat){
 		case SEAT1: panCalls.setLocation(475, 420); break;

@@ -158,6 +158,7 @@ public final class KyokuState{
 	public PlayerBrain getControllerForPlayer(int playerNum){return playerTrackers[playerNum].getController();}
 	public Player getPlayer(int playerNum){return playerTrackers[playerNum].getPlayer();}
 	
+	public int playerNumOfSeat(Wind seat){return players().indexOfPlayer(seat);}
 	
 	
 	

@@ -114,7 +114,8 @@ public class RoundDriver {
 		
 		for (Player p: players)
 			p.setControllerComputer();
-//			p.setControllerHuman();
+		
+//		players.get(0).setControllerHuman();
 		
 		return players;
 	}

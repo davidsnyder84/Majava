@@ -7,43 +7,43 @@ import majava.enums.CallType;
 import majava.hand.Hand;
 import majava.player.Player;
 import majava.tiles.GameTile;
+import majava.userinterface.humaninput.HumanAskerText;
 import majava.userinterface.humaninput.HumanInputAsker;
 
 public class HumanBrain extends PlayerBrain {
 	
-	private CallType callChosenByHuman;
-	private TurnActionType turnActionChosenByHuman;
-	private int discardIndexChosenByHuman;
-	
-	private HumanInputAsker hasker;
+	private final HumanInputAsker hasker;
 	
 	
+	public HumanBrain(HumanInputAsker ha){
+		hasker = ha;
+	}
 	public HumanBrain(){
-		
+		this(new HumanAskerText());
 	}
 	
-	//a human sets these values through a UI
-	public void setCallChosenByHuman(CallType call) {callChosenByHuman = call;}
-	public void setTurnActionChosenByHuman(TurnActionType turnaction) {turnActionChosenByHuman = turnaction;}
-	public void setDiscardIndexChosenByHuman(int discardindex) {discardIndexChosenByHuman = discardindex;}
+	
+	
 	
 	
 	@Override
 	protected TurnActionType selectTurnAction(Player player, Hand hand, List<TurnActionType> listOfPossibleTurnActions){
-		return turnActionChosenByHuman;
+		return hasker.selectTurnAction(player, hand, listOfPossibleTurnActions);
 	}
 	
 	@Override
 	protected int selectDiscardIndex(Hand hand){
-		return discardIndexChosenByHuman;
+		return hasker.selectDiscardIndex(hand);
 	}
 	
 	
 	
 	@Override
 	public CallType chooseReaction(Player player, Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions){
-		return callChosenByHuman;
+		return hasker.chooseReaction(player, hand, tileToReactTo, listOfPossibleReactions);
 	}
+	
+	
 	
 	
 	

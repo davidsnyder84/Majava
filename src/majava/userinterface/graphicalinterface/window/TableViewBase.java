@@ -3,7 +3,7 @@ package majava.userinterface.graphicalinterface.window;
 
 import majava.hand.Hand;
 import majava.hand.Meld;
-import majava.Pond;
+import majava.pond.Pond;
 import majava.wall.Wall;
 import majava.enums.CallType;
 import majava.enums.Exclamation;

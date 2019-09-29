@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import utility.Pauser;
 
-import majava.Pond;
+import majava.pond.Pond;
 import majava.util.GTL;
 import majava.util.PlayerList;
 import majava.wall.WallDealer;

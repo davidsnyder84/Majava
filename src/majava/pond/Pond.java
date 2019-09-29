@@ -1,4 +1,4 @@
-package majava;
+package majava.pond;
 
 import java.util.ArrayList;
 import java.util.List;

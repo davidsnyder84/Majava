@@ -2,7 +2,7 @@ package majava.userinterface.graphicalinterface.window;
 
 import majava.hand.Hand;
 import majava.hand.Meld;
-import majava.Pond;
+import majava.pond.Pond;
 import majava.enums.Exclamation;
 import majava.enums.Wind;
 import majava.player.Player;

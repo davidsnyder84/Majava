@@ -13,7 +13,7 @@ import javax.jws.soap.SOAPBinding;
 import majava.hand.AgariHand;
 import majava.hand.Hand;
 import majava.hand.Meld;
-import majava.Pond;
+import majava.pond.Pond;
 import majava.RoundResult;
 import majava.util.GTL;
 import majava.util.YakuList;

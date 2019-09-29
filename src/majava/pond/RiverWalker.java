@@ -1,6 +1,6 @@
 package majava.pond;
 
-import majava.Pond;
+import majava.pond.Pond;
 import majava.enums.Wind;
 import majava.tiles.PondTile;
 

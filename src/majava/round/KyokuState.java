@@ -2,7 +2,7 @@ package majava.round;
 
 import java.util.List;
 
-import majava.Pond;
+import majava.pond.Pond;
 import majava.wall.Wall;
 import majava.enums.GameEventType;
 import majava.enums.Wind;

@@ -1,6 +1,6 @@
 package majava.round;
 
-import majava.Pond;
+import majava.pond.Pond;
 import majava.player.Player;
 import majava.tiles.PondTile;
 import majava.util.PlayerList;

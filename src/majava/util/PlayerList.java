@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import utility.ImmuList;
-import majava.Pond;
+import majava.pond.Pond;
 import majava.enums.Wind;
 import majava.player.Player;
 import majava.tiles.GameTile;

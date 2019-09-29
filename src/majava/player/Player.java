@@ -25,6 +25,7 @@ import majava.util.GTL;
 
 
 //represents a player in the game
+//immutable class
 public class Player implements Comparable<Player>{
 	public static final Player NOBODY = new Player();
 	private static final boolean PLEASE_I_NEED_RINSHAN_DRAW = true, RINSHAN_DRAW_NOT_NEEDED = false;
@@ -38,7 +39,7 @@ public class Player implements Comparable<Player>{
 	private final Pond pond;
 	private final Wind seatWind;
 	
-	private int playerNum;///////////////////get rid of this
+	private final int playerNum;///////////////////get rid of this, maybe move it to profile?
 	
 	
 	//these can all disappear (reset) during builder calls
@@ -92,6 +93,7 @@ public class Player implements Comparable<Player>{
 	
 	
 	private Player withBrain(PlayerBrain newBrain){return new Player(newBrain, profile, pointsBox, playerNum, hand, pond, seatWind);}
+	private Player withPlayerNum(int newPlayerNum){return new Player(brain, profile, pointsBox, newPlayerNum, hand, pond, seatWind);}
 	
 	private Player withPoints(PointsBox pts){return new Player(brain, profile, pts, playerNum, hand, pond, seatWind);}
 	
@@ -338,8 +340,10 @@ public class Player implements Comparable<Player>{
 	public boolean isDealer(){return getSeatWind().isDealerWind();}
 	
 	//player number methods
-	public void setPlayerNumber(int newNum){
-		if (newNum >= 0 && newNum < 4) playerNum = newNum;
+	public Player setPlayerNumber(int newNum){
+		if (newNum < 0 || newNum >= 4)
+			return this;
+		return this.withPlayerNum(newNum);
 	}
 /////////////////////////////////////////////////////////////////////////////////mutate
 	public int getPlayerNumber(){return playerNum;}
@@ -401,7 +405,7 @@ public class Player implements Comparable<Player>{
 
 	
 	@Override
-	public boolean equals(Object other){return (this == other);}
+	public boolean equals(Object other){return (this == other);} /////////////do I need a better definition for equals?
 	@Override
 	public String toString(){return (getPlayerName() + " (" + seatWind.toChar() +" player) ");}
 	

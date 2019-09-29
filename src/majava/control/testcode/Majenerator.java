@@ -490,19 +490,19 @@ public class Majenerator {
 			playernum = 0;
 		
 		Player player = new Player(randName);
-		player.setControllerComputer();
+		player = player.setControllerComputer();
 		
 		switch(playernum){
-		case 0: player.setSeatWindEast(); break;
-		case 1: player.setSeatWindSouth(); break;
-		case 2: player.setSeatWindWest(); break;
-		case 3: player.setSeatWindNorth(); break;
+		case 0: player = player.setSeatWindEast(); break;
+		case 1: player = player.setSeatWindSouth(); break;
+		case 2: player = player.setSeatWindWest(); break;
+		case 3: player = player.setSeatWindNorth(); break;
 		default: break;
 		}
 		
-		player.setPlayerNumber(playernum);
+		player = player.setPlayerNumber(playernum);
 		
-		player.DEMOfillHandNoTsumo();
+		player.DEMOfillHandNoTsumo();////////////////
 		
 		return player;
 	}

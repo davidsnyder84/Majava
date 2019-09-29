@@ -11,7 +11,6 @@ import majava.tiles.GameTile;
 ///////////////NO LOGIC IMPLEMENTED YET
 public class OrphanBot extends RobotBrain {
 	
-	public OrphanBot(Player p) {super(p);}
 	
 	@Override
 	protected int selectDiscardIndex(Hand hand) {

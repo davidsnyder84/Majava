@@ -16,32 +16,25 @@ import majava.tiles.GameTile;
 //makes decisions for a player
 public abstract class PlayerBrain {
 	
-	protected Player player;	//get rid of this
 	
 	
-	
-	public PlayerBrain(Player p){
-		player = p;
+	public PlayerBrain(){
 	}
 	
-	//either pass Player every time you call, or use this
-//	public PlayerBrain withPlayer(Player p){return new PlayerBrain(p);}
 	
 	
 	
 	
 	
-	
-	public final DecisionTurnAction chooseTurnAction(Player thisPlayer, Hand hand){
-		this.player = thisPlayer;
+	public final DecisionTurnAction chooseTurnAction(Player player){
 		
 		//force auto discard if in riichi and unable to tsumo/kan
 		if (player.isInRiichi() && (!player.ableToTsumo() && !player.ableToAnkan()))
-			return DecisionTurnAction.Discard(tsumoTileIndex(hand));
+			return DecisionTurnAction.Discard(tsumoTileIndex(player.getHand()));
 		
 		
 		//choose your action
-		TurnActionType chosenAction = selectTurnAction(hand, listOfPossibleTurnActions());
+		TurnActionType chosenAction = selectTurnAction(player, player.getHand(), listOfPossibleTurnActions(player));
 		
 		
 		//actions other than discard
@@ -50,11 +43,11 @@ public abstract class PlayerBrain {
 		
 		
 		//choose discard index
-		int discardIndex = selectDiscardIndex(hand);
+		int discardIndex = selectDiscardIndex(player.getHand());
 		return DecisionTurnAction.Discard(discardIndex);
 	}
 	
-	private final List<TurnActionType> listOfPossibleTurnActions() {
+	private final List<TurnActionType> listOfPossibleTurnActions(Player player) {
 		List<TurnActionType> listOfPossibleTurnActions = new ArrayList<TurnActionType>();
 		
 		//discard is always possible, don't add it to the list
@@ -66,7 +59,7 @@ public abstract class PlayerBrain {
 		return listOfPossibleTurnActions;
 	}
 	//how the turn action is chosen left abstract and must be defined by the subclass
-	protected abstract TurnActionType selectTurnAction(Hand hand, List<TurnActionType> listOfPossibleTurnActions);
+	protected abstract TurnActionType selectTurnAction(Player player, Hand hand, List<TurnActionType> listOfPossibleTurnActions);
 	protected abstract int selectDiscardIndex(Hand hand);
 	
 	
@@ -75,21 +68,20 @@ public abstract class PlayerBrain {
 	
 	
 	
-	public final DecisionCall reactToDiscard(Player thisPlayer, Hand hand, GameTile tileToReactTo) {
-		this.player = thisPlayer;
+	public final DecisionCall reactToDiscard(Player player, GameTile tileToReactTo) {
 		
-		List<CallType> listOfPossibleReactions = getListOfPossibleReactions(tileToReactTo);
+		List<CallType> listOfPossibleReactions = getListOfPossibleReactions(player, tileToReactTo);
 		
 		if (listOfPossibleReactions.isEmpty())
 			return DecisionCall.None(tileToReactTo);
 		
 		
-		CallType chosenCallType = chooseReaction(hand, tileToReactTo, listOfPossibleReactions);
+		CallType chosenCallType = chooseReaction(player, player.getHand(), tileToReactTo, listOfPossibleReactions);
 		DecisionCall decision = new DecisionCall(chosenCallType, tileToReactTo);
 		return decision;
 	}
 	
-	private final List<CallType> getListOfPossibleReactions(GameTile tileToReactTo) {
+	private final List<CallType> getListOfPossibleReactions(Player player, GameTile tileToReactTo) {
 		List<CallType> listOfPossibleReactions = new ArrayList<CallType>();
 		
 		if (player.ableToCallChiL(tileToReactTo)) listOfPossibleReactions.add(CallType.CHI_L);
@@ -102,7 +94,7 @@ public abstract class PlayerBrain {
 		return listOfPossibleReactions;
 	}
 	//how the reaction is chosen left abstract and must be defined by the subclass
-	protected abstract CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions);
+	protected abstract CallType chooseReaction(Player player, Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions);
 	
 	
 	

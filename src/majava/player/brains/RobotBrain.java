@@ -15,22 +15,23 @@ public abstract class RobotBrain extends PlayerBrain {
 	protected static final int INDEX_NOT_FOUND = -1;
 	
 	
-	public RobotBrain(Player p) {
-		super(p);
-	}
+	
 	
 	@Override
-	protected CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions) {
+	protected CallType chooseReaction(Player player, Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions) {
 		//win by ron if possible
 		if (listOfPossibleReactions.contains(CallType.RON)) return CallType.RON;
 		return CallType.NONE;
 	}
 	@Override
-	protected TurnActionType selectTurnAction(Hand hand, List<TurnActionType> listOfPossibleTurnActions) {
+	protected TurnActionType selectTurnAction(Player player, Hand hand, List<TurnActionType> listOfPossibleTurnActions) {
 		//win by tsumo if possible
 		if (listOfPossibleTurnActions.contains(TurnActionType.TSUMO)) return TurnActionType.TSUMO;
 		return TurnActionType.DISCARD;
 	}
+	
+	
+	
 	
 	protected static int pickRandomlyFrom(List<Integer> choices){
 		if (choices.isEmpty()) return INDEX_NOT_FOUND;
@@ -44,6 +45,9 @@ public abstract class RobotBrain extends PlayerBrain {
 		if (choices.isEmpty()) return INDEX_NOT_FOUND;
 		return choices.get(0);
 	}
+	
+	
+	
 	
 	
 	@Override

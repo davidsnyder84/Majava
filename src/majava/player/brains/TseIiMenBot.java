@@ -19,14 +19,17 @@ public class TseIiMenBot extends RobotBrain {
 	
 	private char suitToCut;
 	
-	public TseIiMenBot(Player p, char cutSuit){
-		super(p);
+	public TseIiMenBot(char cutSuit){
 		suitToCut = cutSuit;
 	}
-	public TseIiMenBot(Player p){this(p, DEFAULT_SUIT_TO_CUT);}
+	public TseIiMenBot(){this(DEFAULT_SUIT_TO_CUT);}
+	
+	
+	
+	
 
 	@Override
-	protected TurnActionType selectTurnAction(Hand hand, List<TurnActionType> listOfPossibleTurnActions){return biggestTurnAction(listOfPossibleTurnActions);}
+	protected TurnActionType selectTurnAction(Player player, Hand hand, List<TurnActionType> listOfPossibleTurnActions){return biggestTurnAction(listOfPossibleTurnActions);}
 	@Override
 	protected int selectDiscardIndex(Hand hand){
 		if (findCutSuitIndex(hand) != NOT_FOUND)
@@ -50,7 +53,7 @@ public class TseIiMenBot extends RobotBrain {
 	}
 	
 	@Override
-	protected CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions) {return biggestReaction(listOfPossibleReactions);}
+	protected CallType chooseReaction(Player player, Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions) {return biggestReaction(listOfPossibleReactions);}
 
 	@Override
 	public String toString(){return "TseIiiMenBot";}

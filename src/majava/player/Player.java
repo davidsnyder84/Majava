@@ -52,7 +52,7 @@ public class Player implements Comparable<Player>{
 	
 	
 	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w, boolean rinshanNeeded, DecisionCall decC, DecisionTurnAction decTA){
-		if (brn == null) brain = new NullPlayerBrain(this);
+		if (brn == null) brain = new NullPlayerBrain();
 		else brain = brn;
 		
 		profile = prof;
@@ -108,7 +108,7 @@ public class Player implements Comparable<Player>{
 	
 	public Player decideTurnAction(){
 		
-		DecisionTurnAction decision = brain.chooseTurnAction(this, hand);
+		DecisionTurnAction decision = brain.chooseTurnAction(this);
 		return this.withDecisionTurnAction(decision);
 	}
 	public Player doTurnAction(){
@@ -221,7 +221,7 @@ public class Player implements Comparable<Player>{
 		DecisionCall chosenCall = DecisionCall.None(candidate);
 		
 		if (ableToCallTile(candidate))
-			chosenCall = brain.reactToDiscard(this, hand, candidate);
+			chosenCall = brain.reactToDiscard(this, candidate);
 		
 		return this.withDecisionCall(chosenCall);
 	}
@@ -348,14 +348,14 @@ public class Player implements Comparable<Player>{
 	//controller methods
 /////////////////////////////////////////////////////////////////////////////////mutate
 	public void setController(PlayerBrain desiredBrain){brain = desiredBrain;}
-	public void setControllerHuman(){setController(new HumanBrain(this));}
+	public void setControllerHuman(){setController(new HumanBrain());}
 	public void setControllerComputer(){
-//		RobotBrain robot = new SimpleRobot(this);
-//		RobotBrain robot = new SevenTwinBot(this);
-//		RobotBrain robot = new TseIiMenBot(this);
-//		RobotBrain robot = new PonMonsterBot(this);
-		RobotBrain robot = new BeaverBot(this);
-//		RobotBrain robot = RandomRobotGenerator.generateRandomComputerPlayer(this);
+//		RobotBrain robot = new SimpleRobot();
+//		RobotBrain robot = new SevenTwinBot();
+//		RobotBrain robot = new TseIiMenBot();
+//		RobotBrain robot = new PonMonsterBot();
+		RobotBrain robot = new BeaverBot();
+//		RobotBrain robot = RandomRobotGenerator.generateRandomComputerPlayer();
 		
 		setController(robot);
 	}

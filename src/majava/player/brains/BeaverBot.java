@@ -13,8 +13,7 @@ import majava.tiles.GameTile;
 //a bot that tries to win, without caring what type of hand it makes
 public class BeaverBot extends RobotBrain {
 
-	public BeaverBot(Player p) {
-		super(p);
+	public BeaverBot(){
 	}
 	
 	
@@ -173,10 +172,10 @@ public class BeaverBot extends RobotBrain {
 	
 	
 	@Override
-	protected TurnActionType selectTurnAction(Hand hand, List<TurnActionType> listOfPossibleTurnActions) {return biggestTurnAction(listOfPossibleTurnActions);}
+	protected TurnActionType selectTurnAction(Player player, Hand hand, List<TurnActionType> listOfPossibleTurnActions) {return biggestTurnAction(listOfPossibleTurnActions);}
 	
 	@Override
-	protected CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions){
+	protected CallType chooseReaction(Player player, Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions){
 //		return CallType.NONE;
 //		listOfPossibleReactions.removeAll(Arrays.asList(CallType.CHI_L, CallType.CHI_M, CallType.CHI_H, CallType.PON, CallType.KAN));
 		return biggestReaction(listOfPossibleReactions);

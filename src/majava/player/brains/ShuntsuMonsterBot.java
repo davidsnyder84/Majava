@@ -12,14 +12,11 @@ import majava.tiles.GameTile;
 
 //a bot that likes making pon-related yaku (toitoi hands)
 public class ShuntsuMonsterBot extends RobotBrain{
-
-	public ShuntsuMonsterBot(Player p) {
-		super(p);
-	}
+	
 	
 
 	@Override
-	protected TurnActionType selectTurnAction(Hand hand, List<TurnActionType> listOfPossibleTurnActions){
+	protected TurnActionType selectTurnAction(Player player, Hand hand, List<TurnActionType> listOfPossibleTurnActions){
 		//don't ankan
 		listOfPossibleTurnActions.removeAll(Arrays.asList(TurnActionType.ANKAN, TurnActionType.MINKAN));
 		return biggestTurnAction(listOfPossibleTurnActions);
@@ -40,7 +37,7 @@ public class ShuntsuMonsterBot extends RobotBrain{
 	
 	
 	@Override
-	protected CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions) {
+	protected CallType chooseReaction(Player player, Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions) {
 		//don't call pon/kan
 		listOfPossibleReactions.removeAll(Arrays.asList(CallType.PON, CallType.KAN));		
 		return biggestReaction(listOfPossibleReactions);

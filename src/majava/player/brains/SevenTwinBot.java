@@ -10,8 +10,6 @@ import majava.tiles.GameTile;
 //a bot that tries to form a seven pairs hand (chiitoitsu/Žµ‘ÎŽq)
 public class SevenTwinBot extends RobotBrain {
 	
-	public SevenTwinBot(Player p) {super(p);}
-	
 	@Override
 	protected int selectDiscardIndex(Hand hand) {
 		return indexOfPairlessTile(hand);

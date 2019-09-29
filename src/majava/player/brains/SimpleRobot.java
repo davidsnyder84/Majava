@@ -23,13 +23,12 @@ public class SimpleRobot extends RobotBrain {
 	private DiscardBehavior myDiscardBehavior;
 	
 	
-	public SimpleRobot(Player p, boolean willMakeCalls, boolean willMakeTurnActions){
-		super(p);
+	public SimpleRobot(boolean willMakeCalls, boolean willMakeTurnActions){
 		likesToMakeCalls = willMakeCalls;
 		likesToMakeTurnActions = willMakeTurnActions;
 		myDiscardBehavior = DEFAULT_DISCARD_BEHAVIOR;
 	}
-	public SimpleRobot(Player p){this(p, true, true);}
+	public SimpleRobot(){this(true, true);}
 	
 	
 	
@@ -43,7 +42,7 @@ public class SimpleRobot extends RobotBrain {
 
 	
 	@Override
-	protected TurnActionType selectTurnAction(Hand hand, List<TurnActionType> listOfPossibleTurnActions){
+	protected TurnActionType selectTurnAction(Player player, Hand hand, List<TurnActionType> listOfPossibleTurnActions){
 		if (likesToMakeTurnActions)
 			return biggestTurnAction(listOfPossibleTurnActions);
 		return TurnActionType.DISCARD;
@@ -69,7 +68,7 @@ public class SimpleRobot extends RobotBrain {
 	
 	
 	@Override
-	protected CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions){
+	protected CallType chooseReaction(Player player, Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions){
 		//listOfPossibleReactions is guaranteed to be non-empty (see superclass's template method)	
 		//choose the biggest call I possibly can
 		if (likesToMakeCalls)

@@ -15,15 +15,15 @@ import majava.tiles.GameTile;
 public class PonMonsterBot extends RobotBrain {
 	
 	private boolean hatesChi;
-
-	public PonMonsterBot(Player p) {
-		super(p);
+	
+	
+	public PonMonsterBot(){
 		hatesChi = true;
 	}
 	
 
 	@Override
-	protected TurnActionType selectTurnAction(Hand hand, List<TurnActionType> listOfPossibleTurnActions) {return biggestTurnAction(listOfPossibleTurnActions);}
+	protected TurnActionType selectTurnAction(Player player, Hand hand, List<TurnActionType> listOfPossibleTurnActions) {return biggestTurnAction(listOfPossibleTurnActions);}
 	
 	@Override
 	protected int selectDiscardIndex(Hand hand){
@@ -56,7 +56,7 @@ public class PonMonsterBot extends RobotBrain {
 	
 	
 	@Override
-	protected CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions) {
+	protected CallType chooseReaction(Player player, Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions) {
 		//don't call chi
 		if (hatesChi)
 			listOfPossibleReactions.removeAll(Arrays.asList(CallType.CHI_L, CallType.CHI_M, CallType.CHI_H));

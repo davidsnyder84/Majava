@@ -12,6 +12,7 @@ import majava.util.GTL;
 //represents a player's pond (êÏ) of discarded tiles
 public class Pond implements Cloneable{
 	private static final int SIZE_MAX = 30;
+	private static final int NOT_FOUND = -82;
 	
 	private final GTL tiles;
 	
@@ -40,9 +41,11 @@ public class Pond implements Cloneable{
 		for (int index = 0; index < size(); index++)
 			if (getTile(index).isRiichiTile())
 				return index;		
-		return -1;
+		return NOT_FOUND;
 	}
-	public PondTile getRiichiTile(){return getTile(indexOfRiichiTile());}
+	public PondTile getRiichiTile(){return getTile(indexOfRiichiTile());} //NPE if there is no riichi tile
+	public boolean containsRiichiTile(){return (indexOfRiichiTile() != NOT_FOUND);}
+	
 	public PondTile getMostRecentTile(){return getLast();}
 	public int size(){return tiles.size();}
 	

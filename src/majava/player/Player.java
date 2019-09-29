@@ -46,7 +46,6 @@ public class Player implements Comparable<Player>{
 	private final boolean needsRinshanDraw;
 	
 	private final boolean isHoldingRinshanTile;
-	private final boolean isRiichi;
 	
 	
 	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, Hand h, Pond p, Wind w, boolean rinshanNeeded, DecisionCall decC, DecisionTurnAction decTA){
@@ -65,7 +64,7 @@ public class Player implements Comparable<Player>{
 		decisionTurnAction = decTA;
 		
 		//not implemented yet
-		isHoldingRinshanTile = false; isRiichi = false;
+		isHoldingRinshanTile = false;
 	}
 	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, Hand h, Pond p, Wind w){
 		this(brn, prof, pts, h, p, w,
@@ -273,7 +272,7 @@ public class Player implements Comparable<Player>{
 	
 	//accessors
 	public int handSize(){return hand.size();}
-	public boolean isInRiichi(){return isRiichi;}
+	public boolean isInRiichi(){return pond.containsRiichiTile();}
 	public boolean checkTenpai(){return hand.isInTenpai();}
 	
 	

@@ -1,7 +1,6 @@
 package majava.player;
 
 import java.util.List;
-import java.util.Scanner;
 
 import majava.hand.Hand;
 import majava.hand.Meld;
@@ -20,7 +19,6 @@ import majava.player.brains.SimpleRobot;
 import majava.player.brains.TseIiMenBot;
 import majava.summary.PointsBox;
 import majava.tiles.GameTile;
-import majava.tiles.TileInterface;
 import majava.util.GTL;
 
 
@@ -45,8 +43,6 @@ public class Player implements Comparable<Player>{
 	private final DecisionTurnAction decisionTurnAction;
 	private final boolean needsRinshanDraw;
 	
-	private final boolean isHoldingRinshanTile;
-	
 	
 	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, Hand h, Pond p, Wind w, boolean rinshanNeeded, DecisionCall decC, DecisionTurnAction decTA){
 		if (brn == null) brain = new NullPlayerBrain();
@@ -62,9 +58,6 @@ public class Player implements Comparable<Player>{
 		needsRinshanDraw = rinshanNeeded;
 		decisionCall = decC;
 		decisionTurnAction = decTA;
-		
-		//not implemented yet
-		isHoldingRinshanTile = false;
 	}
 	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, Hand h, Pond p, Wind w){
 		this(brn, prof, pts, h, p, w,
@@ -305,7 +298,6 @@ public class Player implements Comparable<Player>{
 	public boolean handIsFull(){return hand.isFull();}
 	public boolean needsToDiscard(){return handIsFull();}
 	
-	public boolean holdingRinshan(){return isHoldingRinshanTile;}
 	public GameTile getTsumoTile(){return hand.getLastTile();}
 	
 	

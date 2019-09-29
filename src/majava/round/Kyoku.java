@@ -207,6 +207,13 @@ public class Kyoku{
 		
 		if (playersHaveAlreadySeenLastDiscard()){
 			if (someoneCalledLastDiscard())
+			/*
+			^how does this interact with called kan?
+			(p made the kan (new meld), so I believe their call decision will be reset and p.Called() will be false)
+			[[[!!!problems might happen if p1 calls chi and is bumped by p2 calling kan, test this]]]
+			solution: in letPriorityCallerMakeMeld(), nullify the call decisions for other players
+			CallDecision.deny(), CallType.DENIED   (Chi/M5 -> Denied/M5 or None/M5)       for (Player p : players.otherThan(priorityCaller)) p.denyCall()
+			*/
 				return letPriorityCallerMakeMeld();
 			else
 				return letPlayerDraw();
@@ -421,6 +428,8 @@ public class Kyoku{
 	
 	
 	
+	
+	private static GameEventType eventStart(){return GameEventType.START_OF_ROUND;}
 ////	//event announce methods
 ////	private void announceEvent(GameplayEvent event){
 ////		gameEventBroadcaster.postNewEvent(event, gameState);

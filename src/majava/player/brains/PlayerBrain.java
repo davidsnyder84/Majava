@@ -16,7 +16,7 @@ import majava.tiles.GameTile;
 //makes decisions for a player
 public abstract class PlayerBrain {
 	
-	protected Player player;
+	protected Player player;	//get rid of this
 	
 	
 	
@@ -24,10 +24,14 @@ public abstract class PlayerBrain {
 		player = p;
 	}
 	
+	//either pass Player every time you call, or use this
+//	public PlayerBrain withPlayer(Player p){return new PlayerBrain(p);}
 	
 	
 	
-	//template method pattern, final
+	
+	
+	
 	public final DecisionTurnAction chooseTurnAction(Player thisPlayer, Hand hand){
 		this.player = thisPlayer;
 		
@@ -44,12 +48,12 @@ public abstract class PlayerBrain {
 		if (chosenAction.isNotDiscard())
 			return new DecisionTurnAction(chosenAction);
 		
-		//discard
+		
+		//choose discard index
 		int discardIndex = selectDiscardIndex(hand);
 		return DecisionTurnAction.Discard(discardIndex);
 	}
 	
-	//get list of possible options
 	private final List<TurnActionType> listOfPossibleTurnActions() {
 		List<TurnActionType> listOfPossibleTurnActions = new ArrayList<TurnActionType>();
 		
@@ -71,7 +75,6 @@ public abstract class PlayerBrain {
 	
 	
 	
-	//template method pattern, final
 	public final DecisionCall reactToDiscard(Player thisPlayer, Hand hand, GameTile tileToReactTo) {
 		this.player = thisPlayer;
 		
@@ -85,8 +88,7 @@ public abstract class PlayerBrain {
 		DecisionCall decision = new DecisionCall(chosenCallType, tileToReactTo);
 		return decision;
 	}
-
-	//get list of possible options
+	
 	private final List<CallType> getListOfPossibleReactions(GameTile tileToReactTo) {
 		List<CallType> listOfPossibleReactions = new ArrayList<CallType>();
 		
@@ -102,6 +104,20 @@ public abstract class PlayerBrain {
 	//how the reaction is chosen left abstract and must be defined by the subclass
 	protected abstract CallType chooseReaction(Hand hand, GameTile tileToReactTo, List<CallType> listOfPossibleReactions);
 	
+	
+	
+	
+	
+	public abstract boolean isHuman();
+	public final boolean isComputer(){return !isHuman();}
+	
+	
+	
+	
+	
+	
+	
+	//convenience methods for subclasses to use
 	protected final TurnActionType biggestTurnAction(List<TurnActionType> actions){
 		if (actions.isEmpty()) return TurnActionType.DISCARD;
 		return actions.get(actions.size()-1);
@@ -111,15 +127,9 @@ public abstract class PlayerBrain {
 		return calls.get(calls.size()-1);
 	}
 	
-	
-	
-	
-	
-	public abstract boolean isHuman();
-	public final boolean isComputer(){return !isHuman();}
-	
 	protected static final int tsumoTileIndex(Hand hand){return hand.size() - 1;}
 	protected static final int firstTileIndex(Hand hand){return 0;}
+	
 	
 	
 	@Override

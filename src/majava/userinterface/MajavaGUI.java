@@ -79,4 +79,6 @@ public class MajavaGUI extends GameUI{
 	protected void displayEventHumanReactionStart() {
 		//////////////////////////
 	}
+	
+	public TableViewBase getTableWindow(){return tableWindow;}
 }

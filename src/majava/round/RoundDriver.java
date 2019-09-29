@@ -7,15 +7,22 @@ import java.util.Scanner;
 import majava.enums.Wind;
 import majava.events.GameEventBroadcaster;
 import majava.player.Player;
+import majava.player.brains.HumanBrain;
 import majava.userinterface.GameUI;
 import majava.userinterface.MajavaGUI;
 import majava.userinterface.audiointerface.MajavaAudioHandler;
+import majava.userinterface.graphicalinterface.window.TableViewBase;
+import majava.userinterface.humaninput.HumanAskerGUI;
+import majava.userinterface.humaninput.HumanInputAsker;
 import majava.userinterface.textinterface.SparseTextualUI;
 import majava.util.PlayerList;
 
 public class RoundDriver {
 	
 	private GameEventBroadcaster gameEventBroadcaster;
+	private MajavaGUI gui;
+	
+	
 	
 	public static void main(String[] args) {
 		
@@ -30,6 +37,7 @@ public class RoundDriver {
 	
 	public RoundDriver(){
 		gameEventBroadcaster = new GameEventBroadcaster();
+		gui = null;
 	}
 	
 	private void doRound(){
@@ -72,7 +80,7 @@ public class RoundDriver {
 	
 	
 	private void setupUserInterfaces(){		
-		GameUI gui = new MajavaGUI();
+		gui = new MajavaGUI();
 		setSleepTimesForUI(gui);
 //		gui.setSleepTimes(0,0,0);
 		gui.setSleepTimes(80,80,80);
@@ -110,16 +118,32 @@ public class RoundDriver {
 	
 	
 	private PlayerList players(){
-//		PlayerList players = new PlayerList(new Player().setSeatWindEast(), new Player().setSeatWindSouth(), new Player().setSeatWindWest(), new Player().setSeatWindNorth());
-		PlayerList players = new PlayerList(
-//				new Player().setSeatWindEast().setControllerHuman(),
-				new Player().setSeatWindEast().setControllerComputer(),
-				new Player().setSeatWindSouth().setControllerComputer(),
-				new Player().setSeatWindWest().setControllerComputer(),
-				new Player().setSeatWindNorth().setControllerComputer()
-			);
-		
-		return players;
+		return players0human();
+//		return players1human();
+//		return players4human();
+	}
+	private PlayerList players4human(){return new PlayerList(
+			new Player().setSeatWindEast().setController(guiHuman()),
+			new Player().setSeatWindSouth().setController(guiHuman()),
+			new Player().setSeatWindWest().setController(guiHuman()),
+			new Player().setSeatWindNorth().setController(guiHuman())    );
+	}
+	private PlayerList players1human(){return new PlayerList(
+			new Player().setSeatWindEast().setController(guiHuman()),
+			new Player().setSeatWindSouth().setControllerComputer(),
+			new Player().setSeatWindWest().setControllerComputer(),
+			new Player().setSeatWindNorth().setControllerComputer()   );
+	}
+	private PlayerList players0human(){return new PlayerList(
+			new Player().setSeatWindEast().setControllerComputer(),
+			new Player().setSeatWindSouth().setControllerComputer(),
+			new Player().setSeatWindWest().setControllerComputer(),
+			new Player().setSeatWindNorth().setControllerComputer()    );
+	}
+	
+	private HumanBrain guiHuman(){
+		HumanInputAsker hasker = new HumanAskerGUI(gui.getTableWindow());
+		return new HumanBrain(hasker);
 	}
 	
 	

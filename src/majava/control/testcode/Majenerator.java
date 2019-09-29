@@ -500,7 +500,7 @@ public class Majenerator {
 		default: break;
 		}
 		
-		player = player.setPlayerNumber(playernum);
+//		set player number?
 		
 		player.DEMOfillHandNoTsumo();////////////////
 		

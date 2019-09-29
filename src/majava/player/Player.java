@@ -39,8 +39,6 @@ public class Player implements Comparable<Player>{
 	private final Pond pond;
 	private final Wind seatWind;
 	
-	private final int playerNum;///////////////////get rid of this, maybe move it to profile?
-	
 	
 	//these can all disappear (reset) during builder calls
 	private final DecisionCall decisionCall;
@@ -51,13 +49,12 @@ public class Player implements Comparable<Player>{
 	private final boolean isRiichi;
 	
 	
-	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w, boolean rinshanNeeded, DecisionCall decC, DecisionTurnAction decTA){
+	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, Hand h, Pond p, Wind w, boolean rinshanNeeded, DecisionCall decC, DecisionTurnAction decTA){
 		if (brn == null) brain = new NullPlayerBrain();
 		else brain = brn;
 		
 		profile = prof;
 		pointsBox = pts;
-		playerNum = pnum;
 		
 		seatWind = w;
 		pond = p;
@@ -70,40 +67,39 @@ public class Player implements Comparable<Player>{
 		//not implemented yet
 		isHoldingRinshanTile = false; isRiichi = false;
 	}
-	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w){
-		this(brn, prof, pts, pnum, h, p, w,
+	private Player(PlayerBrain brn, PlayerProfile prof, PointsBox pts, Hand h, Pond p, Wind w){
+		this(brn, prof, pts, h, p, w,
 				RINSHAN_DRAW_NOT_NEEDED,
 				DecisionCall.DUMMY,
 				DecisionTurnAction.DUMMY
 		);
 	}
 	
-	private Player(PlayerProfile prof, PointsBox pts, int pnum, Hand h, Pond p, Wind w){
-		this(null, prof, pts, pnum, h, p, w);
+	private Player(PlayerProfile prof, PointsBox pts, Hand h, Pond p, Wind w){
+		this(null, prof, pts, h, p, w);
 	}
-	public Player(PlayerProfile prof, PointsBox pts, int pnum){
-		this(prof, pts, pnum, new Hand(), new Pond(), Wind.UNKNOWN);
+	public Player(PlayerProfile prof, PointsBox pts){
+		this(prof, pts, new Hand(), new Pond(), Wind.UNKNOWN);
 	}
 	public Player(PlayerProfile newProfile){
-		this(newProfile, new PointsBox(), 0);
+		this(newProfile, new PointsBox());
 	}
 	public Player(String name){this(new PlayerProfile(name));}
 	public Player(){this( ((String)null) );}
 	
 	
 	
-	private Player withBrain(PlayerBrain newBrain){return new Player(newBrain, profile, pointsBox, playerNum, hand, pond, seatWind);}
-	private Player withPlayerNum(int newPlayerNum){return new Player(brain, profile, pointsBox, newPlayerNum, hand, pond, seatWind);}
+	private Player withBrain(PlayerBrain newBrain){return new Player(newBrain, profile, pointsBox, hand, pond, seatWind);}
 	
-	private Player withPoints(PointsBox pts){return new Player(brain, profile, pts, playerNum, hand, pond, seatWind);}
+	private Player withPoints(PointsBox pts){return new Player(brain, profile, pts, hand, pond, seatWind);}
 	
-	private Player withHand(Hand h){return new Player(brain, profile, pointsBox, playerNum, h, pond, seatWind);}
-	private Player withPond(Pond p){return new Player(brain, profile, pointsBox, playerNum, hand, p, seatWind);}
-	private Player withSeatWind(Wind w){return new Player(brain, profile, pointsBox, playerNum, hand, pond, w);}
+	private Player withHand(Hand h){return new Player(brain, profile, pointsBox, h, pond, seatWind);}
+	private Player withPond(Pond p){return new Player(brain, profile, pointsBox, hand, p, seatWind);}
+	private Player withSeatWind(Wind w){return new Player(brain, profile, pointsBox, hand, pond, w);}
 	
-	private Player withDrawNeededRinshan(){return new Player(brain, profile, pointsBox, playerNum, hand, pond, seatWind, PLEASE_I_NEED_RINSHAN_DRAW, DecisionCall.DUMMY, DecisionTurnAction.DUMMY);}
-	private Player withDecisionTurnAction(DecisionTurnAction decTA){return new Player(brain, profile, pointsBox, playerNum, hand, pond, seatWind, RINSHAN_DRAW_NOT_NEEDED, DecisionCall.DUMMY, decTA);}
-	private Player withDecisionCall(DecisionCall decC){return new Player(brain, profile, pointsBox, playerNum, hand, pond, seatWind, RINSHAN_DRAW_NOT_NEEDED, decC, DecisionTurnAction.DUMMY);}
+	private Player withDrawNeededRinshan(){return new Player(brain, profile, pointsBox, hand, pond, seatWind, PLEASE_I_NEED_RINSHAN_DRAW, DecisionCall.DUMMY, DecisionTurnAction.DUMMY);}
+	private Player withDecisionTurnAction(DecisionTurnAction decTA){return new Player(brain, profile, pointsBox, hand, pond, seatWind, RINSHAN_DRAW_NOT_NEEDED, DecisionCall.DUMMY, decTA);}
+	private Player withDecisionCall(DecisionCall decC){return new Player(brain, profile, pointsBox, hand, pond, seatWind, RINSHAN_DRAW_NOT_NEEDED, decC, DecisionTurnAction.DUMMY);}
 	
 	
 	
@@ -339,14 +335,7 @@ public class Player implements Comparable<Player>{
 	public Wind getSeatWind(){return seatWind;}
 	public boolean isDealer(){return getSeatWind().isDealerWind();}
 	
-	//player number methods
-	public Player setPlayerNumber(int newNum){
-		if (newNum < 0 || newNum >= 4)
-			return this;
-		return this.withPlayerNum(newNum);
-	}
-/////////////////////////////////////////////////////////////////////////////////mutate
-	public int getPlayerNumber(){return playerNum;}
+	public int getPlayerNumber(){return 00000000000000000000000;}	////////////////////////////////////////get rid of this
 	
 	
 	//controller methods
@@ -421,10 +410,8 @@ public class Player implements Comparable<Player>{
 	public void DEMOfillHandChuuren(){hand.DEMOfillChuuren();}
 	public void DEMOfillHand(){hand.DEMOfillScattered();}
 	public void DEMOfillHandNoTsumo(){DEMOfillHand(); hand.removeTile(hand.size()-1);}
-
-	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand (for debug use)
+	//overloaded for tileID
 	public Player addTileToHand(int tileID){return addTileToHand(new GameTile(tileID));}
-/////////////////////////////////////////////////////////////////////////////////mutate
 	////xxxxxxxxxxxxxEND DEMO METHODS
 	
 	

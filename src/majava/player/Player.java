@@ -29,12 +29,11 @@ public class Player implements Comparable<Player>{
 	public static final Player NOBODY = new Player();
 	private static final boolean PLEASE_I_NEED_RINSHAN_DRAW = true, RINSHAN_DRAW_NOT_NEEDED = false;
 	
-	private PlayerBrain brain;
+	private final PlayerBrain brain;
 	private final PlayerProfile profile;
 	private final PointsBox pointsBox;
 	
 	
-	//data that changes between rounds
 	private final Hand hand;
 	private final Pond pond;
 	private final Wind seatWind;
@@ -92,7 +91,7 @@ public class Player implements Comparable<Player>{
 	
 	
 	
-//	private Player withBrain(){return null;}
+	private Player withBrain(PlayerBrain newBrain){return new Player(newBrain, profile, pointsBox, playerNum, hand, pond, seatWind);}
 	
 	private Player withPoints(PointsBox pts){return new Player(brain, profile, pts, playerNum, hand, pond, seatWind);}
 	
@@ -130,6 +129,7 @@ public class Player implements Comparable<Player>{
 		}
 		
 		if (turnActionCalledTsumo()){
+			////////////////////////this should never be reached
 //			return null;
 			////
 		}
@@ -346,10 +346,9 @@ public class Player implements Comparable<Player>{
 	
 	
 	//controller methods
-/////////////////////////////////////////////////////////////////////////////////mutate
-	public void setController(PlayerBrain desiredBrain){brain = desiredBrain;}
-	public void setControllerHuman(){setController(new HumanBrain());}
-	public void setControllerComputer(){
+	public Player setController(PlayerBrain desiredBrain){return this.withBrain(desiredBrain);}
+	public Player setControllerHuman(){return setController(new HumanBrain());}
+	public Player setControllerComputer(){
 //		RobotBrain robot = new SimpleRobot();
 //		RobotBrain robot = new SevenTwinBot();
 //		RobotBrain robot = new TseIiMenBot();
@@ -357,7 +356,7 @@ public class Player implements Comparable<Player>{
 		RobotBrain robot = new BeaverBot();
 //		RobotBrain robot = RandomRobotGenerator.generateRandomComputerPlayer();
 		
-		setController(robot);
+		return setController(robot);
 	}
 	public String getControllerAsString(){return brain.toString();}
 	public boolean controllerIsHuman(){return brain.isHuman();}
@@ -368,9 +367,9 @@ public class Player implements Comparable<Player>{
 	//point methods
 	public int getPoints(){return pointsBox.getPoints();}
 	public boolean pointsIsHakoshita(){return pointsBox.isHakoshita();}
-/////////////////////////////////////////////////////////////////////////////////mutate
 	public Player pointsIncrease(int amount){return this.withPoints(pointsBox.add(amount));}
 	public Player pointsDecrease(int amount){return this.withPoints(pointsBox.subtract(amount));}
+	
 
 	//profile methods
 	public String getPlayerName(){return profile.getPlayerName();}
@@ -420,7 +419,7 @@ public class Player implements Comparable<Player>{
 	public void DEMOfillHandNoTsumo(){DEMOfillHand(); hand.removeTile(hand.size()-1);}
 
 	//overloaded for tileID, accepts integer tileID and adds a new tile with that ID to the hand (for debug use)
-	public void addTileToHand(int tileID){addTileToHand(new GameTile(tileID));}
+	public Player addTileToHand(int tileID){return addTileToHand(new GameTile(tileID));}
 /////////////////////////////////////////////////////////////////////////////////mutate
 	////xxxxxxxxxxxxxEND DEMO METHODS
 	

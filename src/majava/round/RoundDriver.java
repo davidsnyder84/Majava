@@ -110,12 +110,14 @@ public class RoundDriver {
 	
 	
 	private PlayerList players(){
-		PlayerList players = new PlayerList(new Player().setSeatWindEast(), new Player().setSeatWindSouth(), new Player().setSeatWindWest(), new Player().setSeatWindNorth());
-		
-		for (Player p: players)
-			p.setControllerComputer();
-		
-//		players.get(0).setControllerHuman();
+//		PlayerList players = new PlayerList(new Player().setSeatWindEast(), new Player().setSeatWindSouth(), new Player().setSeatWindWest(), new Player().setSeatWindNorth());
+		PlayerList players = new PlayerList(
+//				new Player().setSeatWindEast().setControllerHuman(),
+				new Player().setSeatWindEast().setControllerComputer(),
+				new Player().setSeatWindSouth().setControllerComputer(),
+				new Player().setSeatWindWest().setControllerComputer(),
+				new Player().setSeatWindNorth().setControllerComputer()
+			);
 		
 		return players;
 	}

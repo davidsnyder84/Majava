@@ -84,11 +84,14 @@ public class Kyoku{
 		this(playerArray, DEFAULT_ROUND_WIND, DEFAULT_ROUND_NUM);
 	}
 	public Kyoku(){
-		this(new PlayerList(new Player().setSeatWindEast(), new Player().setSeatWindSouth(), new Player().setSeatWindWest(), new Player().setSeatWindNorth()));
-		
-		for (Player p: players)
-			p.setControllerComputer();
-//			p.setControllerHuman();
+		this(new PlayerList(
+//				new Player().setSeatWindEast().setControllerHuman(),
+				new Player().setSeatWindEast().setControllerComputer(),
+				new Player().setSeatWindSouth().setControllerComputer(),
+				new Player().setSeatWindWest().setControllerComputer(),
+				new Player().setSeatWindNorth().setControllerComputer()
+			)
+		);
 		
 	}
 	

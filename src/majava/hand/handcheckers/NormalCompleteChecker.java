@@ -23,9 +23,6 @@ public class NormalCompleteChecker{
 		handTiles = checkTiles;
 		finishingMelds = fm;
 		pairPrivelege = pairpriv;
-		
-		if (!handTiles.isEmpty())
-			currentTile = new HandCheckerTile(handTiles.getFirst());
 	}
 	
 	
@@ -63,6 +60,8 @@ public class NormalCompleteChecker{
 	private boolean isComplete(){
 		if (handTiles.isEmpty()) return IS_COMPLETE;	//if the hand is empty, it is complete (base case)
 		
+		currentTile = firstTileInTheHand();
+		
 		while(currentTileStillHasPossibleMeldtypesRemaining()){
 			
 			moveToNextMeldtypeForCurrentTile();
@@ -91,19 +90,21 @@ public class NormalCompleteChecker{
 	//these are member variables only for convenince, just so I don't have to pass 3 arguments for every method call
 	private HandCheckerTile currentTile;
 	private MeldType currentTileMeldType;
-	private int[] currentTilePartnerIDs;
 	
+	private HandCheckerTile firstTileInTheHand(){
+		return new HandCheckerTile(handTiles.getFirst());
+	}
 	
 	private boolean currentTileStillHasPossibleMeldtypesRemaining(){
 		return !currentTile.mstackIsEmpty();
 	}
 	
 	private void moveToNextMeldtypeForCurrentTile(){
-		//~~~~Verify that currentTile's partners are still in the hand
-		currentTilePartnerIDs = currentTile.mstackTopPartnerIDs();
 		currentTileMeldType = currentTile.mstackTop();
 		currentTile = currentTile.mstackPop();	//(remove it)
 	}
+	
+	
 	
 	private boolean currentMeldtypeIsImpossibleForCurrentTile(){
 		return partnersForCurrentTileAreGone() ||
@@ -113,7 +114,7 @@ public class NormalCompleteChecker{
 	private boolean partnersForCurrentTileAreGone(){return !currentTilePartnersAreStillHere();}
 	private boolean currentTilePartnersAreStillHere(){
 		if (currentTileMeldType.isChi())
-			if (!handTiles.contains(currentTilePartnerIDs[0]) || !handTiles.contains(currentTilePartnerIDs[1]))
+			if (!handTiles.contains(currentTilePartnerIDs()[0]) || !handTiles.contains(currentTilePartnerIDs()[1]))
 				return false;
 		if (currentTileMeldType.isPair() && handTiles.findHowManyOf(currentTile) < NUM_PARTNERS_NEEDED_TO_PAIR + 1)
 			return false;
@@ -123,6 +124,19 @@ public class NormalCompleteChecker{
 		return true;
 	}
 	
+	private int[] currentTilePartnerIDs(){
+		int id = currentTile.getId();
+		switch(currentTileMeldType){
+		case CHI_L: return new int[]{id + 1, id + 2};
+		case CHI_M: return new int[]{id - 1, id + 1};
+		case CHI_H: return new int[]{id - 2, id - 1};
+		
+		case KAN: return new int[]{id, id, id};
+		case PON: return new int[]{id, id};
+		case PAIR: return new int[]{id};
+		default: return null;
+		}
+	}
 	
 	
 	private void takePairPrivelegeIfMeldtypeIsPair(){
@@ -155,8 +169,8 @@ public class NormalCompleteChecker{
 		List<Integer> partnerIndices = new ArrayList<Integer>();
 		//if chi, just find the partners
 		if (currentTileMeldType.isChi()){
-			partnerIndices.add(handTiles.indexOf(currentTilePartnerIDs[0]));
-			partnerIndices.add(handTiles.indexOf(currentTilePartnerIDs[1]));
+			partnerIndices.add(handTiles.indexOf(currentTilePartnerIDs()[0]));
+			partnerIndices.add(handTiles.indexOf(currentTilePartnerIDs()[1]));
 			return partnerIndices;
 		}
 		//else if pon/pair, make sure you don't count the tile itsef

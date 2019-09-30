@@ -115,7 +115,7 @@ public class AgariChecker {
 		//returns a list of the hand's waits, if it is in tenpai for kokushi musou
 		//returns an empty list if not in kokushi musou tenpai
 		private GTL getKokushiWaits(){
-			GTL waits = new GTL();
+			GTL waits = emptyWaitsList();
 			GameTile missingTYC = null;
 			
 			if (isTenpaiKokushi()){
@@ -207,9 +207,6 @@ public class AgariChecker {
 	
 	
 	private static class NormalAgariChecker{
-		private static final int NUM_PARTNERS_NEEDED_TO_PON = 2;
-		private static final int NUM_PARTNERS_NEEDED_TO_PAIR = 1;
-		
 		
 		private final Hand myHand;
 		private final GTL handTiles;
@@ -221,7 +218,7 @@ public class AgariChecker {
 		
 		
 		private GTL getNormalTenpaiWaits(){
-			GTL waits = new GTL();
+			GTL waits = emptyWaitsList();
 			
 			final List<Integer> hotTileIDs = TileKnowledge.findAllHotTiles(handTiles);
 			for (Integer id: hotTileIDs){

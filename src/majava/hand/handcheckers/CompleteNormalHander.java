@@ -5,7 +5,6 @@ import java.util.List;
 
 import majava.enums.MeldType;
 import majava.hand.Meld;
-import majava.tiles.GameTile;
 import majava.tiles.HandCheckerTile;
 import majava.util.GTL;
 
@@ -30,14 +29,12 @@ public class CompleteNormalHander{
 	}
 	
 	
-	
-	
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~public methods~~~~~~~~~~~~~~~~~~~~~
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~start public methods~~~~~~~~~~~~~~~~~~~~
 	
 	//public constructor
 	public CompleteNormalHander(GTL ct){
 		this(ct,
-			new ArrayList<Meld>(),
+			emptyMeldList(),
 			new PairPrivelege()  );
 	}
 	
@@ -47,19 +44,16 @@ public class CompleteNormalHander{
 	}
 	
 	public List<Meld> getFinishingMelds(){
-		isCompleteNormal();
-		return new ArrayList<Meld>(finishingMelds);
+		if (isCompleteNormal())
+			return new ArrayList<Meld>(finishingMelds);
+		
+		return emptyMeldList(); //return empty list
 	}
 	
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~public methods~~~~~~~~~~~~~~~~~~~~~
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~end public methods~~~~~~~~~~~~~~~~~~~~~
 	
 	
 	
-	
-	//these are member variables for convenince, just so I don't have to pass 3/4 arguments for every method call
-	private HandCheckerTile currentTile;
-	private MeldType currentTileMeldType;
-	private int[] currentTilePartnerIDs;
 	
 	private boolean isComplete(){
 		if (handTiles.isEmpty()) return IS_COMPLETE;	//if the hand is empty, it is complete (base case)
@@ -71,11 +65,12 @@ public class CompleteNormalHander{
 			if (currentMeldtypeIsImpossibleForCurrentTile())
 				continue;	//exit whileloop early and move to the next meldType
 			
+			
 			takePairPrivelegeIfMeldtypeIsPair();
 			
-			if (handMinusThisMeld().isComplete()){
-				addMeldToFinishingMelds();
-				return IS_COMPLETE;	//hand is complete
+			if (handMinusThisMeld().isComplete()){ //recursive call
+				addThisMeldToFinishingMelds();
+				return IS_COMPLETE;
 			}
 			else{
 				relinquishPairPrivelegeIfMeldtypeIsPair();
@@ -85,7 +80,18 @@ public class CompleteNormalHander{
 	}
 	
 	
-	private boolean currentTileStillHasPossibleMeldtypesRemaining(){return !currentTile.mstackIsEmpty();}
+	//----------------------------------------------------------------------------below are helper methods
+	
+	
+	//these are member variables only for convenince, just so I don't have to pass 3 arguments for every method call
+	private HandCheckerTile currentTile;
+	private MeldType currentTileMeldType;
+	private int[] currentTilePartnerIDs;
+	
+	
+	private boolean currentTileStillHasPossibleMeldtypesRemaining(){
+		return !currentTile.mstackIsEmpty();
+	}
 	
 	private void moveToNextMeldtypeForCurrentTile(){
 		//~~~~Verify that currentTile's partners are still in the hand
@@ -129,12 +135,16 @@ public class CompleteNormalHander{
 		return new CompleteNormalHander(handTilesMinusThisMeld(), finishingMelds, pairPrivelege);
 	}
 	
-	private void addMeldToFinishingMelds(){
+	private void addThisMeldToFinishingMelds(){
 		finishingMelds.add(new Meld(toMeldTiles(), currentTileMeldType));
 	}
 	
-	private GTL handTilesMinusThisMeld(){return handTiles.removeMultiple(partnerIndices()).removeFirst();}
-	private GTL toMeldTiles(){return handTiles.getMultiple(partnerIndices()).add(handTiles.getFirst());}
+	private GTL handTilesMinusThisMeld(){
+		return handTiles.removeMultiple(partnerIndices()).removeFirst();
+	}
+	private GTL toMeldTiles(){
+		return handTiles.getMultiple(partnerIndices()).add(handTiles.getFirst());
+	}
 	
 	private List<Integer> partnerIndices(){
 		List<Integer> partnerIndices = new ArrayList<Integer>();
@@ -174,5 +184,6 @@ public class CompleteNormalHander{
 		public void relinquish(){taken = false;}
 	}
 	
+	private static List<Meld> emptyMeldList(){return new ArrayList<Meld>();}
 }
 

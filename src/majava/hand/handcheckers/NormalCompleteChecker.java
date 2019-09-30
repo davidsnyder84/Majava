@@ -1,17 +1,19 @@
 package majava.hand.handcheckers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import majava.enums.MeldType;
 import majava.hand.Meld;
 import majava.tiles.GameTile;
 import majava.util.GTL;
+import static majava.enums.MeldType.*;
 
 //class implementation of AgariChecker's old isCompleteNormal recursive method
 public class NormalCompleteChecker{
-	private static final int NUM_PARTNERS_NEEDED_TO_PON = 2;
-	private static final int NUM_PARTNERS_NEEDED_TO_PAIR = 1;
+	private static final int NUM_PARTNERS_NEEDED_TO_PON = 2, NUM_PARTNERS_NEEDED_TO_PAIR = 1;
+	private static final int DEFAULT_MELD_ORDER = 1;
 	private static final boolean IS_COMPLETE = true, NOT_COMPLETE = false;
 	
 	
@@ -24,8 +26,9 @@ public class NormalCompleteChecker{
 		finishingMelds = fm;
 		pairPrivelege = pairpriv;
 		
-		meldTypeStackForCurrentTile = fullMeldTypeStackForCurrentTile();
+		remainingMeldTypesToTryForCurrentTile = meldTypeOrder(DEFAULT_MELD_ORDER); //diferent orders not implemented yet, so it will always be the same order
 	}
+	
 	
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~start public methods~~~~~~~~~~~~~~~~~~~~
@@ -40,8 +43,7 @@ public class NormalCompleteChecker{
 	}
 	
 	public boolean isCompleteNormal(){
-		finishingMelds.clear();
-		pairPrivelege.reset();
+		resetVariables();
 		if (invalidHandsize()) return false;
 		
 		return isComplete();
@@ -64,10 +66,10 @@ public class NormalCompleteChecker{
 		
 		while(currentTileStillHasPossibleMeldtypesRemaining()){
 			
-			moveToNextMeldtypeForCurrentTile();
-			
-			if (currentMeldtypeIsImpossibleForCurrentTile())
+			if (currentMeldtypeIsImpossibleForCurrentTile()){
+				moveToNextMeldtypeForCurrentTile();
 				continue;	//exit whileloop early and move to the next meldType
+			}
 			
 			
 			takePairPrivelegeIfMeldtypeIsPair();
@@ -76,51 +78,50 @@ public class NormalCompleteChecker{
 				addThisMeldToFinishingMelds();
 				return IS_COMPLETE;
 			}
-			else{
-				relinquishPairPrivelegeIfMeldtypeIsPair();
-			}
+			
+			relinquishPairPrivelegeIfMeldtypeIsPair();
+			moveToNextMeldtypeForCurrentTile();
 		}
 		return NOT_COMPLETE;	//currentTile could not make any meld, so the hand must not be complete
 	}
 	
 	
-	//----------------------------------------------------------------------------below are helper methods
+	//------------------------------below are helper methods
 	
 	
-	//these are member variables only for convenince, just so I don't have to pass 3 arguments for every method call
-	private MeldType currentTileMeldType;
-	private MeldTypeStack meldTypeStackForCurrentTile;
+	private List<MeldType> remainingMeldTypesToTryForCurrentTile;
+	
 	
 	private GameTile currentTile(){
-		if (handTiles.isEmpty()) return null;
-		
 		return handTiles.getFirst();
 	}
-	
+	private MeldType currentTileMeldType(){
+		return remainingMeldTypesToTryForCurrentTile.get(0);
+	}
 	private boolean currentTileStillHasPossibleMeldtypesRemaining(){
-		return !meldTypeStackForCurrentTile.isEmpty();
+		return !remainingMeldTypesToTryForCurrentTile.isEmpty();
+	}
+	private void moveToNextMeldtypeForCurrentTile(){
+		remainingMeldTypesToTryForCurrentTile.remove(0);
 	}
 	
-	private void moveToNextMeldtypeForCurrentTile(){
-		currentTileMeldType = meldTypeStackForCurrentTile.top();
-		meldTypeStackForCurrentTile = meldTypeStackForCurrentTile.pop(); //(remove it)
-	}
 	
 	
 	
 	private boolean currentMeldtypeIsImpossibleForCurrentTile(){
 		return partnersForCurrentTileAreGone() ||
-				(currentTileMeldType.isPair() && pairPrivelege.isTaken());
+				(currentTileMeldType().isChi() && !currentTile().canCompleteChiType(currentTileMeldType())) ||
+				(currentTileMeldType().isPair() && pairPrivelege.isTaken());
 	}
 	
 	private boolean partnersForCurrentTileAreGone(){return !currentTilePartnersAreStillHere();}
 	private boolean currentTilePartnersAreStillHere(){
-		if (currentTileMeldType.isChi())
+		if (currentTileMeldType().isChi())
 			if (!handTiles.contains(currentTilePartnerIDs()[0]) || !handTiles.contains(currentTilePartnerIDs()[1]))
 				return false;
-		if (currentTileMeldType.isPair() && handTiles.findHowManyOf(currentTile()) < NUM_PARTNERS_NEEDED_TO_PAIR + 1)
+		if (currentTileMeldType().isPair() && handTiles.findHowManyOf(currentTile()) < NUM_PARTNERS_NEEDED_TO_PAIR + 1)
 			return false;
-		if (currentTileMeldType.isPon() && handTiles.findHowManyOf(currentTile()) < NUM_PARTNERS_NEEDED_TO_PON + 1)
+		if (currentTileMeldType().isPon() && handTiles.findHowManyOf(currentTile()) < NUM_PARTNERS_NEEDED_TO_PON + 1)
 			return false;
 		
 		return true;
@@ -128,7 +129,7 @@ public class NormalCompleteChecker{
 	
 	private int[] currentTilePartnerIDs(){
 		int id = currentTile().getId();
-		switch(currentTileMeldType){
+		switch(currentTileMeldType()){
 		case CHI_L: return new int[]{id + 1, id + 2};
 		case CHI_M: return new int[]{id - 1, id + 1};
 		case CHI_H: return new int[]{id - 2, id - 1};
@@ -142,11 +143,11 @@ public class NormalCompleteChecker{
 	
 	
 	private void takePairPrivelegeIfMeldtypeIsPair(){
-		if (currentTileMeldType.isPair())
+		if (currentTileMeldType().isPair())
 			pairPrivelege.take();
 	}
 	private void relinquishPairPrivelegeIfMeldtypeIsPair(){
-		if (currentTileMeldType.isPair())
+		if (currentTileMeldType().isPair())
 			pairPrivelege.relinquish();
 	}
 	
@@ -157,7 +158,7 @@ public class NormalCompleteChecker{
 	}
 	
 	private void addThisMeldToFinishingMelds(){
-		finishingMelds.add(new Meld(toMeldTiles(), currentTileMeldType));
+		finishingMelds.add(new Meld(toMeldTiles(), currentTileMeldType()));
 	}
 	
 	private GTL handTilesMinusThisMeld(){
@@ -170,7 +171,7 @@ public class NormalCompleteChecker{
 	private List<Integer> partnerIndices(){
 		List<Integer> partnerIndices = new ArrayList<Integer>();
 		//if chi, just find the partners
-		if (currentTileMeldType.isChi()){
+		if (currentTileMeldType().isChi()){
 			partnerIndices.add(handTiles.indexOf(currentTilePartnerIDs()[0]));
 			partnerIndices.add(handTiles.indexOf(currentTilePartnerIDs()[1]));
 			return partnerIndices;
@@ -179,71 +180,34 @@ public class NormalCompleteChecker{
 		partnerIndices = handTiles.findAllIndicesOf(currentTile());
 		
 		//trim the lists down to size to fit the meld type
-		if (currentTileMeldType.isPair()) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PAIR) partnerIndices.remove(partnerIndices.size() - 1);
-		if (currentTileMeldType.isPon()) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PON) partnerIndices.remove(partnerIndices.size() - 1);
+		if (currentTileMeldType().isPair()) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PAIR) partnerIndices.remove(partnerIndices.size() - 1);
+		if (currentTileMeldType().isPon()) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PON) partnerIndices.remove(partnerIndices.size() - 1);
 		return partnerIndices;
+	}
+	
+	
+	private void resetVariables(){
+		finishingMelds.clear();
+		pairPrivelege.reset();
+		remainingMeldTypesToTryForCurrentTile = meldTypeOrder(DEFAULT_MELD_ORDER);
 	}
 	
 	private boolean invalidHandsize(){return (handTiles.size() % 3) != 2;}
 	
+	private static List<Meld> emptyMeldList(){return new ArrayList<Meld>();}
 	
-	private MeldTypeStack fullMeldTypeStackForCurrentTile(){
-		MeldTypeStack populatedMTS = new MeldTypeStack();
-		if (handTiles.isEmpty()) return null;
+	//changed order of stack on 2019-08-03, tests show that it still works. Just in case, original comment was: "order of stack should be top->L,M,H,Pon,Pair"
+	private static List<MeldType> meldTypeOrder(int orderNum){
+		switch(orderNum){
+		case 1: return new ArrayList<MeldType>(Arrays.asList(PON, CHI_L, CHI_M, CHI_H, PAIR));
+		default: return null;
+		}
 		
-		//changed order of stack on 2019-08-03, tests show that it still works. Just in case, original comment was: "order of stack should be top->L,M,H,Pon,Pair"
-		populatedMTS = populatedMTS.push(MeldType.PAIR);
-		if (currentTile().canCompleteChiH()) populatedMTS = populatedMTS.push(MeldType.CHI_H);
-		if (currentTile().canCompleteChiM()) populatedMTS = populatedMTS.push(MeldType.CHI_M);
-		if (currentTile().canCompleteChiL()) populatedMTS = populatedMTS.push(MeldType.CHI_L);
-		populatedMTS = populatedMTS.push(MeldType.PON);
-		
-		return populatedMTS;
 	}
 	
 	
 	
 	
-	
-	
-	
-	
-	private static class MeldTypeStack{
-		private static final int MAX_SIZE = 5, MAX_POS = 4, EMPTY_POS = -1;
-		
-		private final MeldType[] list;
-		private final int pos;
-		
-		public MeldTypeStack(){this(EMPTY_POS, new MeldType[MAX_SIZE]);}
-		private MeldTypeStack(int position, MeldType[] otherlist){
-			pos = position;
-			list = otherlist.clone();
-		}
-		
-		
-		
-		public MeldType top(){
-			if (isEmpty()) return null;
-			return list[pos];
-		}
-		
-		public MeldTypeStack pop(){
-			if (isEmpty()) return null;
-			return new MeldTypeStack(pos-1, list);
-		}
-		
-		public MeldTypeStack push(MeldType pushThis){
-			if (pos >= MAX_POS) return this;
-			
-			int newPos = pos+1;
-			MeldType[] newList = list.clone();
-			newList[newPos] = pushThis;
-			
-			return new MeldTypeStack(newPos, newList);
-		}
-		
-		public boolean isEmpty(){return pos < 0;}
-	}
 	
 	
 	
@@ -256,11 +220,11 @@ public class NormalCompleteChecker{
 		}
 		
 		public boolean isTaken(){return taken;}
+		
 		public void take(){taken = true;}
 		public void relinquish(){taken = false;}
 		public void reset(){relinquish();}
 	}
 	
-	private static List<Meld> emptyMeldList(){return new ArrayList<Meld>();}
 }
 

@@ -1,5 +1,6 @@
 package majava.tiles;
 
+import majava.enums.MeldType;
 import majava.enums.Wind;
 
 
@@ -77,6 +78,14 @@ public class GameTile implements Cloneable, TileInterface {
 	final public boolean canCompleteChiL(){return baseTile.canCompleteChiL();}
 	final public boolean canCompleteChiM(){return baseTile.canCompleteChiM(); }
 	final public boolean canCompleteChiH(){return baseTile.canCompleteChiH();}
+	final public boolean canCompleteChiType(MeldType chiType){
+		switch(chiType){
+		case CHI_L: return canCompleteChiL();
+		case CHI_M: return canCompleteChiM();
+		case CHI_H: return canCompleteChiH();
+		default: return false;
+		}
+	}
 	
 	@Override
 	final public int compareTo(TileInterface other){return baseTile.compareTo(other.getTileBase());}

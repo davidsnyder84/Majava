@@ -31,7 +31,7 @@ public class DemoHandGen {
 		
 //		runTenpaiSimulation(5000);
 //		runSingleTenpaiTest(generateSpecificHand());
-		runSimulation(5000);
+		runSimulation(500000);
 		
 		
 		
@@ -59,7 +59,7 @@ public class DemoHandGen {
 	generates a number of complete hands, and runs them through the HandChecker completeness checker
 	keeps track of when HandChecker gives a wrong answer
 	*/
-	public static void runSimulation(int howManyTimes){
+	public static int runSimulation(int howManyTimes){
 		int numFailures = 0;
 		int totalNum = 0;
 		
@@ -91,6 +91,8 @@ public class DemoHandGen {
 
 		System.out.println("Total number of trials: " + totalNum);
 		System.out.println("Total number of failures: " + numFailures);
+		
+		return numFailures;
 	}
 	
 	
@@ -139,7 +141,7 @@ public class DemoHandGen {
 	generates a number of tenpai hands, and runs them through the HandChecker tenpai checker
 	keeps track of when HandChecker gives a wrong answer
 	*/
-	public static void runTenpaiSimulation(int howManyTimes){
+	public static int runTenpaiSimulation(int howManyTimes){
 		int numFailures = 0;
 		
 		GTL maxWaits = new GTL();
@@ -189,6 +191,8 @@ public class DemoHandGen {
 		System.out.println("\nMax Waits: (" + maxWaits.size() + ")");
 		System.out.println(maxWaitsHand.toString() + "\n");
 		System.out.println(maxWaitString);
+		
+		return numFailures;
 	}
 	
 	
@@ -223,7 +227,7 @@ public class DemoHandGen {
 	generates a number of random hands, and runs them through the HandChecker completeness checker
 	keeps track of when HandChecker identifies a complete hand
 	*/
-	public static void runSumulationRandom(int howManyTimes){
+	public static int runSumulationRandom(int howManyTimes){
 		
 		Hand currentHand = null;
 		int numHits = 0;
@@ -248,6 +252,7 @@ public class DemoHandGen {
 		System.out.println("\n\nTotal number of trials: " + howManyTimes);
 		System.out.println("Total number of hits: " + numHits);
 		
+		return numHits;
 	}
 	
 	public static Hand generateRandomHand(){

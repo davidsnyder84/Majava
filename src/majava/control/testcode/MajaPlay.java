@@ -1,5 +1,11 @@
 package majava.control.testcode;
 
+import static majava.enums.MeldType.CHI_H;
+import static majava.enums.MeldType.CHI_L;
+import static majava.enums.MeldType.CHI_M;
+import static majava.enums.MeldType.PAIR;
+import static majava.enums.MeldType.PON;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -12,7 +18,6 @@ import majava.enums.MeldType;
 import majava.enums.Wind;
 import majava.player.Player;
 import majava.tiles.GameTile;
-import majava.tiles.HandCheckerTile;
 import majava.tiles.Janpai;
 import majava.tiles.PondTile;
 import majava.tiles.TileInterface;
@@ -28,7 +33,7 @@ public class MajaPlay {
 	
 	
 	public static void main(String[] args) {
-		
+		permu();
 		
 //		testCompleteNormal();
 		
@@ -64,7 +69,7 @@ public class MajaPlay {
 		
 //		kokushiTenpaiTest();
 		
-		chiitoiTenpaiTest();
+//		chiitoiTenpaiTest();
 		
 		
 //		playFinishingMelds();
@@ -85,7 +90,14 @@ public class MajaPlay {
 //		chiKamichaTest();
 		
 	}
-	public static void println(String prints){System.out.println(prints);}public static void println(){println("");}public static void print(String prints){System.out.print(prints);}
+	
+	public static void permu(){
+		List<List<MeldType>> permutations = new ArrayList<List<MeldType>>();
+		permutations.add(Arrays.asList(PON,CHI_L,CHI_M,CHI_H,PAIR));permutations.add(Arrays.asList(CHI_L,PON,CHI_M,CHI_H,PAIR));permutations.add(Arrays.asList(CHI_M,PON,CHI_L,CHI_H,PAIR));permutations.add(Arrays.asList(PON,CHI_M,CHI_L,CHI_H,PAIR));permutations.add(Arrays.asList(CHI_L,CHI_M,PON,CHI_H,PAIR));permutations.add(Arrays.asList(CHI_M,CHI_L,PON,CHI_H,PAIR));permutations.add(Arrays.asList(CHI_M,CHI_L,CHI_H,PON,PAIR));permutations.add(Arrays.asList(CHI_L,CHI_M,CHI_H,PON,PAIR));permutations.add(Arrays.asList(CHI_H,CHI_M,CHI_L,PON,PAIR));permutations.add(Arrays.asList(CHI_M,CHI_H,CHI_L,PON,PAIR));permutations.add(Arrays.asList(CHI_L,CHI_H,CHI_M,PON,PAIR));permutations.add(Arrays.asList(CHI_H,CHI_L,CHI_M,PON,PAIR));permutations.add(Arrays.asList(CHI_H,PON,CHI_M,CHI_L,PAIR));permutations.add(Arrays.asList(PON,CHI_H,CHI_M,CHI_L,PAIR));permutations.add(Arrays.asList(CHI_M,CHI_H,PON,CHI_L,PAIR));permutations.add(Arrays.asList(CHI_H,CHI_M,PON,CHI_L,PAIR));permutations.add(Arrays.asList(PON,CHI_M,CHI_H,CHI_L,PAIR));permutations.add(Arrays.asList(CHI_M,PON,CHI_H,CHI_L,PAIR));permutations.add(Arrays.asList(CHI_L,PON,CHI_H,CHI_M,PAIR));permutations.add(Arrays.asList(PON,CHI_L,CHI_H,CHI_M,PAIR));permutations.add(Arrays.asList(CHI_H,CHI_L,PON,CHI_M,PAIR));permutations.add(Arrays.asList(CHI_L,CHI_H,PON,CHI_M,PAIR));permutations.add(Arrays.asList(PON,CHI_H,CHI_L,CHI_M,PAIR));permutations.add(Arrays.asList(CHI_H,PON,CHI_L,CHI_M,PAIR));permutations.add(Arrays.asList(PAIR,PON,CHI_L,CHI_M,CHI_H));permutations.add(Arrays.asList(PON,PAIR,CHI_L,CHI_M,CHI_H));permutations.add(Arrays.asList(CHI_L,PAIR,PON,CHI_M,CHI_H));permutations.add(Arrays.asList(PAIR,CHI_L,PON,CHI_M,CHI_H));permutations.add(Arrays.asList(PON,CHI_L,PAIR,CHI_M,CHI_H));permutations.add(Arrays.asList(CHI_L,PON,PAIR,CHI_M,CHI_H));permutations.add(Arrays.asList(CHI_L,PON,CHI_M,PAIR,CHI_H));permutations.add(Arrays.asList(PON,CHI_L,CHI_M,PAIR,CHI_H));permutations.add(Arrays.asList(CHI_M,CHI_L,PON,PAIR,CHI_H));permutations.add(Arrays.asList(CHI_L,CHI_M,PON,PAIR,CHI_H));permutations.add(Arrays.asList(PON,CHI_M,CHI_L,PAIR,CHI_H));permutations.add(Arrays.asList(CHI_M,PON,CHI_L,PAIR,CHI_H));permutations.add(Arrays.asList(CHI_M,PAIR,CHI_L,PON,CHI_H));permutations.add(Arrays.asList(PAIR,CHI_M,CHI_L,PON,CHI_H));permutations.add(Arrays.asList(CHI_L,CHI_M,PAIR,PON,CHI_H));permutations.add(Arrays.asList(CHI_M,CHI_L,PAIR,PON,CHI_H));permutations.add(Arrays.asList(PAIR,CHI_L,CHI_M,PON,CHI_H));permutations.add(Arrays.asList(CHI_L,PAIR,CHI_M,PON,CHI_H));permutations.add(Arrays.asList(PON,PAIR,CHI_M,CHI_L,CHI_H));permutations.add(Arrays.asList(PAIR,PON,CHI_M,CHI_L,CHI_H));permutations.add(Arrays.asList(CHI_M,PON,PAIR,CHI_L,CHI_H));permutations.add(Arrays.asList(PON,CHI_M,PAIR,CHI_L,CHI_H));permutations.add(Arrays.asList(PAIR,CHI_M,PON,CHI_L,CHI_H));permutations.add(Arrays.asList(CHI_M,PAIR,PON,CHI_L,CHI_H));permutations.add(Arrays.asList(CHI_H,PAIR,PON,CHI_L,CHI_M));permutations.add(Arrays.asList(PAIR,CHI_H,PON,CHI_L,CHI_M));permutations.add(Arrays.asList(PON,CHI_H,PAIR,CHI_L,CHI_M));permutations.add(Arrays.asList(CHI_H,PON,PAIR,CHI_L,CHI_M));permutations.add(Arrays.asList(PAIR,PON,CHI_H,CHI_L,CHI_M));permutations.add(Arrays.asList(PON,PAIR,CHI_H,CHI_L,CHI_M));permutations.add(Arrays.asList(PON,PAIR,CHI_L,CHI_H,CHI_M));permutations.add(Arrays.asList(PAIR,PON,CHI_L,CHI_H,CHI_M));permutations.add(Arrays.asList(CHI_L,PON,PAIR,CHI_H,CHI_M));permutations.add(Arrays.asList(PON,CHI_L,PAIR,CHI_H,CHI_M));permutations.add(Arrays.asList(PAIR,CHI_L,PON,CHI_H,CHI_M));permutations.add(Arrays.asList(CHI_L,PAIR,PON,CHI_H,CHI_M));permutations.add(Arrays.asList(CHI_L,CHI_H,PON,PAIR,CHI_M));permutations.add(Arrays.asList(CHI_H,CHI_L,PON,PAIR,CHI_M));permutations.add(Arrays.asList(PON,CHI_L,CHI_H,PAIR,CHI_M));permutations.add(Arrays.asList(CHI_L,PON,CHI_H,PAIR,CHI_M));permutations.add(Arrays.asList(CHI_H,PON,CHI_L,PAIR,CHI_M));permutations.add(Arrays.asList(PON,CHI_H,CHI_L,PAIR,CHI_M));permutations.add(Arrays.asList(PAIR,CHI_H,CHI_L,PON,CHI_M));permutations.add(Arrays.asList(CHI_H,PAIR,CHI_L,PON,CHI_M));permutations.add(Arrays.asList(CHI_L,PAIR,CHI_H,PON,CHI_M));permutations.add(Arrays.asList(PAIR,CHI_L,CHI_H,PON,CHI_M));permutations.add(Arrays.asList(CHI_H,CHI_L,PAIR,PON,CHI_M));permutations.add(Arrays.asList(CHI_L,CHI_H,PAIR,PON,CHI_M));permutations.add(Arrays.asList(CHI_M,CHI_H,PAIR,PON,CHI_L));permutations.add(Arrays.asList(CHI_H,CHI_M,PAIR,PON,CHI_L));permutations.add(Arrays.asList(PAIR,CHI_M,CHI_H,PON,CHI_L));permutations.add(Arrays.asList(CHI_M,PAIR,CHI_H,PON,CHI_L));permutations.add(Arrays.asList(CHI_H,PAIR,CHI_M,PON,CHI_L));permutations.add(Arrays.asList(PAIR,CHI_H,CHI_M,PON,CHI_L));permutations.add(Arrays.asList(PAIR,CHI_H,PON,CHI_M,CHI_L));permutations.add(Arrays.asList(CHI_H,PAIR,PON,CHI_M,CHI_L));permutations.add(Arrays.asList(PON,PAIR,CHI_H,CHI_M,CHI_L));permutations.add(Arrays.asList(PAIR,PON,CHI_H,CHI_M,CHI_L));permutations.add(Arrays.asList(CHI_H,PON,PAIR,CHI_M,CHI_L));permutations.add(Arrays.asList(PON,CHI_H,PAIR,CHI_M,CHI_L));permutations.add(Arrays.asList(PON,CHI_M,PAIR,CHI_H,CHI_L));permutations.add(Arrays.asList(CHI_M,PON,PAIR,CHI_H,CHI_L));permutations.add(Arrays.asList(PAIR,PON,CHI_M,CHI_H,CHI_L));permutations.add(Arrays.asList(PON,PAIR,CHI_M,CHI_H,CHI_L));permutations.add(Arrays.asList(CHI_M,PAIR,PON,CHI_H,CHI_L));permutations.add(Arrays.asList(PAIR,CHI_M,PON,CHI_H,CHI_L));permutations.add(Arrays.asList(CHI_H,CHI_M,PON,PAIR,CHI_L));permutations.add(Arrays.asList(CHI_M,CHI_H,PON,PAIR,CHI_L));permutations.add(Arrays.asList(PON,CHI_H,CHI_M,PAIR,CHI_L));permutations.add(Arrays.asList(CHI_H,PON,CHI_M,PAIR,CHI_L));permutations.add(Arrays.asList(CHI_M,PON,CHI_H,PAIR,CHI_L));permutations.add(Arrays.asList(PON,CHI_M,CHI_H,PAIR,CHI_L));permutations.add(Arrays.asList(CHI_L,CHI_M,CHI_H,PAIR,PON));permutations.add(Arrays.asList(CHI_M,CHI_L,CHI_H,PAIR,PON));permutations.add(Arrays.asList(CHI_H,CHI_L,CHI_M,PAIR,PON));permutations.add(Arrays.asList(CHI_L,CHI_H,CHI_M,PAIR,PON));permutations.add(Arrays.asList(CHI_M,CHI_H,CHI_L,PAIR,PON));permutations.add(Arrays.asList(CHI_H,CHI_M,CHI_L,PAIR,PON));permutations.add(Arrays.asList(CHI_H,CHI_M,PAIR,CHI_L,PON));permutations.add(Arrays.asList(CHI_M,CHI_H,PAIR,CHI_L,PON));permutations.add(Arrays.asList(PAIR,CHI_H,CHI_M,CHI_L,PON));permutations.add(Arrays.asList(CHI_H,PAIR,CHI_M,CHI_L,PON));permutations.add(Arrays.asList(CHI_M,PAIR,CHI_H,CHI_L,PON));permutations.add(Arrays.asList(PAIR,CHI_M,CHI_H,CHI_L,PON));permutations.add(Arrays.asList(PAIR,CHI_L,CHI_H,CHI_M,PON));permutations.add(Arrays.asList(CHI_L,PAIR,CHI_H,CHI_M,PON));permutations.add(Arrays.asList(CHI_H,PAIR,CHI_L,CHI_M,PON));permutations.add(Arrays.asList(PAIR,CHI_H,CHI_L,CHI_M,PON));permutations.add(Arrays.asList(CHI_L,CHI_H,PAIR,CHI_M,PON));permutations.add(Arrays.asList(CHI_H,CHI_L,PAIR,CHI_M,PON));permutations.add(Arrays.asList(CHI_M,CHI_L,PAIR,CHI_H,PON));permutations.add(Arrays.asList(CHI_L,CHI_M,PAIR,CHI_H,PON));permutations.add(Arrays.asList(PAIR,CHI_M,CHI_L,CHI_H,PON));permutations.add(Arrays.asList(CHI_M,PAIR,CHI_L,CHI_H,PON));permutations.add(Arrays.asList(CHI_L,PAIR,CHI_M,CHI_H,PON));permutations.add(Arrays.asList(PAIR,CHI_L,CHI_M,CHI_H,PON));
+		
+		for (List<MeldType> l : permutations)
+			println(l.toString());
+	}
 	
 	public static void testHandClone(){
 		
@@ -855,5 +867,6 @@ public class MajaPlay {
 //		println("Nodupes: " + noDupes.toString());
 //	}
 	
-	
+
+	public static void println(String prints){System.out.println(prints);}public static void println(){println("");}public static void print(String prints){System.out.print(prints);}	
 }

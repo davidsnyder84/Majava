@@ -19,16 +19,19 @@ public class NormalCompleteChecker{
 	
 	private final GTL handTiles;
 	private final List<Meld> finishingMelds;
+	
 	private final PairPrivelege pairPrivelege;
+	private final List<MeldType> remainingMeldTypesToTryForCurrentTile;
+	private int permutationOrder;
 	
 	private NormalCompleteChecker(GTL checkTiles, List<Meld> fm, PairPrivelege pairpriv){
 		handTiles = checkTiles;
 		finishingMelds = fm;
 		pairPrivelege = pairpriv;
 		
-		remainingMeldTypesToTryForCurrentTile = meldTypeOrder(DEFAULT_MELD_ORDER); //diferent orders not implemented yet, so it will always be the same order
+		permutationOrder = DEFAULT_MELD_ORDER;
+		remainingMeldTypesToTryForCurrentTile = allMeldTypes(); //diferent orders not implemented yet, so it will always be the same order
 	}
-	
 	
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~start public methods~~~~~~~~~~~~~~~~~~~~
@@ -88,10 +91,6 @@ public class NormalCompleteChecker{
 	
 	//------------------------------below are helper methods
 	
-	
-	private List<MeldType> remainingMeldTypesToTryForCurrentTile;
-	
-	
 	private GameTile currentTile(){
 		return handTiles.getFirst();
 	}
@@ -109,9 +108,10 @@ public class NormalCompleteChecker{
 	
 	
 	private boolean currentMeldtypeIsImpossibleForCurrentTile(){
-		return partnersForCurrentTileAreGone() ||
-				(currentTileMeldType().isChi() && !currentTile().canCompleteChiType(currentTileMeldType())) ||
-				(currentTileMeldType().isPair() && pairPrivelege.isTaken());
+		return ( currentTileMeldType().isChi() && !currentTile().canCompleteChiType(currentTileMeldType()) ) ||
+				( currentTileMeldType().isPair() && pairPrivelege.isTaken() ) || 
+				partnersForCurrentTileAreGone()
+				;
 	}
 	
 	private boolean partnersForCurrentTileAreGone(){return !currentTilePartnersAreStillHere();}
@@ -189,7 +189,8 @@ public class NormalCompleteChecker{
 	private void resetVariables(){
 		finishingMelds.clear();
 		pairPrivelege.reset();
-		remainingMeldTypesToTryForCurrentTile = meldTypeOrder(DEFAULT_MELD_ORDER);
+		remainingMeldTypesToTryForCurrentTile.clear();
+		remainingMeldTypesToTryForCurrentTile.addAll(allMeldTypes());
 	}
 	
 	private boolean invalidHandsize(){return (handTiles.size() % 3) != 2;}
@@ -198,8 +199,11 @@ public class NormalCompleteChecker{
 	
 	//all permutations work 100% of the time, but hands with multiple forms will be assigned a different finishing meld form depending on which permutation was used.
 	//example: 1111/2222/3333/CC will have a different form depending on whether chi or pon was checked first (123/123/123/123/CC   vs   111/123/222/333/CC)
-	private static List<MeldType> meldTypeOrder(int orderNum){
-		return new ArrayList<MeldType>(Arrays.asList(PON, CHI_L, CHI_M, CHI_H, PAIR));
+	private List<MeldType> allMeldTypes(){
+		switch (permutationOrder){
+		case DEFAULT_MELD_ORDER:
+		default: return new ArrayList<MeldType>(Arrays.asList(PON, CHI_L, CHI_M, CHI_H, PAIR));
+		}
 	}
 	
 	

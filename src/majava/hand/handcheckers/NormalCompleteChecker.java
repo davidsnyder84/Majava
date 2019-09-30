@@ -24,13 +24,7 @@ public class NormalCompleteChecker{
 		finishingMelds = fm;
 		pairPrivelege = pairpriv;
 		
-		if (!handTiles.isEmpty()){
-			currentTile = handTiles.getFirst();
-			meldTypeStackForCurrentTile = fullMeldTypeStackForCurrentTile();
-		}
-		else {
-			currentTile = null;
-		}
+		meldTypeStackForCurrentTile = fullMeldTypeStackForCurrentTile();
 	}
 	
 	
@@ -94,13 +88,14 @@ public class NormalCompleteChecker{
 	
 	
 	//these are member variables only for convenince, just so I don't have to pass 3 arguments for every method call
-	private final GameTile currentTile;
 	private MeldType currentTileMeldType;
 	private MeldTypeStack meldTypeStackForCurrentTile;
 	
-//	private GameTile currentTile(){
-//		return handTiles.getFirst();
-//	}
+	private GameTile currentTile(){
+		if (handTiles.isEmpty()) return null;
+		
+		return handTiles.getFirst();
+	}
 	
 	private boolean currentTileStillHasPossibleMeldtypesRemaining(){
 		return !meldTypeStackForCurrentTile.isEmpty();
@@ -123,16 +118,16 @@ public class NormalCompleteChecker{
 		if (currentTileMeldType.isChi())
 			if (!handTiles.contains(currentTilePartnerIDs()[0]) || !handTiles.contains(currentTilePartnerIDs()[1]))
 				return false;
-		if (currentTileMeldType.isPair() && handTiles.findHowManyOf(currentTile) < NUM_PARTNERS_NEEDED_TO_PAIR + 1)
+		if (currentTileMeldType.isPair() && handTiles.findHowManyOf(currentTile()) < NUM_PARTNERS_NEEDED_TO_PAIR + 1)
 			return false;
-		if (currentTileMeldType.isPon() && handTiles.findHowManyOf(currentTile) < NUM_PARTNERS_NEEDED_TO_PON + 1)
+		if (currentTileMeldType.isPon() && handTiles.findHowManyOf(currentTile()) < NUM_PARTNERS_NEEDED_TO_PON + 1)
 			return false;
 		
 		return true;
 	}
 	
 	private int[] currentTilePartnerIDs(){
-		int id = currentTile.getId();
+		int id = currentTile().getId();
 		switch(currentTileMeldType){
 		case CHI_L: return new int[]{id + 1, id + 2};
 		case CHI_M: return new int[]{id - 1, id + 1};
@@ -181,7 +176,7 @@ public class NormalCompleteChecker{
 			return partnerIndices;
 		}
 		//else if pon/pair, make sure you don't count the tile itsef
-		partnerIndices = handTiles.findAllIndicesOf(currentTile);
+		partnerIndices = handTiles.findAllIndicesOf(currentTile());
 		
 		//trim the lists down to size to fit the meld type
 		if (currentTileMeldType.isPair()) while(partnerIndices.size() > NUM_PARTNERS_NEEDED_TO_PAIR) partnerIndices.remove(partnerIndices.size() - 1);
@@ -194,12 +189,13 @@ public class NormalCompleteChecker{
 	
 	private MeldTypeStack fullMeldTypeStackForCurrentTile(){
 		MeldTypeStack populatedMTS = new MeldTypeStack();
+		if (handTiles.isEmpty()) return null;
 		
 		//changed order of stack on 2019-08-03, tests show that it still works. Just in case, original comment was: "order of stack should be top->L,M,H,Pon,Pair"
 		populatedMTS = populatedMTS.push(MeldType.PAIR);
-		if (currentTile.canCompleteChiH()) populatedMTS = populatedMTS.push(MeldType.CHI_H);
-		if (currentTile.canCompleteChiM()) populatedMTS = populatedMTS.push(MeldType.CHI_M);
-		if (currentTile.canCompleteChiL()) populatedMTS = populatedMTS.push(MeldType.CHI_L);
+		if (currentTile().canCompleteChiH()) populatedMTS = populatedMTS.push(MeldType.CHI_H);
+		if (currentTile().canCompleteChiM()) populatedMTS = populatedMTS.push(MeldType.CHI_M);
+		if (currentTile().canCompleteChiL()) populatedMTS = populatedMTS.push(MeldType.CHI_L);
 		populatedMTS = populatedMTS.push(MeldType.PON);
 		
 		return populatedMTS;

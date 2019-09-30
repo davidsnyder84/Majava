@@ -30,7 +30,7 @@ public class NormalCompleteChecker{
 		pairPrivelege = pairpriv;
 		
 		permutationOrder = DEFAULT_MELD_ORDER;
-		remainingMeldTypesToTryForCurrentTile = allMeldTypes(); //diferent orders not implemented yet, so it will always be the same order
+		remainingMeldTypesToTryForCurrentTile = allMeldTypes();
 	}
 	
 	

@@ -2,13 +2,10 @@ package majava.hand.handcheckers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-import majava.enums.MeldType;
 import majava.hand.Hand;
 import majava.hand.Meld;
 import majava.tiles.GameTile;
-import majava.tiles.HandCheckerTile;
 import majava.tiles.Janpai;
 import majava.util.GTL;
 import majava.util.TileKnowledge;
@@ -38,7 +35,7 @@ public class AgariChecker {
 	public GTL getTenpaiWaits(){
 		GTL waits = new GTL(getNormalTenpaiWaits());
 		if (waits.isEmpty()) waits = waits.addAll(getKokushiWaits());
-		if (waits.isEmpty()){waits = waits.addAll(getChiitoiWait());}
+		if (waits.isEmpty()) waits = waits.addAll(getChiitoiWait());
 		
 		return waits;
 	}
@@ -217,59 +214,30 @@ public class AgariChecker {
 		}
 		
 		
-		private GTL getNormalTenpaiWaits(){
+		public GTL getNormalTenpaiWaits(){
 			GTL waits = emptyWaitsList();
 			
-			final List<Integer> hotTileIDs = TileKnowledge.findAllHotTiles(handTiles);
-			for (Integer id: hotTileIDs){
-				//get a hot tile (and mark it with the hand's seat wind, so chi is valid)
-				GameTile currentHotTile = new GameTile(id).withOwnerWind(myHand.getOwnerSeatWind());
-				
-				//check if adding the tile causes the hand to be complete
-				if (isCompleteNormal(handTiles.add(currentHotTile)))
-					waits = waits.add(currentHotTile);
-			}
+			for (GameTile candidate : candidatesToTryForTenpai())
+				if (addingTileCausesHandToBeCompleteNormal(candidate))
+					waits = waits.add(candidate);
 			
 			return waits;
 		}
-		
-		
-		//returns true if list of checkTiles is complete (is a winning hand)
-		public static boolean isCompleteNormal(GTL checkTiles, List<Meld> finishingMelds){
-			if ((checkTiles.size() % 3) != 2) return false;
-			
-			GTL populatedCheckTiles = HandCheckerTile.populateStacksForEntireList(checkTiles).sort();
-			if (!allTilesCanMeld(populatedCheckTiles))
-				return false;
-			//^^^make a HandCheckerTilesList class for this
-			
-			CompleteNormalHander normalHandChecker = new CompleteNormalHander(populatedCheckTiles);
-			if (finishingMelds != null) finishingMelds.addAll(normalHandChecker.getFinishingMelds());
-			return normalHandChecker.isCompleteNormal();
+		private boolean addingTileCausesHandToBeCompleteNormal(GameTile candidate){
+			GTL handTilesWithCandidate = handTiles.add(candidate).sort();
+			return new NormalCompleteChecker(handTilesWithCandidate).isCompleteNormal();
 		}
-		//overloaded, checks mHandTiles by default
-		public static boolean isCompleteNormal(GTL checkTiles){return isCompleteNormal(checkTiles, null);}
-		public boolean isCompleteNormal(List<Meld> finishingMelds){return isCompleteNormal(handTiles, finishingMelds);}
-		public boolean isCompleteNormal(){return isCompleteNormal(handTiles);}
-		
-		
-		//populates the meld type stacks for all of the tile in checkTiles
-		//returns true if all tiles can make a meld, returns false if a tile cannot make a meld
-		private static boolean allTilesCanMeld(GTL checkTiles){
-			for (GameTile t: checkTiles)
-				if ( ((HandCheckerTile)t).mstackIsEmpty() )
-					return false;
-			
-			return true;
-		}
-		
-		public List<Meld> getFinishingMelds(){
-			List<Meld> finishingMelds = new ArrayList<Meld>(5);
-			isCompleteNormal(finishingMelds);
-			return finishingMelds;
+		private GTL candidatesToTryForTenpai(){
+			Integer[] hotTileIDs = TileKnowledge.findAllHotTiles(handTiles).toArray(new Integer[0]);
+			return new GTL(hotTileIDs).withWind(myHand.getOwnerSeatWind());
 		}
 		
 		
+		//complete normal
+		public boolean isCompleteNormal(){return normalCompleteChecker().isCompleteNormal();}
+		public List<Meld> getFinishingMelds(){return normalCompleteChecker().getFinishingMelds();}
+		
+		private NormalCompleteChecker normalCompleteChecker(){return new NormalCompleteChecker(handTiles);}
 	}
 	
 	private static final GTL emptyWaitsList(){return new GTL();}

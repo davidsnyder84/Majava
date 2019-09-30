@@ -8,7 +8,8 @@ import majava.hand.Meld;
 import majava.tiles.HandCheckerTile;
 import majava.util.GTL;
 
-public class CompleteNormalHander{
+//class implementation of AgariChecker's old isCompleteNormal recursive method
+public class NormalCompleteChecker{
 	private static final int NUM_PARTNERS_NEEDED_TO_PON = 2;
 	private static final int NUM_PARTNERS_NEEDED_TO_PAIR = 1;
 	private static final boolean IS_COMPLETE = true, NOT_COMPLETE = false;
@@ -18,28 +19,31 @@ public class CompleteNormalHander{
 	private final List<Meld> finishingMelds;
 	private final PairPrivelege pairPrivelege;
 	
-	private CompleteNormalHander(GTL ct, List<Meld> fm, PairPrivelege pairpriv){
-		handTiles = ct;
+	private NormalCompleteChecker(GTL checkTiles, List<Meld> fm, PairPrivelege pairpriv){
+		handTiles = checkTiles;
 		finishingMelds = fm;
 		pairPrivelege = pairpriv;
 		
 		if (!handTiles.isEmpty())
 			currentTile = (HandCheckerTile)handTiles.getFirst();
-		
 	}
 	
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~start public methods~~~~~~~~~~~~~~~~~~~~
 	
 	//public constructor
-	public CompleteNormalHander(GTL ct){
-		this(ct,
+	public NormalCompleteChecker(GTL checkTiles){
+		this(
+			HandCheckerTile.populateStacksForEntireList(checkTiles).sort(),
 			emptyMeldList(),
-			new PairPrivelege()  );
+			new PairPrivelege()
+			);
 	}
 	
 	public boolean isCompleteNormal(){
 		finishingMelds.clear();
+		if (invalidHandsize()) return false;
+		
 		return isComplete();
 	}
 	
@@ -47,7 +51,7 @@ public class CompleteNormalHander{
 		if (isCompleteNormal())
 			return new ArrayList<Meld>(finishingMelds);
 		
-		return emptyMeldList(); //return empty list
+		return emptyMeldList();
 	}
 	
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~end public methods~~~~~~~~~~~~~~~~~~~~~
@@ -68,7 +72,7 @@ public class CompleteNormalHander{
 			
 			takePairPrivelegeIfMeldtypeIsPair();
 			
-			if (handMinusThisMeld().isComplete()){ //recursive call
+			if (handMinusThisMeld().isComplete()){ //recursive call, for handtiles minus the tiles used for this meld
 				addThisMeldToFinishingMelds();
 				return IS_COMPLETE;
 			}
@@ -131,8 +135,8 @@ public class CompleteNormalHander{
 	
 	
 	
-	private CompleteNormalHander handMinusThisMeld(){
-		return new CompleteNormalHander(handTilesMinusThisMeld(), finishingMelds, pairPrivelege);
+	private NormalCompleteChecker handMinusThisMeld(){
+		return new NormalCompleteChecker(handTilesMinusThisMeld(), finishingMelds, pairPrivelege);
 	}
 	
 	private void addThisMeldToFinishingMelds(){
@@ -164,7 +168,7 @@ public class CompleteNormalHander{
 	}
 	
 	
-	
+	private boolean invalidHandsize(){return (handTiles.size() % 3) != 2;}
 	
 	
 	

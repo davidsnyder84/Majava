@@ -106,7 +106,7 @@ public class HandCheckerTile extends GameTile {
 	
 	//checks if a tile is meldable, populates the meldStack for candidate. returns true if a meld (any meld) can be made
 	private static HandCheckerTile populateMeldStacks(HandCheckerTile candidate, GTL checkTiles){
-		MeldTypeStack populatedMTS = candidate.meldTypeStack;
+		MeldTypeStack populatedMTS = new MeldTypeStack();
 		//changed order of stack on 2019-08-03, tests show that it still works. Just in case, original comment was: "order of stack should be top->L,M,H,Pon,Pair"
 		if (canClosedPair(checkTiles, candidate))  populatedMTS = populatedMTS.push(MeldType.PAIR);
 		if (canClosedChiH(checkTiles, candidate)) populatedMTS = populatedMTS.push(MeldType.CHI_H);
@@ -140,13 +140,7 @@ public class HandCheckerTile extends GameTile {
 		public MeldTypeStack(){this(EMPTY_POS, new MeldType[MAX_SIZE]);}
 		private MeldTypeStack(int position, MeldType[] otherlist){
 			pos = position;
-			
-			list = new MeldType[MAX_SIZE];
-			list[0] = otherlist[0];
-			list[1] = otherlist[1];
-			list[2] = otherlist[2];
-			list[3] = otherlist[3];
-			list[4] = otherlist[4];
+			list = otherlist.clone();
 		}
 		public MeldTypeStack(final MeldTypeStack other){this(other.pos, other.list);}
 		public MeldTypeStack clone(){return new MeldTypeStack(this);}

@@ -25,7 +25,7 @@ public class NormalCompleteChecker{
 		pairPrivelege = pairpriv;
 		
 		if (!handTiles.isEmpty())
-			currentTile = (HandCheckerTile)handTiles.getFirst();
+			currentTile = new HandCheckerTile(handTiles.getFirst());
 	}
 	
 	
@@ -34,7 +34,7 @@ public class NormalCompleteChecker{
 	//public constructor
 	public NormalCompleteChecker(GTL checkTiles){
 		this(
-			HandCheckerTile.populateStacksForEntireList(checkTiles).sort(),
+			checkTiles.sort(),
 			emptyMeldList(),
 			new PairPrivelege()
 			);

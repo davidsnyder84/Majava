@@ -1,34 +1,23 @@
 package majava.tiles;
 
-import java.util.ArrayList;
-
-import majava.util.GTL;
 import majava.enums.MeldType;
 
 
 
-//a tile with additional information required for hand checking
+//a tile with additional information required for NormalCompleteChecker
 public class HandCheckerTile extends GameTile {
 	
 	//stack of possible melds the tile can form
 	private final MeldTypeStack meldTypeStack;
 	
 	
-	//copy constructor
 	public HandCheckerTile(GameTile other){
-		super(other);
-		
-		if (other instanceof HandCheckerTile)
-			meldTypeStack = ((HandCheckerTile) other).meldTypeStack.clone();
-		else
-			meldTypeStack = new MeldTypeStack();
+		this(other, meldTypeStackFor(other));
 	}
-	public HandCheckerTile(GameTile other, MeldTypeStack mts){
+	private HandCheckerTile(GameTile other, MeldTypeStack mts){
 		super(other);
 		meldTypeStack = mts;
 	}
-	public HandCheckerTile(Janpai t){this(new GameTile(t));}
-	public HandCheckerTile clone(){return new HandCheckerTile(this);}
 	//builder
 	private HandCheckerTile withMTS(MeldTypeStack newMTS){return new HandCheckerTile(this, newMTS);}
 	
@@ -36,13 +25,12 @@ public class HandCheckerTile extends GameTile {
 	
 
 	//stack functions
-	final public HandCheckerTile mstackPush(MeldType meldType){return this.withMTS(meldTypeStack.push(meldType));}
-	final public HandCheckerTile mstackPop(){return this.withMTS(meldTypeStack.pop());}
-	final public MeldType mstackTop(){return meldTypeStack.top();}
-	final public boolean mstackIsEmpty(){return meldTypeStack.isEmpty();}
+	public HandCheckerTile mstackPop(){return this.withMTS(meldTypeStack.pop());}
+	public MeldType mstackTop(){return meldTypeStack.top();}
+	public boolean mstackIsEmpty(){return meldTypeStack.isEmpty();}
 	
 	//returns partner IDs for the top meldType on the stack
-	final public int[] mstackTopPartnerIDs(){
+	public int[] mstackTopPartnerIDs(){
 		int id = getId();
 		switch(meldTypeStack.top()){
 		case CHI_L: return new int[]{id + 1, id + 2};
@@ -57,50 +45,25 @@ public class HandCheckerTile extends GameTile {
 	}
 	
 	
-	
-	
-	
-	public static final GTL populateStacksForEntireList(GTL tileList){
-		ArrayList<GameTile> populatedTiles = new ArrayList<GameTile>(14);
-		for (GameTile t: tileList)
-			populatedTiles.add( (new HandCheckerTile(t)).populateMeldStacks(tileList) );
-		
-		return new GTL(populatedTiles);
-	}
-	
-	
-	
-	
-	
-	
-	//checks if a tile is meldable, populates the meldStack for candidate. returns true if a meld (any meld) can be made
-	private HandCheckerTile populateMeldStacks(GTL checkTiles){
+	private static MeldTypeStack meldTypeStackFor(GameTile tile){
 		MeldTypeStack populatedMTS = new MeldTypeStack();
+		
 		//changed order of stack on 2019-08-03, tests show that it still works. Just in case, original comment was: "order of stack should be top->L,M,H,Pon,Pair"
 		populatedMTS = populatedMTS.push(MeldType.PAIR);
-		if (canCompleteChiH()) populatedMTS = populatedMTS.push(MeldType.CHI_H);
-		if (canCompleteChiM()) populatedMTS = populatedMTS.push(MeldType.CHI_M);
-		if (canCompleteChiL()) populatedMTS = populatedMTS.push(MeldType.CHI_L);
+		if (tile.canCompleteChiH()) populatedMTS = populatedMTS.push(MeldType.CHI_H);
+		if (tile.canCompleteChiM()) populatedMTS = populatedMTS.push(MeldType.CHI_M);
+		if (tile.canCompleteChiL()) populatedMTS = populatedMTS.push(MeldType.CHI_L);
 		populatedMTS = populatedMTS.push(MeldType.PON);
 		
-		return this.withMTS(populatedMTS);
+		return populatedMTS;
 	}
 	
 	
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	//inner class
-	private static class MeldTypeStack implements Cloneable{
-		private static final int MAX_SIZE = 5;
-		private static final int MAX_POS = 4;
-		private static final int EMPTY_POS = -1;
+	private static class MeldTypeStack{
+		private static final int MAX_SIZE = 5, MAX_POS = 4, EMPTY_POS = -1;
 		
 		private final MeldType[] list;
 		private final int pos;
@@ -110,11 +73,6 @@ public class HandCheckerTile extends GameTile {
 			pos = position;
 			list = otherlist.clone();
 		}
-		public MeldTypeStack(final MeldTypeStack other){this(other.pos, other.list);}
-		public MeldTypeStack clone(){return new MeldTypeStack(this);}
-		//builders
-		public MeldTypeStack withPosition(int newPos){return new MeldTypeStack(newPos, list);}
-		public MeldTypeStack withList(MeldType[] newList){return new MeldTypeStack(pos, newList);}
 		
 		
 		
@@ -125,7 +83,7 @@ public class HandCheckerTile extends GameTile {
 		
 		public MeldTypeStack pop(){
 			if (isEmpty()) return null;
-			return this.withPosition(pos-1);
+			return new MeldTypeStack(pos-1, list);
 		}
 		
 		public MeldTypeStack push(MeldType pushThis){
@@ -135,7 +93,6 @@ public class HandCheckerTile extends GameTile {
 			MeldType[] newList = list.clone();
 			newList[newPos] = pushThis;
 			
-//			return this.withPosition(newPos).withList(newList); //order doesn't matter
 			return new MeldTypeStack(newPos, newList);
 		}
 		

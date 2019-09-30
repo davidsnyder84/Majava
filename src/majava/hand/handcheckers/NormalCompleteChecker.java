@@ -196,13 +196,10 @@ public class NormalCompleteChecker{
 	
 	private static List<Meld> emptyMeldList(){return new ArrayList<Meld>();}
 	
-	//changed order of stack on 2019-08-03, tests show that it still works. Just in case, original comment was: "order of stack should be top->L,M,H,Pon,Pair"
+	//all permutations work 100% of the time, but hands with multiple forms will be assigned a different finishing meld form depending on which permutation was used.
+	//example: 1111/2222/3333/CC will have a different form depending on whether chi or pon was checked first (123/123/123/123/CC   vs   111/123/222/333/CC)
 	private static List<MeldType> meldTypeOrder(int orderNum){
-		switch(orderNum){
-		case 1: return new ArrayList<MeldType>(Arrays.asList(PON, CHI_L, CHI_M, CHI_H, PAIR));
-		default: return null;
-		}
-		
+		return new ArrayList<MeldType>(Arrays.asList(PON, CHI_L, CHI_M, CHI_H, PAIR));
 	}
 	
 	

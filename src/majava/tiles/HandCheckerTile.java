@@ -60,15 +60,6 @@ public class HandCheckerTile extends GameTile {
 	
 	
 	
-	
-	
-	public static final GTL makeCopyOfListWithCheckers(GTL tileList){
-		ArrayList<GameTile> hctiles = new ArrayList<GameTile>(14);
-		for (GameTile t: tileList)
-			hctiles.add(new HandCheckerTile(t));
-		
-		return new GTL(hctiles);
-	}
 	public static final GTL populateStacksForEntireList(GTL tileList){
 		ArrayList<GameTile> populatedTiles = new ArrayList<GameTile>(14);
 		for (GameTile t: tileList)
@@ -82,41 +73,18 @@ public class HandCheckerTile extends GameTile {
 	
 	
 	
-	
-	private static final int NUM_PARTNERS_NEEDED_TO_PON = 2;
-	private static final int NUM_PARTNERS_NEEDED_TO_PAIR = 1;
-	private static final int OFFSET_CHI_L1 = 1, OFFSET_CHI_L2 = 2;
-	private static final int OFFSET_CHI_M1 = -1,  OFFSET_CHI_M2 = 1;
-	private static final int OFFSET_CHI_H1 = -2, OFFSET_CHI_H2 = -1;
-	
-	//シュンツ
-	private static boolean canClosedChiType(GTL checkTiles, GameTile candidate, int offset1, int offset2){
-		return (checkTiles.contains(candidate.getId() + offset1) && checkTiles.contains(candidate.getId() + offset2));
-	}
-	private static boolean canClosedChiL(GTL checkTiles, GameTile candidate){return candidate.canCompleteChiL() && canClosedChiType(checkTiles, candidate, OFFSET_CHI_L1, OFFSET_CHI_L2);}
-	private static boolean canClosedChiM(GTL checkTiles, GameTile candidate){return candidate.canCompleteChiM() && canClosedChiType(checkTiles, candidate, OFFSET_CHI_M1, OFFSET_CHI_M2);}
-	private static boolean canClosedChiH(GTL checkTiles, GameTile candidate){return candidate.canCompleteChiH() && canClosedChiType(checkTiles, candidate, OFFSET_CHI_H1, OFFSET_CHI_H2);}
-	//コーツ
-	private static boolean canClosedMultiType(GTL checkTiles, GameTile candidate, int numPartnersNeeded){
-		return checkTiles.findHowManyOf(candidate) >= numPartnersNeeded;
-	}
-	private static boolean canClosedPair(GTL checkTiles, GameTile candidate){return canClosedMultiType(checkTiles, candidate, NUM_PARTNERS_NEEDED_TO_PAIR + 1);}
-	private static boolean canClosedPon(GTL checkTiles, GameTile candidate){return canClosedMultiType(checkTiles, candidate, NUM_PARTNERS_NEEDED_TO_PON + 1);}
-	
-	
 	//checks if a tile is meldable, populates the meldStack for candidate. returns true if a meld (any meld) can be made
-	private static HandCheckerTile populateMeldStacks(HandCheckerTile candidate, GTL checkTiles){
+	private HandCheckerTile populateMeldStacks(GTL checkTiles){
 		MeldTypeStack populatedMTS = new MeldTypeStack();
 		//changed order of stack on 2019-08-03, tests show that it still works. Just in case, original comment was: "order of stack should be top->L,M,H,Pon,Pair"
-		if (canClosedPair(checkTiles, candidate))  populatedMTS = populatedMTS.push(MeldType.PAIR);
-		if (canClosedChiH(checkTiles, candidate)) populatedMTS = populatedMTS.push(MeldType.CHI_H);
-		if (canClosedChiM(checkTiles, candidate)) populatedMTS = populatedMTS.push(MeldType.CHI_M);
-		if (canClosedChiL(checkTiles, candidate)) populatedMTS = populatedMTS.push(MeldType.CHI_L);
-		if (canClosedPon(checkTiles, candidate)) populatedMTS = populatedMTS.push(MeldType.PON);
+		populatedMTS = populatedMTS.push(MeldType.PAIR);
+		if (canCompleteChiH()) populatedMTS = populatedMTS.push(MeldType.CHI_H);
+		if (canCompleteChiM()) populatedMTS = populatedMTS.push(MeldType.CHI_M);
+		if (canCompleteChiL()) populatedMTS = populatedMTS.push(MeldType.CHI_L);
+		populatedMTS = populatedMTS.push(MeldType.PON);
 		
-		return candidate.withMTS(populatedMTS);
+		return this.withMTS(populatedMTS);
 	}
-	private HandCheckerTile populateMeldStacks(GTL checkTiles){return populateMeldStacks(this, checkTiles);}
 	
 	
 	
@@ -151,12 +119,12 @@ public class HandCheckerTile extends GameTile {
 		
 		
 		public MeldType top(){
-			if (pos < 0) return null;
+			if (isEmpty()) return null;
 			return list[pos];
 		}
 		
 		public MeldTypeStack pop(){
-			if (pos < 0) return null;
+			if (isEmpty()) return null;
 			return this.withPosition(pos-1);
 		}
 		

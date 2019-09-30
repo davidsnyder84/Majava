@@ -42,6 +42,7 @@ public class NormalCompleteChecker{
 	
 	public boolean isCompleteNormal(){
 		finishingMelds.clear();
+		pairPrivelege.reset();
 		if (invalidHandsize()) return false;
 		
 		return isComplete();
@@ -178,14 +179,14 @@ public class NormalCompleteChecker{
 	private static class PairPrivelege{
 		private boolean taken;
 		
-		private PairPrivelege(boolean tkn){
-			taken = tkn;
+		private PairPrivelege(){
+			taken = false;
 		}
-		public PairPrivelege(){this(false);}
 		
 		public boolean isTaken(){return taken;}
 		public void take(){taken = true;}
 		public void relinquish(){taken = false;}
+		public void reset(){relinquish();}
 	}
 	
 	private static List<Meld> emptyMeldList(){return new ArrayList<Meld>();}

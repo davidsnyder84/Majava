@@ -5,7 +5,7 @@ import java.util.List;
 
 import majava.enums.MeldType;
 import majava.hand.Meld;
-import majava.tiles.HandCheckerTile;
+import majava.tiles.GameTile;
 import majava.util.GTL;
 
 //class implementation of AgariChecker's old isCompleteNormal recursive method
@@ -23,6 +23,14 @@ public class NormalCompleteChecker{
 		handTiles = checkTiles;
 		finishingMelds = fm;
 		pairPrivelege = pairpriv;
+		
+		if (!handTiles.isEmpty()){
+			currentTile = handTiles.getFirst();
+			meldTypeStackForCurrentTile = fullMeldTypeStackForCurrentTile();
+		}
+		else {
+			currentTile = null;
+		}
 	}
 	
 	
@@ -60,8 +68,6 @@ public class NormalCompleteChecker{
 	private boolean isComplete(){
 		if (handTiles.isEmpty()) return IS_COMPLETE;	//if the hand is empty, it is complete (base case)
 		
-		currentTile = firstTileInTheHand();
-		
 		while(currentTileStillHasPossibleMeldtypesRemaining()){
 			
 			moveToNextMeldtypeForCurrentTile();
@@ -88,20 +94,21 @@ public class NormalCompleteChecker{
 	
 	
 	//these are member variables only for convenince, just so I don't have to pass 3 arguments for every method call
-	private HandCheckerTile currentTile;
+	private final GameTile currentTile;
 	private MeldType currentTileMeldType;
+	private MeldTypeStack meldTypeStackForCurrentTile;
 	
-	private HandCheckerTile firstTileInTheHand(){
-		return new HandCheckerTile(handTiles.getFirst());
-	}
+//	private GameTile currentTile(){
+//		return handTiles.getFirst();
+//	}
 	
 	private boolean currentTileStillHasPossibleMeldtypesRemaining(){
-		return !currentTile.mstackIsEmpty();
+		return !meldTypeStackForCurrentTile.isEmpty();
 	}
 	
 	private void moveToNextMeldtypeForCurrentTile(){
-		currentTileMeldType = currentTile.mstackTop();
-		currentTile = currentTile.mstackPop();	//(remove it)
+		currentTileMeldType = meldTypeStackForCurrentTile.top();
+		meldTypeStackForCurrentTile = meldTypeStackForCurrentTile.pop(); //(remove it)
 	}
 	
 	
@@ -182,10 +189,65 @@ public class NormalCompleteChecker{
 		return partnerIndices;
 	}
 	
-	
 	private boolean invalidHandsize(){return (handTiles.size() % 3) != 2;}
 	
 	
+	private MeldTypeStack fullMeldTypeStackForCurrentTile(){
+		MeldTypeStack populatedMTS = new MeldTypeStack();
+		
+		//changed order of stack on 2019-08-03, tests show that it still works. Just in case, original comment was: "order of stack should be top->L,M,H,Pon,Pair"
+		populatedMTS = populatedMTS.push(MeldType.PAIR);
+		if (currentTile.canCompleteChiH()) populatedMTS = populatedMTS.push(MeldType.CHI_H);
+		if (currentTile.canCompleteChiM()) populatedMTS = populatedMTS.push(MeldType.CHI_M);
+		if (currentTile.canCompleteChiL()) populatedMTS = populatedMTS.push(MeldType.CHI_L);
+		populatedMTS = populatedMTS.push(MeldType.PON);
+		
+		return populatedMTS;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	private static class MeldTypeStack{
+		private static final int MAX_SIZE = 5, MAX_POS = 4, EMPTY_POS = -1;
+		
+		private final MeldType[] list;
+		private final int pos;
+		
+		public MeldTypeStack(){this(EMPTY_POS, new MeldType[MAX_SIZE]);}
+		private MeldTypeStack(int position, MeldType[] otherlist){
+			pos = position;
+			list = otherlist.clone();
+		}
+		
+		
+		
+		public MeldType top(){
+			if (isEmpty()) return null;
+			return list[pos];
+		}
+		
+		public MeldTypeStack pop(){
+			if (isEmpty()) return null;
+			return new MeldTypeStack(pos-1, list);
+		}
+		
+		public MeldTypeStack push(MeldType pushThis){
+			if (pos >= MAX_POS) return this;
+			
+			int newPos = pos+1;
+			MeldType[] newList = list.clone();
+			newList[newPos] = pushThis;
+			
+			return new MeldTypeStack(newPos, newList);
+		}
+		
+		public boolean isEmpty(){return pos < 0;}
+	}
 	
 	
 	

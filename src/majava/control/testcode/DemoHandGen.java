@@ -70,8 +70,8 @@ public class DemoHandGen {
 			println(currentHand.toString());
 			
 			boolean success = currentHand.isComplete();
-			System.out.println(currentHand.getAsStringMeldsCompact());
-			System.out.println("Hand is complete?: " + success);
+//			System.out.println(currentHand.getAsStringMeldsCompact());
+//			System.out.println("Hand is complete?: " + success);
 			
 			if (success == false){
 				numFailures++;
@@ -79,7 +79,7 @@ public class DemoHandGen {
 				System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 			}
 			else{
-				printFinishingMeldsFor(currentHand);
+//				printFinishingMeldsFor(currentHand);
 				;
 			}
 			
